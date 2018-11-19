@@ -10,14 +10,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import it_geeks.info.gawla_app.Adapters.SliderAdapter;
-import it_geeks.info.gawla_app.Common;
 import it_geeks.info.gawla_app.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
-
-import static it_geeks.info.gawla_app.Common.Instance;
 
 public class IntroActivity extends AppCompatActivity {
 

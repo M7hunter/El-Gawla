@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app;
+package it_geeks.info.gawla_app.General;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -29,6 +29,7 @@ public class Common {
         Configuration configuration = context.getResources().getConfiguration();
         configuration.setLocale(new Locale(Lang));
         context.getResources().updateConfiguration(configuration, displayMetrics);
+        SharedPrefManager.getInstance(context).setLang(Lang);
     }
 
     public String getLang () {
