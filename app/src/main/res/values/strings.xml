@@ -1,0 +1,113 @@
+<resources>
+    <string name="app_name">Gawla</string>
+    <string name="slide_heading1">subscribe now</string>
+    <string name="slide_heading2">join round</string>
+    <string name="slide_heading3">offer best price</string>
+    <string name="winners_of_hale_news">winners of hale news</string>
+    <string name="add_offer">add offer</string>
+    <string name="new_offer">new offer</string>
+    <string name="hales">hales</string>
+    <string name="my_rounds">my rounds</string>
+    <string name="cards">cards</string>
+    <string name="account">account</string>
+    <string name="menu">menu</string>
+    <string name="sell_price">sell price</string>
+    <string name="round_start">round start</string>
+    <string name="close">close</string>
+    <string name="join_round">join round</string>
+    <string name="see_all">see all</string>
+    <string name="recent_hales">recent hales</string>
+    <string name="password">password</string>
+    <string name="full_name">" full name"</string>
+    <string name="pay_later">" later"</string>
+    <string name="activate_card">activate card</string>
+    <string name="buy_card">buy card</string>
+    <string name="account_details">account details</string>
+    <string name="buying_processes">buying processes</string>
+    <string name="privacy_policy">privacy details</string>
+    <string name="dont_have_red_card">don\'t have red card</string>
+    <string name="dont_have_yellow_card">don\'t have yellow card</string>
+    <string name="dont_have_green_card">don\'t have green card</string>
+    <string name="cards_bag">cards bag</string>
+    <string name="more_about_gawla">more about Gawla</string>
+    <string name="terms_conditions">terms and conditions</string>
+    <string name="call_us">call us</string>
+    <string name="how_gawla_works">how Gawla works</string>
+    <string name="zero_members_joined">0 members joined</string>
+    <string name="joined_hales">joined hales</string>
+    <string name="tit2">choose your country</string>
+    <string name="egypt">egypt</string>
+    <string name="kuwait">kuwait</string>
+    <string name="login">Login</string>
+    <string name="create_account">create account</string>
+    <string name="send">send</string>
+    <string name="create_new_account">create new account</string>
+    <string name="have_already_account">already have an account</string>
+    <string name="forgetPassword">forget password ?</string>
+    <string name="email">e-mail</string>
+    <string name="facebook">via facebook</string>
+    <string name="google_plus">via google +</string>
+    <string name="slide_descs1"> Sign up now so you can join your favorite tours </string>
+    <string name="slide_descs2">Choose your favorite room and join it and then watch the bidding time</string>
+    <string name="slide_descs3">Provide the best favorable price to buy inside the lounge to win the tour</string>
+    <string name="menu_fragment_title">Tour is an interactive application that enables you to purchase products based on the best offer of an offer for the price of the product, now join the card bag</string>
+    <string name="joined_hales_empty_hint">Join one of the lounges and you have one chance to participate every day</string>
+    <string name="tit1e">A tour is an interactive application that enables you to buy products based on the best offer offer for the price of the product, now join</string>
+    <string name="wile_send_password">The email will be sent for password renewal</string>
+    <string name="hale_number">Hall No: </string>
+    <string name="second">Second</string>
+    <string name="Minute">Minute</string>
+    <string name="hour">Hour</string>
+    <string name="Discount_the_tour">Discount the tour</string>
+    <string name="Prod_price">selling price : </string>
+    <string name="money">EGP</string>
+    <string name="read_more">Read More</string>
+    <string name="joine_Round">Join the member lounge</string>
+    <string name="mumber_joined_round">15 members joined the tour</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="finish">Finish</string>
+    <string name="login_account">Login</string>
+    <string name="Payment">Payment</string>
+    <string name="payment_step">One step away from the tour is to enjoy the benefits of joining the club, making offers and winning tours </string>
+    <string name="Payment_numberOfCard">credit card number</string>
+    <string name="NameOfCard">Name on the card</string>
+    <string name="Card_PIN">Card PIN</string>
+    <string name="Expiry_date">Expiry date</string>
+    <string name="Monthly_membership">10 EGP / Monthly membership</string>
+    <string name="Confirm_payment">Confirm Payment</string>
+    <string name="Congratulations">Congratulations</string>
+    <string name="payment_enjoy">Enjoy the benefits of joining the hotel, offering offers and winning tours</string>
+    <string name="Monthly_membership2">Monthly membership</string>
+    <string name="Paying_up">Paying up to 84EGP per annum</string>
+    <string name="offer">Saving</string>
+    <string name="Monthly10">10 EGP / month</string>
+    <string name="Monthly17">17 EGP / month</string>
+    <string name="One_lounge1">One lounge is accessible daily</string>
+    <string name="One_lounge2">* Access to any lounge daily</string>
+    <string name="skip">Skip</string>
+    <string name="nati">Member joined Salim Al Duthari</string>
+    <string name="Learn_more_about_the_tour">Learn more about the tour</string>
+    <string name="Advertising_space_for_special_tours">Advertising space for special tours</string>
+    <string name="Product_displayed">Product displayed</string>
+    <string name="the_description">the description : </string>
+    <string name="start_play">Start Play</string>
+    <string name="add_deal">Add Deal</string>
+    <string name="Attention">Attention</string>
+    <string name="Attention_Details">Do you really want to join the Round You have one chance to participate every day</string>
+    <string name="Congratulations_Attention">Congratulations, you are now a member of the lounge</string>
+    <string name="Congratulations_Attention_Details">Add the best offer to win the mobile and follow the card card and use your cards</string>
+    <string name="tit1">"جوله هي تطبيق تفاعلي يمكنك من شراء المنتجات بناء علي افضل عرض تقدمة لسعر المنتج , انضم الان "</string>
+    <string name="enter">enter</string>
+    <string name="settings">settings</string>
+    <string name="language">language</string>
+
+
+
+    <array name="languagesArray">
+        <item>LANGUAGE</item>
+        <item>English</item>
+        <item>العربية</item>
+    </array>
+
+</resources>

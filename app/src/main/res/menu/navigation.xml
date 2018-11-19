@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_hales"
+        android:icon="@drawable/ic_flash"
+        android:title="@string/hales" />
+
+    <item
+        android:id="@+id/navigation_my_rounds"
+        android:icon="@drawable/ic_round"
+        android:title="@string/my_rounds" />
+
+    <item
+        android:id="@+id/navigation_cards"
+        android:icon="@drawable/ic_cards"
+        android:title="@string/cards" />
+
+    <item
+        android:id="@+id/navigation_account"
+        android:icon="@drawable/ic_account"
+        android:title="@string/account" />
+
+    <item
+        android:id="@+id/navigation_menu"
+        android:icon="@drawable/ic_more"
+        android:title="@string/menu" />
+
+</menu>

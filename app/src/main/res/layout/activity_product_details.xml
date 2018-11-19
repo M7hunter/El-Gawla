@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/proDp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/product_details_hape"
+    tools:context=".ProductDetailsActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView28"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="@string/Product_displayed"
+                    android:textColor="@color/battleshipGrey"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/outProductDetails"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="20dp"
+                    android:padding="8dp"
+                    android:src="@drawable/out" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                app:srcCompat="@drawable/macbook" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/RecyProdList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:scrollbars="none" />
+
+            <TextView
+                android:id="@+id/textView30"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:fontFamily="@font/cairo_bold"
+                android:padding="10dp"
+                android:text="نوت بوك من ايسر ES1-523-82TN - ايه ام دي A8-7410 شاشة 15.6 بوصة 4 جيجابايت 1 تيرابايت لينكس،"
+                android:textColor="@color/duskBlue"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/paleGreyTwo">
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView42"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:paddingStart="5dp"
+                    android:text="@string/Prod_price"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/cairo_bold"
+                    android:gravity="center_horizontal|center"
+                    android:text="5,599.00 "
+                    android:textColor="@color/azureTwo"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/cairo_bold"
+                    android:gravity="center"
+                    android:text="@string/money"
+                    android:textColor="@color/azureTwo"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/paleGreyTwo">
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView43"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="5dp"
+                    android:text="@string/the_description"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/textView46"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:text="يو إس بيUSB 2.0 &amp; 3.0 حجم الشاشة (انش)15.6 Inch العلامة التجارية لمتحكم الفيديوAMD العلامة التجاريةايسر المعالج: A8-7410 ( 2 ميجا كاش، 2.2 جيجاهرتز) الذاكرة: 4 جيجابايت DDR3L القرص الصلب: 1 تيرابايت بطاقة رسومات: مشترك - مدمج الشاشة: 15.6 بوصة اتش دي دقة (1366 x 768) المحرك الضوئي: ناسخ دي في دي المنافذ: 1x يو اس بي 3.0, 2x يو اس بي 2.0, شبكة (RJ-45), مخرج اتش دي ام اي الصوت: 2 مكبر صوت الاتصال: لان لاسلكي 802.11ac ، جيجابت لان البطارية: 2 خلية نظام التشغيل: لينكس الكاميرا:0.3M في ..."
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</FrameLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="it_geeks.info.gawla_app">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/gawla_logo"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+        </activity>
+        <activity android:name=".HaleActivity" />
+        <activity android:name=".SplashActivities.SplashActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SplashActivities.IntroActivity" />
+        <activity android:name=".LoginActivities.SubscribePlanActivity" />
+        <activity android:name=".LoginActivities.PaymentActivity" />
+        <activity android:name=".LoginActivities.ForgetPasswordActivity" />
+        <activity android:name=".LoginActivities.CreateAccountActivity" />
+        <activity android:name=".LoginActivities.LoginActivity" />
+        <activity android:name=".ProductDetailsActivity" />
+        <activity android:name=".SettingsActivity"></activity>
+    </application>
+
+</manifest>

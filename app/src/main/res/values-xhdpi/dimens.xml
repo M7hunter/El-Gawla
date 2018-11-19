@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- margin & padding -->
+    <dimen name="margin_tiny">3dp</dimen>
+    <dimen name="margin_tiny_minus">-3dp</dimen>
+    <dimen name="margin_small">7dp</dimen>
+    <dimen name="margin_small_minus">-7dp</dimen>
+    <dimen name="margin_medium">12dp</dimen>
+    <dimen name="margin_large">17dp</dimen>
+    <dimen name="margin_xlarge">22dp</dimen>
+    <dimen name="margin_xxlarge">32dp</dimen>
+    <dimen name="margin_xxxlarge">45dp</dimen>
+
+    <!-- text sizes -->
+    <dimen name="text_size_tiny">8sp</dimen>
+    <dimen name="text_size_small">11sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_large">17sp</dimen>
+    <dimen name="text_size_xlarge">20sp</dimen>
+
+    <!-- icons & images -->
+    <dimen name="logo_width">120dp</dimen>
+    <dimen name="logo_height">60dp</dimen>
+    <dimen name="icon_notification">40dp</dimen>
+    <dimen name="image_width_hales_fragment">160dp</dimen>
+    <dimen name="image_width_round">270dp</dimen>
+    <dimen name="image_height_round">135dp</dimen>
+    <dimen name="image_height_product">170dp</dimen>
+    <dimen name="image_news">70dp</dimen>
+    <dimen name="image_account">100dp</dimen>
+    <dimen name="image_cards_round_updates">60dp</dimen>
+
+    <!-- -->
+    <dimen name="my_rounds_view_pager_height">500dp</dimen>
+</resources>

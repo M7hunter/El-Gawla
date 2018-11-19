@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/paleGrey"
+    tools:context=".NavigationFragments.MyRoundsFragment">
+
+    <ScrollView
+        android:id="@+id/my_rounds_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+        <!-- main layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <!-- logo & bell container -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_medium">
+
+                <!-- logo -->
+                <ImageView
+                    android:layout_width="@dimen/logo_width"
+                    android:layout_height="@dimen/logo_height"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/gawla_logo_blue" />
+
+                <!-- bell -->
+                <ImageView
+                    android:layout_width="@dimen/icon_notification"
+                    android:layout_height="@dimen/icon_notification"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:src="@drawable/ic_bell" />
+
+            </RelativeLayout>
+
+            <!-- title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
+                android:gravity="center"
+                android:text="@string/joined_hales"
+                android:textAllCaps="true"
+                android:textColor="@color/midBlue"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+
+            <!-- rounds & empty view container -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <!-- rounds -->
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/rounds_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/my_rounds_view_pager_height"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="@dimen/margin_tiny"
+                    android:layout_marginEnd="@dimen/margin_tiny" />
+
+                <!-- left arrow button -->
+                <ImageView
+                    android:id="@+id/my_rounds_left_arrow"
+                    android:layout_width="@dimen/margin_xxlarge"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_arrow_left" />
+
+                <!-- right arrow button -->
+                <ImageView
+                    android:id="@+id/my_rounds_right_arrow"
+                    android:layout_width="@dimen/margin_xxlarge"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_arrow_right" />
+
+                <!-- empty view -->
+                <LinearLayout
+                    android:id="@+id/my_rounds_empty_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/my_rounds_view_pager_height"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/margin_xxlarge"
+                        android:layout_marginEnd="@dimen/margin_xxlarge"
+                        android:layout_weight="1"
+                        android:src="@drawable/empty_view_my_rounds" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:gravity="center"
+                        android:text="@string/joined_hales_empty_hint"
+                        android:textColor="@color/blueGrey"
+                        android:textSize="@dimen/text_size_medium" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>
