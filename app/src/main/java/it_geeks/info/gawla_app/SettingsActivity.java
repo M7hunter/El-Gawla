@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
+import it_geeks.info.gawla_app.General.Common;
+
 public class SettingsActivity extends AppCompatActivity {
 
     @Override

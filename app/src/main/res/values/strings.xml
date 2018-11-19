@@ -105,7 +105,7 @@
 
 
     <array name="languagesArray">
-        <item>LANGUAGE</item>
+        <item>LANGUAGE :</item>
         <item>English</item>
         <item>العربية</item>
     </array>
