@@ -153,7 +153,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
 
         }
     }
-///////////////////////////// mo
+///////////////////////////// mo kkkkkkkk
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
