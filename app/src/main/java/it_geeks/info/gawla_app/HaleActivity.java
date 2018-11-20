@@ -20,8 +20,8 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
     int joined;
     Button btnJoineRound, btnJoineRound2, btnJoineRound3;
     RelativeLayout rDivPro1, rDivPro2, rDivPro3, rDivPro4;
-    LinearLayout shadowalert, shadowalert2;
-    TextView txtReadMore;
+    LinearLayout shadowalert, shadowalert2,txtReadMore;
+
 
     private BottomSheetDialog mBottomSheetDialog;
 
@@ -89,6 +89,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
                 rDivPro3.setVisibility(View.INVISIBLE);
                 btnJoineRound.setVisibility(View.INVISIBLE);
                 shadowalert.setVisibility(View.VISIBLE);
+
             }
         });
 
