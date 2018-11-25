@@ -8,17 +8,15 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
 
 public interface APIs {
 
     // register user
     @POST("/register.json")
-    Call<ResponseBody> newUser(@Body User user);
+    Call<ResponseBody> registerUser(@Body User user);
 
     // login user
     @GET("/login.json")
-    Call<JsonElement> getUser(@Path("phone") String phone);
+    Call<JsonElement> loginUser(String  email, String pass);
 
 }
