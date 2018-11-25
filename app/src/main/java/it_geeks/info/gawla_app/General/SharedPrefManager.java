@@ -3,14 +3,16 @@ package it_geeks.info.gawla_app.General;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class SharedPrefManager {
 
     private static SharedPrefManager sharedPrefManager;
     private Context context;
-
+    private SharedPreferences sharedPreferences;
     private static final String SHARED_PREF_NAME = "lang_shared_pref";
 
-    private SharedPrefManager(Context context) {
+    public SharedPrefManager(Context context) {
         this.context = context;
     }
 
@@ -23,7 +25,7 @@ public class SharedPrefManager {
 
     //--------------- lang -------------//
     public void setLang(String lang) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.clear();
@@ -33,8 +35,46 @@ public class SharedPrefManager {
     }
 
     public String getSavedLang() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         return sharedPreferences.getString("lang", "en");
+    }
+
+    public void Country_Save(String country){
+        context.getSharedPreferences("SaveCountry", MODE_PRIVATE)
+                .edit()
+                .putString("splash",country)
+                .commit();
+    }
+    public String getCountry_Save(){
+        SharedPreferences pref=context.getSharedPreferences("SaveCountry",MODE_PRIVATE);
+        return pref.getString("splash",null);
+    }
+    public void Intro_Save(String intro){
+        context.getSharedPreferences("SaveIntro", MODE_PRIVATE)
+                .edit()
+                .putString("intro",intro)
+                .commit();
+    }
+    public String getIntro_Save(){
+        SharedPreferences pref=context.getSharedPreferences("SaveIntro",MODE_PRIVATE);
+        return pref.getString("intro",null);
+    }
+    public void Account_Save(String status){
+        context.getSharedPreferences("AccountLogin", MODE_PRIVATE)
+                .edit()
+                .putString("status",status)
+                .commit();
+    }
+    public String getAccount_Save(){
+        SharedPreferences pref=context.getSharedPreferences("AccountLogin",MODE_PRIVATE);
+        return pref.getString("status",null);
+    }
+
+    public void logout(){
+        context.getSharedPreferences("AccountLogin", MODE_PRIVATE)
+                .edit()
+                .clear()
+                .commit();
     }
 }
 

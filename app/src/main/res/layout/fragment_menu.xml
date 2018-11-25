@@ -320,6 +320,37 @@
                 android:background="@color/paleGrey"
                 android:layout_marginBottom="@dimen/margin_large"/>
 
+            <RelativeLayout
+                android:id="@+id/menu_Exit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium">
+
+                <!-- label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/card_icon_1st"
+                    android:text="@string/exit"
+                    android:textColor="@color/darkSkyBlue"
+                    android:textSize="@dimen/text_size_large" />
+
+                <!-- icon -->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_arrow_left" />
+
+            </RelativeLayout>
+
         </LinearLayout>
     </ScrollView>
 

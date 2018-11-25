@@ -11,9 +11,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.SplashActivities.IntroActivity;
+import it_geeks.info.gawla_app.SplashActivities.SplashActivity;
 
 public class SliderAdapter extends PagerAdapter {
     Context context;
@@ -72,7 +74,8 @@ public class SliderAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
             context.startActivity(new Intent(context,LoginActivity.class));
-            onboardActivity.finishscrean();
+            onboardActivity.finish();
+            new SharedPrefManager(context).Intro_Save("1");
             }
         });
 
