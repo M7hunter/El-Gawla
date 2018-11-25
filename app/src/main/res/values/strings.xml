@@ -101,7 +101,7 @@
     <string name="enter">enter</string>
     <string name="settings">settings</string>
     <string name="language">language</string>
-
+    <string name="exit">Exit</string>
 
 
     <array name="languagesArray">

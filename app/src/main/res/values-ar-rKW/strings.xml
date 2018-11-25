@@ -102,6 +102,6 @@
     <string name="enter">دخول</string>
     <string name="settings">الضبط</string>
     <string name="language">اللغة</string>
-
+    <string name="exit">خروج</string>
 
 </resources>
