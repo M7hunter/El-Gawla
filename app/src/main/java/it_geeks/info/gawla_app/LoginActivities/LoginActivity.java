@@ -30,7 +30,9 @@ public static String api_token;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         sharedPreferences = new SharedPrefManager(LoginActivity.this);
-        if (sharedPreferences.getAccount_Save() != null) {
+        String status = sharedPreferences.getAccount_Save().getString("status",null);
+        api_token = sharedPreferences.getAccount_Save().getString("api_token",null);
+        if (status != null) {
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
             finish();
         } else {
@@ -42,9 +44,9 @@ public static String api_token;
                     String email = txt_Email.getText().toString();
                     String pass = txt_Password.getText().toString();
                     if (email.isEmpty()) {
-                        txt_Email.setError("Email Empty");
+                        txt_Email.setError(getResources().getString(R.string.emptyMail));
                     } else if (pass.isEmpty()) {
-                        txt_Password.setError("Password Empty");
+                        txt_Password.setError(getResources().getString(R.string.emptyPass));
                     } else {
                         Call<JsonObject> call = RetrofitClient.getInstance().getAPI().loginUser(email, pass);
                         call.enqueue(new Callback<JsonObject>() {
@@ -55,11 +57,11 @@ public static String api_token;
                                 String status = data.get("status").toString();
                                 if (status.equals("true")) {
                                     api_token = data.get("api_token").toString();
-                                    new SharedPrefManager(LoginActivity.this).Account_Save("true");
+                                    new SharedPrefManager(LoginActivity.this).Account_Save("true",api_token);
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                     finish();
                                 } else {
-                                    Toast.makeText(LoginActivity.this, "Invalid email or password.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this,getResources().getString(R.string.Invalid_email_password), Toast.LENGTH_SHORT).show();
 
                                 }
 

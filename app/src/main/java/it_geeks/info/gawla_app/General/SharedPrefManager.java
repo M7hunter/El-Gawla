@@ -59,15 +59,16 @@ public class SharedPrefManager {
         SharedPreferences pref=context.getSharedPreferences("SaveIntro",MODE_PRIVATE);
         return pref.getString("intro",null);
     }
-    public void Account_Save(String status){
+    public void Account_Save(String status,String api_token){
         context.getSharedPreferences("AccountLogin", MODE_PRIVATE)
                 .edit()
                 .putString("status",status)
+                .putString("api_token",api_token)
                 .commit();
     }
-    public String getAccount_Save(){
+    public SharedPreferences getAccount_Save(){
         SharedPreferences pref=context.getSharedPreferences("AccountLogin",MODE_PRIVATE);
-        return pref.getString("status",null);
+        return pref;
     }
 
     public void logout(){

@@ -101,8 +101,10 @@
     <string name="enter">enter</string>
     <string name="settings">settings</string>
     <string name="language">language</string>
-    <string name="exit">Exit</string>
-
+    <string name="exit">Logout</string>
+    <string name="Invalid_email_password">Invalid email or password</string>
+    <string name="emptyMail">Your Email is Empty .</string>
+    <string name="emptyPass">Your Password is Empty .</string>
 
     <array name="languagesArray">
         <item>LANGUAGE :</item>
