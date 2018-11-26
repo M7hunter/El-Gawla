@@ -103,5 +103,8 @@
     <string name="settings">الضبط</string>
     <string name="language">اللغة</string>
     <string name="exit">خروج</string>
+    <string name="Invalid_email_password">بيانات الدخول غير صحيحة</string>
+    <string name="emptyMail">بريد الكتروني فارغ</string>
+    <string name="emptyPass">كلمة سر فارغة</string>
 
 </resources>
