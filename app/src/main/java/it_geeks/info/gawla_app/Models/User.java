@@ -10,14 +10,11 @@ public class User {
 
     private String password;
 
-    private String password_confirmation;
-
-    public User(String name, String email, String membership, String password, String password_confirmation) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
-        this.membership = membership;
         this.password = password;
-        this.password_confirmation = password_confirmation;
+        this.membership = "basic";
     }
 
     public String getName() {
@@ -52,11 +49,4 @@ public class User {
         this.password = password;
     }
 
-    public String getPassword_confirmation() {
-        return password_confirmation;
-    }
-
-    public void setPassword_confirmation(String password_confirmation) {
-        this.password_confirmation = password_confirmation;
-    }
 }

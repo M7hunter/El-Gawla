@@ -15,12 +15,12 @@ import retrofit2.http.POST;
 public interface APIs {
 
     // register user
-    @POST("/register.json")
-    Call<ResponseBody> registerUser(@Body User user);
+    @POST()
+    Call<JsonObject> registerUser(@Body User user);
 
     // login user
     @FormUrlEncoded
-    @POST("login")
+    @POST()
     Call<JsonObject> loginUser(@Field("email") String email , @Field("password") String password);
 
 }
