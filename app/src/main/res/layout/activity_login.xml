@@ -111,6 +111,7 @@
                 android:inputType="textPersonName"
                 android:paddingStart="30dp"
                 android:paddingTop="10dp"
+                android:paddingEnd="30dp"
                 android:paddingBottom="10dp"
                 android:textColorHint="@color/editText_hint" />
 
@@ -129,6 +130,7 @@
                 android:inputType="textPersonName"
                 android:paddingStart="30dp"
                 android:paddingTop="10dp"
+                android:paddingEnd="30dp"
                 android:paddingBottom="10dp"
                 android:textColorHint="@color/editText_hint" />
 
