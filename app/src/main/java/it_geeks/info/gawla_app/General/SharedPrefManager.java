@@ -3,6 +3,8 @@ package it_geeks.info.gawla_app.General;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import it_geeks.info.gawla_app.Models.User;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class SharedPrefManager {
@@ -39,7 +41,47 @@ public class SharedPrefManager {
         return sharedPreferences.getString("lang", "en");
     }
 
-    public void Country_Save(String country){
+    //--------------- user -------------//
+
+    public void saveUser(User user) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME2, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.clear();
+
+        editor.putString("userName", user.getName());
+        editor.putString("userEmail", user.getEmail());
+        editor.putString("userMemberShip", user.getMembership());
+        editor.putString("userPass", user.getPassword());
+        editor.putBoolean("userLogged", true);
+        editor.apply();
+    }
+
+    public boolean isLoggedIn() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("userLogged", false);
+    }
+
+    public User getUser() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME2, Context.MODE_PRIVATE);
+
+        return new User(
+                sharedPreferences.getString("userName", null),
+                sharedPreferences.getString("userEmail", null),
+                sharedPreferences.getString("userPass", null)
+        );
+    }
+
+    public void clearUser() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME2, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("userLogged", false);
+        editor.clear();
+        editor.apply();
+    }
+
+
+        public void Country_Save(String country){
         context.getSharedPreferences("SaveCountry", MODE_PRIVATE)
                 .edit()
                 .putString("splash",country)
