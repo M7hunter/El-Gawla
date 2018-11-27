@@ -43,7 +43,6 @@ public class SharedPrefManager {
     }
 
     //--------------- user -------------//
-
     public void saveUser(User user) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME2, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -52,7 +51,6 @@ public class SharedPrefManager {
 
         editor.putString("userName", user.getName());
         editor.putString("userEmail", user.getEmail());
-        editor.putString("userMemberShip", user.getMembership());
         editor.putString("userPass", user.getPassword());
         editor.putBoolean("userLogged", true);
         editor.apply();

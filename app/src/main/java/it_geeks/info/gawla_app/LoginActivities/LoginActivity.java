@@ -1,20 +1,21 @@
 package it_geeks.info.gawla_app.LoginActivities;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.JsonObject;
-
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.MainActivity;
+import it_geeks.info.gawla_app.Models.UserLogin;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.SplashActivities.SplashActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,37 +41,38 @@ public static String api_token;
 
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     String email = txt_Email.getText().toString();
                     String pass = txt_Password.getText().toString();
+                    UserLogin userLogin = new UserLogin("login",email,pass);
                     if (email.isEmpty()) {
                         txt_Email.setError(getResources().getString(R.string.emptyMail));
                     } else if (pass.isEmpty()) {
                         txt_Password.setError(getResources().getString(R.string.emptyPass));
                     } else {
-                        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().loginUser(email, pass);
+                        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().loginUser(userLogin);
                         call.enqueue(new Callback<JsonObject>() {
                             @Override
                             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
-                                JsonObject data = response.body().getAsJsonObject();
-                                String status = data.get("status").toString();
-                                if (status.equals("true")) {
-                                    api_token = data.get("api_token").toString();
-                                    new SharedPrefManager(LoginActivity.this).Account_Save("true",api_token);
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                    finish();
-                                } else {
-                                    Toast.makeText(LoginActivity.this,getResources().getString(R.string.Invalid_email_password), Toast.LENGTH_SHORT).show();
-
+                                try{
+                                        JsonObject data = response.body().getAsJsonObject();
+                                        boolean status = data.get("status").getAsBoolean();
+                                        if (status == true) {
+                                            JsonObject Mdata = data.getAsJsonObject("userData");
+                                            api_token = Mdata.get("api_token").toString();
+                                            new SharedPrefManager(LoginActivity.this).Account_Save("true", api_token);
+                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                            finish();
+                                        } else {
+                                            Snackbar.make(v, getResources().getString(R.string.Invalid_email_password), 1500).setAction("Action", null).show();                                        }
+                                    }catch (Exception e){
+                                    Snackbar.make(v, getResources().getString(R.string.Invalid_email_password), 1500).setAction("Action", null).show();
                                 }
-
-
                             }
 
                             @Override
                             public void onFailure(Call<JsonObject> call, Throwable t) {
-                                Toast.makeText(LoginActivity.this, "Check you Internet Access !", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         });
                     }
