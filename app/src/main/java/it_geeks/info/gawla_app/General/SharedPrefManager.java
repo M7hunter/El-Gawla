@@ -13,6 +13,7 @@ public class SharedPrefManager {
     private Context context;
     private SharedPreferences sharedPreferences;
     private static final String SHARED_PREF_NAME = "lang_shared_pref";
+    private static final String SHARED_PREF_NAME2 = "user_shared_pref";
 
     public SharedPrefManager(Context context) {
         this.context = context;
