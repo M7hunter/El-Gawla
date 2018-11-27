@@ -10,7 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import it_geeks.info.gawla_app.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.NavigationFragments.AccountFragment;
 import it_geeks.info.gawla_app.NavigationFragments.CardsFragment;
 import it_geeks.info.gawla_app.NavigationFragments.HalesFragment;
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Toast.makeText(this, LoginActivity.api_token+"", Toast.LENGTH_SHORT).show();
         if (savedInstanceState == null) {
             changeStatusBarColor("#f4f7fa");// for startup
             displayFragment(fragment);

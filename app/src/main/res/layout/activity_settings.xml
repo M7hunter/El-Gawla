@@ -60,9 +60,10 @@
             <Spinner
                 android:id="@+id/settings_lang_spinner"
                 android:layout_width="match_parent"
-                android:layout_margin="@dimen/margin_small"
                 android:layout_height="wrap_content"
-                android:entries="@array/languagesArray" />
+                android:layout_margin="@dimen/margin_small"
+                android:entries="@array/languagesArray"
+                android:spinnerMode="dialog" />
 
         </LinearLayout>
     </ScrollView>
