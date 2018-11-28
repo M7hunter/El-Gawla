@@ -37,7 +37,7 @@ public class MyRoundsFragment extends Fragment {
     }
 
     private void getData() {
-        // fake data
+        // fake Data
         for (int i = 0; i < 5; i++) {
             Round round = new Round("samsung A" + i + " 201" + i
                     , "image" + i

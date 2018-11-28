@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,15 +11,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.ybq.android.spinkit.sprite.Sprite;
-import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.MainActivity;
-import it_geeks.info.gawla_app.Models.UserLogin;
-import it_geeks.info.gawla_app.Models.data;
-import it_geeks.info.gawla_app.Models.request;
+import it_geeks.info.gawla_app.Models.Data;
+import it_geeks.info.gawla_app.Models.Request;
+import it_geeks.info.gawla_app.Models.RequestMainBody;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.RESTful.RetrofitClient;
 import retrofit2.Call;
@@ -33,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private EditText txt_Email,txt_Password;
     public static String api_token,user_id;
-    ProgressBar progressBar; Sprite doubleBounce;
+    ProgressBar progressBar;
     SharedPrefManager sharedPreferences ;
 
     @Override
@@ -55,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                     String email = txt_Email.getText().toString();
                     String pass = txt_Password.getText().toString();
 
-                    UserLogin userLogin = new UserLogin(new data("login",new request(email,pass)));
+                    RequestMainBody requestMainBody = new RequestMainBody(new Data("login"), new Request(email,pass));
                     if (email.isEmpty()) {
                         txt_Email.setError(getResources().getString(R.string.emptyMail));
                         txt_Email.requestFocus();
@@ -64,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                         txt_Password.requestFocus();
                     } else {
                         progressBar.setVisibility(View.VISIBLE);
-                        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().loginUser(userLogin);
+                        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().loginUser(requestMainBody);
                         call.enqueue(new Callback<JsonObject>() {
                             @Override
                             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
