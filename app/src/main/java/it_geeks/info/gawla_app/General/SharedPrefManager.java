@@ -100,10 +100,11 @@ public class SharedPrefManager {
         SharedPreferences pref=context.getSharedPreferences("SaveIntro",MODE_PRIVATE);
         return pref.getString("intro",null);
     }
-    public void Account_Save(String status,String api_token){
+    public void Account_Save(boolean status,String api_token,String user_id){
         context.getSharedPreferences("AccountLogin", MODE_PRIVATE)
                 .edit()
-                .putString("status",status)
+                .putBoolean("status",status)
+                .putString("user_id",user_id)
                 .putString("api_token",api_token)
                 .commit();
     }
