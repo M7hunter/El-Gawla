@@ -10,10 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.MainActivity;
 import it_geeks.info.gawla_app.Models.UserLogin;
+import it_geeks.info.gawla_app.Models.data;
+import it_geeks.info.gawla_app.Models.request;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.RESTful.RetrofitClient;
 import retrofit2.Call;
@@ -24,16 +28,16 @@ public class LoginActivity extends AppCompatActivity {
 private TextView txtForgetPassword , txtCreateAccount;
 private Button btnLogin;
 private EditText txt_Email,txt_Password;
-public static String api_token;
+public static String api_token,user_id;
     SharedPrefManager sharedPreferences ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         sharedPreferences = new SharedPrefManager(LoginActivity.this);
-        String status = sharedPreferences.getAccount_Save().getString("status",null);
+        boolean status = sharedPreferences.getAccount_Save().getBoolean("status",false);
         api_token = sharedPreferences.getAccount_Save().getString("api_token",null);
-        if (status != null) {
+        if (status && user_id != null) {
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
             finish();
         } else {
@@ -44,30 +48,37 @@ public static String api_token;
                 public void onClick(final View v) {
                     String email = txt_Email.getText().toString();
                     String pass = txt_Password.getText().toString();
-                    UserLogin userLogin = new UserLogin("login",email,pass);
+
+                    UserLogin userLogin = new UserLogin(new data("login",new request(email,pass)));
                     if (email.isEmpty()) {
                         txt_Email.setError(getResources().getString(R.string.emptyMail));
+                        txt_Email.requestFocus();
                     } else if (pass.isEmpty()) {
                         txt_Password.setError(getResources().getString(R.string.emptyPass));
+                        txt_Password.requestFocus();
                     } else {
                         Call<JsonObject> call = RetrofitClient.getInstance().getAPI().loginUser(userLogin);
                         call.enqueue(new Callback<JsonObject>() {
                             @Override
                             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                                try{
+
                                         JsonObject data = response.body().getAsJsonObject();
                                         boolean status = data.get("status").getAsBoolean();
-                                        if (status == true) {
+                                        if (status) {
                                             JsonObject Mdata = data.getAsJsonObject("userData");
                                             api_token = Mdata.get("api_token").toString();
-                                            new SharedPrefManager(LoginActivity.this).Account_Save("true", api_token);
+                                            user_id = Mdata.get("user_id").toString();
+                                            new SharedPrefManager(LoginActivity.this).Account_Save(status,api_token,user_id);
                                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                             finish();
                                         } else {
-                                            Snackbar.make(v, getResources().getString(R.string.Invalid_email_password), 1500).setAction("Action", null).show();                                        }
-                                    }catch (Exception e){
-                                    Snackbar.make(v, getResources().getString(R.string.Invalid_email_password), 1500).setAction("Action", null).show();
-                                }
+                                            JsonArray errors = data.getAsJsonArray("errors");
+                                            for (int i = 0; i < errors.size() ; i++) {
+                                                String s = errors.get(i).getAsString();
+                                                Snackbar.make(v, s, 1500).setAction("Action", null).show();
+                                            }
+                                        }
+
                             }
 
                             @Override
