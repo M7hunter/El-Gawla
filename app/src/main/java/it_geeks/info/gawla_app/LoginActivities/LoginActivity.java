@@ -8,9 +8,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
@@ -25,11 +28,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
-private TextView txtForgetPassword , txtCreateAccount;
-private Button btnLogin;
-private EditText txt_Email,txt_Password;
-public static String api_token,user_id;
+
+    private TextView txtForgetPassword , txtCreateAccount;
+    private Button btnLogin;
+    private EditText txt_Email,txt_Password;
+    public static String api_token,user_id;
+    ProgressBar progressBar; Sprite doubleBounce;
     SharedPrefManager sharedPreferences ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,8 +47,8 @@ public static String api_token,user_id;
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
             finish();
         } else {
-            initialization();
 
+            initialization();
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -57,6 +63,7 @@ public static String api_token,user_id;
                         txt_Password.setError(getResources().getString(R.string.emptyPass));
                         txt_Password.requestFocus();
                     } else {
+                        progressBar.setVisibility(View.VISIBLE);
                         Call<JsonObject> call = RetrofitClient.getInstance().getAPI().loginUser(userLogin);
                         call.enqueue(new Callback<JsonObject>() {
                             @Override
@@ -71,19 +78,21 @@ public static String api_token,user_id;
                                             new SharedPrefManager(LoginActivity.this).Account_Save(status,api_token,user_id);
                                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                             finish();
+                                            progressBar.setVisibility(View.GONE);
                                         } else {
                                             JsonArray errors = data.getAsJsonArray("errors");
                                             for (int i = 0; i < errors.size() ; i++) {
                                                 String s = errors.get(i).getAsString();
                                                 Snackbar.make(v, s, 1500).setAction("Action", null).show();
                                             }
+                                            progressBar.setVisibility(View.GONE);
                                         }
-
                             }
 
                             @Override
                             public void onFailure(Call<JsonObject> call, Throwable t) {
                                 Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
                     }
@@ -111,6 +120,7 @@ public static String api_token,user_id;
         txtCreateAccount = findViewById(R.id.txt_Create_Account);
         txt_Email = findViewById(R.id.txt_Email);
         txt_Password = findViewById(R.id.txt_Password);
+        progressBar = (ProgressBar)findViewById(R.id.login_loading);
     }
 
     @Override
