@@ -18,9 +18,6 @@ public class Round {
 
     private String JoinedMembersNumber;
 
-    public Round() {
-    }
-
     public Round(String productName, String productImage, String productCategory, String productPrice, String productDescription, String startTime, String endTime, String joinedMembersNumber) {
         ProductName = productName;
         ProductImage = productImage;

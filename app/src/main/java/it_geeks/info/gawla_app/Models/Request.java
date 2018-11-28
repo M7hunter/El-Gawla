@@ -1,12 +1,14 @@
 package it_geeks.info.gawla_app.Models;
 
-public class User {
+public class Request {
+
+    private String email;
+
+    private String password;
 
     private int user_id;
 
     private String name;
-
-    private String email;
 
     private boolean active;
 
@@ -16,23 +18,20 @@ public class User {
 
     private String membership;
 
-    private String password;
-
-    public User(String name, String email, String password) {
-        this.name = name;
+    public Request(String email, String password) { // login Request
         this.email = email;
-        this.membership = "basic";
         this.password = password;
     }
-
-    public User(int user_id, String name, String email ,boolean active, String api_token, String image) {
-        this.user_id = user_id;
+    public Request(String name, String email, String pass) { // register Request
         this.name = name;
         this.email = email;
-        this.active = active;
-        this.api_token = api_token;
-        this.image = image;
         this.membership = "basic";
+        this.password = pass;
+    }
+
+    public Request(int user_id, String api_token) { // all salons Request
+        this.user_id = user_id;
+        this.api_token = api_token;
     }
 
     public int getUser_id() {
@@ -43,23 +42,7 @@ public class User {
         this.user_id = user_id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 
@@ -83,6 +66,22 @@ public class User {
         this.image = image;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getMembership() {
         return membership;
     }
@@ -98,4 +97,7 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+
 }
