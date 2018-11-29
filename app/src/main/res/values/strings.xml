@@ -18,8 +18,8 @@
     <string name="see_all">see all</string>
     <string name="recent_hales">recent hales</string>
     <string name="password">password</string>
-    <string name="full_name">" full name"</string>
-    <string name="pay_later">" later"</string>
+    <string name="full_name">"full name"</string>
+    <string name="pay_later">"later"</string>
     <string name="activate_card">activate card</string>
     <string name="buy_card">buy card</string>
     <string name="account_details">account details</string>
@@ -105,6 +105,8 @@
     <string name="Invalid_email_password">Invalid email or password</string>
     <string name="emptyMail">Your Email is Empty .</string>
     <string name="emptyPass">Your Password is Empty .</string>
+    <string name="sign_up">sing up</string>
+    <string name="sign_in">sign in</string>
 
     <array name="languagesArray">
         <item>LANGUAGE :</item>

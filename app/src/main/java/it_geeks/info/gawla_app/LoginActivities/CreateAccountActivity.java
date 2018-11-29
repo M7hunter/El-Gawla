@@ -98,7 +98,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                         // goto next page
                         startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
-                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
 
                     } else { // if registration have errors
                         // notify user
@@ -111,7 +111,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                     // notify user
                     Toast.makeText(CreateAccountActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
