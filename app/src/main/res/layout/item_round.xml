@@ -46,15 +46,6 @@
             android:layout_marginEnd="@dimen/margin_tiny"
             android:gravity="center"
             android:orientation="vertical">
-            <!-- separator -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="@dimen/margin_tiny"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginRight="@dimen/margin_tiny"
-                android:layout_marginBottom="@dimen/margin_tiny"
-                android:background="@color/paleGrey" />
 
             <!-- name -->
             <TextView
@@ -146,7 +137,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/midBlue"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_large" />
 
                     <!-- end time container -->
                     <LinearLayout

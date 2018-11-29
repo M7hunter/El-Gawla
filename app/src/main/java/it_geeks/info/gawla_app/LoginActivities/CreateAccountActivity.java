@@ -98,7 +98,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                         // goto next page
                         startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
-                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));
 
                     } else { // if registration have errors
                         // notify user
