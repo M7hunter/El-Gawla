@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toast.makeText(this, LoginActivity.api_token+"id is + " + LoginActivity.user_id, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, LoginActivity.mApi_token+"id is + " + LoginActivity.mUser_id, Toast.LENGTH_SHORT).show();
         if (savedInstanceState == null) {
             changeStatusBarColor("#f4f7fa");// for startup
             displayFragment(fragment);

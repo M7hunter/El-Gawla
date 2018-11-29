@@ -35,4 +35,10 @@ public class Common {
     public String getLang () {
         return Lang;
     }
+
+    // remove unneeded quotes
+    public String removeQuotes(String s) {
+         s =  s.substring(1, s.length() - 1);
+        return s;
+    }
 }

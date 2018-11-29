@@ -18,6 +18,7 @@ import it_geeks.info.gawla_app.MainActivity;
 import it_geeks.info.gawla_app.Models.Data;
 import it_geeks.info.gawla_app.Models.Request;
 import it_geeks.info.gawla_app.Models.RequestMainBody;
+import it_geeks.info.gawla_app.Models.User;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.RESTful.RetrofitClient;
 import retrofit2.Call;
@@ -29,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView txtForgetPassword , txtCreateAccount;
     private Button btnLogin;
     private EditText txt_Email,txt_Password;
-    public static String api_token,user_id;
+    public static String mApi_token,mUser_id;
     ProgressBar progressBar;
     SharedPrefManager sharedPreferences ;
 
@@ -38,9 +39,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         sharedPreferences = new SharedPrefManager(LoginActivity.this);
-        boolean status = sharedPreferences.getAccount_Save().getBoolean("status",false);
-        api_token = sharedPreferences.getAccount_Save().getString("api_token",null);
-        if (status && user_id != null) {
+        boolean status = SharedPrefManager.getInstance(LoginActivity.this).isLoggedIn();
+        mApi_token = SharedPrefManager.getInstance(LoginActivity.this).getUser().getApi_token();
+        if (status && mUser_id != null) {
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
             finish();
         } else {
@@ -70,9 +71,13 @@ public class LoginActivity extends AppCompatActivity {
                                         boolean status = data.get("status").getAsBoolean();
                                         if (status) {
                                             JsonObject Mdata = data.getAsJsonObject("userData");
-                                            api_token = Mdata.get("api_token").toString();
-                                            user_id = Mdata.get("user_id").toString();
-                                            new SharedPrefManager(LoginActivity.this).Account_Save(status,api_token,user_id);
+                                            mApi_token = Mdata.get("api_token").toString();
+                                            mUser_id = Mdata.get("user_id").toString();
+                                            String mEmail = Mdata.get("email").toString();
+                                            String mImage = Mdata.get("image").toString();
+                                            String mName = Mdata.get("name").toString();
+
+                                            SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(Integer.parseInt(mUser_id),mName,mEmail,mApi_token,mImage));
                                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                             finish();
                                             progressBar.setVisibility(View.GONE);
