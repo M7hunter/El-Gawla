@@ -16,7 +16,6 @@ import it_geeks.info.gawla_app.SettingsActivity;
 public class MenuFragment extends Fragment {
 
     private RelativeLayout optionSettings,Exit;
-    SharedPrefManager sharedPreferences ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,8 +34,7 @@ public class MenuFragment extends Fragment {
         Exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sharedPreferences = new SharedPrefManager(getActivity());
-                sharedPreferences.logout();
+                SharedPrefManager.getInstance(getActivity()).clearUser();
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().finish();
             }
