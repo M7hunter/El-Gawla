@@ -1,53 +1,48 @@
 package it_geeks.info.gawla_app;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Spinner;
+import android.widget.ExpandableListView;
 
-import it_geeks.info.gawla_app.General.Common;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import it_geeks.info.gawla_app.Adapters.LangExAdapter;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    ExpandableListView exLangList;
+    LangExAdapter langAdapter;
+    List<String> headerList = new ArrayList<>();
+    HashMap<String, List<String>> listHashMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        initSpinner();
+        setupLangData();
+
+        initLangList();
     }
 
-    private void initSpinner() {
-        Spinner langSpinner = findViewById(R.id.settings_lang_spinner);
+    private void setupLangData() {
+        // add headers
+        headerList.add(getString(R.string.language));
 
-        langSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedItem = adapterView.getItemAtPosition(i).toString();
-                    switch (selectedItem) {
-                        case "English":
-                            Common.Instance(SettingsActivity.this).setLang("en");
+        // add childes
+        List<String> languagesList = new ArrayList<>();
+        languagesList.add("English");
+        languagesList.add("العربية");
 
-                            startActivity(new Intent(SettingsActivity.this, MainActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));
-                            break;
-                        case "العربية":
-                            Common.Instance(SettingsActivity.this).setLang("ar");
+        // main list
+        listHashMap.put(headerList.get(0), languagesList);
+    }
 
-                            startActivity(new Intent(SettingsActivity.this, MainActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));
-                            break;
-                        default:
-                            break;
-                    }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+    private void initLangList() {
+        exLangList = findViewById(R.id.ex_lang_list);
+        langAdapter = new LangExAdapter(SettingsActivity.this, headerList, listHashMap);
+        exLangList.setAdapter(langAdapter);
     }
 }

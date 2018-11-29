@@ -41,11 +41,11 @@ public class LoginActivity extends AppCompatActivity {
         sharedPreferences = new SharedPrefManager(LoginActivity.this);
         boolean status = SharedPrefManager.getInstance(LoginActivity.this).isLoggedIn();
         mApi_token = SharedPrefManager.getInstance(LoginActivity.this).getUser().getApi_token();
+
         if (status && mUser_id != null) {
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
             finish();
         } else {
-
             initialization();
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override

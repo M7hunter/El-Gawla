@@ -253,7 +253,7 @@
                 android:background="@drawable/bg_rounded_corners_blue_270"
                 android:gravity="center"
                 android:padding="@dimen/margin_medium"
-                android:text="@string/join_round"
+                android:text="@string/enter"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_medium"
