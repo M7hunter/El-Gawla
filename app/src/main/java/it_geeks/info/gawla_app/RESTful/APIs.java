@@ -19,4 +19,7 @@ public interface APIs {
     @POST("master")
     Call<JsonObject> loginUser(@Body RequestMainBody requestMainBody);
 
+    @POST("master")
+    Call<JsonObject> Salons(@Body RequestMainBody requestMainBody);
+
 }

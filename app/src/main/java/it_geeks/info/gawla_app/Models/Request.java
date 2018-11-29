@@ -10,8 +10,6 @@ public class Request {
 
     private String name;
 
-    private boolean active;
-
     private String api_token;
 
     private String image;
@@ -40,14 +38,6 @@ public class Request {
 
     public void setUser_id(int user_id) {
         this.user_id = user_id;
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public String getApi_token() {
