@@ -102,9 +102,12 @@
     <string name="enter">دخول</string>
     <string name="settings">الضبط</string>
     <string name="language">اللغة</string>
-    <string name="exit">خروج</string>
+    <string name="exit">تسجيل خروج</string>
     <string name="Invalid_email_password">بيانات الدخول غير صحيحة</string>
     <string name="emptyMail">بريد الكتروني فارغ</string>
     <string name="emptyPass">كلمة سر فارغة</string>
+    <string name="sign_up">تسجيل</string>
+    <string name="sign_in">دخول</string>
+    <string name="Language">اللفة</string>
 
 </resources>

@@ -55,6 +55,8 @@
         <ExpandableListView
             android:id="@+id/ex_lang_list"
             android:layout_width="match_parent"
+            android:childIndicatorStart="@dimen/margin_large"
+            android:childIndicatorEnd="@dimen/margin_small"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
