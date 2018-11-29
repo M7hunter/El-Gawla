@@ -28,7 +28,7 @@
         <activity android:name=".LoginActivities.CreateAccountActivity" />
         <activity android:name=".LoginActivities.LoginActivity" />
         <activity android:name=".ProductDetailsActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity"/>
     </application>
 
 </manifest>

@@ -107,6 +107,7 @@
     <string name="emptyPass">Your Password is Empty .</string>
     <string name="sign_up">sing up</string>
     <string name="sign_in">sign in</string>
+    <string name="Language">Language</string>
 
     <array name="languagesArray">
         <item>LANGUAGE :</item>

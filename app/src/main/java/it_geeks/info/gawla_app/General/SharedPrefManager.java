@@ -61,7 +61,7 @@ public class SharedPrefManager {
     }
 
     public boolean isLoggedIn() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME2, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("userLogged", false);
     }
 
