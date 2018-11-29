@@ -26,7 +26,8 @@
                 android:id="@+id/round_product_image"
                 android:layout_width="@dimen/image_width_round"
                 android:layout_height="@dimen/image_height_round"
-                android:layout_margin="@dimen/margin_tiny" />
+                android:layout_margin="@dimen/margin_tiny"
+                android:scaleType="centerCrop" />
 
             <!-- category -->
             <TextView
@@ -88,10 +89,10 @@
             android:id="@+id/round_product_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_tiny"
             android:layout_marginLeft="@dimen/margin_small"
             android:layout_marginRight="@dimen/margin_small"
-            android:textColor="@color/blueyGrey"
-            android:layout_margin="@dimen/margin_tiny"/>
+            android:textColor="@color/blueyGrey" />
 
         <!-- separator -->
         <View
