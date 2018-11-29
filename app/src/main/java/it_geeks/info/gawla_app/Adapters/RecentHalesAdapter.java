@@ -39,17 +39,17 @@ public class RecentHalesAdapter extends RecyclerView.Adapter<RecentHalesAdapter.
         Round round = roundsList.get(position);
 
         Picasso.with(context)
-                .load(round.getProductImage())
+                .load(round.getProduct_image())
                 .placeholder(context.getResources().getDrawable(R.drawable.macbook))
                 .into(viewHolder.imgProductImage);
 
-        viewHolder.tvProductName.setText(round.getProductName());
-        viewHolder.tvProductCategory.setText(round.getProductCategory());
-        viewHolder.tvProductPrice.setText(round.getProductPrice());
-        viewHolder.tvProductDescription.setText(round.getProductDescription());
-        viewHolder.tvStartTime.setText(round.getStartTime());
-        viewHolder.tvEndTime.setText(round.getEndTime());
-        viewHolder.tvMembersNumber.setText(round.getJoinedMembersNumber());
+        viewHolder.tvProductName.setText(round.getProduct_name());
+        viewHolder.tvProductCategory.setText(round.getProduct_category());
+        viewHolder.tvProductPrice.setText(round.getProduct_price());
+        viewHolder.tvProductDescription.setText(round.getProduct_description());
+        viewHolder.tvStartTime.setText(round.getStart_time());
+        viewHolder.tvEndTime.setText(round.getEnd_time());
+        viewHolder.tvMembersNumber.setText(round.getJoined_members_number());
 
         viewHolder.btnJoinRound.setOnClickListener(new View.OnClickListener() {
             @Override

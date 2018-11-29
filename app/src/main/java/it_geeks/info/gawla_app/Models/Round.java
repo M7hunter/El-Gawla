@@ -2,94 +2,100 @@ package it_geeks.info.gawla_app.Models;
 
 public class Round {
 
-    private String ProductName;
+    private String product_name;
 
-    private String ProductImage;
+    private String product_image;
 
-    private String ProductCategory;
+    private String product_category;
 
-    private String ProductPrice;
+    private String product_price;
 
-    private String ProductDescription;
+    private String product_description;
 
-    private String StartTime;
+    private String first_join_time;
 
-    private String EndTime;
+    private String second_join_time;
 
-    private String JoinedMembersNumber;
+    private String round_date;
+
+    private String start_time;
+
+    private String end_time;
+
+    private String joined_members_number;
 
     public Round(String productName, String productImage, String productCategory, String productPrice, String productDescription, String startTime, String endTime, String joinedMembersNumber) {
-        ProductName = productName;
-        ProductImage = productImage;
-        ProductCategory = productCategory;
-        ProductPrice = productPrice;
-        ProductDescription = productDescription;
-        StartTime = startTime;
-        EndTime = endTime;
-        JoinedMembersNumber = joinedMembersNumber;
+        product_name = productName;
+        product_image = productImage;
+        product_category = productCategory;
+        product_price = productPrice;
+        product_description = productDescription;
+        start_time = startTime;
+        end_time = endTime;
+        joined_members_number = joinedMembersNumber;
     }
 
-    public String getProductName() {
-        return ProductName;
+    public String getProduct_name() {
+        return product_name;
     }
 
-    public void setProductName(String productName) {
-        ProductName = productName;
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
     }
 
-    public String getProductImage() {
-        return ProductImage;
+    public String getProduct_image() {
+        return product_image;
     }
 
-    public void setProductImage(String productImage) {
-        ProductImage = productImage;
+    public void setProduct_image(String product_image) {
+        this.product_image = product_image;
     }
 
-    public String getProductCategory() {
-        return ProductCategory;
+    public String getProduct_category() {
+        return product_category;
     }
 
-    public void setProductCategory(String productCategory) {
-        ProductCategory = productCategory;
+    public void setProduct_category(String product_category) {
+        this.product_category = product_category;
     }
 
-    public String getProductPrice() {
-        return ProductPrice;
+    public String getProduct_price() {
+        return product_price;
     }
 
-    public void setProductPrice(String productPrice) {
-        ProductPrice = productPrice;
+    public void setProduct_price(String product_price) {
+        this.product_price = product_price;
     }
 
-    public String getProductDescription() {
-        return ProductDescription;
+    public String getProduct_description() {
+        return product_description;
     }
 
-    public void setProductDescription(String productDescription) {
-        ProductDescription = productDescription;
+    public void setProduct_description(String product_description) {
+        this.product_description = product_description;
     }
 
-    public String getStartTime() {
-        return StartTime;
+    public String getStart_time() {
+        return start_time;
     }
 
-    public void setStartTime(String startTime) {
-        StartTime = startTime;
+    public void setStart_time(String start_time) {
+        this.start_time = start_time;
     }
 
-    public String getEndTime() {
-        return EndTime;
+    public String getEnd_time() {
+        return end_time;
     }
 
-    public void setEndTime(String endTime) {
-        EndTime = endTime;
+    public void setEnd_time(String end_time) {
+        this.end_time = end_time;
     }
 
-    public String getJoinedMembersNumber() {
-        return JoinedMembersNumber;
+    public String getJoined_members_number() {
+        return joined_members_number;
     }
 
-    public void setJoinedMembersNumber(String joinedMembersNumber) {
-        JoinedMembersNumber = joinedMembersNumber;
+    public void setJoined_members_number(String joined_members_number) {
+        this.joined_members_number = joined_members_number;
     }
 }
