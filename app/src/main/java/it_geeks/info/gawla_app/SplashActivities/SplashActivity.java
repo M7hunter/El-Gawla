@@ -28,8 +28,8 @@ public class SplashActivity extends AppCompatActivity {
 
         if (SharedPrefManager.getInstance(SplashActivity.this).getCountry_Save() != null) {
             startActivity(new Intent(SplashActivity.this, LoginActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            finish();
         } else {
             btn_egypt = findViewById(R.id.btn_egypt);
             btn_kuwait = findViewById(R.id.btn_kuwait);
@@ -39,7 +39,8 @@ public class SplashActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     SharedPrefManager.getInstance(SplashActivity.this).Country_Save("egypt");
                     startActivity(new Intent(SplashActivity.this, IntroActivity.class)
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                    finish();
                 }
             });
 
@@ -48,7 +49,8 @@ public class SplashActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     SharedPrefManager.getInstance(SplashActivity.this).Country_Save("kuwait");
                     startActivity(new Intent(SplashActivity.this, IntroActivity.class)
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                    finish();
                 }
             });
 
