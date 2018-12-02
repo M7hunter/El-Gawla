@@ -22,9 +22,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_large">
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layoutDirection="ltr">
 
                 <!-- logo -->
                 <ImageView
@@ -76,10 +77,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
-                android:paddingBottom="@dimen/margin_medium"
-                android:paddingEnd="@dimen/margin_medium"
                 android:paddingStart="@dimen/margin_medium"
-                android:paddingTop="@dimen/margin_medium">
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium">
 
                 <!-- label -->
                 <TextView
@@ -106,8 +107,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginEnd="@dimen/margin_large"
                 android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_large"
                 android:background="@color/paleGrey" />
 
             <!-- 2nd option -->
@@ -115,10 +116,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
-                android:paddingBottom="@dimen/margin_medium"
-                android:paddingEnd="@dimen/margin_medium"
                 android:paddingStart="@dimen/margin_medium"
-                android:paddingTop="@dimen/margin_medium">
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium">
 
                 <!-- label -->
                 <TextView
@@ -145,8 +146,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginEnd="@dimen/margin_large"
                 android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_large"
                 android:background="@color/paleGrey" />
 
             <!-- 3rd option -->
@@ -154,10 +155,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
-                android:paddingBottom="@dimen/margin_medium"
-                android:paddingEnd="@dimen/margin_medium"
                 android:paddingStart="@dimen/margin_medium"
-                android:paddingTop="@dimen/margin_medium">
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium">
 
                 <!-- label -->
                 <TextView
@@ -198,10 +199,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
-                android:paddingBottom="@dimen/margin_medium"
-                android:paddingEnd="@dimen/margin_medium"
                 android:paddingStart="@dimen/margin_medium"
-                android:paddingTop="@dimen/margin_medium">
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium">
 
                 <!-- label -->
                 <TextView
@@ -242,10 +243,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
-                android:paddingBottom="@dimen/margin_medium"
-                android:paddingEnd="@dimen/margin_medium"
                 android:paddingStart="@dimen/margin_medium"
-                android:paddingTop="@dimen/margin_medium">
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium">
 
                 <!-- label -->
                 <TextView
@@ -287,10 +288,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
-                android:paddingBottom="@dimen/margin_medium"
-                android:paddingEnd="@dimen/margin_medium"
                 android:paddingStart="@dimen/margin_medium"
-                android:paddingTop="@dimen/margin_medium">
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium">
 
                 <!-- label -->
                 <TextView
@@ -317,8 +318,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/paleGrey"
-                android:layout_marginBottom="@dimen/margin_large"/>
+                android:layout_marginBottom="@dimen/margin_large"
+                android:background="@color/paleGrey" />
 
             <RelativeLayout
                 android:id="@+id/menu_Exit"

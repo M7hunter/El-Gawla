@@ -25,7 +25,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_medium">
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layoutDirection="ltr">
 
                 <!-- logo -->
                 <ImageView
@@ -134,13 +135,27 @@
 
             </LinearLayout>
 
-            <!-- recent hales recycler -->
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recent_hales_recycler"
+            <!-- recent hales container -->
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny" />
+                android:layout_height="wrap_content">
+
+                <!-- recent hales recycler -->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recent_hales_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_tiny"
+                    android:layout_marginEnd="@dimen/margin_tiny" />
+
+                <!-- recent hales progress -->
+                <ProgressBar
+                    android:id="@+id/recent_hales_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+
+            </RelativeLayout>
 
             <!-- winners news header -->
             <LinearLayout
@@ -167,14 +182,28 @@
 
             </LinearLayout>
 
-            <!-- winners news recycler -->
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/winners_news_recycler"
+            <!-- winners news container -->
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
-                android:nestedScrollingEnabled="false" />
+                android:layout_height="wrap_content">
+
+                <!-- winners news recycler -->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/winners_news_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_tiny"
+                    android:layout_marginEnd="@dimen/margin_tiny"
+                    android:nestedScrollingEnabled="false" />
+
+                <!-- winners news progress -->
+                <ProgressBar
+                    android:id="@+id/winners_news_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+
+            </RelativeLayout>
 
         </LinearLayout>
     </ScrollView>

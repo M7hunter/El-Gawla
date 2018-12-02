@@ -4,10 +4,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -38,6 +39,9 @@ public class HalesFragment extends Fragment {
     private RecentHalesAdapter recentHalesAdapter;
     private WinnersNewsAdapter winnersNewsAdapter;
 
+    private ProgressBar recentHalesProgress;
+    private ProgressBar winnersNewsProgress;
+
     private List<Round> roundsList = new ArrayList<>();
     private List<WinnerNews> winnerNewsList = new ArrayList<>();
 
@@ -45,11 +49,18 @@ public class HalesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_hales, container, false);
 
+        initViews(view);
+
         getData(view);
 
         initWinnersRecycler(view);
 
         return view;
+    }
+
+    private void initViews(View view) {
+        recentHalesProgress = view.findViewById(R.id.recent_hales_progress);
+        winnersNewsProgress = view.findViewById(R.id.winners_news_progress);
     }
 
     private void getData(final View view) {
@@ -89,7 +100,7 @@ public class HalesFragment extends Fragment {
                                 , product_product_description
                                 , round_start_time
                                 , round_end_time
-                                , "2" + i + " member joined");
+                                , "not yet");
 
                         roundsList.add(round);
 
@@ -133,6 +144,15 @@ public class HalesFragment extends Fragment {
         recentHalesRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), 0, false));
         recentHalesAdapter = new RecentHalesAdapter(getActivity(), roundsList);
         recentHalesRecycler.setAdapter(recentHalesAdapter);
+
+        // to remove progress bar
+        recentHalesRecycler.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                recentHalesProgress.setVisibility(View.GONE);
+                recentHalesRecycler.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     private void initWinnersRecycler(View view) {
@@ -141,5 +161,14 @@ public class HalesFragment extends Fragment {
         winnersNewsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), 1, false));
         winnersNewsAdapter = new WinnersNewsAdapter(getActivity(), winnerNewsList);
         winnersNewsRecycler.setAdapter(winnersNewsAdapter);
+
+        // to remove progress bar
+        winnersNewsRecycler.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                winnersNewsProgress.setVisibility(View.GONE);
+                winnersNewsRecycler.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 }

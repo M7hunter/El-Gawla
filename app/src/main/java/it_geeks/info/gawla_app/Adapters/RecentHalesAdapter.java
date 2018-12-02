@@ -36,7 +36,7 @@ public class RecentHalesAdapter extends RecyclerView.Adapter<RecentHalesAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        Round round = roundsList.get(position);
+        final Round round = roundsList.get(position);
 
         Picasso.with(context)
                 .load(round.getProduct_image())
@@ -54,7 +54,17 @@ public class RecentHalesAdapter extends RecyclerView.Adapter<RecentHalesAdapter.
         viewHolder.btnJoinRound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, HaleActivity.class));
+                Intent i = new Intent(context, HaleActivity.class);
+                i.putExtra("product_name", round.getProduct_name());
+                i.putExtra("product_image", round.getProduct_image());
+                i.putExtra("product_category", round.getProduct_category());
+                i.putExtra("product_price", round.getProduct_price());
+                i.putExtra("product_description", round.getProduct_description());
+                i.putExtra("round_start_time", round.getStart_time());
+                i.putExtra("round_end_time", round.getEnd_time());
+                i.putExtra("joined_members_number", round.getJoined_members_number());
+
+                context.startActivity(i);
             }
         });
     }

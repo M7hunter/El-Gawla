@@ -6,22 +6,30 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import it_geeks.info.gawla_app.Models.Round;
 
 public class HaleActivity extends AppCompatActivity implements View.OnTouchListener {
 
     int joined;
     Button btnJoineRound, btnJoineRound2, btnJoineRound3;
-    RelativeLayout rDivPro1, rDivPro2, rDivPro3, rDivPro4;
-    LinearLayout shadowalert, shadowalert2,txtReadMore;
+    RelativeLayout rDivPro3, rDivPro4;
+    CardView rDivPro1, rDivPro2;
+    LinearLayout shadowalert, shadowalert2;
 
+    private Round round;
 
     private BottomSheetDialog mBottomSheetDialog;
 
@@ -36,6 +44,10 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hale);
 
+        getRoundData(savedInstanceState);
+
+        initRoundViews_setData();
+
         screenDimensions();
 
         initCardsIcon();
@@ -45,16 +57,18 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
         if (savedInstanceState != null) {
             joined = savedInstanceState.getInt("Joined");
         }
+
         setBtnTypeCast();
         setupLoginButton();
-        if (joined == 0) {
 
+        if (joined == 0) {
             rDivPro1.setVisibility(View.VISIBLE);
             rDivPro2.setVisibility(View.VISIBLE);
             rDivPro3.setVisibility(View.GONE);
             btnJoineRound.setVisibility(View.VISIBLE);
             shadowalert.setVisibility(View.GONE);
             shadowalert.setVisibility(View.GONE);
+
         } else if (joined == 1) {
             rDivPro1.setVisibility(View.VISIBLE);
             rDivPro2.setVisibility(View.VISIBLE);
@@ -66,8 +80,61 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
 
     }
 
+    private void getRoundData(Bundle savedInstanceState) {
+        String product_name, product_image, product_category, product_price, product_description, round_start_time, round_end_time, joined_members_number;
+
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+
+            if (extras != null) {
+                product_name = extras.getString("product_name");
+                product_image = extras.getString("product_image");
+                product_category = extras.getString("product_category");
+                product_price = extras.getString("product_price");
+                product_description = extras.getString("product_description");
+                round_start_time = extras.getString("round_start_time");
+                round_end_time = extras.getString("round_end_time");
+                joined_members_number = extras.getString("joined_members_number");
+
+                round = new Round(product_name, product_image, product_category, product_price, product_description, round_start_time, round_end_time, joined_members_number);
+            }
+
+        } else {
+            product_name = (String) savedInstanceState.getSerializable("product_name");
+            product_image = (String) savedInstanceState.getSerializable("product_image");
+            product_category = (String) savedInstanceState.getSerializable("product_category");
+            product_price = (String) savedInstanceState.getSerializable("product_price");
+            product_description = (String) savedInstanceState.getSerializable("product_description");
+            round_start_time = (String) savedInstanceState.getSerializable("round_start_time");
+            round_end_time = (String) savedInstanceState.getSerializable("round_end_time");
+            joined_members_number = (String) savedInstanceState.getSerializable("joined_members_number");
+
+            round = new Round(product_name, product_image, product_category, product_price, product_description, round_start_time, round_end_time, joined_members_number);
+        }
+    }
+
+    private void initRoundViews_setData() {
+        TextView tvEndTime, tvProductName, tvProductPrice, tvJoinedNumber;
+        ImageView imProductImage;
+
+        // init views
+        tvEndTime = findViewById(R.id.hale_end_time);
+        tvProductName = findViewById(R.id.hale_product_name);
+        tvProductPrice = findViewById(R.id.hale_product_price);
+        tvJoinedNumber = findViewById(R.id.hale_joined_members_number);
+        imProductImage = findViewById(R.id.hale_product_image);
+
+        // set data
+        tvEndTime.setText(round.getEnd_time());
+        tvProductName.setText(round.getProduct_name());
+        tvProductPrice.setText(round.getProduct_price());
+        tvJoinedNumber.setText(round.getJoined_members_number());
+
+        Picasso.with(HaleActivity.this).load(round.getProduct_image()).placeholder(R.drawable.gawla_logo_blue).into(imProductImage);
+    }
+
     public void setBtnTypeCast() {
-        btnJoineRound = findViewById(R.id.btnJoineRound);
+        btnJoineRound = findViewById(R.id.btnJoinRound);
         btnJoineRound2 = findViewById(R.id.btnJoineRound2);
         btnJoineRound3 = findViewById(R.id.btnJoineRound3);
         rDivPro1 = findViewById(R.id.divPro1);
@@ -76,8 +143,6 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
         rDivPro4 = findViewById(R.id.divPro4);
         shadowalert = findViewById(R.id.shadowalert);
         shadowalert2 = findViewById(R.id.shadowalert2);
-        txtReadMore = findViewById(R.id.txtReadMore);
-
     }
 
     private void setupLoginButton() {
@@ -89,7 +154,6 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
                 rDivPro3.setVisibility(View.INVISIBLE);
                 btnJoineRound.setVisibility(View.INVISIBLE);
                 shadowalert.setVisibility(View.VISIBLE);
-
             }
         });
 
@@ -112,6 +176,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
                 joined = 1;
             }
         });
+
         btnJoineRound3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +188,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
                 rDivPro4.setVisibility(View.VISIBLE);
             }
         });
-        txtReadMore.setOnClickListener(new View.OnClickListener() {
+        rDivPro1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HaleActivity.this, ProductDetailsActivity.class));
@@ -134,7 +199,6 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     public void onBackPressed() {
         if (joined == 0) {
-
             rDivPro1.setVisibility(View.VISIBLE);
             rDivPro2.setVisibility(View.VISIBLE);
             rDivPro3.setVisibility(View.GONE);
@@ -199,7 +263,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
 
         // just clicked
         if (gestureDetector.onTouchEvent(motionEvent)) {
-           cardClicked();
+            cardClicked();
         }
 
         // moved
