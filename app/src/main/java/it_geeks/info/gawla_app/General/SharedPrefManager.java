@@ -38,7 +38,7 @@ public class SharedPrefManager {
     }
 
     public String getSavedLang() {
-         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
         return sharedPreferences.getString("lang", "en");
     }
 
@@ -75,7 +75,6 @@ public class SharedPrefManager {
                 sharedPreferences.getBoolean("userActive", false),
                 sharedPreferences.getString("userToken", null),
                 sharedPreferences.getString("userImage", null)
-
         );
     }
 
@@ -87,26 +86,28 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-
-        public void Country_Save(String country){
+    public void Country_Save(String country) {
         context.getSharedPreferences("SaveCountry", MODE_PRIVATE)
                 .edit()
-                .putString("splash",country)
+                .putString("splash", country)
                 .commit();
     }
-    public String getCountry_Save(){
-        SharedPreferences pref=context.getSharedPreferences("SaveCountry",MODE_PRIVATE);
-        return pref.getString("splash",null);
+
+    public String getCountry_Save() {
+        SharedPreferences pref = context.getSharedPreferences("SaveCountry", MODE_PRIVATE);
+        return pref.getString("splash", null);
     }
-    public void Intro_Save(String intro){
+
+    public void Intro_Save(String intro) {
         context.getSharedPreferences("SaveIntro", MODE_PRIVATE)
                 .edit()
-                .putString("intro",intro)
+                .putString("intro", intro)
                 .commit();
     }
-    public String getIntro_Save(){
-        SharedPreferences pref=context.getSharedPreferences("SaveIntro",MODE_PRIVATE);
-        return pref.getString("intro",null);
+
+    public String getIntro_Save() {
+        SharedPreferences pref = context.getSharedPreferences("SaveIntro", MODE_PRIVATE);
+        return pref.getString("intro", null);
     }
 
 }

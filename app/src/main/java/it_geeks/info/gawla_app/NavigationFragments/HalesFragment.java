@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,9 @@ public class HalesFragment extends Fragment {
         String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
 
+        Log.e("M7", apiToken);
+        Log.e("M7", userId + "");
+
         RequestMainBody requestMainBody = new RequestMainBody(
                 new Data("getAllSalons"), new Request(userId, apiToken));
 
@@ -74,7 +78,6 @@ public class HalesFragment extends Fragment {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
                 try {
                     JsonObject ObjData = response.body().getAsJsonObject();
                     boolean status = ObjData.get("status").getAsBoolean();

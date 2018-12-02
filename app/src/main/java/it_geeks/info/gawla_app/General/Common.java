@@ -34,7 +34,11 @@ public class Common {
 
     // remove unneeded quotes
     public String removeQuotes(String s) {
-         s =  s.substring(1, s.length() - 1);
+        // check
+        if (s.startsWith("\"")) {
+            s =  s.substring(1, s.length() - 1);
+        }
+
         return s;
     }
 }

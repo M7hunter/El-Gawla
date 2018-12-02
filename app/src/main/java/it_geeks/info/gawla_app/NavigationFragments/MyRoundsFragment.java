@@ -131,13 +131,7 @@ public class MyRoundsFragment extends Fragment {
         roundsViewPager.setAdapter(new RoundsPagerAdapter(getActivity(), roundsList));
 
         // to remove pager progress
-        roundsViewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                myRoundProgress.setVisibility(View.GONE);
-                roundsViewPager.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+        
 
         // arrows
         arrowRight = view.findViewById(R.id.my_rounds_right_arrow);
