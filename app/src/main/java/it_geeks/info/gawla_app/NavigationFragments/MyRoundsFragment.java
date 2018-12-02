@@ -40,10 +40,9 @@ public class MyRoundsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_rounds, container, false);
 
-
         getData(view);
 
-        initViews(view);
+        initPager(view);
 
         initEmptyView(view);
 
@@ -92,7 +91,9 @@ public class MyRoundsFragment extends Fragment {
 
                         roundsList.add(round);
 
-                        initViews(view);
+                        initPager(view);
+
+                        handleEvents(view, roundsList.size());
 
                         initEmptyView(view);
 
@@ -121,7 +122,7 @@ public class MyRoundsFragment extends Fragment {
         return error;
     }
 
-    private void initViews(View view) {
+    private void initPager(View view) {
         // pager
         roundsViewPager = view.findViewById(R.id.rounds_pager);
         roundsViewPager.setAdapter(new RoundsPagerAdapter(getActivity(), roundsList));
@@ -129,6 +130,16 @@ public class MyRoundsFragment extends Fragment {
         // arrows
         arrowRight = view.findViewById(R.id.my_rounds_right_arrow);
         arrowLeft = view.findViewById(R.id.my_rounds_left_arrow);
+    }
+
+    private void handleEvents(View view, int cardsCount) {
+
+        // at the beginning
+        arrowLeft.setImageResource(R.drawable.ic_arrow_left_grey);
+
+        if (cardsCount == 1) {
+            arrowRight.setImageResource(R.drawable.ic_arrow_right_grey);
+        }
 
         // clicks
         arrowLeft.setOnClickListener(new View.OnClickListener() {
@@ -144,9 +155,6 @@ public class MyRoundsFragment extends Fragment {
                 roundsViewPager.setCurrentItem(roundsViewPager.getCurrentItem() + 1, true);
             }
         });
-
-        // at the beginning
-        arrowLeft.setImageResource(R.drawable.ic_arrow_left_grey);
 
         // to set arrows ui
         roundsViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
