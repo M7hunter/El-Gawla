@@ -16,8 +16,6 @@
         <LinearLayout
             android:layout_width="@dimen/image_width_round"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
             android:focusableInTouchMode="true"
             android:gravity="center"
             android:orientation="vertical">
@@ -33,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/image_height_round"
                     android:layout_centerInParent="true"
-                    android:layout_margin="@dimen/margin_tiny"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/macbook" />
 
                 <!-- category -->
@@ -50,231 +48,240 @@
 
             </RelativeLayout>
 
-            <!-- separator -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="@dimen/margin_tiny"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginRight="@dimen/margin_tiny"
-                android:background="@color/paleGrey" />
-
-            <!-- name -->
-            <TextView
-                android:id="@+id/my_round_product_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="name"
-                android:textColor="@color/bgBlueDark"
-                android:textSize="@dimen/text_size_medium" />
-
-            <!-- price container -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <!-- price label -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_small"
-                    android:text="@string/sell_price"
-                    android:textColor="@color/blueyGrey" />
-
-                <!-- price -->
-                <TextView
-                    android:id="@+id/my_round_product_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="price"
-                    android:textColor="@color/colorOrange" />
-
-            </LinearLayout>
-
-            <!-- description -->
-            <TextView
-                android:id="@+id/my_round_product_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_tiny"
-                android:layout_marginLeft="@dimen/margin_small"
-                android:layout_marginRight="@dimen/margin_small"
-                android:textColor="@color/blueyGrey" />
-
-            <!-- separator -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="@dimen/margin_tiny"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginRight="@dimen/margin_tiny"
-                android:layout_marginBottom="@dimen/margin_tiny"
-                android:background="@color/paleGrey" />
-
-            <!-- time container -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:gravity="center_vertical">
+                android:layout_marginStart="@dimen/margin_tiny"
+                android:layout_marginEnd="@dimen/margin_tiny"
+                android:gravity="center"
+                android:orientation="vertical">
+                <!-- separator -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/margin_tiny"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:background="@color/paleGrey" />
 
-                <!-- icon -->
-                <ImageView
+                <!-- name -->
+                <TextView
+                    android:id="@+id/my_round_product_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_alarm" />
-
-                <!-- start time label -->
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_weight="1"
-                    android:text="@string/round_start"
-                    android:textColor="@color/battleshipGrey"
+                    android:text="name"
+                    android:textColor="@color/bgBlueDark"
                     android:textSize="@dimen/text_size_medium" />
 
+                <!-- price container -->
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <!-- price label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_marginRight="@dimen/margin_small"
+                        android:text="@string/sell_price"
+                        android:textColor="@color/blueyGrey" />
+
+                    <!-- price -->
+                    <TextView
+                        android:id="@+id/my_round_product_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="price"
+                        android:textColor="@color/colorOrange" />
+
+                </LinearLayout>
+
+                <!-- description -->
+                <TextView
+                    android:id="@+id/my_round_product_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:textColor="@color/blueyGrey" />
+
+                <!-- separator -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/margin_tiny"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_marginBottom="@dimen/margin_tiny"
+                    android:background="@color/paleGrey" />
+
+                <!-- time container -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_weight="1.4"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical">
 
-                    <!-- start time -->
-                    <TextView
-                        android:id="@+id/my_round_start_time"
+                    <!-- icon -->
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="time"
-                        android:textColor="@color/midBlue"
+                        android:src="@drawable/ic_alarm" />
+
+                    <!-- start time label -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_weight="1"
+                        android:text="@string/round_start"
+                        android:textColor="@color/battleshipGrey"
                         android:textSize="@dimen/text_size_medium" />
 
-                    <!-- end time container -->
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:layout_weight="1.4"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                        <!-- end time label -->
+                        <!-- start time -->
                         <TextView
+                            android:id="@+id/my_round_start_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="end"
-                            android:text="@string/close"
-                            android:textColor="@color/blueyGrey"
-                            android:textSize="@dimen/text_size_tiny" />
-
-                        <!--  end time -->
-                        <TextView
-                            android:id="@+id/my_round_end_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_tiny"
-                            android:layout_marginEnd="@dimen/margin_tiny"
-                            android:gravity="end"
-                            android:text="close time"
-                            android:textColor="@color/paleRed"
+                            android:text="time"
+                            android:textColor="@color/midBlue"
                             android:textSize="@dimen/text_size_medium" />
+
+                        <!-- end time container -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <!-- end time label -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="@string/close"
+                                android:textColor="@color/blueyGrey"
+                                android:textSize="@dimen/text_size_tiny" />
+
+                            <!--  end time -->
+                            <TextView
+                                android:id="@+id/my_round_end_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_tiny"
+                                android:layout_marginEnd="@dimen/margin_tiny"
+                                android:gravity="end"
+                                android:text="close time"
+                                android:textColor="@color/paleRed"
+                                android:textSize="@dimen/text_size_medium" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
                 </LinearLayout>
 
-            </LinearLayout>
+                <!-- separator -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/margin_tiny"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_marginBottom="@dimen/margin_tiny"
+                    android:background="@color/paleGrey" />
 
-            <!-- separator -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="@dimen/margin_tiny"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginRight="@dimen/margin_tiny"
-                android:layout_marginBottom="@dimen/margin_tiny"
-                android:background="@color/paleGrey" />
-
-            <!-- members & cards container -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:gravity="center_vertical">
-
-                <!-- icon -->
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_user" />
-
-                <!-- number of members -->
-                <TextView
-                    android:id="@+id/my_round_members_number"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_weight="1"
-                    android:textColor="@color/battleshipGrey" />
-
-                <!-- cards label -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/cards"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <!-- red card -->
-                <ImageView
-                    android:layout_width="@dimen/margin_medium"
-                    android:layout_height="@dimen/margin_xxlarge"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:src="@drawable/card_red" />
-
-                <!-- green card -->
-                <ImageView
-                    android:layout_width="@dimen/margin_medium"
-                    android:layout_height="@dimen/margin_xxlarge"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:src="@drawable/card_green" />
-
-            </LinearLayout>
-
-            <!-- separator -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginBottom="@dimen/margin_small"
-                android:background="@color/paleGrey" />
-
-            <!-- as button -->
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginTop="@dimen/text_size_medium"
-                android:layout_marginEnd="@dimen/margin_tiny"
-                android:layout_marginBottom="@dimen/text_size_medium"
-                app:cardCornerRadius="@dimen/margin_small"
-                app:cardElevation="@dimen/margin_tiny">
-
-                <Button
-                    android:id="@+id/my_round_btn_enter"
+                <!-- members & cards container -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_corners_blue_270"
-                    android:gravity="center"
-                    android:padding="@dimen/margin_medium"
-                    android:text="@string/enter"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textStyle="bold" />
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:gravity="center_vertical">
 
-            </android.support.v7.widget.CardView>
+                    <!-- icon -->
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_user" />
+
+                    <!-- number of members -->
+                    <TextView
+                        android:id="@+id/my_round_members_number"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_weight="1"
+                        android:textColor="@color/battleshipGrey" />
+
+                    <!-- cards label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cards"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <!-- red card -->
+                    <ImageView
+                        android:layout_width="@dimen/margin_medium"
+                        android:layout_height="@dimen/margin_xxlarge"
+                        android:layout_marginStart="@dimen/margin_tiny"
+                        android:src="@drawable/card_red" />
+
+                    <!-- green card -->
+                    <ImageView
+                        android:layout_width="@dimen/margin_medium"
+                        android:layout_height="@dimen/margin_xxlarge"
+                        android:layout_marginStart="@dimen/margin_tiny"
+                        android:src="@drawable/card_green" />
+
+                </LinearLayout>
+
+                <!-- separator -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:background="@color/paleGrey" />
+
+                <!-- as button -->
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_tiny"
+                    android:layout_marginTop="@dimen/text_size_medium"
+                    android:layout_marginEnd="@dimen/margin_tiny"
+                    android:layout_marginBottom="@dimen/text_size_medium"
+                    app:cardCornerRadius="@dimen/margin_small"
+                    app:cardElevation="@dimen/margin_tiny">
+
+                    <Button
+                        android:id="@+id/my_round_btn_enter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded_corners_blue_270"
+                        android:gravity="center"
+                        android:padding="@dimen/margin_medium"
+                        android:text="@string/enter"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
