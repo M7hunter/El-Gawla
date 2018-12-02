@@ -8,13 +8,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import it_geeks.info.gawla_app.Adapters.RoundsPagerAdapter;
+import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.Models.Data;
+import it_geeks.info.gawla_app.Models.Request;
+import it_geeks.info.gawla_app.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Models.Round;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.RESTful.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyRoundsFragment extends Fragment {
 
@@ -27,32 +40,89 @@ public class MyRoundsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_rounds, container, false);
 
-        getData();
+        getData(view);
 
-        initViews(view);
+        initPager(view);
 
         initEmptyView(view);
 
         return view;
     }
 
-    private void getData() {
-        // fake Data
-        for (int i = 0; i < 5; i++) {
-            Round round = new Round("samsung A" + i + " 201" + i
-                    , "image" + i
-                    , "Electronics"
-                    , i + "0000 L.E"
-                    , "this should be description"
-                    , "14 hr 40 min"
-                    , "8 hr 40 min"
-                    , "2" + i + " member joined");
+    private void getData(final View view) {
 
-            roundsList.add(round);
-        }
+        // fake Data
+        String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
+        int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
+
+        RequestMainBody requestMainBody = new RequestMainBody(
+                new Data("getSalonByUserID"), new Request(userId, apiToken));
+
+        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().Salons(requestMainBody);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                JsonObject ObjData = response.body().getAsJsonObject();
+                boolean status = ObjData.get("status").getAsBoolean();
+
+                if (status) {
+
+                    JsonArray roundsArray = ObjData.get("data").getAsJsonArray();
+                    for (int i = 0; i < roundsArray.size(); i++) {
+                        JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
+                        String product_name = roundObj.get("product_name").getAsString();
+                        String category_name = roundObj.get("category_name").getAsString();
+                        String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
+                        String product_product_description = roundObj.get("product_product_description").getAsString();
+                        String product_image = roundObj.get("product_image").getAsString();
+                        String round_start_time = roundObj.get("round_start_time").getAsString();
+                        String round_end_time = roundObj.get("round_end_time").getAsString();
+
+                        Round round = new Round(
+                                product_name
+                                , product_image
+                                , category_name
+                                , product_commercial_price
+                                , product_product_description
+                                , round_start_time
+                                , round_end_time
+                                , "2" + i + " member joined");
+
+                        roundsList.add(round);
+
+                        initPager(view);
+
+                        handleEvents(view, roundsList.size());
+
+                        initEmptyView(view);
+
+                    } // end of get Salons loop
+                } else {
+                    Toast.makeText(getActivity(), handleServerErrors(ObjData), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+
+
     }
 
-    private void initViews(View view) {
+    private String handleServerErrors(JsonObject object) {
+        String error = "no errors";
+        JsonArray errors = object.get("errors").getAsJsonArray();
+        for (int i = 0; i < errors.size(); i++) {
+            error = errors.get(i).getAsString();
+        }
+        return error;
+    }
+
+    private void initPager(View view) {
         // pager
         roundsViewPager = view.findViewById(R.id.rounds_pager);
         roundsViewPager.setAdapter(new RoundsPagerAdapter(getActivity(), roundsList));
@@ -60,6 +130,16 @@ public class MyRoundsFragment extends Fragment {
         // arrows
         arrowRight = view.findViewById(R.id.my_rounds_right_arrow);
         arrowLeft = view.findViewById(R.id.my_rounds_left_arrow);
+    }
+
+    private void handleEvents(View view, int cardsCount) {
+
+        // at the beginning
+        arrowLeft.setImageResource(R.drawable.ic_arrow_left_grey);
+
+        if (cardsCount == 1) {
+            arrowRight.setImageResource(R.drawable.ic_arrow_right_grey);
+        }
 
         // clicks
         arrowLeft.setOnClickListener(new View.OnClickListener() {
@@ -76,9 +156,6 @@ public class MyRoundsFragment extends Fragment {
             }
         });
 
-        // at the beginning
-        arrowLeft.setImageResource(R.drawable.ic_arrow_left_grey);
-
         // to set arrows ui
         roundsViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -88,16 +165,16 @@ public class MyRoundsFragment extends Fragment {
 
             @Override
             public void onPageSelected(int i) {
-
                 if (i == roundsViewPager.getAdapter().getCount() - 1) {
                     arrowRight.setImageResource(R.drawable.ic_arrow_right_grey);
+                    arrowLeft.setImageResource(R.drawable.ic_arrow_left);
                 } else if (i == 0) {
                     arrowLeft.setImageResource(R.drawable.ic_arrow_left_grey);
+                    arrowRight.setImageResource(R.drawable.ic_arrow_right);
                 } else {
                     arrowRight.setImageResource(R.drawable.ic_arrow_right);
                     arrowLeft.setImageResource(R.drawable.ic_arrow_left);
                 }
-
             }
 
             @Override
@@ -113,9 +190,13 @@ public class MyRoundsFragment extends Fragment {
         if (roundsList.size() > 0) {
             emptyViewLayout.setVisibility(View.INVISIBLE);
             roundsViewPager.setVisibility(View.VISIBLE);
+            arrowLeft.setVisibility(View.VISIBLE);
+            arrowRight.setVisibility(View.VISIBLE);
         } else {
             emptyViewLayout.setVisibility(View.VISIBLE);
             roundsViewPager.setVisibility(View.INVISIBLE);
+            arrowLeft.setVisibility(View.INVISIBLE);
+            arrowRight.setVisibility(View.INVISIBLE);
         }
     }
 }

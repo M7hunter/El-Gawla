@@ -39,6 +39,15 @@
 
         </RelativeLayout>
 
+        <!-- separator -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/margin_tiny"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginRight="@dimen/margin_tiny"
+            android:background="@color/paleGrey" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
