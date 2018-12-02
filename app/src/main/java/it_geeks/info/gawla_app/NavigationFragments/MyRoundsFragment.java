@@ -137,8 +137,8 @@ public class MyRoundsFragment extends Fragment {
         // at the beginning
         arrowLeft.setImageResource(R.drawable.ic_arrow_left_grey);
 
-        if (cardsCount == 1) {
-            arrowRight.setImageResource(R.drawable.ic_arrow_right_grey);
+        if (cardsCount > 1) {
+            arrowRight.setImageResource(R.drawable.ic_arrow_right);
         }
 
         // clicks
