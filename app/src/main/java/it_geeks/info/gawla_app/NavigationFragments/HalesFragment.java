@@ -89,7 +89,7 @@ public class HalesFragment extends Fragment {
                                 , product_product_description
                                 , round_start_time
                                 , round_end_time
-                                , "2" + i + " member joined");
+                                , "not yet");
 
                         roundsList.add(round);
 
