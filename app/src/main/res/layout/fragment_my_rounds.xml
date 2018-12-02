@@ -78,7 +78,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_left" />
+                    android:src="@drawable/ic_arrow_left_grey" />
 
                 <!-- right arrow button -->
                 <ImageView
@@ -87,7 +87,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_right" />
+                    android:src="@drawable/ic_arrow_right_grey" />
 
                 <!-- empty view -->
                 <LinearLayout
