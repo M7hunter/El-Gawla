@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -26,7 +27,7 @@ import retrofit2.Response;
 public class CreateAccountActivity extends AppCompatActivity {
 
     EditText etName, etEmail, etPass;
-    ProgressDialog progressDialog;
+    ProgressBar progressBar;
     int reconnect = 0;
 
     @Override
@@ -42,6 +43,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         etName = findViewById(R.id.et_create_account_name);
         etEmail = findViewById(R.id.et_create_account_email);
         etPass = findViewById(R.id.et_create_account_pass);
+        progressBar = (ProgressBar)findViewById(R.id.register_loading);
 
         // finished ? goto next page
         findViewById(R.id.txtCreateAndLogin).setOnClickListener(new View.OnClickListener() {
@@ -82,7 +84,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.INVISIBLE);
 
                 try {
                     JsonObject object = response.body().getAsJsonObject();
@@ -115,7 +117,8 @@ public class CreateAccountActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.INVISIBLE);
+
 
                 // notify user
                 String tMessage = t.getMessage();
@@ -135,21 +138,21 @@ public class CreateAccountActivity extends AppCompatActivity {
         if (name.isEmpty()) {
             etName.setError("this field can't be empty");
             etName.requestFocus();
-            progressDialog.dismiss();
+            progressBar.setVisibility(View.INVISIBLE);
             return false;
         }
 
         if (email.isEmpty()) {
             etEmail.setError("this field can't be empty");
             etEmail.requestFocus();
-            progressDialog.dismiss();
+            progressBar.setVisibility(View.INVISIBLE);
             return false;
         }
 
         if (pass.isEmpty()) {
             etPass.setError("this field can't be empty");
             etPass.requestFocus();
-            progressDialog.dismiss();
+            progressBar.setVisibility(View.INVISIBLE);
             return false;
         }
 
@@ -157,14 +160,14 @@ public class CreateAccountActivity extends AppCompatActivity {
         if (name.length() < 6) {
             etName.setError("name should be more than 5 chars");
             etName.requestFocus();
-            progressDialog.dismiss();
+            progressBar.setVisibility(View.INVISIBLE);
             return false;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             etEmail.setError("enter a valid email address");
             etEmail.requestFocus();
-            progressDialog.dismiss();
+            progressBar.setVisibility(View.INVISIBLE);
             return false;
         }
 
@@ -198,9 +201,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     private void progressDialog() {
-        progressDialog = new ProgressDialog(CreateAccountActivity.this);
-        progressDialog.setMessage("Loading ...");
-        progressDialog.show();
+        progressBar.setVisibility(View.VISIBLE);
     }
 
 }
