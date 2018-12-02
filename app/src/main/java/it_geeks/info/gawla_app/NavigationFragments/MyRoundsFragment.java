@@ -6,8 +6,10 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -34,6 +36,8 @@ public class MyRoundsFragment extends Fragment {
     private ViewPager roundsViewPager;
     private List<Round> roundsList = new ArrayList<>();
 
+    private ProgressBar myRoundProgress;
+
     private ImageView arrowRight, arrowLeft;
 
     @Override
@@ -44,69 +48,66 @@ public class MyRoundsFragment extends Fragment {
 
         initPager(view);
 
-        initEmptyView(view);
-
         return view;
     }
 
     private void getData(final View view) {
-
-        // fake Data
         String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
 
-        RequestMainBody requestMainBody = new RequestMainBody(
-                new Data("getSalonByUserID"), new Request(userId, apiToken));
-
+        RequestMainBody requestMainBody = new RequestMainBody(new Data("getSalonByUserID"), new Request(userId, apiToken));
         Call<JsonObject> call = RetrofitClient.getInstance().getAPI().Salons(requestMainBody);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                try {
+                    JsonObject ObjData = response.body().getAsJsonObject();
+                    boolean status = ObjData.get("status").getAsBoolean();
 
-                JsonObject ObjData = response.body().getAsJsonObject();
-                boolean status = ObjData.get("status").getAsBoolean();
+                    if (status) {
+                        JsonArray roundsArray = ObjData.get("data").getAsJsonArray();
+                        for (int i = 0; i < roundsArray.size(); i++) {
+                            JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
+                            String product_name = roundObj.get("product_name").getAsString();
+                            String category_name = roundObj.get("category_name").getAsString();
+                            String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
+                            String product_product_description = roundObj.get("product_product_description").getAsString();
+                            String product_image = roundObj.get("product_image").getAsString();
+                            String round_start_time = roundObj.get("round_start_time").getAsString();
+                            String round_end_time = roundObj.get("round_end_time").getAsString();
 
-                if (status) {
+                            Round round = new Round(
+                                    product_name
+                                    , product_image
+                                    , category_name
+                                    , product_commercial_price
+                                    , product_product_description
+                                    , round_start_time
+                                    , round_end_time
+                                    , "2" + i + " member joined");
 
-                    JsonArray roundsArray = ObjData.get("data").getAsJsonArray();
-                    for (int i = 0; i < roundsArray.size(); i++) {
-                        JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
-                        String product_name = roundObj.get("product_name").getAsString();
-                        String category_name = roundObj.get("category_name").getAsString();
-                        String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
-                        String product_product_description = roundObj.get("product_product_description").getAsString();
-                        String product_image = roundObj.get("product_image").getAsString();
-                        String round_start_time = roundObj.get("round_start_time").getAsString();
-                        String round_end_time = roundObj.get("round_end_time").getAsString();
-
-                        Round round = new Round(
-                                product_name
-                                , product_image
-                                , category_name
-                                , product_commercial_price
-                                , product_product_description
-                                , round_start_time
-                                , round_end_time
-                                , "2" + i + " member joined");
-
-                        roundsList.add(round);
+                            roundsList.add(round);
+                        }
 
                         initPager(view);
 
-                        handleEvents(view, roundsList.size());
+                        handleEvents(roundsList.size());
 
-                        initEmptyView(view);
+                    } else {
+                        Toast.makeText(getActivity(), handleServerErrors(ObjData), Toast.LENGTH_SHORT).show();
+                    }
 
-                    } // end of get Salons loop
-                } else {
-                    Toast.makeText(getActivity(), handleServerErrors(ObjData), Toast.LENGTH_SHORT).show();
+                } catch (NullPointerException e) {
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
+                initEmptyView(view);
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                initEmptyView(view);
             }
         });
 
@@ -123,16 +124,27 @@ public class MyRoundsFragment extends Fragment {
     }
 
     private void initPager(View view) {
+        myRoundProgress = view.findViewById(R.id.my_rounds_progress);
+
         // pager
         roundsViewPager = view.findViewById(R.id.rounds_pager);
         roundsViewPager.setAdapter(new RoundsPagerAdapter(getActivity(), roundsList));
+
+        // to remove pager progress
+        roundsViewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                myRoundProgress.setVisibility(View.GONE);
+                roundsViewPager.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
 
         // arrows
         arrowRight = view.findViewById(R.id.my_rounds_right_arrow);
         arrowLeft = view.findViewById(R.id.my_rounds_left_arrow);
     }
 
-    private void handleEvents(View view, int cardsCount) {
+    private void handleEvents(int cardsCount) {
 
         // at the beginning
         arrowLeft.setImageResource(R.drawable.ic_arrow_left_grey);

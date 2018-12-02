@@ -119,6 +119,12 @@
 
                 </LinearLayout>
 
+                <ProgressBar
+                    android:id="@+id/my_rounds_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"/>
+
             </RelativeLayout>
 
         </LinearLayout>
