@@ -64,7 +64,6 @@ public class HalesFragment extends Fragment {
     }
 
     private void getData(final View view) {
-
         String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
 
@@ -76,46 +75,49 @@ public class HalesFragment extends Fragment {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
-                JsonObject ObjData = response.body().getAsJsonObject();
-                boolean status = ObjData.get("status").getAsBoolean();
+                try {
+                    JsonObject ObjData = response.body().getAsJsonObject();
+                    boolean status = ObjData.get("status").getAsBoolean();
 
-                if (status) {
-                    JsonArray roundsArray = ObjData.get("data").getAsJsonArray();
+                    if (status) {
+                        JsonArray roundsArray = ObjData.get("data").getAsJsonArray();
+                        for (int i = 0; i < roundsArray.size(); i++) {
+                            JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
+                            String product_name = roundObj.get("product_name").getAsString();
+                            String category_name = roundObj.get("category_name").getAsString();
+                            String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
+                            String product_product_description = roundObj.get("product_product_description").getAsString();
+                            String product_image = roundObj.get("product_image").getAsString();
+                            String round_start_time = roundObj.get("round_start_time").getAsString();
+                            String round_end_time = roundObj.get("round_end_time").getAsString();
 
-                    for (int i = 0; i < roundsArray.size(); i++) {
-                        JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
-                        String product_name = roundObj.get("product_name").getAsString();
-                        String category_name = roundObj.get("category_name").getAsString();
-                        String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
-                        String product_product_description = roundObj.get("product_product_description").getAsString();
-                        String product_image = roundObj.get("product_image").getAsString();
-                        String round_start_time = roundObj.get("round_start_time").getAsString();
-                        String round_end_time = roundObj.get("round_end_time").getAsString();
+                            Round round = new Round(
+                                    product_name
+                                    , product_image
+                                    , category_name
+                                    , product_commercial_price
+                                    , product_product_description
+                                    , round_start_time
+                                    , round_end_time
+                                    , "not yet");
 
-                        Round round = new Round(
-                                product_name
-                                , product_image
-                                , category_name
-                                , product_commercial_price
-                                , product_product_description
-                                , round_start_time
-                                , round_end_time
-                                , "not yet");
-
-                        roundsList.add(round);
+                            roundsList.add(round);
+                        }
 
                         initHalesRecycler(view);
 
-                    } // end of get Salons loop
-                } else {
-                    Toast.makeText(getActivity(), handleServerErrors(ObjData), Toast.LENGTH_SHORT).show();
-                }
+                    } else {
+                        Toast.makeText(getActivity(), handleServerErrors(ObjData), Toast.LENGTH_SHORT).show();
+                    }
 
+                } catch (NullPointerException e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
