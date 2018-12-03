@@ -51,11 +51,14 @@ public class MyRoundsFragment extends Fragment {
     }
 
     private void getData(final View view) {
-        String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
+        String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
-        RequestMainBody requestMainBody = new RequestMainBody(new Data("getSalonByUserID"), new Request(userId, apiToken));
-        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().getSalons(requestMainBody);
+        RequestMainBody requestMainBody = new RequestMainBody(
+                new Data("getSalonByUserID"),
+                new Request(userId, apiToken));
+
+        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().request(requestMainBody);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -129,11 +132,6 @@ public class MyRoundsFragment extends Fragment {
         roundsViewPager = view.findViewById(R.id.rounds_pager);
         roundsViewPager.setAdapter(new RoundsPagerAdapter(getActivity(), roundsList));
 
-        // to remove pager progress
-        if (roundsViewPager.getViewTreeObserver().isAlive()) {
-            myRoundProgress.setVisibility(View.GONE);
-        }
-
         // arrows
         arrowRight = view.findViewById(R.id.my_rounds_right_arrow);
         arrowLeft = view.findViewById(R.id.my_rounds_left_arrow);
@@ -162,11 +160,11 @@ public class MyRoundsFragment extends Fragment {
             }
         });
 
-        // set arrows ui
+        // set arrows ui & remove pager progress
         roundsViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-
+                myRoundProgress.setVisibility(View.GONE);
             }
 
             @Override

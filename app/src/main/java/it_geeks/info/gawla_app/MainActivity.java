@@ -10,9 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
-import it_geeks.info.gawla_app.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.NavigationFragments.AccountFragment;
 import it_geeks.info.gawla_app.NavigationFragments.CardsFragment;
 import it_geeks.info.gawla_app.NavigationFragments.HalesFragment;

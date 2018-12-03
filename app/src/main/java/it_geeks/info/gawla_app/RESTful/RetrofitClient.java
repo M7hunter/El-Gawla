@@ -4,11 +4,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "http://192.168.1.11/elgawla/public/api/v1/en/";
+    private static final String BASE_URL = "http://192.168.1.5/elgawla/public/api/v1/en/";
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
 
-    public RetrofitClient() {
+    private RetrofitClient() {
         this.retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

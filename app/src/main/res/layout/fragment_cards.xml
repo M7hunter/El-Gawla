@@ -83,6 +83,7 @@
 
                         <!-- status -->
                         <TextView
+                            android:id="@+id/green_card_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_tiny"
@@ -119,6 +120,7 @@
 
                         <!-- counter -->
                         <TextView
+                            android:id="@+id/green_card_count"
                             android:layout_width="@dimen/margin_xxlarge"
                             android:layout_height="@dimen/margin_xxlarge"
                             android:layout_margin="@dimen/margin_tiny"
@@ -158,6 +160,7 @@
 
                         <!-- status -->
                         <TextView
+                            android:id="@+id/red_card_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_tiny"
@@ -194,6 +197,7 @@
 
                         <!-- counter -->
                         <TextView
+                            android:id="@+id/red_card_count"
                             android:layout_width="@dimen/margin_xxlarge"
                             android:layout_height="@dimen/margin_xxlarge"
                             android:layout_margin="@dimen/margin_tiny"
@@ -233,10 +237,11 @@
 
                         <!-- status -->
                         <TextView
+                            android:id="@+id/golden_card_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_tiny"
-                            android:text="@string/dont_have_yellow_card"
+                            android:text="@string/dont_have_golden_card"
                             android:textColor="@color/battleshipGrey"
                             android:textSize="@dimen/text_size_large" />
 
@@ -269,6 +274,7 @@
 
                         <!-- counter -->
                         <TextView
+                            android:id="@+id/golden_card_count"
                             android:layout_width="@dimen/margin_xxlarge"
                             android:layout_height="@dimen/margin_xxlarge"
                             android:layout_margin="@dimen/margin_tiny"

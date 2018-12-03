@@ -76,6 +76,47 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     }
 
+    private boolean checkEntries(String name, String email, String pass) {
+        // check if empty
+        if (name.isEmpty()) {
+            etName.setError("this field can't be empty");
+            etName.requestFocus();
+            progressDialog.dismiss();
+            return false;
+        }
+
+        if (email.isEmpty()) {
+            etEmail.setError("this field can't be empty");
+            etEmail.requestFocus();
+            progressDialog.dismiss();
+            return false;
+        }
+
+        if (pass.isEmpty()) {
+            etPass.setError("this field can't be empty");
+            etPass.requestFocus();
+            progressDialog.dismiss();
+            return false;
+        }
+
+        // check validation
+        if (name.length() < 6) {
+            etName.setError("name should be more than 5 chars");
+            etName.requestFocus();
+            progressDialog.dismiss();
+            return false;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            etEmail.setError("enter a valid email address");
+            etEmail.requestFocus();
+            progressDialog.dismiss();
+            return false;
+        }
+
+        return true;
+    }
+
     private void connectToServer(final RequestMainBody requestMainBody, final User user) {
         Call<JsonObject> call = RetrofitClient.getInstance().getAPI().registerUser(requestMainBody);
         call.enqueue(new Callback<JsonObject>() {
@@ -121,53 +162,12 @@ public class CreateAccountActivity extends AppCompatActivity {
                 Toast.makeText(CreateAccountActivity.this, tMessage, Toast.LENGTH_SHORT).show();
 
                 // try one more time
-                 if (tMessage.equals("timeout") && reconnect < 1) {
-                     reconnect++;
-                     connectToServer(requestMainBody, user);
-                 }
+                if (tMessage.equals("timeout") && reconnect < 1) {
+                    reconnect++;
+                    connectToServer(requestMainBody, user);
+                }
             }
         });
-    }
-
-    private boolean checkEntries(String name, String email, String pass) {
-        // check if empty
-        if (name.isEmpty()) {
-            etName.setError("this field can't be empty");
-            etName.requestFocus();
-            progressDialog.dismiss();
-            return false;
-        }
-
-        if (email.isEmpty()) {
-            etEmail.setError("this field can't be empty");
-            etEmail.requestFocus();
-            progressDialog.dismiss();
-            return false;
-        }
-
-        if (pass.isEmpty()) {
-            etPass.setError("this field can't be empty");
-            etPass.requestFocus();
-            progressDialog.dismiss();
-            return false;
-        }
-
-        // check validation
-        if (name.length() < 6) {
-            etName.setError("name should be more than 5 chars");
-            etName.requestFocus();
-            progressDialog.dismiss();
-            return false;
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.setError("enter a valid email address");
-            etEmail.requestFocus();
-            progressDialog.dismiss();
-            return false;
-        }
-
-        return true;
     }
 
     private void handleServerResponse(JsonObject object, User user) {
