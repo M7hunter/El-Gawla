@@ -14,7 +14,7 @@ public class SharedPrefManager {
     private SharedPreferences sharedPreferences;
     private static final String SHARED_PREF_NAME = "lang_shared_pref";
     private static final String SHARED_PREF_NAME2 = "user_shared_pref";
-
+    private static final String SHARED_PREF_USER_IMAGE = "user_image_shared_pref";
     public SharedPrefManager(Context context) {
         this.context = context;
     }
@@ -59,6 +59,7 @@ public class SharedPrefManager {
         editor.putBoolean("userLogged", true);
         editor.apply();
     }
+
 
     public boolean isLoggedIn() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME2, Context.MODE_PRIVATE);
@@ -109,6 +110,21 @@ public class SharedPrefManager {
         SharedPreferences pref = context.getSharedPreferences("SaveIntro", MODE_PRIVATE);
         return pref.getString("intro", null);
     }
+
+    // ----  user profile ---- //
+
+    public void saveUserImage(String image) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_IMAGE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.putString("userImage", image);
+        editor.apply();
+    }
+    public String getUserImage() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_IMAGE, Context.MODE_PRIVATE);
+        return sharedPreferences.getString("userImage",null);
+    }
+
 
 }
 

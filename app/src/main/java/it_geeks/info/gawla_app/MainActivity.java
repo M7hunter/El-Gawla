@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,12 +22,16 @@ import it_geeks.info.gawla_app.NavigationFragments.MyRoundsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static Activity mainActivityInstance = new Activity();
+
     private Fragment fragment = new HalesFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainActivityInstance = this;
+
         if (savedInstanceState == null) {
             changeStatusBarColor("#f4f7fa");// for startup
             displayFragment(fragment);
