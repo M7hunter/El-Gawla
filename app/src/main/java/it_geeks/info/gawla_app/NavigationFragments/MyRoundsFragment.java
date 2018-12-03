@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -56,7 +55,7 @@ public class MyRoundsFragment extends Fragment {
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
 
         RequestMainBody requestMainBody = new RequestMainBody(new Data("getSalonByUserID"), new Request(userId, apiToken));
-        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().Salons(requestMainBody);
+        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().getSalons(requestMainBody);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -131,13 +130,9 @@ public class MyRoundsFragment extends Fragment {
         roundsViewPager.setAdapter(new RoundsPagerAdapter(getActivity(), roundsList));
 
         // to remove pager progress
-        roundsViewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                myRoundProgress.setVisibility(View.GONE);
-                roundsViewPager.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+        if (roundsViewPager.getViewTreeObserver().isAlive()) {
+            myRoundProgress.setVisibility(View.GONE);
+        }
 
         // arrows
         arrowRight = view.findViewById(R.id.my_rounds_right_arrow);
@@ -145,7 +140,6 @@ public class MyRoundsFragment extends Fragment {
     }
 
     private void handleEvents(int cardsCount) {
-
         // at the beginning
         arrowLeft.setImageResource(R.drawable.ic_arrow_left_grey);
 
@@ -168,7 +162,7 @@ public class MyRoundsFragment extends Fragment {
             }
         });
 
-        // to set arrows ui
+        // set arrows ui
         roundsViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {

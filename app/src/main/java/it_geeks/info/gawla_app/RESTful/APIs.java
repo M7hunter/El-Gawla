@@ -2,7 +2,6 @@ package it_geeks.info.gawla_app.RESTful;
 
 import com.google.gson.JsonObject;
 
-import it_geeks.info.gawla_app.Models.User;
 import it_geeks.info.gawla_app.Models.RequestMainBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -19,7 +18,12 @@ public interface APIs {
     @POST("master")
     Call<JsonObject> loginUser(@Body RequestMainBody requestMainBody);
 
+    // get all salons
     @POST("master")
-    Call<JsonObject> Salons(@Body RequestMainBody requestMainBody);
+    Call<JsonObject> getSalons(@Body RequestMainBody requestMainBody);
+
+    // get cards
+    @POST("master")
+    Call<JsonObject> getUserCards(@Body RequestMainBody requestMainBody);
 
 }

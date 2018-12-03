@@ -27,7 +27,7 @@ public class Request {
         this.password = pass;
     }
 
-    public Request(int user_id, String api_token) { // all salons Request
+    public Request(int user_id, String api_token) { // salons & cards Request
         this.user_id = user_id;
         this.api_token = api_token;
     }

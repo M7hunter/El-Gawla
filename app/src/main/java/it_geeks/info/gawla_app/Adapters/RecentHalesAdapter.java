@@ -40,7 +40,7 @@ public class RecentHalesAdapter extends RecyclerView.Adapter<RecentHalesAdapter.
 
         Picasso.with(context)
                 .load(round.getProduct_image())
-                .placeholder(context.getResources().getDrawable(R.drawable.macbook))
+                .placeholder(context.getResources().getDrawable(R.drawable.gawla_logo_blue))
                 .into(viewHolder.imgProductImage);
 
         viewHolder.tvProductName.setText(round.getProduct_name());

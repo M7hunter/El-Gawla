@@ -70,7 +70,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         String pass = etPass.getText().toString();
 
         if (checkEntries(name, email, pass)) {
-
             RequestMainBody requestMainBody = new RequestMainBody(new Data("register"),
                     new Request(name, email, pass));
 
@@ -179,13 +178,11 @@ public class CreateAccountActivity extends AppCompatActivity {
         int userId = userData.get("user_id").getAsInt();
         String name = userData.get("name").getAsString();
         String email = userData.get("email").getAsString();
-        boolean active = userData.get("active").getAsBoolean();
         String api_token = userData.get("api_token").getAsString();
         String image = userData.get("image").getAsString();
 
         user.setName(name);
         user.setEmail(email);
-        user.setActive(active);
         user.setApi_token(api_token);
         user.setUser_id(userId);
         user.setImage(image);
