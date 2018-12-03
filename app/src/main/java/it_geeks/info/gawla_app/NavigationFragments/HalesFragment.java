@@ -72,9 +72,9 @@ public class HalesFragment extends Fragment {
         Log.e("M7", userId + "");
 
         RequestMainBody requestMainBody = new RequestMainBody(
-                new Data("getAllSalons"), new Request(userId, apiToken));
+                new Data("getSalons"), new Request(userId, apiToken));
 
-        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().Salons(requestMainBody);
+        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().getSalons(requestMainBody);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

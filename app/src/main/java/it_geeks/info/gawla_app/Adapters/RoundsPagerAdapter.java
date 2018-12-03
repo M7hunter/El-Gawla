@@ -5,20 +5,16 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import it_geeks.info.gawla_app.General.PicassoClint;
 import it_geeks.info.gawla_app.HaleActivity;
 import it_geeks.info.gawla_app.Models.Round;
 import it_geeks.info.gawla_app.R;
@@ -27,8 +23,6 @@ public class RoundsPagerAdapter extends PagerAdapter {
 
     private Context context;
     private List<Round> roundsList;
-    TextView tvProductName, tvProductCategory, tvProductPrice, tvProductDescription, tvStartTime, tvEndTime, tvMembersNumber, btnJoinRound;
-    ImageView imgProductImage;
 
     public RoundsPagerAdapter(Context context, List<Round> roundsList) {
         this.context = context;
@@ -51,6 +45,10 @@ public class RoundsPagerAdapter extends PagerAdapter {
         final Round round = roundsList.get(position);
         View view = LayoutInflater.from(context).inflate(R.layout.item_my_round, container, false);
 
+        // define views
+        TextView tvProductName, tvProductCategory, tvProductPrice, tvProductDescription, tvStartTime, tvEndTime, tvMembersNumber, btnJoinRound;
+        ImageView imgProductImage;
+
         // init views
         imgProductImage = view.findViewById(R.id.my_round_product_image);
         tvProductName = view.findViewById(R.id.my_round_product_name);
@@ -63,6 +61,8 @@ public class RoundsPagerAdapter extends PagerAdapter {
         btnJoinRound = view.findViewById(R.id.my_round_btn_enter);
 
         // set data
+        Picasso.with(context).load(round.getProduct_image()).placeholder(R.drawable.gawla_logo_blue).into(imgProductImage);
+
         tvProductName.setText(round.getProduct_name());
         tvProductCategory.setText(round.getProduct_category());
         tvProductPrice.setText(round.getProduct_price());
@@ -70,7 +70,6 @@ public class RoundsPagerAdapter extends PagerAdapter {
         tvStartTime.setText(round.getStart_time());
         tvEndTime.setText(round.getEnd_time());
         tvMembersNumber.setText(round.getJoined_members_number());
-        PicassoClint.downloadImage(context,round.getProduct_image(),imgProductImage);
 
         // events
         btnJoinRound.setOnClickListener(new View.OnClickListener() {
