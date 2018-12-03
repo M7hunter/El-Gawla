@@ -186,6 +186,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         user.setApi_token(api_token);
         user.setUser_id(userId);
         user.setImage(image);
+        SharedPrefManager.getInstance(CreateAccountActivity.this).saveUserImage(image);
     }
 
     private String handleServerErrors(JsonObject object) {

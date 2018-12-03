@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it_geeks.info.gawla_app.Adapters.RoundsPagerAdapter;
-import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Models.Data;
 import it_geeks.info.gawla_app.Models.Request;
@@ -51,7 +50,7 @@ public class MyRoundsFragment extends Fragment {
     }
 
     private void getData(final View view) {
-        String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
+        String apiToken =SharedPrefManager.getInstance(getContext()).getUser().getApi_token();
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
 
         RequestMainBody requestMainBody = new RequestMainBody(new Data("getSalonByUserID"), new Request(userId, apiToken));

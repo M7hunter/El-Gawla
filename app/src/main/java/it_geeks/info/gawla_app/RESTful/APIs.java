@@ -22,8 +22,8 @@ public interface APIs {
     @POST("master")
     Call<JsonObject> getSalons(@Body RequestMainBody requestMainBody);
 
-    // get cards
+    // Upload Image
     @POST("master")
-    Call<JsonObject> getUserCards(@Body RequestMainBody requestMainBody);
+    Call<JsonObject> UploadImage(@Body RequestMainBody requestMainBody);
 
 }

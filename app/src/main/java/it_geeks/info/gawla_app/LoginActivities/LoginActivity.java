@@ -71,13 +71,14 @@ public class LoginActivity extends AppCompatActivity {
                                         boolean status = data.get("status").getAsBoolean();
                                         if (status) {
                                             JsonObject Mdata = data.getAsJsonObject("userData");
-                                            mApi_token = Mdata.get("api_token").toString();
-                                            mUser_id = Mdata.get("user_id").toString();
-                                            String mEmail = Mdata.get("email").toString();
-                                            String mImage = Mdata.get("image").toString();
-                                            String mName = Mdata.get("name").toString();
+                                            mApi_token = Mdata.get("api_token").getAsString();
+                                            mUser_id = Mdata.get("user_id").getAsString();
+                                            String mEmail = Mdata.get("email").getAsString();
+                                            String mImage = Mdata.get("image").getAsString();
+                                            String mName = Mdata.get("name").getAsString();
 
                                             SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(Integer.parseInt(mUser_id),mName,mEmail,mApi_token,mImage));
+                                            SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(mImage);
                                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                             finish();
                                             progressBar.setVisibility(View.GONE);

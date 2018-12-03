@@ -33,6 +33,7 @@ public class Common {
     }
 
     // remove unneeded quotes
+    @Deprecated
     public String removeQuotes(String s) {
         // check
         if (s.startsWith("\"")) {
