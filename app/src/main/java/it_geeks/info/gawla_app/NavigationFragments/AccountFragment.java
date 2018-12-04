@@ -145,9 +145,10 @@ public class AccountFragment extends Fragment {
                     if (status){
                         JsonObject data = ObjData.get("userData").getAsJsonObject();
                         imageuploaded[0] = data.get("image").getAsString();
-                        SharedPrefManager.getInstance(getActivity()).saveUserImage(image);
+                        image = imageuploaded[0];
                         Toast.makeText(MainActivity.mainActivityInstance, "Your Profile Image has been changed", Toast.LENGTH_SHORT).show();
                         PicassoClint.downloadImage(MainActivity.mainActivityInstance,imageuploaded[0],userImage);
+                        SharedPrefManager.getInstance(MainActivity.mainActivityInstance).saveUserImage(image);
                     }else{
                         Toast.makeText(MainActivity.mainActivityInstance, handleServerErrors(ObjData), Toast.LENGTH_SHORT).show();
                     }
@@ -165,6 +166,7 @@ public class AccountFragment extends Fragment {
         @Override
         protected void onPostExecute(String image) {
             super.onPostExecute(image);
+            PicassoClint.downloadImage(MainActivity.mainActivityInstance,image,userImage);
         }
 
         @Override
