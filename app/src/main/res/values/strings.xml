@@ -108,6 +108,7 @@
     <string name="sign_up">sing up</string>
     <string name="sign_in">sign in</string>
     <string name="Language">Language</string>
+    <string name="no_content">no available content</string>
 
     <array name="languagesArray">
         <item>LANGUAGE :</item>
