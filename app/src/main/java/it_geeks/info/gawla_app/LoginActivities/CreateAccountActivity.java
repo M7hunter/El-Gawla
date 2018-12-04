@@ -1,6 +1,5 @@
 package it_geeks.info.gawla_app.LoginActivities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +19,7 @@ import it_geeks.info.gawla_app.Models.User;
 import it_geeks.info.gawla_app.Models.Request;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.RESTful.RetrofitClient;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,6 +36,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_account);
 
         initViews();
+
     }
 
     private void initViews() {
@@ -43,7 +44,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         etName = findViewById(R.id.et_create_account_name);
         etEmail = findViewById(R.id.et_create_account_email);
         etPass = findViewById(R.id.et_create_account_pass);
-        progressBar = (ProgressBar)findViewById(R.id.register_loading);
+        progressBar = findViewById(R.id.register_loading);
 
         // finished ? goto next page
         findViewById(R.id.txtCreateAndLogin).setOnClickListener(new View.OnClickListener() {
@@ -61,7 +62,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
     }
 
     private void registerNewUser() {
@@ -72,51 +72,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         if (checkEntries(name, email, pass)) {
             RequestMainBody requestMainBody = new RequestMainBody(new Data("register"),
                     new Request(name, email, pass));
-
             connectToServer(requestMainBody, new User(name, email, pass));
         }
-
-    }
-
-    private boolean checkEntries(String name, String email, String pass) {
-        // check if empty
-        if (name.isEmpty()) {
-            etName.setError("this field can't be empty");
-            etName.requestFocus();
-            progressDialog.dismiss();
-            return false;
-        }
-
-        if (email.isEmpty()) {
-            etEmail.setError("this field can't be empty");
-            etEmail.requestFocus();
-            progressDialog.dismiss();
-            return false;
-        }
-
-        if (pass.isEmpty()) {
-            etPass.setError("this field can't be empty");
-            etPass.requestFocus();
-            progressDialog.dismiss();
-            return false;
-        }
-
-        // check validation
-        if (name.length() < 6) {
-            etName.setError("name should be more than 5 chars");
-            etName.requestFocus();
-            progressDialog.dismiss();
-            return false;
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.setError("enter a valid email address");
-            etEmail.requestFocus();
-            progressDialog.dismiss();
-            return false;
-        }
-
-        return true;
     }
 
     private void connectToServer(final RequestMainBody requestMainBody, final User user) {
@@ -125,11 +82,9 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 progressBar.setVisibility(View.INVISIBLE);
-
                 try {
                     JsonObject object = response.body().getAsJsonObject();
                     boolean status = object.get("status").getAsBoolean();
-
                     if (status) { // if registration gos well
                         // notify user
                         Toast.makeText(CreateAccountActivity.this, object.get("message").getAsString(), Toast.LENGTH_SHORT).show();
@@ -140,7 +95,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                         // goto next page
                         startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
-                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
 
                     } else { // if registration have errors
                         // notify user
@@ -148,7 +103,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                                 handleServerErrors(object),
                                 Toast.LENGTH_SHORT).show();
                     }
-
                 } catch (NullPointerException e) {
                     // notify user
                     Toast.makeText(CreateAccountActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -158,7 +112,6 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 progressBar.setVisibility(View.INVISIBLE);
-
 
                 // notify user
                 String tMessage = t.getMessage();
@@ -171,6 +124,44 @@ public class CreateAccountActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean checkEntries(String name, String email, String pass) {
+        // check if empty
+        if (name.isEmpty()) {
+            etName.setError("this field can't be empty");
+            etName.requestFocus();
+            progressBar.setVisibility(View.INVISIBLE);
+            return false;
+        }
+        if (email.isEmpty()) {
+            etEmail.setError("this field can't be empty");
+            etEmail.requestFocus();
+            progressBar.setVisibility(View.INVISIBLE);
+            return false;
+        }
+        if (pass.isEmpty()) {
+            etPass.setError("this field can't be empty");
+            etPass.requestFocus();
+            progressBar.setVisibility(View.INVISIBLE);
+            return false;
+        }
+
+        // check validation
+        if (name.length() < 6) {
+            etName.setError("name should be more than 5 chars");
+            etName.requestFocus();
+            progressBar.setVisibility(View.INVISIBLE);
+            return false;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            etEmail.setError("enter a valid email address");
+            etEmail.requestFocus();
+            progressBar.setVisibility(View.INVISIBLE);
+            return false;
+        }
+
+        return true;
     }
 
     private void handleServerResponse(JsonObject object, User user) {
@@ -201,5 +192,4 @@ public class CreateAccountActivity extends AppCompatActivity {
     private void progressDialog() {
         progressBar.setVisibility(View.VISIBLE);
     }
-
 }

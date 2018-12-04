@@ -112,7 +112,6 @@ public class SharedPrefManager {
     }
 
     // ----  user profile ---- //
-
     public void saveUserImage(String image) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_IMAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -120,6 +119,7 @@ public class SharedPrefManager {
         editor.putString("userImage", image);
         editor.apply();
     }
+
     public String getUserImage() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_IMAGE, Context.MODE_PRIVATE);
         return sharedPreferences.getString("userImage",null);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,19 +33,22 @@ public class LoginActivity extends AppCompatActivity {
     private EditText txt_Email,txt_Password;
     public static String mApi_token,mUser_id;
     ProgressBar progressBar;
-    SharedPrefManager sharedPreferences ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        sharedPreferences = new SharedPrefManager(LoginActivity.this);
+
         boolean status = SharedPrefManager.getInstance(LoginActivity.this).isLoggedIn();
         mApi_token = SharedPrefManager.getInstance(LoginActivity.this).getUser().getApi_token();
+
+        Toast.makeText(this, status + "", Toast.LENGTH_SHORT).show();
+        Log.e("M7", status + "---" + mApi_token);
 
         if (status && mUser_id != null) {
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
             finish();
+
         } else {
             initialization();
             btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                             SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(Integer.parseInt(mUser_id),mName,mEmail,mApi_token,mImage));
                                             SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(mImage);
+
                                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                             finish();
                                             progressBar.setVisibility(View.GONE);
@@ -123,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
         txtCreateAccount = findViewById(R.id.txt_Create_Account);
         txt_Email = findViewById(R.id.txt_Email);
         txt_Password = findViewById(R.id.txt_Password);
-        progressBar = (ProgressBar)findViewById(R.id.login_loading);
+        progressBar = findViewById(R.id.login_loading);
     }
 
     @Override

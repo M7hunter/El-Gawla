@@ -34,7 +34,7 @@ public class CardsFragment extends Fragment {
 
         initViews(view);
 
-        getData(view);
+//        getData(view);
 
         return view;
     }

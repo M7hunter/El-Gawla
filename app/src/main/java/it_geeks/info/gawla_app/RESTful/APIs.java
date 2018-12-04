@@ -20,7 +20,7 @@ public interface APIs {
 
     // request salons || cards
     @POST("master")
-    Call<JsonObject> getSalons(@Body RequestMainBody requestMainBody);
+    Call<JsonObject> request(@Body RequestMainBody requestMainBody);
 
     // Upload Image
     @POST("master")

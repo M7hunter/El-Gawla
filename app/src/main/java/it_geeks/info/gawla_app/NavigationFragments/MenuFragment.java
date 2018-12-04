@@ -31,6 +31,7 @@ public class MenuFragment extends Fragment {
 
         optionSettings = view.findViewById(R.id.menu_settings);
         Exit = view.findViewById(R.id.menu_Exit);
+
         Exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,6 +40,7 @@ public class MenuFragment extends Fragment {
                 getActivity().finish();
             }
         });
+
         optionSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
