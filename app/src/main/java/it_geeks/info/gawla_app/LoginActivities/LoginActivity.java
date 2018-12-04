@@ -41,14 +41,11 @@ public class LoginActivity extends AppCompatActivity {
 
         boolean status = SharedPrefManager.getInstance(LoginActivity.this).isLoggedIn();
         mApi_token = SharedPrefManager.getInstance(LoginActivity.this).getUser().getApi_token();
+        mUser_id = String.valueOf(SharedPrefManager.getInstance(LoginActivity.this).getUser().getUser_id());
 
-        Toast.makeText(this, status + "", Toast.LENGTH_SHORT).show();
-        Log.e("M7", status + "---" + mApi_token);
-
-        if (status && mUser_id != null) {
+        if (status && mApi_token != null) {
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
             finish();
-
         } else {
             initialization();
             btnLogin.setOnClickListener(new View.OnClickListener() {

@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     public static Activity mainActivityInstance = new Activity();
 
     private Fragment fragment = new HalesFragment();
-
+    private BottomNavigationView navigation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initNavigation() {
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -92,6 +92,19 @@ public class MainActivity extends AppCompatActivity {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.parseColor(color));
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        switch (navigation.getSelectedItemId()) {
+            case R.id.navigation_hales:
+                super.onBackPressed();
+                break;
+            default:
+                fragment = new HalesFragment();
+                displayFragment(fragment);
+                navigation.setSelectedItemId(R.id.navigation_hales);
         }
     }
 }

@@ -57,10 +57,10 @@ public class AccountFragment extends Fragment {
     }
 
     private void getData() {  /// get data from sharedPrafrence
-       name = SharedPrefManager.getInstance(getContext()).getUser().getName();
-       image = SharedPrefManager.getInstance(getContext()).getUserImage();
-       user_id = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
-       api_token = SharedPrefManager.getInstance(getContext()).getUser().getApi_token();
+        name = SharedPrefManager.getInstance(getContext()).getUser().getName();
+        image = SharedPrefManager.getInstance(getContext()).getUserImage();
+        user_id = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
+        api_token = SharedPrefManager.getInstance(getContext()).getUser().getApi_token();
     }
 
     private void initViews(View v) {  //  initialize Views
@@ -112,7 +112,7 @@ public class AccountFragment extends Fragment {
                 edit_user_image_upload.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                         UploadImage(encodedImage);
+                        UploadImage(encodedImage);
                     }
                 });
 
@@ -129,49 +129,49 @@ public class AccountFragment extends Fragment {
 
     }
 
-      private class AsyncUploadImage extends AsyncTask<RequestMainBody,Void,String>{
+    private class AsyncUploadImage extends AsyncTask<RequestMainBody,Void,String>{
 
 
-          @Override
-          protected String doInBackground(RequestMainBody... requestMainBody) {
-              final String[] imageuploaded = new String[1];
-              Call<JsonObject> call = RetrofitClient.getInstance().getAPI().UploadImage(requestMainBody[0]);
-              call.enqueue(new Callback<JsonObject>() {
-                  @Override
-                  public void onResponse(Call<JsonObject> call,final Response<JsonObject> response) {
+        @Override
+        protected String doInBackground(RequestMainBody... requestMainBody) {
+            final String[] imageuploaded = new String[1];
+            Call<JsonObject> call = RetrofitClient.getInstance().getAPI().UploadImage(requestMainBody[0]);
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call,final Response<JsonObject> response) {
 
-                              JsonObject ObjData = response.body().getAsJsonObject();
-                              boolean status = ObjData.get("status").getAsBoolean();
-                              if (status){
-                                  JsonObject data = ObjData.get("userData").getAsJsonObject();
-                                  imageuploaded[0] = data.get("image").getAsString();
-                                  SharedPrefManager.getInstance(getActivity()).saveUserImage(image);
-                                  Toast.makeText(MainActivity.mainActivityInstance, "Your Profile Image has been changed", Toast.LENGTH_SHORT).show();
-                                  PicassoClint.downloadImage(MainActivity.mainActivityInstance,imageuploaded[0],userImage);
-                              }else{
-                                  Toast.makeText(MainActivity.mainActivityInstance, handleServerErrors(ObjData), Toast.LENGTH_SHORT).show();
-                              }
+                    JsonObject ObjData = response.body().getAsJsonObject();
+                    boolean status = ObjData.get("status").getAsBoolean();
+                    if (status){
+                        JsonObject data = ObjData.get("userData").getAsJsonObject();
+                        imageuploaded[0] = data.get("image").getAsString();
+                        SharedPrefManager.getInstance(getActivity()).saveUserImage(image);
+                        Toast.makeText(MainActivity.mainActivityInstance, "Your Profile Image has been changed", Toast.LENGTH_SHORT).show();
+                        PicassoClint.downloadImage(MainActivity.mainActivityInstance,imageuploaded[0],userImage);
+                    }else{
+                        Toast.makeText(MainActivity.mainActivityInstance, handleServerErrors(ObjData), Toast.LENGTH_SHORT).show();
+                    }
 
-                  }
+                }
 
-                  @Override
-                  public void onFailure(Call<JsonObject> call, Throwable t) {
-                      Toast.makeText(MainActivity.mainActivityInstance, t.getMessage()+"", Toast.LENGTH_SHORT).show();
-                  }
-              });
-              return imageuploaded[0];
-          }
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    Toast.makeText(MainActivity.mainActivityInstance, t.getMessage()+"", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return imageuploaded[0];
+        }
 
-          @Override
-          protected void onPostExecute(String image) {
-              super.onPostExecute(image);
-          }
+        @Override
+        protected void onPostExecute(String image) {
+            super.onPostExecute(image);
+        }
 
-          @Override
-          protected void onProgressUpdate(Void... values) {
-              super.onProgressUpdate(values);
-          }
-      }
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+    }
 
     private String handleServerErrors(JsonObject object) {  // get Response Error
         String error = "no errors";
