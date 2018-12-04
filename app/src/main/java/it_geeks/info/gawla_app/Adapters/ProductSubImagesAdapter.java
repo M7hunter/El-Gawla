@@ -14,12 +14,12 @@ import java.util.List;
 
 import it_geeks.info.gawla_app.R;
 
-public class ProductImageAdapter extends RecyclerView.Adapter<ProductImageAdapter.Holder> {
+public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImagesAdapter.Holder> {
 
     private Context context;
     private List<String> imagesList;
 
-    public ProductImageAdapter(Context context, List<String> imagesList) {
+    public ProductSubImagesAdapter(Context context, List<String> imagesList) {
         this.context = context;
         this.imagesList = imagesList;
     }

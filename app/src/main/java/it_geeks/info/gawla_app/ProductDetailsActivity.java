@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import it_geeks.info.gawla_app.Adapters.ProductImageAdapter;
+import it_geeks.info.gawla_app.Adapters.ProductSubImagesAdapter;
 import it_geeks.info.gawla_app.Models.Round;
 
 public class ProductDetailsActivity extends AppCompatActivity {
@@ -106,7 +106,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-                try { getWindow().setStatusBarColor(getResources().getColor(R.color.paleGrey)); } catch (Exception e) {  }
+                try {
+                    getWindow().setStatusBarColor(getResources().getColor(R.color.paleGrey));
+                } catch (Exception e) {
+                }
             }
         });
 
@@ -114,8 +117,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     private void initRecycler() {
         imagesRecycler = findViewById(R.id.product_details_images_recycler);
-        imagesRecycler.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-        ProductImageAdapter productImageAdapter = new ProductImageAdapter(this, imagesList);
-        imagesRecycler.setAdapter(productImageAdapter);
+        imagesRecycler.setHasFixedSize(true);
+        imagesRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        ProductSubImagesAdapter productSubImagesAdapter = new ProductSubImagesAdapter(this, imagesList);
+        imagesRecycler.setAdapter(productSubImagesAdapter);
     }
 }
