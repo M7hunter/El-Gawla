@@ -15,8 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
             android:focusableInTouchMode="true"
             android:gravity="center"
             android:orientation="vertical">
@@ -24,9 +24,9 @@
             <!-- logo & bell container -->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layoutDirection="ltr"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large">
+                android:layout_marginTop="@dimen/margin_large"
+                android:layoutDirection="ltr">
 
                 <!-- logo -->
                 <ImageView
@@ -39,8 +39,8 @@
                 <ImageView
                     android:layout_width="@dimen/icon_notification"
                     android:layout_height="@dimen/icon_notification"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/margin_tiny"
                     android:src="@drawable/ic_bell" />
 
@@ -62,10 +62,10 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_tiny"
                 android:layout_marginStart="@dimen/margin_tiny"
                 android:layout_marginTop="@dimen/margin_tiny"
+                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginBottom="@dimen/margin_large"
                 app:cardCornerRadius="@dimen/margin_small"
                 app:cardElevation="@dimen/margin_tiny">
                 <!-- card view main layout -->
@@ -83,6 +83,7 @@
 
                         <!-- status -->
                         <TextView
+                            android:id="@+id/green_card_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_tiny"
@@ -119,6 +120,7 @@
 
                         <!-- counter -->
                         <TextView
+                            android:id="@+id/green_card_count"
                             android:layout_width="@dimen/margin_xxlarge"
                             android:layout_height="@dimen/margin_xxlarge"
                             android:layout_margin="@dimen/margin_tiny"
@@ -138,9 +140,9 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_tiny"
                 android:layout_marginStart="@dimen/margin_tiny"
+                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginBottom="@dimen/margin_large"
                 app:cardCornerRadius="@dimen/margin_small"
                 app:cardElevation="@dimen/margin_tiny">
                 <!-- card view main layout -->
@@ -158,6 +160,7 @@
 
                         <!-- status -->
                         <TextView
+                            android:id="@+id/red_card_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_tiny"
@@ -194,6 +197,7 @@
 
                         <!-- counter -->
                         <TextView
+                            android:id="@+id/red_card_count"
                             android:layout_width="@dimen/margin_xxlarge"
                             android:layout_height="@dimen/margin_xxlarge"
                             android:layout_margin="@dimen/margin_tiny"
@@ -213,9 +217,9 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_tiny"
                 android:layout_marginStart="@dimen/margin_tiny"
+                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginBottom="@dimen/margin_large"
                 app:cardCornerRadius="@dimen/margin_small"
                 app:cardElevation="@dimen/margin_tiny">
                 <!-- card view main layout -->
@@ -233,10 +237,11 @@
 
                         <!-- status -->
                         <TextView
+                            android:id="@+id/golden_card_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_tiny"
-                            android:text="@string/dont_have_yellow_card"
+                            android:text="@string/dont_have_golden_card"
                             android:textColor="@color/battleshipGrey"
                             android:textSize="@dimen/text_size_large" />
 
@@ -269,6 +274,7 @@
 
                         <!-- counter -->
                         <TextView
+                            android:id="@+id/golden_card_count"
                             android:layout_width="@dimen/margin_xxlarge"
                             android:layout_height="@dimen/margin_xxlarge"
                             android:layout_margin="@dimen/margin_tiny"

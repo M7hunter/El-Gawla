@@ -26,7 +26,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
     int joined;
     Button btnJoineRound, btnJoineRound2, btnJoineRound3;
     RelativeLayout rDivPro3, rDivPro4;
-    CardView rDivPro1, rDivPro2;
+    CardView more, rDivPro2;
     LinearLayout shadowalert, shadowalert2;
 
     private Round round;
@@ -62,7 +62,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
         setupLoginButton();
 
         if (joined == 0) {
-            rDivPro1.setVisibility(View.VISIBLE);
+            more.setVisibility(View.VISIBLE);
             rDivPro2.setVisibility(View.VISIBLE);
             rDivPro3.setVisibility(View.GONE);
             btnJoineRound.setVisibility(View.VISIBLE);
@@ -70,7 +70,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
             shadowalert.setVisibility(View.GONE);
 
         } else if (joined == 1) {
-            rDivPro1.setVisibility(View.VISIBLE);
+            more.setVisibility(View.VISIBLE);
             rDivPro2.setVisibility(View.VISIBLE);
             shadowalert2.setVisibility(View.GONE);
             rDivPro3.setVisibility(View.GONE);
@@ -137,7 +137,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
         btnJoineRound = findViewById(R.id.btnJoinRound);
         btnJoineRound2 = findViewById(R.id.btnJoineRound2);
         btnJoineRound3 = findViewById(R.id.btnJoineRound3);
-        rDivPro1 = findViewById(R.id.divPro1);
+        more = findViewById(R.id.more);
         rDivPro2 = findViewById(R.id.divPro2);
         rDivPro3 = findViewById(R.id.divPro3);
         rDivPro4 = findViewById(R.id.divPro4);
@@ -149,7 +149,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
         btnJoineRound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rDivPro1.setVisibility(View.GONE);
+                more.setVisibility(View.GONE);
                 rDivPro2.setVisibility(View.GONE);
                 rDivPro3.setVisibility(View.INVISIBLE);
                 btnJoineRound.setVisibility(View.INVISIBLE);
@@ -160,7 +160,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
         shadowalert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rDivPro1.setVisibility(View.VISIBLE);
+                more.setVisibility(View.VISIBLE);
                 rDivPro2.setVisibility(View.VISIBLE);
                 rDivPro3.setVisibility(View.GONE);
                 btnJoineRound.setVisibility(View.VISIBLE);
@@ -180,7 +180,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
         btnJoineRound3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rDivPro1.setVisibility(View.VISIBLE);
+                more.setVisibility(View.VISIBLE);
                 rDivPro2.setVisibility(View.VISIBLE);
                 shadowalert2.setVisibility(View.GONE);
                 rDivPro3.setVisibility(View.GONE);
@@ -188,10 +188,22 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
                 rDivPro4.setVisibility(View.VISIBLE);
             }
         });
-        rDivPro1.setOnClickListener(new View.OnClickListener() {
+
+
+        more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HaleActivity.this, ProductDetailsActivity.class));
+                Intent i = new Intent(HaleActivity.this, ProductDetailsActivity.class);
+                i.putExtra("product_name", round.getProduct_name());
+                i.putExtra("product_image", round.getProduct_image());
+                i.putExtra("product_category", round.getProduct_category());
+                i.putExtra("product_price", round.getProduct_price());
+                i.putExtra("product_description", round.getProduct_description());
+                i.putExtra("round_start_time", round.getStart_time());
+                i.putExtra("round_end_time", round.getEnd_time());
+                i.putExtra("joined_members_number", round.getJoined_members_number());
+
+                startActivity(i);
             }
         });
     }
@@ -199,7 +211,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     public void onBackPressed() {
         if (joined == 0) {
-            rDivPro1.setVisibility(View.VISIBLE);
+            more.setVisibility(View.VISIBLE);
             rDivPro2.setVisibility(View.VISIBLE);
             rDivPro3.setVisibility(View.GONE);
             btnJoineRound.setVisibility(View.VISIBLE);
@@ -208,7 +220,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
             super.onBackPressed();
 
         } else if (joined == 1) {
-            rDivPro1.setVisibility(View.VISIBLE);
+            more.setVisibility(View.VISIBLE);
             rDivPro2.setVisibility(View.VISIBLE);
             shadowalert2.setVisibility(View.GONE);
             rDivPro3.setVisibility(View.GONE);

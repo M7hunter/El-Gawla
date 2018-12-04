@@ -18,7 +18,7 @@ public interface APIs {
     @POST("master")
     Call<JsonObject> loginUser(@Body RequestMainBody requestMainBody);
 
-    // get all salons
+    // request salons || cards
     @POST("master")
     Call<JsonObject> getSalons(@Body RequestMainBody requestMainBody);
 
