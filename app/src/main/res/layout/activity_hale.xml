@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".HaleActivity">
+    tools:context=".Views.HaleActivity">
 
     <ScrollView
         android:id="@+id/scrollView3"
@@ -461,7 +461,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_tiny"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:background="@drawable/bg_rounded_corners_white"
                 app:cardCornerRadius="@dimen/margin_tiny">
                 <!-- card main layout -->
@@ -469,21 +469,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-
-                    <!-- notification header -->
-                    <TextView
-                        android:id="@+id/hale_joined_members_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_tiny"
-                        android:background="@drawable/bg_rounded_corners_pale_grey2"
-                        android:drawableStart="@drawable/ic_members"
-                        android:drawablePadding="@dimen/margin_medium"
-                        android:gravity="start"
-                        android:padding="@dimen/margin_small"
-                        android:text="@string/mumber_joined_round"
-                        android:textColor="@color/battleshipGrey"
-                        android:textColorHint="@color/editText_hint" />
 
                     <!-- round's notification bar -->
                     <LinearLayout
