@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".NavigationFragments.HalesFragment">
+    tools:context=".Views.NavigationFragments.HalesFragment">
 
     <ScrollView
         android:layout_width="match_parent"

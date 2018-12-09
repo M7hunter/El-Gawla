@@ -3,7 +3,7 @@ package it_geeks.info.gawla_app.General;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import it_geeks.info.gawla_app.Models.User;
+import it_geeks.info.gawla_app.Repositry.Models.User;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -116,6 +116,7 @@ public class SharedPrefManager {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_IMAGE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
+
         editor.putString("userImage", image);
         editor.apply();
     }

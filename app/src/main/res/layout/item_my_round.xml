@@ -207,22 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:gravity="center_vertical">
-
-                    <!-- icon -->
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_user" />
-
-                    <!-- number of members -->
-                    <TextView
-                        android:id="@+id/my_round_members_number"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_small"
-                        android:layout_weight="1"
-                        android:textColor="@color/battleshipGrey" />
+                    android:gravity="center">
 
                     <!-- cards label -->
                     <TextView

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".NavigationFragments.HalesFragment">
+    tools:context=".Views.NavigationFragments.HalesFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -127,6 +127,7 @@
 
                 <!-- btn see all -->
                 <TextView
+                    android:id="@+id/recent_hales_see_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/see_all"
@@ -159,6 +160,7 @@
 
             <!-- winners news header -->
             <LinearLayout
+                android:id="@+id/winners_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_xlarge">
