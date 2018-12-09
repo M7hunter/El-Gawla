@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
+import it_geeks.info.gawla_app.Views.LoginActivities.SignInActivity;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Views.SettingsActivity;
 
@@ -36,7 +36,7 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 SharedPrefManager.getInstance(getActivity()).clearUser();
-                startActivity(new Intent(getActivity(), LoginActivity.class));
+                startActivity(new Intent(getActivity(), SignInActivity.class));
                 getActivity().finish();
             }
         });

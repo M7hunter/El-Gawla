@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreateAccountActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     EditText etName, etEmail, etPass;
     ProgressBar progressBar;
@@ -87,25 +87,25 @@ public class CreateAccountActivity extends AppCompatActivity {
                     boolean status = object.get("status").getAsBoolean();
                     if (status) { // if registration gos well
                         // notify user
-                        Toast.makeText(CreateAccountActivity.this, object.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, object.get("message").getAsString(), Toast.LENGTH_SHORT).show();
 
                         // save user data locally
                         handleServerResponse(object, user);
-                        SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(user);
+                        SharedPrefManager.getInstance(SignUpActivity.this).saveUser(user);
 
                         // goto next page
-                        startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
+                        startActivity(new Intent(SignUpActivity.this, SubscribePlanActivity.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
 
                     } else { // if registration have errors
                         // notify user
-                        Toast.makeText(CreateAccountActivity.this,
+                        Toast.makeText(SignUpActivity.this,
                                 handleServerErrors(object),
                                 Toast.LENGTH_SHORT).show();
                     }
                 } catch (NullPointerException e) {
                     // notify user
-                    Toast.makeText(CreateAccountActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -115,7 +115,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                 // notify user
                 String tMessage = t.getMessage();
-                Toast.makeText(CreateAccountActivity.this, tMessage, Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpActivity.this, tMessage, Toast.LENGTH_SHORT).show();
 
                 // try one more time
                 if (tMessage.equals("timeout") && reconnect < 1) {
@@ -177,7 +177,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         user.setApi_token(api_token);
         user.setUser_id(userId);
         user.setImage(image);
-        SharedPrefManager.getInstance(CreateAccountActivity.this).saveUserImage(image);
+        SharedPrefManager.getInstance(SignUpActivity.this).saveUserImage(image);
     }
 
     private String handleServerErrors(JsonObject object) {

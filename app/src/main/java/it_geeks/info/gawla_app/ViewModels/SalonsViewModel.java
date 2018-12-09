@@ -27,13 +27,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RoundViewModel extends AndroidViewModel {
+public class SalonsViewModel extends AndroidViewModel {
 
     private GawlaDataBse gawlaDataBse;
 
     public LiveData<PagedList<Round>> roundsList;
 
-    public RoundViewModel(@NonNull Application application) {
+    public SalonsViewModel(@NonNull Application application) {
         super(application);
 
         gawlaDataBse = GawlaDataBse.getGawlaDatabase(getApplication());

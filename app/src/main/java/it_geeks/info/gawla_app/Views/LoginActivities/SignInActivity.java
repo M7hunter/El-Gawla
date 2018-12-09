@@ -25,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity {
 
     private TextView txtForgetPassword , txtCreateAccount;
     private Button btnLogin;
@@ -38,11 +38,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        boolean status = SharedPrefManager.getInstance(LoginActivity.this).isLoggedIn();
-        mApi_token = SharedPrefManager.getInstance(LoginActivity.this).getUser().getApi_token();
+        boolean status = SharedPrefManager.getInstance(SignInActivity.this).isLoggedIn();
+        mApi_token = SharedPrefManager.getInstance(SignInActivity.this).getUser().getApi_token();
 
         if (status && mApi_token != null) {
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            startActivity(new Intent(SignInActivity.this,MainActivity.class));
             finish();
 
         } else {
@@ -77,10 +77,10 @@ public class LoginActivity extends AppCompatActivity {
                                         String mImage = Mdata.get("image").getAsString();
                                         String mName = Mdata.get("name").getAsString();
 
-                                        SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(Integer.parseInt(mUser_id), mName, mEmail, mApi_token, mImage));
-                                        SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(mImage);
+                                        SharedPrefManager.getInstance(SignInActivity.this).saveUser(new User(Integer.parseInt(mUser_id), mName, mEmail, mApi_token, mImage));
+                                        SharedPrefManager.getInstance(SignInActivity.this).saveUserImage(mImage);
 
-                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                        startActivity(new Intent(SignInActivity.this, MainActivity.class));
                                         finish();
                                         progressBar.setVisibility(View.GONE);
                                     } else {
@@ -92,13 +92,13 @@ public class LoginActivity extends AppCompatActivity {
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 } catch (NullPointerException e) {
-                                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<JsonObject> call, Throwable t) {
-                                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(SignInActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);
                             }
                         });
@@ -109,13 +109,13 @@ public class LoginActivity extends AppCompatActivity {
             txtForgetPassword.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(LoginActivity.this, ForgetPasswordActivity.class));
+                    startActivity(new Intent(SignInActivity.this, ForgetPasswordActivity.class));
                 }
             });
             txtCreateAccount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
+                    startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
                 }
             });
         }

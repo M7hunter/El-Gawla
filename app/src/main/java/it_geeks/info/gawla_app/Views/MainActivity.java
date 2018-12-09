@@ -14,7 +14,7 @@ import android.view.WindowManager;
 
 import it_geeks.info.gawla_app.Views.NavigationFragments.AccountFragment;
 import it_geeks.info.gawla_app.Views.NavigationFragments.CardsFragment;
-import it_geeks.info.gawla_app.Views.NavigationFragments.HalesFragment;
+import it_geeks.info.gawla_app.Views.NavigationFragments.MainFragment;
 import it_geeks.info.gawla_app.Views.NavigationFragments.MenuFragment;
 import it_geeks.info.gawla_app.Views.NavigationFragments.MyRoundsFragment;
 import it_geeks.info.gawla_app.R;
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static Activity mainActivityInstance = new Activity();
 
-    private Fragment fragment = new HalesFragment();
+    private Fragment fragment = new MainFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = null;
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_hales:
-                        fragment = new HalesFragment();
+                        fragment = new MainFragment();
                         // change status bar color to white
                         changeStatusBarColor("#f4f7fa");
                         break;

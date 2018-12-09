@@ -12,6 +12,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,13 +23,16 @@ import com.squareup.picasso.Picasso;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
 
-public class HaleActivity extends AppCompatActivity implements View.OnTouchListener {
+public class SalonActivity extends AppCompatActivity implements View.OnTouchListener {
 
-    int joined;
-    Button btnJoineRound, btnJoineRound2, btnJoineRound3;
-    RelativeLayout rDivPro3, rDivPro4;
-    CardView more, rDivPro2;
-    LinearLayout shadowalert, shadowalert2;
+    int joinStatus; // 0 = watcher, 1 = want to join, 2 = joined
+    Button btnJoinRound;
+    CardView more, notificationCard, confirmationLayout;
+    LinearLayout addOfferLayout;
+    FrameLayout overlayLayout;
+
+    TextView tvEndTime, tvProductName, tvProductPrice;
+    ImageView imProductImage;
 
     private Round round;
 
@@ -43,7 +47,7 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hale);
+        setContentView(R.layout.activity_salon);
 
         getRoundData(savedInstanceState);
 
@@ -56,29 +60,12 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
         initBottomSheet();
 
         if (savedInstanceState != null) {
-            joined = savedInstanceState.getInt("Joined");
+            joinStatus = savedInstanceState.getInt("Joined");
         }
 
-        setBtnTypeCast();
-        setupLoginButton();
+        initViews();
 
-        if (joined == 0) {
-            more.setVisibility(View.VISIBLE);
-            rDivPro2.setVisibility(View.VISIBLE);
-            rDivPro3.setVisibility(View.GONE);
-            btnJoineRound.setVisibility(View.VISIBLE);
-            shadowalert.setVisibility(View.GONE);
-            shadowalert.setVisibility(View.GONE);
-
-        } else if (joined == 1) {
-            more.setVisibility(View.VISIBLE);
-            rDivPro2.setVisibility(View.VISIBLE);
-            shadowalert2.setVisibility(View.GONE);
-            rDivPro3.setVisibility(View.GONE);
-            btnJoineRound.setVisibility(View.GONE);
-            rDivPro4.setVisibility(View.VISIBLE);
-        }
-
+        joinEvent();
     }
 
     private void getRoundData(Bundle savedInstanceState) {
@@ -115,9 +102,6 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     private void initRoundViews_setData() {
-        TextView tvEndTime, tvProductName, tvProductPrice;
-        ImageView imProductImage;
-
         // init views
         tvEndTime = findViewById(R.id.hale_end_time);
         tvProductName = findViewById(R.id.hale_product_name);
@@ -129,70 +113,45 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
         tvProductName.setText(round.getProduct_name());
         tvProductPrice.setText(round.getProduct_price());
 
-        Picasso.with(HaleActivity.this).load(round.getProduct_image()).placeholder(R.drawable.gawla_logo_blue).into(imProductImage);
+        Picasso.with(SalonActivity.this).load(round.getProduct_image()).placeholder(R.drawable.gawla_logo_blue).into(imProductImage);
     }
 
-    public void setBtnTypeCast() {
-        btnJoineRound = findViewById(R.id.btnJoinRound);
-        btnJoineRound2 = findViewById(R.id.btnJoineRound2);
-        btnJoineRound3 = findViewById(R.id.btnJoineRound3);
+    public void initViews() {
+        overlayLayout = findViewById(R.id.overlay_layout);
         more = findViewById(R.id.more);
-        rDivPro2 = findViewById(R.id.divPro2);
-        rDivPro3 = findViewById(R.id.divPro3);
-        rDivPro4 = findViewById(R.id.divPro4);
-        shadowalert = findViewById(R.id.shadowalert);
-        shadowalert2 = findViewById(R.id.shadowalert2);
+        btnJoinRound = findViewById(R.id.btnJoinRound);
+        confirmationLayout = findViewById(R.id.join_confirmation_layout);
+        notificationCard = findViewById(R.id.round_notification_card);
+        addOfferLayout = findViewById(R.id.add_offer_layout);
     }
 
-    private void setupLoginButton() {
-        btnJoineRound.setOnClickListener(new View.OnClickListener() {
+    private void joinEvent() {
+        btnJoinRound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                more.setVisibility(View.GONE);
-                rDivPro2.setVisibility(View.GONE);
-                rDivPro3.setVisibility(View.INVISIBLE);
-                btnJoineRound.setVisibility(View.INVISIBLE);
-                shadowalert.setVisibility(View.VISIBLE);
+                switch (joinStatus) {
+                    case 0:
+                        displayConfirmationLayout();
+                        joinStatus = 1;
+                        break;
+                    case 1:
+                        changeConfirmationState();
+                        joinStatus = 2;
+                        break;
+                    case 2:
+                        hideConfirmationLayout();
+                        break;
+                    default:
+                        break;
+                }
             }
         });
 
-        shadowalert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                more.setVisibility(View.VISIBLE);
-                rDivPro2.setVisibility(View.VISIBLE);
-                rDivPro3.setVisibility(View.GONE);
-                btnJoineRound.setVisibility(View.VISIBLE);
-                shadowalert.setVisibility(View.GONE);
-            }
-        });
-
-        btnJoineRound2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shadowalert2.setVisibility(View.VISIBLE);
-                shadowalert.setVisibility(View.GONE);
-                joined = 1;
-            }
-        });
-
-        btnJoineRound3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                more.setVisibility(View.VISIBLE);
-                rDivPro2.setVisibility(View.VISIBLE);
-                shadowalert2.setVisibility(View.GONE);
-                rDivPro3.setVisibility(View.GONE);
-                btnJoineRound.setVisibility(View.GONE);
-                rDivPro4.setVisibility(View.VISIBLE);
-            }
-        });
-
-
+        // open product description page
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(HaleActivity.this, ProductDetailsActivity.class);
+                Intent i = new Intent(SalonActivity.this, ProductDetailsActivity.class);
                 i.putExtra("product_name", round.getProduct_name());
                 i.putExtra("product_image", round.getProduct_image());
                 i.putExtra("product_category", round.getProduct_category());
@@ -207,33 +166,47 @@ public class HaleActivity extends AppCompatActivity implements View.OnTouchListe
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        if (joined == 0) {
-            more.setVisibility(View.VISIBLE);
-            rDivPro2.setVisibility(View.VISIBLE);
-            rDivPro3.setVisibility(View.GONE);
-            btnJoineRound.setVisibility(View.VISIBLE);
-            shadowalert.setVisibility(View.GONE);
-            shadowalert.setVisibility(View.GONE);
-            super.onBackPressed();
+    private void displayConfirmationLayout() {
+        // hide background views
+        more.setVisibility(View.GONE);
+        notificationCard.setVisibility(View.GONE);
 
-        } else if (joined == 1) {
-            more.setVisibility(View.VISIBLE);
-            rDivPro2.setVisibility(View.VISIBLE);
-            shadowalert2.setVisibility(View.GONE);
-            rDivPro3.setVisibility(View.GONE);
-            btnJoineRound.setVisibility(View.GONE);
-            rDivPro4.setVisibility(View.VISIBLE);
-            super.onBackPressed();
+        // display confirmation layout
+        confirmationLayout.setVisibility(View.VISIBLE);
+        overlayLayout.setVisibility(View.VISIBLE);
+    }
 
-        }
+    private void changeConfirmationState() {
+        ImageView icon = findViewById(R.id.join_confirmation_icon);
+        TextView header = findViewById(R.id.join_confirmation_header);
+        TextView text = findViewById(R.id.join_confirmation_text);
+
+        icon.setImageDrawable(getDrawable(R.drawable.joinedrounddone));
+        header.setText(getString(R.string.Congratulations_Attention));
+        header.setTextColor(getResources().getColor(R.color.greenBlue));
+        text.setText(getString(R.string.Congratulations_Attention_Details));
+        btnJoinRound.setBackground(getResources().getDrawable(R.drawable.joined_play_shape));
+        btnJoinRound.setText(getString(R.string.start_play));
+    }
+
+    private void hideConfirmationLayout() {
+        // display background views
+        more.setVisibility(View.VISIBLE);
+        notificationCard.setVisibility(View.VISIBLE);
+
+        // hide confirmation layout
+        confirmationLayout.setVisibility(View.GONE);
+        btnJoinRound.setVisibility(View.GONE);
+        overlayLayout.setVisibility(View.GONE);
+
+        // display add offer views
+        addOfferLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("Joined", joined);
+        outState.putInt("Joined", joinStatus);
     }
 
     private void initCardsIcon() {

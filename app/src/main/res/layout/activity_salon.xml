@@ -2,76 +2,85 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pHale"
+    android:id="@+id/salon_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".Views.HaleActivity">
+    tools:context=".Views.SalonActivity">
 
-    <ScrollView
-        android:id="@+id/scrollView3"
+    <!-- main layout -->
+    <!-- scroll main layout -->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <!-- scroll main layout -->
-        <LinearLayout
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- logo & bell container -->
+        <RelativeLayout
+            android:id="@+id/salon_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layoutDirection="ltr">
 
-            <!-- logo & bell container -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layoutDirection="ltr">
+            <!-- logo -->
+            <ImageView
+                android:layout_width="@dimen/logo_width"
+                android:layout_height="@dimen/logo_height"
+                android:layout_centerInParent="true"
+                android:src="@drawable/gawla_logo_blue" />
 
-                <!-- logo -->
-                <ImageView
-                    android:layout_width="@dimen/logo_width"
-                    android:layout_height="@dimen/logo_height"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/gawla_logo_blue" />
+            <!-- bell -->
+            <ImageView
+                android:layout_width="@dimen/icon_notification"
+                android:layout_height="@dimen/icon_notification"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/margin_tiny"
+                android:src="@drawable/ic_bell" />
 
-                <!-- bell -->
-                <ImageView
-                    android:layout_width="@dimen/icon_notification"
-                    android:layout_height="@dimen/icon_notification"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="@dimen/margin_tiny"
-                    android:src="@drawable/ic_bell" />
+        </RelativeLayout>
 
-            </RelativeLayout>
+        <!-- salon number container -->
+        <LinearLayout
+            android:id="@+id/salon_number_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/salon_header"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
-            <!-- hall number container -->
-            <LinearLayout
+            <!-- salon number label -->
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:text="@string/hale_number"
+                android:textColor="@color/battleshipGrey"
+                android:textSize="@dimen/text_size_large" />
 
-                <!-- hall number label -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hale_number"
-                    android:textColor="@color/battleshipGrey"
-                    android:textSize="@dimen/text_size_large" />
+            <!-- salon number -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_tiny"
+                android:text="234152"
+                android:textColor="@color/midBlue"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
 
-                <!-- hall number -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:text="234152"
-                    android:textColor="@color/midBlue"
-                    android:textSize="@dimen/text_size_large"
-                    android:textStyle="bold" />
+        </LinearLayout>
 
-            </LinearLayout>
-
-            <!-- time container -->
+        <!-- time container -->
+        <FrameLayout
+            android:id="@+id/time_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/salon_number_container"
+            android:layout_centerHorizontal="true">
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -360,6 +369,99 @@
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+        </FrameLayout>
+
+        <!-- add offer btn & et -->
+        <LinearLayout
+            android:id="@+id/add_offer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cards_container"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <!-- add offer et -->
+            <EditText
+                android:id="@+id/add_offer_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_shape_add"
+                android:gravity="center"
+                android:hint="000"
+                android:inputType="number"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
+                android:textColor="@color/battleshipGrey"
+                android:textColorHint="@color/editText_hint" />
+
+            <!-- add offer btn -->
+            <Button
+                android:id="@+id/add_offer_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_weight="1"
+                android:background="@drawable/login_shape"
+                android:text="@string/add_deal"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- cards icon container -->
+        <RelativeLayout
+            android:id="@+id/cards_icon_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/bg_circle_bordered_transparent"
+            android:padding="@dimen/margin_small">
+
+            <!-- icon -->
+            <ImageView
+                android:layout_width="@dimen/image_cards_round_updates"
+                android:layout_height="@dimen/image_cards_round_updates"
+                android:background="@drawable/bg_circle_blue_270"
+                android:padding="@dimen/margin_large"
+                android:src="@drawable/ic_cards"
+                android:tint="@android:color/white" />
+
+            <!-- cards notification -->
+            <TextView
+                android:layout_width="@dimen/margin_xlarge"
+                android:layout_height="@dimen/margin_xlarge"
+                android:background="@drawable/bg_circle_red"
+                android:fontFamily="monospace"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <!-- for dimmed background -->
+        <FrameLayout
+            android:id="@+id/overlay_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black_overlay"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/cards_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time_container"
+            android:orientation="vertical">
 
             <!-- product container -->
             <android.support.v7.widget.CardView
@@ -456,7 +558,7 @@
 
             <!-- notification container -->
             <android.support.v7.widget.CardView
-                android:id="@+id/divPro2"
+                android:id="@+id/round_notification_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
@@ -482,7 +584,7 @@
                             android:id="@+id/hale_notification_icon"
                             android:layout_width="@dimen/icon_notification"
                             android:layout_height="@dimen/icon_notification"
-                            android:layout_margin="@dimen/margin_tiny"
+                            android:layout_margin="@dimen/margin_small"
                             android:scaleType="centerCrop"
                             android:src="@drawable/ic_account" />
 
@@ -502,362 +604,26 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-            <!-- join btn -->
-            <Button
-                android:id="@+id/btnJoinRound"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_tiny"
-                android:background="@drawable/login_shape"
-                android:text="@string/join_round"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
-
-            <RelativeLayout
-                android:id="@+id/divPro3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/bg_rounded_corners_white"
-                    app:cardCornerRadius="8dp">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/imageView10"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            app:srcCompat="@drawable/outline" />
-
-                        <TextView
-                            android:id="@+id/TextView46"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp"
-                            android:ems="10"
-                            android:fontFamily="@font/cairo_bold"
-                            android:gravity="center"
-                            android:inputType="textPersonName"
-                            android:paddingTop="5dp"
-                            android:paddingBottom="5dp"
-                            android:text="تنبيه"
-                            android:textColor="@color/midBlue"
-                            android:textColorHint="@color/editText_hint"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/textView48"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="40dp"
-                            android:layout_marginRight="40dp"
-                            android:layout_marginBottom="20dp"
-                            android:gravity="center"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="20dp"
-                            android:text="هل تريد حقاً الانضمام الي الصالة  لديك فرصه واحده للمشاركة كل يوم"
-                            android:textColor="@color/blueGrey"
-                            android:textSize="14sp" />
-
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/divPro4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/TextView54"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edittext_shape_add"
-                        android:ems="10"
-                        android:fontFamily="@font/cairo_regular"
-                        android:gravity="center"
-                        android:hint="0,00 EGP "
-                        android:inputType="number"
-                        android:paddingTop="10dp"
-                        android:paddingRight="20dp"
-                        android:paddingBottom="10dp"
-                        android:textColor="@color/battleshipGrey"
-                        android:textColorHint="@color/editText_hint" />
-
-                    <Button
-                        android:id="@+id/btnJoineRound4"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/login_shape"
-                        android:fontFamily="@font/cairo_bold"
-                        android:gravity="center"
-                        android:text="@string/add_deal"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
+            <!-- join confirmation card -->
+            <include layout="@layout/join_round_confirmation_layout" />
 
         </LinearLayout>
-    </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/shadowalert"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black_overlay"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <RelativeLayout
-            android:id="@+id/divPro5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/bg_rounded_corners_white"
-                app:cardCornerRadius="8dp">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/imageView11"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-                        app:srcCompat="@drawable/outline" />
-
-                    <TextView
-                        android:id="@+id/TextView47"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:ems="10"
-                        android:fontFamily="@font/cairo_bold"
-                        android:gravity="center"
-                        android:inputType="textPersonName"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:text="@string/Attention"
-                        android:textColor="@color/midBlue"
-                        android:textColorHint="@color/editText_hint"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/textView50"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="40dp"
-                        android:layout_marginBottom="40dp"
-                        android:gravity="center"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:text="@string/Attention_Details"
-                        android:textColor="@color/blueGrey"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-        </RelativeLayout>
-
+        <!-- join btn -->
         <Button
-            android:id="@+id/btnJoineRound2"
+            android:id="@+id/btnJoinRound"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="20dp"
+            android:layout_height="55dp"
+            android:layout_below="@id/cards_container"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_tiny"
             android:background="@drawable/login_shape"
-            android:fontFamily="@font/cairo_bold"
             android:text="@string/join_round"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/shadowalert2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black_overlay"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <RelativeLayout
-            android:id="@+id/divPro6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/bg_rounded_corners_white"
-                app:cardCornerRadius="8dp">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/imageView12"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-                        app:srcCompat="@drawable/joinedrounddone" />
-
-                    <TextView
-                        android:id="@+id/TextView50"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:ems="10"
-                        android:fontFamily="@font/cairo_bold"
-                        android:gravity="center"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:text="@string/Congratulations_Attention"
-                        android:textColor="@color/greenBlue"
-                        android:textSize="18sp" />
-
-
-                    <TextView
-                        android:id="@+id/textView49"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="40dp"
-                        android:layout_marginBottom="20dp"
-                        android:gravity="center"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:text="@string/Congratulations_Attention_Details"
-                        android:textColor="@color/blueGrey"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/btnJoineRound3"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/joined_play_shape"
-            android:fontFamily="@font/cairo_bold"
-            android:gravity="center"
-            android:text="@string/start_play"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <!-- round cards icon container -->
-    <RelativeLayout
-        android:id="@+id/cards_icon_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_margin="@dimen/margin_small">
-
-        <!-- icon -->
-        <ImageView
-            android:layout_width="@dimen/image_cards_round_updates"
-            android:layout_height="@dimen/image_cards_round_updates"
-            android:background="@drawable/bg_circle_blue_270"
-            android:padding="@dimen/margin_large"
-            android:src="@drawable/ic_cards"
-            android:tint="@android:color/white" />
-
-        <!-- cards notification -->
-        <TextView
-            android:layout_width="@dimen/margin_xlarge"
-            android:layout_height="@dimen/margin_xlarge"
-            android:background="@drawable/bg_circle_red"
-            android:fontFamily="monospace"
-            android:gravity="center"
-            android:text="0"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />
 
     </RelativeLayout>

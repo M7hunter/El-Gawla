@@ -13,15 +13,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import it_geeks.info.gawla_app.Views.HaleActivity;
+import it_geeks.info.gawla_app.Views.SalonActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
 
-public class RecentHalesPagedAdapter extends PagedListAdapter<Round, RecentHalesPagedAdapter.ViewHolder> {
+public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalonsPagedAdapter.ViewHolder> {
 
     private Context context;
 
-    public RecentHalesPagedAdapter(Context context) {
+    public RecentSalonsPagedAdapter(Context context) {
         super(Round.DIFF_CALLBACK);
         this.context = context;
     }
@@ -53,7 +53,7 @@ public class RecentHalesPagedAdapter extends PagedListAdapter<Round, RecentHales
             viewHolder.btnJoinRound.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(context, HaleActivity.class);
+                    Intent i = new Intent(context, SalonActivity.class);
                     i.putExtra("product_name", round.getProduct_name());
                     i.putExtra("product_image", round.getProduct_image());
                     i.putExtra("product_category", round.getProduct_category());

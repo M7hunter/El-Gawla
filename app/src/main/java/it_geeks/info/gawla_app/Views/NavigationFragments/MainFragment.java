@@ -15,41 +15,40 @@ import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it_geeks.info.gawla_app.ViewModels.Adapters.RecentHalesPagedAdapter;
+import it_geeks.info.gawla_app.ViewModels.Adapters.RecentSalonsPagedAdapter;
 import it_geeks.info.gawla_app.ViewModels.Adapters.WinnersNewsAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Models.WinnerNews;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.ViewModels.RoundViewModel;
+import it_geeks.info.gawla_app.ViewModels.SalonsViewModel;
 
-public class HalesFragment extends Fragment {
+public class MainFragment extends Fragment {
 
-    private RecyclerView recentHalesRecycler;
+    private RecyclerView recentSalonsRecycler;
     private RecyclerView winnersNewsRecycler;
-    private RecentHalesPagedAdapter recentHalesPagedAdapter;
+    private RecentSalonsPagedAdapter recentSalonsPagedAdapter;
     private WinnersNewsAdapter winnersNewsAdapter;
 
-    private ProgressBar recentHalesProgress;
+    private ProgressBar recentSalonsProgress;
     private ProgressBar winnersNewsProgress;
     LinearLayout winnersHeader;
 
-    RoundViewModel roundViewModel;
+    SalonsViewModel salonsViewModel;
 
     private List<WinnerNews> winnerNewsList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_hales, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         initViews(view);
 
-        initHalesRecycler(view);
+        initSalonsRecycler(view);
 
         initWinnersRecycler(view);
 
@@ -57,12 +56,12 @@ public class HalesFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        recentHalesProgress = view.findViewById(R.id.recent_hales_progress);
+        recentSalonsProgress = view.findViewById(R.id.recent_salons_progress);
         winnersNewsProgress = view.findViewById(R.id.winners_news_progress);
-        TextView seeAllRecentHales = view.findViewById(R.id.recent_hales_see_all);
+        TextView seeAllRecentSalons = view.findViewById(R.id.recent_salons_see_all);
         winnersHeader = view.findViewById(R.id.winners_header);
 
-        seeAllRecentHales.setOnClickListener(new View.OnClickListener() {
+        seeAllRecentSalons.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (GawlaDataBse.getGawlaDatabase(getContext()).RoundDao().getRounds().size() > 0) {
@@ -74,30 +73,30 @@ public class HalesFragment extends Fragment {
         });
     }
 
-    private void initHalesRecycler(View view) {
-        recentHalesRecycler = view.findViewById(R.id.recent_hales_recycler);
-        recentHalesRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), 0, false));
-        recentHalesPagedAdapter = new RecentHalesPagedAdapter(getContext());
+    private void initSalonsRecycler(View view) {
+        recentSalonsRecycler = view.findViewById(R.id.recent_hales_recycler);
+        recentSalonsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), 0, false));
+        recentSalonsPagedAdapter = new RecentSalonsPagedAdapter(getContext());
 
-        roundViewModel = ViewModelProviders.of(this).get(RoundViewModel.class);
-        roundViewModel.init();
+        salonsViewModel = ViewModelProviders.of(this).get(SalonsViewModel.class);
+        salonsViewModel.init();
 
-        roundViewModel.getRoundsList().observe(this, new Observer<PagedList<Round>>() {
+        salonsViewModel.getRoundsList().observe(this, new Observer<PagedList<Round>>() {
             @Override
             public void onChanged(@Nullable PagedList<Round> rounds) {
                 if (rounds != null)
-                    recentHalesPagedAdapter.submitList(rounds);
+                    recentSalonsPagedAdapter.submitList(rounds);
             }
         });
 
-        recentHalesRecycler.setAdapter(recentHalesPagedAdapter);
+        recentSalonsRecycler.setAdapter(recentSalonsPagedAdapter);
 
         // to remove progress bar
-        recentHalesRecycler.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        recentSalonsRecycler.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                recentHalesProgress.setVisibility(View.GONE);
-                recentHalesRecycler.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                recentSalonsProgress.setVisibility(View.GONE);
+                recentSalonsRecycler.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
     }

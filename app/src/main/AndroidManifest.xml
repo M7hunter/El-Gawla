@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Views.MainActivity">
         </activity>
-        <activity android:name=".Views.HaleActivity" />
+        <activity android:name=".Views.SalonActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".Views.SplashActivities.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,8 +26,8 @@
         <activity android:name=".Views.LoginActivities.SubscribePlanActivity" />
         <activity android:name=".Views.LoginActivities.PaymentActivity" />
         <activity android:name=".Views.LoginActivities.ForgetPasswordActivity" />
-        <activity android:name=".Views.LoginActivities.CreateAccountActivity" />
-        <activity android:name=".Views.LoginActivities.LoginActivity" />
+        <activity android:name=".Views.LoginActivities.SignUpActivity" />
+        <activity android:name=".Views.LoginActivities.SignInActivity" />
         <activity android:name=".Views.ProductDetailsActivity" />
         <activity android:name=".Views.SettingsActivity"/>
     </application>

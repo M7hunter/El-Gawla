@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import it_geeks.info.gawla_app.Views.HaleActivity;
+import it_geeks.info.gawla_app.Views.SalonActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
 
@@ -46,7 +46,7 @@ public class RoundsPagerAdapter extends PagerAdapter {
         View view = LayoutInflater.from(context).inflate(R.layout.item_my_round, container, false);
 
         // define views
-        TextView tvProductName, tvProductCategory, tvProductPrice, tvProductDescription, tvStartTime, tvEndTime, tvMembersNumber, btnJoinRound;
+        TextView tvProductName, tvProductCategory, tvProductPrice, tvProductDescription, tvStartTime, tvEndTime, btnJoinRound;
         ImageView imgProductImage;
 
         // init views
@@ -73,7 +73,7 @@ public class RoundsPagerAdapter extends PagerAdapter {
         btnJoinRound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, HaleActivity.class);
+                Intent i = new Intent(context, SalonActivity.class);
                 i.putExtra("product_name", round.getProduct_name());
                 i.putExtra("product_image", round.getProduct_image());
                 i.putExtra("product_category", round.getProduct_category());

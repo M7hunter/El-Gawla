@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
+import it_geeks.info.gawla_app.Views.LoginActivities.SignInActivity;
 import it_geeks.info.gawla_app.R;
 
 
@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         if (SharedPrefManager.getInstance(SplashActivity.this).getCountry_Save() != null) {
-            startActivity(new Intent(SplashActivity.this, LoginActivity.class)
+            startActivity(new Intent(SplashActivity.this, SignInActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
             finish();
         } else {
