@@ -9,11 +9,9 @@
     tools:context=".Views.SalonActivity">
 
     <!-- main layout -->
-    <!-- scroll main layout -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <!-- logo & bell container -->
         <RelativeLayout
@@ -64,10 +62,10 @@
 
             <!-- salon number -->
             <TextView
+                android:id="@+id/salon_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_tiny"
-                android:text="234152"
                 android:textColor="@color/midBlue"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
@@ -81,6 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/salon_number_container"
             android:layout_centerHorizontal="true">
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -357,10 +356,9 @@
 
                         <!-- end time -->
                         <TextView
-                            android:id="@+id/hale_end_time"
+                            android:id="@+id/salon_end_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="6:24 PM"
                             android:textColor="@color/paleRed"
                             android:textSize="@dimen/text_size_medium"
                             android:textStyle="bold" />
@@ -378,9 +376,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/cards_container"
             android:layout_centerHorizontal="true"
-            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_tiny"
             android:orientation="horizontal"
             android:visibility="gone">
@@ -415,38 +413,6 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-
-        <!-- cards icon container -->
-        <RelativeLayout
-            android:id="@+id/cards_icon_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/bg_circle_bordered_transparent"
-            android:padding="@dimen/margin_small">
-
-            <!-- icon -->
-            <ImageView
-                android:layout_width="@dimen/image_cards_round_updates"
-                android:layout_height="@dimen/image_cards_round_updates"
-                android:background="@drawable/bg_circle_blue_270"
-                android:padding="@dimen/margin_large"
-                android:src="@drawable/ic_cards"
-                android:tint="@android:color/white" />
-
-            <!-- cards notification -->
-            <TextView
-                android:layout_width="@dimen/margin_xlarge"
-                android:layout_height="@dimen/margin_xlarge"
-                android:background="@drawable/bg_circle_red"
-                android:fontFamily="monospace"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
 
         <!-- for dimmed background -->
         <FrameLayout
@@ -486,7 +452,7 @@
 
                         <!-- product image -->
                         <ImageView
-                            android:id="@+id/hale_product_image"
+                            android:id="@+id/round_product_image"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -504,12 +470,11 @@
 
                             <!-- product name -->
                             <TextView
-                                android:id="@+id/hale_product_name"
+                                android:id="@+id/round_product_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/margin_tiny"
                                 android:gravity="center"
-                                android:text="نوت بوك من ايسر ES1-523- 82TN "
                                 android:textColor="@color/duskBlue"
                                 android:textSize="@dimen/text_size_medium"
                                 android:textStyle="bold" />
@@ -528,12 +493,11 @@
 
                                 <!-- price -->
                                 <TextView
-                                    android:id="@+id/hale_product_price"
+                                    android:id="@+id/round_product_price"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center"
-                                    android:text="5,599.00 EGP"
                                     android:textColor="@color/azureTwo"
                                     android:textSize="@dimen/text_size_medium"
                                     android:textStyle="bold" />
@@ -581,7 +545,7 @@
 
                         <!-- notification icon -->
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/hale_notification_icon"
+                            android:id="@+id/round_notification_icon"
                             android:layout_width="@dimen/icon_notification"
                             android:layout_height="@dimen/icon_notification"
                             android:layout_margin="@dimen/margin_small"
@@ -590,7 +554,7 @@
 
                         <!-- notification text -->
                         <TextView
-                            android:id="@+id/textView44"
+                            android:id="@+id/round_notification_text"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -611,7 +575,7 @@
 
         <!-- join btn -->
         <Button
-            android:id="@+id/btnJoinRound"
+            android:id="@+id/btn_join_round"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_below="@id/cards_container"
@@ -624,6 +588,38 @@
             android:text="@string/join_round"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_large"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <!-- cards icon container -->
+    <RelativeLayout
+        android:id="@+id/cards_icon_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:background="@drawable/bg_circle_bordered_transparent"
+        android:padding="@dimen/margin_small">
+
+        <!-- icon -->
+        <ImageView
+            android:layout_width="@dimen/image_cards_round_updates"
+            android:layout_height="@dimen/image_cards_round_updates"
+            android:background="@drawable/bg_circle_blue_270"
+            android:padding="@dimen/margin_large"
+            android:src="@drawable/ic_cards"
+            android:tint="@android:color/white" />
+
+        <!-- cards notification -->
+        <TextView
+            android:layout_width="@dimen/margin_xlarge"
+            android:layout_height="@dimen/margin_xlarge"
+            android:background="@drawable/bg_circle_red"
+            android:fontFamily="monospace"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
     </RelativeLayout>

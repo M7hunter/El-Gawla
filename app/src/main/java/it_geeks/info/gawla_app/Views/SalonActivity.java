@@ -59,13 +59,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         initBottomSheet();
 
-        if (savedInstanceState != null) {
-            joinStatus = savedInstanceState.getInt("Joined");
-        }
-
         initViews();
 
-        joinEvent();
+        handleEvents();
     }
 
     private void getRoundData(Bundle savedInstanceState) {
@@ -103,10 +99,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void initRoundViews_setData() {
         // init views
-        tvEndTime = findViewById(R.id.hale_end_time);
-        tvProductName = findViewById(R.id.hale_product_name);
-        tvProductPrice = findViewById(R.id.hale_product_price);
-        imProductImage = findViewById(R.id.hale_product_image);
+        tvEndTime = findViewById(R.id.salon_end_time);
+        tvProductName = findViewById(R.id.round_product_name);
+        tvProductPrice = findViewById(R.id.round_product_price);
+        imProductImage = findViewById(R.id.round_product_image);
 
         // set data
         tvEndTime.setText(round.getEnd_time());
@@ -119,24 +115,22 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     public void initViews() {
         overlayLayout = findViewById(R.id.overlay_layout);
         more = findViewById(R.id.more);
-        btnJoinRound = findViewById(R.id.btnJoinRound);
+        btnJoinRound = findViewById(R.id.btn_join_round);
         confirmationLayout = findViewById(R.id.join_confirmation_layout);
         notificationCard = findViewById(R.id.round_notification_card);
         addOfferLayout = findViewById(R.id.add_offer_layout);
     }
 
-    private void joinEvent() {
+    private void handleEvents() {
         btnJoinRound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (joinStatus) {
                     case 0:
                         displayConfirmationLayout();
-                        joinStatus = 1;
                         break;
                     case 1:
                         changeConfirmationState();
-                        joinStatus = 2;
                         break;
                     case 2:
                         hideConfirmationLayout();
@@ -164,9 +158,24 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 startActivity(i);
             }
         });
+
+        // cancel confirmation
+        overlayLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (joinStatus == 2) {
+                    hideConfirmationLayout();
+                } else {
+                    cancelConfirmation();
+                }
+
+            }
+        });
     }
 
     private void displayConfirmationLayout() {
+        joinStatus = 1;
+
         // hide background views
         more.setVisibility(View.GONE);
         notificationCard.setVisibility(View.GONE);
@@ -177,6 +186,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void changeConfirmationState() {
+        joinStatus = 2;
+
         ImageView icon = findViewById(R.id.join_confirmation_icon);
         TextView header = findViewById(R.id.join_confirmation_header);
         TextView text = findViewById(R.id.join_confirmation_text);
@@ -203,10 +214,16 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         addOfferLayout.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("Joined", joinStatus);
+    private void cancelConfirmation() {
+        joinStatus = 0;
+
+        // display background views
+        more.setVisibility(View.VISIBLE);
+        notificationCard.setVisibility(View.VISIBLE);
+
+        // hide confirmation layout
+        confirmationLayout.setVisibility(View.GONE);
+        overlayLayout.setVisibility(View.GONE);
     }
 
     private void initCardsIcon() {
@@ -215,7 +232,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         cardsIconContainer.setOnTouchListener(this);
 
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
-        staringPoint = new PointF(cardsIconContainer.getX(), cardsIconContainer.getY());
     }
 
     private void initBottomSheet() {
@@ -244,7 +260,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-
         // just clicked
         if (gestureDetector.onTouchEvent(motionEvent)) {
             cardClicked();
@@ -278,24 +293,24 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void handleWithScreenBorders(View view) {
-        // if out of the left border or in the left half of screen
+        // if out of the left border || in the left half of screen
         if (view.getX() < 0 || (view.getX() + (view.getWidth() / 2)) < (screenWidth / 2)) {
-            view.setX(0);
+            view.animate().translationX(0).setDuration(250).start();
         }
 
-        // if out of the right border or in the right half of screen
+        // if out of the right border || in the right half of screen
         if ((view.getX() + view.getWidth()) > screenWidth || (view.getX() + (view.getWidth() / 2)) > (screenWidth / 2)) {
-            view.setX(screenWidth - view.getWidth());
+            view.animate().translationX(screenWidth - view.getWidth()).setDuration(250).start();
         }
 
         // if out of the up border
         if (view.getY() < 0) {
-            view.setY(0);
+            view.animate().translationY(0).setDuration(200).start();
         }
 
         // if out of the bottom border
         if (view.getY() > (screenHeight - (view.getHeight() / 2))) {
-            view.setY(screenHeight - (view.getHeight()));
+            view.animate().translationY(screenHeight - view.getHeight()).setDuration(200).start();
         }
     }
 

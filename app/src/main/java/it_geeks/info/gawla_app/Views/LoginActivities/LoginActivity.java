@@ -25,12 +25,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignInActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private TextView txtForgetPassword , txtCreateAccount;
     private Button btnLogin;
     private EditText txt_Email,txt_Password;
-    public static String mApi_token,mUser_id;
+    private String mApi_token;
+    int mUser_id;
     ProgressBar progressBar;
 
     @Override
@@ -38,15 +39,16 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        boolean status = SharedPrefManager.getInstance(SignInActivity.this).isLoggedIn();
-        mApi_token = SharedPrefManager.getInstance(SignInActivity.this).getUser().getApi_token();
+        boolean status = SharedPrefManager.getInstance(LoginActivity.this).isLoggedIn();
+        mApi_token = SharedPrefManager.getInstance(LoginActivity.this).getUser().getApi_token();
 
         if (status && mApi_token != null) {
-            startActivity(new Intent(SignInActivity.this,MainActivity.class));
+            startActivity(new Intent(LoginActivity.this,MainActivity.class));
             finish();
 
         } else {
             initialization();
+
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -72,15 +74,15 @@ public class SignInActivity extends AppCompatActivity {
                                     if (status) {
                                         JsonObject Mdata = data.getAsJsonObject("userData");
                                         mApi_token = Mdata.get("api_token").getAsString();
-                                        mUser_id = Mdata.get("user_id").getAsString();
+                                        mUser_id = Mdata.get("user_id").getAsInt();
                                         String mEmail = Mdata.get("email").getAsString();
                                         String mImage = Mdata.get("image").getAsString();
                                         String mName = Mdata.get("name").getAsString();
 
-                                        SharedPrefManager.getInstance(SignInActivity.this).saveUser(new User(Integer.parseInt(mUser_id), mName, mEmail, mApi_token, mImage));
-                                        SharedPrefManager.getInstance(SignInActivity.this).saveUserImage(mImage);
+                                        SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(mUser_id, mName, mEmail, mApi_token, mImage));
+                                        SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(mImage);
 
-                                        startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                         finish();
                                         progressBar.setVisibility(View.GONE);
                                     } else {
@@ -92,13 +94,13 @@ public class SignInActivity extends AppCompatActivity {
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 } catch (NullPointerException e) {
-                                    Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<JsonObject> call, Throwable t) {
-                                Toast.makeText(SignInActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);
                             }
                         });
@@ -109,13 +111,13 @@ public class SignInActivity extends AppCompatActivity {
             txtForgetPassword.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(SignInActivity.this, ForgetPasswordActivity.class));
+                    startActivity(new Intent(LoginActivity.this, ForgetPasswordActivity.class));
                 }
             });
             txtCreateAccount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
+                    startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
                 }
             });
         }

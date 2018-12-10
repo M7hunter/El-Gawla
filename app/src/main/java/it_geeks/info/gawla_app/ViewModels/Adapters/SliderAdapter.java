@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.Views.LoginActivities.SignInActivity;
+import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Views.SplashActivities.IntroActivity;
 
@@ -72,7 +72,7 @@ public class SliderAdapter extends PagerAdapter {
         txt_Splat_Skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            context.startActivity(new Intent(context,SignInActivity.class));
+            context.startActivity(new Intent(context,LoginActivity.class));
             onboardActivity.finish();
             new SharedPrefManager(context).Intro_Save("1");
             }

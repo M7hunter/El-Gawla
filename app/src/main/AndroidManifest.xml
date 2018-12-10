@@ -26,8 +26,8 @@
         <activity android:name=".Views.LoginActivities.SubscribePlanActivity" />
         <activity android:name=".Views.LoginActivities.PaymentActivity" />
         <activity android:name=".Views.LoginActivities.ForgetPasswordActivity" />
-        <activity android:name=".Views.LoginActivities.SignUpActivity" />
-        <activity android:name=".Views.LoginActivities.SignInActivity" />
+        <activity android:name=".Views.LoginActivities.CreateAccountActivity" />
+        <activity android:name=".Views.LoginActivities.LoginActivity" />
         <activity android:name=".Views.ProductDetailsActivity" />
         <activity android:name=".Views.SettingsActivity"/>
     </application>

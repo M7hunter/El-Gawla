@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import it_geeks.info.gawla_app.ViewModels.Adapters.SliderAdapter;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.Views.LoginActivities.SignInActivity;
+import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
 
 public class IntroActivity extends AppCompatActivity {
@@ -36,7 +36,7 @@ public class IntroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_intro);
         sharedPreferences = new SharedPrefManager(IntroActivity.this);
         if (sharedPreferences.getIntro_Save() != null) {
-            startActivity(new Intent(IntroActivity.this, SignInActivity.class));
+            startActivity(new Intent(IntroActivity.this, LoginActivity.class));
             finish();
         } else {
             txtback = findViewById(R.id.txt_back);
@@ -82,7 +82,7 @@ public class IntroActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (mCurrentPage >= 2) {
-                        startActivity(new Intent(IntroActivity.this, SignInActivity.class));
+                        startActivity(new Intent(IntroActivity.this, LoginActivity.class));
                         new SharedPrefManager(IntroActivity.this).Intro_Save("1");
                         finish();
                     }
