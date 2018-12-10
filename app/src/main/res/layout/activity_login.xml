@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
@@ -37,6 +38,7 @@
                 tools:layout_editor_absoluteY="39dp" />
 
             <LinearLayout
+                android:id="@+id/btn_google_login"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_xxxlarge"
                 android:layout_marginLeft="40dp"
@@ -59,29 +61,14 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_xxxlarge"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="40dp"
-                android:background="@drawable/btn_facebook"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/button2"
-                    android:layout_width="200dp"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/btn_facebook"
-                    android:drawableEnd="@drawable/page1"
-                    android:fontFamily="@font/cairo_regular"
-                    android:gravity="center"
-                    android:text="@string/facebook"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+                android:layout_marginBottom="30dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

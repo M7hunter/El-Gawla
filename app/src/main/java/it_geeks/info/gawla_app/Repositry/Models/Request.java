@@ -1,5 +1,7 @@
 package it_geeks.info.gawla_app.Repositry.Models;
 
+import java.util.PriorityQueue;
+
 public class Request {
 
     private String email;
@@ -16,6 +18,16 @@ public class Request {
 
     private String membership;
 
+    private String provider;
+
+    private int provider_id ;
+
+    private String provider_name ;
+
+    private String provider_email ;
+
+    private String provider_image ;
+
     public Request(String email, String password) { // login Request
         this.email = email;
         this.password = password;
@@ -25,6 +37,14 @@ public class Request {
         this.email = email;
         this.membership = "basic";
         this.password = pass;
+    }
+
+    public Request(String provider, int provider_id, String provider_name, String provider_email, String provider_image) { // Login and Register SocialMedia Requesr
+        this.provider = provider;
+        this.provider_id = provider_id;
+        this.provider_name = provider_name;
+        this.provider_email = provider_email;
+        this.provider_image = provider_image;
     }
 
     public Request(int user_id, String api_token) { // salons & cards Request
@@ -37,6 +57,7 @@ public class Request {
         this.api_token = api_token;
         this.image = image;
     }
+
 
     public int getUser_id() {
         return user_id;
