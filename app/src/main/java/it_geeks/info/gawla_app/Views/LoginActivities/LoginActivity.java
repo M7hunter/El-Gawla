@@ -1,18 +1,63 @@
 package it_geeks.info.gawla_app.Views.LoginActivities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInApi;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResolvingResultCallbacks;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.Task;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+
+import it_geeks.info.gawla_app.General.PicassoClint;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
@@ -25,13 +70,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener {
 
     private TextView txtForgetPassword , txtCreateAccount;
     private Button btnLogin;
     private EditText txt_Email,txt_Password;
     public static String mApi_token,mUser_id;
     ProgressBar progressBar;
+    // fb login
+    CallbackManager callbackManager;
+    LoginButton btn_fb_login;
+    String providerFacebook = "facebook";
+    // google login
+    String providerGoogle = "google";
+    GoogleSignInClient mGoogleSignInClient;
+    GoogleApiClient googleApiClint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +100,8 @@ public class LoginActivity extends AppCompatActivity {
 
         } else {
             initialization();
+            facebookLogin();
+            // login
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -121,17 +176,164 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("WrongViewCast")
     private void initialization(){
+
         btnLogin = findViewById(R.id.btnLogin);
         txtForgetPassword = findViewById(R.id.txt_FrogetPassword);
         txtCreateAccount = findViewById(R.id.txt_Create_Account);
         txt_Email = findViewById(R.id.txt_Email);
         txt_Password = findViewById(R.id.txt_Password);
         progressBar = findViewById(R.id.login_loading);
+
+        //fb login
+        callbackManager = CallbackManager.Factory.create();callbackManager = CallbackManager.Factory.create();
+        btn_fb_login = (LoginButton) findViewById(R.id.login_button);
+
+        // google login
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        findViewById(R.id.btn_google_login).setOnClickListener(this);
+
+
     }
+    // google login
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_google_login:
+                signIn();
+                break;
+        }
+    }
+
+
+    // google login
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, 1000);
+    }
+    // google login
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            String id = account.getId();
+            String name = account.getDisplayName();
+            String email = account.getDisplayName();
+            String image = account.getPhotoUrl().toString();
+            String provider = providerGoogle;
+        } catch (ApiException e) {
+            Log.w("", "signInResult:failed code=" + e.getStatusCode());
+
+        }
+    }
+    // fb login
+    private void facebookLogin() {
+        btn_fb_login.setReadPermissions(Arrays.asList("public_profile", "email"));
+        btn_fb_login.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+            String accesstoken = loginResult.getAccessToken().getToken();
+
+                GraphRequest mGraphRequest = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                getData(object);
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender, birthday");
+                mGraphRequest.setParameters(parameters);
+                mGraphRequest.executeAsync();
+
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(LoginActivity.this, "canceled", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                Toast.makeText(LoginActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        if(AccessToken.getCurrentAccessToken() != null){
+            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+        }
+
+    }
+    // fb login
+    private void getData(final JSONObject object) {
+        try{
+            URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/"+object.getString("id")+"/picture?type=normal");
+
+                final int id = object.optInt("id");
+                final String name = object.optString("name");
+                final String email = object.optString("email");
+                final String image = Profile_Picture.toString();
+                String provider = providerFacebook;
+
+                try {
+                    RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"),new Request(provider,id,name,email,image));
+                    Call<JsonObject> call = RetrofitClient.getInstance().getAPI().SocialLoginAndRegister(requestMainBody);
+                    call.enqueue(new Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                             //TODO  for test
+                                mApi_token =  "fj6UGOi3OCWW3kjp2spQOWkqxXW8uP4Ik87xQyK59YjfrGHzzxagjcy1ORFP";
+                                mUser_id = String.valueOf(id);
+                                SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(id, name, email, mApi_token, image));
+                                SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
+
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
+                            }
+
+                        @Override
+                        public void onFailure(Call<JsonObject> call, Throwable t) {
+                            Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }catch (Exception e){
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            Toast.makeText(LoginActivity.this, id +" - "+providerFacebook, Toast.LENGTH_LONG).show();
+                txt_Email.setText(email);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        callbackManager.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // google login
+        if (requestCode == 1000) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    // google login
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(this, connectionResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
     }
 }

@@ -26,4 +26,7 @@ public interface APIs {
     @POST("master")
     Call<JsonObject> UploadImage(@Body RequestMainBody requestMainBody);
 
+    // Upload Image
+    @POST("master")
+    Call<JsonObject> SocialLoginAndRegister(@Body RequestMainBody requestMainBody);
 }
