@@ -74,7 +74,6 @@ public class SliderAdapter extends PagerAdapter {
             public void onClick(View v) {
             context.startActivity(new Intent(context,LoginActivity.class));
             onboardActivity.finish();
-            new SharedPrefManager(context).Intro_Save("1");
             }
         });
 

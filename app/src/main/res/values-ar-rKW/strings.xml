@@ -106,5 +106,10 @@
     <string name="Invalid_email_password">بيانات الدخول غير صحيحة</string>
     <string name="emptyMail">بريد الكتروني فارغ</string>
     <string name="emptyPass">كلمة سر فارغة</string>
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="choose_country">اختر الدولة</string>
+    <string name="no_content">لا يوجد محتوي</string>
+    <string name="Language">اللغة</string>
+    <string name="sign_up">انشاء حساب</string>
 
 </resources>

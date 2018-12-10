@@ -109,6 +109,7 @@
     <string name="sign_in">sign in</string>
     <string name="Language">Language</string>
     <string name="no_content">no available content</string>
+    <string name="choose_country">choose country</string>
 
     <array name="languagesArray">
         <item>LANGUAGE :</item>
