@@ -2,96 +2,99 @@ package it_geeks.info.gawla_app.Views.NavigationFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import it_geeks.info.gawla_app.Repositry.Models.Card;
+import java.util.ArrayList;
+import java.util.List;
+
+import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.Repositry.Models.Card;
+import it_geeks.info.gawla_app.Repositry.Models.Data;
+import it_geeks.info.gawla_app.Repositry.Models.Request;
+import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
+import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.ViewModels.Adapters.CardsAdapter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CardsFragment extends Fragment {
 
-    Card greenCard, redCard, goldenCard;
+    RecyclerView cardsRecycler;
+    CardsAdapter cardsAdapter;
+
+    List<Card> cardsList = new ArrayList<>();
+
+    ProgressBar cardsProgress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cards, container, false);
 
-        initViews(view);
-
-//        getData(view);
+        getCardsFromServer(view);
 
         return view;
     }
 
-//    private void getData(View view) {
-//
-//        RequestMainBody requestMainBody = new RequestMainBody(
-//                new Data("getCardByUserID"),
-//                new Request(
-//                        SharedPrefManager.getInstance(getContext()).getUser().getUser_id(),
-//                        Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token())));
-//
-//        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().request(requestMainBody);
-//        call.enqueue(new Callback<JsonObject>() {
-//            @Override
-//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                try {
-//                    JsonObject object = response.body().getAsJsonObject();
-//                    boolean status = object.get("status").getAsBoolean();
-//
-//                    if (status) {
-//                        // notify user
-//                        Toast.makeText(getContext(), object.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-//
-//                        // save user data locally
-//                        handleServerResponse(object);
-//
-//                    } else {
-//                        // notify user
-//                        Toast.makeText(getContext(), handleServerErrors(object), Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                } catch (NullPointerException e) {
-//                    // notify user
-////                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<JsonObject> call, Throwable t) {
-//                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+    private void getCardsFromServer(final View view) {
+        int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
+        String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
+
+        RequestMainBody requestMainBody = new RequestMainBody(new Data("getCardByUserID"), new Request(userId, apiToken));
+        RetrofitClient.getInstance().getAPI().request(requestMainBody).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                try {
+                    JsonObject mainObj = response.body().getAsJsonObject();
+                    boolean status = mainObj.get("status").getAsBoolean();
+
+                    if (status) { // no errors
+
+                        handleServerResponse(mainObj);
+
+                        initCardsRecycler(view);
+
+                    } else { // errors from server
+                        Toast.makeText(getActivity(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (NullPointerException e) { // errors of response body
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void handleServerResponse(JsonObject object) {
         JsonArray dataArray = object.get("data").getAsJsonArray();
 
         for (int i = 0; i < dataArray.size(); i++) {
             JsonObject cardObj = dataArray.get(i).getAsJsonObject();
+            int card_id = cardObj.get("card_id").getAsInt();
             String card_name = cardObj.get("card_name").getAsString();
-            String card_category = cardObj.get("card_category").getAsString();
-            String type = cardObj.get("type").getAsString();
-            String color_code = cardObj.get("color_code").getAsString();
-            String cost = cardObj.get("cost").getAsString();
+            String card_type = cardObj.get("card_type").getAsString();
+            String card_color = cardObj.get("card_color").getAsString();
+            String card_cost = cardObj.get("card_cost").getAsString();
+            int count = cardObj.get("count").getAsInt();
 
-            switch (type) {
-                case "green":
-                    greenCard = new Card(card_name, card_category, type, color_code, cost);
-                    break;
-                case "red":
-                    redCard = new Card(card_name, card_category, type, color_code, cost);
-                    break;
-                case "golden":
-                    goldenCard = new Card(card_name, card_category, type, color_code, cost);
-                    break;
-            }
+            cardsList.add(
+                    new Card(card_id, card_name, card_type, card_color, card_cost, count));
         }
     }
 
@@ -104,21 +107,15 @@ public class CardsFragment extends Fragment {
         return error;
     }
 
-    private void initViews(View view) {
-        TextView tvGreenCardStatus, tvRedCardStatus, tvGoldenCardStatus, tvGreenCardCount, tvRedCardCount, tvGoldenCardCount;
+    private void initCardsRecycler(View view) {
+        cardsRecycler = view.findViewById(R.id.cards_recycler);
+        cardsRecycler.setHasFixedSize(true);
+        cardsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), 1, false));
+        cardsAdapter = new CardsAdapter(getContext(), cardsList);
+        cardsRecycler.setAdapter(cardsAdapter);
 
-        tvGreenCardStatus = view.findViewById(R.id.green_card_status);
-        tvGreenCardCount = view.findViewById(R.id.green_card_count);
-        tvRedCardStatus = view.findViewById(R.id.red_card_status);
-        tvRedCardCount = view.findViewById(R.id.red_card_count);
-        tvGoldenCardStatus = view.findViewById(R.id.golden_card_status);
-        tvGoldenCardCount = view.findViewById(R.id.golden_card_count);
+        cardsProgress = view.findViewById(R.id.cards_progress);
 
-//        tvGreenCardStatus.setText();
-//        tvGreenCardCount.setText();
-//        tvRedCardStatus.setText();
-//        tvRedCardCount.setText();
-//        tvGoldenCardStatus.setText();
-//        tvGoldenCardCount.setText();
+        Common.Instance(getContext()).hideProgress(cardsRecycler, cardsProgress);
     }
 }

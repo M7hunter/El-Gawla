@@ -74,15 +74,16 @@ public class AccountFragment extends Fragment {
     private void setData() { // set data to views
         Picasso.with(getContext()).load(image).placeholder(R.mipmap.ic_launcher_gawla).into(userImage);
         userName.setText(name);
+
         edit_user_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gotoGalary();
+                gotoGallery();
             }
         });
     }
 
-    private void gotoGalary() {
+    private void gotoGallery() {
         Intent i = new Intent();
         i.setAction(Intent.ACTION_GET_CONTENT);
         i.setType("image/*");
@@ -93,12 +94,12 @@ public class AccountFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1 && resultCode==RESULT_OK) {
-            Uri selecteImage = data.getData();
+            Uri selectImage = data.getData();
 
-            if (selecteImage != null) {
+            if (selectImage != null) {
                 Bitmap bitmap = null;
                 try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selecteImage);
+                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectImage);
                     userImage.setImageBitmap(bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -126,7 +127,7 @@ public class AccountFragment extends Fragment {
         final RequestMainBody requestMainBody = new RequestMainBody(new Data("updateUserDate"),new Request(user_id,api_token,encodedImage));
         try {
             new AsyncUploadImage().execute(requestMainBody);
-        }catch (RuntimeException e){ }
+        } catch (RuntimeException e){ }
 
     }
 
@@ -174,7 +175,7 @@ public class AccountFragment extends Fragment {
           }
       }
 
-    private String handleServerErrors(JsonObject object) {  // get Response Error
+    private String handleServerErrors(JsonObject object) {
         String error = "no errors";
         JsonArray errors = object.get("errors").getAsJsonArray();
         for (int i = 0; i < errors.size(); i++) {
@@ -182,6 +183,4 @@ public class AccountFragment extends Fragment {
         }
         return error;
     }
-
-
-}// end of class
+}

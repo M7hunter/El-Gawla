@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.ViewModels.Adapters.RecentSalonsPagedAdapter;
 import it_geeks.info.gawla_app.ViewModels.Adapters.WinnersNewsAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
@@ -92,13 +93,7 @@ public class MainFragment extends Fragment {
         recentSalonsRecycler.setAdapter(recentSalonsPagedAdapter);
 
         // to remove progress bar
-        recentSalonsRecycler.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                recentSalonsProgress.setVisibility(View.GONE);
-                recentSalonsRecycler.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+        Common.Instance(getContext()).hideProgress(recentSalonsRecycler, recentSalonsProgress);
     }
 
     private void initWinnersRecycler(View view) {
@@ -114,12 +109,6 @@ public class MainFragment extends Fragment {
         }
 
         // to remove progress bar
-        winnersNewsRecycler.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                winnersNewsProgress.setVisibility(View.GONE);
-                winnersNewsRecycler.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+        Common.Instance(getContext()).hideProgress(winnersNewsRecycler, winnersNewsProgress);
     }
 }
