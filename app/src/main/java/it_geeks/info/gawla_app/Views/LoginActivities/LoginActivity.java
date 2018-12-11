@@ -2,21 +2,15 @@ package it_geeks.info.gawla_app.Views.LoginActivities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,34 +24,24 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResolvingResultCallbacks;
-import com.google.android.gms.common.api.Result;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-import it_geeks.info.gawla_app.General.PicassoClint;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
@@ -75,8 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView txtForgetPassword , txtCreateAccount;
     private Button btnLogin;
     private EditText txt_Email,txt_Password;
-    private String mApi_token;
-    int mUser_id;
+    public static String mApi_token,mUser_id;
     ProgressBar progressBar;
     // fb login
     CallbackManager callbackManager;
@@ -85,7 +68,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     // google login
     String providerGoogle = "google";
     GoogleSignInClient mGoogleSignInClient;
-    GoogleApiClient googleApiClint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,12 +83,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         } else {
             initialization();
-<<<<<<< HEAD
             facebookLogin();
             // login
-=======
-
->>>>>>> remotes/origin/roundPageUpdate
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -132,12 +110,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     if (status) {
                                         JsonObject Mdata = data.getAsJsonObject("userData");
                                         mApi_token = Mdata.get("api_token").getAsString();
-                                        mUser_id = Mdata.get("user_id").getAsInt();
+                                        mUser_id = Mdata.get("user_id").getAsString();
                                         String mEmail = Mdata.get("email").getAsString();
                                         String mImage = Mdata.get("image").getAsString();
                                         String mName = Mdata.get("name").getAsString();
 
-                                        SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(mUser_id, mName, mEmail, mApi_token, mImage));
+                                        SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(Integer.parseInt(mUser_id), mName, mEmail, mApi_token, mImage));
                                         SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(mImage);
 
                                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -239,7 +217,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btn_fb_login.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-            String accesstoken = loginResult.getAccessToken().getToken();
+                String accesstoken = loginResult.getAccessToken().getToken();
 
                 GraphRequest mGraphRequest = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
@@ -276,40 +254,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         try{
             URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/"+object.getString("id")+"/picture?type=normal");
 
-                final int id = object.optInt("id");
-                final String name = object.optString("name");
-                final String email = object.optString("email");
-                final String image = Profile_Picture.toString();
-                String provider = providerFacebook;
+            final int id = object.optInt("id");
+            final String name = object.optString("name");
+            final String email = object.optString("email");
+            final String image = Profile_Picture.toString();
+            String provider = providerFacebook;
 
-                try {
-                    RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"),new Request(provider,id,name,email,image));
-                    Call<JsonObject> call = RetrofitClient.getInstance().getAPI().SocialLoginAndRegister(requestMainBody);
-                    call.enqueue(new Callback<JsonObject>() {
-                        @Override
-                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            try {
+                RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"),new Request(provider,id,name,email,image));
+                Call<JsonObject> call = RetrofitClient.getInstance().getAPI().SocialLoginAndRegister(requestMainBody);
+                call.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
-                             //TODO  for test
-                                mApi_token =  "fj6UGOi3OCWW3kjp2spQOWkqxXW8uP4Ik87xQyK59YjfrGHzzxagjcy1ORFP";
-                                mUser_id = String.valueOf(id);
-                                SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(id, name, email, mApi_token, image));
-                                SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
+                        //TODO  for test
+                        mApi_token =  "fj6UGOi3OCWW3kjp2spQOWkqxXW8uP4Ik87xQyK59YjfrGHzzxagjcy1ORFP";
+                        mUser_id = String.valueOf(id);
+                        SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(id, name, email, mApi_token, image));
+                        SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
 
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                finish();
-                            }
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+                    }
 
-                        @Override
-                        public void onFailure(Call<JsonObject> call, Throwable t) {
-                            Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }catch (Exception e){
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }catch (Exception e){
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
 
             Toast.makeText(LoginActivity.this, id +" - "+providerFacebook, Toast.LENGTH_LONG).show();
-                txt_Email.setText(email);
+            txt_Email.setText(email);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
