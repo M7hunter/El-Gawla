@@ -8,14 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Views.SettingsActivity;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class MenuFragment extends Fragment {
 
     private RelativeLayout optionSettings,Exit;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,7 +35,7 @@ public class MenuFragment extends Fragment {
     }
 
     private void initViews(final View view) {
-
+        mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext()).addApi(Auth.GOOGLE_SIGN_IN_API).build();
         optionSettings = view.findViewById(R.id.menu_settings);
         Exit = view.findViewById(R.id.menu_Exit);
 
@@ -37,6 +44,12 @@ public class MenuFragment extends Fragment {
             public void onClick(View v) {
                 SharedPrefManager.getInstance(getActivity()).clearUser();
                 startActivity(new Intent(getActivity(), LoginActivity.class));
+                LoginManager.getInstance().logOut();
+                if (mGoogleApiClient.isConnected()) {
+                    Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                    mGoogleApiClient.disconnect();
+                    mGoogleApiClient.connect();
+                }
                 getActivity().finish();
             }
         });
