@@ -20,7 +20,7 @@ public class Request {
 
     private String provider;
 
-    private int provider_id ;
+    private String provider_id ;
 
     private String provider_name ;
 
@@ -39,7 +39,7 @@ public class Request {
         this.password = pass;
     }
 
-    public Request(String provider, int provider_id, String provider_name, String provider_email, String provider_image) { // Login and Register SocialMedia Requesr
+    public Request(String provider, String provider_id, String provider_name, String provider_email, String provider_image) { // Login and Register SocialMedia Requesr
         this.provider = provider;
         this.provider_id = provider_id;
         this.provider_name = provider_name;
