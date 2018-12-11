@@ -14,6 +14,7 @@ public class SharedPrefManager {
     private SharedPreferences sharedPreferences;
     private static final String SHARED_PREF_NAME = "lang_shared_pref";
     private static final String SHARED_PREF_NAME2 = "user_shared_pref";
+    private static final String SHARED_PREF_NAME3 = "country_shared_pref";
     private static final String SHARED_PREF_USER_IMAGE = "user_image_shared_pref";
     public SharedPrefManager(Context context) {
         this.context = context;
@@ -60,7 +61,6 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-
     public boolean isLoggedIn() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME2, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("userLogged", false);
@@ -87,28 +87,20 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-    public void Country_Save(String country) {
-        context.getSharedPreferences("SaveCountry", MODE_PRIVATE)
-                .edit()
-                .putString("splash", country)
-                .commit();
+    //--------------- country -------------//
+    public void setCountry(int countryId) {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME3, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.clear();
+
+        editor.putInt("countryId", countryId);
+        editor.apply();
     }
 
-    public String getCountry_Save() {
-        SharedPreferences pref = context.getSharedPreferences("SaveCountry", MODE_PRIVATE);
-        return pref.getString("splash", null);
-    }
-
-    public void Intro_Save(String intro) {
-        context.getSharedPreferences("SaveIntro", MODE_PRIVATE)
-                .edit()
-                .putString("intro", intro)
-                .commit();
-    }
-
-    public String getIntro_Save() {
-        SharedPreferences pref = context.getSharedPreferences("SaveIntro", MODE_PRIVATE);
-        return pref.getString("intro", null);
+    public int getCountry() {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME3, MODE_PRIVATE);
+        return sharedPreferences.getInt("countryId", 0);
     }
 
     // ----  user profile ---- //
@@ -125,7 +117,5 @@ public class SharedPrefManager {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_IMAGE, Context.MODE_PRIVATE);
         return sharedPreferences.getString("userImage",null);
     }
-
-
 }
 

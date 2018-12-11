@@ -75,7 +75,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView txtForgetPassword , txtCreateAccount;
     private Button btnLogin;
     private EditText txt_Email,txt_Password;
-    public static String mApi_token,mUser_id;
+    private String mApi_token;
+    int mUser_id;
     ProgressBar progressBar;
     // fb login
     CallbackManager callbackManager;
@@ -100,8 +101,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         } else {
             initialization();
+<<<<<<< HEAD
             facebookLogin();
             // login
+=======
+
+>>>>>>> remotes/origin/roundPageUpdate
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -127,12 +132,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     if (status) {
                                         JsonObject Mdata = data.getAsJsonObject("userData");
                                         mApi_token = Mdata.get("api_token").getAsString();
-                                        mUser_id = Mdata.get("user_id").getAsString();
+                                        mUser_id = Mdata.get("user_id").getAsInt();
                                         String mEmail = Mdata.get("email").getAsString();
                                         String mImage = Mdata.get("image").getAsString();
                                         String mName = Mdata.get("name").getAsString();
 
-                                        SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(Integer.parseInt(mUser_id), mName, mEmail, mApi_token, mImage));
+                                        SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(mUser_id, mName, mEmail, mApi_token, mImage));
                                         SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(mImage);
 
                                         startActivity(new Intent(LoginActivity.this, MainActivity.class));

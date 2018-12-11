@@ -11,7 +11,7 @@
     <string name="cards">الكروت</string>
     <string name="my_rounds">جولاتي</string>
     <string name="hales">الصالات</string>
-    <string name="recent_hales">الصالات الحالية</string>
+    <string name="recent_salons">الصالات الحالية</string>
     <string name="slide_heading1">اشترك الان</string>
     <string name="slide_heading2">انضم للجولة</string>
     <string name="slide_heading3">قدم افضل سعر</string>
@@ -95,8 +95,8 @@
     <string name="the_description">الوصف : </string>
     <string name="start_play">ابداء اللعب</string>
     <string name="add_deal">اضف عرض</string>
-    <string name="Attention">تنبية</string>
-    <string name="Attention_Details">هل تريد حقاً الانضمام الي الصالة  لديك فرصه واحده للمشاركة كل يوم</string>
+    <string name="Attention">تنبيه</string>
+    <string name="Attention_Details">هل تريد حقاً الانضمام الي الصالة  لديك فرصه واحده للمشاركة كل يوم ؟</string>
     <string name="Congratulations_Attention">تهانيناً انت الان عضو بالصالة</string>
     <string name="Congratulations_Attention_Details">اضف افضل عرض لربح الجوالات و قم بمتابعة شنطة الكروت و استخدم الكروت لديك</string>
     <string name="enter">دخول</string>
@@ -106,5 +106,10 @@
     <string name="Invalid_email_password">بيانات الدخول غير صحيحة</string>
     <string name="emptyMail">بريد الكتروني فارغ</string>
     <string name="emptyPass">كلمة سر فارغة</string>
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="choose_country">اختر الدولة</string>
+    <string name="no_content">لا يوجد محتوي</string>
+    <string name="Language">اللغة</string>
+    <string name="sign_up">انشاء حساب</string>
 
 </resources>

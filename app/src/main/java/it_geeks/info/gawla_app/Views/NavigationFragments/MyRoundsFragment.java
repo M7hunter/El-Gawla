@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -16,9 +17,18 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.Repositry.Models.Data;
+import it_geeks.info.gawla_app.Repositry.Models.Request;
+import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
+import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.ViewModels.Adapters.RoundsPagerAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyRoundsFragment extends Fragment {
 
@@ -33,78 +43,76 @@ public class MyRoundsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_rounds, container, false);
 
-//        getData(view);
+        getData(view);
 
         initPager(view);
 
         return view;
     }
 
-//    private void getData(final View view) {
-//        String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
-//        int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
-//
-//        RequestMainBody requestMainBody = new RequestMainBody(
-//                new Data("getSalonByUserID"),
-//                new Request(userId, apiToken));
-//
-//        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().request(requestMainBody);
-//        call.enqueue(new Callback<JsonObject>() {
-//            @Override
-//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                try {
-//                    JsonObject ObjData = response.body().getAsJsonObject();
-//                    boolean status = ObjData.get("status").getAsBoolean();
-//
-//                    if (status) {
-//                        JsonArray roundsArray = ObjData.get("data").getAsJsonArray();
-//                        for (int i = 0; i < roundsArray.size(); i++) {
-//                            JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
-//                            String product_name = roundObj.get("product_name").getAsString();
-//                            String category_name = roundObj.get("category_name").getAsString();
-//                            String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
-//                            String product_product_description = roundObj.get("product_product_description").getAsString();
-//                            String product_image = roundObj.get("product_image").getAsString();
-//                            String round_start_time = roundObj.get("round_start_time").getAsString();
-//                            String round_end_time = roundObj.get("round_end_time").getAsString();
-//
-//                            Round round = new Round(
-//                                    product_name
-//                                    , product_image
-//                                    , category_name
-//                                    , product_commercial_price
-//                                    , product_product_description
-//                                    , round_start_time
-//                                    , round_end_time
-//                                    , "2" + i + " member joined");
-//
-//                            roundsList.add(round);
-//                        }
-//
-//                        initPager(view);
-//
-//                        handleEvents(roundsList.size());
-//
-//                    } else {
-//                        Toast.makeText(getActivity(), handleServerErrors(ObjData), Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                } catch (NullPointerException e) {
-//                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//
-//                initEmptyView(view);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<JsonObject> call, Throwable t) {
-//                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-//                initEmptyView(view);
-//            }
-//        });
-//
-//
-//    }
+    private void getData(final View view) {
+        String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
+        int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
+
+        RequestMainBody requestMainBody = new RequestMainBody(
+                new Data("getSalonByUserID"),
+                new Request(userId, apiToken));
+
+        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().request(requestMainBody);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                try {
+                    JsonObject mainObj = response.body().getAsJsonObject();
+                    boolean status = mainObj.get("status").getAsBoolean();
+
+                    if (status) { // no errors
+
+                        roundsList.addAll(handleServerResponse(mainObj));
+
+                        initPager(view);
+
+                        handleEvents(roundsList.size());
+
+                    } else { // errors from server
+                        Toast.makeText(getActivity(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (NullPointerException e) { // errors of response body
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                initEmptyView(view);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) { // errors of connection
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                initEmptyView(view);
+            }
+        });
+    }
+
+    private List<Round> handleServerResponse(JsonObject object) {
+        List<Round> rounds = new ArrayList<>();
+        JsonArray roundsArray = object.get("data").getAsJsonArray();
+
+        for (int i = 0; i < roundsArray.size(); i++) {
+            JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
+            String product_name = roundObj.get("product_name").getAsString();
+            String category_name = roundObj.get("category_name").getAsString();
+            String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
+            String product_product_description = roundObj.get("product_product_description").getAsString();
+            String product_image = roundObj.get("product_image").getAsString();
+            String round_start_time = roundObj.get("round_start_time").getAsString();
+            String round_end_time = roundObj.get("round_end_time").getAsString();
+
+            rounds.add(
+                    new Round(product_name, product_image, category_name, product_commercial_price, product_product_description, round_start_time, round_end_time, "not yet"));
+        }
+
+        return rounds;
+    }
 
     private String handleServerErrors(JsonObject object) {
         String error = "no errors";

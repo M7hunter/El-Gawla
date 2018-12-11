@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/join_confirmation_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_medium"
+
+    android:background="@drawable/bg_rounded_corners_white"
+    android:visibility="gone"
+    app:cardCornerRadius="@dimen/margin_small">
+    <!-- card main layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- icon -->
+        <ImageView
+            android:id="@+id/join_confirmation_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            app:srcCompat="@drawable/outline" />
+
+        <!-- title -->
+        <TextView
+            android:id="@+id/join_confirmation_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_small"
+            android:gravity="center"
+            android:text="@string/Attention"
+            android:textColor="@color/midBlue"
+            android:textColorHint="@color/editText_hint"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold" />
+
+        <!-- text -->
+        <TextView
+            android:id="@+id/join_confirmation_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_xxlarge"
+            android:layout_marginRight="@dimen/margin_xxlarge"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:gravity="center"
+            android:text="@string/Attention_Details"
+            android:textColor="@color/blueGrey"
+            android:textSize="@dimen/text_size_medium" />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -16,10 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import de.hdodenhof.circleimageview.CircleImageView;
-import it_geeks.info.gawla_app.General.PicassoClint;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
@@ -56,7 +57,7 @@ public class AccountFragment extends Fragment {
         return view;
     }
 
-    private void getData() {  /// get data from sharedPrafrence
+    private void getData() {  /// get data from sharedPreference
        name = SharedPrefManager.getInstance(getContext()).getUser().getName();
        image = SharedPrefManager.getInstance(getContext()).getUserImage();
        user_id = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
@@ -71,7 +72,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void setData() { // set data to views
-        PicassoClint.downloadImage(MainActivity.mainActivityInstance,image,userImage);
+        Picasso.with(getContext()).load(image).placeholder(R.mipmap.ic_launcher_gawla).into(userImage);
         userName.setText(name);
         edit_user_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +148,7 @@ public class AccountFragment extends Fragment {
                                   imageuploaded[0] = data.get("image").getAsString();
                                   SharedPrefManager.getInstance(getActivity()).saveUserImage(image);
                                   Toast.makeText(MainActivity.mainActivityInstance, "Your Profile Image has been changed", Toast.LENGTH_SHORT).show();
-                                  PicassoClint.downloadImage(MainActivity.mainActivityInstance,imageuploaded[0],userImage);
+                                  Picasso.with(getContext()).load(imageuploaded[0]).into(userImage);
                               }else{
                                   Toast.makeText(MainActivity.mainActivityInstance, handleServerErrors(ObjData), Toast.LENGTH_SHORT).show();
                               }

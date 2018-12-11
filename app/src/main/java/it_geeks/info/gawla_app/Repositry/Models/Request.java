@@ -52,6 +52,10 @@ public class Request {
         this.api_token = api_token;
     }
 
+    public Request(String api_token) { // all countries
+        this.api_token = api_token;
+    }
+
     public Request(int user_id, String api_token, String image) { // User Profile Image Upload
         this.user_id = user_id;
         this.api_token = api_token;
