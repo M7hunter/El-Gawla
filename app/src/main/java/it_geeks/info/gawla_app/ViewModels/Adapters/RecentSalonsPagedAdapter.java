@@ -37,10 +37,13 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
         final Round round = getItem(position);
 
         if (round != null) {
-            Picasso.with(context)
-                    .load(round.getProduct_image())
-                    .placeholder(context.getResources().getDrawable(R.mipmap.ic_launcher_gawla))
-                    .into(viewHolder.imgProductImage);
+            //Todo Added Try & Catch To Skip Error
+            try {
+                Picasso.with(context)
+                        .load(round.getProduct_image())
+                        .placeholder(context.getResources().getDrawable(R.mipmap.ic_launcher_gawla))
+                        .into(viewHolder.imgProductImage);
+            }catch (Exception e){}
 
             viewHolder.tvProductName.setText(round.getProduct_name());
             viewHolder.tvProductCategory.setText(round.getProduct_category());

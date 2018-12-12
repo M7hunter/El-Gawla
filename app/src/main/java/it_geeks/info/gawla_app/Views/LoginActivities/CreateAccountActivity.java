@@ -336,9 +336,9 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void socialLogin(String id, final String name, final String email, final String image, String provider) {
-        try {
+
             RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"),new Request(provider,id,name,email,image));
-            Call<JsonObject> call = RetrofitClient.getInstance(CreateAccountActivity.this).getAPI().SocialLoginAndRegister(requestMainBody);
+            Call<JsonObject> call = RetrofitClient.getInstance(CreateAccountActivity.this).getAPI().request(requestMainBody);
             call.enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -363,9 +363,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
             });
 
-        }catch (Exception e){
-            Log.e("Mo7",e.getMessage());
-        }
+
     }
 
     @Override
