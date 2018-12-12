@@ -36,7 +36,7 @@
             <LinearLayout
                 android:id="@+id/btn_google_login2"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_xxxlarge"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginRight="40dp"
@@ -148,7 +148,7 @@
             <Button
                 android:id="@+id/txtCreateAndLogin"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_xxxlarge"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="20dp"

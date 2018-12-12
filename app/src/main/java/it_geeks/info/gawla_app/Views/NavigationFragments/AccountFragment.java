@@ -146,7 +146,7 @@ public class AccountFragment extends Fragment {
         @Override
         protected String doInBackground(RequestMainBody... requestMainBody) {
             final String[] imageuploaded = new String[1];
-            Call<JsonObject> call = RetrofitClient.getInstance(getContext()).getAPI().UploadImage(requestMainBody[0]);
+            Call<JsonObject> call = RetrofitClient.getInstance(getContext()).getAPI().request(requestMainBody[0]);
             call.enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, final Response<JsonObject> response) {

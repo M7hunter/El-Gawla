@@ -117,7 +117,7 @@
         <item>العربية</item>
     </array>
 
-    <string name="facebook_app_id" translatable="false">2593388330686139</string>
-    <string name="fb_login_protocol_scheme" translatable="false">fb2593388330686139</string>
+    <string name="facebook_app_id" translatable="false">1076557455858728</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb1076557455858728</string>
 
 </resources>
