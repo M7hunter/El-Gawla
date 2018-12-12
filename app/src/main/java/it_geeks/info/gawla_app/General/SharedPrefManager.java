@@ -16,7 +16,8 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_NAME2 = "user_shared_pref";
     private static final String SHARED_PREF_NAME3 = "country_shared_pref";
     private static final String SHARED_PREF_USER_IMAGE = "user_image_shared_pref";
-    public SharedPrefManager(Context context) {
+
+    private SharedPrefManager(Context context) {
         this.context = context;
     }
 
@@ -88,7 +89,7 @@ public class SharedPrefManager {
     }
 
     //--------------- country -------------//
-    public void setCountry(int countryId) {
+    public void setCountryId(int countryId) {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME3, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -98,7 +99,7 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-    public int getCountry() {
+    public int getCountryId() {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME3, MODE_PRIVATE);
         return sharedPreferences.getInt("countryId", 0);
     }

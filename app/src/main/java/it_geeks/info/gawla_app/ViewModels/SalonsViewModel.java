@@ -6,6 +6,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.paging.DataSource;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
+import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,7 +45,7 @@ public class SalonsViewModel extends AndroidViewModel {
         int userId = SharedPrefManager.getInstance(getApplication()).getUser().getUser_id();
         String apiToken = Common.Instance(getApplication()).removeQuotes(SharedPrefManager.getInstance(getApplication()).getUser().getApi_token());
 
-        RetrofitClient.getInstance().getAPI()
+        RetrofitClient.getInstance(getApplication()).getAPI()
                 .request(new RequestMainBody(new Data("getAllSalons"), new Request(userId, apiToken)))
                 .enqueue(new Callback<JsonObject>() {
             @Override
@@ -53,9 +55,14 @@ public class SalonsViewModel extends AndroidViewModel {
                     boolean status = mainObj.get("status").getAsBoolean();
 
                     if (status) { // no errors
-                        gawlaDataBse.RoundDao().insertRoundList(handleServerResponse(mainObj));
+                        gawlaDataBse.RoundDao().removeRounds(gawlaDataBse.RoundDao().getRounds()); // remove old list
+                        gawlaDataBse.RoundDao().insertRoundList(handleServerResponse(mainObj)); // add new list
 
                     } else { // errors from server
+                        if (handleServerErrors(mainObj).equals("you are not logged in")) {
+                            getApplication().startActivity(new Intent(getApplication(), LoginActivity.class)
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        }
                         Toast.makeText(getApplication(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                     }
                 } catch (NullPointerException e) { // errors of response body
@@ -101,6 +108,7 @@ public class SalonsViewModel extends AndroidViewModel {
     }
 
     public void init() {
+        getRoundsFromServer(); // refresh list
         DataSource.Factory<Integer, Round> factory = gawlaDataBse.RoundDao().getRoundsPaged();
 
         PagedList.Config config = new PagedList.Config.Builder()
@@ -115,7 +123,6 @@ public class SalonsViewModel extends AndroidViewModel {
     public LiveData<PagedList<Round>> getRoundsList() {
         if (gawlaDataBse.RoundDao().getRounds().size() == 0) {
             getRoundsFromServer();
-//            init();
         }
 
         return roundsList;

@@ -36,7 +36,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
         Card card = cardList.get(i);
 
         viewHolder.cardTitle.setText(card.getCard_name());
-        viewHolder.cardDescription.setText(card.getCard_cost());
+        viewHolder.cardDescription.setText(card.getCard_details());
         viewHolder.cardCount.setText(String.valueOf(card.getCount()));
 
         GradientDrawable background = (GradientDrawable) viewHolder.cardIcon.getBackground();

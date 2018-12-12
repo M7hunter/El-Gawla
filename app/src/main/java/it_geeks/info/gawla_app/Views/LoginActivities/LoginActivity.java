@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         txt_Password.requestFocus();
                     } else {
                         progressBar.setVisibility(View.VISIBLE);
-                        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().loginUser(requestMainBody);
+                        Call<JsonObject> call = RetrofitClient.getInstance(LoginActivity.this).getAPI().request(requestMainBody);
                         call.enqueue(new Callback<JsonObject>() {
                             @Override
                             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -262,7 +262,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             try {
                 RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"),new Request(provider,id,name,email,image));
-                Call<JsonObject> call = RetrofitClient.getInstance().getAPI().SocialLoginAndRegister(requestMainBody);
+                Call<JsonObject> call = RetrofitClient.getInstance(LoginActivity.this).getAPI().SocialLoginAndRegister(requestMainBody);
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

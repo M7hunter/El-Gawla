@@ -15,11 +15,13 @@ import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.ViewModels.Adapters.RecentSalonsPagedAdapter;
 import it_geeks.info.gawla_app.ViewModels.Adapters.WinnersNewsAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Round;

@@ -23,7 +23,6 @@ public class IntroActivity extends AppCompatActivity {
     private TextView[] mDots;
     TextView txtback, txtnext;
     private int mCurrentPage;
-    SharedPrefManager sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,6 @@ public class IntroActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //--------------------------------------------//
         setContentView(R.layout.activity_intro);
-        sharedPreferences = new SharedPrefManager(IntroActivity.this);
 
         txtback = findViewById(R.id.txt_back);
         txtnext = findViewById(R.id.txt_next);

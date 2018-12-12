@@ -6,19 +6,12 @@ import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface APIs {
 
-    // register user
-    @POST("master")
-    Call<JsonObject> registerUser(@Body RequestMainBody requestMainBody);
-
-    // login user
-    @POST("master")
-    Call<JsonObject> loginUser(@Body RequestMainBody requestMainBody);
-
-    // request salons || cards
+    // request salons || cards || login || register
     @POST("master")
     Call<JsonObject> request(@Body RequestMainBody requestMainBody);
 
@@ -27,6 +20,7 @@ public interface APIs {
     Call<JsonObject> UploadImage(@Body RequestMainBody requestMainBody);
 
     // Upload Image
+    @FormUrlEncoded
     @POST("master")
     Call<JsonObject> SocialLoginAndRegister(@Body RequestMainBody requestMainBody);
 }

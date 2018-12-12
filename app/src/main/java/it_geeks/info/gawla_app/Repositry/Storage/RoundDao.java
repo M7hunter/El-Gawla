@@ -20,6 +20,9 @@ public interface RoundDao {
     @Delete
     void removeRound(Round round);
 
+    @Delete
+    void removeRounds(List<Round> rounds);
+
     @Query("SELECT * FROM Round")
     DataSource.Factory<Integer, Round> getRoundsPaged();
 

@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app.Views.NavigationFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +26,8 @@ import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.ViewModels.Adapters.CardsAdapter;
+import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
+import it_geeks.info.gawla_app.Views.MainActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,10 +56,10 @@ public class CardsFragment extends Fragment {
         String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
         RequestMainBody requestMainBody = new RequestMainBody(new Data("getCardByUserID"), new Request(userId, apiToken));
-        RetrofitClient.getInstance().getAPI().request(requestMainBody).enqueue(new Callback<JsonObject>() {
+        RetrofitClient.getInstance(getContext()).getAPI().request(requestMainBody).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                try {
+
                     JsonObject mainObj = response.body().getAsJsonObject();
                     boolean status = mainObj.get("status").getAsBoolean();
 
@@ -67,16 +70,19 @@ public class CardsFragment extends Fragment {
                         initCardsRecycler(view);
 
                     } else { // errors from server
-                        Toast.makeText(getActivity(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
+                        if (handleServerErrors(mainObj).equals("you are not logged in")) {
+                            startActivity(new Intent(getContext(), LoginActivity.class)
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        }
+
+                        Toast.makeText(MainActivity.mainActivityInstance, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                     }
-                } catch (NullPointerException e) { // errors of response body
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.mainActivityInstance, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -88,13 +94,14 @@ public class CardsFragment extends Fragment {
             JsonObject cardObj = dataArray.get(i).getAsJsonObject();
             int card_id = cardObj.get("card_id").getAsInt();
             String card_name = cardObj.get("card_name").getAsString();
+            String card_details = cardObj.get("card_details").getAsString();
             String card_type = cardObj.get("card_type").getAsString();
             String card_color = cardObj.get("card_color").getAsString();
             String card_cost = cardObj.get("card_cost").getAsString();
             int count = cardObj.get("count").getAsInt();
 
             cardsList.add(
-                    new Card(card_id, card_name, card_type, card_color, card_cost, count));
+                    new Card(card_id, card_name, card_details, card_type, card_color, card_cost, count));
         }
     }
 

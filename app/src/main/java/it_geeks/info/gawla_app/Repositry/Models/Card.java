@@ -6,6 +6,8 @@ public class Card {
 
     private String card_name;
 
+    private String card_details;
+
     private String card_type;
 
     private String card_color;
@@ -14,9 +16,10 @@ public class Card {
 
     private int count;
 
-    public Card(int card_id, String card_name, String card_type, String card_color, String card_cost, int count) {
+    public Card(int card_id, String card_name, String card_details, String card_type, String card_color, String card_cost, int count) {
         this.card_id = card_id;
         this.card_name = card_name;
+        this.card_details = card_details;
         this.card_type = card_type;
         this.card_color = card_color;
         this.card_cost = card_cost;
@@ -37,6 +40,14 @@ public class Card {
 
     public void setCard_name(String card_name) {
         this.card_name = card_name;
+    }
+
+    public String getCard_details() {
+        return card_details;
+    }
+
+    public void setCard_details(String card_details) {
+        this.card_details = card_details;
     }
 
     public String getCard_type() {
