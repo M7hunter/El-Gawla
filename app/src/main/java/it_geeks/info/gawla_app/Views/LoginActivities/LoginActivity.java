@@ -283,7 +283,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void socialLogin(String id, final String name, final String email, final String image, String provider) {
         try {
             RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"),new Request(provider,id,name,email,image));
-            Call<JsonObject> call = RetrofitClient.getInstance().getAPI().SocialLoginAndRegister(requestMainBody);
+            Call<JsonObject> call = RetrofitClient.getInstance(LoginActivity.this).getAPI().SocialLoginAndRegister(requestMainBody);
             call.enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
