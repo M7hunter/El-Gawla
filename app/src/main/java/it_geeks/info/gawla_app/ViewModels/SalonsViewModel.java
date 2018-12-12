@@ -33,7 +33,7 @@ public class SalonsViewModel extends AndroidViewModel {
 
     private GawlaDataBse gawlaDataBse;
 
-    public LiveData<PagedList<Round>> roundsList;
+    private LiveData<PagedList<Round>> roundsList;
 
     public SalonsViewModel(@NonNull Application application) {
         super(application);
@@ -62,6 +62,8 @@ public class SalonsViewModel extends AndroidViewModel {
                         if (handleServerErrors(mainObj).equals("you are not logged in")) {
                             getApplication().startActivity(new Intent(getApplication(), LoginActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+
+                            SharedPrefManager.getInstance(getApplication()).clearUser();
                         }
                         Toast.makeText(getApplication(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                     }

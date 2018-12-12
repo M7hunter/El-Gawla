@@ -59,7 +59,7 @@ public class CardsFragment extends Fragment {
         RetrofitClient.getInstance(getContext()).getAPI().request(requestMainBody).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
+                try {
                     JsonObject mainObj = response.body().getAsJsonObject();
                     boolean status = mainObj.get("status").getAsBoolean();
 
@@ -73,11 +73,14 @@ public class CardsFragment extends Fragment {
                         if (handleServerErrors(mainObj).equals("you are not logged in")) {
                             startActivity(new Intent(getContext(), LoginActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            SharedPrefManager.getInstance(getActivity()).clearUser();
                         }
 
                         Toast.makeText(MainActivity.mainActivityInstance, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                     }
-
+                } catch (NullPointerException e) {
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

@@ -118,5 +118,21 @@ public class SharedPrefManager {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_IMAGE, Context.MODE_PRIVATE);
         return sharedPreferences.getString("userImage",null);
     }
+
+    // ----  member ship ---- //
+    public void setMembership(String membership) {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME3, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.clear();
+
+        editor.putString("membership", membership);
+        editor.apply();
+    }
+
+    public int getMembership() {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME3, MODE_PRIVATE);
+        return sharedPreferences.getInt("membership", 0);
+    }
 }
 

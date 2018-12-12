@@ -114,7 +114,7 @@ public class AccountFragment extends Fragment {
                 Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
-            // transform image to bytes
+            // transform image to bytes || string
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
             byte[] imageAsByte = outputStream.toByteArray();
@@ -134,7 +134,7 @@ public class AccountFragment extends Fragment {
     private void UploadImage(String encodedImage) {
         upload_user_image.setVisibility(View.INVISIBLE);
 
-        final RequestMainBody requestMainBody = new RequestMainBody(new Data("updateUserDate"), new Request(user_id, api_token, encodedImage));
+        final RequestMainBody requestMainBody = new RequestMainBody(new Data("updateUserData"), new Request(user_id, api_token, encodedImage));
         try {
             new AsyncUploadImage().execute(requestMainBody);
         } catch (RuntimeException e) {
