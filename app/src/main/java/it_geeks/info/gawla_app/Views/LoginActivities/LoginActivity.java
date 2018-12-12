@@ -2,11 +2,15 @@ package it_geeks.info.gawla_app.Views.LoginActivities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -59,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView txtForgetPassword , txtCreateAccount;
     private Button btnLogin;
     private EditText txt_Email,txt_Password;
-    public static String mApi_token,mUser_id;
+    private static String mApi_token,mUser_id;
     ProgressBar progressBar;
     // fb login
     CallbackManager callbackManager;
@@ -68,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     // google login
     String providerGoogle = "google";
     GoogleSignInClient mGoogleSignInClient;
+    public static int GOOGLE_REQUEST = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,19 +200,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     // google login
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, 1000);
+        startActivityForResult(signInIntent, GOOGLE_REQUEST);
     }
+
     // google login
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String id = account.getId();
             String name = account.getDisplayName();
-            String email = account.getDisplayName();
+            String email = account.getEmail();
             String image = account.getPhotoUrl().toString();
             String provider = providerGoogle;
+
+
+            socialLogin(id,name,email,image,provider);
+
         } catch (ApiException e) {
-            Log.w("", "signInResult:failed code=" + e.getStatusCode());
+            Log.w("Mo7", "signInResult:failed code=" + e.getStatusCode());
 
         }
     }
@@ -251,48 +261,55 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     // fb login
     private void getData(final JSONObject object) {
+
         try{
-            URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/"+object.getString("id")+"/picture?type=normal");
 
-            final int id = object.optInt("id");
-            final String name = object.optString("name");
-            final String email = object.optString("email");
-            final String image = Profile_Picture.toString();
-            String provider = providerFacebook;
+             URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/"+object.getString("id")+"/picture?type=normal");
+             String id = object.optString("id");
+             String name = object.optString("name");
+             String email = object.optString("email");
+             String image = Profile_Picture.toString();
+             String provider = providerFacebook;
 
-            try {
-                RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"),new Request(provider,id,name,email,image));
-                Call<JsonObject> call = RetrofitClient.getInstance(LoginActivity.this).getAPI().SocialLoginAndRegister(requestMainBody);
-                call.enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
-                        //TODO  for test
-                        mApi_token =  "fj6UGOi3OCWW3kjp2spQOWkqxXW8uP4Ik87xQyK59YjfrGHzzxagjcy1ORFP";
-                        mUser_id = String.valueOf(id);
-                        SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(id, name, email, mApi_token, image));
-                        SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
-
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
-                    }
-
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }catch (Exception e){
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-            Toast.makeText(LoginActivity.this, id +" - "+providerFacebook, Toast.LENGTH_LONG).show();
-            txt_Email.setText(email);
+             socialLogin(id,name,email,image,provider);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void socialLogin(String id, final String name, final String email, final String image, String provider) {
+        try {
+            RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"),new Request(provider,id,name,email,image));
+            Call<JsonObject> call = RetrofitClient.getInstance().getAPI().SocialLoginAndRegister(requestMainBody);
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                    JsonObject data = response.body().getAsJsonObject();
+                    mApi_token =  data.get("api_token").getAsString();
+                    mUser_id = String.valueOf(data.get("user_id").getAsInt());
+
+                    SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(Integer.parseInt(mUser_id), name, email, mApi_token, image));
+                    SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
+
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+
+
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    Log.e("Mo7",t.getMessage());
+                }
+
+            });
+
+        }catch (Exception e){
+            Log.e("Mo7",e.getMessage());
         }
     }
 
@@ -302,7 +319,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
 
         // google login
-        if (requestCode == 1000) {
+        if (requestCode == GOOGLE_REQUEST) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
