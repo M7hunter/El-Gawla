@@ -2,7 +2,11 @@ package it_geeks.info.gawla_app.General;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.ProgressBar;
 
 import java.util.Locale;
 
@@ -12,7 +16,7 @@ public class Common {
     private Context context;
     private String Lang;
 
-    public Common(Context context) {
+    private Common(Context context) {
         this.context = context;
         Lang = Locale.getDefault().getLanguage();
     }
@@ -33,7 +37,6 @@ public class Common {
     }
 
     // remove unneeded quotes
-    @Deprecated
     public String removeQuotes(String s) {
         // check
         if (s.startsWith("\"")) {
@@ -41,5 +44,16 @@ public class Common {
         }
 
         return s;
+    }
+
+    // hide progress after recycler finish loading
+    public void hideProgress(final RecyclerView recyclerView, final ProgressBar progressBar) {
+        recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                progressBar.setVisibility(View.GONE);
+                recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 }

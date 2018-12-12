@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static Activity mainActivityInstance = new Activity();
 
+    BottomNavigationView navigation;
+
     private Fragment fragment = new MainFragment();
 
     @Override
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initNavigation() {
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -93,6 +95,18 @@ public class MainActivity extends AppCompatActivity {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.parseColor(color));
+        }
+    }
+
+    // handle back from !main page
+    @Override
+    public void onBackPressed() {
+        if (navigation.getSelectedItemId() ==  R.id.navigation_hales){
+            super.onBackPressed();
+
+        } else {
+            displayFragment(new MainFragment());
+            navigation.setSelectedItemId(R.id.navigation_hales);
         }
     }
 }

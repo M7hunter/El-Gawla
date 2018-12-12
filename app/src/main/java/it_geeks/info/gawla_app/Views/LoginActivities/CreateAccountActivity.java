@@ -146,9 +146,11 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         String email = etEmail.getText().toString();
         String pass = etPass.getText().toString();
 
+        int countryId = SharedPrefManager.getInstance(CreateAccountActivity.this).getCountryId();
+
         if (checkEntries(name, email, pass)) {
             RequestMainBody requestMainBody = new RequestMainBody(new Data("register"),
-                    new Request(name, email, pass));
+                    new Request(name, email, countryId, pass));
             connectToServer(requestMainBody, new User(name, email, pass));
         }
     }
@@ -157,7 +159,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         try {
 
         }catch (Exception e){ }
-        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().registerUser(requestMainBody);
+        Call<JsonObject> call = RetrofitClient.getInstance(CreateAccountActivity.this).getAPI().request(requestMainBody);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -257,6 +259,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         user.setApi_token(api_token);
         user.setUser_id(userId);
         user.setImage(image);
+
         SharedPrefManager.getInstance(CreateAccountActivity.this).saveUserImage(image);
     }
 

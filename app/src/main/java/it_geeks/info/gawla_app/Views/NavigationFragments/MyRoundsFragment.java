@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app.Views.NavigationFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -26,6 +27,8 @@ import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.ViewModels.Adapters.RoundsPagerAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
+import it_geeks.info.gawla_app.Views.MainActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,7 +61,7 @@ public class MyRoundsFragment extends Fragment {
                 new Data("getSalonByUserID"),
                 new Request(userId, apiToken));
 
-        Call<JsonObject> call = RetrofitClient.getInstance().getAPI().request(requestMainBody);
+        Call<JsonObject> call = RetrofitClient.getInstance(getContext()).getAPI().request(requestMainBody);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -75,11 +78,16 @@ public class MyRoundsFragment extends Fragment {
                         handleEvents(roundsList.size());
 
                     } else { // errors from server
-                        Toast.makeText(getActivity(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
+                        if (handleServerErrors(mainObj).equals("you are not logged in.")) {
+                            startActivity(new Intent(getContext(), LoginActivity.class)
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        }
+
+                        Toast.makeText(MainActivity.mainActivityInstance, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (NullPointerException e) { // errors of response body
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.mainActivityInstance, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 initEmptyView(view);
@@ -87,7 +95,7 @@ public class MyRoundsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) { // errors of connection
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.mainActivityInstance, t.getMessage(), Toast.LENGTH_SHORT).show();
                 initEmptyView(view);
             }
         });

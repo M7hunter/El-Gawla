@@ -43,7 +43,7 @@ public class SplashActivity extends AppCompatActivity {
         setAppLang();
         super.onCreate(savedInstanceState);
 
-        if (SharedPrefManager.getInstance(SplashActivity.this).getCountry() != 0) {
+        if (SharedPrefManager.getInstance(SplashActivity.this).getCountryId() != 0) {
             startActivity(new Intent(SplashActivity.this, LoginActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
 
@@ -66,7 +66,7 @@ public class SplashActivity extends AppCompatActivity {
         final String apiToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
 
         RequestMainBody requestMainBody = new RequestMainBody(new Data("getAllCountries"), new Request(apiToken));
-        RetrofitClient.getInstance().getAPI().request(requestMainBody).enqueue(new Callback<JsonObject>() {
+        RetrofitClient.getInstance(SplashActivity.this).getAPI().request(requestMainBody).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 try {

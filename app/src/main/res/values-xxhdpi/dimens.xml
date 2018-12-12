@@ -33,4 +33,8 @@
 
     <!-- -->
     <dimen name="my_rounds_view_pager_height">550dp</dimen>
+    <dimen name="card_background_height">100dp</dimen>
+    <dimen name="card_height">60dp</dimen>
+    <dimen name="card_width">40dp</dimen>
+
 </resources>

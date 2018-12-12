@@ -45,7 +45,7 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
             viewHolder.tvProductName.setText(round.getProduct_name());
             viewHolder.tvProductCategory.setText(round.getProduct_category());
             viewHolder.tvProductPrice.setText(round.getProduct_price());
-            viewHolder.tvProductDescription.setText(round.getProduct_description());
+            viewHolder.tvProductDescription.setText(adjustStrings(round).getProduct_description());
             viewHolder.tvStartTime.setText(round.getStart_time());
             viewHolder.tvEndTime.setText(round.getEnd_time());
 
@@ -66,6 +66,25 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
                 }
             });
         }
+    }
+
+    private Round adjustStrings(Round round) {
+        String adjustedProductName = round.getProduct_name().replaceAll("(?m)^[ \t]*\r?\n", "");
+        String adjustedProductImage = round.getProduct_image().replaceAll("(?m)^[ \t]*\r?\n", "");
+        String adjustedProductCategory = round.getProduct_category().replaceAll("(?m)^[ \t]*\r?\n", "");
+        String adjustedProductPrice = round.getProduct_price().replaceAll("(?m)^[ \t]*\r?\n", "");
+        String adjustedProductDescription = round.getProduct_description().replaceAll("(?m)^[ \t]*\r?\n", "");
+        String adjustedProductStart = round.getStart_time().replaceAll("(?m)^[ \t]*\r?\n", "");
+        String adjustedProductEnd = round.getEnd_time().replaceAll("(?m)^[ \t]*\r?\n", "");
+
+        return new Round(adjustedProductName,
+                adjustedProductImage,
+                adjustedProductCategory,
+                adjustedProductPrice,
+                adjustedProductDescription,
+                adjustedProductStart,
+                adjustedProductEnd ,
+                round.getJoined_members_number());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
