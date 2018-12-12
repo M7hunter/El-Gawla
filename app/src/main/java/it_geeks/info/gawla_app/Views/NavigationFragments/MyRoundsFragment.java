@@ -81,6 +81,8 @@ public class MyRoundsFragment extends Fragment {
                         if (handleServerErrors(mainObj).equals("you are not logged in.")) {
                             startActivity(new Intent(getContext(), LoginActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+
+                            SharedPrefManager.getInstance(getActivity()).clearUser();
                         }
 
                         Toast.makeText(MainActivity.mainActivityInstance, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();

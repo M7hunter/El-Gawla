@@ -46,7 +46,7 @@
                 <TextView
                     android:id="@+id/button"
                     android:layout_width="200dp"
-                    android:layout_height="45dp"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/btn_google_plus"
                     android:drawableEnd="@drawable/gicon"
                     android:fontFamily="@font/cairo_regular"
@@ -67,6 +67,7 @@
                 android:layout_marginRight="40dp"
                 android:layout_marginBottom="30dp" />
 
+
             <!-- separator -->
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -82,7 +83,7 @@
             <EditText
                 android:id="@+id/et_create_account_name"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -104,7 +105,7 @@
             <EditText
                 android:id="@+id/et_create_account_email"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -126,7 +127,7 @@
             <EditText
                 android:id="@+id/et_create_account_pass"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -164,7 +165,7 @@
             <TextView
                 android:id="@+id/txt_haveAccount"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="20dp"

@@ -68,9 +68,8 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (GawlaDataBse.getGawlaDatabase(getContext()).RoundDao().getRounds().size() > 0) {
-                    for (Round round : GawlaDataBse.getGawlaDatabase(getContext()).RoundDao().getRounds()) {
-                        GawlaDataBse.getGawlaDatabase(getContext()).RoundDao().removeRound(round);
-                    }
+                        GawlaDataBse.getGawlaDatabase(getContext()).RoundDao()
+                                .removeRounds(GawlaDataBse.getGawlaDatabase(getContext()).RoundDao().getRounds());
                 }
             }
         });
@@ -87,8 +86,9 @@ public class MainFragment extends Fragment {
         salonsViewModel.getRoundsList().observe(this, new Observer<PagedList<Round>>() {
             @Override
             public void onChanged(@Nullable PagedList<Round> rounds) {
-                if (rounds != null)
+                if (rounds != null) {
                     recentSalonsPagedAdapter.submitList(rounds);
+                }
             }
         });
 
