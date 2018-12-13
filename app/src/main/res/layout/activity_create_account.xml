@@ -13,13 +13,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/bg_circle_white"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:gravity="center">
 
             <!-- header -->
             <TextView
@@ -58,7 +55,8 @@
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/login_button"
                 android:layout_width="0dp"
-                android:layout_height="0dp" />
+                android:layout_height="0dp"
+                android:visibility="gone"/>
 
             <!-- facebook -->
             <LinearLayout
@@ -66,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginRight="40dp"
                 android:background="@drawable/btn_facebook"
                 android:gravity="center"
