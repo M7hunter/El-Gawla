@@ -2,19 +2,15 @@ package it_geeks.info.gawla_app.Views.LoginActivities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,12 +54,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
-    private TextView txtForgetPassword , txtCreateAccount;
+    private TextView txtForgetPassword, txtCreateAccount;
     private Button btnLogin;
-    private EditText txt_Email,txt_Password;
-    private static String mApi_token,mUser_id;
+    private EditText txt_Email, txt_Password;
+    private static String mApi_token;
+    int mUser_id;
     ProgressBar progressBar;
     // fb login
     CallbackManager callbackManager;
@@ -83,7 +80,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mApi_token = SharedPrefManager.getInstance(LoginActivity.this).getUser().getApi_token();
 
         if (status && mApi_token != null) {
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+
+            Log.d("M7", "API_Token: " + mApi_token);
+
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
 
         } else {
@@ -110,39 +110,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             @Override
                             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                                 try {
-                                    JsonObject data = response.body().getAsJsonObject();
-                                    boolean status = data.get("status").getAsBoolean();
-                                    if (status) {
-                                        JsonObject Mdata = data.getAsJsonObject("userData");
-                                        mApi_token = Mdata.get("api_token").getAsString();
-                                        mUser_id = Mdata.get("user_id").getAsString();
-                                        String mEmail = Mdata.get("email").getAsString();
-                                        String mImage = Mdata.get("image").getAsString();
-                                        String mName = Mdata.get("name").getAsString();
+                                    JsonObject mainObj = response.body().getAsJsonObject();
+                                    boolean status = mainObj.get("status").getAsBoolean();
 
-                                        SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(Integer.parseInt(mUser_id), mName, mEmail, mApi_token, mImage));
-                                        SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(mImage);
+                                    if (status) { // no errors
 
+                                        SharedPrefManager.getInstance(LoginActivity.this).saveUser(handleServerResponse(mainObj));
                                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                         finish();
-                                        progressBar.setVisibility(View.GONE);
-                                    } else {
-                                        JsonArray errors = data.getAsJsonArray("errors");
-                                        for (int i = 0; i < errors.size(); i++) {
-                                            String s = errors.get(i).getAsString();
-                                            Snackbar.make(v, s, 1500).setAction("Action", null).show();
-                                        }
-                                        progressBar.setVisibility(View.GONE);
+
+                                    } else { // server errors
+                                        Toast.makeText(LoginActivity.this, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                                     }
-                                } catch (NullPointerException e) {
+
+                                    //hide progress
+                                    progressBar.setVisibility(View.GONE);
+
+                                } catch (NullPointerException e) { // errors of response body
+                                    progressBar.setVisibility(View.GONE);
                                     Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                             @Override
-                            public void onFailure(Call<JsonObject> call, Throwable t) {
-                                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                            public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
                                 progressBar.setVisibility(View.GONE);
+                                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -164,38 +157,62 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private User handleServerResponse(JsonObject object) {
+        JsonObject userData = object.get("userData").getAsJsonObject();
+
+        mUser_id = userData.get("user_id").getAsInt();
+        String name = userData.get("name").getAsString();
+        String email = userData.get("email").getAsString();
+        mApi_token = userData.get("api_token").getAsString();
+        String image = userData.get("image").getAsString();
+
+        SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
+
+        return new User(mUser_id, name, email, mApi_token, image);
+    }
+
+    private String handleServerErrors(JsonObject object) {
+        String error = "no errors";
+        JsonArray errors = object.get("errors").getAsJsonArray();
+        for (int i = 0; i < errors.size(); i++) {
+            error = errors.get(i).getAsString();
+        }
+        return error;
+    }
+
     @SuppressLint("WrongViewCast")
-    private void initialization(){
+    private void initialization() {
 
         btnLogin = findViewById(R.id.btnLogin);
-        txtForgetPassword = findViewById(R.id.txt_FrogetPassword);
+        txtForgetPassword = findViewById(R.id.txt_forget_password);
         txtCreateAccount = findViewById(R.id.txt_Create_Account);
         txt_Email = findViewById(R.id.txt_Email);
         txt_Password = findViewById(R.id.txt_Password);
         progressBar = findViewById(R.id.login_loading);
 
         //fb login
-        callbackManager = CallbackManager.Factory.create();callbackManager = CallbackManager.Factory.create();
+        callbackManager = CallbackManager.Factory.create();
+        callbackManager = CallbackManager.Factory.create();
         btn_fb_login = (LoginButton) findViewById(R.id.login_button);
 
         // google login
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        findViewById(R.id.btn_google_login).setOnClickListener(this);
+        findViewById(R.id.btn_google_sign_in).setOnClickListener(this);
 
 
     }
+
     // google login
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_google_login:
+            case R.id.btn_google_sign_in:
                 signIn();
                 break;
         }
     }
-
 
     // google login
     private void signIn() {
@@ -214,13 +231,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String provider = providerGoogle;
 
 
-            socialLogin(id,name,email,image,provider);
+            socialLogin(id, name, email, image, provider);
 
         } catch (ApiException e) {
             Log.w("Mo7", "signInResult:failed code=" + e.getStatusCode());
 
         }
     }
+
     // fb login
     private void facebookLogin() {
         btn_fb_login.setReadPermissions(Arrays.asList("public_profile", "email"));
@@ -254,24 +272,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        if(AccessToken.getCurrentAccessToken() != null){
+        if (AccessToken.getCurrentAccessToken() != null) {
             LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         }
 
+        LinearLayout btnFace = findViewById(R.id.btn_facebook_sign_in);
+        btnFace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_fb_login.performClick();
+            }
+        });
     }
+
     // fb login
     private void getData(final JSONObject object) {
 
-        try{
+        try {
 
-             URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/"+object.getString("id")+"/picture?type=normal");
-             String id = object.optString("id");
-             String name = object.optString("name");
-             String email = object.optString("email");
-             String image = Profile_Picture.toString();
-             String provider = providerFacebook;
+            URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/" + object.getString("id") + "/picture?type=normal");
+            String id = object.optString("id");
+            String name = object.optString("name");
+            String email = object.optString("email");
+            String image = Profile_Picture.toString();
+            String provider = providerFacebook;
 
-             socialLogin(id,name,email,image,provider);
+            socialLogin(id, name, email, image, provider);
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -282,40 +308,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void socialLogin(String id, final String name, final String email, final String image, String provider) {
         try {
-            RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"),new Request(provider,id,name,email,image));
+            RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"), new Request(provider, id, name, email, image));
             Call<JsonObject> call = RetrofitClient.getInstance(LoginActivity.this).getAPI().SocialLoginAndRegister(requestMainBody);
             call.enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
                     JsonObject data = response.body().getAsJsonObject();
-                    mApi_token =  data.get("api_token").getAsString();
-                    mUser_id = String.valueOf(data.get("user_id").getAsInt());
+                    mApi_token = data.get("api_token").getAsString();
+                    mUser_id = data.get("user_id").getAsInt();
 
-                    SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(Integer.parseInt(mUser_id), name, email, mApi_token, image));
+                    SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(mUser_id, name, email, mApi_token, image));
                     SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
 
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
-
-
                 }
 
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {
-                    Log.e("Mo7",t.getMessage());
+                    Log.e("Mo7", t.getMessage());
                 }
 
             });
 
-        }catch (Exception e){
-            Log.e("Mo7",e.getMessage());
+        } catch (Exception e) {
+            Log.e("Mo7", e.getMessage());
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        callbackManager.onActivityResult(requestCode,resultCode,data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
 
         // google login
@@ -324,7 +348,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             handleSignInResult(task);
         }
     }
-
 
     @Override
     public void onBackPressed() {

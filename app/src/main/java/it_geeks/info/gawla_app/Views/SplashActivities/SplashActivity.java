@@ -43,7 +43,7 @@ public class SplashActivity extends AppCompatActivity {
         setAppLang();
         super.onCreate(savedInstanceState);
 
-        if (SharedPrefManager.getInstance(SplashActivity.this).getCountryId() != 0) {
+        if (SharedPrefManager.getInstance(SplashActivity.this).getCountry().getCountry_id() != -1) {
             startActivity(new Intent(SplashActivity.this, LoginActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
 

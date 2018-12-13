@@ -32,40 +32,56 @@
                 android:textColor="@color/bg_Splash_End"
                 android:textSize="@dimen/text_size_large" />
 
-            <!-- google -->
+            <!-- google plus -->
             <LinearLayout
-                android:id="@+id/btn_google_login2"
+                android:id="@+id/btn_google_sign_up"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_xxxlarge"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="@dimen/margin_xxlarge"
                 android:layout_marginRight="40dp"
                 android:background="@drawable/btn_google_plus"
-                android:gravity="center">
+                android:gravity="center"
+                android:padding="@dimen/margin_small">
 
                 <TextView
-                    android:id="@+id/button"
                     android:layout_width="200dp"
-                    android:layout_height="45dp"
-                    android:background="@drawable/btn_google_plus"
-                    android:drawableEnd="@drawable/gicon"
-                    android:fontFamily="@font/cairo_regular"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/googleg_standard_color_18"
                     android:gravity="center"
                     android:text="@string/google_plus"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
-
             </LinearLayout>
 
-            <!-- facebook -->
+            <!-- actual facebook btn -->
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/login_button"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+            <!-- facebook -->
+            <LinearLayout
+                android:id="@+id/btn_facebook_sign_up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginRight="40dp"
-                android:layout_marginBottom="30dp" />
+                android:background="@drawable/btn_facebook"
+                android:gravity="center"
+                android:padding="@dimen/margin_small">
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/com_facebook_button_icon"
+                    android:gravity="center"
+                    android:text="@string/facebook"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
             <!-- separator -->
             <RelativeLayout
@@ -82,7 +98,7 @@
             <EditText
                 android:id="@+id/et_create_account_name"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -104,7 +120,7 @@
             <EditText
                 android:id="@+id/et_create_account_email"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -126,7 +142,7 @@
             <EditText
                 android:id="@+id/et_create_account_pass"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -164,7 +180,7 @@
             <TextView
                 android:id="@+id/txt_haveAccount"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="20dp"

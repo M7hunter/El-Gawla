@@ -3,6 +3,7 @@ package it_geeks.info.gawla_app.General;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.User;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -15,6 +16,7 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_NAME = "lang_shared_pref";
     private static final String SHARED_PREF_NAME2 = "user_shared_pref";
     private static final String SHARED_PREF_NAME3 = "country_shared_pref";
+    private static final String SHARED_PREF_NAME4 = "membership_shared_pref";
     private static final String SHARED_PREF_USER_IMAGE = "user_image_shared_pref";
 
     private SharedPrefManager(Context context) {
@@ -89,19 +91,29 @@ public class SharedPrefManager {
     }
 
     //--------------- country -------------//
-    public void setCountryId(int countryId) {
+    public void setCountry(Country country) {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME3, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.clear();
 
-        editor.putInt("countryId", countryId);
+        editor.putInt("country_id", country.getCountry_id());
+        editor.putString("country_title", country.getCountry_title());
+        editor.putString("count_code", country.getCount_code());
+        editor.putString("country_timezone", country.getCountry_timezone());
+        editor.putString("tel", country.getTel());
+        editor.putString("image", country.getImage());
         editor.apply();
     }
 
-    public int getCountryId() {
+    public Country getCountry() {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME3, MODE_PRIVATE);
-        return sharedPreferences.getInt("countryId", 0);
+        return new Country(sharedPreferences.getInt("country_id", -1),
+                sharedPreferences.getString("country_title", ""),
+                sharedPreferences.getString("count_code", ""),
+                sharedPreferences.getString("country_timezone", ""),
+                sharedPreferences.getString("tel", ""),
+                sharedPreferences.getString("image", ""));
     }
 
     // ----  user profile ---- //
@@ -117,6 +129,22 @@ public class SharedPrefManager {
     public String getUserImage() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_IMAGE, Context.MODE_PRIVATE);
         return sharedPreferences.getString("userImage",null);
+    }
+
+    //--------------- membership -------------//
+    public void setMembership(String membership) {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME4, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.clear();
+
+        editor.putString("membership", membership);
+        editor.apply();
+    }
+
+    public int getMembership() {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME4, MODE_PRIVATE);
+        return sharedPreferences.getInt("membership", 0);
     }
 }
 

@@ -50,36 +50,73 @@ public class ProductDetailsActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(getResources().getColor(R.color.ops));
     }
 
+    private void initViews() {
+        // back
+        findViewById(R.id.product_details_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                try {
+                    getWindow().setStatusBarColor(getResources().getColor(R.color.paleGrey));
+                } catch (Exception e) {
+                }
+            }
+        });
+
+    }
+
     private void getRoundData(Bundle savedInstanceState) {
         String product_name, product_image, product_category, product_price, product_description, round_start_time, round_end_time, joined_members_number;
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
 
-            if (extras != null) {
+            if (extras != null) { // get data from previous page
                 product_name = extras.getString("product_name");
-                product_image = extras.getString("product_image");
-                product_category = extras.getString("product_category");
-                product_price = extras.getString("product_price");
+                product_category = extras.getString("category_name");
+                product_price = extras.getString("product_commercial_price");
                 product_description = extras.getString("product_description");
+                product_image = extras.getString("product_image");
                 round_start_time = extras.getString("round_start_time");
                 round_end_time = extras.getString("round_end_time");
-                joined_members_number = extras.getString("joined_members_number");
 
-                round = new Round(product_name, product_image, product_category, product_price, product_description, round_start_time, round_end_time, joined_members_number);
+                round = new Round(product_name,
+                        product_category,
+                        extras.getString("country_name"),
+                        product_price,
+                        product_description,
+                        product_image,
+                        round_start_time,
+                        round_end_time,
+                        extras.getString("first_join_time"),
+                        extras.getString("second_join_time"),
+                        extras.getString("round_date"),
+                        extras.getString("round_time"),
+                        extras.getString("rest_time"));
             }
 
-        } else {
+        } else { // get data from saved state
             product_name = (String) savedInstanceState.getSerializable("product_name");
+            product_category = (String) savedInstanceState.getSerializable("category_name");
+            product_price = (String) savedInstanceState.getSerializable("product_commercial_price");
+            product_description = (String) savedInstanceState.getSerializable("product_product_description");
             product_image = (String) savedInstanceState.getSerializable("product_image");
-            product_category = (String) savedInstanceState.getSerializable("product_category");
-            product_price = (String) savedInstanceState.getSerializable("product_price");
-            product_description = (String) savedInstanceState.getSerializable("product_description");
             round_start_time = (String) savedInstanceState.getSerializable("round_start_time");
             round_end_time = (String) savedInstanceState.getSerializable("round_end_time");
-            joined_members_number = (String) savedInstanceState.getSerializable("joined_members_number");
 
-            round = new Round(product_name, product_image, product_category, product_price, product_description, round_start_time, round_end_time, joined_members_number);
+            round = new Round(product_name,
+                    product_category,
+                    (String) savedInstanceState.getSerializable("country_name"),
+                    product_price,
+                    product_description,
+                    product_image,
+                    round_start_time,
+                    round_end_time,
+                    (String) savedInstanceState.getSerializable("first_join_time"),
+                    (String) savedInstanceState.getSerializable("second_join_time"),
+                    (String) savedInstanceState.getSerializable("round_date"),
+                    (String) savedInstanceState.getSerializable("round_time"),
+                    (String) savedInstanceState.getSerializable("rest_time"));
         }
     }
 
@@ -95,25 +132,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         // set data
         tvProductName.setText(round.getProduct_name());
-        tvProductPrice.setText(round.getProduct_price());
-        tvProductDescription.setText(round.getProduct_description());
+        tvProductPrice.setText(round.getProduct_commercial_price());
+        tvProductDescription.setText(round.getProduct_product_description());
 
         Picasso.with(ProductDetailsActivity.this).load(round.getProduct_image()).placeholder(R.drawable.gawla_logo_blue).into(imProductImage);
-    }
-
-    private void initViews() {
-        // back
-        findViewById(R.id.product_details_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-                try {
-                    getWindow().setStatusBarColor(getResources().getColor(R.color.paleGrey));
-                } catch (Exception e) {
-                }
-            }
-        });
-
     }
 
     private void initRecycler() {

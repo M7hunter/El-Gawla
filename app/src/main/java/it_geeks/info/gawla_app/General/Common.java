@@ -4,11 +4,16 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ProgressBar;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+
+import it_geeks.info.gawla_app.Repositry.Models.Data;
 
 public class Common {
 
@@ -26,7 +31,7 @@ public class Common {
         return common;
     }
 
-    // to change app lang
+    // change app lang
     public void setLang (String lang) {
         Lang = lang;
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -46,6 +51,11 @@ public class Common {
         return s;
     }
 
+    // remove empty lines
+    public String removeEmptyLines(String s) {
+        return s.replaceAll("(?m)^[ \t]*\r?\n", "");
+    }
+
     // hide progress after recycler finish loading
     public void hideProgress(final RecyclerView recyclerView, final ProgressBar progressBar) {
         recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -55,5 +65,21 @@ public class Common {
                 recyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
+    }
+
+    // get milliseconds time
+    public long getCurrentTimeInMillis() {
+        long time = System.currentTimeMillis(); // milliseconds
+        Log.d("M7", "Time: " + time);
+
+        return time;
+    }
+
+    // get formatted time & date
+    public Date getCurrentTimeFormatted() {
+        Date currentTime = Calendar.getInstance().getTime(); // formatted 'ddd MMM dd HH:mm:ss GMT yyyy'
+        Log.d("M7", "current Time: " + currentTime);
+
+        return currentTime;
     }
 }

@@ -70,30 +70,52 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
 
-            if (extras != null) {
+            if (extras != null) { // get data from previous page
                 product_name = extras.getString("product_name");
-                product_image = extras.getString("product_image");
-                product_category = extras.getString("product_category");
-                product_price = extras.getString("product_price");
+                product_category = extras.getString("category_name");
+                product_price = extras.getString("product_commercial_price");
                 product_description = extras.getString("product_description");
+                product_image = extras.getString("product_image");
                 round_start_time = extras.getString("round_start_time");
                 round_end_time = extras.getString("round_end_time");
-                joined_members_number = extras.getString("joined_members_number");
 
-                round = new Round(product_name, product_image, product_category, product_price, product_description, round_start_time, round_end_time, joined_members_number);
+                round = new Round(product_name,
+                        product_category,
+                        extras.getString("country_name"),
+                        product_price,
+                        product_description,
+                        product_image,
+                        round_start_time,
+                        round_end_time,
+                        extras.getString("first_join_time"),
+                        extras.getString("second_join_time"),
+                        extras.getString("round_date"),
+                        extras.getString("round_time"),
+                        extras.getString("rest_time"));
             }
 
-        } else {
+        } else { // get data from saved state
             product_name = (String) savedInstanceState.getSerializable("product_name");
+            product_category = (String) savedInstanceState.getSerializable("category_name");
+            product_price = (String) savedInstanceState.getSerializable("product_commercial_price");
+            product_description = (String) savedInstanceState.getSerializable("product_product_description");
             product_image = (String) savedInstanceState.getSerializable("product_image");
-            product_category = (String) savedInstanceState.getSerializable("product_category");
-            product_price = (String) savedInstanceState.getSerializable("product_price");
-            product_description = (String) savedInstanceState.getSerializable("product_description");
             round_start_time = (String) savedInstanceState.getSerializable("round_start_time");
             round_end_time = (String) savedInstanceState.getSerializable("round_end_time");
-            joined_members_number = (String) savedInstanceState.getSerializable("joined_members_number");
 
-            round = new Round(product_name, product_image, product_category, product_price, product_description, round_start_time, round_end_time, joined_members_number);
+            round = new Round(product_name,
+                    product_category,
+                    (String) savedInstanceState.getSerializable("country_name"),
+                    product_price,
+                    product_description,
+                    product_image,
+                    round_start_time,
+                    round_end_time,
+                    (String) savedInstanceState.getSerializable("first_join_time"),
+                    (String) savedInstanceState.getSerializable("second_join_time"),
+                    (String) savedInstanceState.getSerializable("round_date"),
+                    (String) savedInstanceState.getSerializable("round_time"),
+                    (String) savedInstanceState.getSerializable("rest_time"));
         }
     }
 
@@ -105,9 +127,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         imProductImage = findViewById(R.id.round_product_image);
 
         // set data
-        tvEndTime.setText(round.getEnd_time());
+        tvEndTime.setText(round.getRound_end_time());
         tvProductName.setText(round.getProduct_name());
-        tvProductPrice.setText(round.getProduct_price());
+        tvProductPrice.setText(round.getProduct_commercial_price());
 
         Picasso.with(SalonActivity.this).load(round.getProduct_image()).placeholder(R.drawable.gawla_logo_blue).into(imProductImage);
     }
@@ -146,14 +168,20 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(SalonActivity.this, ProductDetailsActivity.class);
+                // send round's data to more page
                 i.putExtra("product_name", round.getProduct_name());
+                i.putExtra("category_name", round.getCategory_name());
+                i.putExtra("country_name", round.getCountry_name());
+                i.putExtra("product_commercial_price", round.getProduct_commercial_price());
+                i.putExtra("product_product_description", round.getProduct_product_description());
                 i.putExtra("product_image", round.getProduct_image());
-                i.putExtra("product_category", round.getProduct_category());
-                i.putExtra("product_price", round.getProduct_price());
-                i.putExtra("product_description", round.getProduct_description());
-                i.putExtra("round_start_time", round.getStart_time());
-                i.putExtra("round_end_time", round.getEnd_time());
-                i.putExtra("joined_members_number", round.getJoined_members_number());
+                i.putExtra("round_start_time", round.getRound_start_time());
+                i.putExtra("round_end_time", round.getRound_end_time());
+                i.putExtra("first_join_time", round.getFirst_join_time());
+                i.putExtra("second_join_time", round.getSecond_join_time());
+                i.putExtra("round_date", round.getRound_date());
+                i.putExtra("round_time", round.getRound_time());
+                i.putExtra("rest_time", round.getRest_time());
 
                 startActivity(i);
             }

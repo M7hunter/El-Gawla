@@ -2,6 +2,7 @@ package it_geeks.info.gawla_app.Repositry.Models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
@@ -16,39 +17,60 @@ public class Round {
     private String product_name;
 
     @ColumnInfo
+    private String category_name;
+
+    @ColumnInfo
+    private String country_name;
+
+    @ColumnInfo
+    private String product_commercial_price;
+
+    @ColumnInfo
+    private String product_product_description;
+
+    @ColumnInfo
     private String product_image;
 
     @ColumnInfo
-    private String product_category;
+    private String round_start_time;
 
     @ColumnInfo
-    private String product_price;
+    private String round_end_time;
 
     @ColumnInfo
-    private String product_description;
+    private String first_join_time;
 
     @ColumnInfo
-    private String start_time;
+    private String second_join_time;
 
     @ColumnInfo
-    private String end_time;
+    private String round_date;
 
     @ColumnInfo
-    private String joined_members_number;
+    private String round_time;
+
+    @ColumnInfo
+    private String rest_time;
 
     // constructors
     public Round() {
     }
 
-    public Round(String productName, String productImage, String productCategory, String productPrice, String productDescription, String startTime, String endTime, String joinedMembersNumber) {
-        product_name = productName;
-        product_image = productImage;
-        product_category = productCategory;
-        product_price = productPrice;
-        product_description = productDescription;
-        start_time = startTime;
-        end_time = endTime;
-        joined_members_number = joinedMembersNumber;
+    @Ignore
+    public Round(String product_name, String category_name, String country_name, String product_commercial_price, String product_product_description, String product_image, String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time) {
+        this.product_name = product_name;
+        this.category_name = category_name;
+        this.country_name = country_name;
+        this.product_commercial_price = product_commercial_price;
+        this.product_product_description = product_product_description;
+        this.product_image = product_image;
+        this.round_start_time = round_start_time;
+        this.round_end_time = round_end_time;
+        this.first_join_time = first_join_time;
+        this.second_join_time = second_join_time;
+        this.round_date = round_date;
+        this.round_time = round_time;
+        this.rest_time = rest_time;
     }
 
     // getters & setters
@@ -68,6 +90,38 @@ public class Round {
         this.product_name = product_name;
     }
 
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
+
+    public String getCountry_name() {
+        return country_name;
+    }
+
+    public void setCountry_name(String country_name) {
+        this.country_name = country_name;
+    }
+
+    public String getProduct_commercial_price() {
+        return product_commercial_price;
+    }
+
+    public void setProduct_commercial_price(String product_commercial_price) {
+        this.product_commercial_price = product_commercial_price;
+    }
+
+    public String getProduct_product_description() {
+        return product_product_description;
+    }
+
+    public void setProduct_product_description(String product_product_description) {
+        this.product_product_description = product_product_description;
+    }
+
     public String getProduct_image() {
         return product_image;
     }
@@ -76,52 +130,60 @@ public class Round {
         this.product_image = product_image;
     }
 
-    public String getProduct_category() {
-        return product_category;
+    public String getRound_start_time() {
+        return round_start_time;
     }
 
-    public void setProduct_category(String product_category) {
-        this.product_category = product_category;
+    public void setRound_start_time(String round_start_time) {
+        this.round_start_time = round_start_time;
     }
 
-    public String getProduct_price() {
-        return product_price;
+    public String getRound_end_time() {
+        return round_end_time;
     }
 
-    public void setProduct_price(String product_price) {
-        this.product_price = product_price;
+    public void setRound_end_time(String round_end_time) {
+        this.round_end_time = round_end_time;
     }
 
-    public String getProduct_description() {
-        return product_description;
+    public String getFirst_join_time() {
+        return first_join_time;
     }
 
-    public void setProduct_description(String product_description) {
-        this.product_description = product_description;
+    public void setFirst_join_time(String first_join_time) {
+        this.first_join_time = first_join_time;
     }
 
-    public String getStart_time() {
-        return start_time;
+    public String getSecond_join_time() {
+        return second_join_time;
     }
 
-    public void setStart_time(String start_time) {
-        this.start_time = start_time;
+    public void setSecond_join_time(String second_join_time) {
+        this.second_join_time = second_join_time;
     }
 
-    public String getEnd_time() {
-        return end_time;
+    public String getRound_date() {
+        return round_date;
     }
 
-    public void setEnd_time(String end_time) {
-        this.end_time = end_time;
+    public void setRound_date(String round_date) {
+        this.round_date = round_date;
     }
 
-    public String getJoined_members_number() {
-        return joined_members_number;
+    public String getRound_time() {
+        return round_time;
     }
 
-    public void setJoined_members_number(String joined_members_number) {
-        this.joined_members_number = joined_members_number;
+    public void setRound_time(String round_time) {
+        this.round_time = round_time;
+    }
+
+    public String getRest_time() {
+        return rest_time;
+    }
+
+    public void setRest_time(String rest_time) {
+        this.rest_time = rest_time;
     }
 
     // calculate differences and update

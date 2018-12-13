@@ -26,10 +26,10 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/cairo_regular"
                 android:gravity="center"
-                android:textStyle="bold"
                 android:text="@string/Payment"
                 android:textColor="@color/midBlue"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 tools:layout_editor_absoluteX="154dp"
                 tools:layout_editor_absoluteY="39dp" />
 
@@ -43,11 +43,11 @@
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/cairo_regular"
                 android:gravity="center"
-                android:textStyle="bold"
                 android:padding="10dp"
                 android:text="@string/payment_step"
                 android:textColor="@color/midBlue"
                 android:textSize="14sp"
+                android:textStyle="bold"
                 tools:layout_editor_absoluteX="154dp"
                 tools:layout_editor_absoluteY="39dp" />
 
@@ -62,13 +62,13 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/cairo_regular"
                     android:gravity="start"
-                    android:textStyle="bold"
                     android:paddingStart="40dp"
                     android:paddingEnd="40dp"
                     android:paddingBottom="5dp"
                     android:text="@string/Payment_numberOfCard"
                     android:textColor="@color/blueGrey"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -85,7 +85,7 @@
             <EditText
                 android:id="@+id/editText4"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -109,19 +109,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/cairo_regular"
-                android:textStyle="bold"
                 android:gravity="start"
                 android:paddingLeft="40dp"
                 android:paddingRight="40dp"
                 android:paddingBottom="5dp"
                 android:text="@string/NameOfCard"
                 android:textColor="@color/blueGrey"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editText5"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -152,12 +152,12 @@
                     android:fontFamily="@font/cairo_regular"
                     android:gravity="start"
                     android:paddingLeft="40dp"
-                    android:textStyle="bold"
                     android:paddingRight="40dp"
                     android:paddingBottom="5dp"
                     android:text="@string/Card_PIN"
                     android:textColor="@color/blueGrey"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView20"
@@ -174,7 +174,7 @@
             <EditText
                 android:id="@+id/editText6"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -198,19 +198,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/cairo_regular"
-                android:textStyle="bold"
                 android:gravity="start"
                 android:paddingLeft="40dp"
                 android:paddingRight="40dp"
                 android:paddingBottom="5dp"
                 android:text="@string/Expiry_date"
                 android:textColor="@color/blueGrey"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editText7"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -229,48 +229,41 @@
                 android:textColorHint="@color/editText_hint"
                 android:textSize="16sp" />
 
-            <RelativeLayout
-                android:id="@+id/rBtnPay"
+            <LinearLayout
+                android:id="@+id/payment_confirm_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/login_shape">
+                android:background="@drawable/login_shape"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/cairo_regular"
+                    android:gravity="center"
+                    android:text="@string/Monthly_membership"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/button5"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/cairo_regular"
-                        android:gravity="center"
-                        android:text="@string/Monthly_membership"
-                        android:textColor="@android:color/white"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/cairo_regular"
+                    android:gravity="center"
+                    android:text="@string/Confirm_payment"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/button4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="5dp"
-                        android:fontFamily="@font/cairo_regular"
-                        android:gravity="center"
-                        android:text="@string/Confirm_payment"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

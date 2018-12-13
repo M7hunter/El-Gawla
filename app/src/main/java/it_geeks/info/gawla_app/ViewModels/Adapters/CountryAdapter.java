@@ -46,7 +46,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPrefManager.getInstance(context).setCountryId(country.getCountry_id());
+                SharedPrefManager.getInstance(context).setCountry(country);
 
                 context.startActivity(new Intent(context, IntroActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
