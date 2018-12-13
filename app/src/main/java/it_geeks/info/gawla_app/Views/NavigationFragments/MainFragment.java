@@ -61,18 +61,20 @@ public class MainFragment extends Fragment {
     private void initViews(View view) {
         recentSalonsProgress = view.findViewById(R.id.recent_salons_progress);
         winnersNewsProgress = view.findViewById(R.id.winners_news_progress);
-        TextView seeAllRecentSalons = view.findViewById(R.id.recent_salons_see_all);
         winnersHeader = view.findViewById(R.id.winners_header);
 
-        seeAllRecentSalons.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (GawlaDataBse.getGawlaDatabase(getContext()).RoundDao().getRounds().size() > 0) {
-                        GawlaDataBse.getGawlaDatabase(getContext()).RoundDao()
-                                .removeRounds(GawlaDataBse.getGawlaDatabase(getContext()).RoundDao().getRounds());
-                }
-            }
-        });
+        // TODO see all Hide Salons
+        //  TextView seeAllRecentSalons = view.findViewById(R.id.recent_salons_see_all);
+        //        seeAllRecentSalons.setOnClickListener(new View.OnClickListener() {
+        //            @Override
+        //            public void onClick(View v) {
+        //                if (GawlaDataBse.getGawlaDatabase(getContext()).RoundDao().getRounds().size() > 0) {
+        //                        GawlaDataBse.getGawlaDatabase(getContext()).RoundDao()
+        //                                .removeRounds(GawlaDataBse.getGawlaDatabase(getContext()).RoundDao().getRounds());
+        //                }
+        //            }
+        //        });
+
     }
 
     private void initSalonsRecycler(View view) {
