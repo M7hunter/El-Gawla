@@ -1,6 +1,7 @@
 package it_geeks.info.gawla_app.Repositry.RESTful;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import it_geeks.info.gawla_app.General.SharedPrefManager;
@@ -11,7 +12,6 @@ public class RetrofitClient {
 
     // locale : http://192.168.1.2/elgawla/public/api/v1/en/
     // online : http://dev.itgeeks.info/api/v1/en/
-    private static String BASE_URL = "http://dev.itgeeks.info/api/v1/en/";
 
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
@@ -33,12 +33,15 @@ public class RetrofitClient {
     }
 
     private String selectBaseUrl() {
+        String BASE_URL;
         switch (SharedPrefManager.getInstance(context).getSavedLang()) {
             case "en":
                 BASE_URL = "http://dev.itgeeks.info/api/v1/en/";
+                Log.d("M7", "selectBaseUrl: en");
                 break;
             case "ar":
                 BASE_URL = "http://dev.itgeeks.info/api/v1/ar/";
+                Log.d("M7", "selectBaseUrl: ar");
                 break;
             default:
                 BASE_URL = "http://dev.itgeeks.info/api/v1/en/";

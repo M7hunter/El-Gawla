@@ -3,6 +3,8 @@ package it_geeks.info.gawla_app.General;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Locale;
+
 import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.User;
 
@@ -13,7 +15,7 @@ public class SharedPrefManager {
     private static SharedPrefManager sharedPrefManager;
     private Context context;
     private SharedPreferences sharedPreferences;
-    private static final String SHARED_PREF_NAME = "lang_shared_pref";
+    private static final String SHARED_PREF_LANG = "lang_shared_pref";
     private static final String SHARED_PREF_NAME2 = "user_shared_pref";
     private static final String SHARED_PREF_NAME3 = "country_shared_pref";
     private static final String SHARED_PREF_NAME4 = "membership_shared_pref";
@@ -32,7 +34,7 @@ public class SharedPrefManager {
 
     //--------------- lang -------------//
     public void setLang(String lang) {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_LANG, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.clear();
@@ -42,8 +44,8 @@ public class SharedPrefManager {
     }
 
     public String getSavedLang() {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
-        return sharedPreferences.getString("lang", "en");
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_LANG, MODE_PRIVATE);
+        return sharedPreferences.getString("lang", Locale.getDefault().getLanguage());
     }
 
     //--------------- user -------------//

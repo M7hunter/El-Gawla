@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -51,17 +52,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
                 android:gravity="center"
                 android:orientation="vertical">
+
                 <!-- separator -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="@dimen/margin_tiny"
                     android:layout_marginTop="@dimen/margin_tiny"
-                    android:layout_marginRight="@dimen/margin_tiny"
                     android:background="@color/paleGrey" />
 
                 <!-- name -->
@@ -69,7 +67,6 @@
                     android:id="@+id/my_round_product_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="name"
                     android:textColor="@color/bgBlueDark"
                     android:textSize="@dimen/text_size_medium" />
 
@@ -92,37 +89,24 @@
                         android:id="@+id/my_round_product_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="price"
                         android:textColor="@color/colorOrange" />
 
                 </LinearLayout>
-
-                <!-- description -->
-                <TextView
-                    android:id="@+id/my_round_product_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_small"
-                    android:textColor="@color/blueyGrey" />
 
                 <!-- separator -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="@dimen/margin_tiny"
                     android:layout_marginTop="@dimen/margin_tiny"
-                    android:layout_marginRight="@dimen/margin_tiny"
-                    android:layout_marginBottom="@dimen/margin_tiny"
                     android:background="@color/paleGrey" />
 
                 <!-- time container -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginEnd="@dimen/margin_small"
+                    android:background="@color/paleGrey2"
+                    android:paddingStart="@dimen/margin_tiny"
+                    android:paddingEnd="@dimen/margin_tiny"
                     android:gravity="center_vertical">
 
                     <!-- icon -->
@@ -155,9 +139,8 @@
                             android:id="@+id/my_round_start_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="time"
                             android:textColor="@color/midBlue"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_xlarge" />
 
                         <!-- end time container -->
                         <LinearLayout
@@ -171,7 +154,7 @@
                                 android:gravity="end"
                                 android:text="@string/close"
                                 android:textColor="@color/blueyGrey"
-                                android:textSize="@dimen/text_size_tiny" />
+                                android:textSize="@dimen/text_size_small" />
 
                             <!--  end time -->
                             <TextView
@@ -181,9 +164,8 @@
                                 android:layout_marginStart="@dimen/margin_tiny"
                                 android:layout_marginEnd="@dimen/margin_tiny"
                                 android:gravity="end"
-                                android:text="close time"
                                 android:textColor="@color/paleRed"
-                                android:textSize="@dimen/text_size_medium" />
+                                android:textSize="@dimen/text_size_small" />
 
                         </LinearLayout>
 
@@ -195,9 +177,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="@dimen/margin_tiny"
-                    android:layout_marginTop="@dimen/margin_tiny"
-                    android:layout_marginRight="@dimen/margin_tiny"
                     android:layout_marginBottom="@dimen/margin_tiny"
                     android:background="@color/paleGrey" />
 

@@ -95,14 +95,12 @@ public class LangExAdapter extends BaseExpandableListAdapter {
                 switch (childLabel) {
                     case "English":
                         Common.Instance(context).setLang("en");
-                        SharedPrefManager.getInstance(context).setLang("en");
 
                         context.startActivity(new Intent(context, MainActivity.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
                     case "العربية":
                         Common.Instance(context).setLang("ar");
-                        SharedPrefManager.getInstance(context).setLang("ar");
 
                         context.startActivity(new Intent(context, MainActivity.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));

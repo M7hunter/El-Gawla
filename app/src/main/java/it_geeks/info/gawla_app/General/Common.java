@@ -23,7 +23,7 @@ public class Common {
 
     private Common(Context context) {
         this.context = context;
-        Lang = Locale.getDefault().getLanguage();
+        Lang = Locale.getDefault().getLanguage(); // get device default language
     }
 
     public static synchronized Common Instance(Context context) {
