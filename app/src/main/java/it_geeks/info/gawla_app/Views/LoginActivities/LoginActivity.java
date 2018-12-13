@@ -306,6 +306,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    // social login
     private void socialLogin(String id, final String name, final String email, final String image, String provider) {
 
         try {
