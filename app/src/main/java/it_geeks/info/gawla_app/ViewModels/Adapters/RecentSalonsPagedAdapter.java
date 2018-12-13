@@ -38,10 +38,13 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
 
         // bind
         if (round != null) {
-            Picasso.with(context)
-                    .load(round.getProduct_image())
-                    .placeholder(context.getResources().getDrawable(R.mipmap.ic_launcher_gawla))
-                    .into(viewHolder.imgProductImage);
+            //Todo Added Try & Catch To Skip Error
+            try {
+                Picasso.with(context)
+                        .load(round.getProduct_image())
+                        .placeholder(context.getResources().getDrawable(R.mipmap.ic_launcher_gawla))
+                        .into(viewHolder.imgProductImage);
+            }catch (Exception e){}
 
             viewHolder.tvProductName.setText(adjustStrings(round).getProduct_name());
             viewHolder.tvProductCategory.setText(adjustStrings(round).getCategory_name());

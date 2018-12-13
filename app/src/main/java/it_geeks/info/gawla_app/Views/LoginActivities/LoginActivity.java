@@ -309,20 +309,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void socialLogin(String id, final String name, final String email, final String image, String provider) {
         try {
             RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"), new Request(provider, id, name, email, image));
-            Call<JsonObject> call = RetrofitClient.getInstance(LoginActivity.this).getAPI().SocialLoginAndRegister(requestMainBody);
+            Call<JsonObject> call = RetrofitClient.getInstance(LoginActivity.this).getAPI().request(requestMainBody);
             call.enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    try{
+                        JsonObject data = response.body().getAsJsonObject();
+                        mApi_token = data.get("api_token").getAsString();
+                        mUser_id = data.get("user_id").getAsInt();
 
-                    JsonObject data = response.body().getAsJsonObject();
-                    mApi_token = data.get("api_token").getAsString();
-                    mUser_id = data.get("user_id").getAsInt();
+                        SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(mUser_id, name, email, mApi_token, image));
+                        SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
 
-                    SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(mUser_id, name, email, mApi_token, image));
-                    SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+                    }catch (Exception e){
+                        Log.e("Mo7", e.getMessage());
+                    }
 
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
                 }
 
                 @Override

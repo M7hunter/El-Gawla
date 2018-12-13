@@ -11,16 +11,8 @@ import retrofit2.http.POST;
 
 public interface APIs {
 
-    // request salons || cards || login || register
+    // request salons || cards || login || register || upload Image || SocialMedia Login
     @POST("master")
     Call<JsonObject> request(@Body RequestMainBody requestMainBody);
 
-    // Upload Image
-    @POST("master")
-    Call<JsonObject> UploadImage(@Body RequestMainBody requestMainBody);
-
-    // Upload Image
-    @FormUrlEncoded
-    @POST("master")
-    Call<JsonObject> SocialLoginAndRegister(@Body RequestMainBody requestMainBody);
 }
