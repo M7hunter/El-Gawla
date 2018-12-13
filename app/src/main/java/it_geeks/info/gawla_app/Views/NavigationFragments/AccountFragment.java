@@ -56,8 +56,6 @@ public class AccountFragment extends Fragment {
         user_id = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
         api_token = SharedPrefManager.getInstance(getContext()).getUser().getApi_token();
 
-        Log.e("M7", user_id + "----" + api_token);
-
         getData();
 
         initViews(view);
@@ -160,7 +158,7 @@ public class AccountFragment extends Fragment {
                         Toast.makeText(MainActivity.mainActivityInstance, "Your Profile Image has been changed", Toast.LENGTH_SHORT).show();
                         Picasso.with(getContext()).load(imageuploaded[0]).into(userImage);
                     } else {
-                        if (handleServerErrors(ObjData).equals("you are not logged in")) {
+                        if (handleServerErrors(ObjData).equals("you are not logged in.")) {
                             startActivity(new Intent(getActivity(), LoginActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         }

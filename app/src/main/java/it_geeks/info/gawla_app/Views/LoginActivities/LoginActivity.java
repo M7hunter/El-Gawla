@@ -2,19 +2,15 @@ package it_geeks.info.gawla_app.Views.LoginActivities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,6 +80,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mApi_token = SharedPrefManager.getInstance(LoginActivity.this).getUser().getApi_token();
 
         if (status && mApi_token != null) {
+
+            Log.d("M7", "API_Token: " + mApi_token);
+
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
 
@@ -185,7 +184,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void initialization() {
 
         btnLogin = findViewById(R.id.btnLogin);
-        txtForgetPassword = findViewById(R.id.txt_FrogetPassword);
+        txtForgetPassword = findViewById(R.id.txt_forget_password);
         txtCreateAccount = findViewById(R.id.txt_Create_Account);
         txt_Email = findViewById(R.id.txt_Email);
         txt_Password = findViewById(R.id.txt_Password);
@@ -200,7 +199,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        findViewById(R.id.btn_google_login).setOnClickListener(this);
+        findViewById(R.id.btn_google_sign_in).setOnClickListener(this);
 
 
     }
@@ -209,7 +208,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_google_login:
+            case R.id.btn_google_sign_in:
                 signIn();
                 break;
         }
@@ -277,6 +276,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         }
 
+        LinearLayout btnFace = findViewById(R.id.btn_facebook_sign_in);
+        btnFace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_fb_login.performClick();
+            }
+        });
     }
 
     // fb login

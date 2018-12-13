@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,9 +15,7 @@ import it_geeks.info.gawla_app.R;
 
 public class PaymentActivity extends AppCompatActivity {
 
-    RelativeLayout rBtnPay;
-
-    TextView btnConfirmPayment;
+    LinearLayout btnConfirmPayment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +23,6 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
 
         initViews();
-
-        rBtnPay = findViewById(R.id.rBtnPay);
-        rBtnPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(PaymentActivity.this,MainActivity.class));
-            }
-        });
     }
 
     private void initViews() {
@@ -39,7 +30,9 @@ public class PaymentActivity extends AppCompatActivity {
         btnConfirmPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 SharedPrefManager.getInstance(PaymentActivity.this).getMembership();
+                startActivity(new Intent(PaymentActivity.this,MainActivity.class));
             }
         });
     }

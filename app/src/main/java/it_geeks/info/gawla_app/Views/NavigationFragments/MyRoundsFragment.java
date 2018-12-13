@@ -111,14 +111,32 @@ public class MyRoundsFragment extends Fragment {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
             String product_name = roundObj.get("product_name").getAsString();
             String category_name = roundObj.get("category_name").getAsString();
+            String country_name = roundObj.get("country_name").getAsString();
             String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
             String product_product_description = roundObj.get("product_product_description").getAsString();
             String product_image = roundObj.get("product_image").getAsString();
             String round_start_time = roundObj.get("round_start_time").getAsString();
             String round_end_time = roundObj.get("round_end_time").getAsString();
+            String first_join_time = roundObj.get("first_join_time").getAsString();
+            String second_join_time = roundObj.get("second_join_time").getAsString();
+            String round_date = roundObj.get("round_date").getAsString();
+            String round_time = roundObj.get("round_time").getAsString();
+            String rest_time = roundObj.get("rest_time").getAsString();
 
             rounds.add(
-                    new Round(product_name, product_image, category_name, product_commercial_price, product_product_description, round_start_time, round_end_time, "not yet"));
+                    new Round(product_name,
+                            category_name,
+                            country_name,
+                            product_commercial_price,
+                            product_product_description,
+                            product_image,
+                            round_start_time,
+                            round_end_time,
+                            first_join_time,
+                            second_join_time,
+                            round_date,
+                            round_time,
+                            rest_time));
         }
 
         return rounds;

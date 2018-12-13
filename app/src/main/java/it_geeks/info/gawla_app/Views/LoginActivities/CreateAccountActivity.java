@@ -9,6 +9,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -109,27 +110,27 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        findViewById(R.id.btn_google_login2).setOnClickListener(this);
+        findViewById(R.id.btn_google_sign_up).setOnClickListener(this);
 
     }
 
-    // google login
+    // google sign up
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_google_login2:
+            case R.id.btn_google_sign_up:
                 signIn();
                 break;
         }
     }
 
-    // google login
+    // google sign up
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, GOOGLE_REQUEST);
     }
 
-    // google login
+    // google sign up
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
@@ -153,7 +154,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         String email = etEmail.getText().toString();
         String pass = etPass.getText().toString();
 
-        int countryId = SharedPrefManager.getInstance(CreateAccountActivity.this).getCountryId();
+        int countryId = SharedPrefManager.getInstance(CreateAccountActivity.this).getCountry().getCountry_id();
 
         if (checkEntries(name, email, pass)) {
             RequestMainBody requestMainBody = new RequestMainBody(new Data("register"),
@@ -284,8 +285,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         btn_fb_login.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                String accesstoken = loginResult.getAccessToken().getToken();
-
                 GraphRequest mGraphRequest = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
@@ -315,6 +314,13 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         }
 
+        LinearLayout btnFace = findViewById(R.id.btn_facebook_sign_up);
+        btnFace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_fb_login.performClick();
+            }
+        });
     }
 
     private void getData(JSONObject object) {
@@ -381,7 +387,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    // google login
+    // google sign up
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this, connectionResult.getErrorMessage(), Toast.LENGTH_SHORT).show();

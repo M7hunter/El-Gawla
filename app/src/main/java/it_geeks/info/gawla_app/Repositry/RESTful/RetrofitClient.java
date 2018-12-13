@@ -11,7 +11,7 @@ public class RetrofitClient {
 
     // locale : http://192.168.1.2/elgawla/public/api/v1/en/
     // online : http://dev.itgeeks.info/api/v1/en/
-    private static String BASE_URL = "http://192.168.1.2/elgawla/public/api/v1/en/";
+    private static String BASE_URL = "http://dev.itgeeks.info/api/v1/en/";
 
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
@@ -35,13 +35,13 @@ public class RetrofitClient {
     private String selectBaseUrl() {
         switch (SharedPrefManager.getInstance(context).getSavedLang()) {
             case "en":
-                BASE_URL = "http://192.168.1.2/elgawla/public/api/v1/en/";
+                BASE_URL = "http://dev.itgeeks.info/api/v1/en/";
                 break;
             case "ar":
-                BASE_URL = "http://192.168.1.2/elgawla/public/api/v1/ar/";
+                BASE_URL = "http://dev.itgeeks.info/api/v1/ar/";
                 break;
             default:
-                BASE_URL = "http://192.168.1.2/elgawla/public/api/v1/en/";
+                BASE_URL = "http://dev.itgeeks.info/api/v1/en/";
                 break;
         }
 
