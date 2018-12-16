@@ -49,7 +49,6 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
             viewHolder.tvProductName.setText(adjustStrings(round).getProduct_name());
             viewHolder.tvProductCategory.setText(adjustStrings(round).getCategory_name());
             viewHolder.tvProductPrice.setText(adjustStrings(round).getProduct_commercial_price());
-            viewHolder.tvProductDescription.setText(adjustStrings(round).getProduct_product_description());
             viewHolder.tvStartTime.setText(adjustStrings(round).getRound_start_time());
             viewHolder.tvEndTime.setText(adjustStrings(round).getRound_end_time());
 
@@ -106,7 +105,7 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvProductName, tvProductCategory, tvProductPrice, tvProductDescription, tvStartTime, tvEndTime, btnJoinRound;
+        TextView tvProductName, tvProductCategory, tvProductPrice, tvStartTime, tvEndTime, btnJoinRound;
         ImageView imgProductImage;
 
         private ViewHolder(@NonNull View itemView) {
@@ -116,7 +115,6 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
             tvProductName = itemView.findViewById(R.id.round_product_name);
             tvProductCategory = itemView.findViewById(R.id.round_product_category);
             tvProductPrice = itemView.findViewById(R.id.round_product_price);
-            tvProductDescription = itemView.findViewById(R.id.round_product_description);
             tvStartTime = itemView.findViewById(R.id.round_start_time);
             tvEndTime = itemView.findViewById(R.id.round_end_time);
             btnJoinRound = itemView.findViewById(R.id.round_btn_join);

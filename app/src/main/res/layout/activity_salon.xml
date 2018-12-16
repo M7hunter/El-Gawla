@@ -452,7 +452,7 @@
 
                         <!-- product image -->
                         <ImageView
-                            android:id="@+id/round_product_image"
+                            android:id="@+id/salon_round_product_image"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -470,7 +470,7 @@
 
                             <!-- product name -->
                             <TextView
-                                android:id="@+id/round_product_name"
+                                android:id="@+id/salon_round_product_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/margin_tiny"
@@ -493,7 +493,7 @@
 
                                 <!-- price -->
                                 <TextView
-                                    android:id="@+id/round_product_price"
+                                    android:id="@+id/salon_round_product_price"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"

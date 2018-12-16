@@ -74,7 +74,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 product_name = extras.getString("product_name");
                 product_category = extras.getString("category_name");
                 product_price = extras.getString("product_commercial_price");
-                product_description = extras.getString("product_description");
+                product_description = extras.getString("product_product_description");
                 product_image = extras.getString("product_image");
                 round_start_time = extras.getString("round_start_time");
                 round_end_time = extras.getString("round_end_time");
@@ -122,9 +122,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private void initRoundViews_setData() {
         // init views
         tvEndTime = findViewById(R.id.salon_end_time);
-        tvProductName = findViewById(R.id.round_product_name);
-        tvProductPrice = findViewById(R.id.round_product_price);
-        imProductImage = findViewById(R.id.round_product_image);
+        tvProductName = findViewById(R.id.salon_round_product_name);
+        tvProductPrice = findViewById(R.id.salon_round_product_price);
+        imProductImage = findViewById(R.id.salon_round_product_image);
 
         // set data
         tvEndTime.setText(round.getRound_end_time());

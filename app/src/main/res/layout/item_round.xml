@@ -173,24 +173,17 @@
                     android:layout_marginEnd="@dimen/margin_small"
                     android:gravity="center">
 
-                    <!-- cards label -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/cards" />
-
                     <!-- red card -->
                     <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="25dp"
-                        android:layout_marginBottom="2dp"
+                        android:layout_width="25dp"
+                        android:layout_height="15dp"
+                        android:layout_marginBottom="@dimen/margin_tiny"
                         android:src="@drawable/card" />
 
                     <!-- green card -->
                     <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="25dp"
-                        android:layout_marginBottom="2dp"
+                        android:layout_width="25dp"
+                        android:layout_height="15dp"
                         android:src="@drawable/card" />
 
                 </LinearLayout>

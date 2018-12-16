@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.ViewModels.Adapters.ProductSubImagesAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
@@ -75,7 +76,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 product_name = extras.getString("product_name");
                 product_category = extras.getString("category_name");
                 product_price = extras.getString("product_commercial_price");
-                product_description = extras.getString("product_description");
+                product_description = Common.Instance(ProductDetailsActivity.this).removeEmptyLines(extras.getString("product_product_description")); 
                 product_image = extras.getString("product_image");
                 round_start_time = extras.getString("round_start_time");
                 round_end_time = extras.getString("round_end_time");
@@ -127,7 +128,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         // init views
         tvProductName = findViewById(R.id.product_details_name);
         tvProductPrice = findViewById(R.id.product_details_price);
-        tvProductDescription = findViewById(R.id.product_details_description);
+        tvProductDescription = findViewById(R.id.product_details_descriptions);
         imProductImage = findViewById(R.id.product_details_main_image);
 
         // set data

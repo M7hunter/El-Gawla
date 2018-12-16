@@ -26,7 +26,10 @@ public class RetrofitClient {
     }
 
     public static synchronized RetrofitClient getInstance(Context context) {
-        if (mInstance == null) {
+        if (mInstance == null) { // on creation
+            mInstance = new RetrofitClient();
+
+        } else if (!mInstance.selectBaseUrl().equals(SharedPrefManager.getInstance(context).getSavedLang())) { // on lang changed
             mInstance = new RetrofitClient();
         }
         return mInstance;
@@ -37,11 +40,9 @@ public class RetrofitClient {
         switch (SharedPrefManager.getInstance(context).getSavedLang()) {
             case "en":
                 BASE_URL = "http://dev.itgeeks.info/api/v1/en/";
-                Log.d("M7", "selectBaseUrl: en");
                 break;
             case "ar":
                 BASE_URL = "http://dev.itgeeks.info/api/v1/ar/";
-                Log.d("M7", "selectBaseUrl: ar");
                 break;
             default:
                 BASE_URL = "http://dev.itgeeks.info/api/v1/en/";
