@@ -46,7 +46,7 @@ public class RoundsPagerAdapter extends PagerAdapter {
         View view = LayoutInflater.from(context).inflate(R.layout.item_my_round, container, false);
 
         // define views
-        TextView tvProductName, tvProductCategory, tvProductPrice, tvProductDescription, tvStartTime, tvEndTime, btnJoinRound;
+        TextView tvProductName, tvProductCategory, tvProductPrice, tvStartTime, tvEndTime, btnJoinRound;
         ImageView imgProductImage;
 
         // init views
@@ -54,7 +54,6 @@ public class RoundsPagerAdapter extends PagerAdapter {
         tvProductName = view.findViewById(R.id.my_round_product_name);
         tvProductCategory = view.findViewById(R.id.my_round_product_category);
         tvProductPrice = view.findViewById(R.id.my_round_product_price);
-        tvProductDescription = view.findViewById(R.id.my_round_product_description);
         tvStartTime = view.findViewById(R.id.my_round_start_time);
         tvEndTime = view.findViewById(R.id.my_round_end_time);
         btnJoinRound = view.findViewById(R.id.my_round_btn_enter);
@@ -65,7 +64,6 @@ public class RoundsPagerAdapter extends PagerAdapter {
         tvProductName.setText(adjustStrings(round).getProduct_name());
         tvProductCategory.setText(adjustStrings(round).getCategory_name());
         tvProductPrice.setText(adjustStrings(round).getProduct_commercial_price());
-        tvProductDescription.setText(adjustStrings(round).getProduct_product_description());
         tvStartTime.setText(adjustStrings(round).getRound_start_time());
         tvEndTime.setText(adjustStrings(round).getRound_end_time());
 

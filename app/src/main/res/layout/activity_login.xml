@@ -61,11 +61,7 @@
                 android:id="@+id/login_button"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-<<<<<<< HEAD
                 android:visibility="gone" />
-=======
-                android:visibility="gone"/>
->>>>>>> c00f5cf975645431454cde909347ee574c84647b
 
             <!-- facebook -->
             <LinearLayout
