@@ -38,6 +38,7 @@ public class Common {
         Configuration configuration = context.getResources().getConfiguration();
         configuration.setLocale(new Locale(Lang));
         context.getResources().updateConfiguration(configuration, displayMetrics);
+
         SharedPrefManager.getInstance(context).setLang(Lang);
     }
 

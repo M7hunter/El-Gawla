@@ -93,7 +93,7 @@
                 android:layout_marginTop="@dimen/margin_tiny"
                 android:background="@color/paleGrey" />
 
-            <!-- time container -->
+            <!-- time & cards container -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -117,6 +117,7 @@
                     android:text="@string/round_start"
                     android:textColor="@color/battleshipGrey" />
 
+                <!-- time container -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -163,42 +164,36 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
-
-            <!-- separator -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="@dimen/margin_tiny"
-                android:background="@color/paleGrey" />
-
-            <!-- members & cards container -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:gravity="center">
-
-                <!-- cards label -->
-                <TextView
+                <!-- cards container -->
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/cards" />
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:gravity="center">
 
-                <!-- red card -->
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:src="@drawable/card_red" />
+                    <!-- cards label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cards" />
 
-                <!-- green card -->
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:src="@drawable/card_green" />
+                    <!-- red card -->
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="25dp"
+                        android:layout_marginBottom="2dp"
+                        android:src="@drawable/card" />
+
+                    <!-- green card -->
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="25dp"
+                        android:layout_marginBottom="2dp"
+                        android:src="@drawable/card" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -206,7 +201,6 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:background="@color/paleGrey" />
 
@@ -215,10 +209,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_small"
-                app:cardCornerRadius="@dimen/margin_small"
-                app:cardElevation="@dimen/margin_tiny">
+                app:cardCornerRadius="@dimen/margin_small">
 
-                <TextView
+                <Button
                     android:id="@+id/round_btn_join"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
