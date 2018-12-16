@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:scrollbars="none"
+    tools:context=".Views.MenuOptions.CallUsActivity">
+    <!-- scroll main layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- title bar -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layoutDirection="ltr">
+
+            <!-- back -->
+            <ImageView
+                android:id="@+id/call_us_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="@dimen/margin_medium"
+                android:src="@drawable/ic_arrow_back" />
+
+            <!-- title -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/call_us"
+                android:textColor="@color/battleshipGrey"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <!-- name label -->
+        <TextView
+            android:textColor="@color/blueGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xlarge"
+            android:layout_marginEnd="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:textSize="@dimen/text_size_medium"
+            android:text="@string/full_name"/>
+
+        <!-- name -->
+        <EditText
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xlarge"
+            android:layout_marginEnd="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:background="@drawable/edittext_shape"
+            android:hint="@string/full_name"
+            android:inputType="textPersonName"
+            android:paddingStart="@dimen/margin_xlarge"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_xlarge"
+            android:paddingBottom="@dimen/margin_small"
+            android:textColorHint="@color/blueGrey"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+        <!-- email label -->
+        <TextView
+            android:textColor="@color/blueGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xlarge"
+            android:layout_marginEnd="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:textSize="@dimen/text_size_medium"
+            android:text="@string/email"/>
+
+        <!-- email -->
+        <EditText
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xlarge"
+            android:layout_marginEnd="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:background="@drawable/edittext_shape"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:paddingStart="@dimen/margin_xlarge"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_xlarge"
+            android:paddingBottom="@dimen/margin_small"
+            android:textColorHint="@color/blueGrey"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+        <!-- text label -->
+        <TextView
+            android:textColor="@color/blueGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xlarge"
+            android:layout_marginEnd="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:textSize="@dimen/text_size_medium"
+            android:text="@string/text"/>
+
+        <!-- text -->
+        <EditText
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xlarge"
+            android:layout_marginEnd="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:background="@drawable/edittext_shape"
+            android:hint="@string/text"
+            android:lines="6"
+            android:gravity="start"
+            android:inputType="textMultiLine|textAutoComplete"
+            android:paddingStart="@dimen/margin_xlarge"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_xlarge"
+            android:paddingBottom="@dimen/margin_small"
+            android:textColorHint="@color/blueGrey"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+        <!-- as button -->
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_xlarge"
+            app:cardCornerRadius="@dimen/margin_small">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_rounded_corners_blue_270"
+                android:gravity="center"
+                android:padding="@dimen/margin_medium"
+                android:text="@string/send"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

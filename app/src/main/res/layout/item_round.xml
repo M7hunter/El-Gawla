@@ -50,8 +50,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:gravity="center"
             android:orientation="vertical">
 
             <!-- name -->
@@ -59,30 +57,33 @@
                 android:id="@+id/round_product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:text="name"
                 android:textColor="@color/bgBlueDark"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
-            <!-- price container -->
+            <!-- cards container -->
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:gravity="center">
 
-                <!-- price label -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_small"
-                    android:text="@string/sell_price"
-                    android:textColor="@color/blueyGrey" />
+                <!-- red card -->
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="15dp"
+                    android:layout_marginEnd="@dimen/margin_tiny"
+                    android:src="@drawable/card" />
 
-                <TextView
-                    android:id="@+id/round_product_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorOrange" />
+                <!-- green card -->
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="15dp"
 
-                <!-- price -->
+                    android:src="@drawable/card" />
 
             </LinearLayout>
 
@@ -97,10 +98,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/paleGrey2"
-                android:paddingStart="@dimen/margin_tiny"
-                android:paddingEnd="@dimen/margin_tiny"
-                android:gravity="center_vertical">
+                android:background="@color/paleGrey"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_small">
 
                 <!-- icon -->
                 <ImageView
@@ -108,83 +109,64 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_alarm" />
 
-                <!-- start time label -->
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_weight="1"
-                    android:text="@string/round_start"
-                    android:textColor="@color/battleshipGrey" />
-
-                <!-- time container -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_weight="1.4"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
+
+                    <!-- start time label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/round_start"
+                        android:textColor="@color/battleshipGrey" />
 
                     <!-- start time -->
                     <TextView
                         android:id="@+id/round_start_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/midBlue"
-                        android:textSize="@dimen/text_size_xlarge" />
-
-                    <!-- end time container -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <!-- end time label -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="end"
-                            android:text="@string/close"
-                            android:textColor="@color/blueyGrey"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <!--  end time -->
-                        <TextView
-                            android:id="@+id/round_end_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_tiny"
-                            android:layout_marginEnd="@dimen/margin_tiny"
-                            android:gravity="end"
-                            android:textColor="@color/paleRed"
-                            android:textSize="@dimen/text_size_small" />
-
-                    </LinearLayout>
+                        android:text="3423"
+                        android:textColor="@color/midBlue2"
+                        android:textSize="@dimen/text_size_xlarge"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
-                <!-- cards container -->
+                <!-- separator -->
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin_small"
+                    android:background="@color/paleGrey2" />
+
+
+                <!-- end time container -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:gravity="center">
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                    <!-- red card -->
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="15dp"
-                        android:layout_marginBottom="@dimen/margin_tiny"
-                        android:src="@drawable/card" />
+                    <!-- end time label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/close"
+                        android:textColor="@color/battleshipGrey" />
 
-                    <!-- green card -->
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/card" />
+                    <!--  end time -->
+                    <TextView
+                        android:id="@+id/round_end_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3423"
+                        android:textColor="@color/midBlue2"
+                        android:textSize="@dimen/text_size_xlarge"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 

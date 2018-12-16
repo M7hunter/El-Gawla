@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.Views.AccountOptions.BuyingProcessesActivity;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
@@ -80,6 +81,14 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 selectNewImage();
+            }
+        });
+
+        // open buying processes page
+        v.findViewById(R.id.account_option_buying_processes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), BuyingProcessesActivity.class));
             }
         });
     }
