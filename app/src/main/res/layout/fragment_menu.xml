@@ -75,6 +75,7 @@
 
             <!-- 1st option -->
             <RelativeLayout
+                android:id="@+id/menu_option_more_about_gawla"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
@@ -114,6 +115,7 @@
 
             <!-- 2nd option -->
             <RelativeLayout
+                android:id="@+id/menu_option_privacy_policy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
@@ -197,6 +199,7 @@
 
             <!-- 4th option -->
             <RelativeLayout
+                android:id="@+id/menu_option_call_us"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
@@ -285,7 +288,7 @@
 
             <!-- 6th option -->
             <RelativeLayout
-                android:id="@+id/menu_settings"
+                android:id="@+id/menu_option_settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
@@ -324,7 +327,7 @@
 
             <!-- 7th option -->
             <RelativeLayout
-                android:id="@+id/menu_logout"
+                android:id="@+id/menu_option_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"

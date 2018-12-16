@@ -1,12 +1,19 @@
 package it_geeks.info.gawla_app.General;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.os.Build;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 
 import java.util.Calendar;
@@ -82,5 +89,24 @@ public class Common {
         Log.d("M7", "current Time: " + currentTime);
 
         return currentTime;
+    }
+
+    // make bottom sheet height 'wrap content'
+    public void setBottomSheetHeight(final View view) {
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) view.getParent()).getLayoutParams();
+        CoordinatorLayout.Behavior behavior = params.getBehavior();
+
+        if (behavior != null && behavior instanceof BottomSheetBehavior) {
+            final BottomSheetBehavior bottomSheetBehavior = (BottomSheetBehavior) behavior;
+
+            view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    int height = view.getMeasuredHeight();
+                    bottomSheetBehavior.setPeekHeight(height);
+                }
+            });
+        }
     }
 }

@@ -29,7 +29,7 @@
     <string name="forgetPassword">نسيت كلمة السر ؟</string>
     <string name="create_account">إنشاء حساب</string>
     <string name="password">كلمة السر</string>
-    <string name="send">ارسل</string>
+    <string name="send">ارسال</string>
     <string name="full_name">الاسم بالكامل</string>
     <string name="create_new_account">انشاء حساب جديد</string>
     <string name="have_already_account">لدي حساب بالفعل</string>
@@ -48,7 +48,7 @@
     <string name="dont_have_green_card">ليس لديك الكارت الاخضر</string>
     <string name="dont_have_golden_card">ليس لديك الكارت الزهبي</string>
     <string name="dont_have_red_card">ليس لديك الكارت الاحمر</string>
-    <string name="privacy_policy">بيانات الخصوصية</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
     <string name="buying_processes">عمليات الشراء</string>
     <string name="account_details">بيانات الحساب</string>
     <string name="new_offer">عرض جديد</string>
@@ -111,5 +111,14 @@
     <string name="no_content">لا يوجد محتوي</string>
     <string name="Language">اللغة</string>
     <string name="sign_up">انشاء حساب</string>
+    <string name="card_price">سعر الكارت للصالة</string>
+    <string name="what_is_Gawla">ما هي الجولة ؟</string>
+    <string name="privacy_details">بيانات الخصوصية</string>
+    <string name="text">نص الرسالة</string>
+    <string name="processes">العمليات</string>
+    <string name="cost">التكاليف</string>
+    <string name="date">التاريخ</string>
+    <string name="card">الكارت</string>
+    <string name="renew_membership">تجديد العضوية</string>
 
 </resources>

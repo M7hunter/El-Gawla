@@ -11,6 +11,7 @@ import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
 
@@ -36,7 +38,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private Round round;
 
-    private BottomSheetDialog mBottomSheetDialog;
+    private BottomSheetDialog mBottomSheetDialogActivateCard;
+    private BottomSheetDialog mBottomSheetDialogSingleCard;
 
     private PointF staringPoint = new PointF();
     private PointF pointerPoint = new PointF();
@@ -57,7 +60,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         initCardsIcon();
 
-        initBottomSheet();
+        initBottomSheetActivateCards();
 
         initViews();
 
@@ -262,27 +265,63 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
     }
 
-    private void initBottomSheet() {
-        mBottomSheetDialog = new BottomSheetDialog(this);
-        View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_round_update, null);
+    private void initBottomSheetActivateCards() {
+        mBottomSheetDialogActivateCard = new BottomSheetDialog(this);
+        View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_active_cards, null);
 
         //init bottom sheet views
         //close bottom sheet
-        sheetView.findViewById(R.id.close_bottom_sheet).setOnClickListener(new View.OnClickListener() {
+        sheetView.findViewById(R.id.close_bottom_sheet_activate_cards).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mBottomSheetDialog.isShowing()) {
-                    mBottomSheetDialog.dismiss();
+                if (mBottomSheetDialogActivateCard.isShowing()) {
+                    mBottomSheetDialogActivateCard.dismiss();
 
                 } else {
-                    mBottomSheetDialog.show();
+                    mBottomSheetDialogActivateCard.show();
                 }
             }
         });
 
-        mBottomSheetDialog.setContentView(sheetView);
+        initBottomSheetSingleCard();
 
-        mBottomSheetDialog.getWindow().findViewById(R.id.design_bottom_sheet)
+        //open single card sheet
+        sheetView.findViewById(R.id.btn_activate_card).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    mBottomSheetDialogSingleCard.show();
+            }
+        });
+
+        mBottomSheetDialogActivateCard.setContentView(sheetView);
+
+        mBottomSheetDialogActivateCard.getWindow().findViewById(R.id.design_bottom_sheet)
+                .setBackgroundResource(android.R.color.transparent);
+    }
+
+    private void initBottomSheetSingleCard() {
+        mBottomSheetDialogSingleCard = new BottomSheetDialog(this);
+        final View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_single_card, null);
+
+        //init bottom sheet views
+        //close bottom sheet
+        sheetView.findViewById(R.id.close_bottom_sheet_single_card).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mBottomSheetDialogSingleCard.isShowing()) {
+                    mBottomSheetDialogSingleCard.dismiss();
+
+                } else {
+                    mBottomSheetDialogSingleCard.show();
+                }
+            }
+        });
+
+        mBottomSheetDialogSingleCard.setContentView(sheetView);
+
+        Common.Instance(SalonActivity.this).setBottomSheetHeight(sheetView);
+
+        mBottomSheetDialogSingleCard.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
     }
 
@@ -344,10 +383,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void cardClicked() {
         // open sheet
-        if (mBottomSheetDialog.isShowing()) {
-            mBottomSheetDialog.dismiss();
-        } else {
-            mBottomSheetDialog.show();
+        if (mBottomSheetDialogActivateCard.isShowing()) {
+            mBottomSheetDialogActivateCard.dismiss();
+        } else { // close sheet
+            mBottomSheetDialogActivateCard.show();
         }
     }
 

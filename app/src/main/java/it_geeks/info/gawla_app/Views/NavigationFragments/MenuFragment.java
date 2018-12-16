@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
@@ -15,15 +14,17 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.squareup.picasso.Picasso;
 
 import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.Views.MenuOptions.CallUsActivity;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Views.SettingsActivity;
+import it_geeks.info.gawla_app.Views.MenuOptions.MoreAboutGawlaActivity;
+import it_geeks.info.gawla_app.Views.MenuOptions.PrivacyPolicyActivity;
+import it_geeks.info.gawla_app.Views.MenuOptions.SettingsActivity;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MenuFragment extends Fragment {
 
-    private RelativeLayout optionSettings, logout;
     private GoogleApiClient mGoogleApiClient;
 
     private ImageView imCountryIcon;
@@ -40,14 +41,44 @@ public class MenuFragment extends Fragment {
 
     private void initViews(final View view) {
         mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext()).addApi(Auth.GOOGLE_SIGN_IN_API).build();
-        optionSettings = view.findViewById(R.id.menu_settings);
-        logout = view.findViewById(R.id.menu_logout);
         imCountryIcon = view.findViewById(R.id.menu_country_icon);
 
         Picasso.with(getContext()).load(SharedPrefManager.getInstance(getContext()).getCountry().getImage()).into(imCountryIcon);
 
-        // logout the user
-        logout.setOnClickListener(new View.OnClickListener() {
+        // more about gawla page
+        view.findViewById(R.id.menu_option_more_about_gawla).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), MoreAboutGawlaActivity.class));
+            }
+        });
+
+        // privacy policy page
+        view.findViewById(R.id.menu_option_privacy_policy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), PrivacyPolicyActivity.class));
+            }
+        });
+
+        // call us page
+        view.findViewById(R.id.menu_option_call_us).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), CallUsActivity.class));
+            }
+        });
+
+        // open settings page
+        view.findViewById(R.id.menu_option_settings).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+            }
+        });
+
+        // Logout the user
+        view.findViewById(R.id.menu_option_logout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPrefManager.getInstance(getActivity()).clearUser();
@@ -61,14 +92,5 @@ public class MenuFragment extends Fragment {
                 getActivity().finish();
             }
         });
-
-        // open settings page
-        optionSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-            }
-        });
-
     }
 }

@@ -46,6 +46,8 @@ public class CardsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cards, container, false);
 
+        cardsProgress = view.findViewById(R.id.cards_progress);
+
         getCardsFromServer(view);
 
         return view;
@@ -70,7 +72,7 @@ public class CardsFragment extends Fragment {
                         initCardsRecycler(view);
 
                     } else { // errors from server
-                        if (handleServerErrors(mainObj).equals("you are not logged in")) {
+                        if (handleServerErrors(mainObj).equals("you are not logged in.")) {
                             startActivity(new Intent(getContext(), LoginActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
                             SharedPrefManager.getInstance(getActivity()).clearUser();
@@ -78,13 +80,17 @@ public class CardsFragment extends Fragment {
 
                         Toast.makeText(MainActivity.mainActivityInstance, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                     }
-                } catch (NullPointerException e) {
+
+                } catch (NullPointerException e) { // errors of response body
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+
+                cardsProgress.setVisibility(View.GONE);
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) { // errors of connection
+                cardsProgress.setVisibility(View.GONE);
                 Toast.makeText(MainActivity.mainActivityInstance, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -123,8 +129,6 @@ public class CardsFragment extends Fragment {
         cardsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), 1, false));
         cardsAdapter = new CardsAdapter(getContext(), cardsList);
         cardsRecycler.setAdapter(cardsAdapter);
-
-        cardsProgress = view.findViewById(R.id.cards_progress);
 
         Common.Instance(getContext()).hideProgress(cardsRecycler, cardsProgress);
     }

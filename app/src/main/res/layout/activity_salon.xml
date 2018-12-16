@@ -422,6 +422,7 @@
             android:background="@color/black_overlay"
             android:visibility="gone" />
 
+        <!-- -->
         <LinearLayout
             android:id="@+id/cards_container"
             android:layout_width="match_parent"
@@ -624,7 +625,10 @@
 
     </RelativeLayout>
 
-    <!-- bottom sheet -->
-    <include layout="@layout/bottom_sheet_round_update" />
+    <!-- bottom sheet active cards-->
+    <include layout="@layout/bottom_sheet_active_cards" />
+
+    <!-- bottom sheet single card -->
+    <include layout="@layout/bottom_sheet_single_card" />
 
 </android.support.design.widget.CoordinatorLayout>

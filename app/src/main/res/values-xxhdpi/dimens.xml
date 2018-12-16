@@ -10,6 +10,7 @@
     <dimen name="margin_xlarge">25dp</dimen>
     <dimen name="margin_xxlarge">35dp</dimen>
     <dimen name="margin_xxxlarge">50dp</dimen>
+    <dimen name="margin_xxxxlarge">60dp</dimen>
 
     <!-- text sizes -->
     <dimen name="text_size_tiny">10sp</dimen>
@@ -36,5 +37,8 @@
     <dimen name="card_background_height">100dp</dimen>
     <dimen name="card_height">60dp</dimen>
     <dimen name="card_width">40dp</dimen>
+    <dimen name="single_card_height">140dp</dimen>
+    <dimen name="single_card_width">95dp</dimen>
+
 
 </resources>

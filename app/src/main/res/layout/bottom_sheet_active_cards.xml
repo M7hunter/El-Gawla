@@ -15,8 +15,8 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_small_minus"
             android:layout_marginTop="@dimen/margin_xxlarge"
+            android:layout_marginBottom="@dimen/margin_small_minus"
             app:cardCornerRadius="@dimen/margin_medium">
             <!-- card view main layout -->
             <LinearLayout
@@ -30,11 +30,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginBottom="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_medium"
                     android:text="@string/cards_bag"
+                    android:textAllCaps="true"
                     android:textColor="@color/battleshipGrey"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
 
                 <!-- green card container -->
                 <LinearLayout
@@ -69,6 +71,7 @@
                             app:cardElevation="@dimen/margin_tiny">
 
                             <Button
+                                android:id="@+id/btn_activate_card"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/bg_rounded_corners_green_270"
@@ -202,7 +205,7 @@
 
     <!-- close btn -->
     <ImageView
-        android:id="@+id/close_bottom_sheet"
+        android:id="@+id/close_bottom_sheet_activate_cards"
         android:layout_width="@dimen/image_cards_round_updates"
         android:layout_height="@dimen/image_cards_round_updates"
         android:layout_alignParentEnd="true"
