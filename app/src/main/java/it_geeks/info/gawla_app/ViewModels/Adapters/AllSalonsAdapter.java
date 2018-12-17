@@ -7,10 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
 
+import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Salons;
 
@@ -37,6 +39,7 @@ public class AllSalonsAdapter extends RecyclerView.Adapter<AllSalonsAdapter.View
         viewHolder.header.setText(salons.getHeader());
 
         viewHolder.recyclerView.setAdapter(new SalonsAdapter(context, salons.getRounds()));
+        Common.Instance(context).hideProgress(viewHolder.recyclerView, viewHolder.progressBar);
     }
 
     @Override
@@ -47,12 +50,14 @@ public class AllSalonsAdapter extends RecyclerView.Adapter<AllSalonsAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView header;
+        ProgressBar progressBar;
         RecyclerView recyclerView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             header = itemView.findViewById(R.id.salons_header);
+            progressBar = itemView.findViewById(R.id.salons_progress);
             recyclerView = itemView.findViewById(R.id.salons_recycler);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(context, 0, false));

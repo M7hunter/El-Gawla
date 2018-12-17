@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_xlarge"
         android:gravity="start"
-        android:text="@string/todays_salons"
         android:textSize="@dimen/text_size_large" />
 
     <!-- recent salons recycler -->

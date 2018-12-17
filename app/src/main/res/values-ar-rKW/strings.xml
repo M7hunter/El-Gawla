@@ -121,7 +121,6 @@
     <string name="currency">العملة</string>
     <string name="receive_notification">استقبال الاشعارات</string>
     <string name="notification">الاشعارات</string>
-
     <string name="first_name">"الاسم  الاول "</string>
     <string name="second_name">الاسم الثاني</string>
     <string name="nationality">الجنسية</string>
@@ -131,6 +130,12 @@
     <string name="edit">تعديل</string>
     <string name="delete_connection">الغاء الاتصال</string>
     <string name="connect_with">"متصل بأستخدام "</string>
+    <string name="delete_account">حزف الحساب الخاص بك</string>
+    <string name="provider_fb">فيسبوك</string>
+    <string name="provider_google">جوجل</string>
+    <string name="save">حفظ</string>
+    <string name="country">الدولة</string>
+    <string name="privacy_details">بيانات الخصوصية</string>
 
     <!--  Arr For Test and will delete later .-->
     <array name="ArrGender">
@@ -143,11 +148,6 @@
         <item>الكويت</item>
         <item>الولايات المتحده</item>
     </array>
-    <string name="delete_account">حزف الحساب الخاص بك</string>
-    <string name="provider_fb">فيسبوك</string>
-    <string name="provider_google">جوجل</string>
-    <string name="save">حفظ</string>
-    <string name="country">الدولة</string>
-    <string name="privacy_details">بيانات الخصوصية</string>
+    <string name="all_salons">كل الصالا</string>
 
 </resources>

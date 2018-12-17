@@ -28,4 +28,7 @@ public interface RoundDao {
 
     @Query("SELECT * FROM Round")
     List<Round> getRounds(); // TODO: change returned value to 'LiveData<List<Round>>'
+
+    @Query("SELECT * FROM Round WHERE round_date = :date")
+    List<Round> getRoundsByDate(String date);
 }
