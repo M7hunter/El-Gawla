@@ -275,6 +275,8 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/card_width"
+            android:layout_marginRight="@dimen/card_width"
             android:layout_marginBottom="40dp">
 
             <EditText
@@ -283,8 +285,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/card_width"
-                android:layout_marginRight="@dimen/card_width"
                 android:layout_weight="1"
                 android:background="@drawable/edittext_shape"
                 android:focusable="auto"
@@ -305,7 +305,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="53dp"
+                android:layout_marginEnd="20dp"
                 android:text="+2"
                 android:textColor="@color/com_facebook_button_background_color_disabled"
                 android:textSize="18sp"
