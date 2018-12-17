@@ -151,5 +151,7 @@
     <string name="currency">currency</string>
     <string name="receive_notification">receive notification</string>
     <string name="notification">notification</string>
+    <string name="all_salons">all salons</string>
+    <string name="todays_salons">today\'s salons</string>
 
 </resources>
