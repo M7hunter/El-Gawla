@@ -111,10 +111,8 @@
     <string name="choose_country">choose country</string>
     <string name="first_name">First Name</string>
     <string name="second_name">Second Name</string>
-    <string name="save">save</string>
     <string name="nationality">Nationality</string>
     <string name="gender">Gender</string>
-    <string name="country">Country</string>
     <string name="telephone_number">Telephone number</string>
     <string name="account_info">Account Info</string>
     <string name="privacy_details">Privacy Details</string>
@@ -124,12 +122,6 @@
     <string name="delete_account">Delete Your Account</string>
     <string name="provider_google">Google</string>
     <string name="provider_fb">Facebook</string>
-    <array name="languagesArray">
-        <item>LANGUAGE :</item>
-        <item>English</item>
-        <item>العربية</item>
-    </array>
-
 
     <!--  Arr For Test and will delete later .-->
     <array name="ArrGender">
@@ -143,7 +135,6 @@
         <item>USA</item>
     </array>
 
-
     <string name="facebook_app_id" translatable="false">1076557455858728</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb1076557455858728</string>
     <string name="card_price">card price for this salon</string>
@@ -153,10 +144,10 @@
     <string name="cost">cost</string>
     <string name="date">date</string>
     <string name="card">card</string>
-    <string name="renew_membership">renew membership</string>
-    <string name="count_down_to_start">count down to start</string>
     <string name="save">save</string>
     <string name="country">country</string>
+    <string name="renew_membership">renew membership</string>
+    <string name="count_down_to_start">count down to start</string>
     <string name="currency">currency</string>
     <string name="receive_notification">receive notification</string>
     <string name="notification">notification</string>

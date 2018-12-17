@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,8 +25,9 @@ import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.Views.AccountOptional.AccountDetails;
-import it_geeks.info.gawla_app.Views.AccountOptional.PrivacyDetails;
+import it_geeks.info.gawla_app.Views.AccountOptions.AccountDetails;
+import it_geeks.info.gawla_app.Views.AccountOptions.BuyingProcessesActivity;
+import it_geeks.info.gawla_app.Views.AccountOptions.PrivacyDetails;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
@@ -46,7 +46,6 @@ public class AccountFragment extends Fragment {
     TextView userName;
     CircleImageView userImage;
     ImageView edit_user_image, upload_user_image;
-    CardView cvAcountDetails,cvPrivacyDetails;
     int user_id;
     String name, image;
     String api_token;
@@ -78,8 +77,6 @@ public class AccountFragment extends Fragment {
         userImage = v.findViewById(R.id.user_image);
         edit_user_image = v.findViewById(R.id.edit_user_image);
         upload_user_image = v.findViewById(R.id.upload_user_image);
-        cvAcountDetails = v.findViewById(R.id.cv_account_details);
-        cvPrivacyDetails = v.findViewById(R.id.cv_privacy_details);
 
         // choose new image
         edit_user_image.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +87,7 @@ public class AccountFragment extends Fragment {
         });
 
         //intent to account details
-        cvAcountDetails.setOnClickListener(new View.OnClickListener() {
+        v.findViewById(R.id.cv_account_details).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(),AccountDetails.class));
@@ -98,10 +95,18 @@ public class AccountFragment extends Fragment {
         });
 
         //intent to Privacy details
-        cvPrivacyDetails.setOnClickListener(new View.OnClickListener() {
+        v.findViewById(R.id.cv_privacy_details).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(),PrivacyDetails.class));
+            }
+        });
+
+        // open buying processes page
+        v.findViewById(R.id.account_option_buying_processes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),BuyingProcessesActivity.class));
             }
         });
     }

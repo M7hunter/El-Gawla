@@ -32,16 +32,18 @@
         <activity android:name=".Views.LoginActivities.LoginActivity" />
         <activity android:name=".Views.ProductDetailsActivity" />
         <activity android:name=".Views.MenuOptions.SettingsActivity" />
+        <activity android:name=".Views.MenuOptions.MoreAboutGawlaActivity" />
+        <activity android:name=".Views.MenuOptions.PrivacyPolicyActivity" />
+        <activity android:name=".Views.MenuOptions.CallUsActivity" />
+        <activity android:name=".Views.AccountOptions.BuyingProcessesActivity" />
+        <activity android:name=".Views.MenuOptions.NotificationActivity"/>
+        <activity android:name=".Views.AccountOptions.AccountDetails" />
+        <activity android:name=".Views.AccountOptions.PrivacyDetails"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".Views.MenuOptions.MoreAboutGawlaActivity" />
-        <activity android:name=".Views.MenuOptions.PrivacyPolicyActivity" />
-        <activity android:name=".Views.MenuOptions.CallUsActivity" />
-        <activity android:name=".Views.AccountOptions.BuyingProcessesActivity" />
-        <activity android:name=".Views.MenuOptions.NotificationActivity"></activity>
     </application>
 
 </manifest>

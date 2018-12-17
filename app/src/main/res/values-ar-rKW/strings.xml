@@ -111,7 +111,6 @@
     <string name="sign_up">انشاء حساب</string>
     <string name="card_price">سعر الكارت للصالة</string>
     <string name="what_is_Gawla">ما هي الجولة ؟</string>
-    <string name="privacy_details">بيانات الخصوصية</string>
     <string name="text">نص الرسالة</string>
     <string name="processes">العمليات</string>
     <string name="cost">التكاليف</string>
@@ -119,10 +118,36 @@
     <string name="card">الكارت</string>
     <string name="renew_membership">تجديد العضوية</string>
     <string name="app_settings">اعدادات التطبيق</string>
-    <string name="save">حفظ</string>
-    <string name="country">الدولة</string>
     <string name="currency">العملة</string>
     <string name="receive_notification">استقبال الاشعارات</string>
     <string name="notification">الاشعارات</string>
+
+    <string name="first_name">"الاسم  الاول "</string>
+    <string name="second_name">الاسم الثاني</string>
+    <string name="nationality">الجنسية</string>
+    <string name="gender">الجنس</string>
+    <string name="telephone_number">رقم الهاتف</string>
+    <string name="account_info">بيانات الحساب</string>
+    <string name="edit">تعديل</string>
+    <string name="delete_connection">الغاء الاتصال</string>
+    <string name="connect_with">"متصل بأستخدام "</string>
+
+    <!--  Arr For Test and will delete later .-->
+    <array name="ArrGender">
+        <item>ذكر</item>
+        <item>انثي</item>
+    </array>
+
+    <array name="ArrCountry">
+        <item>مصر</item>
+        <item>الكويت</item>
+        <item>الولايات المتحده</item>
+    </array>
+    <string name="delete_account">حزف الحساب الخاص بك</string>
+    <string name="provider_fb">فيسبوك</string>
+    <string name="provider_google">جوجل</string>
+    <string name="save">حفظ</string>
+    <string name="country">الدولة</string>
+    <string name="privacy_details">بيانات الخصوصية</string>
 
 </resources>
