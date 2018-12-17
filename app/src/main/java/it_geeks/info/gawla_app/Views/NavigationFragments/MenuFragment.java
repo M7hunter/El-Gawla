@@ -20,6 +20,7 @@ import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Views.MenuOptions.MoreAboutGawlaActivity;
 import it_geeks.info.gawla_app.Views.MenuOptions.PrivacyPolicyActivity;
 import it_geeks.info.gawla_app.Views.MenuOptions.SettingsActivity;
+import it_geeks.info.gawla_app.Views.NotificationActivity;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -74,6 +75,14 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
+            }
+        });
+
+        // open Notification
+        view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),NotificationActivity.class));
             }
         });
 

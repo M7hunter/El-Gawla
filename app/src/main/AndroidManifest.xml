@@ -36,7 +36,7 @@
         <activity android:name=".Views.MenuOptions.PrivacyPolicyActivity" />
         <activity android:name=".Views.MenuOptions.CallUsActivity" />
         <activity android:name=".Views.AccountOptions.BuyingProcessesActivity" />
-        <activity android:name=".Views.MenuOptions.NotificationActivity"/>
+        <activity android:name=".Views.NotificationActivity"/>
         <activity android:name=".Views.AccountOptions.AccountDetails" />
         <activity android:name=".Views.AccountOptions.PrivacyDetails"/>
 

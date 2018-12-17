@@ -3,6 +3,7 @@ package it_geeks.info.gawla_app.Views.NavigationFragments;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,7 @@ import it_geeks.info.gawla_app.Repositry.Models.WinnerNews;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.ViewModels.SalonsViewModel;
+import it_geeks.info.gawla_app.Views.NotificationActivity;
 
 public class MainFragment extends Fragment {
 
@@ -62,6 +64,14 @@ public class MainFragment extends Fragment {
         recentSalonsProgress = view.findViewById(R.id.recent_salons_progress);
         winnersNewsProgress = view.findViewById(R.id.winners_news_progress);
         winnersHeader = view.findViewById(R.id.winners_header);
+
+        // open Notification
+        view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),NotificationActivity.class));
+            }
+        });
 
         // TODO see all Hide Salons
         //  TextView seeAllRecentSalons = view.findViewById(R.id.recent_salons_see_all);

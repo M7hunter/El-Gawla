@@ -37,17 +37,17 @@ public class PrivacyDetails extends AppCompatActivity {
         init();
 
         accountEmail.setText(SharedPrefManager.getInstance(this).getUser().getEmail());
-
-        if (SharedPrefManager.getInstance(PrivacyDetails.this).getProvider() == "facebook") {
+        socialUsername.setText(SharedPrefManager.getInstance(this).getUser().getName());
+        if (SharedPrefManager.getInstance(PrivacyDetails.this).getProvider().trim() == "facebook") {
             providerImage.setImageDrawable(getDrawable(R.drawable.com_facebook_button_icon_blue));
-            socialUsername.setText(SharedPrefManager.getInstance(this).getUser().getName());
             socialProvider.setText(getString(R.string.provider_fb));
-        } else if (SharedPrefManager.getInstance(PrivacyDetails.this).getProvider() == "google") {
+        } else if (SharedPrefManager.getInstance(PrivacyDetails.this).getProvider().trim() == "google") {
             providerImage.setImageDrawable(getDrawable(R.drawable.googleg_standard_color_18));
-            socialUsername.setText(SharedPrefManager.getInstance(this).getUser().getName());
             socialProvider.setText(getString(R.string.provider_google));
-        } else
+        } else{
             socialProvider.setText(SharedPrefManager.getInstance(PrivacyDetails.this).getProvider());
+            providerImage.setImageDrawable(getDrawable(R.drawable.gawla_logo_blue));
+        }
 
         // Logout Disconnect
         socialOut.setOnClickListener(click);

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><!-- logo & bell container -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin_medium"
+    android:layout_marginTop="@dimen/margin_large"
+    android:layout_marginEnd="@dimen/margin_medium"
+    android:layoutDirection="ltr">
+
+    <!-- logo -->
+    <ImageView
+        android:layout_width="@dimen/logo_width"
+        android:layout_height="@dimen/logo_height"
+        android:layout_centerInParent="true"
+        android:src="@drawable/gawla_logo_blue" />
+
+    <!-- bell -->
+    <ImageView
+        android:id="@+id/Notification"
+        android:layout_width="@dimen/icon_notification"
+        android:layout_height="@dimen/icon_notification"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="@dimen/margin_tiny"
+        android:src="@drawable/ic_bell" />
+
+</RelativeLayout>
