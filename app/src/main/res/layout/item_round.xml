@@ -63,30 +63,6 @@
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
-            <!-- cards container -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_small"
-                android:gravity="center">
-
-                <!-- red card -->
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="15dp"
-                    android:layout_marginEnd="@dimen/margin_tiny"
-                    android:src="@drawable/card" />
-
-                <!-- green card -->
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="15dp"
-
-                    android:src="@drawable/card" />
-
-            </LinearLayout>
-
             <!-- separator -->
             <View
                 android:layout_width="match_parent"
@@ -120,7 +96,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/round_start"
+                        android:text="@string/count_down_to_start"
                         android:textColor="@color/battleshipGrey" />
 
                     <!-- start time -->
@@ -128,7 +104,7 @@
                         android:id="@+id/round_start_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3423"
+                        android:text="9:23"
                         android:textColor="@color/midBlue2"
                         android:textSize="@dimen/text_size_xlarge"
                         android:textStyle="bold" />
@@ -142,33 +118,29 @@
                     android:layout_margin="@dimen/margin_small"
                     android:background="@color/paleGrey2" />
 
-
-                <!-- end time container -->
+                <!-- cards container -->
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
 
-                    <!-- end time label -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/close"
-                        android:textColor="@color/battleshipGrey" />
+                    android:gravity="center">
 
-                    <!--  end time -->
-                    <TextView
-                        android:id="@+id/round_end_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="3423"
-                        android:textColor="@color/midBlue2"
-                        android:textSize="@dimen/text_size_xlarge"
-                        android:textStyle="bold" />
+                    <!-- red card -->
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="15dp"
+                        android:layout_margin="@dimen/margin_tiny"
+                        android:src="@drawable/card" />
+
+                    <!-- green card -->
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/card_green_static" />
 
                 </LinearLayout>
+
 
             </LinearLayout>
 

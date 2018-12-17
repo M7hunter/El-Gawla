@@ -37,8 +37,11 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".Views.AccountOptional.AccountDetails" />
-        <activity android:name=".Views.AccountOptional.PrivacyDetails"></activity>
+        <activity android:name=".Views.MenuOptions.MoreAboutGawlaActivity" />
+        <activity android:name=".Views.MenuOptions.PrivacyPolicyActivity" />
+        <activity android:name=".Views.MenuOptions.CallUsActivity" />
+        <activity android:name=".Views.AccountOptions.BuyingProcessesActivity" />
+        <activity android:name=".Views.MenuOptions.NotificationActivity"></activity>
     </application>
 
 </manifest>

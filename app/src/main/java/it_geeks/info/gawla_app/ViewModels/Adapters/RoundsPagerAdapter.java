@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.Views.SalonActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
@@ -46,26 +47,22 @@ public class RoundsPagerAdapter extends PagerAdapter {
         View view = LayoutInflater.from(context).inflate(R.layout.item_my_round, container, false);
 
         // define views
-        TextView tvProductName, tvProductCategory, tvProductPrice, tvStartTime, tvEndTime, btnJoinRound;
+        TextView tvProductName, tvProductCategory, tvStartTime, btnJoinRound;
         ImageView imgProductImage;
 
         // init views
         imgProductImage = view.findViewById(R.id.my_round_product_image);
         tvProductName = view.findViewById(R.id.my_round_product_name);
         tvProductCategory = view.findViewById(R.id.my_round_product_category);
-        tvProductPrice = view.findViewById(R.id.my_round_product_price);
         tvStartTime = view.findViewById(R.id.my_round_start_time);
-        tvEndTime = view.findViewById(R.id.my_round_end_time);
         btnJoinRound = view.findViewById(R.id.my_round_btn_enter);
 
         // set data
         Picasso.with(context).load(round.getProduct_image()).placeholder(R.mipmap.ic_launcher_gawla).into(imgProductImage);
 
-        tvProductName.setText(adjustStrings(round).getProduct_name());
-        tvProductCategory.setText(adjustStrings(round).getCategory_name());
-        tvProductPrice.setText(adjustStrings(round).getProduct_commercial_price());
-        tvStartTime.setText(adjustStrings(round).getRound_start_time());
-        tvEndTime.setText(adjustStrings(round).getRound_end_time());
+        tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
+        tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
+        tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getRound_start_time()));
 
         // open round page
         btnJoinRound.setOnClickListener(new View.OnClickListener() {
@@ -93,31 +90,6 @@ public class RoundsPagerAdapter extends PagerAdapter {
 
         container.addView(view);
         return view;
-    }
-
-    private Round adjustStrings(Round round) { // to remove unwanted empty spaces || lines
-        String adjustedProductName = round.getProduct_name().replaceAll("(?m)^[ \t]*\r?\n", "");
-        String adjustedProductImage = round.getProduct_image().replaceAll("(?m)^[ \t]*\r?\n", "");
-        String adjustedProductCategory = round.getCategory_name().replaceAll("(?m)^[ \t]*\r?\n", "");
-        String adjustedProductPrice = round.getProduct_commercial_price().replaceAll("(?m)^[ \t]*\r?\n", "");
-        String adjustedProductDescription = round.getProduct_product_description().replaceAll("(?m)^[ \t]*\r?\n", "");
-        String adjustedProductStart = round.getRound_start_time().replaceAll("(?m)^[ \t]*\r?\n", "");
-        String adjustedProductEnd = round.getRound_end_time().replaceAll("(?m)^[ \t]*\r?\n", "");
-
-        return new Round(adjustedProductName,
-                adjustedProductCategory,
-                round.getCountry_name(),
-                adjustedProductPrice,
-                adjustedProductDescription,
-                adjustedProductImage,
-                adjustedProductStart,
-                adjustedProductEnd,
-                round.getFirst_join_time(),
-                round.getSecond_join_time(),
-                round.getRound_date(),
-                round.getRound_time(),
-                round.getRest_time()
-        );
     }
 
     @Override

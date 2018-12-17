@@ -48,7 +48,7 @@
     <string name="dont_have_green_card">ليس لديك الكارت الاخضر</string>
     <string name="dont_have_golden_card">ليس لديك الكارت الزهبي</string>
     <string name="dont_have_red_card">ليس لديك الكارت الاحمر</string>
-    <string name="privacy_policy">بيانات الخصوصية</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
     <string name="buying_processes">عمليات الشراء</string>
     <string name="account_details">بيانات الحساب</string>
     <string name="new_offer">عرض جديد</string>
@@ -100,7 +100,6 @@
     <string name="Congratulations_Attention">تهانيناً انت الان عضو بالصالة</string>
     <string name="Congratulations_Attention_Details">اضف افضل عرض لربح الجوالات و قم بمتابعة شنطة الكروت و استخدم الكروت لديك</string>
     <string name="enter">دخول</string>
-    <string name="settings">الضبط</string>
     <string name="language">اللغة</string>
     <string name="exit">خروج</string>
     <string name="Invalid_email_password">بيانات الدخول غير صحيحة</string>
@@ -109,34 +108,21 @@
     <string name="sign_in">تسجيل الدخول</string>
     <string name="choose_country">اختر الدولة</string>
     <string name="no_content">لا يوجد محتوي</string>
-    <string name="Language">اللغة</string>
     <string name="sign_up">انشاء حساب</string>
-    <string name="first_name">"الاسم  الاول "</string>
-    <string name="second_name">الاسم الثاني</string>
+    <string name="card_price">سعر الكارت للصالة</string>
+    <string name="what_is_Gawla">ما هي الجولة ؟</string>
+    <string name="privacy_details">بيانات الخصوصية</string>
+    <string name="text">نص الرسالة</string>
+    <string name="processes">العمليات</string>
+    <string name="cost">التكاليف</string>
+    <string name="date">التاريخ</string>
+    <string name="card">الكارت</string>
+    <string name="renew_membership">تجديد العضوية</string>
+    <string name="app_settings">اعدادات التطبيق</string>
     <string name="save">حفظ</string>
-    <string name="nationality">الجنسية</string>
-    <string name="gender">الجنس</string>
-    <string name="country">بلد الاقامة</string>
-    <string name="telephone_number">رقم الهاتف</string>
-    <string name="account_info">بيانات الحساب</string>
-    <string name="privacy_details">"بيانات الخصوصية "</string>
-    <string name="edit">تعديل</string>
-    <string name="delete_connection">الغاء الاتصال</string>
-    <string name="connect_with">"متصل بأستخدام "</string>
-
-    <!--  Arr For Test and will delete later .-->
-    <array name="ArrGender">
-        <item>ذكر</item>
-        <item>انثي</item>
-    </array>
-
-    <array name="ArrCountry">
-        <item>مصر</item>
-        <item>الكويت</item>
-        <item>الولايات المتحده</item>
-    </array>
-    <string name="delete_account">حزف الحساب الخاص بك</string>
-    <string name="provider_fb">فيسبوك</string>
-    <string name="provider_google">جوجل</string>
+    <string name="country">الدولة</string>
+    <string name="currency">العملة</string>
+    <string name="receive_notification">استقبال الاشعارات</string>
+    <string name="notification">الاشعارات</string>
 
 </resources>

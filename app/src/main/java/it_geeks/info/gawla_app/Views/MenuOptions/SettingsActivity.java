@@ -1,49 +1,69 @@
 package it_geeks.info.gawla_app.Views.MenuOptions;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ExpandableListView;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Switch;
+import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import it_geeks.info.gawla_app.ViewModels.Adapters.LangExAdapter;
+import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    ExpandableListView exLangList;
-    LangExAdapter langAdapter;
-    List<String> headerList = new ArrayList<>();
-    HashMap<String, List<String>> listHashMap = new HashMap<>();
+    TextView tvLang, tvCountry, tvCurrency;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        changeStatusBarColor("#ffffff");
         setContentView(R.layout.activity_settings);
 
-        setupLangData();
-
-        initLangList();
+        initViews();
     }
 
-    private void setupLangData() {
-        // add headers
-        headerList.add(getString(R.string.language));
+    private void initViews() {
+        tvLang = findViewById(R.id.app_settings_language);
+        tvCountry = findViewById(R.id.app_settings_country);
+        tvCurrency = findViewById(R.id.app_settings_currency);
 
-        // add childes
-        List<String> languagesList = new ArrayList<>();
-        languagesList.add("English");
-        languagesList.add("العربية");
+        tvLang.setText(displayLanguage(SharedPrefManager.getInstance(SettingsActivity.this).getSavedLang()));
+        tvCountry.setText(SharedPrefManager.getInstance(SettingsActivity.this).getCountry().getCountry_title());
 
-        // main list
-        listHashMap.put(headerList.get(0), languagesList);
+        // back
+        findViewById(R.id.app_settings_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
-    private void initLangList() {
-        exLangList = findViewById(R.id.ex_lang_list);
-        langAdapter = new LangExAdapter(SettingsActivity.this, headerList, listHashMap);
-        exLangList.setAdapter(langAdapter);
+    private String displayLanguage(String s) {
+        switch (s) {
+            case "en":
+                s = "English";
+                break;
+            case "ar":
+                s = "العربية";
+                break;
+            default:
+                break;
+        }
+
+        return s;
+    }
+
+    // to change status bar color
+    public void changeStatusBarColor(String color){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.parseColor(color));
+        }
     }
 }

@@ -1,63 +1,254 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/paleGrey"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:scrollbars="none"
     tools:context=".Views.MenuOptions.SettingsActivity">
-
-    <!-- main layout -->
+    <!-- scroll main layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
         android:orientation="vertical">
 
-        <!-- logo & bell container -->
+        <!-- title bar -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_tiny"
             android:layoutDirection="ltr">
 
-            <!-- logo -->
+            <!-- back -->
             <ImageView
-                android:layout_width="@dimen/logo_width"
-                android:layout_height="@dimen/logo_height"
-                android:layout_centerInParent="true"
-                android:src="@drawable/gawla_logo_blue" />
+                android:id="@+id/app_settings_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/margin_medium"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_arrow_back" />
 
-            <!-- bell -->
-            <ImageView
-                android:layout_width="@dimen/icon_notification"
-                android:layout_height="@dimen/icon_notification"
-                android:layout_alignParentTop="true"
+            <!-- title -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/app_settings"
+                android:textColor="@color/battleshipGrey"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+            <!-- save btn -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="@dimen/margin_tiny"
-                android:src="@drawable/ic_bell" />
+                android:layout_centerVertical="true"
+                android:padding="@dimen/margin_small"
+                android:text="@string/save"
+                android:textColor="@color/midBlue"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
-        <!-- title -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_small"
-            android:gravity="center"
-            android:text="@string/settings"
-            android:textAllCaps="true"
-            android:textColor="@color/midBlue"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
-
-        <!-- language -->
-        <ExpandableListView
-            android:id="@+id/ex_lang_list"
+        <!-- top border -->
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/margin_small"
+            android:background="@color/paleGrey2" />
+
+        <!-- switch option -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:layoutDirection="ltr"
+            android:paddingStart="@dimen/margin_small"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_small"
+            android:paddingBottom="@dimen/margin_small">
+
+            <!-- label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/card_icon_1st"
+                android:text="@string/receive_notification"
+                android:textColor="@android:color/tertiary_text_dark"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+
+            <!-- switch -->
+            <android.support.v7.widget.SwitchCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true" />
+
+        </RelativeLayout>
+
+        <!-- top border -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/paleGrey2" />
+
+        <!-- 1st option -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:layoutDirection="ltr"
+            android:paddingStart="@dimen/margin_small"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_small"
+            android:paddingBottom="@dimen/margin_small">
+
+            <!-- label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/card_icon_1st"
+                android:text="@string/language"
+                android:textColor="@android:color/tertiary_text_dark"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/app_settings_language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_toRightOf="@id/st1_option_icon"
+                android:text="@string/language"
+                android:textColor="@color/darkSkyBlue"
+                android:textSize="@dimen/text_size_large" />
+
+            <!-- icon -->
+            <ImageView
+                android:id="@+id/st1_option_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow_left" />
+
+        </RelativeLayout>
+
+        <!-- top border -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/paleGrey2" />
+
+        <!-- 2nd option -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:layoutDirection="ltr"
+            android:paddingStart="@dimen/margin_small"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_small"
+            android:paddingBottom="@dimen/margin_small">
+
+            <!-- label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/card_icon_1st"
+                android:text="@string/country"
+                android:textColor="@android:color/tertiary_text_dark"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/app_settings_country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_toRightOf="@id/nd2_option_icon"
+                android:text="@string/country"
+                android:textColor="@color/darkSkyBlue"
+                android:textSize="@dimen/text_size_large" />
+
+            <!-- icon -->
+            <ImageView
+                android:id="@+id/nd2_option_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow_left" />
+
+        </RelativeLayout>
+
+        <!-- top border -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/paleGrey2" />
+
+        <!-- 3rd option -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:layoutDirection="ltr"
+            android:paddingStart="@dimen/margin_small"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_small"
+            android:paddingBottom="@dimen/margin_small">
+
+            <!-- label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/card_icon_1st"
+                android:text="@string/currency"
+                android:textColor="@android:color/tertiary_text_dark"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/app_settings_currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_toRightOf="@id/rd3_option_icon"
+                android:text="@string/currency"
+                android:textColor="@color/darkSkyBlue"
+                android:textSize="@dimen/text_size_large" />
+
+            <!-- icon -->
+            <ImageView
+                android:id="@+id/rd3_option_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow_left" />
+
+        </RelativeLayout>
 
     </LinearLayout>
-
-</android.support.constraint.ConstraintLayout>
+</ScrollView>
