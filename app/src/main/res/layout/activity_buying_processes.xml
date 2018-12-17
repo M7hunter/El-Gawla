@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,131 +8,134 @@
     android:orientation="vertical"
     android:scrollbars="none"
     tools:context=".Views.MenuOptions.CallUsActivity">
-    <!-- scroll main layout -->
-    <LinearLayout
+
+    <!-- title bar -->
+    <RelativeLayout
+        android:id="@+id/buying_processes_title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/margin_tiny"
+        android:layoutDirection="ltr">
 
-        <!-- title bar -->
-        <RelativeLayout
+        <!-- back -->
+        <ImageView
+            android:id="@+id/buying_processes_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_medium"
+            android:src="@drawable/ic_arrow_back" />
+
+        <!-- title -->
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:layoutDirection="ltr">
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/buying_processes"
+            android:textColor="@color/battleshipGrey"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
 
-            <!-- back -->
-            <ImageView
-                android:id="@+id/buying_processes_back"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:padding="@dimen/margin_medium"
-                android:src="@drawable/ic_arrow_back" />
+    </RelativeLayout>
 
-            <!-- title -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="@string/buying_processes"
-                android:textColor="@color/battleshipGrey"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+    <!-- headers -->
+    <LinearLayout
+        android:id="@+id/buying_processes_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buying_processes_title_bar"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_medium">
 
-        </RelativeLayout>
-
-        <!-- headers -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <!-- processes -->
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:layout_marginBottom="@dimen/margin_medium">
+            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_weight="1.5"
+            android:text="@string/processes"
+            android:textSize="@dimen/text_size_medium" />
 
-            <!-- processes -->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_tiny"
-                android:layout_weight="1.5"
-                android:text="@string/processes"
-                android:textSize="@dimen/text_size_medium" />
-
-            <!-- card -->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/card"
-                android:textSize="@dimen/text_size_medium" />
-
-            <!-- date -->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/date"
-                android:textSize="@dimen/text_size_medium" />
-
-            <!-- cost -->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/cost"
-                android:textSize="@dimen/text_size_medium" />
-
-        </LinearLayout>
-
-        <!-- separator -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="@dimen/margin_large"
-            android:background="@color/blueyGrey" />
-
-        <!-- processes recycler -->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/buying_processes_recycler"
-            android:layout_width="match_parent"
+        <!-- card -->
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_marginStart="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/card"
+            android:textSize="@dimen/text_size_medium" />
 
-        </android.support.v7.widget.RecyclerView>
-
-        <!-- as button -->
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
+        <!-- date -->
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xlarge"
-            android:layout_marginEnd="@dimen/margin_xlarge"
-            android:layout_marginBottom="@dimen/margin_xlarge"
-            app:cardCornerRadius="@dimen/margin_small">
+            android:layout_marginStart="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/date"
+            android:textSize="@dimen/text_size_medium" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_rounded_corners_blue_270"
-                android:gravity="center"
-                android:padding="@dimen/margin_medium"
-                android:text="@string/renew_membership"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+        <!-- cost -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/cost"
+            android:textSize="@dimen/text_size_medium" />
 
-        </android.support.v7.widget.CardView>
     </LinearLayout>
-</ScrollView>
+
+    <!-- separator -->
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/buying_processes_header"
+        android:layout_margin="@dimen/margin_large"
+        android:background="@color/blueyGrey" />
+
+    <!-- processes recycler -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/buying_processes_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/separator"
+        android:layout_gravity="center">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <!-- as button -->
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/margin_xlarge"
+        android:layout_marginEnd="@dimen/margin_xlarge"
+        android:layout_marginBottom="@dimen/margin_xlarge"
+        app:cardCornerRadius="@dimen/margin_small">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_corners_blue_270"
+            android:gravity="center"
+            android:padding="@dimen/margin_medium"
+            android:text="@string/renew_membership"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

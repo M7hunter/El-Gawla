@@ -101,7 +101,7 @@
                             android:layout_margin="@dimen/margin_small"
                             android:background="@drawable/bg_circle_white"
                             android:padding="@dimen/margin_large"
-                            android:src="@drawable/card_green" />
+                            android:src="@drawable/card_green_static" />
 
                         <!-- counter -->
                         <TextView

@@ -40,7 +40,8 @@
         <activity android:name=".Views.MenuOptions.MoreAboutGawlaActivity" />
         <activity android:name=".Views.MenuOptions.PrivacyPolicyActivity" />
         <activity android:name=".Views.MenuOptions.CallUsActivity" />
-        <activity android:name=".Views.AccountOptions.BuyingProcessesActivity"></activity>
+        <activity android:name=".Views.AccountOptions.BuyingProcessesActivity" />
+        <activity android:name=".Views.MenuOptions.NotificationActivity"></activity>
     </application>
 
 </manifest>

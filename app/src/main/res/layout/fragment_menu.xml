@@ -71,9 +71,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/margin_large"
-                android:background="@color/paleGrey" />
+                android:background="@color/paleGrey2" />
 
             <!-- 1st option -->
+            <RelativeLayout
+                android:id="@+id/menu_option_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:paddingStart="@dimen/margin_small"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small">
+
+                <!-- label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/card_icon_1st"
+                    android:text="@string/app_settings"
+                    android:textColor="@color/darkSkyBlue"
+                    android:textSize="@dimen/text_size_large" />
+
+                <!-- icon -->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_arrow_left" />
+
+            </RelativeLayout>
+
+            <!-- bottom border -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/paleGrey2" />
+
+            <!-- top border -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/margin_large"
+                android:background="@color/paleGrey2" />
+
+            <!-- 2nd option -->
             <RelativeLayout
                 android:id="@+id/menu_option_more_about_gawla"
                 android:layout_width="match_parent"
@@ -111,9 +156,9 @@
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_large"
-                android:background="@color/paleGrey" />
+                android:background="@color/paleGrey2" />
 
-            <!-- 2nd option -->
+            <!-- 3rd option -->
             <RelativeLayout
                 android:id="@+id/menu_option_privacy_policy"
                 android:layout_width="match_parent"
@@ -151,9 +196,9 @@
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_large"
-                android:background="@color/paleGrey" />
+                android:background="@color/paleGrey2" />
 
-            <!-- 3rd option -->
+            <!-- 4th option -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -188,16 +233,16 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/paleGrey" />
+                android:background="@color/paleGrey2" />
 
             <!-- top border -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/margin_large"
-                android:background="@color/paleGrey" />
+                android:background="@color/paleGrey2" />
 
-            <!-- 4th option -->
+            <!-- 5th option -->
             <RelativeLayout
                 android:id="@+id/menu_option_call_us"
                 android:layout_width="match_parent"
@@ -233,16 +278,16 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/paleGrey" />
+                android:background="@color/paleGrey2" />
 
             <!-- top border -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/margin_large"
-                android:background="@color/paleGrey" />
+                android:background="@color/paleGrey2" />
 
-            <!-- 5th option -->
+            <!-- 6th option -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -277,53 +322,14 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/paleGrey" />
+                android:background="@color/paleGrey2" />
 
             <!-- top border -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/margin_large"
-                android:background="@color/paleGrey" />
-
-            <!-- 6th option -->
-            <RelativeLayout
-                android:id="@+id/menu_option_settings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:paddingStart="@dimen/margin_small"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small">
-
-                <!-- label -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/card_icon_1st"
-                    android:text="@string/settings"
-                    android:textColor="@color/darkSkyBlue"
-                    android:textSize="@dimen/text_size_large" />
-
-                <!-- icon -->
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_left" />
-
-            </RelativeLayout>
-
-            <!-- bottom border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:background="@color/paleGrey" />
+                android:background="@color/paleGrey2" />
 
             <!-- 7th option -->
             <RelativeLayout
@@ -356,6 +362,12 @@
                     android:src="@drawable/ic_arrow_left" />
 
             </RelativeLayout>
+
+            <!-- bottom border -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/paleGrey2" />
 
         </LinearLayout>
     </ScrollView>

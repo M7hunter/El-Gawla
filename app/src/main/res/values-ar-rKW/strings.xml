@@ -100,7 +100,6 @@
     <string name="Congratulations_Attention">تهانيناً انت الان عضو بالصالة</string>
     <string name="Congratulations_Attention_Details">اضف افضل عرض لربح الجوالات و قم بمتابعة شنطة الكروت و استخدم الكروت لديك</string>
     <string name="enter">دخول</string>
-    <string name="settings">الضبط</string>
     <string name="language">اللغة</string>
     <string name="exit">خروج</string>
     <string name="Invalid_email_password">بيانات الدخول غير صحيحة</string>
@@ -109,7 +108,6 @@
     <string name="sign_in">تسجيل الدخول</string>
     <string name="choose_country">اختر الدولة</string>
     <string name="no_content">لا يوجد محتوي</string>
-    <string name="Language">اللغة</string>
     <string name="sign_up">انشاء حساب</string>
     <string name="card_price">سعر الكارت للصالة</string>
     <string name="what_is_Gawla">ما هي الجولة ؟</string>
@@ -120,5 +118,11 @@
     <string name="date">التاريخ</string>
     <string name="card">الكارت</string>
     <string name="renew_membership">تجديد العضوية</string>
+    <string name="app_settings">اعدادات التطبيق</string>
+    <string name="save">حفظ</string>
+    <string name="country">الدولة</string>
+    <string name="currency">العملة</string>
+    <string name="receive_notification">استقبال الاشعارات</string>
+    <string name="notification">الاشعارات</string>
 
 </resources>

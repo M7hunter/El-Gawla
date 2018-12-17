@@ -100,7 +100,7 @@
     <string name="Congratulations_Attention_Details">Add the best offer to win the mobile and follow the card card and use your cards</string>
     <string name="tit1">"جوله هي تطبيق تفاعلي يمكنك من شراء المنتجات بناء علي افضل عرض تقدمة لسعر المنتج , انضم الان "</string>
     <string name="enter">enter</string>
-    <string name="settings">settings</string>
+    <string name="app_settings">app settings</string>
     <string name="language">language</string>
     <string name="exit">Logout</string>
     <string name="Invalid_email_password">Invalid email or password</string>
@@ -108,7 +108,6 @@
     <string name="emptyPass">Your Password is Empty .</string>
     <string name="sign_up">sing up</string>
     <string name="sign_in">sign in</string>
-    <string name="Language">Language</string>
     <string name="no_content">no available content</string>
     <string name="choose_country">choose country</string>
     <string name="facebook_app_id" translatable="false">1076557455858728</string>
@@ -121,5 +120,11 @@
     <string name="date">date</string>
     <string name="card">card</string>
     <string name="renew_membership">renew membership</string>
+    <string name="count_down_to_start">count down to start</string>
+    <string name="save">save</string>
+    <string name="country">country</string>
+    <string name="currency">currency</string>
+    <string name="receive_notification">receive notification</string>
+    <string name="notification">notification</string>
 
 </resources>
