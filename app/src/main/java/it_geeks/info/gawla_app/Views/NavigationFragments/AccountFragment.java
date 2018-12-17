@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,8 @@ import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.Views.AccountOptional.AccountDetails;
+import it_geeks.info.gawla_app.Views.AccountOptional.PrivacyDetails;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
@@ -43,7 +46,7 @@ public class AccountFragment extends Fragment {
     TextView userName;
     CircleImageView userImage;
     ImageView edit_user_image, upload_user_image;
-
+    CardView cvAcountDetails,cvPrivacyDetails;
     int user_id;
     String name, image;
     String api_token;
@@ -75,11 +78,30 @@ public class AccountFragment extends Fragment {
         userImage = v.findViewById(R.id.user_image);
         edit_user_image = v.findViewById(R.id.edit_user_image);
         upload_user_image = v.findViewById(R.id.upload_user_image);
+        cvAcountDetails = v.findViewById(R.id.cv_account_details);
+        cvPrivacyDetails = v.findViewById(R.id.cv_privacy_details);
 
+        // choose new image
         edit_user_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectNewImage();
+            }
+        });
+
+        //intent to account details
+        cvAcountDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),AccountDetails.class));
+            }
+        });
+
+        //intent to Privacy details
+        cvPrivacyDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),PrivacyDetails.class));
             }
         });
     }
@@ -148,22 +170,26 @@ public class AccountFragment extends Fragment {
             call.enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, final Response<JsonObject> response) {
-
-                    JsonObject ObjData = response.body().getAsJsonObject();
-                    boolean status = ObjData.get("status").getAsBoolean();
-                    if (status) {
-                        JsonObject data = ObjData.get("userData").getAsJsonObject();
-                        imageuploaded[0] = data.get("image").getAsString();
-                        SharedPrefManager.getInstance(getActivity()).saveUserImage(image);
-                        Toast.makeText(MainActivity.mainActivityInstance, "Your Profile Image has been changed", Toast.LENGTH_SHORT).show();
-                        Picasso.with(getContext()).load(imageuploaded[0]).into(userImage);
-                    } else {
-                        if (handleServerErrors(ObjData).equals("you are not logged in.")) {
-                            startActivity(new Intent(getActivity(), LoginActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                    try{
+                        JsonObject ObjData = response.body().getAsJsonObject();
+                        boolean status = ObjData.get("status").getAsBoolean();
+                        if (status) {
+                            JsonObject data = ObjData.get("userData").getAsJsonObject();
+                            imageuploaded[0] = data.get("image").getAsString();
+                            SharedPrefManager.getInstance(getActivity()).saveUserImage(image);
+                            Toast.makeText(MainActivity.mainActivityInstance, "Your Profile Image has been changed", Toast.LENGTH_SHORT).show();
+                            Picasso.with(getContext()).load(imageuploaded[0]).into(userImage);
+                        } else {
+                            if (handleServerErrors(ObjData).equals("you are not logged in.")) {
+                                startActivity(new Intent(getActivity(), LoginActivity.class)
+                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            }
+                            Toast.makeText(MainActivity.mainActivityInstance, handleServerErrors(ObjData), Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(MainActivity.mainActivityInstance, handleServerErrors(ObjData), Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+                        Log.e("Mo7",e.getMessage());
                     }
+
 
                 }
 

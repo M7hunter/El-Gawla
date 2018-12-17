@@ -111,5 +111,32 @@
     <string name="no_content">لا يوجد محتوي</string>
     <string name="Language">اللغة</string>
     <string name="sign_up">انشاء حساب</string>
+    <string name="first_name">"الاسم  الاول "</string>
+    <string name="second_name">الاسم الثاني</string>
+    <string name="save">حفظ</string>
+    <string name="nationality">الجنسية</string>
+    <string name="gender">الجنس</string>
+    <string name="country">بلد الاقامة</string>
+    <string name="telephone_number">رقم الهاتف</string>
+    <string name="account_info">بيانات الحساب</string>
+    <string name="privacy_details">"بيانات الخصوصية "</string>
+    <string name="edit">تعديل</string>
+    <string name="delete_connection">الغاء الاتصال</string>
+    <string name="connect_with">"متصل بأستخدام "</string>
+
+    <!--  Arr For Test and will delete later .-->
+    <array name="ArrGender">
+        <item>ذكر</item>
+        <item>انثي</item>
+    </array>
+
+    <array name="ArrCountry">
+        <item>مصر</item>
+        <item>الكويت</item>
+        <item>الولايات المتحده</item>
+    </array>
+    <string name="delete_account">حزف الحساب الخاص بك</string>
+    <string name="provider_fb">فيسبوك</string>
+    <string name="provider_google">جوجل</string>
 
 </resources>

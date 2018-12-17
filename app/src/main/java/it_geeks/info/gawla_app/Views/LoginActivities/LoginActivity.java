@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     boolean status = mainObj.get("status").getAsBoolean();
 
                                     if (status) { // no errors
-
+                                        SharedPrefManager.getInstance(LoginActivity.this).saveProvider(getResources().getString(R.string.app_name)); // Provider
                                         SharedPrefManager.getInstance(LoginActivity.this).saveUser(handleServerResponse(mainObj));
                                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                         finish();
@@ -307,8 +307,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     // social login
-    private void socialLogin(String id, final String name, final String email, final String image, String provider) {
+    private void socialLogin(String id, final String name, final String email, final String image, final String provider) {
         try {
+
             RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"), new Request(provider, id, name, email, image));
             Call<JsonObject> call = RetrofitClient.getInstance(LoginActivity.this).getAPI().request(requestMainBody);
             call.enqueue(new Callback<JsonObject>() {
@@ -321,7 +322,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(mUser_id, name, email, mApi_token, image));
                         SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
-
+                        SharedPrefManager.getInstance(LoginActivity.this).saveProvider(provider); // Provider
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
                     }catch (Exception e){

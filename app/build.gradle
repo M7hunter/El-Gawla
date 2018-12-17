@@ -53,7 +53,7 @@ dependencies {
     // loading
     implementation 'com.github.ybq:Android-SpinKit:1.2.0'
     implementation 'com.facebook.android:facebook-android-sdk:4.38.1'
-    
+
     //google services
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
