@@ -24,8 +24,7 @@
     <string name="buy_card">buy card</string>
     <string name="account_details">account details</string>
     <string name="buying_processes">buying processes</string>
-    <string name="privacy_policy">privacy policy</string>
-    <string name="privacy_details">privacy details</string>
+    <string name="privacy_policy">privacy details</string>
     <string name="dont_have_red_card">don\'t have red card</string>
     <string name="dont_have_golden_card">don\'t have golden card</string>
     <string name="dont_have_green_card">don\'t have green card</string>
@@ -111,6 +110,41 @@
     <string name="Language">Language</string>
     <string name="no_content">no available content</string>
     <string name="choose_country">choose country</string>
+    <string name="first_name">First Name</string>
+    <string name="second_name">Second Name</string>
+    <string name="save">save</string>
+    <string name="nationality">Nationality</string>
+    <string name="gender">Gender</string>
+    <string name="country">Country</string>
+    <string name="telephone_number">Telephone number</string>
+    <string name="account_info">Account Info</string>
+    <string name="privacy_details">Privacy Details</string>
+    <string name="edit">Edit</string>
+    <string name="delete_connection">Disconnect</string>
+    <string name="connect_with">Connected With </string>
+    <string name="delete_account">Delete Your Account</string>
+    <string name="provider_google">Google</string>
+    <string name="provider_fb">Facebook</string>
+    <array name="languagesArray">
+        <item>LANGUAGE :</item>
+        <item>English</item>
+        <item>العربية</item>
+    </array>
+
+
+    <!--  Arr For Test and will delete later .-->
+    <array name="ArrGender">
+        <item>Male</item>
+        <item>Female</item>
+    </array>
+
+    <array name="ArrCountry">
+        <item>Egypt</item>
+        <item>Kuwait</item>
+        <item>USA</item>
+    </array>
+
+
     <string name="facebook_app_id" translatable="false">1076557455858728</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb1076557455858728</string>
     <string name="card_price">card price for this salon</string>

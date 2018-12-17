@@ -21,6 +21,7 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_NAME3 = "country_shared_pref";
     private static final String SHARED_PREF_NAME4 = "membership_shared_pref";
     private static final String SHARED_PREF_USER_IMAGE = "user_image_shared_pref";
+    private static final String SHARED_PREF_USER_PROVIDER = "user_socialMedia_Provider";
 
     private SharedPrefManager(Context context) {
         this.context = context;
@@ -149,5 +150,24 @@ public class SharedPrefManager {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME4, MODE_PRIVATE);
         return sharedPreferences.getInt("membership", 0);
     }
+
+    // -------------- Social Provider ------------- //
+    public void saveProvider(String provider) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_PROVIDER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+
+        editor.putString("provider", provider);
+        editor.apply();
+    }
+
+    public String getProvider() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_PROVIDER, Context.MODE_PRIVATE);
+        return sharedPreferences.getString("provider",null);
+    }
+    public void clearProvider() {
+       context.getSharedPreferences(SHARED_PREF_USER_PROVIDER, Context.MODE_PRIVATE).edit().clear().commit();
+    }
+
 }
 

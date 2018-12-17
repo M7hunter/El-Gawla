@@ -149,7 +149,6 @@
                 android:fontFamily="@font/cairo_regular"
                 android:gravity="start|center"
                 android:hint="@string/password"
-                android:inputType="textPassword"
                 android:paddingStart="30dp"
                 android:paddingTop="10dp"
                 android:paddingEnd="30dp"

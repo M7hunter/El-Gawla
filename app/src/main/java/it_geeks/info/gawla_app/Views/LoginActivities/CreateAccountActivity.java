@@ -182,7 +182,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                         // save user data locally
                         handleServerResponse(object, user);
                         SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(user);
-
+                        SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(getResources().getString(R.string.app_name)); // Provider
                         // goto next page
                         startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -341,7 +341,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private void socialLogin(String id, final String name, final String email, final String image, String provider) {
+    private void socialLogin(String id, final String name, final String email, final String image, final String provider) {
 
             RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"),new Request(provider,id,name,email,image));
             Call<JsonObject> call = RetrofitClient.getInstance(CreateAccountActivity.this).getAPI().request(requestMainBody);
@@ -355,7 +355,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
                     SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(new User(Integer.parseInt(mUser_id), name, email, mApi_token, image));
                     SharedPrefManager.getInstance(CreateAccountActivity.this).saveUserImage(image);
-
+                    SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(provider); // Provider
                     startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));
                     finish();
 

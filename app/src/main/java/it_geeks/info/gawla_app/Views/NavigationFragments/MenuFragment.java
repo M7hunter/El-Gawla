@@ -89,6 +89,7 @@ public class MenuFragment extends Fragment {
                     mGoogleApiClient.disconnect();
                     mGoogleApiClient.connect();
                 }
+                SharedPrefManager.getInstance(getActivity()).clearProvider();
                 getActivity().finish();
             }
         });
