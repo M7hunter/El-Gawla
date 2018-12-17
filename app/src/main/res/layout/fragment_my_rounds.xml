@@ -19,31 +19,7 @@
             android:orientation="vertical">
 
             <!-- logo & bell container -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layoutDirection="ltr">
-
-                <!-- logo -->
-                <ImageView
-                    android:layout_width="@dimen/logo_width"
-                    android:layout_height="@dimen/logo_height"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/gawla_logo_blue" />
-
-                <!-- bell -->
-                <ImageView
-                    android:layout_width="@dimen/icon_notification"
-                    android:layout_height="@dimen/icon_notification"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="@dimen/margin_tiny"
-                    android:src="@drawable/ic_bell" />
-
-            </RelativeLayout>
+            <include layout="@layout/main_header" />
 
             <!-- title -->
             <TextView
@@ -67,7 +43,7 @@
                     android:id="@+id/my_rounds_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"/>
+                    android:layout_centerInParent="true" />
 
                 <!-- data -->
                 <android.support.v4.view.ViewPager

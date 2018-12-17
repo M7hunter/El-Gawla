@@ -6,7 +6,7 @@
     android:background="@android:color/white"
     android:orientation="vertical"
     android:scrollbars="none"
-    tools:context=".Views.MenuOptions.NotificationActivity">
+    tools:context=".Views.NotificationActivity">
     <!-- scroll main layout -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                 android:layout_centerVertical="true"
                 android:padding="@dimen/margin_medium"
                 android:scaleType="fitStart"
-                android:src="@drawable/ic_arrow_back" />
+                android:src="@drawable/ic_arrow_left_grey" />
 
             <!-- title -->
             <TextView

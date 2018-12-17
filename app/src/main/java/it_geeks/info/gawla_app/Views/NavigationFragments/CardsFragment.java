@@ -28,6 +28,7 @@ import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.ViewModels.Adapters.CardsAdapter;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.Views.MainActivity;
+import it_geeks.info.gawla_app.Views.NotificationActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,6 +50,14 @@ public class CardsFragment extends Fragment {
         cardsProgress = view.findViewById(R.id.cards_progress);
 
         getCardsFromServer(view);
+
+        // open Notification
+        view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),NotificationActivity.class));
+            }
+        });
 
         return view;
     }

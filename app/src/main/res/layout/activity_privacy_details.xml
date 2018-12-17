@@ -222,7 +222,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/cairo_semibold"
                 android:gravity="center_vertical|center"
-                android:text="Mohamed Abdelhady kamel abdelziz"
+                android:text=""
                 android:textColor="@color/duskBlue"
                 android:textSize="@dimen/text_size_large" />
 

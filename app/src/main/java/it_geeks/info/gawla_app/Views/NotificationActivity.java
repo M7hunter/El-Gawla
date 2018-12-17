@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.Views.MenuOptions;
+package it_geeks.info.gawla_app.Views;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

@@ -1,6 +1,7 @@
 package it_geeks.info.gawla_app.Views;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,9 +9,12 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import it_geeks.info.gawla_app.Views.NavigationFragments.AccountFragment;
 import it_geeks.info.gawla_app.Views.NavigationFragments.CardsFragment;
