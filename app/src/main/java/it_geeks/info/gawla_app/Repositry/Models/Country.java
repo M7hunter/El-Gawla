@@ -1,18 +1,33 @@
 package it_geeks.info.gawla_app.Repositry.Models;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity
 public class Country {
 
+    @PrimaryKey
+    @ColumnInfo
     private int country_id;
 
+    @ColumnInfo
     private String country_title;
 
+    @ColumnInfo
     private String count_code;
 
+    @ColumnInfo
     private String country_timezone;
 
+    @ColumnInfo
     private String tel;
 
+    @ColumnInfo
     private String image;
+
+    public Country() {
+    }
 
     public Country(int country_id, String country_title, String count_code, String country_timezone, String tel, String image) {
         this.country_id = country_id;

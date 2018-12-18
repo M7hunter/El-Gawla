@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- header -->
+    <TextView
+        android:id="@+id/salons_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_xlarge"
+        android:gravity="start"
+        android:textSize="@dimen/text_size_large" />
+
+    <!-- recent salons recycler -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/salons_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/salons_header"
+        android:layout_marginStart="@dimen/margin_tiny"
+        android:layout_marginEnd="@dimen/margin_tiny" />
+
+    <!-- recent salons progress -->
+    <ProgressBar
+        android:id="@+id/salons_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>

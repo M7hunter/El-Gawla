@@ -105,6 +105,7 @@
 
         <!-- 1st option -->
         <RelativeLayout
+            android:id="@+id/settings_lang_option"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"

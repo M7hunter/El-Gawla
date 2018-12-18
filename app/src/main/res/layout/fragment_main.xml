@@ -118,7 +118,7 @@
 
                 <!-- recent salons recycler -->
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recent_hales_recycler"
+                    android:id="@+id/recent_salons_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_tiny"

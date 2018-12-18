@@ -25,6 +25,7 @@ import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.ViewModels.Adapters.CountryAdapter;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
@@ -38,6 +39,8 @@ public class SplashActivity extends AppCompatActivity {
     CountryAdapter countryAdapter;
     ProgressBar countriesProgress;
 
+    List<Country> countries = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setAppLang();
@@ -45,7 +48,7 @@ public class SplashActivity extends AppCompatActivity {
 
         if (SharedPrefManager.getInstance(SplashActivity.this).getCountry().getCountry_id() != -1) {
             startActivity(new Intent(SplashActivity.this, LoginActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
+            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
 
         } else {
             requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -74,7 +77,11 @@ public class SplashActivity extends AppCompatActivity {
                     boolean status = mainObj.get("status").getAsBoolean();
 
                     if (status) { // no errors
-                        initCountriesList(handleServerResponse(mainObj));
+                        countries = handleServerResponse(mainObj);
+
+                        initCountriesList();
+
+                        GawlaDataBse.getGawlaDatabase(SplashActivity.this).CountryDao().insertCountryList(countries);
 
                     } else { // errors from server
                         Toast.makeText(SplashActivity.this, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
@@ -121,20 +128,14 @@ public class SplashActivity extends AppCompatActivity {
         return error;
     }
 
-    private void initCountriesList(List<Country> countriesList) {
+    private void initCountriesList() {
         countryRecycler = findViewById(R.id.country_recycler);
         countryRecycler.setLayoutManager(new LinearLayoutManager(SplashActivity.this, 1, false));
         countryRecycler.setHasFixedSize(true);
-        countryAdapter = new CountryAdapter(SplashActivity.this, countriesList);
+        countryAdapter = new CountryAdapter(SplashActivity.this, countries);
         countryRecycler.setAdapter(countryAdapter);
 
         // to remove progress bar
-        countryRecycler.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                countriesProgress.setVisibility(View.GONE);
-                countryRecycler.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+        Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
     }
 }
