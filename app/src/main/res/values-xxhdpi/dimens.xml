@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- margin & padding -->
+    <dimen name="margin_xTiny">5dp</dimen>
     <dimen name="margin_tiny">5dp</dimen>
     <dimen name="margin_tiny_minus">-5dp</dimen>
     <dimen name="margin_small">10dp</dimen>

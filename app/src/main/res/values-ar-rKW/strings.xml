@@ -3,7 +3,7 @@
     <string name="app_name">الجولة</string>
     <string name="see_all">شاهد الكل</string>
     <string name="round_start">بداية الجولة</string>
-    <string name="close">"اغلاق "</string>
+    <string name="close">اغلاق</string>
     <string name="join_round">" انضم للجولة"</string>
     <string name="sell_price">سعر البيع</string>
     <string name="menu">القائمة</string>
@@ -60,7 +60,7 @@
     <string name="second">ثانية</string>
     <string name="Minute">دقيقة</string>
     <string name="hour">ساعة</string>
-    <string name="Discount_the_tour">حسم الجولة    </string>
+    <string name="Discount_the_tour">حسم الجولة</string>
     <string name="Prod_price">سعر البيع : </string>
     <string name="money">جنية</string>
     <string name="read_more">اقراء المزيد</string>
@@ -121,7 +121,7 @@
     <string name="currency">العملة</string>
     <string name="receive_notification">استقبال الاشعارات</string>
     <string name="notification">الاشعارات</string>
-    <string name="first_name">"الاسم  الاول "</string>
+    <string name="first_name">الاسم الاول</string>
     <string name="second_name">الاسم الثاني</string>
     <string name="nationality">الجنسية</string>
     <string name="gender">الجنس</string>
@@ -129,7 +129,7 @@
     <string name="account_info">بيانات الحساب</string>
     <string name="edit">تعديل</string>
     <string name="delete_connection">الغاء الاتصال</string>
-    <string name="connect_with">"متصل بأستخدام "</string>
+    <string name="connect_with">متصل بأستخدام</string>
     <string name="delete_account">حزف الحساب الخاص بك</string>
     <string name="provider_fb">فيسبوك</string>
     <string name="provider_google">جوجل</string>
@@ -148,6 +148,7 @@
         <item>الكويت</item>
         <item>الولايات المتحده</item>
     </array>
-    <string name="all_salons">كل الصالا</string>
+    <string name="all_salons">كل الصالات</string>
+    <string name="count_down_to_start">العد التنازلي للبداية</string>
 
 </resources>

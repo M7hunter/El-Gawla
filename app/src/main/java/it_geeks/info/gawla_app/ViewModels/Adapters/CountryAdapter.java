@@ -33,7 +33,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
     @NonNull
     @Override
     public CountryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_country_child, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_country, viewGroup, false));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
                 SharedPrefManager.getInstance(context).setCountry(country);
 
                 context.startActivity(new Intent(context, IntroActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
     }

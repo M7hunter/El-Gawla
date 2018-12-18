@@ -11,7 +11,6 @@ import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -257,8 +256,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         overlayLayout.setVisibility(View.GONE);
     }
 
+    // cards bag
     private void initCardsIcon() {
-        RelativeLayout cardsIconContainer = findViewById(R.id.cards_icon_container);
+        RelativeLayout cardsIconContainer = findViewById(R.id.cards_bag_btn_container);
 
         cardsIconContainer.setOnTouchListener(this);
 

@@ -17,6 +17,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.SplashActivities.SplashActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,12 +40,13 @@
         <activity android:name=".Views.MenuOptions.NotificationActivity" />
         <activity android:name=".Views.AccountOptions.AccountDetails" />
         <activity android:name=".Views.AccountOptions.PrivacyDetails" />
+        <activity android:name=".Views.AllSalonsActivity" />
+        <activity android:name=".Views.MenuOptions.LanguageActivity"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".Views.AllSalonsActivity"/>
     </application>
 
 </manifest>

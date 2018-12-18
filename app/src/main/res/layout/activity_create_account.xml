@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_circle_white"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <!-- header -->
             <TextView
@@ -145,10 +145,9 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:background="@drawable/edittext_shape"
-                android:focusable="auto"
-                android:fontFamily="@font/cairo_regular"
                 android:gravity="start|center"
                 android:hint="@string/password"
+                android:inputType="textPassword"
                 android:paddingStart="30dp"
                 android:paddingTop="10dp"
                 android:paddingEnd="30dp"

@@ -33,7 +33,7 @@ public class Common {
         Lang = Locale.getDefault().getLanguage(); // get device default language
     }
 
-    public static synchronized Common Instance(Context context) {
+    public static Common Instance(Context context) {
         if (common == null) { common = new Common(context); }
         return common;
     }
