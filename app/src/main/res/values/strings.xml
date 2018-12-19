@@ -152,4 +152,11 @@
     <string name="receive_notification">receive notification</string>
     <string name="notification">notification</string>
 
+
+
+
+    <!--  TODO Will Delete This Strings Later -->
+    <string name="lastNews">Latest News ...</string>
+    <string name="notiNews">Member Muhammed Boucha has added a new offer</string>
+    <string name="mainNotiNews">You can customize your settings so that only the notifications you want appear when the device is locked</string>
 </resources>

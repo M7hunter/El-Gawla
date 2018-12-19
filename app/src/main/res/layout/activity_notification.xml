@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -48,7 +48,6 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -60,14 +59,14 @@
             android:layout_margin="15dp"
             android:padding="@dimen/logo_height"
             card_view:cardCornerRadius="20dp"
-            card_view:cardElevation="5sp">
+            card_view:cardElevation="3dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="@dimen/text_size_medium"
-                android:text="يمكنك تخصيص الإعدادات الخاصة بك بحيث لا تظهر على الشاشة سوى الإشعارات التي تريدها عندما يكون الجهاز مقفلاً"
+                android:text="@string/mainNotiNews"
                 android:textColor="@color/battleshipGrey"
                 android:textSize="@dimen/margin_medium" />
         </android.support.v7.widget.CardView>
@@ -79,4 +78,4 @@
 
 
     </LinearLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>
