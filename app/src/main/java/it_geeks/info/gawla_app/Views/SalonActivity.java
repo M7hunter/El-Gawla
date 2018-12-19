@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
@@ -67,12 +69,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void getRoundData(Bundle savedInstanceState) {
-        String product_name, product_image, product_category, product_price, product_description, round_start_time, round_end_time, joined_members_number;
+        String product_name, product_image, product_category, product_price, product_description, round_start_time, round_end_time;
+        int product_id;
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
 
             if (extras != null) { // get data from previous page
+                product_id = extras.getInt("product_id");
                 product_name = extras.getString("product_name");
                 product_category = extras.getString("category_name");
                 product_price = extras.getString("product_commercial_price");
@@ -81,7 +85,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 round_start_time = extras.getString("round_start_time");
                 round_end_time = extras.getString("round_end_time");
 
-                round = new Round(product_name,
+                round = new Round(product_id,
+                        product_name,
                         product_category,
                         extras.getString("country_name"),
                         product_price,
@@ -97,6 +102,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             }
 
         } else { // get data from saved state
+            product_id = savedInstanceState.getInt("product_id");
             product_name = (String) savedInstanceState.getSerializable("product_name");
             product_category = (String) savedInstanceState.getSerializable("category_name");
             product_price = (String) savedInstanceState.getSerializable("product_commercial_price");
@@ -105,7 +111,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             round_start_time = (String) savedInstanceState.getSerializable("round_start_time");
             round_end_time = (String) savedInstanceState.getSerializable("round_end_time");
 
-            round = new Round(product_name,
+            round = new Round(product_id,
+                    product_name,
                     product_category,
                     (String) savedInstanceState.getSerializable("country_name"),
                     product_price,
@@ -133,7 +140,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         tvProductName.setText(round.getProduct_name());
         tvProductPrice.setText(round.getProduct_commercial_price());
 
-        Picasso.with(SalonActivity.this).load(round.getProduct_image()).placeholder(R.drawable.gawla_logo_blue).into(imProductImage);
+        Picasso.with(SalonActivity.this).load(round.getProduct_image()).placeholder(R.drawable.palceholder).into(imProductImage);
     }
 
     public void initViews() {
@@ -171,6 +178,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             public void onClick(View v) {
                 Intent i = new Intent(SalonActivity.this, ProductDetailsActivity.class);
                 // send round's data to more page
+                i.putExtra("product_id", round.getProduct_id());
                 i.putExtra("product_name", round.getProduct_name());
                 i.putExtra("category_name", round.getCategory_name());
                 i.putExtra("country_name", round.getCountry_name());

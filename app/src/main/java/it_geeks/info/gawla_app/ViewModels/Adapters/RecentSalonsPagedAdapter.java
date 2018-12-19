@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.Views.SalonActivity;
@@ -42,7 +45,7 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
             try {
                 Picasso.with(context)
                         .load(round.getProduct_image())
-                        .placeholder(context.getResources().getDrawable(R.mipmap.ic_launcher_gawla))
+                        .placeholder(context.getResources().getDrawable(R.drawable.palceholder))
                         .into(viewHolder.imgProductImage);
             }catch (Exception e){}
 
@@ -56,6 +59,7 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
                 public void onClick(View view) {
                     Intent i = new Intent(context, SalonActivity.class);
                     // send round's data to round page
+                    i.putExtra("product_id", round.getProduct_id());
                     i.putExtra("product_name", round.getProduct_name());
                     i.putExtra("category_name", round.getCategory_name());
                     i.putExtra("country_name", round.getCountry_name());

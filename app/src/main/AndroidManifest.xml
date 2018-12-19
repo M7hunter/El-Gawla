@@ -37,11 +37,13 @@
         <activity android:name=".Views.MenuOptions.PrivacyPolicyActivity" />
         <activity android:name=".Views.MenuOptions.CallUsActivity" />
         <activity android:name=".Views.AccountOptions.BuyingProcessesActivity" />
-        <activity android:name=".Views.MenuOptions.NotificationActivity" />
+        <activity android:name=".Views.NotificationActivity" />
         <activity android:name=".Views.AccountOptions.AccountDetails" />
         <activity android:name=".Views.AccountOptions.PrivacyDetails" />
         <activity android:name=".Views.AllSalonsActivity" />
-        <activity android:name=".Views.MenuOptions.LanguageActivity"/>
+        <activity android:name=".Views.MenuOptions.LanguageActivity" />
+
+        <service android:name=".General.UploadImageService" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

@@ -7,11 +7,14 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 
+import java.util.List;
+
 @Entity
 public class Round {
 
-    @PrimaryKey(autoGenerate = true)
-    private int Id;
+    @PrimaryKey()
+    @ColumnInfo
+    private int product_id;
 
     @ColumnInfo
     private String product_name;
@@ -30,6 +33,12 @@ public class Round {
 
     @ColumnInfo
     private String product_image;
+
+    @Ignore
+    private List<String> product_images;
+
+    @Ignore
+    private List<Card> salon_cards;
 
     @ColumnInfo
     private String round_start_time;
@@ -57,7 +66,8 @@ public class Round {
     }
 
     @Ignore
-    public Round(String product_name, String category_name, String country_name, String product_commercial_price, String product_product_description, String product_image, String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time) {
+    public Round(int product_id,String product_name, String category_name, String country_name, String product_commercial_price, String product_product_description, String product_image, String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time) {
+        this.product_id = product_id;
         this.product_name = product_name;
         this.category_name = category_name;
         this.country_name = country_name;
@@ -73,13 +83,34 @@ public class Round {
         this.rest_time = rest_time;
     }
 
-    // getters & setters
-    public int getId() {
-        return Id;
+    @Ignore
+    public Round(String product_name, String category_name, String country_name, String product_commercial_price, String product_product_description, String product_image, List<String> product_images, List<Card> salon_cards, String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time) {
+        this.product_name = product_name;
+        this.category_name = category_name;
+        this.country_name = country_name;
+        this.product_commercial_price = product_commercial_price;
+        this.product_product_description = product_product_description;
+        this.product_image = product_image;
+        this.product_images = product_images;
+        this.salon_cards = salon_cards;
+        this.round_start_time = round_start_time;
+        this.round_end_time = round_end_time;
+        this.first_join_time = first_join_time;
+        this.second_join_time = second_join_time;
+        this.round_date = round_date;
+        this.round_time = round_time;
+        this.rest_time = rest_time;
     }
 
-    public void setId(int id) {
-        Id = id;
+    // getters & setters
+
+
+    public int getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
     }
 
     public String getProduct_name() {
@@ -128,6 +159,22 @@ public class Round {
 
     public void setProduct_image(String product_image) {
         this.product_image = product_image;
+    }
+
+    public List<String> getProduct_images() {
+        return product_images;
+    }
+
+    public void setProduct_images(List<String> product_images) {
+        this.product_images = product_images;
+    }
+
+    public List<Card> getSalon_cards() {
+        return salon_cards;
+    }
+
+    public void setSalon_cards(List<Card> salon_cards) {
+        this.salon_cards = salon_cards;
     }
 
     public String getRound_start_time() {
@@ -190,7 +237,7 @@ public class Round {
     public static DiffUtil.ItemCallback<Round> DIFF_CALLBACK = new DiffUtil.ItemCallback<Round>() {
         @Override
         public boolean areItemsTheSame(@NonNull Round oldItem, @NonNull Round newItem) {
-            return oldItem.Id == newItem.Id;
+            return oldItem.product_id == newItem.product_id;
         }
 
         @Override
@@ -205,6 +252,6 @@ public class Round {
             return true;
 
         Round round = (Round) obj;
-        return round.Id == this.Id;
+        return round.product_id == this.product_id;
     }
 }

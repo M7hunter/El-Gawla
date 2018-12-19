@@ -38,7 +38,7 @@ public class WinnersNewsAdapter extends RecyclerView.Adapter<WinnersNewsAdapter.
 
         Picasso.with(context)
                 .load(news.getNewsImage())
-                .placeholder(context.getResources().getDrawable(R.mipmap.ic_launcher_gawla))
+                .placeholder(context.getResources().getDrawable(R.drawable.palceholder))
                 .into(viewHolder.imgNewsImage);
 
         viewHolder.tvNewsTitle.setText(news.getNewsTitle());
