@@ -1,11 +1,15 @@
 package it_geeks.info.gawla_app.Views.NavigationFragments;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
@@ -25,6 +29,8 @@ import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.General.UploadImageService;
+import it_geeks.info.gawla_app.ViewModels.UploadImageViewModel;
 import it_geeks.info.gawla_app.Views.AccountOptions.AccountDetails;
 import it_geeks.info.gawla_app.Views.AccountOptions.BuyingProcessesActivity;
 import it_geeks.info.gawla_app.Views.AccountOptions.PrivacyDetails;
@@ -44,12 +50,17 @@ import static android.app.Activity.RESULT_OK;
 
 public class AccountFragment extends Fragment {
 
+    private static final String TAG = "AccountFragment";
+
     TextView userName;
     CircleImageView userImage;
     ImageView edit_user_image, upload_user_image;
     int user_id;
     String name, image;
     String api_token;
+
+    private UploadImageService uploadImageService;
+    private UploadImageViewModel imageViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +73,8 @@ public class AccountFragment extends Fragment {
         getData();
 
         initViews(view);
+
+        setImageService(view);
 
         setData();
 
@@ -232,5 +245,74 @@ public class AccountFragment extends Fragment {
             error = errors.get(i).getAsString();
         }
         return error;
+    }
+
+    private void setImageService(View view) {
+        imageViewModel = ViewModelProviders.of(this).get(UploadImageViewModel.class);
+
+        imageViewModel.getBinder().observe(this, new Observer<UploadImageService.ImageBinder>() {
+            @Override
+            public void onChanged(@Nullable UploadImageService.ImageBinder imageBinder) {
+                if (imageBinder != null) {
+                    Log.d(TAG, "onChanged: connected to service");
+                    uploadImageService = imageBinder.getService();
+
+                } else {
+                    Log.d(TAG, "onChanged: unbound from service");
+                    uploadImageService = null;
+                }
+            }
+        });
+
+        imageViewModel.getIsProgressUpdating().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean) {
+
+                } else {
+
+                }
+            }
+        });
+    }
+
+    public void updates() {
+        if (uploadImageService != null) {
+            if (uploadImageService.isPaused()) {
+                uploadImageService.unPauseTask();
+                imageViewModel.setIsProgressUpdating(true);
+            } else {
+                uploadImageService.pauseTask();
+                imageViewModel.setIsProgressUpdating(false);
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (imageViewModel.getBinder() != null) {
+            getActivity().unbindService(imageViewModel.getServiceConnection());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        startServices();
+    }
+
+    private void startServices() {
+        Intent serviceIntent = new Intent(getContext(), UploadImageService.class);
+        getActivity().startService(serviceIntent);
+
+        bindService();
+    }
+
+    private void bindService() {
+        Intent serviceIntent = new Intent(getContext(), UploadImageService.class);
+        getActivity().bindService(serviceIntent, imageViewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
     }
 }

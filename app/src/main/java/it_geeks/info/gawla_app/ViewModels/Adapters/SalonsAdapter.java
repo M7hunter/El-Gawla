@@ -44,7 +44,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
             try {
                 Picasso.with(context)
                         .load(round.getProduct_image())
-                        .placeholder(context.getResources().getDrawable(R.mipmap.ic_launcher_gawla))
+                        .placeholder(context.getResources().getDrawable(R.drawable.palceholder))
                         .into(viewHolder.imgProductImage);
             }catch (Exception e){}
 

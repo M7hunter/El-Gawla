@@ -16,6 +16,16 @@ public class Card {
 
     private int count;
 
+    public Card(int card_id, String card_name, String card_details, String card_type, String card_color, String card_cost) {
+        this.card_id = card_id;
+        this.card_name = card_name;
+        this.card_details = card_details;
+        this.card_type = card_type;
+        this.card_color = card_color;
+        this.card_cost = card_cost;
+        this.count = count;
+    }
+
     public Card(int card_id, String card_name, String card_details, String card_type, String card_color, String card_cost, int count) {
         this.card_id = card_id;
         this.card_name = card_name;

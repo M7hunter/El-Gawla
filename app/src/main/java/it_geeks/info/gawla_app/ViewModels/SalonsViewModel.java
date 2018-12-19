@@ -8,6 +8,7 @@ import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -18,7 +19,9 @@ import java.util.List;
 
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
+import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
@@ -47,38 +50,40 @@ public class SalonsViewModel extends AndroidViewModel {
 
         RetrofitClient.getInstance(getApplication()).getAPI()
                 .request(new RequestMainBody(
-                        new Data("getAllSalons", Common.Instance(getApplication()).getCurrentTimeInMillis()),
+                        new Data("getAllSalons", 0, 1),
                         new Request(userId, apiToken)))
                 .enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                try {
-                    JsonObject mainObj = response.body().getAsJsonObject();
-                    boolean status = mainObj.get("status").getAsBoolean();
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
-                    if (status) { // no errors
-                        gawlaDataBse.RoundDao().removeRounds(gawlaDataBse.RoundDao().getRounds()); // remove old list
-                        gawlaDataBse.RoundDao().insertRoundList(handleServerResponse(mainObj)); // add new list
+                        try {
+                            JsonObject mainObj = response.body().getAsJsonObject();
+                            boolean status = mainObj.get("status").getAsBoolean();
 
-                    } else { // errors from server
-                        if (handleServerErrors(mainObj).equals("you are not logged in.")) {
-                            getApplication().startActivity(new Intent(getApplication(), LoginActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                            if (status) { // no errors
+                                gawlaDataBse.RoundDao().removeRounds(gawlaDataBse.RoundDao().getRounds()); // remove old list
+                                gawlaDataBse.RoundDao().insertRoundList(handleServerResponse(mainObj)); // add new list
 
-                            SharedPrefManager.getInstance(getApplication()).clearUser();
+                            } else { // errors from server
+                                if (handleServerErrors(mainObj).equals("you are not logged in.")) {
+                                    getApplication().startActivity(new Intent(getApplication(), LoginActivity.class)
+                                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+
+                                    SharedPrefManager.getInstance(getApplication()).clearUser();
+                                }
+
+                                Toast.makeText(getApplication(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (NullPointerException e) { // errors of response body
+                            Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(getApplication(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                     }
-                } catch (NullPointerException e) { // errors of response body
-                    Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) { // errors of connection
-                Toast.makeText(getApplication(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) { // errors of connection
+                        Toast.makeText(getApplication(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private List<Round> handleServerResponse(JsonObject object) {
@@ -87,6 +92,7 @@ public class SalonsViewModel extends AndroidViewModel {
 
         for (int i = 0; i < roundsArray.size(); i++) {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
+//            int product_id = roundObj.get("product_id").getAsInt();
             String product_name = roundObj.get("product_name").getAsString();
             String category_name = roundObj.get("category_name").getAsString();
             String country_name = roundObj.get("country_name").getAsString();
@@ -101,8 +107,12 @@ public class SalonsViewModel extends AndroidViewModel {
             String round_time = roundObj.get("round_time").getAsString();
             String rest_time = roundObj.get("rest_time").getAsString();
 
+            gawlaDataBse.productImageDao().removeSubImages(gawlaDataBse.productImageDao().getSubImagesById(i));
+            gawlaDataBse.productImageDao().insertSubImages(handleImages(roundObj, i));
+
             rounds.add(
-                    new Round(product_name,
+                    new Round(i,
+                            product_name,
                             category_name,
                             country_name,
                             product_commercial_price,
@@ -118,6 +128,38 @@ public class SalonsViewModel extends AndroidViewModel {
         }
 
         return rounds;
+    }
+
+    private List<ProductSubImage> handleImages(JsonObject roundObj, int id) {
+        JsonArray product_images = roundObj.get("product_images").getAsJsonArray();
+
+        List<ProductSubImage> subImagesList = new ArrayList<>();
+
+        for (int i = 0; i < product_images.size(); i++) {
+            ProductSubImage subImage = new ProductSubImage(id, product_images.get(i).getAsString());
+            subImagesList.add(subImage);
+        }
+
+        return subImagesList;
+    }
+
+    private List<Card> handleCards(JsonObject roundObj) {
+        JsonArray salon_cards = roundObj.get("salon_cards").getAsJsonArray();
+        List<Card> salon_cardsList = new ArrayList<>();
+
+        for (int j = 0; j < salon_cards.size(); j++) {
+            JsonObject cardObj = salon_cards.get(j).getAsJsonObject();
+            int card_id = cardObj.get("id").getAsInt();
+            String card_name = cardObj.get("name").getAsString();
+            String card_details = cardObj.get("details").getAsString();
+            String card_type = cardObj.get("type").getAsString();
+            String card_color = cardObj.get("color").getAsString();
+            String card_cost = cardObj.get("cost").getAsString();
+
+            salon_cardsList.add(new Card(card_id, card_name, card_details, card_type, card_color, card_cost));
+        }
+
+        return salon_cardsList;
     }
 
     private String handleServerErrors(JsonObject object) {

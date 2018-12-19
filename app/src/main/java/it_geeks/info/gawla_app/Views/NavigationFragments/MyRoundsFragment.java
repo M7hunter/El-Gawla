@@ -20,6 +20,7 @@ import java.util.List;
 
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
@@ -124,6 +125,8 @@ public class MyRoundsFragment extends Fragment {
             String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
             String product_product_description = roundObj.get("product_product_description").getAsString();
             String product_image = roundObj.get("product_image").getAsString();
+            handleImages(roundObj);
+            handleCards(roundObj);
             String round_start_time = roundObj.get("round_start_time").getAsString();
             String round_end_time = roundObj.get("round_end_time").getAsString();
             String first_join_time = roundObj.get("first_join_time").getAsString();
@@ -139,6 +142,8 @@ public class MyRoundsFragment extends Fragment {
                             product_commercial_price,
                             product_product_description,
                             product_image,
+                            handleImages(roundObj),
+                            handleCards(roundObj),
                             round_start_time,
                             round_end_time,
                             first_join_time,
@@ -149,6 +154,37 @@ public class MyRoundsFragment extends Fragment {
         }
 
         return rounds;
+    }
+
+    private List<String> handleImages(JsonObject roundObj) {
+        JsonArray product_images = roundObj.get("product_images").getAsJsonArray();
+        List<String> product_imagesList = new ArrayList<>();
+
+        for (int j = 0; j < product_images.size(); j++) {
+            String s = product_images.get(j).getAsString();
+            product_imagesList.add(s);
+        }
+
+        return product_imagesList;
+    }
+
+    private List<Card> handleCards(JsonObject roundObj) {
+        JsonArray salon_cards = roundObj.get("salon_cards").getAsJsonArray();
+        List<Card> salon_cardsList = new ArrayList<>();
+
+        for (int j = 0; j < salon_cards.size(); j++) {
+            JsonObject cardObj = salon_cards.get(j).getAsJsonObject();
+            int card_id = cardObj.get("card_id").getAsInt();
+            String card_name = cardObj.get("card_name").getAsString();
+            String card_details = cardObj.get("card_details").getAsString();
+            String card_type = cardObj.get("card_type").getAsString();
+            String card_color = cardObj.get("card_color").getAsString();
+            String card_cost = cardObj.get("card_cost").getAsString();
+
+            salon_cardsList.add(new Card(card_id, card_name, card_details, card_type, card_color, card_cost));
+        }
+
+        return salon_cardsList;
     }
 
     private String handleServerErrors(JsonObject object) {

@@ -13,13 +13,15 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
+import it_geeks.info.gawla_app.Views.ProductDetailsActivity;
 
 public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImagesAdapter.Holder> {
 
     private Context context;
-    private List<String> imagesList;
+    private List<ProductSubImage> imagesList;
 
-    public ProductSubImagesAdapter(Context context, List<String> imagesList) {
+    public ProductSubImagesAdapter(Context context, List<ProductSubImage> imagesList) {
         this.context = context;
         this.imagesList = imagesList;
     }
@@ -27,15 +29,21 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-      return new Holder(LayoutInflater.from(context).inflate(R.layout.item_product_sub_image,viewGroup,false));
+      return new Holder(LayoutInflater.from(context).inflate(R.layout.item_product_sub_image, viewGroup, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Holder holder, int i) {
-        String imageUri = imagesList.get(i);
-        Picasso.with(context).load(imageUri).placeholder(R.mipmap.ic_launcher_gawla).into(holder.productSubImage);
+    public void onBindViewHolder(@NonNull final Holder holder, int i) {
+        ProductSubImage subImage = imagesList.get(i);
+
+        Picasso.with(context).load(subImage.getImageUrl()).placeholder(R.drawable.palceholder).into(holder.productSubImage);
 
         // events
+
+        int mainWidth, mainHeight;
+        mainWidth = ((ProductDetailsActivity) context).imProductImage.getWidth();
+        mainHeight = ((ProductDetailsActivity) context).imProductImage.getHeight();
+
         holder.productSubImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
