@@ -129,13 +129,7 @@
     <string name="account_info">بيانات الحساب</string>
     <string name="edit">تعديل</string>
     <string name="delete_connection">الغاء الاتصال</string>
-    <string name="connect_with">متصل بأستخدام</string>
-    <string name="delete_account">حزف الحساب الخاص بك</string>
-    <string name="provider_fb">فيسبوك</string>
-    <string name="provider_google">جوجل</string>
-    <string name="save">حفظ</string>
-    <string name="country">الدولة</string>
-    <string name="privacy_details">بيانات الخصوصية</string>
+    <string name="connect_with">"متصل بأستخدام "</string>
 
     <!--  Arr For Test and will delete later .-->
     <array name="ArrGender">
@@ -148,7 +142,17 @@
         <item>الكويت</item>
         <item>الولايات المتحده</item>
     </array>
-    <string name="all_salons">كل الصالات</string>
-    <string name="count_down_to_start">العد التنازلي للبداية</string>
+    <string name="delete_account">حذف الحساب الخاص بيك</string>
+    <string name="provider_fb">فيسبوك</string>
+    <string name="provider_google">جوجل</string>
+    <string name="save">حفظ</string>
+    <string name="country">الدولة</string>
+    <string name="privacy_details">بيانات الخصوصية</string>
 
+
+
+    <!--  TODO Will Delete This Strings Later -->
+    <string name="lastNews">اخر اخبار الصالة …</string>
+    <string name="notiNews">قام العضو  Muhammed Boucha  بضافة عرض جديد</string>
+    <string name="mainNotiNews">يمكنك تخصيص الإعدادات الخاصة بك بحيث لا تظهر على الشاشة سوى الإشعارات التي تريدها عندما يكون الجهاز مقفلاً</string>
 </resources>
