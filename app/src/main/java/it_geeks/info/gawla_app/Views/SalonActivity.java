@@ -34,7 +34,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     LinearLayout addOfferLayout;
     FrameLayout overlayLayout;
 
-    TextView tvEndTime, tvProductName, tvProductPrice;
+    TextView tvEndTime, tvProductName, tvProductPrice, salonId;
     ImageView imProductImage;
 
     private Round round;
@@ -70,13 +70,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void getRoundData(Bundle savedInstanceState) {
         String product_name, product_image, product_category, product_price, product_description, round_start_time, round_end_time;
-        int product_id;
+        int product_id, salon_id;
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
 
             if (extras != null) { // get data from previous page
                 product_id = extras.getInt("product_id");
+                salon_id = extras.getInt("salon_id");
                 product_name = extras.getString("product_name");
                 product_category = extras.getString("category_name");
                 product_price = extras.getString("product_commercial_price");
@@ -86,6 +87,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 round_end_time = extras.getString("round_end_time");
 
                 round = new Round(product_id,
+                        salon_id,
                         product_name,
                         product_category,
                         extras.getString("country_name"),
@@ -103,6 +105,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         } else { // get data from saved state
             product_id = savedInstanceState.getInt("product_id");
+            salon_id = savedInstanceState.getInt("salon_id");
             product_name = (String) savedInstanceState.getSerializable("product_name");
             product_category = (String) savedInstanceState.getSerializable("category_name");
             product_price = (String) savedInstanceState.getSerializable("product_commercial_price");
@@ -112,6 +115,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             round_end_time = (String) savedInstanceState.getSerializable("round_end_time");
 
             round = new Round(product_id,
+                    salon_id,
                     product_name,
                     product_category,
                     (String) savedInstanceState.getSerializable("country_name"),
@@ -150,6 +154,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         confirmationLayout = findViewById(R.id.join_confirmation_layout);
         notificationCard = findViewById(R.id.round_notification_card);
         addOfferLayout = findViewById(R.id.add_offer_layout);
+        salonId = findViewById(R.id.salon_number);
+        salonId.setText(round.getSalon_id());
     }
 
     private void handleEvents() {

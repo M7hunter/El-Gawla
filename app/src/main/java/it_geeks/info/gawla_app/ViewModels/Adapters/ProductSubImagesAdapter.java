@@ -44,10 +44,14 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
         mainWidth = ((ProductDetailsActivity) context).imProductImage.getWidth();
         mainHeight = ((ProductDetailsActivity) context).imProductImage.getHeight();
 
-        holder.productSubImage.setOnClickListener(new View.OnClickListener() {
+        int subWidth, subHeight;
+        subWidth = holder.itemView.getWidth();
+        subHeight = holder.itemView.getHeight();
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//                v.animate().scaleX();
             }
         });
     }

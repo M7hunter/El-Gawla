@@ -119,7 +119,7 @@ public class CardsFragment extends Fragment {
             int count = cardObj.get("count").getAsInt();
 
             cardsList.add(
-                    new Card(card_id, card_name, card_details, card_type, card_color, card_cost, count));
+                    new Card(card_name, card_details, card_type, card_color, card_cost, count));
         }
     }
 

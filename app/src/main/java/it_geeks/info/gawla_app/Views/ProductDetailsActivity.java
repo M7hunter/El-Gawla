@@ -71,13 +71,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     private void getRoundData(Bundle savedInstanceState) {
         String product_name, product_image, product_category, product_price, product_description, round_start_time, round_end_time;
-        int product_id;
+        int product_id, salon_id;
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
 
             if (extras != null) { // get data from previous page
                 product_id = extras.getInt("product_id");
+                salon_id = extras.getInt("salon_id");
                 product_name = extras.getString("product_name");
                 product_category = extras.getString("category_name");
                 product_price = extras.getString("product_commercial_price");
@@ -87,6 +88,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 round_end_time = extras.getString("round_end_time");
 
                 round = new Round(product_id,
+                        salon_id,
                         product_name,
                         product_category,
                         extras.getString("country_name"),
@@ -104,6 +106,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         } else { // get data from saved state
             product_id = savedInstanceState.getInt("product_id");
+            salon_id = savedInstanceState.getInt("salon_id");
             product_name = (String) savedInstanceState.getSerializable("product_name");
             product_category = (String) savedInstanceState.getSerializable("category_name");
             product_price = (String) savedInstanceState.getSerializable("product_commercial_price");
@@ -113,6 +116,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             round_end_time = (String) savedInstanceState.getSerializable("round_end_time");
 
             round = new Round(product_id,
+                    salon_id,
                     product_name,
                     product_category,
                     (String) savedInstanceState.getSerializable("country_name"),

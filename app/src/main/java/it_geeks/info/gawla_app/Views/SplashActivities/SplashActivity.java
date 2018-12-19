@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
@@ -81,7 +79,7 @@ public class SplashActivity extends AppCompatActivity {
 
                         initCountriesList();
 
-                        GawlaDataBse.getGawlaDatabase(SplashActivity.this).CountryDao().insertCountryList(countries);
+                        GawlaDataBse.getGawlaDatabase(SplashActivity.this).countryDao().insertCountryList(countries);
 
                     } else { // errors from server
                         Toast.makeText(SplashActivity.this, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();

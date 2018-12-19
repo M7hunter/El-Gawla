@@ -118,29 +118,12 @@
                     android:layout_margin="@dimen/margin_small"
                     android:background="@color/paleGrey2" />
 
-                <!-- cards container -->
-                <LinearLayout
+                <!-- cards -->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/salon_cards_recycler"
                     android:layout_width="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content"
-
-                    android:gravity="center">
-
-                    <!-- red card -->
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="15dp"
-                        android:layout_margin="@dimen/margin_tiny"
-                        android:src="@drawable/card" />
-
-                    <!-- green card -->
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/card_green_static" />
-
-                </LinearLayout>
-
+                    android:layout_margin="@dimen/margin_xTiny"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

@@ -63,7 +63,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void getCountries() {
-        countries = (ArrayList<Country>) GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).CountryDao().getCountries();
+        countries = (ArrayList<Country>) GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).countryDao().getCountries();
     }
 
     private void initCountriesSpinner() {
@@ -85,11 +85,11 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void getSalonsData() {
-        roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).RoundDao().getRounds();
+        roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRounds();
         Salons salons = null;
         for (Round round : roundsList) {
             if (salons == null) {
-                List<Round> rounds = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).RoundDao().getRoundsByDate(round.getRound_date());
+                List<Round> rounds = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(round.getRound_date());
                 salons = new Salons(round.getRound_date(), rounds);
                 salonsList.add(salons);
 
@@ -98,7 +98,7 @@ public class AllSalonsActivity extends AppCompatActivity {
                     return;
 
                 } else { // !added
-                    List<Round> rounds = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).RoundDao().getRoundsByDate(round.getRound_date());
+                    List<Round> rounds = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(round.getRound_date());
                     salons = new Salons(round.getRound_date(), rounds);
                     salonsList.add(salons);
                 }
