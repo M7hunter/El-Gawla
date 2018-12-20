@@ -179,7 +179,7 @@ public class AccountFragment extends Fragment {
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
-                RetrofitClient.getInstance(getActivity()).getAPI().uploadImageRequest(new Data("updateUserData"), new Request(user_id, api_token, encodedImage))
+                RetrofitClient.getInstance(getActivity()).getAPI().request(new RequestMainBody(new Data("updateUserData"), new Request(user_id, api_token, encodedImage)))
                         .enqueue(new Callback<JsonObject>() {
                             @Override
                             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
