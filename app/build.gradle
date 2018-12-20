@@ -29,29 +29,22 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-
     // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-
     // viewModel
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'android.arch.lifecycle:viewmodel:1.1.1'
-
     // paging
     implementation 'android.arch.paging:runtime:1.0.1'
-
     // room
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
-
     // loading
     implementation 'com.github.ybq:Android-SpinKit:1.2.0'
     implementation 'com.facebook.android:facebook-android-sdk:4.38.1'
-
     //google services
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
 }

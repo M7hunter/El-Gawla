@@ -31,7 +31,6 @@ import it_geeks.info.gawla_app.ViewModels.Adapters.RoundsPagerAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
-import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Views.NotificationActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -97,11 +96,11 @@ public class MyRoundsFragment extends Fragment {
                             SharedPrefManager.getInstance(getActivity()).clearUser();
                         }
 
-                        Toast.makeText(MainActivity.mainActivityInstance, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (NullPointerException e) { // errors of response body
-                    Toast.makeText(MainActivity.mainActivityInstance, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 initEmptyView(view);
@@ -109,7 +108,7 @@ public class MyRoundsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) { // errors of connection
-                Toast.makeText(MainActivity.mainActivityInstance, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 initEmptyView(view);
             }
         });

@@ -459,7 +459,8 @@
                             android:layout_gravity="center"
                             android:layout_margin="@dimen/margin_tiny"
                             android:layout_weight="1"
-                            android:src="@drawable/macbook" />
+                            android:src="@drawable/macbook"
+                            android:transitionName="transProductImage" />
 
                         <!-- details container -->
                         <LinearLayout
@@ -478,7 +479,8 @@
                                 android:gravity="center"
                                 android:textColor="@color/duskBlue"
                                 android:textSize="@dimen/text_size_medium"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:transitionName="transProductName" />
 
                             <!-- price container -->
                             <LinearLayout
@@ -576,15 +578,15 @@
 
         <!-- join btn -->
         <Button
-            android:layout_below="@id/cards_container"
             android:id="@+id/btn_join_round"
             android:layout_width="match_parent"
             android:layout_height="55dp"
+            android:layout_below="@id/cards_container"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:layout_marginBottom="@dimen/margin_tiny"
             android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_tiny"
             android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_tiny"
             android:background="@drawable/login_shape"
             android:text="@string/join_round"
             android:textColor="@android:color/white"
@@ -630,5 +632,8 @@
 
     <!-- bottom sheet single card -->
     <include layout="@layout/bottom_sheet_single_card" />
+
+    <!-- bottom sheet product details -->
+    <include layout="@layout/bottom_sheet_product_details" />
 
 </android.support.design.widget.CoordinatorLayout>

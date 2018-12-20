@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app.Views;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,8 @@ import it_geeks.info.gawla_app.ViewModels.Adapters.CountrySpinnerAdapter;
 
 public class AllSalonsActivity extends AppCompatActivity {
 
+    public static Activity allSalonsActivityInstance;
+
     AppCompatSpinner countrySpinner;
     ArrayList<Country> countries = new ArrayList<>();
 
@@ -40,6 +43,8 @@ public class AllSalonsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         changeStatusBarColor("#ffffff");
         setContentView(R.layout.activity_all_salons);
+
+        allSalonsActivityInstance = this;
 
         initViews();
 

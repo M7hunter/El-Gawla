@@ -24,7 +24,8 @@
                 android:id="@+id/round_product_image"
                 android:layout_width="@dimen/image_width_round"
                 android:layout_height="@dimen/image_height_round"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:transitionName="transProductImage" />
 
             <!-- category -->
             <TextView
@@ -61,7 +62,8 @@
                 android:text="name"
                 android:textColor="@color/bgBlueDark"
                 android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:transitionName="transProductName" />
 
             <!-- separator -->
             <View
@@ -88,6 +90,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_xTiny"
+                    android:layout_marginBottom="@dimen/margin_xTiny"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
@@ -122,8 +126,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/salon_cards_recycler"
                     android:layout_width="wrap_content"
-                    android:layout_margin="@dimen/margin_xTiny"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_xTiny" />
 
             </LinearLayout>
 

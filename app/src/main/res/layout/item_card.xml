@@ -66,7 +66,7 @@
                     android:layout_width="@dimen/card_width"
                     android:layout_height="@dimen/card_height"
                     android:layout_gravity="center"
-                    android:background="@drawable/card"
+                    android:background="@drawable/user_card"
                     android:padding="@dimen/margin_large" />
             </FrameLayout>
 

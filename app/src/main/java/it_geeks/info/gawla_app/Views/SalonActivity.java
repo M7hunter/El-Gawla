@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -20,11 +22,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
+import it_geeks.info.gawla_app.ViewModels.Adapters.ProductSubImagesAdapter;
 
 public class SalonActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -41,12 +47,17 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private BottomSheetDialog mBottomSheetDialogActivateCard;
     private BottomSheetDialog mBottomSheetDialogSingleCard;
+    private BottomSheetDialog mBottomSheetDialogProductDetails;
 
     private PointF staringPoint = new PointF();
     private PointF pointerPoint = new PointF();
     private GestureDetector gestureDetector;
     private int screenWidth;
     private int screenHeight;
+
+    public ImageView imProductMainImage;
+
+    private List<ProductSubImage> imagesList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +66,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         getRoundData(savedInstanceState);
 
-        initRoundViews_setData();
-
         screenDimensions();
+
+        initRoundViews_setData();
 
         initCardsIcon();
 
@@ -66,6 +77,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         initViews();
 
         handleEvents();
+
+        initBottomSheetProductDetails();
     }
 
     private void getRoundData(Bundle savedInstanceState) {
@@ -155,7 +168,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         notificationCard = findViewById(R.id.round_notification_card);
         addOfferLayout = findViewById(R.id.add_offer_layout);
         salonId = findViewById(R.id.salon_number);
-        salonId.setText(round.getSalon_id());
+        salonId.setText(String.valueOf(round.getSalon_id()));
     }
 
     private void handleEvents() {
@@ -178,28 +191,15 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             }
         });
 
-        // open product description page
+        // open product details sheet
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SalonActivity.this, ProductDetailsActivity.class);
-                // send round's data to more page
-                i.putExtra("product_id", round.getProduct_id());
-                i.putExtra("product_name", round.getProduct_name());
-                i.putExtra("category_name", round.getCategory_name());
-                i.putExtra("country_name", round.getCountry_name());
-                i.putExtra("product_commercial_price", round.getProduct_commercial_price());
-                i.putExtra("product_product_description", round.getProduct_product_description());
-                i.putExtra("product_image", round.getProduct_image());
-                i.putExtra("round_start_time", round.getRound_start_time());
-                i.putExtra("round_end_time", round.getRound_end_time());
-                i.putExtra("first_join_time", round.getFirst_join_time());
-                i.putExtra("second_join_time", round.getSecond_join_time());
-                i.putExtra("round_date", round.getRound_date());
-                i.putExtra("round_time", round.getRound_time());
-                i.putExtra("rest_time", round.getRest_time());
-
-                startActivity(i);
+                if (mBottomSheetDialogProductDetails.isShowing()) {
+                    mBottomSheetDialogProductDetails.dismiss();
+                } else { // close sheet
+                    mBottomSheetDialogProductDetails.show();
+                }
             }
         });
 
@@ -217,6 +217,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         });
     }
 
+    // join events
     private void displayConfirmationLayout() {
         joinStatus = 1;
 
@@ -303,7 +304,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         sheetView.findViewById(R.id.btn_activate_card).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    mBottomSheetDialogSingleCard.show();
+                mBottomSheetDialogSingleCard.show();
             }
         });
 
@@ -339,6 +340,71 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 .setBackgroundResource(android.R.color.transparent);
     }
 
+    // product details
+    private void initBottomSheetProductDetails() {
+        mBottomSheetDialogProductDetails = new BottomSheetDialog(this);
+        final View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_product_details, null);
+
+        //init bottom sheet views
+        //close bottom sheet
+        sheetView.findViewById(R.id.close_bottom_sheet_product_details).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mBottomSheetDialogProductDetails.isShowing()) {
+                    mBottomSheetDialogProductDetails.dismiss();
+
+                } else {
+                    mBottomSheetDialogProductDetails.show();
+                }
+            }
+        });
+
+        bottomViews_setDetails(sheetView);
+
+        getRoundImages(sheetView);
+
+        mBottomSheetDialogProductDetails.setContentView(sheetView);
+
+        Common.Instance(SalonActivity.this).setBottomSheetHeight(sheetView);
+
+        mBottomSheetDialogProductDetails.getWindow().findViewById(R.id.design_bottom_sheet)
+                .setBackgroundResource(android.R.color.transparent);
+    }
+
+    private void bottomViews_setDetails(View parent) {
+        TextView tvProductName, tvProductPrice, tvProductDescription;
+
+        // init views
+        tvProductName = parent.findViewById(R.id.product_details_name);
+        tvProductPrice = parent.findViewById(R.id.product_details_price);
+        tvProductDescription = parent.findViewById(R.id.product_details_descriptions);
+        imProductMainImage = parent.findViewById(R.id.product_details_main_image);
+
+        // set data
+        tvProductName.setText(round.getProduct_name());
+        tvProductPrice.setText(round.getProduct_commercial_price());
+        tvProductDescription.setText(round.getProduct_product_description());
+
+        Picasso.with(SalonActivity.this).load(round.getProduct_image()).placeholder(R.drawable.gawla_logo_blue).into(imProductMainImage);
+    }
+
+    private void getRoundImages(View parent) {
+        // get details from database
+        imagesList.addAll(GawlaDataBse.getGawlaDatabase(SalonActivity.this).productImageDao().getSubImagesById(round.getProduct_id()));
+        if (imagesList.size() != 0) {
+            bottomSubImagesRecycler(parent);
+        }
+    }
+
+    private void bottomSubImagesRecycler(View parent) {
+        RecyclerView imagesRecycler = parent.findViewById(R.id.product_details_images_recycler);
+        imagesRecycler.setHasFixedSize(true);
+        imagesRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        ProductSubImagesAdapter productSubImagesAdapter = new ProductSubImagesAdapter(this, imagesList);
+        imagesRecycler.setAdapter(productSubImagesAdapter);
+    }
+
+    // freedom
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         // just clicked
@@ -419,5 +485,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         public boolean onSingleTapUp(MotionEvent event) {
             return true;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent i = new Intent();
+        setResult(RESULT_OK, i);
     }
 }

@@ -38,8 +38,8 @@ public class AllSalonsAdapter extends RecyclerView.Adapter<AllSalonsAdapter.View
 
         viewHolder.header.setText(salons.getHeader());
 
-        viewHolder.recyclerView.setAdapter(new SalonsAdapter(context, salons.getRounds()));
-        Common.Instance(context).hideProgress(viewHolder.recyclerView, viewHolder.progressBar);
+        viewHolder.salonsRecyclerView.setAdapter(new SalonsAdapter(context, salons.getRounds()));
+        Common.Instance(context).hideProgress(viewHolder.salonsRecyclerView, viewHolder.progressBar);
     }
 
     @Override
@@ -51,16 +51,16 @@ public class AllSalonsAdapter extends RecyclerView.Adapter<AllSalonsAdapter.View
 
         TextView header;
         ProgressBar progressBar;
-        RecyclerView recyclerView;
+        RecyclerView salonsRecyclerView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             header = itemView.findViewById(R.id.salons_header);
             progressBar = itemView.findViewById(R.id.salons_progress);
-            recyclerView = itemView.findViewById(R.id.salons_recycler);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(context, 0, false));
+            salonsRecyclerView = itemView.findViewById(R.id.salons_recycler);
+            salonsRecyclerView.setHasFixedSize(true);
+            salonsRecyclerView.setLayoutManager(new LinearLayoutManager(context, 0, false));
         }
     }
 }

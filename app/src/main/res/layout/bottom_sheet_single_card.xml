@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/bottom_sheet"
+    android:id="@+id/bottom_sheet_single_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:behavior_hideable="true"
@@ -54,7 +54,7 @@
                         android:layout_marginTop="@dimen/margin_xxlarge"
                         android:layout_marginEnd="@dimen/margin_xxxxlarge"
                         android:layout_marginBottom="@dimen/margin_xxlarge"
-                        android:background="@drawable/card"
+                        android:background="@drawable/single_card"
                         android:padding="@dimen/margin_large" />
                 </FrameLayout>
 
