@@ -2,6 +2,7 @@ package it_geeks.info.gawla_app.Repositry.Models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity
@@ -35,6 +36,7 @@ public class Card {
     public Card() {
     }
 
+    @Ignore
     public Card(int salon_id, String card_name, String card_details, String card_type, String card_color, String card_cost) {
         this.salon_id = salon_id;
         this.card_name = card_name;
@@ -44,6 +46,7 @@ public class Card {
         this.card_cost = card_cost;
     }
 
+    @Ignore
     public Card(String card_name, String card_details, String card_type, String card_color, String card_cost, int count) {
         this.card_name = card_name;
         this.card_details = card_details;

@@ -2,6 +2,7 @@ package it_geeks.info.gawla_app.Repositry.Models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity
@@ -29,6 +30,7 @@ public class Country {
     public Country() {
     }
 
+    @Ignore
     public Country(int country_id, String country_title, String count_code, String country_timezone, String tel, String image) {
         this.country_id = country_id;
         this.country_title = country_title;

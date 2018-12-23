@@ -2,6 +2,7 @@ package it_geeks.info.gawla_app.Repositry.Models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity
@@ -20,6 +21,7 @@ public class ProductSubImage {
     public ProductSubImage() {
     }
 
+    @Ignore
     public ProductSubImage(int product_id, String imageUrl) {
         this.product_id = product_id;
         this.imageUrl = imageUrl;
