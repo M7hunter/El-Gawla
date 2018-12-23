@@ -1,6 +1,7 @@
 package it_geeks.info.gawla_app.ViewModels.Adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +15,7 @@ import java.util.List;
 
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
-import it_geeks.info.gawla_app.Views.ProductDetailsActivity;
+import it_geeks.info.gawla_app.Views.SalonActivity;
 
 public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImagesAdapter.Holder> {
 
@@ -29,24 +30,24 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-      return new Holder(LayoutInflater.from(context).inflate(R.layout.item_product_sub_image, viewGroup, false));
+        return new Holder(LayoutInflater.from(context).inflate(R.layout.item_product_sub_image, viewGroup, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull final Holder holder, int i) {
-        ProductSubImage subImage = imagesList.get(i);
+        final ProductSubImage subImage = imagesList.get(i);
 
         Picasso.with(context).load(subImage.getImageUrl()).placeholder(R.drawable.palceholder).into(holder.productSubImage);
 
         // events
-
-        int mainWidth, mainHeight;
-        mainWidth = ((ProductDetailsActivity) context).imProductImage.getWidth();
-        mainHeight = ((ProductDetailsActivity) context).imProductImage.getHeight();
-
-        holder.productSubImage.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // swap images
+                Drawable drawable = ((SalonActivity) context).imProductMainImage.getDrawable();
+                ((SalonActivity) context).imProductMainImage.setImageDrawable(holder.productSubImage.getDrawable());
+                holder.productSubImage.setImageDrawable(drawable);
 
             }
         });
@@ -57,7 +58,7 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
         return imagesList.size();
     }
 
-    class Holder extends RecyclerView.ViewHolder{
+    class Holder extends RecyclerView.ViewHolder {
 
         ImageView productSubImage;
 

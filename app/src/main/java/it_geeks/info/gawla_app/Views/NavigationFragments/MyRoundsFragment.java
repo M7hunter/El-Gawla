@@ -22,14 +22,15 @@ import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
+import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.ViewModels.Adapters.RoundsPagerAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
-import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Views.NotificationActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -95,11 +96,11 @@ public class MyRoundsFragment extends Fragment {
                             SharedPrefManager.getInstance(getActivity()).clearUser();
                         }
 
-                        Toast.makeText(MainActivity.mainActivityInstance, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (NullPointerException e) { // errors of response body
-                    Toast.makeText(MainActivity.mainActivityInstance, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 initEmptyView(view);
@@ -107,11 +108,12 @@ public class MyRoundsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) { // errors of connection
-                Toast.makeText(MainActivity.mainActivityInstance, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 initEmptyView(view);
             }
         });
     }
+
 
     private List<Round> handleServerResponse(JsonObject object) {
         List<Round> rounds = new ArrayList<>();
@@ -119,14 +121,14 @@ public class MyRoundsFragment extends Fragment {
 
         for (int i = 0; i < roundsArray.size(); i++) {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
+//            int product_id = roundObj.get("product_id").getAsInt();
+            int salon_id = roundObj.get("salon_id").getAsInt();
             String product_name = roundObj.get("product_name").getAsString();
             String category_name = roundObj.get("category_name").getAsString();
             String country_name = roundObj.get("country_name").getAsString();
             String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
             String product_product_description = roundObj.get("product_product_description").getAsString();
             String product_image = roundObj.get("product_image").getAsString();
-            handleImages(roundObj);
-            handleCards(roundObj);
             String round_start_time = roundObj.get("round_start_time").getAsString();
             String round_end_time = roundObj.get("round_end_time").getAsString();
             String first_join_time = roundObj.get("first_join_time").getAsString();
@@ -135,15 +137,23 @@ public class MyRoundsFragment extends Fragment {
             String round_time = roundObj.get("round_time").getAsString();
             String rest_time = roundObj.get("rest_time").getAsString();
 
+            // save product images in locale storage
+            GawlaDataBse.getGawlaDatabase(getActivity()).productImageDao().removeSubImages( GawlaDataBse.getGawlaDatabase(getActivity()).productImageDao().getSubImagesById(i));
+            GawlaDataBse.getGawlaDatabase(getActivity()).productImageDao().insertSubImages(handleImages(roundObj, i));
+
+            // save product cards in locale storage
+            GawlaDataBse.getGawlaDatabase(getActivity()).cardDao().removeCards( GawlaDataBse.getGawlaDatabase(getActivity()).cardDao().getCardsById(salon_id));
+            GawlaDataBse.getGawlaDatabase(getActivity()).cardDao().insertCards(handleCards(roundObj, salon_id));
+
             rounds.add(
-                    new Round(product_name,
+                    new Round(i,
+                            salon_id,
+                            product_name,
                             category_name,
                             country_name,
                             product_commercial_price,
                             product_product_description,
                             product_image,
-                            handleImages(roundObj),
-                            handleCards(roundObj),
                             round_start_time,
                             round_end_time,
                             first_join_time,
@@ -156,32 +166,34 @@ public class MyRoundsFragment extends Fragment {
         return rounds;
     }
 
-    private List<String> handleImages(JsonObject roundObj) {
+    private List<ProductSubImage> handleImages(JsonObject roundObj, int product_id) {
         JsonArray product_images = roundObj.get("product_images").getAsJsonArray();
-        List<String> product_imagesList = new ArrayList<>();
 
-        for (int j = 0; j < product_images.size(); j++) {
-            String s = product_images.get(j).getAsString();
-            product_imagesList.add(s);
+        List<ProductSubImage> subImagesList = new ArrayList<>();
+
+        for (int i = 0; i < product_images.size(); i++) {
+            ProductSubImage subImage = new ProductSubImage(product_id, product_images.get(i).getAsString());
+            subImagesList.add(subImage);
         }
 
-        return product_imagesList;
+        return subImagesList;
     }
 
-    private List<Card> handleCards(JsonObject roundObj) {
+    private List<Card> handleCards(JsonObject roundObj, int salon_id) {
         JsonArray salon_cards = roundObj.get("salon_cards").getAsJsonArray();
+
         List<Card> salon_cardsList = new ArrayList<>();
 
         for (int j = 0; j < salon_cards.size(); j++) {
             JsonObject cardObj = salon_cards.get(j).getAsJsonObject();
-            int card_id = cardObj.get("card_id").getAsInt();
-            String card_name = cardObj.get("card_name").getAsString();
-            String card_details = cardObj.get("card_details").getAsString();
-            String card_type = cardObj.get("card_type").getAsString();
-            String card_color = cardObj.get("card_color").getAsString();
-            String card_cost = cardObj.get("card_cost").getAsString();
+//            int card_id = cardObj.get("id").getAsInt();
+            String card_name = cardObj.get("name").getAsString();
+            String card_details = cardObj.get("details").getAsString();
+            String card_type = cardObj.get("type").getAsString();
+            String card_color = cardObj.get("color").getAsString();
+            String card_cost = cardObj.get("cost").getAsString();
 
-            salon_cardsList.add(new Card(card_id, card_name, card_details, card_type, card_color, card_cost));
+            salon_cardsList.add(new Card(salon_id, card_name, card_details, card_type, card_color, card_cost));
         }
 
         return salon_cardsList;

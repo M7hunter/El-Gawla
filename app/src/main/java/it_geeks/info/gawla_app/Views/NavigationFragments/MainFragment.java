@@ -26,6 +26,7 @@ import it_geeks.info.gawla_app.Repositry.Models.WinnerNews;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.ViewModels.SalonsViewModel;
 import it_geeks.info.gawla_app.Views.AllSalonsActivity;
+import it_geeks.info.gawla_app.Views.NotificationActivity;
 
 public class MainFragment extends Fragment {
 
@@ -42,9 +43,10 @@ public class MainFragment extends Fragment {
 
     private List<WinnerNews> winnerNewsList = new ArrayList<>();
 
+    View view = null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        view = inflater.inflate(R.layout.fragment_main, container, false);
 
         initViews(view);
 
@@ -53,6 +55,13 @@ public class MainFragment extends Fragment {
         initWinnersRecycler(view);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (view != null) initViews(view);
     }
 
     private void initViews(View view) {
@@ -65,6 +74,13 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AllSalonsActivity.class));
+            }
+        });
+
+        view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),NotificationActivity.class));
             }
         });
     }

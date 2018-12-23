@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app.Views;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,8 @@ import it_geeks.info.gawla_app.ViewModels.Adapters.CountrySpinnerAdapter;
 
 public class AllSalonsActivity extends AppCompatActivity {
 
+    public static Activity allSalonsActivityInstance;
+
     AppCompatSpinner countrySpinner;
     ArrayList<Country> countries = new ArrayList<>();
 
@@ -40,6 +43,8 @@ public class AllSalonsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         changeStatusBarColor("#ffffff");
         setContentView(R.layout.activity_all_salons);
+
+        allSalonsActivityInstance = this;
 
         initViews();
 
@@ -63,7 +68,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void getCountries() {
-        countries = (ArrayList<Country>) GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).CountryDao().getCountries();
+        countries = (ArrayList<Country>) GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).countryDao().getCountries();
     }
 
     private void initCountriesSpinner() {
@@ -85,11 +90,11 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void getSalonsData() {
-        roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).RoundDao().getRounds();
+        roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRounds();
         Salons salons = null;
         for (Round round : roundsList) {
             if (salons == null) {
-                List<Round> rounds = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).RoundDao().getRoundsByDate(round.getRound_date());
+                List<Round> rounds = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(round.getRound_date());
                 salons = new Salons(round.getRound_date(), rounds);
                 salonsList.add(salons);
 
@@ -98,7 +103,7 @@ public class AllSalonsActivity extends AppCompatActivity {
                     return;
 
                 } else { // !added
-                    List<Round> rounds = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).RoundDao().getRoundsByDate(round.getRound_date());
+                    List<Round> rounds = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(round.getRound_date());
                     salons = new Salons(round.getRound_date(), rounds);
                     salonsList.add(salons);
                 }

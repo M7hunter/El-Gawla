@@ -31,7 +31,6 @@
         <activity android:name=".Views.LoginActivities.ForgetPasswordActivity" />
         <activity android:name=".Views.LoginActivities.CreateAccountActivity" />
         <activity android:name=".Views.LoginActivities.LoginActivity" />
-        <activity android:name=".Views.ProductDetailsActivity" />
         <activity android:name=".Views.MenuOptions.SettingsActivity" />
         <activity android:name=".Views.MenuOptions.MoreAboutGawlaActivity" />
         <activity android:name=".Views.MenuOptions.PrivacyPolicyActivity" />

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_product_details"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xxlarge"
+            android:layout_marginBottom="@dimen/margin_small_minus"
+            app:cardCornerRadius="@dimen/margin_medium">
+
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+                <!-- scroll main layout -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- header & back container -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center|right"
+                        android:orientation="horizontal">
+
+                        <!-- header -->
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_large"
+                            android:layout_weight="1"
+                            android:text="@string/Product_displayed"
+                            android:textColor="@color/battleshipGrey"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+
+                        <!-- back -->
+                        <ImageView
+                            android:id="@+id/close_bottom_sheet_product_details"
+                            android:layout_width="@dimen/icon_notification"
+                            android:layout_height="@dimen/icon_notification"
+                            android:layout_margin="@dimen/margin_large"
+                            android:padding="@dimen/margin_medium"
+                            android:src="@drawable/out" />
+
+                    </LinearLayout>
+
+                    <!-- main image -->
+                    <ImageView
+                        android:id="@+id/product_details_main_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:padding="@dimen/margin_small"
+                        android:transitionName="product_im" />
+
+                    <!-- small images recycler -->
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/product_details_images_recycler"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="@dimen/margin_small"
+                        android:scrollbars="none" />
+
+                    <!-- name -->
+                    <TextView
+                        android:id="@+id/product_details_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:padding="@dimen/margin_small"
+                        android:text="@string/no_content"
+                        android:textColor="@color/duskBlue"
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
+
+                    <!-- separator -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="@dimen/margin_large"
+                        android:layout_marginEnd="@dimen/margin_large"
+                        android:background="@color/paleGreyTwo" />
+
+                    <!-- price container -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <!-- price label -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_large"
+                            android:layout_marginTop="@dimen/margin_small"
+                            android:layout_marginBottom="@dimen/margin_small"
+                            android:text="@string/Prod_price"
+                            android:textSize="@dimen/text_size_large"
+                            android:textStyle="bold" />
+
+                        <!-- price -->
+                        <TextView
+                            android:id="@+id/product_details_price"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_small"
+                            android:layout_marginBottom="@dimen/margin_small"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/no_content"
+                            android:textColor="@color/azureTwo"
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <!-- separator -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="@dimen/margin_large"
+                        android:layout_marginEnd="@dimen/margin_large"
+                        android:background="@color/paleGreyTwo" />
+
+                    <!-- description container -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:orientation="vertical">
+
+                        <!-- description label -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_large"
+                            android:padding="@dimen/margin_tiny"
+                            android:text="@string/the_description"
+                            android:textSize="@dimen/text_size_large"
+                            android:textStyle="bold" />
+
+                        <!-- description -->
+                        <TextView
+                            android:id="@+id/product_details_descriptions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_large"
+                            android:layout_marginRight="@dimen/margin_large"
+                            android:layout_marginBottom="@dimen/margin_large"
+                            android:gravity="start"
+                            android:padding="@dimen/margin_tiny"
+                            android:text="@string/no_content"
+                            android:textSize="@dimen/text_size_medium" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+        </android.support.v7.widget.CardView>
+
+    </FrameLayout>
+</RelativeLayout>

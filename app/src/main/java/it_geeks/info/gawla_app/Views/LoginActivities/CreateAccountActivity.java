@@ -164,9 +164,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void connectToServer(final RequestMainBody requestMainBody, final User user) {
-        try {
-
-        }catch (Exception e){ }
         Call<JsonObject> call = RetrofitClient.getInstance(CreateAccountActivity.this).getAPI().request(requestMainBody);
         call.enqueue(new Callback<JsonObject>() {
             @Override

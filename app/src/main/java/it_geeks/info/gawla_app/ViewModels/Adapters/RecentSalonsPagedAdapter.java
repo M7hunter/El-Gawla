@@ -1,22 +1,25 @@
 package it_geeks.info.gawla_app.ViewModels.Adapters;
 
+import android.app.ActivityOptions;
 import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
 import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
+import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Views.SalonActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
@@ -37,9 +40,8 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
         final Round round = getItem(position);
-
         // bind
         if (round != null) {
             try {
@@ -47,11 +49,12 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
                         .load(round.getProduct_image())
                         .placeholder(context.getResources().getDrawable(R.drawable.palceholder))
                         .into(viewHolder.imgProductImage);
-            }catch (Exception e){}
+            } catch (Exception e) {}
 
             viewHolder.tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
             viewHolder.tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
             viewHolder.tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getRound_start_time()));
+            viewHolder.cardsRecycler.setAdapter(new SalonCardsAdapter(context, GawlaDataBse.getGawlaDatabase(context).cardDao().getCardsById(round.getSalon_id())));
 
             // open round page
             viewHolder.btnJoinRound.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +63,7 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
                     Intent i = new Intent(context, SalonActivity.class);
                     // send round's data to round page
                     i.putExtra("product_id", round.getProduct_id());
+                    i.putExtra("salon_id", round.getSalon_id());
                     i.putExtra("product_name", round.getProduct_name());
                     i.putExtra("category_name", round.getCategory_name());
                     i.putExtra("country_name", round.getCountry_name());
@@ -74,7 +78,13 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
                     i.putExtra("round_time", round.getRound_time());
                     i.putExtra("rest_time", round.getRest_time());
 
-                    context.startActivity(i);
+                    // start with transition
+                    Pair[] pairs = new Pair[2];
+                    pairs[0] = new Pair<View, String>(viewHolder.imgProductImage, "transProductImage");
+                    pairs[1] = new Pair<View, String>(viewHolder.tvProductName, "transProductName");
+
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((MainActivity) context, pairs);
+                    context.startActivity(i, options.toBundle());
                 }
             });
         }
@@ -84,6 +94,7 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
 
         TextView tvProductName, tvProductCategory, tvStartTime, btnJoinRound;
         ImageView imgProductImage;
+        RecyclerView cardsRecycler;
 
         private ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,7 +103,12 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
             tvProductName = itemView.findViewById(R.id.round_product_name);
             tvProductCategory = itemView.findViewById(R.id.round_product_category);
             tvStartTime = itemView.findViewById(R.id.round_start_time);
+
+            // nested recycler
             btnJoinRound = itemView.findViewById(R.id.round_btn_join);
+            cardsRecycler = itemView.findViewById(R.id.salon_cards_recycler);
+            cardsRecycler.setHasFixedSize(true);
+            cardsRecycler.setLayoutManager(new LinearLayoutManager(context, 1, false));
         }
     }
 }

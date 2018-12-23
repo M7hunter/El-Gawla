@@ -61,8 +61,8 @@ public class SalonsViewModel extends AndroidViewModel {
                             boolean status = mainObj.get("status").getAsBoolean();
 
                             if (status) { // no errors
-                                gawlaDataBse.RoundDao().removeRounds(gawlaDataBse.RoundDao().getRounds()); // remove old list
-                                gawlaDataBse.RoundDao().insertRoundList(handleServerResponse(mainObj)); // add new list
+                                gawlaDataBse.roundDao().removeRounds(gawlaDataBse.roundDao().getRounds()); // remove old list
+                                gawlaDataBse.roundDao().insertRoundList(handleServerResponse(mainObj)); // add new list
 
                             } else { // errors from server
                                 if (handleServerErrors(mainObj).equals("you are not logged in.")) {
@@ -93,6 +93,7 @@ public class SalonsViewModel extends AndroidViewModel {
         for (int i = 0; i < roundsArray.size(); i++) {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
 //            int product_id = roundObj.get("product_id").getAsInt();
+            int salon_id = roundObj.get("salon_id").getAsInt();
             String product_name = roundObj.get("product_name").getAsString();
             String category_name = roundObj.get("category_name").getAsString();
             String country_name = roundObj.get("country_name").getAsString();
@@ -107,11 +108,17 @@ public class SalonsViewModel extends AndroidViewModel {
             String round_time = roundObj.get("round_time").getAsString();
             String rest_time = roundObj.get("rest_time").getAsString();
 
+            // save product images in locale storage
             gawlaDataBse.productImageDao().removeSubImages(gawlaDataBse.productImageDao().getSubImagesById(i));
             gawlaDataBse.productImageDao().insertSubImages(handleImages(roundObj, i));
 
+            // save product cards in locale storage
+            gawlaDataBse.cardDao().removeCards(gawlaDataBse.cardDao().getCardsById(salon_id));
+            gawlaDataBse.cardDao().insertCards(handleCards(roundObj, salon_id));
+
             rounds.add(
                     new Round(i,
+                            salon_id,
                             product_name,
                             category_name,
                             country_name,
@@ -130,33 +137,34 @@ public class SalonsViewModel extends AndroidViewModel {
         return rounds;
     }
 
-    private List<ProductSubImage> handleImages(JsonObject roundObj, int id) {
+    private List<ProductSubImage> handleImages(JsonObject roundObj, int product_id) {
         JsonArray product_images = roundObj.get("product_images").getAsJsonArray();
 
         List<ProductSubImage> subImagesList = new ArrayList<>();
 
         for (int i = 0; i < product_images.size(); i++) {
-            ProductSubImage subImage = new ProductSubImage(id, product_images.get(i).getAsString());
+            ProductSubImage subImage = new ProductSubImage(product_id, product_images.get(i).getAsString());
             subImagesList.add(subImage);
         }
 
         return subImagesList;
     }
 
-    private List<Card> handleCards(JsonObject roundObj) {
+    private List<Card> handleCards(JsonObject roundObj, int salon_id) {
         JsonArray salon_cards = roundObj.get("salon_cards").getAsJsonArray();
+
         List<Card> salon_cardsList = new ArrayList<>();
 
         for (int j = 0; j < salon_cards.size(); j++) {
             JsonObject cardObj = salon_cards.get(j).getAsJsonObject();
-            int card_id = cardObj.get("id").getAsInt();
+//            int card_id = cardObj.get("id").getAsInt();
             String card_name = cardObj.get("name").getAsString();
             String card_details = cardObj.get("details").getAsString();
             String card_type = cardObj.get("type").getAsString();
             String card_color = cardObj.get("color").getAsString();
             String card_cost = cardObj.get("cost").getAsString();
 
-            salon_cardsList.add(new Card(card_id, card_name, card_details, card_type, card_color, card_cost));
+            salon_cardsList.add(new Card(salon_id, card_name, card_details, card_type, card_color, card_cost));
         }
 
         return salon_cardsList;
@@ -173,7 +181,7 @@ public class SalonsViewModel extends AndroidViewModel {
 
     public void init() {
         getRoundsFromServer(); // refresh list
-        DataSource.Factory<Integer, Round> factory = gawlaDataBse.RoundDao().getRoundsPaged();
+        DataSource.Factory<Integer, Round> factory = gawlaDataBse.roundDao().getRoundsPaged();
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
@@ -185,7 +193,7 @@ public class SalonsViewModel extends AndroidViewModel {
     }
 
     public LiveData<PagedList<Round>> getRoundsList() {
-        if (gawlaDataBse.RoundDao().getRounds().size() == 0) {
+        if (gawlaDataBse.roundDao().getRounds().size() == 0) {
             getRoundsFromServer();
         }
 

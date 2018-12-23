@@ -1,23 +1,50 @@
 package it_geeks.info.gawla_app.Repositry.Models;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity
 public class Card {
 
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo
     private int card_id;
 
+    @ColumnInfo
+    private int salon_id;
+
+    @ColumnInfo
     private String card_name;
 
+    @ColumnInfo
     private String card_details;
 
+    @ColumnInfo
     private String card_type;
 
+    @ColumnInfo
     private String card_color;
 
+    @ColumnInfo
     private String card_cost;
 
+    @ColumnInfo
     private int count;
 
-    public Card(int card_id, String card_name, String card_details, String card_type, String card_color, String card_cost) {
-        this.card_id = card_id;
+    public Card() {
+    }
+
+    public Card(int salon_id, String card_name, String card_details, String card_type, String card_color, String card_cost) {
+        this.salon_id = salon_id;
+        this.card_name = card_name;
+        this.card_details = card_details;
+        this.card_type = card_type;
+        this.card_color = card_color;
+        this.card_cost = card_cost;
+    }
+
+    public Card(String card_name, String card_details, String card_type, String card_color, String card_cost, int count) {
         this.card_name = card_name;
         this.card_details = card_details;
         this.card_type = card_type;
@@ -26,14 +53,12 @@ public class Card {
         this.count = count;
     }
 
-    public Card(int card_id, String card_name, String card_details, String card_type, String card_color, String card_cost, int count) {
-        this.card_id = card_id;
-        this.card_name = card_name;
-        this.card_details = card_details;
-        this.card_type = card_type;
-        this.card_color = card_color;
-        this.card_cost = card_cost;
-        this.count = count;
+    public int getSalon_id() {
+        return salon_id;
+    }
+
+    public void setSalon_id(int salon_id) {
+        this.salon_id = salon_id;
     }
 
     public int getCard_id() {

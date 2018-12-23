@@ -87,11 +87,11 @@ public class CardsFragment extends Fragment {
                             SharedPrefManager.getInstance(getActivity()).clearUser();
                         }
 
-                        Toast.makeText(MainActivity.mainActivityInstance, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (NullPointerException e) { // errors of response body
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.mainInstance, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 cardsProgress.setVisibility(View.GONE);
@@ -100,7 +100,7 @@ public class CardsFragment extends Fragment {
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) { // errors of connection
                 cardsProgress.setVisibility(View.GONE);
-                Toast.makeText(MainActivity.mainActivityInstance, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -119,7 +119,7 @@ public class CardsFragment extends Fragment {
             int count = cardObj.get("count").getAsInt();
 
             cardsList.add(
-                    new Card(card_id, card_name, card_details, card_type, card_color, card_cost, count));
+                    new Card(card_name, card_details, card_type, card_color, card_cost, count));
         }
     }
 
