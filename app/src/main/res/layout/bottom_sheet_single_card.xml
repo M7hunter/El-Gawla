@@ -46,7 +46,7 @@
                     android:background="@drawable/bg_circle_grey">
                     <!-- card icon -->
                     <View
-                        android:id="@+id/card_icon"
+                        android:id="@+id/single_card_icon"
                         android:layout_width="@dimen/single_card_width"
                         android:layout_height="@dimen/single_card_height"
                         android:layout_gravity="center"
@@ -60,6 +60,7 @@
 
                 <!-- card title -->
                 <TextView
+                    android:id="@+id/single_card_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -70,6 +71,7 @@
 
                 <!-- card description -->
                 <TextView
+                    android:id="@+id/single_card_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -116,6 +118,7 @@
 
                             <!-- price -->
                             <TextView
+                                android:id="@+id/single_card_cost"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/margin_small"

@@ -42,20 +42,15 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private List<TextView> upNumList = new ArrayList<>();
     private List<TextView> downNumList = new ArrayList<>();
 
-
     int joinStatus; // 0 = watcher, 1 = want to join, 2 = joined
     Button btnJoinRound;
     CardView more, notificationCard, confirmationLayout;
     LinearLayout addOfferLayout;
     FrameLayout overlayLayout;
 
-    TextView tvEndTime, tvProductName, tvProductPrice, salonId;
-    ImageView imProductImage;
-
     private Round round;
 
     private BottomSheetDialog mBottomSheetDialogActivateCard;
-    public BottomSheetDialog mBottomSheetDialogSingleCard;
     private BottomSheetDialog mBottomSheetDialogProductDetails;
 
     private PointF staringPoint = new PointF();
@@ -142,8 +137,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         }.start();
     }
-
-
 
     private void getRoundData(Bundle savedInstanceState) {
         String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time;
@@ -239,7 +232,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         confirmationLayout = findViewById(R.id.join_confirmation_layout);
         notificationCard = findViewById(R.id.round_notification_card);
         addOfferLayout = findViewById(R.id.add_offer_layout);
-
     }
 
     private void handleEvents() {
@@ -374,39 +366,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             }
         });
 
-        initBottomSheetSingleCard();
-
         mBottomSheetDialogActivateCard.setContentView(sheetView);
 
         Common.Instance(SalonActivity.this).setBottomSheetHeight(sheetView);
 
         mBottomSheetDialogActivateCard.getWindow().findViewById(R.id.design_bottom_sheet)
-                .setBackgroundResource(android.R.color.transparent);
-    }
-
-    private void initBottomSheetSingleCard() {
-        mBottomSheetDialogSingleCard = new BottomSheetDialog(this);
-        final View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_single_card, null);
-
-        //init bottom sheet views
-        //close bottom sheet
-        sheetView.findViewById(R.id.close_bottom_sheet_single_card).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mBottomSheetDialogSingleCard.isShowing()) {
-                    mBottomSheetDialogSingleCard.dismiss();
-
-                } else {
-                    mBottomSheetDialogSingleCard.show();
-                }
-            }
-        });
-
-        mBottomSheetDialogSingleCard.setContentView(sheetView);
-
-        Common.Instance(SalonActivity.this).setBottomSheetHeight(sheetView);
-
-        mBottomSheetDialogSingleCard.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
     }
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
@@ -108,5 +109,10 @@ public class Common {
                 }
             });
         }
+    }
+
+    public void changeDrawableViewColor(View v, String color) {
+        GradientDrawable background = (GradientDrawable) v.getBackground();
+        background.setColor(Color.parseColor(color));
     }
 }

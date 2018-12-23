@@ -58,8 +58,7 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
             viewHolder.tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getRound_start_time()));
             viewHolder.cardsRecycler.setAdapter(new SalonCardsAdapter(context, GawlaDataBse.getGawlaDatabase(context).cardDao().getCardsById(round.getSalon_id())));
 
-            GradientDrawable background = (GradientDrawable) viewHolder.tvProductCategory.getBackground();
-            background.setColor(Color.parseColor(round.getCategory_color()));
+            Common.Instance(context).changeDrawableViewColor(viewHolder.tvProductCategory, round.getCategory_color());
 
             // open round page
             viewHolder.btnJoinRound.setOnClickListener(new View.OnClickListener() {

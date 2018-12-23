@@ -64,6 +64,8 @@ public class RoundsPagerAdapter extends PagerAdapter {
         tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
         tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getRound_start_time()));
 
+        Common.Instance(context).changeDrawableViewColor(tvProductCategory, round.getCategory_color());
+
         // open round page
         btnJoinRound.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +74,7 @@ public class RoundsPagerAdapter extends PagerAdapter {
                 // send round's data to round page
                 i.putExtra("product_name", round.getProduct_name());
                 i.putExtra("category_name", round.getCategory_name());
+                i.putExtra("category_color", round.getCategory_color());
                 i.putExtra("country_name", round.getCountry_name());
                 i.putExtra("product_commercial_price", round.getProduct_commercial_price());
                 i.putExtra("product_product_description", round.getProduct_product_description());
