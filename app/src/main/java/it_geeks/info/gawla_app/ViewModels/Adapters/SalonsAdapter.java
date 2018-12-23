@@ -59,6 +59,8 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
             viewHolder.tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getRound_start_time()));
             viewHolder.cardsRecycler.setAdapter(new SalonCardsAdapter(context, GawlaDataBse.getGawlaDatabase(context).cardDao().getCardsById(round.getSalon_id())));
 
+            Common.Instance(context).changeDrawableViewColor(viewHolder.tvProductCategory, round.getCategory_color());
+
             // open round page
             viewHolder.btnJoinRound.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -69,6 +71,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                     i.putExtra("salon_id", round.getSalon_id());
                     i.putExtra("product_name", round.getProduct_name());
                     i.putExtra("category_name", round.getCategory_name());
+                    i.putExtra("category_color", round.getCategory_color());
                     i.putExtra("country_name", round.getCountry_name());
                     i.putExtra("product_commercial_price", round.getProduct_commercial_price());
                     i.putExtra("product_product_description", round.getProduct_product_description());
