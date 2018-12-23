@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -97,7 +98,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private void initDivs() {
 
         /// for timedown TODO TimeDown View Init
-        for (int i = 0; i <= 12; i++) {
+        for (int i = 1; i <= 12; i++) {
             String divUpID = "div_up" + i;
             int resDivIDUp = getResources().getIdentifier(divUpID, "id", getPackageName());
             upDivsList.add((RelativeLayout) findViewById(resDivIDUp));
@@ -120,20 +121,33 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     //timedown
     private void startTimeDown() {
         doSecond();
-        //doMiute();
-        //  doHour();
+
     }
 
     private void doSecond() {
         // second
-        final CountDownTimer second = new CountDownTimer(60000, 1000) {
-            public void onTick(final long millisUntilFinished) {
-                int num = (int) millisUntilFinished / 1000;
 
-                final Calendar c = Calendar.getInstance();
+
+        long start = Common.Instance(SalonActivity.this).formatTimeToMillis("01:55:00");
+        long end = Common.Instance(SalonActivity.this).formatTimeToMillis("02:05:00");
+        long value = end - start;
+
+
+        final CountDownTimer second = new CountDownTimer(value, 1000) {
+            public void onTick(final long millisUntilFinished) {
+
+                Calendar calendar = Common.Instance(SalonActivity.this).formatMillisToTime(millisUntilFinished);
+                int hour = calendar.get(Calendar.HOUR);
+                int minute = calendar.get(Calendar.MINUTE);
+                int second = calendar.get(Calendar.SECOND);
+
+                Log.d("mo7", "doSecond: " + hour +" : "+ minute + " : " + second);
 
                 GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(SalonActivity.this,upDivsList,downDivsList,upNumList,downNumList,"second");
-                gawlaTimeDownSecond.NumberTick(num);
+                gawlaTimeDownSecond.NumberTick(second+1);
+
+                GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(SalonActivity.this,upDivsList,downDivsList,upNumList,downNumList,"minute");
+                gawlaTimeDownMinute.NumberTick(minute+1);
 
             }
 
@@ -142,6 +156,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         }.start();
     }
+
 
 
 
