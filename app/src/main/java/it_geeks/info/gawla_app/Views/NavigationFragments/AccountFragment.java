@@ -176,9 +176,9 @@ public class AccountFragment extends Fragment {
     private void UploadImage(final String encodedImage) {
         imageProgress.setVisibility(View.VISIBLE);
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
                 RetrofitClient.getInstance(getActivity()).getAPI().request(new RequestMainBody(new Data("updateUserData"), new Request(user_id, api_token, encodedImage)))
                         .enqueue(new Callback<JsonObject>() {
                             @Override
@@ -194,7 +194,7 @@ public class AccountFragment extends Fragment {
                                         Toast.makeText(getActivity(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                                     }
 
-                                } catch (NullPointerException e) {
+                                } catch (NullPointerException e) { // response errors
                                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                                 imageProgress.setVisibility(View.GONE);
@@ -202,16 +202,16 @@ public class AccountFragment extends Fragment {
                             }
 
                             @Override
-                            public void onFailure(Call<JsonObject> call, Throwable t) {
+                            public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
                                 imageProgress.setVisibility(View.GONE);
                                 edit_user_image.setVisibility(View.VISIBLE);
-                                upload_user_image.setVisibility(View.VISIBLE);
+                                upload_user_image.setVisibility(View.VISIBLE); // to try again
                                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
             }
-//        }).start();
-//    }
+        }).start();
+    }
 
     private String handleServerErrors(JsonObject object) {
         String error = "no errors";
@@ -222,5 +222,3 @@ public class AccountFragment extends Fragment {
         return error;
     }
 }
-
-
