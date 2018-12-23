@@ -67,7 +67,7 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
 
             cardDescription = itemView.findViewById(R.id.bottom_card_status);
             cardIcon = itemView.findViewById(R.id.bottom_card_icon);
-            btn = itemView.findViewById(R.id.bottom_cards_btn);
+            btn = itemView.findViewById(R.id.bottom_card_btn);
         }
     }
 }
