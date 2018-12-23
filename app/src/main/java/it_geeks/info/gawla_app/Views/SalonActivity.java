@@ -5,7 +5,6 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -21,10 +20,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -33,6 +32,7 @@ import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
+import it_geeks.info.gawla_app.ViewModels.Adapters.BottomCardsAdapter;
 import it_geeks.info.gawla_app.ViewModels.Adapters.ProductSubImagesAdapter;
 
 public class SalonActivity extends AppCompatActivity implements View.OnTouchListener {
@@ -40,24 +40,20 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private RelativeLayout div_up1, div_down1, div_up2, div_down2, div_up3, div_down3, div_up4, div_down4,
             div_up5, div_down5, div_up6, div_down6, div_up7, div_down7, div_up8, div_down8,
             div_up9, div_down9, div_up10, div_down10, div_up11, div_down11, div_up12, div_down12;
-    private TextView Num_Up1 , Num_down1, Num_Up2, Num_down2 ,Num_Up3 , Num_down3, Num_Up4, Num_down4 ,
-            Num_Up5 , Num_down5, Num_Up6, Num_down6 ,Num_Up7 , Num_down7, Num_Up8, Num_down8,
-            Num_Up9 , Num_down9, Num_Up10, Num_down10 ,Num_Up11 , Num_down11, Num_Up12, Num_down12;
-
-
-    int joinStatus; // 0 = watcher, 1 = want to join, 2 = joined
-    Button btnJoinRound;
-    CardView more, notificationCard, confirmationLayout;
-    LinearLayout addOfferLayout;
-    FrameLayout overlayLayout;
-
-    TextView tvEndTime, tvProductName, tvProductPrice, salonId;
-    ImageView imProductImage;
+    private TextView Num_Up1, Num_down1, Num_Up2, Num_down2, Num_Up3, Num_down3, Num_Up4, Num_down4,
+            Num_Up5, Num_down5, Num_Up6, Num_down6, Num_Up7, Num_down7, Num_Up8, Num_down8,
+            Num_Up9, Num_down9, Num_Up10, Num_down10, Num_Up11, Num_down11, Num_Up12, Num_down12;
 
     private Round round;
 
+    private int joinStatus; // 0 = watcher, 1 = want to join, 2 = joined
+    private Button btnJoinRound;
+    private CardView more, notificationCard, confirmationLayout;
+    private LinearLayout addOfferLayout;
+    private FrameLayout overlayLayout;
+
     private BottomSheetDialog mBottomSheetDialogActivateCard;
-    private BottomSheetDialog mBottomSheetDialogSingleCard;
+    public BottomSheetDialog mBottomSheetDialogSingleCard;
     private BottomSheetDialog mBottomSheetDialogProductDetails;
 
     private PointF staringPoint = new PointF();
@@ -85,6 +81,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         initCardsIcon();
 
+        initBottomSheetProductDetails();
+
         initBottomSheetActivateCards();
 
         initViews();
@@ -96,18 +94,18 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private void startTimeDown() {
         doSecond();
         doMiute();
-      //  doHour();
+        //  doHour();
     }
 
-    private void doSecond(){
+    private void doSecond() {
         // second
         final CountDownTimer second = new CountDownTimer(60000, 1000) {
             public void onTick(final long millisUntilFinished) {
-                int num = (int) millisUntilFinished/1000;
+                int num = (int) millisUntilFinished / 1000;
 
                 final Calendar c = Calendar.getInstance();
 
-                GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(SalonActivity.this,div_up1,div_down1,div_up2,div_down2,div_up3,div_down3,div_up4,div_down4,Num_Up1,Num_down1,Num_Up2,Num_down2,Num_Up3,Num_down3,Num_Up4,Num_down4);
+                GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(SalonActivity.this, div_up1, div_down1, div_up2, div_down2, div_up3, div_down3, div_up4, div_down4, Num_Up1, Num_down1, Num_Up2, Num_down2, Num_Up3, Num_down3, Num_Up4, Num_down4);
                 gawlaTimeDownSecond.NumberTick(num);
 
             }
@@ -117,17 +115,18 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         }.start();
     }
-    private void doMiute(){
+
+    private void doMiute() {
         // Minute
         final CountDownTimer minute = new CountDownTimer(3600000, 60000) {
             public void onTick(final long millisUntilFinished) {
-                int num = (int) millisUntilFinished/60000;
+                int num = (int) millisUntilFinished / 60000;
 
                 final Calendar c = Calendar.getInstance();
 
-                GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(SalonActivity.this,div_up5,div_down5,div_up6,div_down6,div_up7,div_down7,div_up8,div_down8,Num_Up5,Num_down5,Num_Up6,Num_down6,Num_Up7,Num_down7,Num_Up8,Num_down8);
+                GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(SalonActivity.this, div_up5, div_down5, div_up6, div_down6, div_up7, div_down7, div_up8, div_down8, Num_Up5, Num_down5, Num_Up6, Num_down6, Num_Up7, Num_down7, Num_Up8, Num_down8);
                 gawlaTimeDownMinute.NumberTick(num);
-                
+
             }
 
             public void onFinish() {
@@ -136,15 +135,16 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         }.start();
     }
-    private void doHour(){
+
+    private void doHour() {
         // hour
         new CountDownTimer(86400000, 3600000) {
             public void onTick(final long millisUntilFinished) {
-                int num = (int) millisUntilFinished/3600000;
+                int num = (int) millisUntilFinished / 3600000;
 
                 final Calendar c = Calendar.getInstance();
 
-                GawlaTimeDown gawlaTimeDownHour = new GawlaTimeDown(SalonActivity.this,div_up9,div_down9,div_up10,div_down10,div_up11,div_down11,div_up12,div_down12,Num_Up9,Num_down9,Num_Up10,Num_down10,Num_Up11,Num_down11,Num_Up12,Num_down12);
+                GawlaTimeDown gawlaTimeDownHour = new GawlaTimeDown(SalonActivity.this, div_up9, div_down9, div_up10, div_down10, div_up11, div_down11, div_up12, div_down12, Num_Up9, Num_down9, Num_Up10, Num_down10, Num_Up11, Num_down11, Num_Up12, Num_down12);
                 gawlaTimeDownHour.NumberTick(num);
 
             }
@@ -157,7 +157,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void getRoundData(Bundle savedInstanceState) {
-        String product_name, product_image, product_category, product_price, product_description, round_start_time, round_end_time;
+        String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time;
         int product_id, salon_id;
 
         if (savedInstanceState == null) {
@@ -168,6 +168,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 salon_id = extras.getInt("salon_id");
                 product_name = extras.getString("product_name");
                 product_category = extras.getString("category_name");
+                category_color = extras.getString("category_color");
                 product_price = extras.getString("product_commercial_price");
                 product_description = extras.getString("product_product_description");
                 product_image = extras.getString("product_image");
@@ -178,6 +179,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         salon_id,
                         product_name,
                         product_category,
+                        category_color,
                         extras.getString("country_name"),
                         product_price,
                         product_description,
@@ -196,6 +198,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             salon_id = savedInstanceState.getInt("salon_id");
             product_name = (String) savedInstanceState.getSerializable("product_name");
             product_category = (String) savedInstanceState.getSerializable("category_name");
+            category_color = (String) savedInstanceState.getSerializable("category_color");
             product_price = (String) savedInstanceState.getSerializable("product_commercial_price");
             product_description = (String) savedInstanceState.getSerializable("product_product_description");
             product_image = (String) savedInstanceState.getSerializable("product_image");
@@ -206,6 +209,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     salon_id,
                     product_name,
                     product_category,
+                    category_color,
                     (String) savedInstanceState.getSerializable("country_name"),
                     product_price,
                     product_description,
@@ -221,16 +225,20 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void initRoundViews_setData() {
+        TextView tvEndTime, tvProductName, tvProductPrice, salonId;
+        ImageView imProductImage;
         // init views
         tvEndTime = findViewById(R.id.salon_end_time);
         tvProductName = findViewById(R.id.salon_round_product_name);
         tvProductPrice = findViewById(R.id.salon_round_product_price);
         imProductImage = findViewById(R.id.salon_round_product_image);
+        salonId = findViewById(R.id.salon_number);
 
         // set data
         tvEndTime.setText(round.getRound_end_time());
         tvProductName.setText(round.getProduct_name());
         tvProductPrice.setText(round.getProduct_commercial_price());
+        salonId.setText(String.valueOf(round.getSalon_id()));
 
         Picasso.with(SalonActivity.this).load(round.getProduct_image()).placeholder(R.drawable.palceholder).into(imProductImage);
     }
@@ -241,6 +249,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         btnJoinRound = findViewById(R.id.btn_join_round);
         confirmationLayout = findViewById(R.id.join_confirmation_layout);
         notificationCard = findViewById(R.id.round_notification_card);
+        addOfferLayout = findViewById(R.id.add_offer_layout);
         addOfferLayout = findViewById(R.id.add_offer_layout);
 
         /// for timedown TODO TimeDown View Init
@@ -408,6 +417,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_active_cards, null);
 
         //init bottom sheet views
+        RecyclerView cardsRecycler = sheetView.findViewById(R.id.salon_cards_bottom_recycler);
+        cardsRecycler.setHasFixedSize(true);
+        cardsRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, 1, false));
+        cardsRecycler.setAdapter(new BottomCardsAdapter(SalonActivity.this, GawlaDataBse.getGawlaDatabase(SalonActivity.this).cardDao().getCardsById(round.getSalon_id())));
+
         //close bottom sheet
         sheetView.findViewById(R.id.close_bottom_sheet_activate_cards).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -423,15 +437,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         initBottomSheetSingleCard();
 
-        //open single card sheet
-        sheetView.findViewById(R.id.btn_activate_card).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mBottomSheetDialogSingleCard.show();
-            }
-        });
-
         mBottomSheetDialogActivateCard.setContentView(sheetView);
+
+        Common.Instance(SalonActivity.this).setBottomSheetHeight(sheetView);
 
         mBottomSheetDialogActivateCard.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);

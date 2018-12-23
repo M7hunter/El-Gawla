@@ -26,6 +26,9 @@ public class Round {
     private String category_name;
 
     @ColumnInfo
+    private String category_color;
+
+    @ColumnInfo
     private String country_name;
 
     @ColumnInfo
@@ -69,11 +72,12 @@ public class Round {
     }
 
     @Ignore
-    public Round(int product_id, int salon_id,String product_name, String category_name, String country_name, String product_commercial_price, String product_product_description, String product_image, String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time) {
+    public Round(int product_id, int salon_id,String product_name, String category_name, String category_color, String country_name, String product_commercial_price, String product_product_description, String product_image, String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time) {
         this.product_id = product_id;
         this.salon_id = salon_id;
         this.product_name = product_name;
         this.category_name = category_name;
+        this.category_color = category_color;
         this.country_name = country_name;
         this.product_commercial_price = product_commercial_price;
         this.product_product_description = product_product_description;
@@ -118,6 +122,14 @@ public class Round {
 
     public void setCategory_name(String category_name) {
         this.category_name = category_name;
+    }
+
+    public String getCategory_color() {
+        return category_color;
+    }
+
+    public void setCategory_color(String category_color) {
+        this.category_color = category_color;
     }
 
     public String getCountry_name() {
