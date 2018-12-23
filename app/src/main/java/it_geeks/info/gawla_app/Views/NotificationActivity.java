@@ -17,30 +17,44 @@ public class NotificationActivity extends AppCompatActivity {
 
     RecyclerView recyclerNatificationList;
 
+    ArrayList<String> arrayList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
+
         initViews();
-        ArrayList<String> arrayList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+
+        getData();
+
+        initNotiRecycler();
+    }
+
+    private void getData() {
+        for (int i = 0; i < 6; i++) {
             arrayList.add(i+"");
         }
-
-
-        recyclerNatificationList.setLayoutManager(new LinearLayoutManager(this));
-        NotificationAdapter notificationAdapter = new NotificationAdapter(NotificationActivity.this,arrayList);
-        recyclerNatificationList.setAdapter(notificationAdapter);
     }
 
     private void initViews() {
-        recyclerNatificationList = findViewById(R.id.natification_list);
+        View back = findViewById(R.id.app_settings_back);
         // back
-        findViewById(R.id.app_settings_back).setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+        back.requestFocus();
     }
+
+    private void initNotiRecycler() {
+        recyclerNatificationList = findViewById(R.id.natification_list);
+        recyclerNatificationList.setLayoutManager(new LinearLayoutManager(this));
+        NotificationAdapter notificationAdapter = new NotificationAdapter(NotificationActivity.this,arrayList);
+        recyclerNatificationList.setAdapter(notificationAdapter);
+
+    }
+
 }

@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -37,12 +38,10 @@ import it_geeks.info.gawla_app.ViewModels.Adapters.ProductSubImagesAdapter;
 
 public class SalonActivity extends AppCompatActivity implements View.OnTouchListener {
 
-    private RelativeLayout div_up1, div_down1, div_up2, div_down2, div_up3, div_down3, div_up4, div_down4,
-            div_up5, div_down5, div_up6, div_down6, div_up7, div_down7, div_up8, div_down8,
-            div_up9, div_down9, div_up10, div_down10, div_up11, div_down11, div_up12, div_down12;
-    private TextView Num_Up1 , Num_down1, Num_Up2, Num_down2 ,Num_Up3 , Num_down3, Num_Up4, Num_down4 ,
-            Num_Up5 , Num_down5, Num_Up6, Num_down6 ,Num_Up7 , Num_down7, Num_Up8, Num_down8,
-            Num_Up9 , Num_down9, Num_Up10, Num_down10 ,Num_Up11 , Num_down11, Num_Up12, Num_down12;
+    private List<RelativeLayout> upDivsList = new ArrayList<>();
+    private List<RelativeLayout> downDivsList = new ArrayList<>();
+    private List<TextView> upNumList = new ArrayList<>();
+    private List<TextView> downNumList = new ArrayList<>();
 
 
     int joinStatus; // 0 = watcher, 1 = want to join, 2 = joined
@@ -89,25 +88,50 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         initViews();
 
+        initDivs();
+
         handleEvents();
+    }
+
+    private void initDivs() {
+
+        /// for timedown TODO TimeDown View Init
+        for (int i = 0; i < 12; i++) {
+            String divUpID = "div_up" + i;
+            int resDivIDUp = getResources().getIdentifier(divUpID, "id", getPackageName());
+            upDivsList.add((RelativeLayout) findViewById(resDivIDUp));
+
+            String divDownID = "div_down" + i;
+            int resDivIDDown = getResources().getIdentifier(divDownID, "id", getPackageName());
+            downDivsList.add((RelativeLayout) findViewById(resDivIDDown));
+
+            String numUpID = "num_up" + i;
+            int resNumIDUp = getResources().getIdentifier(divDownID, "id", getPackageName());
+            upNumList.add((TextView) findViewById(resNumIDUp));
+
+            String numDownID = "num_down" + i;
+            int resNumIDDown = getResources().getIdentifier(divDownID, "id", getPackageName());
+            downNumList.add((TextView) findViewById(resNumIDDown));
+
+        }
     }
 
     //timedown
     private void startTimeDown() {
         doSecond();
         doMiute();
-      //  doHour();
+        //  doHour();
     }
 
-    private void doSecond(){
+    private void doSecond() {
         // second
         final CountDownTimer second = new CountDownTimer(60000, 1000) {
             public void onTick(final long millisUntilFinished) {
-                int num = (int) millisUntilFinished/1000;
+                int num = (int) millisUntilFinished / 1000;
 
                 final Calendar c = Calendar.getInstance();
 
-                GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(SalonActivity.this,div_up1,div_down1,div_up2,div_down2,div_up3,div_down3,div_up4,div_down4,Num_Up1,Num_down1,Num_Up2,Num_down2,Num_Up3,Num_down3,Num_Up4,Num_down4);
+                GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(SalonActivity.this,upDivsList,downDivsList,upNumList,downNumList,"second");
                 gawlaTimeDownSecond.NumberTick(num);
 
             }
@@ -117,17 +141,18 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         }.start();
     }
-    private void doMiute(){
+
+    private void doMiute() {
         // Minute
         final CountDownTimer minute = new CountDownTimer(3600000, 60000) {
             public void onTick(final long millisUntilFinished) {
-                int num = (int) millisUntilFinished/60000;
+                int num = (int) millisUntilFinished / 60000;
 
                 final Calendar c = Calendar.getInstance();
 
-                GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(SalonActivity.this,div_up5,div_down5,div_up6,div_down6,div_up7,div_down7,div_up8,div_down8,Num_Up5,Num_down5,Num_Up6,Num_down6,Num_Up7,Num_down7,Num_Up8,Num_down8);
+                GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(SalonActivity.this,upDivsList,downDivsList,upNumList,downNumList,"minute");
                 gawlaTimeDownMinute.NumberTick(num);
-                
+
             }
 
             public void onFinish() {
@@ -136,15 +161,16 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         }.start();
     }
-    private void doHour(){
+
+    private void doHour() {
         // hour
         new CountDownTimer(86400000, 3600000) {
             public void onTick(final long millisUntilFinished) {
-                int num = (int) millisUntilFinished/3600000;
+                int num = (int) millisUntilFinished / 3600000;
 
                 final Calendar c = Calendar.getInstance();
 
-                GawlaTimeDown gawlaTimeDownHour = new GawlaTimeDown(SalonActivity.this,div_up9,div_down9,div_up10,div_down10,div_up11,div_down11,div_up12,div_down12,Num_Up9,Num_down9,Num_Up10,Num_down10,Num_Up11,Num_down11,Num_Up12,Num_down12);
+                GawlaTimeDown gawlaTimeDownHour = new GawlaTimeDown(SalonActivity.this,upDivsList,downDivsList,upNumList,downNumList,"hour");
                 gawlaTimeDownHour.NumberTick(num);
 
             }
@@ -243,55 +269,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         notificationCard = findViewById(R.id.round_notification_card);
         addOfferLayout = findViewById(R.id.add_offer_layout);
 
-        /// for timedown TODO TimeDown View Init
-        div_up1 = findViewById(R.id.div_up1);
-        div_down1 = findViewById(R.id.div_down1);
-        div_up2 = findViewById(R.id.div_up2);
-        div_down2 = findViewById(R.id.div_down2);
-        div_up3 = findViewById(R.id.div_up3);
-        div_down3 = findViewById(R.id.div_down3);
-        div_up4 = findViewById(R.id.div_up4);
-        div_down4 = findViewById(R.id.div_down4);
-        Num_Up1 = findViewById(R.id.num_up1);
-        Num_down1 = findViewById(R.id.num_down1);
-        Num_Up2 = findViewById(R.id.num_up2);
-        Num_down2 = findViewById(R.id.num_down2);
-        Num_Up3 = findViewById(R.id.num_up3);
-        Num_down3 = findViewById(R.id.num_down3);
-        Num_Up4 = findViewById(R.id.num_up4);
-        Num_down4 = findViewById(R.id.num_down4);
-        div_up5 = findViewById(R.id.div_up5);
-        div_down5 = findViewById(R.id.div_down5);
-        div_up6 = findViewById(R.id.div_up6);
-        div_down6 = findViewById(R.id.div_down6);
-        div_up7 = findViewById(R.id.div_up7);
-        div_down7 = findViewById(R.id.div_down7);
-        div_up8 = findViewById(R.id.div_up8);
-        div_down8 = findViewById(R.id.div_down8);
-        Num_Up5 = findViewById(R.id.num_up5);
-        Num_down5 = findViewById(R.id.num_down5);
-        Num_Up6 = findViewById(R.id.num_up6);
-        Num_down6 = findViewById(R.id.num_down6);
-        Num_Up7 = findViewById(R.id.num_up7);
-        Num_down7 = findViewById(R.id.num_down7);
-        Num_Up8 = findViewById(R.id.num_up8);
-        Num_down8 = findViewById(R.id.num_down8);
-        div_up9 = findViewById(R.id.div_up9);
-        div_down9 = findViewById(R.id.div_down9);
-        div_up10 = findViewById(R.id.div_up10);
-        div_down10 = findViewById(R.id.div_down10);
-        div_up11 = findViewById(R.id.div_up11);
-        div_down11 = findViewById(R.id.div_down11);
-        div_up12 = findViewById(R.id.div_up12);
-        div_down12 = findViewById(R.id.div_down12);
-        Num_Up9 = findViewById(R.id.num_up9);
-        Num_down9 = findViewById(R.id.num_down9);
-        Num_Up10 = findViewById(R.id.num_up10);
-        Num_down10 = findViewById(R.id.num_down10);
-        Num_Up11 = findViewById(R.id.num_up11);
-        Num_down11 = findViewById(R.id.num_down11);
-        Num_Up12 = findViewById(R.id.num_up12);
-        Num_down12 = findViewById(R.id.num_down12);
     }
 
     private void handleEvents() {

@@ -5,9 +5,15 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import it_geeks.info.gawla_app.R;
 
 public class GawlaTimeDown implements Animation.AnimationListener{
+
+
     private RelativeLayout div_up1, div_down1, div_up2, div_down2, div_up3, div_down3, div_up4, div_down4;
     private final static int NUM_TICK = 5000;
     private TextView Num_Up1 , Num_down1, Num_Up2, Num_down2 ,Num_Up3 , Num_down3, Num_Up4, Num_down4;
@@ -21,6 +27,30 @@ public class GawlaTimeDown implements Animation.AnimationListener{
 
     Context context;
 
+    public GawlaTimeDown(Context context,List<RelativeLayout> upDivsList,List<RelativeLayout> downDivsList,List<TextView> upNumList,List<TextView> downNumList,String typeOnTime) {
+        this.context = context;
+        if (typeOnTime == "second") {
+            this.context = context;
+            this.div_up1 = upDivsList.get(0);
+            this.div_down1 = downDivsList.get(0);
+            this.div_up2 = upDivsList.get(1);
+            this.div_down2 = downDivsList.get(1);
+            this.div_up3 = upDivsList.get(2);
+            this.div_down3 = downDivsList.get(2);
+            this.div_up4 = upDivsList.get(3);
+            this.div_down4 = downDivsList.get(3);
+
+            this.Num_Up1 = upNumList.get(0);
+            this.Num_down1 = downNumList.get(0);
+            this.Num_Up2 = upNumList.get(1);
+            this.Num_down2 = downNumList.get(1);
+            this.Num_Up3 = upNumList.get(2);
+            this.Num_down3 = downNumList.get(2);
+            this.Num_Up4 = upNumList.get(3);
+            this.Num_down4 = downNumList.get(3);
+        }
+    }
+
     public GawlaTimeDown(Context context, RelativeLayout div_up1, RelativeLayout div_down1, RelativeLayout div_up2, RelativeLayout div_down2, RelativeLayout div_up3, RelativeLayout div_down3, RelativeLayout div_up4, RelativeLayout div_down4, TextView num_Up1, TextView num_down1, TextView num_Up2, TextView num_down2, TextView num_Up3, TextView num_down3, TextView num_Up4, TextView num_down4) {
         this.context = context;
         this.div_up1 = div_up1;
@@ -31,6 +61,7 @@ public class GawlaTimeDown implements Animation.AnimationListener{
         this.div_down3 = div_down3;
         this.div_up4 = div_up4;
         this.div_down4 = div_down4;
+
         Num_Up1 = num_Up1;
         Num_down1 = num_down1;
         Num_Up2 = num_Up2;
