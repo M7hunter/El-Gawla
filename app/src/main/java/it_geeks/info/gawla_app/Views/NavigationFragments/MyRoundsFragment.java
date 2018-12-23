@@ -121,10 +121,11 @@ public class MyRoundsFragment extends Fragment {
 
         for (int i = 0; i < roundsArray.size(); i++) {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
-//            int product_id = roundObj.get("product_id").getAsInt();
+            int product_id = roundObj.get("product_id").getAsInt();
             int salon_id = roundObj.get("salon_id").getAsInt();
             String product_name = roundObj.get("product_name").getAsString();
             String category_name = roundObj.get("category_name").getAsString();
+            String category_color = roundObj.get("category_color").getAsString();
             String country_name = roundObj.get("country_name").getAsString();
             String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
             String product_product_description = roundObj.get("product_product_description").getAsString();
@@ -146,10 +147,11 @@ public class MyRoundsFragment extends Fragment {
             GawlaDataBse.getGawlaDatabase(getActivity()).cardDao().insertCards(handleCards(roundObj, salon_id));
 
             rounds.add(
-                    new Round(i,
+                    new Round(product_id,
                             salon_id,
                             product_name,
                             category_name,
+                            category_color,
                             country_name,
                             product_commercial_price,
                             product_product_description,

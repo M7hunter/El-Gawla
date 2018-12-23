@@ -5,7 +5,6 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -21,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -34,6 +32,7 @@ import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
+import it_geeks.info.gawla_app.ViewModels.Adapters.BottomCardsAdapter;
 import it_geeks.info.gawla_app.ViewModels.Adapters.ProductSubImagesAdapter;
 
 public class SalonActivity extends AppCompatActivity implements View.OnTouchListener {
@@ -56,7 +55,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private Round round;
 
     private BottomSheetDialog mBottomSheetDialogActivateCard;
-    private BottomSheetDialog mBottomSheetDialogSingleCard;
+    public BottomSheetDialog mBottomSheetDialogSingleCard;
     private BottomSheetDialog mBottomSheetDialogProductDetails;
 
     private PointF staringPoint = new PointF();
@@ -83,6 +82,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         screenDimensions();
 
         initCardsIcon();
+
+        initBottomSheetProductDetails();
 
         initBottomSheetActivateCards();
 
@@ -152,7 +153,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                 GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(SalonActivity.this,upDivsList,downDivsList,upNumList,downNumList,"minute");
                 gawlaTimeDownMinute.NumberTick(num);
-
             }
 
             public void onFinish() {
@@ -183,7 +183,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void getRoundData(Bundle savedInstanceState) {
-        String product_name, product_image, product_category, product_price, product_description, round_start_time, round_end_time;
+        String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time;
         int product_id, salon_id;
 
         if (savedInstanceState == null) {
@@ -194,6 +194,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 salon_id = extras.getInt("salon_id");
                 product_name = extras.getString("product_name");
                 product_category = extras.getString("category_name");
+                category_color = extras.getString("category_color");
                 product_price = extras.getString("product_commercial_price");
                 product_description = extras.getString("product_product_description");
                 product_image = extras.getString("product_image");
@@ -204,6 +205,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         salon_id,
                         product_name,
                         product_category,
+                        category_color,
                         extras.getString("country_name"),
                         product_price,
                         product_description,
@@ -222,6 +224,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             salon_id = savedInstanceState.getInt("salon_id");
             product_name = (String) savedInstanceState.getSerializable("product_name");
             product_category = (String) savedInstanceState.getSerializable("category_name");
+            category_color = (String) savedInstanceState.getSerializable("category_color");
             product_price = (String) savedInstanceState.getSerializable("product_commercial_price");
             product_description = (String) savedInstanceState.getSerializable("product_product_description");
             product_image = (String) savedInstanceState.getSerializable("product_image");
@@ -232,6 +235,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     salon_id,
                     product_name,
                     product_category,
+                    category_color,
                     (String) savedInstanceState.getSerializable("country_name"),
                     product_price,
                     product_description,
@@ -247,16 +251,20 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void initRoundViews_setData() {
+        TextView tvEndTime, tvProductName, tvProductPrice, salonId;
+        ImageView imProductImage;
         // init views
         tvEndTime = findViewById(R.id.salon_end_time);
         tvProductName = findViewById(R.id.salon_round_product_name);
         tvProductPrice = findViewById(R.id.salon_round_product_price);
         imProductImage = findViewById(R.id.salon_round_product_image);
+        salonId = findViewById(R.id.salon_number);
 
         // set data
         tvEndTime.setText(round.getRound_end_time());
         tvProductName.setText(round.getProduct_name());
         tvProductPrice.setText(round.getProduct_commercial_price());
+        salonId.setText(String.valueOf(round.getSalon_id()));
 
         Picasso.with(SalonActivity.this).load(round.getProduct_image()).placeholder(R.drawable.palceholder).into(imProductImage);
     }
@@ -385,6 +393,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_active_cards, null);
 
         //init bottom sheet views
+        RecyclerView cardsRecycler = sheetView.findViewById(R.id.salon_cards_bottom_recycler);
+        cardsRecycler.setHasFixedSize(true);
+        cardsRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, 1, false));
+        cardsRecycler.setAdapter(new BottomCardsAdapter(SalonActivity.this, GawlaDataBse.getGawlaDatabase(SalonActivity.this).cardDao().getCardsById(round.getSalon_id())));
+
         //close bottom sheet
         sheetView.findViewById(R.id.close_bottom_sheet_activate_cards).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -400,15 +413,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         initBottomSheetSingleCard();
 
-        //open single card sheet
-        sheetView.findViewById(R.id.btn_activate_card).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mBottomSheetDialogSingleCard.show();
-            }
-        });
-
         mBottomSheetDialogActivateCard.setContentView(sheetView);
+
+        Common.Instance(SalonActivity.this).setBottomSheetHeight(sheetView);
 
         mBottomSheetDialogActivateCard.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
