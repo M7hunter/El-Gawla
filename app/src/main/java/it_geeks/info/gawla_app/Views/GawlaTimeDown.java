@@ -15,8 +15,12 @@ public class GawlaTimeDown implements Animation.AnimationListener{
 
 
     private RelativeLayout div_up1, div_down1, div_up2, div_down2, div_up3, div_down3, div_up4, div_down4;
-    private final static int NUM_TICK = 5000;
     private TextView Num_Up1 , Num_down1, Num_Up2, Num_down2 ,Num_Up3 , Num_down3, Num_Up4, Num_down4;
+
+    private List<RelativeLayout> upDivsList = new ArrayList<>();
+    private List<RelativeLayout> downDivsList = new ArrayList<>();
+    private List<TextView> upNumList = new ArrayList<>();
+    private List<TextView> downNumList = new ArrayList<>();
 
     private Animation animation1;
     private Animation animation2;
@@ -29,47 +33,26 @@ public class GawlaTimeDown implements Animation.AnimationListener{
 
     public GawlaTimeDown(Context context,List<RelativeLayout> upDivsList,List<RelativeLayout> downDivsList,List<TextView> upNumList,List<TextView> downNumList,String typeOnTime) {
         this.context = context;
-        if (typeOnTime == "second") {
+      //  if (typeOnTime == "second") {
             this.context = context;
-            this.div_up1 = upDivsList.get(0);
-            this.div_down1 = downDivsList.get(0);
-            this.div_up2 = upDivsList.get(1);
-            this.div_down2 = downDivsList.get(1);
-            this.div_up3 = upDivsList.get(2);
-            this.div_down3 = downDivsList.get(2);
-            this.div_up4 = upDivsList.get(3);
-            this.div_down4 = downDivsList.get(3);
+            this.div_up1 = upDivsList.get(1);
+            this.div_down1 = downDivsList.get(1);
+            this.div_up2 = upDivsList.get(2);
+            this.div_down2 = downDivsList.get(2);
+            this.div_up3 = upDivsList.get(3);
+            this.div_down3 = downDivsList.get(3);
+            this.div_up4 = upDivsList.get(4);
+            this.div_down4 = downDivsList.get(4);
 
-            this.Num_Up1 = upNumList.get(0);
-            this.Num_down1 = downNumList.get(0);
-            this.Num_Up2 = upNumList.get(1);
-            this.Num_down2 = downNumList.get(1);
-            this.Num_Up3 = upNumList.get(2);
-            this.Num_down3 = downNumList.get(2);
-            this.Num_Up4 = upNumList.get(3);
-            this.Num_down4 = downNumList.get(3);
-        }
-    }
-
-    public GawlaTimeDown(Context context, RelativeLayout div_up1, RelativeLayout div_down1, RelativeLayout div_up2, RelativeLayout div_down2, RelativeLayout div_up3, RelativeLayout div_down3, RelativeLayout div_up4, RelativeLayout div_down4, TextView num_Up1, TextView num_down1, TextView num_Up2, TextView num_down2, TextView num_Up3, TextView num_down3, TextView num_Up4, TextView num_down4) {
-        this.context = context;
-        this.div_up1 = div_up1;
-        this.div_down1 = div_down1;
-        this.div_up2 = div_up2;
-        this.div_down2 = div_down2;
-        this.div_up3 = div_up3;
-        this.div_down3 = div_down3;
-        this.div_up4 = div_up4;
-        this.div_down4 = div_down4;
-
-        Num_Up1 = num_Up1;
-        Num_down1 = num_down1;
-        Num_Up2 = num_Up2;
-        Num_down2 = num_down2;
-        Num_Up3 = num_Up3;
-        Num_down3 = num_down3;
-        Num_Up4 = num_Up4;
-        Num_down4 = num_down4;
+            this.Num_Up1 = upNumList.get(1);
+            this.Num_down1 = downNumList.get(1);
+            this.Num_Up2 = upNumList.get(2);
+            this.Num_down2 = downNumList.get(2);
+            this.Num_Up3 = upNumList.get(3);
+            this.Num_down3 = downNumList.get(3);
+            this.Num_Up4 = upNumList.get(4);
+            this.Num_down4 = downNumList.get(4);
+      //  }
     }
 
     // tick number
