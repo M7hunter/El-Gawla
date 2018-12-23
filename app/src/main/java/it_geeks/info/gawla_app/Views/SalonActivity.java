@@ -97,7 +97,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private void initDivs() {
 
         /// for timedown TODO TimeDown View Init
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i <= 12; i++) {
             String divUpID = "div_up" + i;
             int resDivIDUp = getResources().getIdentifier(divUpID, "id", getPackageName());
             upDivsList.add((RelativeLayout) findViewById(resDivIDUp));
@@ -107,11 +107,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             downDivsList.add((RelativeLayout) findViewById(resDivIDDown));
 
             String numUpID = "num_up" + i;
-            int resNumIDUp = getResources().getIdentifier(divDownID, "id", getPackageName());
+            int resNumIDUp = getResources().getIdentifier(numUpID, "id", getPackageName());
             upNumList.add((TextView) findViewById(resNumIDUp));
 
             String numDownID = "num_down" + i;
-            int resNumIDDown = getResources().getIdentifier(divDownID, "id", getPackageName());
+            int resNumIDDown = getResources().getIdentifier(numDownID, "id", getPackageName());
             downNumList.add((TextView) findViewById(resNumIDDown));
 
         }
@@ -120,7 +120,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     //timedown
     private void startTimeDown() {
         doSecond();
-        doMiute();
+        //doMiute();
         //  doHour();
     }
 
@@ -143,44 +143,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         }.start();
     }
 
-    private void doMiute() {
-        // Minute
-        final CountDownTimer minute = new CountDownTimer(3600000, 60000) {
-            public void onTick(final long millisUntilFinished) {
-                int num = (int) millisUntilFinished / 60000;
 
-                final Calendar c = Calendar.getInstance();
-
-                GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(SalonActivity.this,upDivsList,downDivsList,upNumList,downNumList,"minute");
-                gawlaTimeDownMinute.NumberTick(num);
-            }
-
-            public void onFinish() {
-
-            }
-
-        }.start();
-    }
-
-    private void doHour() {
-        // hour
-        new CountDownTimer(86400000, 3600000) {
-            public void onTick(final long millisUntilFinished) {
-                int num = (int) millisUntilFinished / 3600000;
-
-                final Calendar c = Calendar.getInstance();
-
-                GawlaTimeDown gawlaTimeDownHour = new GawlaTimeDown(SalonActivity.this,upDivsList,downDivsList,upNumList,downNumList,"hour");
-                gawlaTimeDownHour.NumberTick(num);
-
-            }
-
-            public void onFinish() {
-
-            }
-
-        }.start();
-    }
 
     private void getRoundData(Bundle savedInstanceState) {
         String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time;
