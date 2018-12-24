@@ -125,16 +125,15 @@
                                 android:id="@+id/hour_div"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:padding="5dp">
+                                android:layout_margin="@dimen/margin_medium">
 
+                                <!-- top up -->
                                 <RelativeLayout
                                     android:id="@+id/div_up9"
                                     android:layout_width="35dp"
                                     android:layout_height="28dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="6dp"
+                                    android:layout_marginStart="@dimen/margin_small"
+                                    android:layout_toRightOf="@id/div_up11"
                                     android:background="@drawable/grad_up"
                                     android:gravity="center">
 
@@ -147,24 +146,23 @@
                                         android:id="@+id/num_up9"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
                                         android:fontFamily="monospace"
                                         android:gravity="center"
-                                        android:paddingTop="6dp"
-                                        android:text="0"
+                                        android:paddingTop="4dp"
+                                        android:text="4"
                                         android:textColor="@android:color/white"
                                         android:textSize="40sp"
                                         android:textStyle="bold" />
                                 </RelativeLayout>
 
+                                <!-- down up -->
                                 <RelativeLayout
                                     android:id="@+id/div_down9"
                                     android:layout_width="35dp"
                                     android:layout_height="28dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="34dp"
+                                    android:layout_below="@id/div_up9"
+                                    android:layout_marginStart="@dimen/margin_small"
+                                    android:layout_toRightOf="@id/div_down11"
                                     android:background="@drawable/grad_down"
                                     android:gravity="center">
 
@@ -174,23 +172,22 @@
                                         android:layout_height="wrap_content"
                                         android:layout_alignParentTop="true"
                                         android:layout_alignParentEnd="true"
-                                        android:layout_marginBottom="30.5dp"
+                                        android:layout_marginBottom="29dp"
                                         android:fontFamily="monospace"
                                         android:gravity="center"
-                                        android:text="0"
+                                        android:text="4"
                                         android:textColor="@android:color/white"
                                         android:textSize="40sp"
                                         android:textStyle="bold" />
                                 </RelativeLayout>
 
+                                <!-- top bottom -->
                                 <RelativeLayout
                                     android:id="@+id/div_up10"
                                     android:layout_width="35dp"
                                     android:layout_height="28dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="6dp"
+                                    android:layout_marginStart="@dimen/margin_small"
+                                    android:layout_toRightOf="@id/div_up11"
                                     android:background="@drawable/grad_up"
                                     android:gravity="center"
                                     android:visibility="invisible">
@@ -214,14 +211,14 @@
                                         android:textStyle="bold" />
                                 </RelativeLayout>
 
+                                <!-- down bottom -->
                                 <RelativeLayout
                                     android:id="@+id/div_down10"
                                     android:layout_width="35dp"
                                     android:layout_height="28dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="34dp"
+                                    android:layout_below="@id/div_up9"
+                                    android:layout_marginStart="@dimen/margin_small"
+                                    android:layout_toRightOf="@id/div_down11"
                                     android:background="@drawable/grad_down"
                                     android:gravity="center"
                                     android:visibility="invisible">
@@ -241,14 +238,11 @@
                                         android:textStyle="bold" />
                                 </RelativeLayout>
 
+                                <!-- top up -->
                                 <RelativeLayout
                                     android:id="@+id/div_up11"
                                     android:layout_width="35dp"
                                     android:layout_height="28dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="6dp"
                                     android:background="@drawable/grad_up"
                                     android:gravity="center">
 
@@ -261,24 +255,21 @@
                                         android:id="@+id/num_up11"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
                                         android:fontFamily="monospace"
                                         android:gravity="center"
-                                        android:paddingTop="6dp"
-                                        android:text="0"
+                                        android:paddingTop="4dp"
+                                        android:text="3"
                                         android:textColor="@android:color/white"
                                         android:textSize="40sp"
                                         android:textStyle="bold" />
                                 </RelativeLayout>
 
+                                <!-- down up -->
                                 <RelativeLayout
                                     android:id="@+id/div_down11"
                                     android:layout_width="35dp"
                                     android:layout_height="28dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="34dp"
+                                    android:layout_below="@id/div_up11"
                                     android:background="@drawable/grad_down"
                                     android:gravity="center">
 
@@ -286,25 +277,21 @@
                                         android:id="@+id/num_down11"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_marginBottom="30.5dp"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginBottom="29dp"
                                         android:fontFamily="monospace"
                                         android:gravity="center"
-                                        android:text="0"
+                                        android:text="3"
                                         android:textColor="@android:color/white"
                                         android:textSize="40sp"
                                         android:textStyle="bold" />
                                 </RelativeLayout>
 
+                                <!-- top bottom -->
                                 <RelativeLayout
                                     android:id="@+id/div_up12"
                                     android:layout_width="35dp"
                                     android:layout_height="30dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="6dp"
                                     android:background="@drawable/grad_up"
                                     android:gravity="center"
                                     android:visibility="invisible">
@@ -326,16 +313,15 @@
                                         android:textColor="@android:color/white"
                                         android:textSize="40sp"
                                         android:textStyle="bold" />
+
                                 </RelativeLayout>
 
+                                <!-- down bottom -->
                                 <RelativeLayout
                                     android:id="@+id/div_down12"
                                     android:layout_width="35dp"
                                     android:layout_height="28dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="34dp"
+                                    android:layout_below="@id/div_up11"
                                     android:background="@drawable/grad_down"
                                     android:gravity="center"
                                     android:visibility="invisible">
@@ -355,9 +341,7 @@
                                         android:textStyle="bold" />
                                 </RelativeLayout>
 
-
                             </RelativeLayout>
-
 
                         </LinearLayout>
 

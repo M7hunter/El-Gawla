@@ -80,7 +80,7 @@
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:visibility="invisible">
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -100,6 +100,9 @@
                         android:textSize="@dimen/text_size_medium" />
 
                 </LinearLayout>
+
+                <!-- no connection view -->
+                <include layout="@layout/no_connection_layout"/>
 
             </RelativeLayout>
 

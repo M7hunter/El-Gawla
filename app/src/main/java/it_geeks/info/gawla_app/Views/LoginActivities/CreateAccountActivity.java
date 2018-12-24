@@ -182,7 +182,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                         SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(getResources().getString(R.string.app_name)); // Provider
                         // goto next page
                         startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
-                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
 
                     } else { // if registration have errors
                         // notify user

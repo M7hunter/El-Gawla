@@ -8,7 +8,6 @@ import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -47,6 +46,7 @@ public class SalonsViewModel extends AndroidViewModel {
     private void getRoundsFromServer() {
         int userId = SharedPrefManager.getInstance(getApplication()).getUser().getUser_id();
         String apiToken = Common.Instance(getApplication()).removeQuotes(SharedPrefManager.getInstance(getApplication()).getUser().getApi_token());
+//        long lastRequest = SharedPrefManager.getInstance(getApplication()).getLastRequest();
 
         RetrofitClient.getInstance(getApplication()).getAPI()
                 .request(new RequestMainBody(
@@ -61,6 +61,8 @@ public class SalonsViewModel extends AndroidViewModel {
                             boolean status = mainObj.get("status").getAsBoolean();
 
                             if (status) { // no errors
+
+//                                SharedPrefManager.getInstance(getApplication()).setLastRequest(Common.Instance(getApplication()).getCurrentTimeInMillis()); // update last request
                                 gawlaDataBse.roundDao().removeRounds(gawlaDataBse.roundDao().getRounds()); // remove old list
                                 gawlaDataBse.roundDao().insertRoundList(handleServerResponse(mainObj)); // add new list
 

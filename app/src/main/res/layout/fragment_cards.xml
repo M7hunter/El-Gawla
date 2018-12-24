@@ -10,8 +10,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
             android:focusableInTouchMode="true"
             android:gravity="center"
             android:orientation="vertical">
@@ -33,7 +31,8 @@
             <!-- cards recycler container -->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
                 <!-- cards recycler-->
                 <android.support.v7.widget.RecyclerView
@@ -48,6 +47,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"/>
+
+                <!-- empty view -->
+                <LinearLayout
+                    android:id="@+id/cards_empty_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/empty_view_cards" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:gravity="center"
+                        android:text="@string/cards_empty_hint"
+                        android:textColor="@color/blueGrey"
+                        android:textSize="@dimen/text_size_medium" />
+
+                </LinearLayout>
+
+                <include layout="@layout/no_connection_layout"/>
 
             </RelativeLayout>
 

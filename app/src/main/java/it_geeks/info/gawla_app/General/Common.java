@@ -1,11 +1,11 @@
 package it_geeks.info.gawla_app.General;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
@@ -13,15 +13,11 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ProgressBar;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
-import it_geeks.info.gawla_app.Repositry.Models.Data;
 
 public class Common {
 
@@ -111,8 +107,17 @@ public class Common {
         }
     }
 
+    // change drawable background
     public void changeDrawableViewColor(View v, String color) {
         GradientDrawable background = (GradientDrawable) v.getBackground();
         background.setColor(Color.parseColor(color));
+    }
+
+    // to if there is a connection or not
+    public boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }
