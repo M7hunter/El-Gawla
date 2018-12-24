@@ -31,6 +31,7 @@ import it_geeks.info.gawla_app.ViewModels.Adapters.RoundsPagerAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
+import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Views.NotificationActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,9 +50,20 @@ public class MyRoundsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_rounds, container, false);
 
-        getData(view);
+        initViews(view);
 
-        initPager(view);
+        checkConnection(view);
+
+
+        return view;
+    }
+
+    private void initViews(View view) {
+        myRoundProgress = view.findViewById(R.id.my_rounds_progress);
+
+        // arrows
+        arrowRight = view.findViewById(R.id.my_rounds_right_arrow);
+        arrowLeft = view.findViewById(R.id.my_rounds_left_arrow);
 
         // open Notification
         view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
@@ -61,7 +73,22 @@ public class MyRoundsFragment extends Fragment {
             }
         });
 
-        return view;
+    }
+
+    private void checkConnection(View view) {
+        LinearLayout noConnectionLayout = view.findViewById(R.id.no_connection);
+
+        if (Common.Instance(getActivity()).isConnected()) {
+            noConnectionLayout.setVisibility(View.GONE);
+
+            getData(view);
+
+        } else {
+            noConnectionLayout.setVisibility(View.VISIBLE);
+            myRoundProgress.setVisibility(View.GONE);
+            arrowLeft.setVisibility(View.GONE);
+            arrowRight.setVisibility(View.GONE);
+        }
     }
 
     private void getData(final View view) {
@@ -108,7 +135,7 @@ public class MyRoundsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) { // errors of connection
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.mainInstance, t.getMessage(), Toast.LENGTH_SHORT).show();
                 initEmptyView(view);
             }
         });
@@ -211,15 +238,9 @@ public class MyRoundsFragment extends Fragment {
     }
 
     private void initPager(View view) {
-        myRoundProgress = view.findViewById(R.id.my_rounds_progress);
-
         // pager
         roundsViewPager = view.findViewById(R.id.rounds_pager);
         roundsViewPager.setAdapter(new RoundsPagerAdapter(getActivity(), roundsList));
-
-        // arrows
-        arrowRight = view.findViewById(R.id.my_rounds_right_arrow);
-        arrowLeft = view.findViewById(R.id.my_rounds_left_arrow);
     }
 
     private void handleEvents(int cardsCount) {

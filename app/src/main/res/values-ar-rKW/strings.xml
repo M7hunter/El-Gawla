@@ -156,4 +156,8 @@
     <string name="notiNews">قام العضو  Muhammed Boucha  بضافة عرض جديد</string>
     <string name="mainNotiNews">يمكنك تخصيص الإعدادات الخاصة بك بحيث لا تظهر على الشاشة سوى الإشعارات التي تريدها عندما يكون الجهاز مقفلاً</string>
     <string name="count_down_to_start">العد التنازلي للبداية</string>
+    <string name="all_salons">كل الصالات</string>
+    <string name="cards_empty_hint">ليس لديك كروت</string>
+    <string name="no_connection">لا يوجد اتصال</string>
+    <string name="no_salons">لا يوجد صالات حاليا \n حاول لاحقا</string>
 </resources>

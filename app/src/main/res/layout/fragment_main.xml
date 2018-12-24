@@ -131,6 +131,35 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true" />
 
+                <!-- empty view -->
+                <LinearLayout
+                    android:id="@+id/recent_salons_empty_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/empty_view_salons"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:gravity="center"
+                        android:text="@string/no_salons"
+                        android:textColor="@color/blueGrey"
+                        android:textSize="@dimen/text_size_medium" />
+
+                </LinearLayout>
+
+                <!-- no connection view -->
+                <include layout="@layout/no_connection_layout"/>
+
             </RelativeLayout>
 
             <!-- winners news header -->

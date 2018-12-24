@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,18 +51,9 @@ public class MainFragment extends Fragment {
 
         initViews(view);
 
-        initSalonsRecycler(view);
-
-        initWinnersRecycler(view);
+        checkConnection(view);
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (view != null) initViews(view);
     }
 
     private void initViews(View view) {
@@ -83,12 +75,40 @@ public class MainFragment extends Fragment {
                 startActivity(new Intent(getContext(),NotificationActivity.class));
             }
         });
+
+        initWinnersEmptyView();
     }
 
-    private void initSalonsRecycler(View view) {
+
+    private void checkConnection(View view) {
+        LinearLayout noConnectionLayout = view.findViewById(R.id.no_connection);
+
+        if (Common.Instance(getActivity()).isConnected()) {
+            noConnectionLayout.setVisibility(View.GONE);
+
+            initSalonsRecycler(view);
+
+            initWinnersRecycler(view);
+
+        } else {
+            noConnectionLayout.setVisibility(View.VISIBLE);
+            recentSalonsProgress.setVisibility(View.GONE);
+            winnersNewsProgress.setVisibility(View.GONE);
+        }
+    }
+
+    private void initSalonsRecycler(final View view) {
         recentSalonsRecycler = view.findViewById(R.id.recent_salons_recycler);
         recentSalonsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), 0, false));
         recentSalonsPagedAdapter = new RecentSalonsPagedAdapter(getContext());
+
+        recentSalonsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                recentSalonsProgress.setVisibility(View.GONE);
+            }
+        });
 
         salonsViewModel = ViewModelProviders.of(this).get(SalonsViewModel.class);
         salonsViewModel.init();
@@ -96,16 +116,16 @@ public class MainFragment extends Fragment {
         salonsViewModel.getRoundsList().observe(this, new Observer<PagedList<Round>>() {
             @Override
             public void onChanged(@Nullable PagedList<Round> rounds) {
+                recentSalonsProgress.setVisibility(View.GONE);
                 if (rounds != null) {
                     recentSalonsPagedAdapter.submitList(rounds);
+
+                    initSalonsEmptyView(view, rounds);
                 }
             }
         });
 
         recentSalonsRecycler.setAdapter(recentSalonsPagedAdapter);
-
-        // to remove progress bar
-        Common.Instance(getContext()).hideProgress(recentSalonsRecycler, recentSalonsProgress);
     }
 
     private void initWinnersRecycler(View view) {
@@ -115,12 +135,27 @@ public class MainFragment extends Fragment {
         winnersNewsAdapter = new WinnersNewsAdapter(getActivity(), winnerNewsList);
         winnersNewsRecycler.setAdapter(winnersNewsAdapter);
 
+        // to remove progress bar
+        Common.Instance(getContext()).hideProgress(winnersNewsRecycler, winnersNewsProgress);
+    }
+
+    private void initSalonsEmptyView(View view, List<Round> roundList) {
+        LinearLayout emptyViewLayout = view.findViewById(R.id.recent_salons_empty_view);
+
+        if (roundList.size() > 0) {
+            emptyViewLayout.setVisibility(View.INVISIBLE);
+            recentSalonsRecycler.setVisibility(View.VISIBLE);
+
+        } else {
+            emptyViewLayout.setVisibility(View.VISIBLE);
+            recentSalonsRecycler.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void initWinnersEmptyView() {
         // no data ? hide header
         if (winnerNewsList == null || winnerNewsList.size() == 0) {
             winnersHeader.setVisibility(View.GONE);
         }
-
-        // to remove progress bar
-        Common.Instance(getContext()).hideProgress(winnersNewsRecycler, winnersNewsProgress);
     }
 }

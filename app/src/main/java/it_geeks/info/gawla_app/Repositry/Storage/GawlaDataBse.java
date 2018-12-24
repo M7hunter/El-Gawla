@@ -1,8 +1,10 @@
 package it_geeks.info.gawla_app.Repositry.Storage;
 
+import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 
 import it_geeks.info.gawla_app.Repositry.Models.Card;
@@ -10,17 +12,25 @@ import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 
-@Database(entities = {Round.class, Country.class, Card.class, ProductSubImage.class}, version = 1, exportSchema = false)
+@Database(entities = {Round.class, Country.class, Card.class, ProductSubImage.class}, version = 2, exportSchema = false)
 public abstract class GawlaDataBse extends RoomDatabase {
 
-    private static final String DB_NAME = "Gawla_Database.db";
     private static GawlaDataBse INSTANCE;
+    private static final String DB_NAME = "Gawla_Database.db";
+    private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Since we didn't alter the table, there's nothing else to do here.
+        }
+    };
 
     // singleton initiation
     public static GawlaDataBse getGawlaDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context, GawlaDataBse.class, DB_NAME)
                     .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration() // resolve this before release -> use migration <-
+//                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                     .build();
         }
         return INSTANCE;

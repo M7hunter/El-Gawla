@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -47,9 +48,16 @@ public class CardsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cards, container, false);
 
-        cardsProgress = view.findViewById(R.id.cards_progress);
+        initViews(view);
 
-        getCardsFromServer(view);
+        checkConnection(view);
+
+        return view;
+    }
+
+    private void initViews(View view) {
+        cardsProgress = view.findViewById(R.id.cards_progress);
+        cardsRecycler = view.findViewById(R.id.cards_recycler);
 
         // open Notification
         view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
@@ -58,8 +66,20 @@ public class CardsFragment extends Fragment {
                 startActivity(new Intent(getContext(),NotificationActivity.class));
             }
         });
+    }
 
-        return view;
+    private void checkConnection(View view) {
+        LinearLayout noConnectionLayout = view.findViewById(R.id.no_connection);
+
+        if (Common.Instance(getActivity()).isConnected()) {
+            noConnectionLayout.setVisibility(View.GONE);
+
+            getCardsFromServer(view);
+
+        } else {
+            noConnectionLayout.setVisibility(View.VISIBLE);
+            cardsProgress.setVisibility(View.GONE);
+        }
     }
 
     private void getCardsFromServer(final View view) {
@@ -78,7 +98,7 @@ public class CardsFragment extends Fragment {
 
                         handleServerResponse(mainObj);
 
-                        initCardsRecycler(view);
+                        initCardsRecycler();
 
                     } else { // errors from server
                         if (handleServerErrors(mainObj).equals("you are not logged in.")) {
@@ -95,11 +115,13 @@ public class CardsFragment extends Fragment {
                 }
 
                 cardsProgress.setVisibility(View.GONE);
+                initEmptyView(view);
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) { // errors of connection
                 cardsProgress.setVisibility(View.GONE);
+                initEmptyView(view);
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -132,13 +154,25 @@ public class CardsFragment extends Fragment {
         return error;
     }
 
-    private void initCardsRecycler(View view) {
-        cardsRecycler = view.findViewById(R.id.cards_recycler);
+    private void initCardsRecycler() {
         cardsRecycler.setHasFixedSize(true);
         cardsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), 1, false));
         cardsAdapter = new CardsAdapter(getContext(), cardsList);
         cardsRecycler.setAdapter(cardsAdapter);
 
         Common.Instance(getContext()).hideProgress(cardsRecycler, cardsProgress);
+    }
+
+    private void initEmptyView(View view) {
+        LinearLayout emptyViewLayout = view.findViewById(R.id.cards_empty_view);
+
+        if (cardsList.size() > 0) {
+            emptyViewLayout.setVisibility(View.INVISIBLE);
+            cardsRecycler.setVisibility(View.VISIBLE);
+
+        } else {
+            emptyViewLayout.setVisibility(View.VISIBLE);
+            cardsRecycler.setVisibility(View.INVISIBLE);
+        }
     }
 }
