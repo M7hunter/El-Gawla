@@ -16,8 +16,13 @@ import android.view.ViewTreeObserver;
 import android.widget.ProgressBar;
 
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import it_geeks.info.gawla_app.Repositry.Models.Salons;
 
 public class Common {
 
@@ -119,5 +124,14 @@ public class Common {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    public void sortList(List<Salons> list) {
+        Collections.sort(list, new Comparator<Salons>() {
+            @Override
+            public int compare(Salons o1, Salons o2) {
+                return o1.getHeader().compareTo(o2.getHeader());
+            }
+        });
     }
 }

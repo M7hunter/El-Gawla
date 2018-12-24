@@ -39,16 +39,31 @@
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
-            <!-- countries spinner -->
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/all_salons_country_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <!-- bell -->
+            <ImageView
+                android:layout_width="@dimen/icon_notification"
+                android:layout_height="@dimen/icon_notification"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:background="@null"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_tiny"
+                android:src="@drawable/ic_bell" />
+
+            <!--&lt;!&ndash; countries spinner &ndash;&gt;-->
+            <!--<android.support.v7.widget.AppCompatSpinner-->
+                <!--android:id="@+id/all_salons_country_spinner"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:background="@null"-->
+                <!--android:layout_centerVertical="true" />-->
 
         </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/date_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/all_salons_recycler"
