@@ -14,6 +14,7 @@
     <dimen name="text_size_medium">18sp</dimen>
     <dimen name="text_size_large">21sp</dimen>
     <dimen name="text_size_xlarge">24sp</dimen>
+    <dimen name="num_tick" >44sp</dimen>
 
     <!-- icons -->
     <dimen name="icon_notification">50dp</dimen>
@@ -21,4 +22,5 @@
     <dimen name="image_width_round">320dp</dimen>
     <dimen name="image_height_round">185dp</dimen>
     <dimen name="image_news">120dp</dimen>
+
 </resources>

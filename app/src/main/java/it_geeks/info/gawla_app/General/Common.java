@@ -93,7 +93,7 @@ public class Common {
     }
 
     public long formatTimeToMillis(String time){
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.US);
         Date date = null;
         try {
             date = sdf.parse(time);

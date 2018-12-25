@@ -36,4 +36,5 @@
     <dimen name="card_width">40dp</dimen>
     <dimen name="single_card_height">170dp</dimen>
     <dimen name="single_card_width">120dp</dimen>
+
 </resources>

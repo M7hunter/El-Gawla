@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -21,28 +19,28 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.Repositry.Models.RoundStartToEndModel;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.ViewModels.Adapters.BottomCardsAdapter;
 import it_geeks.info.gawla_app.ViewModels.Adapters.ProductSubImagesAdapter;
+import it_geeks.info.gawla_app.Views.Round.RoundStartToEnd;
 
 public class SalonActivity extends AppCompatActivity implements View.OnTouchListener {
 
-    private List<RelativeLayout> upDivsList = new ArrayList<>();
-    private List<RelativeLayout> downDivsList = new ArrayList<>();
-    private List<TextView> upNumList = new ArrayList<>();
-    private List<TextView> downNumList = new ArrayList<>();
-
+    private List<ImageView> upDivsList = new ArrayList<>();
+    private List<ImageView> downDivsList = new ArrayList<>();
+    private List<Integer> drawablesUp = new ArrayList<>();
+    private List<Integer> drawablesDown = new ArrayList<>();
+    RoundStartToEnd roundStartToEnd;
+    TextView round_notification_text;
 
     int joinStatus; // 0 = watcher, 1 = want to join, 2 = joined
     Button btnJoinRound;
@@ -74,8 +72,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salon);
 
-        startTimeDown();
-
         getRoundData(savedInstanceState);
 
         initRoundViews_setData();
@@ -90,6 +86,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         initViews();
 
+        startTimeDown();
+
         initDivs();
 
         handleEvents();
@@ -101,64 +99,31 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         for (int i = 1; i <= 12; i++) {
             String divUpID = "div_up" + i;
             int resDivIDUp = getResources().getIdentifier(divUpID, "id", getPackageName());
-            upDivsList.add((RelativeLayout) findViewById(resDivIDUp));
+            upDivsList.add((ImageView) findViewById(resDivIDUp));
 
             String divDownID = "div_down" + i;
             int resDivIDDown = getResources().getIdentifier(divDownID, "id", getPackageName());
-            downDivsList.add((RelativeLayout) findViewById(resDivIDDown));
+            downDivsList.add((ImageView) findViewById(resDivIDDown));
+        }
+        for (int i = 0; i < 12; i++) {
 
-            String numUpID = "num_up" + i;
-            int resNumIDUp = getResources().getIdentifier(numUpID, "id", getPackageName());
-            upNumList.add((TextView) findViewById(resNumIDUp));
+            String divUpNum = "digit_" + i + "_upper";
+            int resdivUpNum = getResources().getIdentifier(divUpNum, "drawable", getPackageName());
+            drawablesUp.add(resdivUpNum);
 
-            String numDownID = "num_down" + i;
-            int resNumIDDown = getResources().getIdentifier(numDownID, "id", getPackageName());
-            downNumList.add((TextView) findViewById(resNumIDDown));
+            String divDownNum = "digit_" + i + "_lower";
+            int resdivDownNum = getResources().getIdentifier(divDownNum, "drawable", getPackageName());
+            drawablesDown.add(resdivDownNum);
 
         }
     }
 
-    //timedown
+    //Round Start
     private void startTimeDown() {
-        doSecond();
-
+        RoundStartToEndModel roundStartToEndModel = new RoundStartToEndModel(upDivsList,downDivsList,drawablesUp,drawablesDown,btnJoinRound,addOfferLayout,round_notification_text);
+        roundStartToEnd = new RoundStartToEnd(SalonActivity.this,roundStartToEndModel);
+        roundStartToEnd.start();
     }
-
-    private void doSecond() {
-        // second
-
-
-        long start = Common.Instance(SalonActivity.this).formatTimeToMillis("01:55:00");
-        long end = Common.Instance(SalonActivity.this).formatTimeToMillis("02:05:00");
-        long value = end - start;
-
-
-        final CountDownTimer second = new CountDownTimer(value, 1000) {
-            public void onTick(final long millisUntilFinished) {
-
-                Calendar calendar = Common.Instance(SalonActivity.this).formatMillisToTime(millisUntilFinished);
-                int hour = calendar.get(Calendar.HOUR);
-                int minute = calendar.get(Calendar.MINUTE);
-                int second = calendar.get(Calendar.SECOND);
-
-                Log.d("mo7", "doSecond: " + hour +" : "+ minute + " : " + second);
-
-                GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(SalonActivity.this,upDivsList,downDivsList,upNumList,downNumList,"second");
-                gawlaTimeDownSecond.NumberTick(second+1);
-
-                GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(SalonActivity.this,upDivsList,downDivsList,upNumList,downNumList,"minute");
-                gawlaTimeDownMinute.NumberTick(minute+1);
-
-            }
-
-            public void onFinish() {
-            }
-
-        }.start();
-    }
-
-
-
 
     private void getRoundData(Bundle savedInstanceState) {
         String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time;
@@ -237,6 +202,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         tvProductPrice = findViewById(R.id.salon_round_product_price);
         imProductImage = findViewById(R.id.salon_round_product_image);
         salonId = findViewById(R.id.salon_number);
+        round_notification_text = findViewById(R.id.round_notification_text);
 
         // set data
         tvEndTime.setText(round.getRound_end_time());
@@ -306,7 +272,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     // join events
     private void displayConfirmationLayout() {
         joinStatus = 1;
-
+        roundStartToEnd.setJoinStatus(joinStatus);
         // hide background views
         more.setVisibility(View.GONE);
         notificationCard.setVisibility(View.GONE);
@@ -318,7 +284,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void changeConfirmationState() {
         joinStatus = 2;
-
+        roundStartToEnd.setJoinStatus(joinStatus);
         ImageView icon = findViewById(R.id.join_confirmation_icon);
         TextView header = findViewById(R.id.join_confirmation_header);
         TextView text = findViewById(R.id.join_confirmation_text);
@@ -341,8 +307,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         btnJoinRound.setVisibility(View.GONE);
         overlayLayout.setVisibility(View.GONE);
 
-        // display add offer views
-        addOfferLayout.setVisibility(View.VISIBLE);
+
     }
 
     private void cancelConfirmation() {
@@ -575,8 +540,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
+        roundStartToEnd.stop(); // stop Time Down
         Intent i = new Intent();
         setResult(RESULT_OK, i);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        roundStartToEnd.stop(); // stop Time Down
     }
 }

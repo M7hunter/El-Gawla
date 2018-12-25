@@ -139,6 +139,7 @@
     <string name="receive_notification">receive notification</string>
     <string name="notification">notification</string>
     <string name="all_salons">all salons</string>
+
     <!--  Arr For Test and will delete later .-->
     <array name="ArrGender">
         <item>Male</item>
