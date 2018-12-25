@@ -32,6 +32,6 @@ public interface RoundDao {
     @Query("SELECT * FROM Round WHERE round_date = :date")
     List<Round> getRoundsByDate(String date);
 
-    @Query("SELECT round_date FROM Round")
+    @Query("SELECT DISTINCT round_date FROM Round")
     List<String> getRoundsDates();
 }

@@ -2,19 +2,30 @@ package it_geeks.info.gawla_app.Repositry.Models;
 
 public class SalonDate {
 
+    private String date;
+
     private String dayOfMonth;
 
     private String month;
 
     private String dayOfWeek;
 
-    private String salonsCount;
+    private int salonsCount;
 
-    public SalonDate(String dayOfMonth, String month, String dayOfWeek, String salonsCount) {
+    public SalonDate(String date, String dayOfMonth, String month, String dayOfWeek, int salonsCount) {
+        this.date = date;
         this.dayOfMonth = dayOfMonth;
         this.month = month;
         this.dayOfWeek = dayOfWeek;
         this.salonsCount = salonsCount;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getDayOfMonth() {
@@ -41,11 +52,11 @@ public class SalonDate {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public String getSalonsCount() {
+    public int getSalonsCount() {
         return salonsCount;
     }
 
-    public void setSalonsCount(String salonsCount) {
+    public void setSalonsCount(int salonsCount) {
         this.salonsCount = salonsCount;
     }
 }

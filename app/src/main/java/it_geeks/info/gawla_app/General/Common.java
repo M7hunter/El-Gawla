@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
 import it_geeks.info.gawla_app.Repositry.Models.Salons;
 
 public class Common {
@@ -126,11 +127,11 @@ public class Common {
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
-    public void sortList(List<Salons> list) {
-        Collections.sort(list, new Comparator<Salons>() {
+    public void sortList(List<SalonDate> list) {
+        Collections.sort(list, new Comparator<SalonDate>() {
             @Override
-            public int compare(Salons o1, Salons o2) {
-                return o1.getHeader().compareTo(o2.getHeader());
+            public int compare(SalonDate o1, SalonDate o2) {
+                return o1.getDayOfMonth().compareTo(o2.getDayOfMonth());
             }
         });
     }
