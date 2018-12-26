@@ -34,4 +34,8 @@ public interface RoundDao {
 
     @Query("SELECT DISTINCT round_date FROM Round")
     List<String> getRoundsDates();
+
+    @Query("SELECT COUNT(round_date) FROM Round WHERE round_date = :date")
+    String getDatesCount(String date);
+
 }

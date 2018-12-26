@@ -10,9 +10,9 @@ public class SalonDate {
 
     private String dayOfWeek;
 
-    private int salonsCount;
+    private String salonsCount;
 
-    public SalonDate(String date, String dayOfMonth, String month, String dayOfWeek, int salonsCount) {
+    public SalonDate(String date, String dayOfMonth, String month, String dayOfWeek, String salonsCount) {
         this.date = date;
         this.dayOfMonth = dayOfMonth;
         this.month = month;
@@ -52,11 +52,11 @@ public class SalonDate {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public int getSalonsCount() {
+    public String getSalonsCount() {
         return salonsCount;
     }
 
-    public void setSalonsCount(int salonsCount) {
+    public void setSalonsCount(String salonsCount) {
         this.salonsCount = salonsCount;
     }
 }

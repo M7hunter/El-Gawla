@@ -14,8 +14,10 @@ import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
@@ -66,43 +68,42 @@ public class AllSalonsActivity extends AppCompatActivity implements DateAdapter.
         if (Common.Instance(AllSalonsActivity.this).isConnected()) { // connected
             noConnectionLayout.setVisibility(View.GONE);
 
-            getDates();
-
-            initDatesRecycler();
-
-            initSalonsRecycler();
+            getDatesAndRounds();
 
         } else { // no connection
             noConnectionLayout.setVisibility(View.VISIBLE);
         }
     }
 
-    private void getDates() {
+    private void getDatesAndRounds() {
         List<String> dates = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsDates();
         for (String date : dates) {
-            transformDateToNames(date);
+            dateList.add(transformDateToNames(date));
         }
 
         Common.Instance(AllSalonsActivity.this).sortList(dateList);
 
+        initDatesRecycler();
+
         roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(dateList.get(0).getDate());
+
         initSalonsRecycler();
     }
 
-    public void transformDateToNames(String date) {
+    public SalonDate transformDateToNames(String date) {
         String[] dateParts = date.split("-"); // separate date
         String day = dateParts[0];
         String month = dateParts[1];
         String year = dateParts[2];
 
-        String monthName = new DateFormatSymbols().getMonths()[Integer.parseInt(month) - 1]; // month from num to nam
+        String monthName = new DateFormatSymbols(new Locale(SharedPrefManager.getInstance(AllSalonsActivity.this).getSavedLang())).getMonths()[Integer.parseInt(month) - 1]; // month from num to nam
 
         Calendar cal = Calendar.getInstance();
         cal.set(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(day));
         int dayWeek = cal.get(Calendar.DAY_OF_WEEK); // day in month to day in week
-        String dayOfWeek = new DateFormatSymbols().getWeekdays()[dayWeek]; // day in week from num to nam
+        String dayOfWeek = new DateFormatSymbols(new Locale(SharedPrefManager.getInstance(AllSalonsActivity.this).getSavedLang())).getWeekdays()[dayWeek]; // day in week from num to nam
 
-        dateList.add(new SalonDate(date, day, monthName, dayOfWeek, 4));
+        return new SalonDate(date, day, monthName, dayOfWeek, GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getDatesCount(date) + getResources().getString(R.string.salons));
     }
 
     private void initDatesRecycler() {

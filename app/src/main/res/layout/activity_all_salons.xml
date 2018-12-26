@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?><!-- scroll main layout -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Views.AllSalonsActivity">
 
     <!-- title bar -->
     <RelativeLayout
@@ -54,9 +56,9 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_below="@id/all_salons_header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/all_salons_header"
         android:orientation="vertical">
 
         <!-- dates recycler -->
@@ -64,7 +66,8 @@
             android:id="@+id/date_recycler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_medium" />
 
         <!-- salons container -->
         <RelativeLayout
@@ -81,6 +84,6 @@
 
     </LinearLayout>
 
-    <include layout="@layout/no_connection_layout"/>
+    <include layout="@layout/no_connection_layout" />
 
 </RelativeLayout>

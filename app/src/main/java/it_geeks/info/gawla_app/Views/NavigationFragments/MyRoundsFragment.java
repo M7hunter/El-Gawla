@@ -54,12 +54,12 @@ public class MyRoundsFragment extends Fragment {
 
         checkConnection(view);
 
-
         return view;
     }
 
     private void initViews(View view) {
         myRoundProgress = view.findViewById(R.id.my_rounds_progress);
+        roundsViewPager = view.findViewById(R.id.rounds_pager);
 
         // arrows
         arrowRight = view.findViewById(R.id.my_rounds_right_arrow);
@@ -239,7 +239,6 @@ public class MyRoundsFragment extends Fragment {
 
     private void initPager(View view) {
         // pager
-        roundsViewPager = view.findViewById(R.id.rounds_pager);
         roundsViewPager.setAdapter(new RoundsPagerAdapter(getActivity(), roundsList));
     }
 

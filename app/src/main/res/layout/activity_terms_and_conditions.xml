@@ -6,7 +6,7 @@
     android:background="@android:color/white"
     android:orientation="vertical"
     android:scrollbars="none"
-    tools:context=".Views.MenuOptions.PrivacyPolicyActivity">
+    tools:context=".Views.MenuOptions.TermsAndConditionsActivity">
     <!-- scroll main layout -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
 
             <!-- back -->
             <ImageView
-                android:id="@+id/privacy_policy_back"
+                android:id="@+id/terms_conditions_back"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:padding="@dimen/margin_medium"
@@ -34,20 +34,21 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/privacy_policy"
+                android:text="@string/terms_conditions"
                 android:textColor="@color/battleshipGrey"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
         </RelativeLayout>
 
+        <!-- header -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_large"
-            android:text="@string/privacy_policy"
+            android:text="@string/terms_conditions"
             android:textAllCaps="true"
             android:textColor="@color/midBlue"
             android:textSize="@dimen/text_size_large"

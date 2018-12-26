@@ -76,7 +76,8 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mCurrentPage >= 2) {
-                    startActivity(new Intent(IntroActivity.this, LoginActivity.class));
+                    startActivity(new Intent(IntroActivity.this, LoginActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
                     finish();
                 }
                 mViewPager.setCurrentItem(mCurrentPage + 1);

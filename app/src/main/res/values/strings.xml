@@ -24,7 +24,7 @@
     <string name="buy_card">buy card</string>
     <string name="account_details">account details</string>
     <string name="buying_processes">buying processes</string>
-    <string name="privacy_policy">privacy details</string>
+    <string name="privacy_policy">privacy policy</string>
     <string name="dont_have_red_card">don\'t have red card</string>
     <string name="dont_have_golden_card">don\'t have golden card</string>
     <string name="dont_have_green_card">don\'t have green card</string>
@@ -139,6 +139,7 @@
     <string name="receive_notification">receive notification</string>
     <string name="notification">notification</string>
     <string name="all_salons">all salons</string>
+    <string name="salons">" salons "</string>
     <!--  Arr For Test and will delete later .-->
     <array name="ArrGender">
         <item>Male</item>
@@ -150,8 +151,6 @@
         <item>Kuwait</item>
         <item>USA</item>
     </array>
-
-
 
 
     <!--  TODO Will Delete This Strings Later -->

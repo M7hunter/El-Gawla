@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
+import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 
 public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
 
@@ -38,7 +40,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         final SalonDate salonDate = dateList.get(i);
 
-        // 1st check if selected
+        // check if selected
         if (selectedPosition == i) { // selected
             if (Integer.parseInt(salonDate.getDayOfMonth()) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) { // if today
                 dayIsToday(viewHolder);
@@ -49,7 +51,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
             if (Integer.parseInt(salonDate.getDayOfMonth()) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) { // if today
                 dayIsToday(viewHolder);
             } else {
-                viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_white));
+                dayNotToday(viewHolder);
             }
         }
 
@@ -78,6 +80,17 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
         viewHolder.salonsCount.setTextColor(Color.parseColor("#FFFFFF"));
         viewHolder.salonsCount.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_nice_blue));
         viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_nice_blue));
+    }
+
+    private void dayNotToday(ViewHolder viewHolder) {
+        viewHolder.separator.setBackgroundColor(context.getResources().getColor(R.color.niceBlue));
+        viewHolder.dayOfMonth.setTextColor(context.getResources().getColor(R.color.niceBlue));
+        viewHolder.month.setTextColor(context.getResources().getColor(R.color.niceBlue));
+        viewHolder.dayOfWeek.setTextColor(context.getResources().getColor(R.color.niceBlue));
+        viewHolder.dayOfWeek.setTextColor(context.getResources().getColor(R.color.niceBlue));
+        viewHolder.salonsCount.setTextColor(context.getResources().getColor(R.color.niceBlue));
+        viewHolder.salonsCount.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_pale_grey));
+        viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_white));
     }
 
     @Override
