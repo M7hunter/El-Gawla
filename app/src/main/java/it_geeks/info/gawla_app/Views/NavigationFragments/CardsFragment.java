@@ -122,7 +122,7 @@ public class CardsFragment extends Fragment {
             public void onFailure(Call<JsonObject> call, Throwable t) { // errors of connection
                 cardsProgress.setVisibility(View.GONE);
                 initEmptyView(view);
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.mainInstance, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

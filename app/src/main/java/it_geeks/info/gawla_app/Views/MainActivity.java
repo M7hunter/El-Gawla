@@ -1,6 +1,7 @@
 package it_geeks.info.gawla_app.Views;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
+import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Views.NavigationFragments.AccountFragment;
 import it_geeks.info.gawla_app.Views.NavigationFragments.CardsFragment;
 import it_geeks.info.gawla_app.Views.NavigationFragments.MainFragment;
@@ -40,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         initNavigation();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Common.Instance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
     }
 
     private void initNavigation() {

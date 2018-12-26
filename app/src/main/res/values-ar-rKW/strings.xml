@@ -160,4 +160,5 @@
     <string name="cards_empty_hint">ليس لديك كروت</string>
     <string name="no_connection">لا يوجد اتصال</string>
     <string name="no_salons">لا يوجد صالات حاليا \n حاول لاحقا</string>
+    <string name="salons">" صالات"</string>
 </resources>

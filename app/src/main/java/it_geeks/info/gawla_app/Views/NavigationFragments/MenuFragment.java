@@ -20,15 +20,15 @@ import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Views.MenuOptions.MoreAboutGawlaActivity;
 import it_geeks.info.gawla_app.Views.MenuOptions.PrivacyPolicyActivity;
 import it_geeks.info.gawla_app.Views.MenuOptions.SettingsActivity;
+import it_geeks.info.gawla_app.Views.MenuOptions.TermsAndConditionsActivity;
 import it_geeks.info.gawla_app.Views.NotificationActivity;
+import it_geeks.info.gawla_app.Views.SplashActivities.IntroActivity;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MenuFragment extends Fragment {
 
     private GoogleApiClient mGoogleApiClient;
-
-    private ImageView imCountryIcon;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,9 +42,17 @@ public class MenuFragment extends Fragment {
 
     private void initViews(final View view) {
         mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext()).addApi(Auth.GOOGLE_SIGN_IN_API).build();
-        imCountryIcon = view.findViewById(R.id.menu_country_icon);
+        ImageView imCountryIcon = view.findViewById(R.id.menu_country_icon);
 
         Picasso.with(getContext()).load(SharedPrefManager.getInstance(getContext()).getCountry().getImage()).into(imCountryIcon);
+
+        // open settings page
+        view.findViewById(R.id.menu_option_settings).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+            }
+        });
 
         // more about gawla page
         view.findViewById(R.id.menu_option_more_about_gawla).setOnClickListener(new View.OnClickListener() {
@@ -62,6 +70,14 @@ public class MenuFragment extends Fragment {
             }
         });
 
+        // terms & conditions page
+        view.findViewById(R.id.menu_option_terms_conditions).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), TermsAndConditionsActivity.class));
+            }
+        });
+
         // call us page
         view.findViewById(R.id.menu_option_call_us).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,19 +86,11 @@ public class MenuFragment extends Fragment {
             }
         });
 
-        // open settings page
-        view.findViewById(R.id.menu_option_settings).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-            }
-        });
-
-        // open Notification
-        view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+        // intro page 'how gawla works'
+        view.findViewById(R.id.menu_option_how_gawla_works).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),NotificationActivity.class));
+                startActivity(new Intent(getContext(), IntroActivity.class));
             }
         });
 
@@ -100,6 +108,14 @@ public class MenuFragment extends Fragment {
                 }
                 SharedPrefManager.getInstance(getActivity()).clearProvider();
                 getActivity().finish();
+            }
+        });
+
+        // open Notification
+        view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),NotificationActivity.class));
             }
         });
     }

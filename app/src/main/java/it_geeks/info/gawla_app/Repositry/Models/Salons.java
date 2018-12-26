@@ -4,21 +4,12 @@ import java.util.List;
 
 public class Salons {
 
-    private String header;
-
     private List<Round> rounds;
+    private List<SalonDate> salonDates;
 
-    public Salons(String header, List<Round> rounds) {
-        this.header = header;
+    public Salons(List<Round> rounds, List<SalonDate> salonDates) {
         this.rounds = rounds;
-    }
-
-    public String getHeader() {
-        return header;
-    }
-
-    public void setHeader(String header) {
-        this.header = header;
+        this.salonDates = salonDates;
     }
 
     public List<Round> getRounds() {
@@ -27,5 +18,13 @@ public class Salons {
 
     public void setRounds(List<Round> rounds) {
         this.rounds = rounds;
+    }
+
+    public List<SalonDate> getSalonDates() {
+        return salonDates;
+    }
+
+    public void setSalonDates(List<SalonDate> salonDates) {
+        this.salonDates = salonDates;
     }
 }
