@@ -5,25 +5,46 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.Repositry.Models.RoundStartToEndModel;
 
 public class RoundStartToEnd {
-    
+
+    private List<ImageView> upDivsList = new ArrayList<>();
+    private List<ImageView> downDivsList = new ArrayList<>();
+    private List<Integer> drawablesUp = new ArrayList<>();
+    private List<Integer> drawablesDown = new ArrayList<>();
+
     Context context;
     RoundStartToEndModel roundStartToEndModel;
     CountDownTimer countDownTimer;
     int joinStatus ;
+
     public RoundStartToEnd(Context context, RoundStartToEndModel roundStartToEndModel) {
         this.context = context;
         this.roundStartToEndModel = roundStartToEndModel;
     }
+
+    public RoundStartToEnd() {
+        for (int i = 0; i < 12 ; i++) {
+            this.upDivsList.add(upDivsList.get(i));
+            this.downDivsList.add(downDivsList.get(i));
+        }
+        for (int i = 0; i < 12; i++) {
+            this.drawablesUp.add(drawablesUp.get(i));
+            this.drawablesDown.add(drawablesDown.get(i));
+        }
+    }
+
     public void start(){
-        long start = Common.Instance(context).formatTimeToMillis("01:10:00");
-        long end = Common.Instance(context).formatTimeToMillis("01:43:30");
+        long start = Common.Instance(context).formatTimeToMillis("01:00:00");
+        long end = Common.Instance(context).formatTimeToMillis("01:00:30");
         long value = end - start;
-        countDownBeforRoundStart(value);
+        countDownBeforeStart(value);
     }
 
     public void stop(){
@@ -34,8 +55,8 @@ public class RoundStartToEnd {
         this.joinStatus = joinStatus;
     }
 
-    // before round start and open joine
-    private void countDownBeforRoundStart(long value) {
+    // before round start and open join
+    private void countDownBeforeStart(long value) {
         try{
             final int[] mMinute= {0},mHour = {0};
             countDownTimer = new CountDownTimer(value, 1000) {
@@ -58,10 +79,15 @@ public class RoundStartToEnd {
                     }
                     mMinute[0] = minute;
 
+                    if (mHour[0] != hour){
+                        GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"hour");
+                        gawlaTimeDownMinute.NumberTick(hour);
+                    }
+                    mHour[0] = hour;
                 }
 
                 public void onFinish() {
-                    roundStartToEndModel.getRound_notification_text().setText("Round Opened , You can Joine Now .");
+                     roundStartToEndModel.getRound_notification_text().setText("Round Opened , You can Join Now .");
                     roundStartToEndModel.getBtnJoinRound().setVisibility(View.VISIBLE);
                     countDownGoldenCard();
                 }
@@ -106,9 +132,9 @@ public class RoundStartToEnd {
                     roundStartToEndModel.getBtnJoinRound().setVisibility(View.INVISIBLE);
                     countDownWating();
                     if (joinStatus == 2){
-                        roundStartToEndModel.getRound_notification_text().setText(" Waite Round Start ...");
+                        roundStartToEndModel.getRound_notification_text().setText(" Waiting Round Start ...");
                     }else {
-                        roundStartToEndModel.getRound_notification_text().setText("Round Closed , But you can still joine with the Golden Card .");
+                        roundStartToEndModel.getRound_notification_text().setText("Round Closed , But you can still join with the Golden Card .");
                     }
 
                 }
@@ -207,5 +233,7 @@ public class RoundStartToEnd {
         }
 
     }
+
+
 
 }

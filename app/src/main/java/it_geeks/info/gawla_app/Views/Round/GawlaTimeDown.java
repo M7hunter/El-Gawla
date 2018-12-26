@@ -20,9 +20,10 @@ public class GawlaTimeDown implements Animation.AnimationListener{
     private Animation animation2;
     private Animation animation3;
     private Animation animation4;
-    private int numNext;
-    private int numNextTens;
+    private int currentNumberTens;
     private int currentNumber;
+
+    public static boolean statusTime;
     Context context;
 
     public GawlaTimeDown(Context context,List<ImageView> upDivsList,List<ImageView> downDivsList,List<Integer> drawablesUp ,List<Integer> drawablesDown,String typeOnTime) {
@@ -52,110 +53,123 @@ public class GawlaTimeDown implements Animation.AnimationListener{
 
     // tick number
     public void NumberTick(long millisUntilFinished) {
+            try{
 
-            int num = (int) millisUntilFinished ;
-            int firstDigit = 0,secondDigit = 0;
-            if (String.valueOf(num).length() == 2) {
-                firstDigit = Integer.parseInt(Integer.toString(num).substring(0, 1));
-                secondDigit = Integer.parseInt(Integer.toString(num).substring(1, 2));
-            }else {
-                firstDigit = Integer.parseInt(Integer.toString(num).substring(0, 1));
-            }
-
-            currentNumber =secondDigit;
-
-            if (num < 10) {
-                anmi(num);
-                upDivsList.get(0).setImageResource(drawablesUp.get(firstDigit));
-                upDivsList.get(1).setImageResource(drawablesUp.get(firstDigit));
-                downDivsList.get(1).setImageResource(drawablesDown.get(firstDigit));
-
-                downDivsList.get(2).setImageResource(drawablesDown.get(0));
-                upDivsList.get(2).setImageResource(drawablesUp.get(0));
-                upDivsList.get(3).setImageResource(drawablesUp.get(0));
-                downDivsList.get(3).setImageResource(drawablesDown.get(0));
-            }
-
-            if (num >= 10 && num < 20) {
-                anmi(num);
-                upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
-                upDivsList.get(1).setImageResource(drawablesUp.get(secondDigit));
-                downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
-
-                downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
-                upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
-                upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
-                downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
-            }
-
-            if (num >= 20 && num < 30) {
-                anmi(num);
-                upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
-                upDivsList.get(1).setImageResource(drawablesUp.get(secondDigit));
-                downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
-
-                downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
-                upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
-                upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
-                downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
-            }
-
-            if (num >= 30 && num < 40) {
-                anmi(num);
-                upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
-                upDivsList.get(1).setImageResource(drawablesUp.get(secondDigit));
-                downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
-
-                downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
-                upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
-                upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
-                downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
-            }
-
-            if (num >= 40 && num < 50) {
-                anmi(num);
-                upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
-                upDivsList.get(1).setImageResource(drawablesUp.get(secondDigit));
-                downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
-
-                downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
-                upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
-                upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
-                downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
-            }
-
-            if (num >= 50 && num < 60 ) {
-                anmi(num);
-                upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
-                upDivsList.get(1).setImageResource(drawablesUp.get(secondDigit));
-                downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
-
-                downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
-                upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
-                upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
-                downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
+                int num = (int) millisUntilFinished ;
+                int firstDigit = 0,secondDigit = 0;
+                if (String.valueOf(num).length() == 2) {
+                    firstDigit = Integer.parseInt(Integer.toString(num).substring(0, 1));
+                    secondDigit = Integer.parseInt(Integer.toString(num).substring(1, 2));
+                    currentNumber = secondDigit;
+                    currentNumberTens = firstDigit;
+                }else {
+                    firstDigit = Integer.parseInt(Integer.toString(num).substring(0, 1));
+                    currentNumber = firstDigit;
+                    currentNumberTens = 0 ;
                 }
 
+
+
+                if (num < 10) {
+                    anmi(num);
+                    upDivsList.get(0).setImageResource(drawablesUp.get(firstDigit));
+                    downDivsList.get(1).setImageResource(drawablesDown.get(firstDigit));
+
+                    downDivsList.get(2).setImageResource(drawablesDown.get(0));
+                    upDivsList.get(2).setImageResource(drawablesUp.get(0));
+                    upDivsList.get(3).setImageResource(drawablesUp.get(0));
+                    downDivsList.get(3).setImageResource(drawablesDown.get(0));
+                    if (num == 9){
+                        tensanmi();
+                    }
+                }
+
+                if (num >= 10 && num < 20) {
+                    anmi(num);
+                    upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
+                    downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
+
+                    upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
+                    downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
+                    if (num == 19){
+                        tensanmi();
+                    }else {
+                        upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
+                        downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
+                    }
+                }
+
+                if (num >= 20 && num < 30) {
+                    anmi(num);
+                    upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
+                    downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
+
+                    upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
+                    downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
+                    if (num == 29){
+                        tensanmi();
+                    }else {
+                        upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
+                        downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
+                    }
+                }
+
+                if (num >= 30 && num < 40) {
+                    anmi(num);
+                    upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
+                    downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
+
+                    upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
+                    downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
+                    if (num == 39){
+                        tensanmi();
+                    }else {
+                        upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
+                        downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
+                    }
+                }
+
+                if (num >= 40 && num < 50) {
+                    anmi(num);
+                    upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
+                    downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
+
+                    upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
+                    downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
+                    if (num == 49){
+                        tensanmi();
+                    }else {
+                        upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
+                        downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
+                    }
+                }
+
+                if (num >= 50 && num < 60 ) {
+                    anmi(num);
+                    upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
+                    downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
+
+                    upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
+                    downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
+                    if (num == 59){
+                        upDivsList.get(3).setImageResource(drawablesUp.get(currentNumberTens));
+                        downDivsList.get(2).setImageResource(drawablesDown.get(currentNumberTens));
+                        tensanmi();
+                    }else {
+                        upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
+                        downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
+                    }
+                }
+
+
+            }catch (Exception e){
+                Log.e("Mo7",e.getMessage());
+            }
     }
 
     // anmie for basice number
     private void anmi(int n) {
 
-        if (n == 10) {
-            tensanmi();
-        }else
-        if (n == 20) {
-            tensanmi();
-        }else
-        if (n == 30) {
-            tensanmi();
-        }else
-        if (n == 40) {
-            tensanmi();
-        }else
-        if (n == 50) {
-            tensanmi();
-        }
         if (n < 60) {
             animation1 = AnimationUtils.loadAnimation(context, R.anim.flip_point_to_middle);
             animation1.setAnimationListener(this);
@@ -185,10 +199,9 @@ public class GawlaTimeDown implements Animation.AnimationListener{
             animation2 = AnimationUtils.loadAnimation(context, R.anim.flip_point_from_middle);
             animation2.setAnimationListener(this);
             downDivsList.get(1).startAnimation(animation2);
-            upDivsList.get(1).setImageResource(drawablesDown.get(currentNumber));
-
         }else if (animation == animation2){
             downDivsList.get(1).setVisibility(View.INVISIBLE);
+            upDivsList.get(1).setImageResource(drawablesUp.get(currentNumber));
             downDivsList.get(0).setImageResource(drawablesDown.get(currentNumber));
 
         }
@@ -202,8 +215,8 @@ public class GawlaTimeDown implements Animation.AnimationListener{
 
         }else if(animation == animation4){
             downDivsList.get(3).setVisibility(View.INVISIBLE);
-            downDivsList.get(2).setImageResource(drawablesDown.get(numNextTens));
-            upDivsList.get(2).setImageResource(drawablesUp.get(numNextTens));
+            upDivsList.get(3).setImageResource(drawablesUp.get(currentNumberTens));
+            downDivsList.get(2).setImageResource(drawablesDown.get(currentNumberTens));
         }
 
     }
