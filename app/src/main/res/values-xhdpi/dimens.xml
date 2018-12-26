@@ -17,6 +17,7 @@
     <dimen name="text_size_medium">14sp</dimen>
     <dimen name="text_size_large">17sp</dimen>
     <dimen name="text_size_xlarge">20sp</dimen>
+    <dimen name="num_tick" >40sp</dimen>
 
     <!-- icons & images -->
     <dimen name="logo_width">120dp</dimen>

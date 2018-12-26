@@ -125,221 +125,110 @@
                                 android:id="@+id/hour_div"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_medium">
+                                android:padding="5dp">
 
-                                <!-- top up -->
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_up9"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
-                                    android:layout_marginStart="@dimen/margin_small"
-                                    android:layout_toRightOf="@id/div_up11"
-                                    android:background="@drawable/grad_up"
-                                    android:gravity="center">
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="50dp"
+                                    android:layout_marginTop="6dp"
+                                    android:background="@drawable/digit_0_upper"
+                                    android:gravity="center"
+                                    android:scaleType="fitXY"/>
 
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@color/ops" />
-
-                                    <TextView
-                                        android:id="@+id/num_up9"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:paddingTop="4dp"
-                                        android:text="4"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <!-- down up -->
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_down9"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
-                                    android:layout_below="@id/div_up9"
-                                    android:layout_marginStart="@dimen/margin_small"
-                                    android:layout_toRightOf="@id/div_down11"
-                                    android:background="@drawable/grad_down"
-                                    android:gravity="center">
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="50dp"
+                                    android:layout_marginTop="31dp"
+                                    android:background="@drawable/digit_0_lower"
+                                    android:gravity="center"
+                                    android:scaleType="fitXY" />
 
-                                    <TextView
-                                        android:id="@+id/num_down9"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_marginBottom="29dp"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:text="4"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <!-- top bottom -->
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_up10"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
-                                    android:layout_marginStart="@dimen/margin_small"
-                                    android:layout_toRightOf="@id/div_up11"
-                                    android:background="@drawable/grad_up"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="50dp"
+                                    android:layout_marginTop="6dp"
+                                    android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:visibility="invisible">
+                                    android:visibility="invisible"
+                                    android:scaleType="fitXY"/>
 
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@color/ops" />
-
-                                    <TextView
-                                        android:id="@+id/num_up10"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:paddingTop="6dp"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <!-- down bottom -->
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_down10"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
-                                    android:layout_below="@id/div_up9"
-                                    android:layout_marginStart="@dimen/margin_small"
-                                    android:layout_toRightOf="@id/div_down11"
-                                    android:background="@drawable/grad_down"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="50dp"
+                                    android:layout_marginTop="31dp"
+                                    android:background="@drawable/digit_0_lower"
                                     android:gravity="center"
-                                    android:visibility="invisible">
+                                    android:scaleType="fitXY"
+                                    android:visibility="invisible" />
 
-                                    <TextView
-                                        android:id="@+id/num_down10"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_marginBottom="30.5dp"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <!-- top up -->
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_up11"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
-                                    android:background="@drawable/grad_up"
-                                    android:gravity="center">
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="6dp"
+                                    android:background="@drawable/digit_0_upper"
+                                    android:gravity="center"
+                                    android:scaleType="fitXY"/>
 
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@color/ops" />
-
-                                    <TextView
-                                        android:id="@+id/num_up11"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:paddingTop="4dp"
-                                        android:text="3"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <!-- down up -->
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_down11"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
-                                    android:layout_below="@id/div_up11"
-                                    android:background="@drawable/grad_down"
-                                    android:gravity="center">
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="31dp"
+                                    android:background="@drawable/digit_0_lower"
+                                    android:gravity="center"
+                                    android:scaleType="fitXY" />
 
-                                    <TextView
-                                        android:id="@+id/num_down11"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerVertical="true"
-                                        android:layout_marginBottom="29dp"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:text="3"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <!-- top bottom -->
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_up12"
                                     android:layout_width="35dp"
-                                    android:layout_height="30dp"
-                                    android:background="@drawable/grad_up"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="6dp"
+                                    android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:visibility="invisible">
+                                    android:visibility="invisible"
+                                    android:scaleType="fitXY"
+                                    />
 
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@color/ops" />
-
-                                    <TextView
-                                        android:id="@+id/num_up12"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:paddingTop="6dp"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-
-                                </RelativeLayout>
-
-                                <!-- down bottom -->
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_down12"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
-                                    android:layout_below="@id/div_up11"
-                                    android:background="@drawable/grad_down"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="false"
+                                    android:layout_alignParentTop="false"
+                                    android:layout_marginStart="5dp"
+                                    android:layout_marginTop="31dp"
+                                    android:background="@drawable/digit_0_lower"
                                     android:gravity="center"
-                                    android:visibility="invisible">
+                                    android:scaleType="fitXY"
+                                    android:visibility="invisible" />
 
-                                    <TextView
-                                        android:id="@+id/num_down12"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_marginBottom="30.5dp"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
+
 
                             </RelativeLayout>
 
@@ -353,7 +242,7 @@
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
 
-                            <!-- minutes label -->
+                            <!-- seconds label -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -368,233 +257,108 @@
                                 android:layout_height="wrap_content"
                                 android:padding="5dp">
 
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_up5"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
+                                    android:layout_height="25dp"
                                     android:layout_alignParentStart="true"
                                     android:layout_alignParentTop="true"
                                     android:layout_marginStart="50dp"
                                     android:layout_marginTop="6dp"
-                                    android:background="@drawable/grad_up"
-                                    android:gravity="center">
+                                    android:background="@drawable/digit_0_upper"
+                                    android:gravity="center"
+                                    android:scaleType="fitXY"/>
 
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@color/ops" />
-
-                                    <TextView
-                                        android:id="@+id/num_up5"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:paddingTop="6dp"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_down5"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
+                                    android:layout_height="25dp"
                                     android:layout_alignParentStart="true"
                                     android:layout_alignParentTop="true"
                                     android:layout_marginStart="50dp"
-                                    android:layout_marginTop="34dp"
-                                    android:background="@drawable/grad_down"
-                                    android:gravity="center">
+                                    android:layout_marginTop="31dp"
+                                    android:background="@drawable/digit_0_lower"
+                                    android:gravity="center"
+                                    android:scaleType="fitXY" />
 
-                                    <TextView
-                                        android:id="@+id/num_down5"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_marginBottom="30.5dp"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_up6"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
+                                    android:layout_height="25dp"
+                                    android:layout_alignBottom="@+id/div_up5"
                                     android:layout_alignParentStart="true"
                                     android:layout_alignParentTop="true"
                                     android:layout_marginStart="50dp"
                                     android:layout_marginTop="6dp"
-                                    android:background="@drawable/grad_up"
+                                    android:layout_marginBottom="0dp"
+                                    android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:visibility="invisible">
+                                    android:scaleType="fitXY"
+                                    android:visibility="invisible" />
 
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@color/ops" />
-
-                                    <TextView
-                                        android:id="@+id/num_up6"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:paddingTop="6dp"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_down6"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
+                                    android:layout_height="25dp"
                                     android:layout_alignParentStart="true"
                                     android:layout_alignParentTop="true"
                                     android:layout_marginStart="50dp"
-                                    android:layout_marginTop="34dp"
-                                    android:background="@drawable/grad_down"
+                                    android:layout_marginTop="31dp"
+                                    android:background="@drawable/digit_0_lower"
                                     android:gravity="center"
-                                    android:visibility="invisible">
+                                    android:scaleType="fitXY"
+                                    android:visibility="invisible" />
 
-                                    <TextView
-                                        android:id="@+id/num_down6"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_marginBottom="30.5dp"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_up7"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
+                                    android:layout_height="25dp"
                                     android:layout_alignParentStart="true"
                                     android:layout_alignParentTop="true"
                                     android:layout_marginStart="5dp"
                                     android:layout_marginTop="6dp"
-                                    android:background="@drawable/grad_up"
-                                    android:gravity="center">
+                                    android:background="@drawable/digit_0_upper"
+                                    android:gravity="center"
+                                    android:scaleType="fitXY"/>
 
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@color/ops" />
-
-                                    <TextView
-                                        android:id="@+id/num_up7"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:paddingTop="6dp"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_down7"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
+                                    android:layout_height="25dp"
                                     android:layout_alignParentStart="true"
                                     android:layout_alignParentTop="true"
                                     android:layout_marginStart="5dp"
-                                    android:layout_marginTop="34dp"
-                                    android:background="@drawable/grad_down"
-                                    android:gravity="center">
+                                    android:layout_marginTop="31dp"
+                                    android:background="@drawable/digit_0_lower"
+                                    android:gravity="center"
+                                    android:scaleType="fitXY" />
 
-                                    <TextView
-                                        android:id="@+id/num_down7"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_marginBottom="30.5dp"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_up8"
                                     android:layout_width="35dp"
-                                    android:layout_height="30dp"
+                                    android:layout_height="25dp"
                                     android:layout_alignParentStart="true"
                                     android:layout_alignParentTop="true"
                                     android:layout_marginStart="5dp"
                                     android:layout_marginTop="6dp"
-                                    android:background="@drawable/grad_up"
+                                    android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:visibility="invisible">
+                                    android:visibility="invisible"
+                                    android:scaleType="fitXY"/>
 
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@color/ops" />
-
-                                    <TextView
-                                        android:id="@+id/num_up8"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:paddingTop="6dp"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_down8"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
+                                    android:layout_height="25dp"
                                     android:layout_alignParentStart="true"
                                     android:layout_alignParentTop="true"
                                     android:layout_marginStart="5dp"
-                                    android:layout_marginTop="34dp"
-                                    android:background="@drawable/grad_down"
+                                    android:layout_marginTop="31dp"
+                                    android:background="@drawable/digit_0_lower"
                                     android:gravity="center"
-                                    android:visibility="invisible">
+                                    android:scaleType="fitXY"
+                                    android:visibility="invisible" />
 
-                                    <TextView
-                                        android:id="@+id/num_down8"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_marginBottom="30.5dp"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
 
 
                             </RelativeLayout>
@@ -624,233 +388,106 @@
                                 android:layout_height="wrap_content"
                                 android:padding="5dp">
 
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_up1"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="false"
+                                    android:layout_alignParentTop="false"
                                     android:layout_marginStart="50dp"
                                     android:layout_marginTop="6dp"
-                                    android:background="@drawable/grad_up"
-                                    android:gravity="center">
+                                    android:background="@drawable/digit_0_upper"
+                                    android:gravity="center"
+                                    android:scaleType="fitXY"/>
 
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@color/ops" />
-
-                                    <TextView
-                                        android:id="@+id/num_up1"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:paddingTop="6dp"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_down1"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="false"
+                                    android:layout_alignParentTop="false"
                                     android:layout_marginStart="50dp"
-                                    android:layout_marginTop="34dp"
-                                    android:background="@drawable/grad_down"
-                                    android:gravity="center">
+                                    android:layout_marginTop="31dp"
+                                    android:background="@drawable/digit_0_lower"
+                                    android:gravity="center"
+                                    android:scaleType="fitXY"/>
 
-                                    <TextView
-                                        android:id="@+id/num_down1"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_marginBottom="30.5dp"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_up2"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="false"
+                                    android:layout_alignParentTop="false"
                                     android:layout_marginStart="50dp"
                                     android:layout_marginTop="6dp"
-                                    android:background="@drawable/grad_up"
+                                    android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:visibility="invisible">
+                                    android:visibility="invisible"
+                                    android:scaleType="fitXY"/>
 
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@color/ops" />
-
-                                    <TextView
-                                        android:id="@+id/num_up2"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:paddingTop="6dp"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_down2"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="false"
+                                    android:layout_alignParentTop="false"
                                     android:layout_marginStart="50dp"
-                                    android:layout_marginTop="34dp"
-                                    android:background="@drawable/grad_down"
+                                    android:layout_marginTop="31dp"
+                                    android:background="@drawable/digit_0_lower"
                                     android:gravity="center"
-                                    android:visibility="invisible">
+                                    android:visibility="invisible"
+                                    android:scaleType="fitXY"/>
 
-                                    <TextView
-                                        android:id="@+id/num_down2"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_marginBottom="30.5dp"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_up3"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="false"
+                                    android:layout_alignParentTop="false"
                                     android:layout_marginStart="5dp"
                                     android:layout_marginTop="6dp"
-                                    android:background="@drawable/grad_up"
-                                    android:gravity="center">
+                                    android:background="@drawable/digit_0_upper"
+                                    android:gravity="center"
+                                    android:scaleType="fitXY"/>
 
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@color/ops" />
-
-                                    <TextView
-                                        android:id="@+id/num_up3"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:paddingTop="6dp"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_down3"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="false"
+                                    android:layout_alignParentTop="false"
                                     android:layout_marginStart="5dp"
-                                    android:layout_marginTop="34dp"
-                                    android:background="@drawable/grad_down"
-                                    android:gravity="center">
+                                    android:layout_marginTop="31dp"
+                                    android:background="@drawable/digit_0_lower"
+                                    android:gravity="center"
+                                    android:scaleType="fitXY" />
 
-                                    <TextView
-                                        android:id="@+id/num_down3"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_marginBottom="30.5dp"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_up4"
                                     android:layout_width="35dp"
-                                    android:layout_height="30dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="false"
+                                    android:layout_alignParentTop="false"
                                     android:layout_marginStart="5dp"
                                     android:layout_marginTop="6dp"
-                                    android:background="@drawable/grad_up"
+                                    android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:visibility="invisible">
+                                    android:visibility="invisible"
+                                    android:scaleType="fitXY"/>
 
-                                    <View
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@color/ops" />
-
-                                    <TextView
-                                        android:id="@+id/num_up4"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentEnd="true"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:paddingTop="6dp"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
-
-                                <RelativeLayout
+                                <ImageView
                                     android:id="@+id/div_down4"
                                     android:layout_width="35dp"
-                                    android:layout_height="28dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentStart="false"
+                                    android:layout_alignParentTop="false"
                                     android:layout_marginStart="5dp"
-                                    android:layout_marginTop="34dp"
-                                    android:background="@drawable/grad_down"
+                                    android:layout_marginTop="31dp"
+                                    android:background="@drawable/digit_0_lower"
                                     android:gravity="center"
-                                    android:visibility="invisible">
+                                    android:visibility="invisible"
+                                    android:scaleType="fitXY"/>
 
-                                    <TextView
-                                        android:id="@+id/num_down4"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_marginBottom="30.5dp"
-                                        android:fontFamily="monospace"
-                                        android:gravity="center"
-                                        android:text="0"
-                                        android:textColor="@android:color/white"
-                                        android:textSize="40sp"
-                                        android:textStyle="bold" />
-                                </RelativeLayout>
 
 
                             </RelativeLayout>
@@ -914,7 +551,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/edittext_shape_add"
                 android:gravity="center"
-                android:hint="000"
+                android:hint="0"
                 android:inputType="number"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
@@ -1113,7 +750,8 @@
             android:text="@string/join_round"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 

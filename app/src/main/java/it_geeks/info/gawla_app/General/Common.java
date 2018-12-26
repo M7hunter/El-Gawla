@@ -15,12 +15,15 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ProgressBar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
 import it_geeks.info.gawla_app.Repositry.Models.Salons;
@@ -84,6 +87,24 @@ public class Common {
         Log.d("M7", "Time: " + time);
 
         return time;
+    }
+
+    public Calendar formatMillisToTime(long millis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millis);
+        return calendar;
+    }
+
+    public long formatTimeToMillis(String time){
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.US);
+        Date date = null;
+        try {
+            date = sdf.parse(time);
+        } catch (ParseException e) {
+            Log.d("mo7", "formatTimeToMillis: " + e.getMessage());
+        }
+
+        return date.getTime();
     }
 
     // get formatted time & date
