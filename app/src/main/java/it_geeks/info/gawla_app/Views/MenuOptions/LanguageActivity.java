@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.ViewModels.Adapters.LanguageAdapter;
+import it_geeks.info.gawla_app.Controllers.Adapters.LanguageAdapter;
 
 public class LanguageActivity extends AppCompatActivity {
 

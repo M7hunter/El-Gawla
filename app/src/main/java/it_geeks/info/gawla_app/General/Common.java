@@ -13,6 +13,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 
 import java.text.ParseException;
@@ -23,10 +25,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
-import it_geeks.info.gawla_app.Repositry.Models.Salons;
 
 public class Common {
 
@@ -40,12 +40,14 @@ public class Common {
     }
 
     public static Common Instance(Context context) {
-        if (common == null) { common = new Common(context); }
+        if (common == null) {
+            common = new Common(context);
+        }
         return common;
     }
 
     // change app lang
-    public void setLang (String lang) {
+    public void setLang(String lang) {
         Lang = lang;
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         Configuration configuration = context.getResources().getConfiguration();
@@ -59,7 +61,7 @@ public class Common {
     public String removeQuotes(String s) {
         // check
         if (s.startsWith("\"")) {
-            s =  s.substring(1, s.length() - 1);
+            s = s.substring(1, s.length() - 1);
         }
 
         return s;
@@ -95,7 +97,7 @@ public class Common {
         return calendar;
     }
 
-    public long formatTimeToMillis(String time){
+    public long formatTimeToMillis(String time) {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.US);
         Date date = null;
         try {
@@ -156,4 +158,11 @@ public class Common {
             }
         });
     }
+
+    // animate recycler items
+    public void setAnimation(View viewToAnimate) {
+        Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+        viewToAnimate.startAnimation(animation);
+    }
+
 }

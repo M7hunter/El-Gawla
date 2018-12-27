@@ -23,9 +23,9 @@ import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.ViewModels.Adapters.CountrySpinnerAdapter;
-import it_geeks.info.gawla_app.ViewModels.Adapters.DateAdapter;
-import it_geeks.info.gawla_app.ViewModels.Adapters.SalonsAdapter;
+import it_geeks.info.gawla_app.Controllers.Adapters.CountrySpinnerAdapter;
+import it_geeks.info.gawla_app.Controllers.Adapters.DateAdapter;
+import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
 
 public class AllSalonsActivity extends AppCompatActivity implements DateAdapter.OnItemClickListener {
 

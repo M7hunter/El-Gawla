@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -24,7 +23,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import it_geeks.info.gawla_app.General.Common;
@@ -33,8 +31,8 @@ import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.RoundStartToEndModel;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.ViewModels.Adapters.BottomCardsAdapter;
-import it_geeks.info.gawla_app.ViewModels.Adapters.ProductSubImagesAdapter;
+import it_geeks.info.gawla_app.Controllers.Adapters.BottomCardsAdapter;
+import it_geeks.info.gawla_app.Controllers.Adapters.ProductSubImagesAdapter;
 import it_geeks.info.gawla_app.Views.Round.RoundStartToEnd;
 
 public class SalonActivity extends AppCompatActivity implements View.OnTouchListener {

@@ -24,7 +24,7 @@ import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.ViewModels.Adapters.CountryAdapter;
+import it_geeks.info.gawla_app.Controllers.Adapters.CountryAdapter;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
 import retrofit2.Call;

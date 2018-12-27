@@ -11,8 +11,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import it_geeks.info.gawla_app.ViewModels.Adapters.SliderAdapter;
-import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.Controllers.Adapters.SliderAdapter;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
 
@@ -76,9 +75,7 @@ public class IntroActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mCurrentPage >= 2) {
-                    startActivity(new Intent(IntroActivity.this, LoginActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
-                    finish();
+                    openNextPage();
                 }
                 mViewPager.setCurrentItem(mCurrentPage + 1);
             }
@@ -90,6 +87,11 @@ public class IntroActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void openNextPage() {
+        startActivity(new Intent(IntroActivity.this, LoginActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
     public void addDots(int position) {
