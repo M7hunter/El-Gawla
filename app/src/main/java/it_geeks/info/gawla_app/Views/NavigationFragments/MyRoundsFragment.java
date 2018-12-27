@@ -27,7 +27,7 @@ import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.ViewModels.Adapters.RoundsPagerAdapter;
+import it_geeks.info.gawla_app.Controllers.Adapters.RoundsPagerAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;

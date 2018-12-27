@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;;
+;
 
 import java.util.ArrayList;
 
-import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.ViewModels.Adapters.NotificationAdapter;
+import it_geeks.info.gawla_app.Controllers.Adapters.NotificationAdapter;
 
 public class NotificationActivity extends AppCompatActivity {
 

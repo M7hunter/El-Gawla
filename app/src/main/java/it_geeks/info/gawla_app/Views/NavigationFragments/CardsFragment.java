@@ -26,7 +26,7 @@ import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.ViewModels.Adapters.CardsAdapter;
+import it_geeks.info.gawla_app.Controllers.Adapters.CardsAdapter;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Views.NotificationActivity;

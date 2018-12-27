@@ -15,7 +15,7 @@ import java.util.List;
 
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.BuyingProcess;
-import it_geeks.info.gawla_app.ViewModels.Adapters.BuyingProcessAdapter;
+import it_geeks.info.gawla_app.Controllers.Adapters.BuyingProcessAdapter;
 
 public class BuyingProcessesActivity extends AppCompatActivity {
 

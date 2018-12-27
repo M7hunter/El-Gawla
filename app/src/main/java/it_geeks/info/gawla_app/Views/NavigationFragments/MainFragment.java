@@ -20,13 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it_geeks.info.gawla_app.General.Common;
-import it_geeks.info.gawla_app.ViewModels.Adapters.RecentSalonsPagedAdapter;
-import it_geeks.info.gawla_app.ViewModels.Adapters.WinnersNewsAdapter;
+import it_geeks.info.gawla_app.Controllers.Adapters.RecentSalonsPagedAdapter;
+import it_geeks.info.gawla_app.Controllers.Adapters.WinnersNewsAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Models.WinnerNews;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.ViewModels.SalonsViewModel;
+import it_geeks.info.gawla_app.Controllers.ViewModels.SalonsViewModel;
 import it_geeks.info.gawla_app.Views.AllSalonsActivity;
+import it_geeks.info.gawla_app.Views.MenuOptions.MoreAboutGawlaActivity;
 import it_geeks.info.gawla_app.Views.NotificationActivity;
 
 public class MainFragment extends Fragment {
@@ -66,6 +67,14 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), AllSalonsActivity.class));
+            }
+        });
+
+        // more about gawla page
+        view.findViewById(R.id.salons_top_card).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MoreAboutGawlaActivity.class));
             }
         });
 
