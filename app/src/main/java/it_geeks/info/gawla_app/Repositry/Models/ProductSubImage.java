@@ -5,10 +5,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
-import it_geeks.info.gawla_app.General.MediaInterfaces.ItemMedia;
-
 @Entity
-public class ProductSubImage implements ItemMedia {
+public class ProductSubImage {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo
@@ -53,8 +51,4 @@ public class ProductSubImage implements ItemMedia {
         this.imageUrl = imageUrl;
     }
 
-    @Override
-    public int getItemType() {
-        return ItemMedia.ImageType;
-    }
 }

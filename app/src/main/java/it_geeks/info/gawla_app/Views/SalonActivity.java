@@ -5,6 +5,8 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -65,6 +67,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     public ImageView imProductMainImage;
     public VideoView vpProductMainVideo;
+    private ImageView btnPlayPause;
+    private int stopPosition = 0;
+
+    public ProductSubImage productSubImage = new ProductSubImage();
 
     private List<ProductSubImage> imagesList = new ArrayList<>();
 
@@ -121,8 +127,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     //Round Start
     private void startTimeDown() {
-        RoundStartToEndModel roundStartToEndModel = new RoundStartToEndModel(upDivsList,downDivsList,drawablesUp,drawablesDown,btnJoinRound,addOfferLayout,round_notification_text);
-        roundStartToEnd = new RoundStartToEnd(SalonActivity.this,roundStartToEndModel);
+        RoundStartToEndModel roundStartToEndModel = new RoundStartToEndModel(upDivsList, downDivsList, drawablesUp, drawablesDown, btnJoinRound, addOfferLayout, round_notification_text);
+        roundStartToEnd = new RoundStartToEnd(SalonActivity.this, roundStartToEndModel);
         roundStartToEnd.start();
     }
 
@@ -366,7 +372,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         mBottomSheetDialogProductDetails = new BottomSheetDialog(this);
         final View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_product_details, null);
 
-
         //init bottom sheet views
 
         getRoundImages(sheetView);
@@ -395,13 +400,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void bottomViews_setDetails(View parent) {
         TextView tvProductName, tvProductPrice, tvProductDescription;
-
         // init views
         tvProductName = parent.findViewById(R.id.product_details_name);
         tvProductPrice = parent.findViewById(R.id.product_details_price);
         tvProductDescription = parent.findViewById(R.id.product_details_descriptions);
         imProductMainImage = parent.findViewById(R.id.product_details_main_image);
         vpProductMainVideo = parent.findViewById(R.id.player);
+        btnPlayPause = parent.findViewById(R.id.btn_play_pause);
 
         // set data
         tvProductName.setText(round.getProduct_name());
@@ -412,25 +417,82 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 .placeholder(R.drawable.placeholder)
                 .into(imProductMainImage);
 
-//        switchImageVideo("https://ia800201.us.archive.org/22/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4");
+        productSubImage.setImageUrl(round.getProduct_image());
     }
 
-    public void switchImageVideo(String url) {
-        if (url.endsWith(".mp4") || url.endsWith(".3gp")) {
-            imProductMainImage.setVisibility(View.INVISIBLE);
+    public void switchImageVideo(@NonNull String url) {
+        productSubImage.setImageUrl(url);
 
+        if (productSubImage.getImageUrl().endsWith(".mp4") || productSubImage.getImageUrl().endsWith(".3gp")) {
+
+            imProductMainImage.setVisibility(View.INVISIBLE);
             vpProductMainVideo.setVisibility(View.VISIBLE);
 
-            Uri vidUri = Uri.parse(url);
-            vpProductMainVideo.setVideoURI(vidUri);
-            vpProductMainVideo.start(); // TODO: you know what to do here!
+            setupVideoPlayer(productSubImage.getImageUrl());
 
         } else {
             vpProductMainVideo.setVisibility(View.INVISIBLE);
-
             imProductMainImage.setVisibility(View.VISIBLE);
-            Picasso.with(SalonActivity.this).load(round.getProduct_image()).placeholder(R.drawable.gawla_logo_blue).into(imProductMainImage);
+
+            Picasso.with(SalonActivity.this).load(productSubImage.getImageUrl()).placeholder(R.drawable.gawla_logo_blue).into(imProductMainImage);
         }
+    }
+
+    public void setupVideoPlayer(String url) {
+        Uri vidUri = Uri.parse(url);
+        vpProductMainVideo.setVideoURI(vidUri);
+        vpProductMainVideo.start();
+
+        final Handler handler = new Handler();
+
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (btnPlayPause.getAlpha() == 1) {
+                    btnPlayPause.animate().alpha(0).setDuration(300).start();
+                    btnPlayPause.setEnabled(false);
+                }
+            }
+        };
+
+        hidePP(handler, runnable);
+
+        vpProductMainVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btnPlayPause.getAlpha() == 0) {
+                    btnPlayPause.animate().alpha(1).setDuration(300).start();
+                    btnPlayPause.setEnabled(true);
+                    hidePP(handler, runnable);
+                }
+            }
+        });
+
+        btnPlayPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (vpProductMainVideo.isPlaying()) {
+                    if (vpProductMainVideo.canPause()) {
+                        stopPosition = vpProductMainVideo.getCurrentPosition();
+                        vpProductMainVideo.pause();
+                        btnPlayPause.setImageDrawable(getDrawable(R.drawable.ic_play));
+
+                        handler.removeCallbacks(runnable);
+                    }
+                } else {
+                    vpProductMainVideo.resume();
+                    vpProductMainVideo.seekTo(stopPosition);
+                    vpProductMainVideo.start();
+
+                    btnPlayPause.setImageDrawable(getDrawable(R.drawable.ic_pause));
+                    hidePP(handler, runnable);
+                }
+            }
+        });
+    }
+
+    private void hidePP(Handler handler, Runnable runnable) {
+        handler.postDelayed(runnable, 1500);
     }
 
     private void getRoundImages(View parent) {
