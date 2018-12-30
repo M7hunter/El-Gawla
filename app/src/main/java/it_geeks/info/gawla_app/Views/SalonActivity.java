@@ -484,8 +484,19 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     vpProductMainVideo.seekTo(stopPosition);
                     vpProductMainVideo.start();
 
-                    btnPlayPause.setImageDrawable(getDrawable(R.drawable.ic_pause));
-                    hidePP(handler, runnable);
+                    btnPlayPause.setImageDrawable(getDrawable(R.drawable.ic_pause));  b   \\
+                    \
+
+
+
+
+                     btnPlayPause
+
+
+
+
+
+                            hidePP(handler, runnable);
                 }
             }
         });
