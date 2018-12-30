@@ -10,8 +10,6 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,7 +51,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
             try {
                 Picasso.with(context)
                         .load(round.getProduct_image())
-                        .placeholder(context.getResources().getDrawable(R.drawable.palceholder))
+                        .placeholder(context.getResources().getDrawable(R.drawable.placeholder))
                         .into(viewHolder.imgProductImage);
             }catch (Exception e){}
 

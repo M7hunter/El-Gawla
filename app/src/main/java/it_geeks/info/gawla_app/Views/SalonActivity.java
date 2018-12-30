@@ -3,6 +3,7 @@ package it_geeks.info.gawla_app.Views;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
 
@@ -62,6 +64,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private int screenHeight;
 
     public ImageView imProductMainImage;
+    public VideoView vpProductMainVideo;
 
     private List<ProductSubImage> imagesList = new ArrayList<>();
 
@@ -208,7 +211,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         tvProductPrice.setText(round.getProduct_commercial_price());
         salonId.setText(String.valueOf(round.getSalon_id()));
 
-        Picasso.with(SalonActivity.this).load(round.getProduct_image()).placeholder(R.drawable.palceholder).into(imProductImage);
+        Picasso.with(SalonActivity.this).load(round.getProduct_image()).placeholder(R.drawable.placeholder).into(imProductImage);
     }
 
     public void initViews() {
@@ -363,7 +366,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         mBottomSheetDialogProductDetails = new BottomSheetDialog(this);
         final View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_product_details, null);
 
+
         //init bottom sheet views
+
+        getRoundImages(sheetView);
+        bottomViews_setDetails(sheetView);
+
         //close bottom sheet
         sheetView.findViewById(R.id.close_bottom_sheet_product_details).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -376,10 +384,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 }
             }
         });
-
-        bottomViews_setDetails(sheetView);
-
-        getRoundImages(sheetView);
 
         mBottomSheetDialogProductDetails.setContentView(sheetView);
 
@@ -397,13 +401,36 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         tvProductPrice = parent.findViewById(R.id.product_details_price);
         tvProductDescription = parent.findViewById(R.id.product_details_descriptions);
         imProductMainImage = parent.findViewById(R.id.product_details_main_image);
+        vpProductMainVideo = parent.findViewById(R.id.player);
 
         // set data
         tvProductName.setText(round.getProduct_name());
         tvProductPrice.setText(round.getProduct_commercial_price());
         tvProductDescription.setText(round.getProduct_product_description());
+        Picasso.with(SalonActivity.this)
+                .load(round.getProduct_image())
+                .placeholder(R.drawable.placeholder)
+                .into(imProductMainImage);
 
-        Picasso.with(SalonActivity.this).load(round.getProduct_image()).placeholder(R.drawable.gawla_logo_blue).into(imProductMainImage);
+//        switchImageVideo("https://ia800201.us.archive.org/22/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4");
+    }
+
+    public void switchImageVideo(String url) {
+        if (url.endsWith(".mp4") || url.endsWith(".3gp")) {
+            imProductMainImage.setVisibility(View.INVISIBLE);
+
+            vpProductMainVideo.setVisibility(View.VISIBLE);
+
+            Uri vidUri = Uri.parse(url);
+            vpProductMainVideo.setVideoURI(vidUri);
+            vpProductMainVideo.start(); // TODO: you know what to do here!
+
+        } else {
+            vpProductMainVideo.setVisibility(View.INVISIBLE);
+
+            imProductMainImage.setVisibility(View.VISIBLE);
+            Picasso.with(SalonActivity.this).load(round.getProduct_image()).placeholder(R.drawable.gawla_logo_blue).into(imProductMainImage);
+        }
     }
 
     private void getRoundImages(View parent) {

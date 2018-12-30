@@ -58,13 +58,26 @@
 
                     </LinearLayout>
 
-                    <!-- main image -->
-                    <ImageView
-                        android:id="@+id/product_details_main_image"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:padding="@dimen/margin_small"
-                        android:transitionName="product_im" />
+                        android:layout_height="wrap_content">
+
+                        <!-- main video player -->
+                        <VideoView
+                            android:id="@+id/player"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerHorizontal="true"
+                            android:visibility="invisible" />
+
+                        <!-- main image -->
+                        <ImageView
+                            android:id="@+id/product_details_main_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:padding="@dimen/margin_small" />
+
+                    </RelativeLayout>
 
                     <!-- small images recycler -->
                     <android.support.v7.widget.RecyclerView

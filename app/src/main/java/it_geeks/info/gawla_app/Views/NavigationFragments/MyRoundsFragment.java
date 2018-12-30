@@ -116,7 +116,7 @@ public class MyRoundsFragment extends Fragment {
                         handleEvents(roundsList.size());
 
                     } else { // errors from server
-                        if (handleServerErrors(mainObj).equals("you are not logged in.")) {
+                        if (handleServerErrors(mainObj).contains("not logged in")) {
                             startActivity(new Intent(getContext(), LoginActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
 
@@ -127,7 +127,7 @@ public class MyRoundsFragment extends Fragment {
                     }
 
                 } catch (NullPointerException e) { // errors of response body
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.mainInstance, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 initEmptyView(view);

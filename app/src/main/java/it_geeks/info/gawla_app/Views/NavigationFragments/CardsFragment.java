@@ -101,7 +101,7 @@ public class CardsFragment extends Fragment {
                         initCardsRecycler();
 
                     } else { // errors from server
-                        if (handleServerErrors(mainObj).equals("you are not logged in.")) {
+                        if (handleServerErrors(mainObj).contains("not logged in")) {
                             startActivity(new Intent(getContext(), LoginActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
                             SharedPrefManager.getInstance(getActivity()).clearUser();

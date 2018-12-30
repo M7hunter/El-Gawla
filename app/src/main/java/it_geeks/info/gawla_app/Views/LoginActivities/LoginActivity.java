@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         call.enqueue(new Callback<JsonObject>() {
                             @Override
                             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                                try {
+
                                     JsonObject mainObj = response.body().getAsJsonObject();
                                     boolean status = mainObj.get("status").getAsBoolean();
 
@@ -126,10 +126,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     //hide progress
                                     progressBar.setVisibility(View.GONE);
 
-                                } catch (NullPointerException e) { // errors of response body
-                                    progressBar.setVisibility(View.GONE);
-                                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
+
                             }
 
                             @Override
@@ -164,11 +161,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String name = userData.get("name").getAsString();
         String email = userData.get("email").getAsString();
         mApi_token = userData.get("api_token").getAsString();
-        String image = userData.get("image").getAsString();
+//        String image = userData.get("image").getAsString();
 
-        SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
+//        SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
 
-        return new User(mUser_id, name, email, mApi_token, image);
+        return new User(mUser_id, name, email, mApi_token);
     }
 
     private String handleServerErrors(JsonObject object) {
