@@ -1,7 +1,6 @@
 package it_geeks.info.gawla_app.Views;
 
 import android.app.Activity;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;

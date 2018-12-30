@@ -58,7 +58,7 @@ public class RoundsPagerAdapter extends PagerAdapter {
         btnJoinRound = view.findViewById(R.id.my_round_btn_enter);
 
         // set data
-        Picasso.with(context).load(round.getProduct_image()).placeholder(R.drawable.palceholder).into(imgProductImage);
+        Picasso.with(context).load(round.getProduct_image()).placeholder(R.drawable.placeholder).into(imgProductImage);
 
         tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
         tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));

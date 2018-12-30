@@ -8,7 +8,7 @@ import android.arch.persistence.room.PrimaryKey;
 import it_geeks.info.gawla_app.General.MediaInterfaces.ItemMedia;
 
 @Entity
-public class ProductSubImage implements ItemMedia {
+public class ProductSubVideo implements ItemMedia {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo
@@ -18,15 +18,16 @@ public class ProductSubImage implements ItemMedia {
     private int product_id;
 
     @ColumnInfo
-    private String imageUrl;
+    private String videoUrl;
 
-    public ProductSubImage() {
+    public ProductSubVideo() {
     }
 
     @Ignore
-    public ProductSubImage(int product_id, String imageUrl) {
+    public ProductSubVideo(int product_id, String videoUrl) {
         this.product_id = product_id;
-        this.imageUrl = imageUrl;
+        this.videoUrl = videoUrl;
+
     }
 
     public int getId() {
@@ -45,16 +46,16 @@ public class ProductSubImage implements ItemMedia {
         this.product_id = product_id;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getVideoUrl() {
+        return videoUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     @Override
     public int getItemType() {
-        return ItemMedia.ImageType;
+        return ItemMedia.VideoType;
     }
 }

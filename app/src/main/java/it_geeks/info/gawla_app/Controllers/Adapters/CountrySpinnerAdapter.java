@@ -45,7 +45,7 @@ public class CountrySpinnerAdapter extends ArrayAdapter<Country> {
 
         if (country != null){
             countryLabel.setText(country.getCountry_title());
-            Picasso.with(getContext()).load(country.getImage()).placeholder(R.drawable.palceholder).into(countryImage);
+            Picasso.with(getContext()).load(country.getImage()).placeholder(R.drawable.placeholder).into(countryImage);
         }
 
         return convertView;

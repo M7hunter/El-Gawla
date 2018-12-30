@@ -46,7 +46,7 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
             try {
                 Picasso.with(context)
                         .load(round.getProduct_image())
-                        .placeholder(context.getResources().getDrawable(R.drawable.palceholder))
+                        .placeholder(context.getResources().getDrawable(R.drawable.placeholder))
                         .into(viewHolder.imgProductImage);
             } catch (Exception e) {}
 

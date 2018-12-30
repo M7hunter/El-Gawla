@@ -33,6 +33,13 @@ public class User {
         this.image = image;
     }
 
+    public User(int user_id, String name, String email, String api_token) {
+        this.user_id = user_id;
+        this.name = name;
+        this.email = email;
+        this.api_token = api_token;
+    }
+
     public User(int user_id, String name, String email , boolean active, String api_token, String image) {
         this.user_id = user_id;
         this.name = name;

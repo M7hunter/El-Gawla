@@ -41,7 +41,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
         final Country country = countriesList.get(i);
 
         viewHolder.label.setText(country.getCountry_title());
-        Picasso.with(context).load(country.getImage()).placeholder(R.drawable.palceholder).into(viewHolder.icon);
+        Picasso.with(context).load(country.getImage()).placeholder(R.drawable.placeholder).into(viewHolder.icon);
 
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -67,7 +67,7 @@ public class SalonsViewModel extends AndroidViewModel {
                                 gawlaDataBse.roundDao().insertRoundList(handleServerResponse(mainObj)); // add new list
 
                             } else { // errors from server
-                                if (handleServerErrors(mainObj).equals("you are not logged in.")) {
+                                if (handleServerErrors(mainObj).contains("not logged in")) {
                                     getApplication().startActivity(new Intent(getApplication(), LoginActivity.class)
                                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
 
@@ -94,26 +94,26 @@ public class SalonsViewModel extends AndroidViewModel {
 
         for (int i = 0; i < roundsArray.size(); i++) {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
-            int product_id = roundObj.get("product_id").getAsInt();
-            int salon_id = roundObj.get("salon_id").getAsInt();
-            String product_name = roundObj.get("product_name").getAsString();
-            String category_name = roundObj.get("category_name").getAsString();
-            String category_color = roundObj.get("category_color").getAsString();
-            String country_name = roundObj.get("country_name").getAsString();
-            String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
+            int product_id =                     roundObj.get("product_id").getAsInt();
+            int salon_id =                       roundObj.get("salon_id").getAsInt();
+            String product_name =                roundObj.get("product_name").getAsString();
+            String category_name =               roundObj.get("category_name").getAsString();
+            String category_color =              roundObj.get("category_color").getAsString();
+            String country_name =                roundObj.get("country_name").getAsString();
+            String product_commercial_price =    roundObj.get("product_commercial_price").getAsString();
             String product_product_description = roundObj.get("product_description").getAsString();
-            String product_image = roundObj.get("product_image").getAsString();
-            String round_start_time = roundObj.get("round_start_time").getAsString();
-            String round_end_time = roundObj.get("round_end_time").getAsString();
-            String first_join_time = roundObj.get("first_join_time").getAsString();
-            String second_join_time = roundObj.get("second_join_time").getAsString();
-            String round_date = roundObj.get("round_date").getAsString();
-            String round_time = roundObj.get("round_time").getAsString();
-            String rest_time = roundObj.get("rest_time").getAsString();
+            String product_image =               roundObj.get("product_image").getAsString();
+            String round_start_time =            roundObj.get("round_start_time").getAsString();
+            String round_end_time =              roundObj.get("round_end_time").getAsString();
+            String first_join_time =             roundObj.get("first_join_time").getAsString();
+            String second_join_time =            roundObj.get("second_join_time").getAsString();
+            String round_date =                  roundObj.get("round_date").getAsString();
+            String round_time =                  roundObj.get("round_time").getAsString();
+            String rest_time =                   roundObj.get("rest_time").getAsString();
 
             // save product images in locale storage
-            gawlaDataBse.productImageDao().removeSubImages(gawlaDataBse.productImageDao().getSubImagesById(i));
-            gawlaDataBse.productImageDao().insertSubImages(handleImages(roundObj, i));
+            gawlaDataBse.productImageDao().removeSubImages(gawlaDataBse.productImageDao().getSubImagesById(product_id));
+            gawlaDataBse.productImageDao().insertSubImages(handleImages(roundObj, product_id));
 
             // save product cards in locale storage
             gawlaDataBse.cardDao().removeCards(gawlaDataBse.cardDao().getCardsById(salon_id));

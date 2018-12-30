@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/product_sub_vid_thumbnail"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_margin="@dimen/margin_small"
+        android:background="@drawable/img_product_item_shape"
+        android:padding="@dimen/margin_small"
+        android:scaleType="centerCrop"
+        android:src="@drawable/placeholder" />
+
+    <ImageView
+        android:layout_width="@dimen/icon_notification"
+        android:layout_height="@dimen/icon_notification"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_play"
+        app:layout_constraintBottom_toBottomOf="@id/product_sub_vid_thumbnail"
+        app:layout_constraintEnd_toEndOf="@id/product_sub_vid_thumbnail"
+        app:layout_constraintStart_toStartOf="@id/product_sub_vid_thumbnail"
+        app:layout_constraintTop_toTopOf="@id/product_sub_vid_thumbnail" />
+
+</android.support.constraint.ConstraintLayout>
