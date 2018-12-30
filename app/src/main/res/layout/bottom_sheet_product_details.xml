@@ -62,13 +62,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <!-- main video player -->
-                        <VideoView
-                            android:id="@+id/player"
+                        <!-- main video player container -->
+                        <RelativeLayout
+                            android:id="@+id/player_container"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_centerHorizontal="true"
-                            android:visibility="invisible" />
+                            android:layout_height="match_parent">
+
+                            <VideoView
+                                android:id="@+id/player"
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp"
+                                android:layout_centerHorizontal="true"
+                                android:visibility="invisible" />
+
+                            <ImageView
+                                android:id="@+id/btn_play_pause"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_pause"
+                                android:layout_centerInParent="true"
+                                android:padding="@dimen/margin_small"/>
+
+                        </RelativeLayout>
 
                         <!-- main image -->
                         <ImageView
