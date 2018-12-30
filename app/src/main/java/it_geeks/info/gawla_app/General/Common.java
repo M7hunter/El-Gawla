@@ -108,6 +108,15 @@ public class Common {
 
         return date.getTime();
     }
+    public Calendar formatDateStringToCalendar(String date) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        try{
+            cal.setTime(sdf.parse(date));
+        }catch (Exception e){}
+
+        return cal;
+    }
 
     // get formatted time & date
     public Date getCurrentTimeFormatted() {
