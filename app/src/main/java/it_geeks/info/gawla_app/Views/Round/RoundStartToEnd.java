@@ -6,9 +6,16 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.Repositry.Models.RoundStartToEndModel;
 
@@ -18,6 +25,8 @@ public class RoundStartToEnd {
     private List<ImageView> downDivsList = new ArrayList<>();
     private List<Integer> drawablesUp = new ArrayList<>();
     private List<Integer> drawablesDown = new ArrayList<>();
+    private String round_start_time , round_end_time , first_join_time , second_join_time , round_date , round_time , rest_time;
+    String currentTime;
 
     Context context;
     RoundStartToEndModel roundStartToEndModel;
@@ -40,9 +49,28 @@ public class RoundStartToEnd {
         }
     }
 
+    public void setTime(String round_start_time,String round_end_time ,String first_join_time ,String second_join_time ,String round_date ,String round_time ,String rest_time){
+        this.round_start_time = round_start_time;
+        this.round_end_time = round_end_time;
+        this.first_join_time = first_join_time;
+        this.second_join_time = second_join_time;
+        this.round_date = round_date;
+        this.round_time = round_time;
+        this.rest_time = rest_time;
+    }
+
     public void start(){
-        long start = Common.Instance(context).formatTimeToMillis("01:00:00");
-        long end = Common.Instance(context).formatTimeToMillis("01:00:30");
+        TimeZone tz = TimeZone.getTimeZone("Africa/Cairo");
+        Calendar c = Calendar.getInstance(tz);
+
+        Common.Instance(context).formatDateStringToCalendar(round_date);
+
+        currentTime = String.format(c.get(Calendar.HOUR_OF_DAY)+":"+ c.get(Calendar.MINUTE)+":"+ c.get(Calendar.SECOND));
+        Toast.makeText(context, currentTime, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, second_join_time+":00", Toast.LENGTH_LONG).show();
+
+        long start = Common.Instance(context).formatTimeToMillis(currentTime);
+        long end = Common.Instance(context).formatTimeToMillis(round_start_time+":00");
         long value = end - start;
         countDownBeforeStart(value);
     }
@@ -67,7 +95,6 @@ public class RoundStartToEnd {
                     int minute = calendar.get(Calendar.MINUTE);
                     int second = calendar.get(Calendar.SECOND);
 
-                    Log.d("mo7", "doSecond: " + hour +" : "+ minute + " : " + second);
 
                     GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"second");
                     gawlaTimeDownSecond.NumberTick(second);
@@ -79,11 +106,11 @@ public class RoundStartToEnd {
                     }
                     mMinute[0] = minute;
 
-//                    if (mHour[0] != hour){
-//                        GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"hour");
-//                        gawlaTimeDownMinute.NumberTick(hour);
-//                    }
-//                    mHour[0] = hour;
+                    if (mHour[0] != hour){
+                        GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"hour");
+                        gawlaTimeDownMinute.NumberTick(hour);
+                    }
+                    mHour[0] = hour;
                 }
 
                 public void onFinish() {
@@ -101,11 +128,11 @@ public class RoundStartToEnd {
 
     // joine Round Opened
     private void countDownGoldenCard(){
-        long start = Common.Instance(context).formatTimeToMillis("01:30:00");
-        long end = Common.Instance(context).formatTimeToMillis("01:30:30");
+        long start = Common.Instance(context).formatTimeToMillis(currentTime);
+        long end = Common.Instance(context).formatTimeToMillis(first_join_time+":00");
         long value = end - start;
         try{
-            final int[] mMinute = {0};
+            final int[] mMinute= {0},mHour = {0};
             countDownTimer = new CountDownTimer(value, 1000) {
                 public void onTick(final long millisUntilFinished) {
 
@@ -114,11 +141,8 @@ public class RoundStartToEnd {
                     int minute = calendar.get(Calendar.MINUTE);
                     int second = calendar.get(Calendar.SECOND);
 
-              //      Log.d("mo7", "doSecond: " + hour +" : "+ minute + " : " + second);
-
                     GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"second");
                     gawlaTimeDownSecond.NumberTick(second);
-
 
                     if (mMinute[0] != minute){
                         GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"minute");
@@ -126,6 +150,11 @@ public class RoundStartToEnd {
                     }
                     mMinute[0] = minute;
 
+                    if (mHour[0] != hour){
+                        GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"hour");
+                        gawlaTimeDownMinute.NumberTick(hour);
+                    }
+                    mHour[0] = hour;
                 }
 
                 public void onFinish() {
@@ -147,11 +176,11 @@ public class RoundStartToEnd {
 
     // joine closed , use Golden Card
     private void countDownWating(){
-        long start = Common.Instance(context).formatTimeToMillis("01:30:00");
-        long end = Common.Instance(context).formatTimeToMillis("01:30:30");
+        long start = Common.Instance(context).formatTimeToMillis(currentTime);
+        long end = Common.Instance(context).formatTimeToMillis(second_join_time+":00");
         long value = end - start;
         try{
-            final int[] mMinute = {0};
+            final int[] mMinute= {0},mHour = {0};
             countDownTimer = new CountDownTimer(value, 1000) {
                 public void onTick(final long millisUntilFinished) {
 
@@ -160,11 +189,9 @@ public class RoundStartToEnd {
                     int minute = calendar.get(Calendar.MINUTE);
                     int second = calendar.get(Calendar.SECOND);
 
-               //     Log.d("mo7", "doSecond: " + hour +" : "+ minute + " : " + second);
-
                     GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"second");
                     gawlaTimeDownSecond.NumberTick(second);
-
+                    Log.e("mo7", "doSecond: " + hour +" : "+ minute + " : " + second);
 
                     if (mMinute[0] != minute){
                         GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"minute");
@@ -172,6 +199,11 @@ public class RoundStartToEnd {
                     }
                     mMinute[0] = minute;
 
+                    if (mHour[0] != hour){
+                        GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"hour");
+                        gawlaTimeDownMinute.NumberTick(hour);
+                    }
+                    mHour[0] = hour;
                 }
 
                 public void onFinish() {
@@ -192,13 +224,12 @@ public class RoundStartToEnd {
 
     }
 
-    // add deal to product
+    // add deal to product ( Round Time )
     private void countDownAddDealToProduct(){
-        long start = Common.Instance(context).formatTimeToMillis("01:30:00");
-        long end = Common.Instance(context).formatTimeToMillis("01:30:30");
-        long value = end - start;
+        long start = Common.Instance(context).formatTimeToMillis(round_time+":00");
+        long value = start;
         try{
-            final int[] mMinute = {0};
+            final int[] mMinute= {0},mHour = {0};
             countDownTimer = new CountDownTimer(value, 1000) {
                 public void onTick(final long millisUntilFinished) {
 
@@ -206,8 +237,6 @@ public class RoundStartToEnd {
                     int hour = calendar.get(Calendar.HOUR);
                     int minute = calendar.get(Calendar.MINUTE);
                     int second = calendar.get(Calendar.SECOND);
-
-              //      Log.d("mo7", "doSecond: " + hour +" : "+ minute + " : " + second);
 
                     GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"second");
                     gawlaTimeDownSecond.NumberTick(second);
@@ -219,12 +248,17 @@ public class RoundStartToEnd {
                     }
                     mMinute[0] = minute;
 
+                    if (mHour[0] != hour){
+                        GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"hour");
+                        gawlaTimeDownMinute.NumberTick(hour);
+                    }
+                    mHour[0] = hour;
                 }
 
                 public void onFinish() {
                     roundStartToEndModel.getAddOfferLayout().setVisibility(View.INVISIBLE);
                     AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    roundStartToEndModel.getRound_notification_text().setText("Round Finished : Winner Mohamed Abdelhady with deal 550 EGP");
+                    countDownRestTime();
                 }
 
             }.start();
@@ -234,6 +268,48 @@ public class RoundStartToEnd {
 
     }
 
+    //Rest before show the winner
+    private void countDownRestTime() {
+
+        long start = Common.Instance(context).formatTimeToMillis(rest_time+":00");
+        long value = start;
+        try{
+            final int[] mMinute= {0},mHour = {0};
+            countDownTimer = new CountDownTimer(value, 1000) {
+                public void onTick(final long millisUntilFinished) {
+
+                    Calendar calendar = Common.Instance(context).formatMillisToTime(millisUntilFinished);
+                    int hour = calendar.get(Calendar.HOUR);
+                    int minute = calendar.get(Calendar.MINUTE);
+                    int second = calendar.get(Calendar.SECOND);
+
+                    GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"second");
+                    gawlaTimeDownSecond.NumberTick(second);
+
+                    if (mMinute[0] != minute){
+                        GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"minute");
+                        gawlaTimeDownMinute.NumberTick(minute);
+                    }
+                    mMinute[0] = minute;
+
+                    if (mHour[0] != hour){
+                        GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(context,roundStartToEndModel.getUpDivsList(),roundStartToEndModel.getDownDivsList(),roundStartToEndModel.getDrawablesUp(),roundStartToEndModel.getDrawablesDown(),"hour");
+                        gawlaTimeDownMinute.NumberTick(hour);
+                    }
+                    mHour[0] = hour;
+                }
+
+                public void onFinish() {
+                    roundStartToEndModel.getRound_notification_text().setText("Round Finished : Winner Mohamed Abdelhady with deal 550 EGP");
+                }
+
+            }.start();
+        }catch (Exception e){
+            Log.e("Mo7",e.getMessage());
+        }
+
+
+    }
 
 
 }

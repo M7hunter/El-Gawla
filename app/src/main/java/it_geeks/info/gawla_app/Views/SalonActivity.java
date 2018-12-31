@@ -22,12 +22,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
@@ -47,6 +50,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private List<Integer> drawablesDown = new ArrayList<>();
     RoundStartToEnd roundStartToEnd;
     TextView round_notification_text;
+    private String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time , round_end_time , first_join_time , second_join_time , round_date , round_time , rest_time;
 
     int joinStatus; // 0 = watcher, 1 = want to join, 2 = joined
     Button btnJoinRound;
@@ -93,9 +97,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         initViews();
 
-        startTimeDown();
-
         initDivs();
+
+        startTimeDown();
 
         handleEvents();
     }
@@ -127,13 +131,15 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     //Round Start
     private void startTimeDown() {
-        RoundStartToEndModel roundStartToEndModel = new RoundStartToEndModel(upDivsList, downDivsList, drawablesUp, drawablesDown, btnJoinRound, addOfferLayout, round_notification_text);
-        roundStartToEnd = new RoundStartToEnd(SalonActivity.this, roundStartToEndModel);
+
+        RoundStartToEndModel roundStartToEndModel = new RoundStartToEndModel(upDivsList,downDivsList,drawablesUp,drawablesDown,btnJoinRound,addOfferLayout,round_notification_text);
+        roundStartToEnd = new RoundStartToEnd(SalonActivity.this,roundStartToEndModel);
+        roundStartToEnd.setTime(round_start_time,round_end_time,first_join_time,second_join_time,round_date,round_time,rest_time);
         roundStartToEnd.start();
     }
 
     private void getRoundData(Bundle savedInstanceState) {
-        String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time;
+
         int product_id, salon_id;
 
         if (savedInstanceState == null) {
@@ -150,6 +156,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 product_image = extras.getString("product_image");
                 round_start_time = extras.getString("round_start_time");
                 round_end_time = extras.getString("round_end_time");
+                first_join_time = extras.getString("first_join_time");
+                second_join_time = extras.getString("second_join_time");
+                round_date = extras.getString("round_date");
+                round_time = extras.getString("round_time");
+                rest_time = extras.getString("rest_time");
+
 
                 round = new Round(product_id,
                         salon_id,
@@ -162,11 +174,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         product_image,
                         round_start_time,
                         round_end_time,
-                        extras.getString("first_join_time"),
-                        extras.getString("second_join_time"),
-                        extras.getString("round_date"),
-                        extras.getString("round_time"),
-                        extras.getString("rest_time"));
+                        first_join_time,
+                        second_join_time,
+                        round_date,
+                        round_time,
+                        rest_time );
             }
 
         } else { // get data from saved state
@@ -180,6 +192,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             product_image = (String) savedInstanceState.getSerializable("product_image");
             round_start_time = (String) savedInstanceState.getSerializable("round_start_time");
             round_end_time = (String) savedInstanceState.getSerializable("round_end_time");
+            first_join_time = (String) savedInstanceState.getSerializable("first_join_time");
+            second_join_time = (String) savedInstanceState.getSerializable("second_join_time");
+            round_date = (String) savedInstanceState.getSerializable("round_date");
+            round_time = (String) savedInstanceState.getSerializable("round_time");
+            rest_time = (String) savedInstanceState.getSerializable("rest_time");
 
             round = new Round(product_id,
                     salon_id,
@@ -192,11 +209,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     product_image,
                     round_start_time,
                     round_end_time,
-                    (String) savedInstanceState.getSerializable("first_join_time"),
-                    (String) savedInstanceState.getSerializable("second_join_time"),
-                    (String) savedInstanceState.getSerializable("round_date"),
-                    (String) savedInstanceState.getSerializable("round_time"),
-                    (String) savedInstanceState.getSerializable("rest_time"));
+                    first_join_time,
+                    second_join_time,
+                    round_date,
+                    round_time,
+                    rest_time );
         }
     }
 
