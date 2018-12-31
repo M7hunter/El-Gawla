@@ -108,6 +108,19 @@ public class Common {
 
         return date.getTime();
     }
+
+    public long formatTimeRoundAndRestToMillis(String time) {  //TODO will delete later #Mohamed
+        SimpleDateFormat sdf = new SimpleDateFormat("mm:ss", Locale.US);
+        Date date = null;
+        try {
+            date = sdf.parse(time);
+        } catch (ParseException e) {
+            Log.d("mo7", "formatTimeToMillis: " + e.getMessage());
+        }
+
+        return date.getTime();
+    }
+
     public Calendar formatDateStringToCalendar(String date) {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
