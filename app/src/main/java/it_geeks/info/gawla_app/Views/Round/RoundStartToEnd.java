@@ -47,10 +47,10 @@ public class RoundStartToEnd {
     }
 
     public void setTime(String round_start_time,String round_end_time ,String first_join_time ,String second_join_time ,String round_date ,String round_time ,String rest_time){
-        this.round_start_time = "16:59"+":00";
-        this.round_end_time = "17:00"+":00";
-        this.first_join_time = "16:57"+":00";
-        this.second_join_time = "16:58"+":00";
+        this.round_start_time = round_start_time+":00";
+        this.round_end_time = round_end_time+":00";
+        this.first_join_time = first_join_time+":00";
+        this.second_join_time = second_join_time+":00";
         this.round_date = round_date;
         this.round_time = "00:"+round_time;
         this.rest_time = "00:"+rest_time;
