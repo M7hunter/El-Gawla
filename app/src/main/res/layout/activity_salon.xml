@@ -10,8 +10,10 @@
 
     <!-- main layout -->
     <RelativeLayout
+        android:id="@+id/salon_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <!-- logo & bell container -->
         <RelativeLayout
@@ -755,6 +757,13 @@
             android:visibility="invisible" />
 
     </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/salon_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible"/>
 
     <!-- cards bag btn container -->
     <RelativeLayout

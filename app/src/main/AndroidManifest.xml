@@ -12,10 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_gawla_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Views.MainActivity" />
-        <activity
-            android:name=".Views.SalonActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".Views.SplashActivities.SplashActivity"
             android:launchMode="singleTask"
@@ -26,6 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Views.SalonActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".Views.MainActivity" />
         <activity android:name=".Views.SplashActivities.IntroActivity" />
         <activity android:name=".Views.LoginActivities.SubscribePlanActivity" />
         <activity android:name=".Views.LoginActivities.PaymentActivity" />
@@ -47,7 +48,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".Views.MenuOptions.TermsAndConditionsActivity"></activity>
+        <activity android:name=".Views.MenuOptions.TermsAndConditionsActivity" />
     </application>
 
 </manifest>
