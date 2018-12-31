@@ -188,9 +188,10 @@ public class SalonsViewModel extends AndroidViewModel {
         DataSource.Factory<Integer, Round> factory = gawlaDataBse.roundDao().getRoundsPaged();
 
         PagedList.Config config = new PagedList.Config.Builder()
-                .setEnablePlaceholders(true)
-                .setPrefetchDistance(2)
                 .setPageSize(2)
+                .setInitialLoadSizeHint(5)
+                .setPrefetchDistance(2)
+                .setEnablePlaceholders(true)
                 .build();
 
         roundsList = new LivePagedListBuilder<>(factory, config).build();

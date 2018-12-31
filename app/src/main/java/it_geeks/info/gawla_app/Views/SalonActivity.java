@@ -253,9 +253,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mBottomSheetDialogProductDetails.isShowing()) {
+                if (mBottomSheetDialogProductDetails.isShowing()) { // close sheet
                     mBottomSheetDialogProductDetails.dismiss();
-                } else { // close sheet
+                } else {
                     mBottomSheetDialogProductDetails.show();
                 }
             }
@@ -330,7 +330,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     // cards bag
     private void initCardsIcon() {
         RelativeLayout cardsIconContainer = findViewById(R.id.cards_bag_btn_container);
-
         cardsIconContainer.setOnTouchListener(this);
 
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
@@ -359,10 +358,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             }
         });
 
+        //
         mBottomSheetDialogActivateCard.setContentView(sheetView);
-
         Common.Instance(SalonActivity.this).setBottomSheetHeight(sheetView);
-
         mBottomSheetDialogActivateCard.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
     }
@@ -373,7 +371,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         final View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_product_details, null);
 
         //init bottom sheet views
-
         getRoundImages(sheetView);
         bottomViews_setDetails(sheetView);
 
@@ -390,10 +387,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             }
         });
 
+        //
         mBottomSheetDialogProductDetails.setContentView(sheetView);
-
         Common.Instance(SalonActivity.this).setBottomSheetHeight(sheetView);
-
         mBottomSheetDialogProductDetails.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
     }
@@ -443,8 +439,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         vpProductMainVideo.setVideoURI(vidUri);
         vpProductMainVideo.start();
 
-        final Handler handler = new Handler();
-
+        // hide pp btn
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -455,8 +450,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             }
         };
 
+        final Handler handler = new Handler();
+
         hidePP(handler, runnable);
 
+        // display pp btn
         vpProductMainVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -468,6 +466,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             }
         });
 
+        // play || pause
         btnPlayPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -480,23 +479,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         handler.removeCallbacks(runnable);
                     }
                 } else {
-                    vpProductMainVideo.resume();
                     vpProductMainVideo.seekTo(stopPosition);
                     vpProductMainVideo.start();
 
-                    btnPlayPause.setImageDrawable(getDrawable(R.drawable.ic_pause));  b   \\
-                    \
-
-
-
-
-                     btnPlayPause
-
-
-
-
-
-                            hidePP(handler, runnable);
+                    btnPlayPause.setImageDrawable(getDrawable(R.drawable.ic_pause));
+                    hidePP(handler, runnable);
                 }
             }
         });
