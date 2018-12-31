@@ -18,6 +18,16 @@ public class Request {
 
     private String membership;
 
+    private String join_time;
+
+    private String left_time;
+
+    private int salon_id;
+
+    private String offer_time;
+
+    private int offer;
+
     private String provider;
 
     private String provider_id ;
@@ -33,7 +43,23 @@ public class Request {
         this.password = password;
     }
 
-    public Request(String name, String email,int country_id, String pass) { // register Request
+    public Request(int user_id, String api_token, String join_time, String left_time, int salon_id) { // join salon
+        this.user_id = user_id;
+        this.api_token = api_token;
+        this.join_time = join_time;
+        this.left_time = left_time;
+        this.salon_id = salon_id;
+    }
+
+    public Request(int user_id, String api_token, int salon_id, String offer_time, int offer) { // add offer
+        this.user_id = user_id;
+        this.api_token = api_token;
+        this.salon_id = salon_id;
+        this.offer_time = offer_time;
+        this.offer = offer;
+    }
+
+    public Request(String name, String email, int country_id, String pass) { // register Request
         this.name = name;
         this.email = email;
         this.membership = "basic";

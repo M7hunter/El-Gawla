@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Views.SalonActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
@@ -56,14 +59,16 @@ public class RoundsPagerAdapter extends PagerAdapter {
         tvProductCategory = view.findViewById(R.id.my_round_product_category);
         tvStartTime = view.findViewById(R.id.my_round_start_time);
         btnJoinRound = view.findViewById(R.id.my_round_btn_enter);
+        RecyclerView cardsRecycler = view.findViewById(R.id.my_round_cards_recycler); // nested recycler
+        cardsRecycler.setHasFixedSize(true);
+        cardsRecycler.setLayoutManager(new LinearLayoutManager(context, 1, false));
 
         // set data
         Picasso.with(context).load(round.getProduct_image()).placeholder(R.drawable.placeholder).into(imgProductImage);
-
         tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
         tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
         tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getRound_start_time()));
-
+        cardsRecycler.setAdapter(new SalonCardsAdapter(context, GawlaDataBse.getGawlaDatabase(context).cardDao().getCardsById(round.getSalon_id())));
         Common.Instance(context).changeDrawableViewColor(tvProductCategory, round.getCategory_color());
 
         // open round page
@@ -72,6 +77,8 @@ public class RoundsPagerAdapter extends PagerAdapter {
             public void onClick(View view) {
                 Intent i = new Intent(context, SalonActivity.class);
                 // send round's data to round page
+                i.putExtra("product_id", round.getProduct_id());
+                i.putExtra("salon_id", round.getSalon_id());
                 i.putExtra("product_name", round.getProduct_name());
                 i.putExtra("category_name", round.getCategory_name());
                 i.putExtra("category_color", round.getCategory_color());

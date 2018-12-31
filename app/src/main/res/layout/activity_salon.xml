@@ -721,6 +721,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="start"
+                            android:layout_marginEnd="@dimen/margin_small"
                             android:maxLines="2"
                             android:text="@string/joine_Round"
                             android:textColor="@color/blueGrey" />

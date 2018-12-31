@@ -155,7 +155,7 @@ public class MyRoundsFragment extends Fragment {
             String category_color = roundObj.get("category_color").getAsString();
             String country_name = roundObj.get("country_name").getAsString();
             String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
-            String product_product_description = roundObj.get("product_product_description").getAsString();
+            String product_description = roundObj.get("product_description").getAsString();
             String product_image = roundObj.get("product_image").getAsString();
             String round_start_time = roundObj.get("round_start_time").getAsString();
             String round_end_time = roundObj.get("round_end_time").getAsString();
@@ -181,7 +181,7 @@ public class MyRoundsFragment extends Fragment {
                             category_color,
                             country_name,
                             product_commercial_price,
-                            product_product_description,
+                            product_description,
                             product_image,
                             round_start_time,
                             round_end_time,
