@@ -54,7 +54,6 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
             viewHolder.tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
             viewHolder.tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getRound_start_time()));
             viewHolder.cardsRecycler.setAdapter(new SalonCardsAdapter(context, GawlaDataBse.getGawlaDatabase(context).cardDao().getCardsById(round.getSalon_id())));
-
             Common.Instance(context).changeDrawableViewColor(viewHolder.tvProductCategory, round.getCategory_color());
 
             // open round page
@@ -62,7 +61,7 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(context, SalonActivity.class);
-                    // send round's data to round page
+                    // send round's data to salon page
                     i.putExtra("product_id", round.getProduct_id());
                     i.putExtra("salon_id", round.getSalon_id());
                     i.putExtra("product_name", round.getProduct_name());
@@ -89,6 +88,13 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
                     context.startActivity(i, options.toBundle());
                 }
             });
+        } else { // placeholder
+
+            viewHolder.imgProductImage.setImageDrawable(context.getDrawable(R.drawable.placeholder));
+            viewHolder.tvProductName.setText("...");
+            viewHolder.tvProductCategory.setText("...");
+            viewHolder.tvStartTime.setText("...");
+
         }
     }
 
