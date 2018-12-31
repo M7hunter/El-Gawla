@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     // locale : http://192.168.1.2/elgawla/public/api/v1/en/
-    // online : http://dev.itgeeks.info/api/v1/en/
+    // online : https://dev.itgeeks.info/api/v1/en/
 
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
@@ -39,13 +39,13 @@ public class RetrofitClient {
         String BASE_URL;
         switch (SharedPrefManager.getInstance(context).getSavedLang()) {
             case "en":
-                BASE_URL = "http://dev.itgeeks.info/api/v1/en/";
+                BASE_URL = "https://dev.itgeeks.info/api/v1/en/";
                 break;
             case "ar":
-                BASE_URL = "http://dev.itgeeks.info/api/v1/ar/";
+                BASE_URL = "https://dev.itgeeks.info/api/v1/ar/";
                 break;
             default:
-                BASE_URL = "http://dev.itgeeks.info/api/v1/en/";
+                BASE_URL = "https://dev.itgeeks.info/api/v1/en/";
                 break;
         }
 

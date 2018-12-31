@@ -15,15 +15,32 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <!-- icon -->
-        <ImageView
-            android:id="@+id/join_confirmation_icon"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_xlarge"
-            android:layout_marginBottom="@dimen/margin_tiny"
-            app:srcCompat="@drawable/outline" />
+            android:layout_height="wrap_content">
+
+            <!-- icon -->
+            <ImageView
+                android:id="@+id/join_confirmation_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_xlarge"
+                android:layout_marginBottom="@dimen/margin_tiny"
+                app:srcCompat="@drawable/outline" />
+
+            <ProgressBar
+                android:id="@+id/join_confirmation_progress"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/join_confirmation_icon"
+                app:layout_constraintEnd_toEndOf="@id/join_confirmation_icon"
+                app:layout_constraintStart_toStartOf="@id/join_confirmation_icon"
+                app:layout_constraintTop_toTopOf="@id/join_confirmation_icon" />
+
+        </android.support.constraint.ConstraintLayout>
+
 
         <!-- title -->
         <TextView

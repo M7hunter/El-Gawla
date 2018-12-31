@@ -111,9 +111,9 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
             tvProductName = itemView.findViewById(R.id.round_product_name);
             tvProductCategory = itemView.findViewById(R.id.round_product_category);
             tvStartTime = itemView.findViewById(R.id.round_start_time);
+            btnJoinRound = itemView.findViewById(R.id.round_btn_join);
 
             // nested recycler
-            btnJoinRound = itemView.findViewById(R.id.round_btn_join);
             cardsRecycler = itemView.findViewById(R.id.salon_cards_recycler);
             cardsRecycler.setHasFixedSize(true);
             cardsRecycler.setLayoutManager(new LinearLayoutManager(context, 1, false));
