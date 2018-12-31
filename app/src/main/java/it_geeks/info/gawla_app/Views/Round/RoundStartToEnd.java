@@ -56,25 +56,25 @@ public class RoundStartToEnd {
         this.rest_time = rest_time;
     }
 
+    public void start(){
+        TimeZone tz = TimeZone.getTimeZone("Africa/Cairo");
+        Calendar c = Calendar.getInstance(tz);
+
+       // Common.Instance(context).formatDateStringToCalendar(round_date);
+        currentTime = String.format(c.get(Calendar.HOUR_OF_DAY)+":"+ c.get(Calendar.MINUTE)+":"+ c.get(Calendar.SECOND));
+
+        long start = Common.Instance(context).formatTimeToMillis(currentTime);
+        long end = Common.Instance(context).formatTimeToMillis(round_start_time+":00");
+        long value = end - start;
+        countDownBeforeStart(value);
+    }
+
     public void stop(){
         countDownTimer.cancel();
     }
 
     public void setJoinStatus(int joinStatus) {
         this.joinStatus = joinStatus;
-    }
-
-    public void start(){
-        TimeZone tz = TimeZone.getTimeZone("Africa/Cairo");
-        Calendar c = Calendar.getInstance(tz);
-
-        currentTime = String.format(c.get(Calendar.HOUR_OF_DAY)+":"+ c.get(Calendar.MINUTE)+":"+ c.get(Calendar.SECOND));
-
-        long start = Common.Instance(context).formatTimeToMillis(currentTime);
-        long end = Common.Instance(context).formatTimeToMillis(round_start_time+":00");
-        long value = end - start;
-
-        countDownBeforeStart(value);
     }
 
     // before round start and open join
@@ -89,7 +89,6 @@ public class RoundStartToEnd {
                 public void onFinish() {
                      roundStartToEndModel.getRound_notification_text().setText("Round Opened , You can Join Now .");
                     roundStartToEndModel.getBtnJoinRound().setVisibility(View.VISIBLE);
-
                     countDownToWaiting();
                 }
 
@@ -107,6 +106,7 @@ public class RoundStartToEnd {
         long value = end - start;
         try{
             Toast.makeText(context, "ToWaiting", Toast.LENGTH_LONG).show();
+            final int[] mMinute= {0},mHour = {0};
             countDownTimer = new CountDownTimer(value, 1000) {
                 public void onTick(final long millisUntilFinished) {
                     setTimeDown(millisUntilFinished);
@@ -114,9 +114,7 @@ public class RoundStartToEnd {
 
                 public void onFinish() {
                     roundStartToEndModel.getBtnJoinRound().setVisibility(View.INVISIBLE);
-
                     countDownWaiting();
-
                     if (joinStatus == 2){
                         roundStartToEndModel.getRound_notification_text().setText(" Waiting Round Start ...");
                     }else {
@@ -134,19 +132,19 @@ public class RoundStartToEnd {
     // join closed , use Golden Card
     private void countDownWaiting(){
         long start = Common.Instance(context).formatTimeToMillis(currentTime);
-        long end = Common.Instance(context).formatTimeToMillis(second_join_time+":00");
+       // long end = Common.Instance(context).formatTimeToMillis(second_join_time+":00");
+        long end = Common.Instance(context).formatTimeToMillis("");
         long value = end - start;
         try{
             Toast.makeText(context, "Waiting", Toast.LENGTH_LONG).show();
+            final int[] mMinute= {0},mHour = {0};
             countDownTimer = new CountDownTimer(value, 1000) {
                 public void onTick(final long millisUntilFinished) {
                     setTimeDown(millisUntilFinished);
                 }
 
                 public void onFinish() {
-
                     countDownAddDealToProduct();
-
                     if (joinStatus  == 2){
                         // display add offer views
                         roundStartToEndModel.getAddOfferLayout().setVisibility(View.VISIBLE);
@@ -166,10 +164,11 @@ public class RoundStartToEnd {
     // add deal to product ( Round Time )
     private void countDownAddDealToProduct(){
         long start = Common.Instance(context).formatTimeToMillis(currentTime);
-        long end = Common.Instance(context).formatTimeToMillis(round_time+":00") + Common.Instance(context).formatTimeToMillis(round_time);
+        long end = Common.Instance(context).formatTimeToMillis(second_join_time+":00") + Common.Instance(context).formatTimeToMillis(round_time);
         long value = end - start;
         try{
             Toast.makeText(context, "AddDealToProduct", Toast.LENGTH_LONG).show();
+            final int[] mMinute= {0},mHour = {0};
             countDownTimer = new CountDownTimer(value, 1000) {
                 public void onTick(final long millisUntilFinished) {
                     setTimeDown(millisUntilFinished);
@@ -178,7 +177,6 @@ public class RoundStartToEnd {
                 public void onFinish() {
                     roundStartToEndModel.getAddOfferLayout().setVisibility(View.INVISIBLE);
                     AlertDialog.Builder alert = new AlertDialog.Builder(context);
-
                     countDownRestTime();
                 }
 
@@ -193,10 +191,11 @@ public class RoundStartToEnd {
     private void countDownRestTime() {
 
         long start = Common.Instance(context).formatTimeToMillis(currentTime);
-        long end = Common.Instance(context).formatTimeToMillis(rest_time+":00") + Common.Instance(context).formatTimeToMillis(round_time) + Common.Instance(context).formatTimeToMillis(rest_time);
+        long end = Common.Instance(context).formatTimeToMillis(second_join_time+":00") + Common.Instance(context).formatTimeToMillis(round_time)+Common.Instance(context).formatTimeToMillis(rest_time);
         long value = end - start;
         try{
             Toast.makeText(context, "RestTime", Toast.LENGTH_LONG).show();
+            final int[] mMinute= {0},mHour = {0};
             countDownTimer = new CountDownTimer(value, 1000) {
                 public void onTick(final long millisUntilFinished) {
                     setTimeDown(millisUntilFinished);
