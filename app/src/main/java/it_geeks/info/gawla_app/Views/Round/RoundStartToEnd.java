@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -16,7 +17,6 @@ import it_geeks.info.gawla_app.Views.SalonActivity;
 public class RoundStartToEnd {
 
     private String round_start_time, round_end_time, first_join_time, second_join_time, round_date, round_time, rest_time;
-    String currentTime;
     int[] mMinute = {0}, mHour = {0};
     Context context;
     RoundStartToEndModel roundStartToEndModel;
@@ -29,13 +29,13 @@ public class RoundStartToEnd {
     }
 
     public void setTime(String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time) {
-        this.round_start_time = round_start_time + ":00";
-        this.round_end_time = round_end_time + ":00";
-        this.first_join_time = first_join_time + ":00";
-        this.second_join_time = second_join_time + ":00";
+        this.round_start_time = round_start_time+":00";
+        this.round_end_time = round_end_time+":00";
+        this.first_join_time = first_join_time+":00";
+        this.second_join_time = second_join_time+":00";
         this.round_date = round_date;
         this.round_time = "00:" + round_time;
-        this.rest_time = "00:" + rest_time;
+        this.rest_time = "00:"+rest_time;
     }
 
     public void stop() {
@@ -48,12 +48,7 @@ public class RoundStartToEnd {
     }
 
     public void start() {
-        TimeZone tz = TimeZone.getTimeZone("Africa/Cairo");
-        Calendar c = Calendar.getInstance(tz);
-
-        currentTime = String.format(c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND));
-
-        long start = Common.Instance(context).formatTimeToMillis(currentTime);
+        long start = Common.Instance(context).formatTimeToMillis(getCurrentTime());
         long end = Common.Instance(context).formatTimeToMillis(first_join_time);
         long value = end - start;
 
@@ -92,7 +87,7 @@ public class RoundStartToEnd {
             ((SalonActivity) context).btnJoinRound.setVisibility(View.VISIBLE);
         }
 
-        long start = Common.Instance(context).formatTimeToMillis(currentTime);
+        long start = Common.Instance(context).formatTimeToMillis(getCurrentTime());
         long end = Common.Instance(context).formatTimeToMillis(second_join_time);
         long value = end - start;
         try {
@@ -121,7 +116,7 @@ public class RoundStartToEnd {
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
         }
 
-        long start = Common.Instance(context).formatTimeToMillis(currentTime);
+        long start = Common.Instance(context).formatTimeToMillis(getCurrentTime());
         long end = Common.Instance(context).formatTimeToMillis(round_start_time);
         long value = end - start;
         try {
@@ -152,9 +147,9 @@ public class RoundStartToEnd {
             ((SalonActivity) context).cancelConfirmation();
         }
 
-        long start = Common.Instance(context).formatTimeToMillis(currentTime);
-        long end = Common.Instance(context).formatTimeToMillis(round_end_time);
-        long value = end - start;
+        long start = Common.Instance(context).formatTimeToMillis(getCurrentTime());
+        long endRound = Common.Instance(context).formatTimeToMillis(round_end_time);
+        long value = endRound - start;
         try {
             countDownTimer = new CountDownTimer(value, 1000) {
                 public void onTick(final long millisUntilFinished) {
@@ -178,12 +173,16 @@ public class RoundStartToEnd {
         ((SalonActivity) context).round_notification_text.setText("rest time .");
 
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        Calendar endRound = Common.Instance(context).formatDateStringToCalendar(round_end_time);
+        Calendar restRound = Common.Instance(context).formatDateStringToCalendar(rest_time);
+        endRound.add(endRound.MINUTE,restRound.get(Calendar.MINUTE));
 
-//        long start = Common.Instance(context).formatTimeToMillis(currentTime);
-//        long end = start + Common.Instance(context).formatTimeToMillis(rest_time);
-//        long value = end - start;
+        long start = Common.Instance(context).formatTimeToMillis(getCurrentTime());
+        long end =   Common.Instance(context).formatTimeToMillis(endRound.get(Calendar.HOUR_OF_DAY)+":"+endRound.get(Calendar.MINUTE)+":"+endRound.get(Calendar.SECOND));
+        long value = end - start;
+
         try {
-            countDownTimer = new CountDownTimer(60000, 1000) {
+            countDownTimer = new CountDownTimer(value, 1000) {
                 public void onTick(final long millisUntilFinished) {
                     setTimeDown(millisUntilFinished);
                 }
@@ -200,17 +199,16 @@ public class RoundStartToEnd {
 
     private void setTimeDown(long millisUntilFinished) {
         Calendar calendar = Common.Instance(context).formatMillisToTime(millisUntilFinished);
-        int hour = 0;
-        if (calendar.get(Calendar.HOUR_OF_DAY) == 2) {
-            hour = 0;
-        } else if (calendar.get(Calendar.HOUR_OF_DAY) == 1) {
-            hour = 23;
-        } else if (calendar.get(Calendar.HOUR_OF_DAY) == 0) {
-            hour = 22;
-        } else {
-            hour = calendar.get(Calendar.HOUR_OF_DAY) - 2;
-        }
-
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                if (calendar.get(Calendar.HOUR_OF_DAY) == 2) {
+                       hour = 0;
+                    } else if (calendar.get(Calendar.HOUR_OF_DAY) == 1) {
+                        hour = 23;
+                    } else if (calendar.get(Calendar.HOUR_OF_DAY) == 0) {
+                        hour = 22;
+                    } else {
+                    hour = calendar.get(Calendar.HOUR_OF_DAY) - 2;
+                }
         int minute = calendar.get(Calendar.MINUTE);
         int second = calendar.get(Calendar.SECOND);
 
@@ -233,5 +231,11 @@ public class RoundStartToEnd {
         mHour[0] = hour;
     }
 
+
+    private String getCurrentTime(){
+        Calendar c = Common.Instance(context).getCurrentTimeWithTimeZone();
+        String currentTime = String.format(c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND));
+        return currentTime;
+    }
 
 }

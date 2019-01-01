@@ -1,6 +1,7 @@
 package it_geeks.info.gawla_app.Views;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
@@ -58,6 +59,13 @@ public class AllSalonsActivity extends AppCompatActivity implements DateAdapter.
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        // notification icon
+        findViewById(R.id.all_salon_notification_icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AllSalonsActivity.this,NotificationActivity.class));
             }
         });
     }
