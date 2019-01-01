@@ -25,6 +25,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
 
@@ -98,19 +99,7 @@ public class Common {
     }
 
     public long formatTimeToMillis(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.US);
-        Date date = null;
-        try {
-            date = sdf.parse(time);
-        } catch (ParseException e) {
-            Log.d("mo7", "formatTimeToMillis: " + e.getMessage());
-        }
-
-        return date.getTime();
-    }
-
-    public long formatTimeRoundAndRestToMillis(String time) {  //TODO will delete later #Mohamed
-        SimpleDateFormat sdf = new SimpleDateFormat("mm:ss", Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
         Date date = null;
         try {
             date = sdf.parse(time);
@@ -123,12 +112,17 @@ public class Common {
 
     public Calendar formatDateStringToCalendar(String date) {
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
         try{
             cal.setTime(sdf.parse(date));
         }catch (Exception e){}
 
         return cal;
+    }
+
+    public Calendar getCurrentTimeWithTimeZone(){
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"), Locale.ENGLISH);
+       return calendar;
     }
 
     // get formatted time & date
