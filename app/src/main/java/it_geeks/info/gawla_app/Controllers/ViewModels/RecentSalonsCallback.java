@@ -3,7 +3,6 @@ package it_geeks.info.gawla_app.Controllers.ViewModels;
 import android.arch.paging.PagedList;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -16,7 +15,6 @@ import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.RESTful.APIs;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.Views.NavigationFragments.MainFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,7 +35,6 @@ public class RecentSalonsCallback extends PagedList.BoundaryCallback<Round> {
         this.gawlaDataBse = gawlaDataBse;
         this.sm = spm;
     }
-
 
     @Override
     public void onZeroItemsLoaded() {
@@ -60,7 +57,7 @@ public class RecentSalonsCallback extends PagedList.BoundaryCallback<Round> {
                         JsonObject mainObj = response.body().getAsJsonObject();
                         boolean status = mainObj.get("status").getAsBoolean();
 
-                        if (status) {// no errors
+                        if (status) { // no errors
                             insertItemsIntoDatabase(mainObj);
                             Toast.makeText(context, "inserting...", Toast.LENGTH_SHORT).show();
                         }
