@@ -64,7 +64,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     public TextView round_notification_text;
     private String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time, first_join_time, second_join_time, round_date, round_time, rest_time;
     int product_id, salon_id;
-
     int joinStatus; // 0 = watcher, 1 = want to join, 2 = joined
     public Button btnJoinRound, btnAddOffer;
     EditText etAddOffer;
@@ -120,6 +119,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         startTimeDown();
 
         handleEvents();
+    }
+
+    public void RefreshRound(){ // TODO :: Will Delete Later on RealTime #Mohamed
+        finish();
+        startActivity(getIntent());
     }
 
     private void checkIfUserJoinedBefore() {
@@ -337,6 +341,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         joinConfirmationProgress = findViewById(R.id.join_confirmation_progress);
         salonProgress = findViewById(R.id.salon_progress);
         salonContainer = findViewById(R.id.salon_container);
+        // notification icon
+        findViewById(R.id.salon_notification_icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SalonActivity.this,NotificationActivity.class));
+            }
+        });
     }
 
     private void handleEvents() {
@@ -829,4 +840,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         super.onDestroy();
         roundStartToEnd.stop(); // stop Time Down
     }
+
+
 }
