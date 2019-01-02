@@ -1,13 +1,17 @@
 package it_geeks.info.gawla_app.Views.SplashActivities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -36,6 +40,8 @@ public class SplashActivity extends AppCompatActivity {
     RecyclerView countryRecycler;
     CountryAdapter countryAdapter;
     ProgressBar countriesProgress;
+    TextView tvCountriesHeader;
+    Button btnRetry;
 
     List<Country> countries = new ArrayList<>();
 
@@ -53,7 +59,7 @@ public class SplashActivity extends AppCompatActivity {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             setContentView(R.layout.activity_splash);
 
-            countriesProgress = findViewById(R.id.countries_progress);
+            initViews();
 
             getCountriesFromSever();
         }
@@ -61,6 +67,24 @@ public class SplashActivity extends AppCompatActivity {
 
     private void setAppLang() {
         Common.Instance(SplashActivity.this).setLang(SharedPrefManager.getInstance(SplashActivity.this).getSavedLang());
+    }
+
+    private void initViews() {
+        countriesProgress = findViewById(R.id.countries_progress);
+        countryRecycler = findViewById(R.id.country_recycler);
+        tvCountriesHeader = findViewById(R.id.countries_header);
+        btnRetry = findViewById(R.id.btn_retry);
+
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnRetry.setVisibility(View.INVISIBLE);
+                countriesProgress.setVisibility(View.VISIBLE);
+                tvCountriesHeader.setText(getString(R.string.choose_country));
+                tvCountriesHeader.setTextColor(Color.WHITE);
+                getCountriesFromSever();
+            }
+        });
     }
 
     private void getCountriesFromSever() {
@@ -77,24 +101,36 @@ public class SplashActivity extends AppCompatActivity {
                     if (status) { // no errors
                         countries = handleServerResponse(mainObj);
 
-                        initCountriesList();
+                        displayCountriesList();
 
                         GawlaDataBse.getGawlaDatabase(SplashActivity.this).countryDao().insertCountryList(countries);
 
                     } else { // errors from server
+                        retry();
                         Toast.makeText(SplashActivity.this, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (NullPointerException e) { // errors of response body
+                    retry();
                     Toast.makeText(SplashActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+
+                Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                retry();
+                Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
                 Toast.makeText(SplashActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void retry() {
+        btnRetry.setVisibility(View.VISIBLE);
+        tvCountriesHeader.setText(getString(R.string.error_occurred));
+        tvCountriesHeader.setTextColor(getResources().getColor(R.color.paleRed));
     }
 
     private List<Country> handleServerResponse(JsonObject object) {
@@ -126,14 +162,10 @@ public class SplashActivity extends AppCompatActivity {
         return error;
     }
 
-    private void initCountriesList() {
-        countryRecycler = findViewById(R.id.country_recycler);
+    private void displayCountriesList() {
         countryRecycler.setLayoutManager(new LinearLayoutManager(SplashActivity.this, 1, false));
         countryRecycler.setHasFixedSize(true);
         countryAdapter = new CountryAdapter(SplashActivity.this, countries);
         countryRecycler.setAdapter(countryAdapter);
-
-        // to remove progress bar
-        Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
     }
 }

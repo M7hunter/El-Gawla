@@ -140,6 +140,7 @@
     <string name="notification">notification</string>
     <string name="all_salons">all salons</string>
     <string name="salons">" salons "</string>
+    <string name="error_occurred">"error occurred"</string>
     <!--  Arr For Test and will delete later .-->
     <array name="ArrGender">
         <item>Male</item>
@@ -160,4 +161,5 @@
     <string name="cards_empty_hint">you have no cards</string>
     <string name="no_salons">no salons right now \n try later</string>
     <string name="no_connection">no connection</string>
+    <string name="retry">retry</string>
 </resources>

@@ -39,6 +39,7 @@
                 tools:layout_editor_absoluteY="291dp" />
 
             <TextView
+                android:id="@+id/countries_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_small"
@@ -65,8 +66,18 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true" />
 
-            </RelativeLayout>
+                <Button
+                    android:id="@+id/btn_retry"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/countries_progress"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/retry"
+                    android:textColor="@android:color/white"
+                    android:visibility="invisible" />
 
+            </RelativeLayout>
 
         </LinearLayout>
     </ScrollView>

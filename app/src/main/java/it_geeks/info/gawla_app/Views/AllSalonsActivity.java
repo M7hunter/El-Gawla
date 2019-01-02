@@ -85,7 +85,11 @@ public class AllSalonsActivity extends AppCompatActivity implements DateAdapter.
 
         initDatesRecycler();
 
-        roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(dateList.get(0).getDate());
+        try {
+            roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(dateList.get(0).getDate());
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
 
         initSalonsRecycler();
     }

@@ -37,18 +37,17 @@ public class MainFragment extends Fragment {
     private RecentSalonsPagedAdapter recentSalonsPagedAdapter;
     private WinnersNewsAdapter winnersNewsAdapter;
 
-    private ProgressBar recentSalonsProgress;
-    private ProgressBar winnersNewsProgress;
-    LinearLayout winnersHeader;
-
     SalonsViewModel salonsViewModel;
 
     private List<WinnerNews> winnerNewsList = new ArrayList<>();
 
-    View view = null;
+    private ProgressBar recentSalonsProgress;
+    private ProgressBar winnersNewsProgress;
+    private LinearLayout winnersHeader;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         initViews(view);
 
@@ -87,7 +86,6 @@ public class MainFragment extends Fragment {
 
         initWinnersEmptyView();
     }
-
 
     private void checkConnection(View view) {
         LinearLayout noConnectionLayout = view.findViewById(R.id.no_connection);

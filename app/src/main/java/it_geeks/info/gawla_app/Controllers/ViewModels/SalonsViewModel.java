@@ -8,6 +8,7 @@ import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -27,6 +28,7 @@ import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
+import it_geeks.info.gawla_app.Views.NavigationFragments.MainFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -94,22 +96,22 @@ public class SalonsViewModel extends AndroidViewModel {
 
         for (int i = 0; i < roundsArray.size(); i++) {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
-            int product_id =                     roundObj.get("product_id").getAsInt();
-            int salon_id =                       roundObj.get("salon_id").getAsInt();
-            String product_name =                roundObj.get("product_name").getAsString();
-            String category_name =               roundObj.get("category_name").getAsString();
-            String category_color =              roundObj.get("category_color").getAsString();
-            String country_name =                roundObj.get("country_name").getAsString();
-            String product_commercial_price =    roundObj.get("product_commercial_price").getAsString();
+            int product_id = roundObj.get("product_id").getAsInt();
+            int salon_id = roundObj.get("salon_id").getAsInt();
+            String product_name = roundObj.get("product_name").getAsString();
+            String category_name = roundObj.get("category_name").getAsString();
+            String category_color = roundObj.get("category_color").getAsString();
+            String country_name = roundObj.get("country_name").getAsString();
+            String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
             String product_product_description = roundObj.get("product_description").getAsString();
-            String product_image =               roundObj.get("product_image").getAsString();
-            String round_start_time =            roundObj.get("round_start_time").getAsString();
-            String round_end_time =              roundObj.get("round_end_time").getAsString();
-            String first_join_time =             roundObj.get("first_join_time").getAsString();
-            String second_join_time =            roundObj.get("second_join_time").getAsString();
-            String round_date =                  roundObj.get("round_date").getAsString();
-            String round_time =                  roundObj.get("round_time").getAsString();
-            String rest_time =                   roundObj.get("rest_time").getAsString();
+            String product_image = roundObj.get("product_image").getAsString();
+            String round_start_time = roundObj.get("round_start_time").getAsString();
+            String round_end_time = roundObj.get("round_end_time").getAsString();
+            String first_join_time = roundObj.get("first_join_time").getAsString();
+            String second_join_time = roundObj.get("second_join_time").getAsString();
+            String round_date = roundObj.get("round_date").getAsString();
+            String round_time = roundObj.get("round_time").getAsString();
+            String rest_time = roundObj.get("rest_time").getAsString();
 
             // save product images in locale storage
             gawlaDataBse.productImageDao().removeSubImages(gawlaDataBse.productImageDao().getSubImagesById(product_id));
@@ -184,7 +186,7 @@ public class SalonsViewModel extends AndroidViewModel {
     }
 
     public void init() {
-        getRoundsFromServer(); // refresh list
+//        getRoundsFromServer(); // refresh list
         DataSource.Factory<Integer, Round> factory = gawlaDataBse.roundDao().getRoundsPaged();
 
         PagedList.Config config = new PagedList.Config.Builder()
@@ -194,13 +196,15 @@ public class SalonsViewModel extends AndroidViewModel {
                 .setEnablePlaceholders(true)
                 .build();
 
-        roundsList = new LivePagedListBuilder<>(factory, config).build();
+        roundsList = new LivePagedListBuilder<>(factory, config)
+                .setBoundaryCallback(new RecentSalonsCallback(getApplication(), RetrofitClient.getInstance(getApplication()).getAPI(), gawlaDataBse, SharedPrefManager.getInstance(getApplication())))
+                .build();
     }
 
     public LiveData<PagedList<Round>> getRoundsList() {
-        if (gawlaDataBse.roundDao().getRounds().size() == 0) {
-            getRoundsFromServer();
-        }
+//        if (gawlaDataBse.roundDao().getRounds().size() == 0) {
+//            getRoundsFromServer();
+//        }
 
         return roundsList;
     }

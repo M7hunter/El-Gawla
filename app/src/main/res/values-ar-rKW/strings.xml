@@ -161,4 +161,6 @@
     <string name="no_connection">لا يوجد اتصال</string>
     <string name="no_salons">لا يوجد صالات حاليا \n حاول لاحقا</string>
     <string name="salons">" صالات"</string>
+    <string name="error_occurred">حدث خطأ</string>
+    <string name="retry">أعد المحاولة</string>
 </resources>
