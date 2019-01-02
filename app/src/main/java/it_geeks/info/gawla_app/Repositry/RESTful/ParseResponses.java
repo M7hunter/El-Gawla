@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.Controllers;
+package it_geeks.info.gawla_app.Repositry.RESTful;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -7,17 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it_geeks.info.gawla_app.Repositry.Models.Card;
+import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import retrofit2.Response;
 
-public class HandleResponses {
+public class ParseResponses {
 
-    public HandleResponses() {
+    public ParseResponses() {
     }
 
-    public List<Round> handleServerResponseForRounds(JsonObject object, GawlaDataBse gawlaDataBse) {
+    public static List<Round> parseRounds(JsonObject object, GawlaDataBse gawlaDataBse) {
         List<Round> rounds = new ArrayList<>();
         JsonArray roundsArray = object.get("data").getAsJsonArray();
 
@@ -42,11 +42,11 @@ public class HandleResponses {
 
             // save product images in locale storage
             gawlaDataBse.productImageDao().removeSubImages(gawlaDataBse.productImageDao().getSubImagesById(product_id));
-            gawlaDataBse.productImageDao().insertSubImages(handleImages(roundObj, product_id));
+            gawlaDataBse.productImageDao().insertSubImages(parseImages(roundObj, product_id));
 
             // save product cards in locale storage
             gawlaDataBse.cardDao().removeCards(gawlaDataBse.cardDao().getCardsById(salon_id));
-            gawlaDataBse.cardDao().insertCards(handleCards(roundObj, salon_id));
+            gawlaDataBse.cardDao().insertCards(parseSalonCards(roundObj, salon_id));
 
             rounds.add(
                     new Round(product_id,
@@ -70,7 +70,7 @@ public class HandleResponses {
         return rounds;
     }
 
-    private List<ProductSubImage> handleImages(JsonObject roundObj, int product_id) {
+    private static List<ProductSubImage> parseImages(JsonObject roundObj, int product_id) {
         JsonArray product_images = roundObj.get("product_images").getAsJsonArray();
 
         List<ProductSubImage> subImagesList = new ArrayList<>();
@@ -83,7 +83,7 @@ public class HandleResponses {
         return subImagesList;
     }
 
-    private List<Card> handleCards(JsonObject roundObj, int salon_id) {
+    private static List<Card> parseSalonCards(JsonObject roundObj, int salon_id) {
         JsonArray salon_cards = roundObj.get("salon_cards").getAsJsonArray();
 
         List<Card> salon_cardsList = new ArrayList<>();
@@ -91,11 +91,11 @@ public class HandleResponses {
         for (int j = 0; j < salon_cards.size(); j++) {
             JsonObject cardObj = salon_cards.get(j).getAsJsonObject();
 //            int card_id = cardObj.get("id").getAsInt();
-            String card_name = cardObj.get("name").getAsString();
+            String card_name =    cardObj.get("name").getAsString();
             String card_details = cardObj.get("details").getAsString();
-            String card_type = cardObj.get("type").getAsString();
-            String card_color = cardObj.get("color").getAsString();
-            String card_cost = cardObj.get("cost").getAsString();
+            String card_type =    cardObj.get("type").getAsString();
+            String card_color =   cardObj.get("color").getAsString();
+            String card_cost =    cardObj.get("cost").getAsString();
 
             salon_cardsList.add(new Card(salon_id, card_name, card_details, card_type, card_color, card_cost));
         }
@@ -103,7 +103,49 @@ public class HandleResponses {
         return salon_cardsList;
     }
 
-    private String handleServerErrors(JsonObject object) {
+    public static List<Card> parseCards(JsonObject object) {
+        JsonArray dataArray = object.get("data").getAsJsonArray();
+
+        List<Card> cardsList = new ArrayList<>();
+
+        for (int i = 0; i < dataArray.size(); i++) {
+            JsonObject cardObj = dataArray.get(i).getAsJsonObject();
+            int card_id = cardObj.get("card_id").getAsInt();
+            String card_name = cardObj.get("card_name").getAsString();
+            String card_details = cardObj.get("card_details").getAsString();
+            String card_type = cardObj.get("card_type").getAsString();
+            String card_color = cardObj.get("card_color").getAsString();
+            String card_cost = cardObj.get("card_cost").getAsString();
+            int count = cardObj.get("count").getAsInt();
+
+            cardsList.add(
+                    new Card(card_name, card_details, card_type, card_color, card_cost, count));
+        }
+
+        return cardsList;
+    }
+
+    public static List<Country> parseCountries(JsonObject object) {
+        List<Country> countries = new ArrayList<>();
+        JsonArray roundsArray = object.get("data").getAsJsonArray();
+
+        for (int i = 0; i < roundsArray.size(); i++) {
+            JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
+            int country_id = roundObj.get("country_id").getAsInt();
+            String country_title = roundObj.get("country_title").getAsString();
+            String count_code = roundObj.get("count_code").getAsString();
+            String country_timezone = roundObj.get("country_timezone").getAsString();
+            String tel = roundObj.get("tel").getAsString();
+            String image = roundObj.get("image").getAsString();
+
+            countries.add(
+                    new Country(country_id, country_title, count_code, country_timezone, tel, image));
+        }
+
+        return countries;
+    }
+
+    public static String parseServerErrors(JsonObject object) {
         String error = "no errors";
         JsonArray errors = object.get("errors").getAsJsonArray();
         for (int i = 0; i < errors.size(); i++) {
@@ -111,5 +153,4 @@ public class HandleResponses {
         }
         return error;
     }
-
 }

@@ -44,7 +44,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
             viewHolder.langLabel.setTextColor(context.getResources().getColor(R.color.greenBlue));
         }
 
-        // handle events
+        // HandleResponses events
         viewHolder.langLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

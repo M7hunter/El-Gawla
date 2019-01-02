@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.Controllers.ViewModels;
+package it_geeks.info.gawla_app.Repositry;
 
 import android.arch.paging.PagedList;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
-import it_geeks.info.gawla_app.Controllers.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
@@ -59,7 +59,8 @@ public class RecentSalonsCallback extends PagedList.BoundaryCallback<Round> {
 
                         if (status) { // no errors
                             insertItemsIntoDatabase(mainObj);
-                            Toast.makeText(context, "inserting...", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, ParseResponses.parseServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (NullPointerException e) { // errors of response body
@@ -76,6 +77,6 @@ public class RecentSalonsCallback extends PagedList.BoundaryCallback<Round> {
     }
 
     private void insertItemsIntoDatabase(JsonObject mainObj) {
-        gawlaDataBse.roundDao().insertRoundList(new HandleResponses().handleServerResponseForRounds(mainObj, gawlaDataBse));
+        gawlaDataBse.roundDao().insertRoundList(ParseResponses.parseRounds(mainObj, gawlaDataBse));
     }
 }

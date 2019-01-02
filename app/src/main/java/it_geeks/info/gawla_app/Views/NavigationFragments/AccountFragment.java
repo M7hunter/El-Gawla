@@ -1,15 +1,12 @@
 package it_geeks.info.gawla_app.Views.NavigationFragments;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
@@ -28,10 +24,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
+import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Views.AccountOptions.AccountDetails;
 import it_geeks.info.gawla_app.Views.AccountOptions.BuyingProcessesActivity;
 import it_geeks.info.gawla_app.Views.AccountOptions.PrivacyDetails;
-import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
@@ -191,7 +187,7 @@ public class AccountFragment extends Fragment {
                                     if (status) { // no errors
                                         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
                                     } else { // errors from server
-                                        Toast.makeText(getActivity(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), ParseResponses.parseServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                                     }
 
                                 } catch (NullPointerException e) { // response errors
@@ -211,14 +207,5 @@ public class AccountFragment extends Fragment {
                         });
             }
         }).start();
-    }
-
-    private String handleServerErrors(JsonObject object) {
-        String error = "no errors";
-        JsonArray errors = object.get("errors").getAsJsonArray();
-        for (int i = 0; i < errors.size(); i++) {
-            error = errors.get(i).getAsString();
-        }
-        return error;
     }
 }

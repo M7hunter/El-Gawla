@@ -1,12 +1,23 @@
 package it_geeks.info.gawla_app.Repositry.RESTful;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
 import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.Repositry.Models.Data;
+import it_geeks.info.gawla_app.Repositry.Models.Request;
+import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
+import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses.parseServerErrors;
 
 public class RetrofitClient {
 
@@ -50,6 +61,48 @@ public class RetrofitClient {
         }
 
         return BASE_URL;
+    }
+
+    public void executeConnectionToServer(String action, Request request, HandleResponses HandleResponses) {
+        getInstance(context).getAPI().request(new RequestMainBody(new Data(action), request)).enqueue(createWebserviceCallback(HandleResponses));
+    }
+
+    private Callback<JsonObject> createWebserviceCallback(final HandleResponses HandleResponses) {
+        return new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JsonObject mainObj = response.body().getAsJsonObject();
+                        boolean status = mainObj.get("status").getAsBoolean();
+
+                        if (status) { // no errors
+                            HandleResponses.handleResponseData(mainObj);
+
+                        } else { // server errors
+                            if (parseServerErrors(mainObj).contains("not logged in")) {
+                                context.startActivity(new Intent(context, LoginActivity.class)
+                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+
+                                SharedPrefManager.getInstance(context).clearUser();
+                            }
+                            Toast.makeText(context, parseServerErrors(mainObj), Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (NullPointerException e) { // errors of response body 'maybe response body has changed'
+                        e.printStackTrace();
+                    }
+                }
+
+                HandleResponses.handleEmptyResponse();
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
+                HandleResponses.handleEmptyResponse();
+                t.printStackTrace();
+            }
+        };
     }
 
     public APIs getAPI() {

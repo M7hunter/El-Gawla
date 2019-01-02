@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // handle back from !main page
+    // HandleResponses back from !main page
     @Override
     public void onBackPressed() {
         if (navigation.getSelectedItemId() ==  R.id.navigation_hales){

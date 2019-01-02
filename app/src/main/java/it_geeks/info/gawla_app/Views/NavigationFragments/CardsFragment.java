@@ -25,6 +25,8 @@ import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
+import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Controllers.Adapters.CardsAdapter;
 import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
@@ -63,7 +65,7 @@ public class CardsFragment extends Fragment {
         view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),NotificationActivity.class));
+                startActivity(new Intent(getContext(), NotificationActivity.class));
             }
         });
     }
@@ -86,72 +88,23 @@ public class CardsFragment extends Fragment {
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
         String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
-        RequestMainBody requestMainBody = new RequestMainBody(new Data("getCardByUserID"), new Request(userId, apiToken));
-        RetrofitClient.getInstance(getContext()).getAPI().request(requestMainBody).enqueue(new Callback<JsonObject>() {
+        RetrofitClient.getInstance(getContext()).executeConnectionToServer("getCardByUserID", new Request(userId, apiToken), new HandleResponses() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                try {
-                    JsonObject mainObj = response.body().getAsJsonObject();
-                    boolean status = mainObj.get("status").getAsBoolean();
+            public void handleResponseData(JsonObject mainObject) {
 
-                    if (status) { // no errors
+                cardsList = ParseResponses.parseCards(mainObject);
 
-                        handleServerResponse(mainObj);
-
-                        initCardsRecycler();
-
-                    } else { // errors from server
-                        if (handleServerErrors(mainObj).contains("not logged in")) {
-                            startActivity(new Intent(getContext(), LoginActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            SharedPrefManager.getInstance(getActivity()).clearUser();
-                        }
-
-                        Toast.makeText(getActivity(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (NullPointerException e) { // errors of response body
-                    Toast.makeText(MainActivity.mainInstance, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-                cardsProgress.setVisibility(View.GONE);
-                initEmptyView(view);
+                initCardsRecycler();
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) { // errors of connection
-                cardsProgress.setVisibility(View.GONE);
+            public void handleEmptyResponse() {
+
                 initEmptyView(view);
-                Toast.makeText(MainActivity.mainInstance, t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                cardsProgress.setVisibility(View.GONE);
             }
         });
-    }
-
-    private void handleServerResponse(JsonObject object) {
-        JsonArray dataArray = object.get("data").getAsJsonArray();
-
-        for (int i = 0; i < dataArray.size(); i++) {
-            JsonObject cardObj = dataArray.get(i).getAsJsonObject();
-            int card_id = cardObj.get("card_id").getAsInt();
-            String card_name = cardObj.get("card_name").getAsString();
-            String card_details = cardObj.get("card_details").getAsString();
-            String card_type = cardObj.get("card_type").getAsString();
-            String card_color = cardObj.get("card_color").getAsString();
-            String card_cost = cardObj.get("card_cost").getAsString();
-            int count = cardObj.get("count").getAsInt();
-
-            cardsList.add(
-                    new Card(card_name, card_details, card_type, card_color, card_cost, count));
-        }
-    }
-
-    private String handleServerErrors(JsonObject object) {
-        String error = "no errors";
-        JsonArray errors = object.get("errors").getAsJsonArray();
-        for (int i = 0; i < errors.size(); i++) {
-            error = errors.get(i).getAsString();
-        }
-        return error;
     }
 
     private void initCardsRecycler() {
