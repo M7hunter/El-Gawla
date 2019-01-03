@@ -13,7 +13,7 @@
         android:id="@+id/salon_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <!-- logo & bell container -->
         <RelativeLayout
@@ -757,14 +757,17 @@
             android:textStyle="bold"
             android:visibility="invisible" />
 
-    </RelativeLayout>
+        <!-- joined progress -->
+        <ProgressBar
+            android:id="@+id/join_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cards_container"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:visibility="visible"/>
 
-    <ProgressBar
-        android:id="@+id/salon_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="visible"/>
+    </RelativeLayout>
 
     <!-- cards bag btn container -->
     <RelativeLayout

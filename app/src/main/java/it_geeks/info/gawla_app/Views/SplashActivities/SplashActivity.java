@@ -14,7 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -26,6 +25,8 @@ import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
+import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Controllers.Adapters.CountryAdapter;
@@ -90,76 +91,37 @@ public class SplashActivity extends AppCompatActivity {
     private void getCountriesFromSever() {
         final String apiToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
 
-        RequestMainBody requestMainBody = new RequestMainBody(new Data("getAllCountries"), new Request(apiToken));
-        RetrofitClient.getInstance(SplashActivity.this).getAPI().request(requestMainBody).enqueue(new Callback<JsonObject>() {
+        RetrofitClient.getInstance(SplashActivity.this).executeConnectionToServer("getAllCountries", new Request(apiToken), new HandleResponses() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                try {
-                    JsonObject mainObj = response.body().getAsJsonObject();
-                    boolean status = mainObj.get("status").getAsBoolean();
+            public void handleResponseData(JsonObject mainObject) {
+                    countries = ParseResponses.parseCountries(mainObject);
 
-                    if (status) { // no errors
-                        countries = handleServerResponse(mainObj);
+                    displayCountriesList();
 
-                        displayCountriesList();
+                    GawlaDataBse.getGawlaDatabase(SplashActivity.this).countryDao().insertCountryList(countries);
 
-                        GawlaDataBse.getGawlaDatabase(SplashActivity.this).countryDao().insertCountryList(countries);
+                    Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
+            }
 
-                    } else { // errors from server
-                        retry();
-                        Toast.makeText(SplashActivity.this, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (NullPointerException e) { // errors of response body
-                    retry();
-                    Toast.makeText(SplashActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
+            @Override
+            public void handleEmptyResponse() {
                 Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void handleConnectionErrors(String errorMessage) {
                 retry();
                 Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
-                Toast.makeText(SplashActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SplashActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     public void retry() {
         btnRetry.setVisibility(View.VISIBLE);
         tvCountriesHeader.setText(getString(R.string.error_occurred));
         tvCountriesHeader.setTextColor(getResources().getColor(R.color.paleRed));
-    }
-
-    private List<Country> handleServerResponse(JsonObject object) {
-        List<Country> countries = new ArrayList<>();
-        JsonArray roundsArray = object.get("data").getAsJsonArray();
-
-        for (int i = 0; i < roundsArray.size(); i++) {
-            JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
-            int country_id = roundObj.get("country_id").getAsInt();
-            String country_title = roundObj.get("country_title").getAsString();
-            String count_code = roundObj.get("count_code").getAsString();
-            String country_timezone = roundObj.get("country_timezone").getAsString();
-            String tel = roundObj.get("tel").getAsString();
-            String image = roundObj.get("image").getAsString();
-
-            countries.add(
-                    new Country(country_id, country_title, count_code, country_timezone, tel, image));
-        }
-
-        return countries;
-    }
-
-    private String handleServerErrors(JsonObject object) {
-        String error = "no errors";
-        JsonArray errors = object.get("errors").getAsJsonArray();
-        for (int i = 0; i < errors.size(); i++) {
-            error = errors.get(i).getAsString();
-        }
-        return error;
     }
 
     private void displayCountriesList() {

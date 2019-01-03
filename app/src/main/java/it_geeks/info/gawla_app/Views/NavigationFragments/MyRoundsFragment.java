@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -20,22 +19,17 @@ import java.util.List;
 
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.Repositry.Models.Card;
-import it_geeks.info.gawla_app.Repositry.Models.Data;
-import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
-import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
+import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Controllers.Adapters.RoundsPagerAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Views.NotificationActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+
+import static it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses.parseRounds;
 
 public class MyRoundsFragment extends Fragment {
 
@@ -69,7 +63,7 @@ public class MyRoundsFragment extends Fragment {
         view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),NotificationActivity.class));
+                startActivity(new Intent(getContext(), NotificationActivity.class));
             }
         });
 
@@ -92,152 +86,37 @@ public class MyRoundsFragment extends Fragment {
     }
 
     private void getData(final View view) {
-        String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
+        String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
-        RequestMainBody requestMainBody = new RequestMainBody(
-                new Data("getSalonByUserID"),
-                new Request(userId, apiToken));
-
-        Call<JsonObject> call = RetrofitClient.getInstance(getContext()).getAPI().request(requestMainBody);
-        call.enqueue(new Callback<JsonObject>() {
+        RetrofitClient.getInstance(getActivity()).executeConnectionToServer("getSalonByUserID", new Request(userId, apiToken), new HandleResponses() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                try {
-                    JsonObject mainObj = response.body().getAsJsonObject();
-                    boolean status = mainObj.get("status").getAsBoolean();
+            public void handleResponseData(JsonObject mainObject) {
 
-                    if (status) { // no errors
+                roundsList.addAll(parseRounds(mainObject, GawlaDataBse.getGawlaDatabase(getActivity())));
 
-                        roundsList.addAll(handleServerResponse(mainObj));
+                initPager();
 
-                        initPager(view);
+                handleEvents(roundsList.size());
+            }
 
-                        handleEvents(roundsList.size());
-
-                    } else { // errors from server
-                        if (handleServerErrors(mainObj).contains("not logged in")) {
-                            startActivity(new Intent(getContext(), LoginActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
-                            SharedPrefManager.getInstance(getActivity()).clearUser();
-                        }
-
-                        Toast.makeText(getActivity(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (NullPointerException e) { // errors of response body
-                    Toast.makeText(MainActivity.mainInstance, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            @Override
+            public void handleEmptyResponse() {
 
                 initEmptyView(view);
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) { // errors of connection
-                Toast.makeText(MainActivity.mainInstance, t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void handleConnectionErrors(String errorMessage) {
+
                 initEmptyView(view);
+
+                Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
-    private List<Round> handleServerResponse(JsonObject object) {
-        List<Round> rounds = new ArrayList<>();
-        JsonArray roundsArray = object.get("data").getAsJsonArray();
-
-        for (int i = 0; i < roundsArray.size(); i++) {
-            JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
-            int product_id = roundObj.get("product_id").getAsInt();
-            int salon_id = roundObj.get("salon_id").getAsInt();
-            String product_name = roundObj.get("product_name").getAsString();
-            String category_name = roundObj.get("category_name").getAsString();
-            String category_color = roundObj.get("category_color").getAsString();
-            String country_name = roundObj.get("country_name").getAsString();
-            String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
-            String product_description = roundObj.get("product_description").getAsString();
-            String product_image = roundObj.get("product_image").getAsString();
-            String round_start_time = roundObj.get("round_start_time").getAsString();
-            String round_end_time = roundObj.get("round_end_time").getAsString();
-            String first_join_time = roundObj.get("first_join_time").getAsString();
-            String second_join_time = roundObj.get("second_join_time").getAsString();
-            String round_date = roundObj.get("round_date").getAsString();
-            String round_time = roundObj.get("round_time").getAsString();
-            String rest_time = roundObj.get("rest_time").getAsString();
-
-            // save product images in locale storage
-            GawlaDataBse.getGawlaDatabase(getActivity()).productImageDao().removeSubImages( GawlaDataBse.getGawlaDatabase(getActivity()).productImageDao().getSubImagesById(i));
-            GawlaDataBse.getGawlaDatabase(getActivity()).productImageDao().insertSubImages(handleImages(roundObj, i));
-
-            // save product cards in locale storage
-            GawlaDataBse.getGawlaDatabase(getActivity()).cardDao().removeCards( GawlaDataBse.getGawlaDatabase(getActivity()).cardDao().getCardsById(salon_id));
-            GawlaDataBse.getGawlaDatabase(getActivity()).cardDao().insertCards(handleCards(roundObj, salon_id));
-
-            rounds.add(
-                    new Round(product_id,
-                            salon_id,
-                            product_name,
-                            category_name,
-                            category_color,
-                            country_name,
-                            product_commercial_price,
-                            product_description,
-                            product_image,
-                            round_start_time,
-                            round_end_time,
-                            first_join_time,
-                            second_join_time,
-                            round_date,
-                            round_time,
-                            rest_time));
-        }
-
-        return rounds;
-    }
-
-    private List<ProductSubImage> handleImages(JsonObject roundObj, int product_id) {
-        JsonArray product_images = roundObj.get("product_images").getAsJsonArray();
-
-        List<ProductSubImage> subImagesList = new ArrayList<>();
-
-        for (int i = 0; i < product_images.size(); i++) {
-            ProductSubImage subImage = new ProductSubImage(product_id, product_images.get(i).getAsString());
-            subImagesList.add(subImage);
-        }
-
-        return subImagesList;
-    }
-
-    private List<Card> handleCards(JsonObject roundObj, int salon_id) {
-        JsonArray salon_cards = roundObj.get("salon_cards").getAsJsonArray();
-
-        List<Card> salon_cardsList = new ArrayList<>();
-
-        for (int j = 0; j < salon_cards.size(); j++) {
-            JsonObject cardObj = salon_cards.get(j).getAsJsonObject();
-//            int card_id = cardObj.get("id").getAsInt();
-            String card_name = cardObj.get("name").getAsString();
-            String card_details = cardObj.get("details").getAsString();
-            String card_type = cardObj.get("type").getAsString();
-            String card_color = cardObj.get("color").getAsString();
-            String card_cost = cardObj.get("cost").getAsString();
-
-            salon_cardsList.add(new Card(salon_id, card_name, card_details, card_type, card_color, card_cost));
-        }
-
-        return salon_cardsList;
-    }
-
-    private String handleServerErrors(JsonObject object) {
-        String error = "no errors";
-        JsonArray errors = object.get("errors").getAsJsonArray();
-        for (int i = 0; i < errors.size(); i++) {
-            error = errors.get(i).getAsString();
-        }
-        return error;
-    }
-
-    private void initPager(View view) {
+    private void initPager() {
         // pager
         roundsViewPager.setAdapter(new RoundsPagerAdapter(getActivity(), roundsList));
     }

@@ -1,15 +1,12 @@
 package it_geeks.info.gawla_app.Views.NavigationFragments;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,27 +15,23 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
 import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
+import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Views.AccountOptions.AccountDetails;
 import it_geeks.info.gawla_app.Views.AccountOptions.BuyingProcessesActivity;
 import it_geeks.info.gawla_app.Views.AccountOptions.PrivacyDetails;
-import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
-import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Views.NotificationActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -179,46 +172,38 @@ public class AccountFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                RetrofitClient.getInstance(getActivity()).getAPI().request(new RequestMainBody(new Data("updateUserData"), new Request(user_id, api_token, encodedImage)))
-                        .enqueue(new Callback<JsonObject>() {
-                            @Override
-                            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                                try {
-                                    JsonObject mainObj = response.body().getAsJsonObject();
-                                    boolean status = mainObj.get("status").getAsBoolean();
-                                    String message = mainObj.get("message").getAsString();
 
-                                    if (status) { // no errors
-                                        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                                    } else { // errors from server
-                                        Toast.makeText(getActivity(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
-                                    }
+                RetrofitClient.getInstance(getActivity()).executeConnectionToServer("updateUserData", new Request(user_id, api_token, encodedImage), new HandleResponses() {
+                    @Override
+                    public void handleResponseData(JsonObject mainObject) {
+                        JsonObject mainObj = mainObject.getAsJsonObject();
+                        boolean status = mainObj.get("status").getAsBoolean();
+                        String message = mainObj.get("message").getAsString();
 
-                                } catch (NullPointerException e) { // response errors
-                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                                imageProgress.setVisibility(View.GONE);
-                                edit_user_image.setVisibility(View.VISIBLE);
-                            }
+                        if (status) { // no errors
+                            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                        } else { // errors from server
+                            Toast.makeText(getActivity(), ParseResponses.parseServerErrors(mainObj), Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
-                            @Override
-                            public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
-                                imageProgress.setVisibility(View.GONE);
-                                edit_user_image.setVisibility(View.VISIBLE);
-                                upload_user_image.setVisibility(View.VISIBLE); // to try again
-                                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                    @Override
+                    public void handleEmptyResponse() {
+
+                        imageProgress.setVisibility(View.GONE);
+                        edit_user_image.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+
+                        imageProgress.setVisibility(View.GONE);
+                        edit_user_image.setVisibility(View.VISIBLE);
+                        upload_user_image.setVisibility(View.VISIBLE); // to try again
+                        Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         }).start();
-    }
-
-    private String handleServerErrors(JsonObject object) {
-        String error = "no errors";
-        JsonArray errors = object.get("errors").getAsJsonArray();
-        for (int i = 0; i < errors.size(); i++) {
-            error = errors.get(i).getAsString();
-        }
-        return error;
     }
 }

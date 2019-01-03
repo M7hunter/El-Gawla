@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -37,22 +36,17 @@ import java.util.List;
 
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
-import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.RoundStartToEndModel;
+import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Controllers.Adapters.BottomCardsAdapter;
 import it_geeks.info.gawla_app.Controllers.Adapters.ProductSubImagesAdapter;
-import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.Views.Round.RoundStartToEnd;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SalonActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -61,17 +55,19 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private List<Integer> drawablesUp = new ArrayList<>();
     private List<Integer> drawablesDown = new ArrayList<>();
     RoundStartToEnd roundStartToEnd;
+
     public TextView round_notification_text;
+
     private String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time, first_join_time, second_join_time, round_date, round_time, rest_time;
     int product_id, salon_id;
+
     int joinStatus; // 0 = watcher, 1 = want to join, 2 = joined
     public Button btnJoinRound, btnAddOffer;
     EditText etAddOffer;
     CardView more, notificationCard, confirmationLayout;
     LinearLayout addOfferLayout;
-    RelativeLayout salonContainer;
     FrameLayout overlayLayout;
-    ProgressBar salonProgress, joinConfirmationProgress;
+    ProgressBar joinProgress, joinConfirmationProgress;
 
     private Round round;
 
@@ -121,65 +117,36 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         handleEvents();
     }
 
-    public void RefreshRound(){ // TODO :: Will Delete Later on RealTime #Mohamed
-        finish();
-        startActivity(getIntent());
-    }
-
     private void checkIfUserJoinedBefore() {
         String apiToken = Common.Instance(SalonActivity.this).removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
         int userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
 
-        RequestMainBody requestMainBody = new RequestMainBody(
-                new Data("getSalonByUserID"),
-                new Request(userId, apiToken));
 
-        Call<JsonObject> call = RetrofitClient.getInstance(SalonActivity.this).getAPI().request(requestMainBody);
-        call.enqueue(new Callback<JsonObject>() {
+        RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer("getSalonByUserID", new Request(userId, apiToken), new HandleResponses() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                salonProgress.setVisibility(View.GONE);
-                salonContainer.setVisibility(View.VISIBLE);
-                try {
-                    JsonObject mainObj = response.body().getAsJsonObject();
-                    boolean status = mainObj.get("status").getAsBoolean();
+            public void handleResponseData(JsonObject mainObject) {
 
-                    if (status) { // no errors
-
-                        for (int id : getSalonIdFromResponse(mainObj)) {
-
-                            if (id == salon_id) { // joined before
-                                joinStatus = 2;
-                                break;
-
-                            } else { // !joined
-                                joinStatus = 0;
-                            }
-                        }
-
-                        roundStartToEnd.setJoinStatus(joinStatus);
-
-                    } else { // errors from server
-                        if (handleServerErrors(mainObj).contains("not logged in")) {
-                            startActivity(new Intent(SalonActivity.this, LoginActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
-                            SharedPrefManager.getInstance(SalonActivity.this).clearUser();
-                        }
-
-                        Toast.makeText(SalonActivity.this, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (NullPointerException e) { // errors of response body
-                    Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                if (getSalonIdFromResponse(mainObject).contains(salon_id)) { // joined before
+                    joinStatus = 2;
+                } else { // !joined
+                    joinStatus = 0;
                 }
+
+                roundStartToEnd.setJoinStatus(joinStatus);
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) { // errors of connection
-                salonProgress.setVisibility(View.GONE);
-                salonContainer.setVisibility(View.VISIBLE);
-                Toast.makeText(SalonActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void handleEmptyResponse() {
+
+                joinProgress.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
+
+                joinProgress.setVisibility(View.GONE);
+
+                Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -333,19 +300,19 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         overlayLayout = findViewById(R.id.overlay_layout);
         more = findViewById(R.id.more);
         btnJoinRound = findViewById(R.id.btn_join_round);
-        btnAddOffer = findViewById(R.id.add_offer_btn);
         etAddOffer = findViewById(R.id.add_offer_et);
         confirmationLayout = findViewById(R.id.join_confirmation_layout);
         notificationCard = findViewById(R.id.round_notification_card);
+        btnAddOffer = findViewById(R.id.add_offer_btn);
         addOfferLayout = findViewById(R.id.add_offer_layout);
+        joinProgress = findViewById(R.id.join_progress);
         joinConfirmationProgress = findViewById(R.id.join_confirmation_progress);
-        salonProgress = findViewById(R.id.salon_progress);
-        salonContainer = findViewById(R.id.salon_container);
+
         // notification icon
         findViewById(R.id.salon_notification_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SalonActivity.this,NotificationActivity.class));
+                startActivity(new Intent(SalonActivity.this, NotificationActivity.class));
             }
         });
     }
@@ -409,6 +376,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         btnAddOffer.setText(getResources().getString(R.string.add_offer));
                     }
 
+                    joinConfirmationProgress.setVisibility(View.VISIBLE);
                     sendOfferToServer();
                 }
             }
@@ -418,96 +386,59 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private void addUserToSalon() {
         joinConfirmationProgress.setVisibility(View.VISIBLE);
 
-        RetrofitClient.getInstance(SalonActivity.this)
-                .getAPI().request(new RequestMainBody(new Data("setUserSalon"),
+        RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer("setUserSalon",
                 new Request(SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
                         , String.valueOf(Common.Instance(SalonActivity.this).getCurrentTimeInMillis())
                         , ""
-                        , salon_id))).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                joinConfirmationProgress.setVisibility(View.GONE);
-                try {
-                    JsonObject mainObj = response.body().getAsJsonObject();
-                    boolean status = mainObj.get("status").getAsBoolean();
+                        , salon_id), new HandleResponses() {
+                    @Override
+                    public void handleResponseData(JsonObject mainObject) {
 
-                    if (status) { // no errors
                         changeConfirmationState();
-
-                    } else { // errors from server
-                        if (handleServerErrors(mainObj).contains("not logged in")) {
-                            getApplication().startActivity(new Intent(getApplication(), LoginActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
-                            SharedPrefManager.getInstance(getApplication()).clearUser();
-                        }
-
-                        Toast.makeText(getApplication(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
                     }
-                } catch (NullPointerException e) { // errors of response body
-                    Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
 
-            }
+                    @Override
+                    public void handleEmptyResponse() {
 
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                joinConfirmationProgress.setVisibility(View.GONE);
-                Toast.makeText(SalonActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                        joinConfirmationProgress.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+
+                        joinConfirmationProgress.setVisibility(View.GONE);
+                    }
+                });
     }
 
     private void sendOfferToServer() {
         int userOffer = Integer.parseInt(etAddOffer.getText().toString());
 
-        RetrofitClient.getInstance(SalonActivity.this)
-                .getAPI().request(new RequestMainBody(new Data("setUserOffer"),
+        RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer("setUserOffer",
                 new Request(SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
                         , salon_id
                         , String.valueOf(Common.Instance(SalonActivity.this).getCurrentTimeInMillis())
-                        , userOffer))).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        , userOffer), new HandleResponses() {
+                    @Override
+                    public void handleResponseData(JsonObject mainObject) {
 
-                try {
-                    JsonObject mainObj = response.body().getAsJsonObject();
-                    boolean status = mainObj.get("status").getAsBoolean();
-
-                    if (status) { // no errors
-
-                    } else { // errors from server
-                        if (handleServerErrors(mainObj).contains("not logged in")) {
-                            getApplication().startActivity(new Intent(getApplication(), LoginActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
-                            SharedPrefManager.getInstance(getApplication()).clearUser();
-                        }
-
-                        Toast.makeText(getApplication(), handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
+                        joinConfirmationProgress.setVisibility(View.GONE);
                     }
-                } catch (NullPointerException e) { // errors of response body
-                    Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
 
-            }
+                    @Override
+                    public void handleEmptyResponse() {
 
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(SalonActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+                        joinConfirmationProgress.setVisibility(View.GONE);
+                    }
 
-    private String handleServerErrors(JsonObject object) {
-        String error = "no errors";
-        JsonArray errors = object.get("errors").getAsJsonArray();
-        for (int i = 0; i < errors.size(); i++) {
-            error = errors.get(i).getAsString();
-        }
-        return error;
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+
+                        joinConfirmationProgress.setVisibility(View.GONE);
+                    }
+                });
     }
 
     // join events
@@ -840,6 +771,4 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         super.onDestroy();
         roundStartToEnd.stop(); // stop Time Down
     }
-
-
 }

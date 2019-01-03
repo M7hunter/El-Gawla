@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.Repositry.RecentSalonsCallback;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 
 public class SalonsViewModel extends AndroidViewModel {
