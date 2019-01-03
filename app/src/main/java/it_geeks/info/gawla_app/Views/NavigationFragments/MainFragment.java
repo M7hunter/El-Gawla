@@ -37,8 +37,6 @@ public class MainFragment extends Fragment {
     private RecentSalonsPagedAdapter recentSalonsPagedAdapter;
     private WinnersNewsAdapter winnersNewsAdapter;
 
-    SalonsViewModel salonsViewModel;
-
     private List<WinnerNews> winnerNewsList = new ArrayList<>();
 
     private ProgressBar recentSalonsProgress;
@@ -117,7 +115,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        salonsViewModel = ViewModelProviders.of(this).get(SalonsViewModel.class);
+        SalonsViewModel salonsViewModel = ViewModelProviders.of(this).get(SalonsViewModel.class);
         salonsViewModel.init();
 
         salonsViewModel.getRoundsList().observe(this, new Observer<PagedList<Round>>() {
@@ -150,7 +148,7 @@ public class MainFragment extends Fragment {
         LinearLayout emptyViewLayout = view.findViewById(R.id.recent_salons_empty_view);
 
         if (roundList.size() > 0) {
-            emptyViewLayout.setVisibility(View.INVISIBLE);
+            emptyViewLayout.setVisibility(View.GONE);
             recentSalonsRecycler.setVisibility(View.VISIBLE);
 
         } else {

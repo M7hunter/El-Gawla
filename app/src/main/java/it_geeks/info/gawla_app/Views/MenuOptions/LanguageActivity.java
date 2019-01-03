@@ -20,7 +20,7 @@ public class LanguageActivity extends AppCompatActivity {
 
     RecyclerView langRecycler;
 
-    List<String> langsList = new ArrayList<>();
+    List<String> langList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +46,15 @@ public class LanguageActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        langsList.add("العربية");
-        langsList.add("English");
+        langList.add("العربية");
+        langList.add("English");
     }
 
     private void initLangRecycler() {
         langRecycler = findViewById(R.id.lang_recycler);
         langRecycler.setHasFixedSize(true);
         langRecycler.setLayoutManager(new LinearLayoutManager(LanguageActivity.this, 1, false));
-        LanguageAdapter languageAdapter = new LanguageAdapter(LanguageActivity.this, langsList);
+        LanguageAdapter languageAdapter = new LanguageAdapter(LanguageActivity.this, langList);
         langRecycler.setAdapter(languageAdapter);
     }
 

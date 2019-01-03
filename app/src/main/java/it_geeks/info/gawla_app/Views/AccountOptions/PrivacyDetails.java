@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
@@ -113,19 +114,19 @@ public class PrivacyDetails extends AppCompatActivity {
                 //Logout Disconnect
                 case R.id.social_out:
                     try {
-                        if (SharedPrefManager.getInstance(PrivacyDetails.this).getProvider() == "facebook") {
+                        if (SharedPrefManager.getInstance(PrivacyDetails.this).getProvider().trim() == "facebook") {
                             LoginManager.getInstance().logOut();
-                        } else if (SharedPrefManager.getInstance(PrivacyDetails.this).getProvider() == "google") {
+                        } else if (SharedPrefManager.getInstance(PrivacyDetails.this).getProvider().trim() == "google") {
                             if (mGoogleApiClient.isConnected()) {
                                 Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                                 mGoogleApiClient.disconnect();
                                 mGoogleApiClient.connect();
                             }
                         }
+                        Toast.makeText(PrivacyDetails.this, SharedPrefManager.getInstance(PrivacyDetails.this).getProvider().trim(), Toast.LENGTH_SHORT).show();
                         SharedPrefManager.getInstance(PrivacyDetails.this).clearUser();
                         SharedPrefManager.getInstance(PrivacyDetails.this).clearProvider();
-                        startActivity(new Intent(PrivacyDetails.this, LoginActivity.class));
-                        PrivacyDetails.this.finish();
+                        startActivity(new Intent(PrivacyDetails.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     } catch (Exception e) {
                         Log.e("Mo7", e.getMessage());
                     }

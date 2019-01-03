@@ -19,6 +19,7 @@ import java.util.List;
 
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.General.WrapContentHeightViewPager;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
@@ -33,7 +34,7 @@ import static it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses.parseRoun
 
 public class MyRoundsFragment extends Fragment {
 
-    private ViewPager roundsViewPager;
+    private WrapContentHeightViewPager roundsViewPager;
     private List<Round> roundsList = new ArrayList<>();
 
     private ProgressBar myRoundProgress;
@@ -54,36 +55,6 @@ public class MyRoundsFragment extends Fragment {
     private void initViews(View view) {
         myRoundProgress = view.findViewById(R.id.my_rounds_progress);
         roundsViewPager = view.findViewById(R.id.rounds_pager);
-
-//        roundsViewPager = new ViewPager(getContext()){
-//            @Override
-//            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//                View view = getChildAt(this.getCurrentItem());
-//                if (view != null) {
-//                    view.measure(widthMeasureSpec, heightMeasureSpec);
-//                }
-//                setMeasuredDimension(getMeasuredWidth(), measureHeight(heightMeasureSpec, view));
-//            }
-//
-//            private int measureHeight(int measureSpec, View view) {
-//                int result = 0;
-//                int specMode = MeasureSpec.getMode(measureSpec);
-//                int specSize = MeasureSpec.getSize(measureSpec);
-//
-//                if (specMode == MeasureSpec.EXACTLY) {
-//                    result = specSize;
-//                } else {
-//                    // set the height from the base view if available
-//                    if (view != null) {
-//                        result = view.getMeasuredHeight();
-//                    }
-//                    if (specMode == MeasureSpec.AT_MOST) {
-//                        result = Math.min(result, specSize);
-//                    }
-//                }
-//                return result;
-//            }
-//        };
 
         // arrows
         arrowRight = view.findViewById(R.id.my_rounds_right_arrow);
@@ -204,6 +175,8 @@ public class MyRoundsFragment extends Fragment {
 
     private void initEmptyView(View view) {
         LinearLayout emptyViewLayout = view.findViewById(R.id.my_rounds_empty_view);
+
+        myRoundProgress.setVisibility(View.GONE);
 
         if (roundsList.size() > 0) {
             emptyViewLayout.setVisibility(View.INVISIBLE);

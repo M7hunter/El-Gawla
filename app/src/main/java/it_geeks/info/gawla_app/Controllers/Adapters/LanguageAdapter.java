@@ -19,11 +19,11 @@ import it_geeks.info.gawla_app.Views.MainActivity;
 public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHolder> {
 
     private Context context;
-    private List<String> langsList;
+    private List<String> langList;
 
-    public LanguageAdapter(Context context, List<String> langsList) {
+    public LanguageAdapter(Context context, List<String> langList) {
         this.context = context;
-        this.langsList = langsList;
+        this.langList = langList;
     }
 
     @NonNull
@@ -34,14 +34,14 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        final String lang = langsList.get(i);
+        final String lang = langList.get(i);
 
         // set start up ui
         viewHolder.langLabel.setText(lang);
 
         String s = "";
         if (sLang(lang, s).equals(SharedPrefManager.getInstance(context).getSavedLang())) {
-            viewHolder.langLabel.setTextColor(context.getResources().getColor(R.color.greenBlue));
+            viewHolder.langLabel.setTextColor(context.getResources().getColor(R.color.midBlue));
         }
 
         // HandleResponses events
@@ -73,7 +73,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return langsList.size();
+        return langList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
