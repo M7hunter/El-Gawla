@@ -55,6 +55,36 @@ public class MyRoundsFragment extends Fragment {
         myRoundProgress = view.findViewById(R.id.my_rounds_progress);
         roundsViewPager = view.findViewById(R.id.rounds_pager);
 
+//        roundsViewPager = new ViewPager(getContext()){
+//            @Override
+//            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//                View view = getChildAt(this.getCurrentItem());
+//                if (view != null) {
+//                    view.measure(widthMeasureSpec, heightMeasureSpec);
+//                }
+//                setMeasuredDimension(getMeasuredWidth(), measureHeight(heightMeasureSpec, view));
+//            }
+//
+//            private int measureHeight(int measureSpec, View view) {
+//                int result = 0;
+//                int specMode = MeasureSpec.getMode(measureSpec);
+//                int specSize = MeasureSpec.getSize(measureSpec);
+//
+//                if (specMode == MeasureSpec.EXACTLY) {
+//                    result = specSize;
+//                } else {
+//                    // set the height from the base view if available
+//                    if (view != null) {
+//                        result = view.getMeasuredHeight();
+//                    }
+//                    if (specMode == MeasureSpec.AT_MOST) {
+//                        result = Math.min(result, specSize);
+//                    }
+//                }
+//                return result;
+//            }
+//        };
+
         // arrows
         arrowRight = view.findViewById(R.id.my_rounds_right_arrow);
         arrowLeft = view.findViewById(R.id.my_rounds_left_arrow);
