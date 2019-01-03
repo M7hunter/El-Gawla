@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
@@ -25,6 +26,7 @@ import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Controllers.Adapters.RoundsPagerAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Views.NotificationActivity;
 
 import static it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses.parseRounds;
@@ -100,7 +102,16 @@ public class MyRoundsFragment extends Fragment {
 
             @Override
             public void handleEmptyResponse() {
+
                 initEmptyView(view);
+            }
+
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
+
+                initEmptyView(view);
+
+                Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }

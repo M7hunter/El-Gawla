@@ -99,8 +99,8 @@ public class RetrofitClient {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
-                HandleResponses.handleEmptyResponse();
-                t.printStackTrace();
+
+                HandleResponses.handleConnectionErrors(t.getMessage());
             }
         };
     }

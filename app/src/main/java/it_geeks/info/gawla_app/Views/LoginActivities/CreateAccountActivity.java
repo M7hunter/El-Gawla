@@ -46,19 +46,19 @@ import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Repositry.Models.User;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
-
 import it_geeks.info.gawla_app.Views.MainActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener{
+public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     EditText etName, etEmail, etPass;
     ProgressBar progressBar;
     int reconnect = 0;
-    private static String mApi_token,mUser_id;
+    private static String mApi_token, mUser_id;
     // fb login
     CallbackManager callbackManager;
     LoginButton btn_fb_login;
@@ -103,7 +103,8 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         });
 
         //fb login
-        callbackManager = CallbackManager.Factory.create();callbackManager = CallbackManager.Factory.create();
+        callbackManager = CallbackManager.Factory.create();
+        callbackManager = CallbackManager.Factory.create();
         btn_fb_login = (LoginButton) findViewById(R.id.login_button);
 
         // google login
@@ -140,8 +141,8 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             String image = account.getPhotoUrl().toString();
             String provider = providerGoogle;
 
-            Log.e("Mo7",id +" - "+name+" - "+email+" - "+provider+" - "+image);
-            socialLogin(id,name,email,image,provider);
+            Log.e("Mo7", id + " - " + name + " - " + email + " - " + provider + " - " + image);
+            socialLogin(id, name, email, image, provider);
 
         } catch (ApiException e) {
             Log.w("", "signInResult:failed code=" + e.getStatusCode());
@@ -153,64 +154,52 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         String name = etName.getText().toString();
         String email = etEmail.getText().toString();
         String pass = etPass.getText().toString();
-
         int countryId = SharedPrefManager.getInstance(CreateAccountActivity.this).getCountry().getCountry_id();
 
         if (checkEntries(name, email, pass)) {
-            RequestMainBody requestMainBody = new RequestMainBody(new Data("register"),
-                    new Request(name, email, countryId, pass));
-            connectToServer(requestMainBody, new User(name, email, pass));
+            connectToServer(new User(name, email, pass), countryId);
         }
     }
 
-    private void connectToServer(final RequestMainBody requestMainBody, final User user) {
-        Call<JsonObject> call = RetrofitClient.getInstance(CreateAccountActivity.this).getAPI().request(requestMainBody);
-        call.enqueue(new Callback<JsonObject>() {
+    private void connectToServer(final User user, final int countryId) {
+
+        RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer("register", new Request(user.getName(), user.getEmail(), countryId, user.getName()), new HandleResponses() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void handleResponseData(JsonObject mainObject) {
                 progressBar.setVisibility(View.INVISIBLE);
-                try {
-                    JsonObject object = response.body().getAsJsonObject();
-                    boolean status = object.get("status").getAsBoolean();
-                    if (status) { // if registration gos well
-                        // notify user
-                        Toast.makeText(CreateAccountActivity.this, object.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                // notify user
+                Toast.makeText(CreateAccountActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
 
-                        // save user data locally
-                        handleServerResponse(object, user);
-                        SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(user);
-                        SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(getResources().getString(R.string.app_name)); // Provider
-                        // goto next page
-                        startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
-                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-
-                    } else { // if registration have errors
-                        // notify user
-                        Toast.makeText(CreateAccountActivity.this,
-                                handleServerErrors(object),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                } catch (NullPointerException e) {
-                    // notify user
-                    Toast.makeText(CreateAccountActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+                // save user data locally
+                handleServerResponse(mainObject, user);
+                SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(user);
+                SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(getResources().getString(R.string.app_name)); // Provider
+                // goto next page
+                startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void handleEmptyResponse() {
+
+            }
+
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
                 progressBar.setVisibility(View.INVISIBLE);
 
                 // notify user
-                String tMessage = t.getMessage();
+                String tMessage = errorMessage;
                 Toast.makeText(CreateAccountActivity.this, tMessage, Toast.LENGTH_SHORT).show();
 
                 // try one more time
                 if (tMessage.equals("timeout") && reconnect < 1) {
                     reconnect++;
-                    connectToServer(requestMainBody, user);
+                    connectToServer(user, countryId);
                 }
             }
         });
+
     }
 
     private boolean checkEntries(String name, String email, String pass) {
@@ -307,7 +296,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             }
         });
 
-        if(AccessToken.getCurrentAccessToken() != null){
+        if (AccessToken.getCurrentAccessToken() != null) {
             LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         }
 
@@ -321,8 +310,8 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void getData(JSONObject object) {
-        try{
-            URL Profile_Picture = new URL("https://graph.facebook.com/"+object.getString("id")+"/picture?type=normal");
+        try {
+            URL Profile_Picture = new URL("https://graph.facebook.com/" + object.getString("id") + "/picture?type=normal");
 
             String id = object.optString("id");
             String name = object.optString("name");
@@ -330,7 +319,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             String image = Profile_Picture.toString();
             String provider = providerFacebook;
 
-            socialLogin(id,name,email,image,provider);
+            socialLogin(id, name, email, image, provider);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -339,39 +328,36 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void socialLogin(String id, final String name, final String email, final String image, final String provider) {
+        int countryId = SharedPrefManager.getInstance(CreateAccountActivity.this).getCountry().getCountry_id();
+        RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer("loginOrRegisterWithSocial", new Request(provider, id, name, email, image, countryId), new HandleResponses() {
+            @Override
+            public void handleResponseData(JsonObject mainObject) {
+                JsonObject data = mainObject.getAsJsonObject();
+                mApi_token = data.get("api_token").getAsString();
+                mUser_id = String.valueOf(data.get("user_id").getAsInt());
 
-            RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"),new Request(provider,id,name,email,image));
-            Call<JsonObject> call = RetrofitClient.getInstance(CreateAccountActivity.this).getAPI().request(requestMainBody);
-            call.enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(new User(Integer.parseInt(mUser_id), name, email, mApi_token, image));
+                SharedPrefManager.getInstance(CreateAccountActivity.this).saveUserImage(image);
+                SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(provider); // Provider
+                startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));
+                finish();
+            }
 
-                    JsonObject data = response.body().getAsJsonObject();
-                    mApi_token =  data.get("api_token").getAsString();
-                    mUser_id = String.valueOf(data.get("user_id").getAsInt());
+            @Override
+            public void handleEmptyResponse() {
 
-                    SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(new User(Integer.parseInt(mUser_id), name, email, mApi_token, image));
-                    SharedPrefManager.getInstance(CreateAccountActivity.this).saveUserImage(image);
-                    SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(provider); // Provider
-                    startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));
-                    finish();
+            }
 
-
-                }
-
-                @Override
-                public void onFailure(Call<JsonObject> call, Throwable t) {
-                    Log.e("Mo7",t.getMessage());
-                }
-
-            });
-
-
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
+                Log.e("Mo7", errorMessage);
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        callbackManager.onActivityResult(requestCode,resultCode,data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
 
         // google login

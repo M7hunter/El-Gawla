@@ -7,27 +7,24 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
+import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
-import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.RESTful.APIs;
+import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RecentSalonsCallback extends PagedList.BoundaryCallback<Round> {
+
+    private Context context;
 
     private APIs apIs;
 
     private GawlaDataBse gawlaDataBse;
 
     private SharedPrefManager sm;
-
-    private Context context;
 
     public RecentSalonsCallback(Context context, APIs apIs, GawlaDataBse gawlaDataBse, SharedPrefManager spm) {
         this.context = context;
@@ -38,42 +35,27 @@ public class RecentSalonsCallback extends PagedList.BoundaryCallback<Round> {
 
     @Override
     public void onZeroItemsLoaded() {
-        apIs.request(new RequestMainBody(new Data("getAllSalons"), new Request(sm.getUser().getUser_id(), sm.getUser().getApi_token())))
-                .enqueue(createWebserviceCallback());
+        RetrofitClient.getInstance(context).executeConnectionToServer("getAllSalons", new Request(sm.getUser().getUser_id(), sm.getUser().getApi_token()), new HandleResponses() {
+            @Override
+            public void handleResponseData(JsonObject mainObject) {
+                insertItemsIntoDatabase(mainObject);
+            }
+
+            @Override
+            public void handleEmptyResponse() {
+
+            }
+
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public void onItemAtEndLoaded(@NonNull Round itemAtEnd) {
-        apIs.request(new RequestMainBody(new Data("getAllSalons"), new Request(sm.getUser().getUser_id(), sm.getUser().getApi_token())))
-                .enqueue(createWebserviceCallback());
-    }
-
-    private Callback<JsonObject> createWebserviceCallback() {
-        return new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-                    try {
-                        JsonObject mainObj = response.body().getAsJsonObject();
-                        boolean status = mainObj.get("status").getAsBoolean();
-
-                        if (status) { // no errors
-                            insertItemsIntoDatabase(mainObj);
-                        } else {
-                            Toast.makeText(context, ParseResponses.parseServerErrors(mainObj), Toast.LENGTH_SHORT).show();
-                        }
-
-                    } catch (NullPointerException e) { // errors of response body
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                t.printStackTrace();
-            }
-        };
+        onZeroItemsLoaded();
     }
 
     private void insertItemsIntoDatabase(JsonObject mainObj) {

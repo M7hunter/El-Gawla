@@ -60,17 +60,17 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_hales:
                         fragment = new MainFragment();
-                        // change status bar color to white
+                        // change status bar color
                         changeStatusBarColor("#f4f7fa");
                         break;
                     case R.id.navigation_my_rounds:
                         fragment = new MyRoundsFragment();
-                        // change status bar color to white
+                        // change status bar color
                         changeStatusBarColor("#f4f7fa");
                         break;
                     case R.id.navigation_cards:
                         fragment = new CardsFragment();
-                        // change status bar color to white
+                        // change status bar color
                         changeStatusBarColor("#f4f7fa");
                         break;
                     case R.id.navigation_account:
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.navigation_menu:
                         fragment = new MenuFragment();
-                        // change status bar color to white
+                        // change status bar color
                         changeStatusBarColor("#f4f7fa");
                         break;
                 }

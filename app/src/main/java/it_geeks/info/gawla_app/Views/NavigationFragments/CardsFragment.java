@@ -11,30 +11,20 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
-import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
-import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Controllers.Adapters.CardsAdapter;
-import it_geeks.info.gawla_app.Views.LoginActivities.LoginActivity;
 import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Views.NotificationActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CardsFragment extends Fragment {
 
@@ -103,6 +93,16 @@ public class CardsFragment extends Fragment {
                 initEmptyView(view);
 
                 cardsProgress.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
+
+                initEmptyView(view);
+
+                cardsProgress.setVisibility(View.GONE);
+
+                Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }

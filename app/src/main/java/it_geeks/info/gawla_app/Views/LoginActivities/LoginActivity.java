@@ -21,6 +21,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.Login;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -43,6 +44,7 @@ import java.net.URL;
 import java.util.Arrays;
 
 import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
@@ -96,7 +98,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String email = txt_Email.getText().toString();
                     String pass = txt_Password.getText().toString();
 
-                    RequestMainBody requestMainBody = new RequestMainBody(new Data("login"), new Request(email, pass));
                     if (email.isEmpty()) {
                         txt_Email.setError(getResources().getString(R.string.emptyMail));
                         txt_Email.requestFocus();
@@ -105,34 +106,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         txt_Password.requestFocus();
                     } else {
                         progressBar.setVisibility(View.VISIBLE);
-                        Call<JsonObject> call = RetrofitClient.getInstance(LoginActivity.this).getAPI().request(requestMainBody);
-                        call.enqueue(new Callback<JsonObject>() {
+
+                        RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer("login", new Request(email, pass), new HandleResponses() {
                             @Override
-                            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                            public void handleResponseData(JsonObject mainObject) {
+                                SharedPrefManager.getInstance(LoginActivity.this).saveProvider(getResources().getString(R.string.app_name)); // Provider
+                                SharedPrefManager.getInstance(LoginActivity.this).saveUser(handleServerResponse(mainObject));
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
+                                //hide progress
+                                progressBar.setVisibility(View.GONE);
+                            }
 
-                                    JsonObject mainObj = response.body().getAsJsonObject();
-                                    boolean status = mainObj.get("status").getAsBoolean();
-
-                                    if (status) { // no errors
-                                        SharedPrefManager.getInstance(LoginActivity.this).saveProvider(getResources().getString(R.string.app_name)); // Provider
-                                        SharedPrefManager.getInstance(LoginActivity.this).saveUser(handleServerResponse(mainObj));
-                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                        finish();
-
-                                    } else { // server errors
-                                        Toast.makeText(LoginActivity.this, handleServerErrors(mainObj), Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    //hide progress
-                                    progressBar.setVisibility(View.GONE);
-
+                            @Override
+                            public void handleEmptyResponse() {
 
                             }
 
                             @Override
-                            public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
+                            public void handleConnectionErrors(String errorMessage) {
                                 progressBar.setVisibility(View.GONE);
-                                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -315,39 +309,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     // social login
     private void socialLogin(String id, final String name, final String email, final String image, final String provider) {
-        try {
-            Log.e("Mo7",id);
-            RequestMainBody requestMainBody = new RequestMainBody(new Data("loginOrRegisterWithSocial"), new Request(provider, id, name, email, image));
-            Call<JsonObject> call = RetrofitClient.getInstance(LoginActivity.this).getAPI().request(requestMainBody);
-            call.enqueue(new Callback<JsonObject>() {
-                @Override
-                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                    try{
-                        JsonObject data = response.body().getAsJsonObject();
-                        mApi_token = data.get("api_token").getAsString();
-                        mUser_id = data.get("user_id").getAsInt();
+        int countryId = SharedPrefManager.getInstance(LoginActivity.this).getCountry().getCountry_id();
+        RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer("loginOrRegisterWithSocial", new Request(provider, id, name, email, image, countryId), new HandleResponses() {
+            @Override
+            public void handleResponseData(JsonObject mainObject) {
+                JsonObject data = mainObject.getAsJsonObject();
+                mApi_token = data.get("api_token").getAsString();
+                mUser_id = data.get("user_id").getAsInt();
 
-                        SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(mUser_id, name, email, mApi_token, image));
-                        SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
-                        SharedPrefManager.getInstance(LoginActivity.this).saveProvider(provider); // Provider
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
-                    }catch (Exception e){
-                        Log.e("Mo7", e.getMessage());
-                    }
+                SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(mUser_id, name, email, mApi_token, image));
+                SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
+                SharedPrefManager.getInstance(LoginActivity.this).saveProvider(provider); // Provider
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+            }
 
-                }
+            @Override
+            public void handleEmptyResponse() {
 
-                @Override
-                public void onFailure(Call<JsonObject> call, Throwable t) {
-                    Log.e("Mo7", t.getMessage());
-                }
+            }
 
-            });
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
 
-        } catch (Exception e) {
-            Log.e("Mo7", e.getMessage());
-        }
+            }
+        });
     }
 
     @Override

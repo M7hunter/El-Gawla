@@ -7,4 +7,6 @@ public interface HandleResponses {
     void handleResponseData(JsonObject mainObject);
 
     void handleEmptyResponse();
+
+    void handleConnectionErrors(String errorMessage);
 }
