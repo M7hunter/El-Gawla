@@ -158,7 +158,7 @@ public class Common {
         background.setColor(Color.parseColor(color));
     }
 
-    // to if there is a connection or not
+    // to if connected or not
     public boolean isConnected() {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();

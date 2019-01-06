@@ -24,7 +24,7 @@
                 android:orientation="horizontal"
                 android:layoutDirection="ltr">
 
-                <include layout="@layout/main_header"/>
+                <include layout="@layout/main_header_layout"/>
 
                 <!-- country -->
                 <de.hdodenhof.circleimageview.CircleImageView

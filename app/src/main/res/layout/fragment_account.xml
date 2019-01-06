@@ -35,7 +35,7 @@
                     android:orientation="vertical"
                     android:paddingTop="5dp">
 
-                    <include layout="@layout/main_header"/>
+                    <include layout="@layout/main_header_layout"/>
 
                     <!-- user image container -->
                     <RelativeLayout

@@ -31,7 +31,7 @@
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_medium"
-                    android:text="@string/cards_bag"
+                    android:text="@string/cards_store"
                     android:textAllCaps="true"
                     android:textColor="@color/battleshipGrey"
                     android:textSize="@dimen/text_size_medium"

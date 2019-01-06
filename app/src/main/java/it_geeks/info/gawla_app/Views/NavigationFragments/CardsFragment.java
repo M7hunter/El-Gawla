@@ -14,23 +14,32 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
+
+import it_geeks.info.gawla_app.Controllers.Adapters.CategoryAdapter;
 import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.General.OnItemClickListener;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
+import it_geeks.info.gawla_app.Repositry.Models.Category;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
+import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Controllers.Adapters.CardsAdapter;
+import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
+import it_geeks.info.gawla_app.Views.AllSalonsActivity;
 import it_geeks.info.gawla_app.Views.MainActivity;
 import it_geeks.info.gawla_app.Views.NotificationActivity;
 
 public class CardsFragment extends Fragment {
 
+    RecyclerView categoriesRecycler;
     RecyclerView cardsRecycler;
     CardsAdapter cardsAdapter;
 
+    List<Category> categoryList = new ArrayList<>();
     List<Card> cardsList = new ArrayList<>();
 
     ProgressBar cardsProgress;
@@ -44,7 +53,23 @@ public class CardsFragment extends Fragment {
 
         checkConnection(view);
 
+        initCategoriesRecycler(view);
+
         return view;
+    }
+
+    private void initCategoriesRecycler(View view) {
+        categoriesRecycler = view.findViewById(R.id.cards_categories_recycler);
+        categoriesRecycler.setHasFixedSize(true);
+        categoriesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), 0, false));
+        categoriesRecycler.setAdapter(new CategoryAdapter(getContext(), categoryList, new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Category category = categoryList.get(position);
+
+                initCardsRecycler();
+            }
+        }));
     }
 
     private void initViews(View view) {

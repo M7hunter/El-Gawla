@@ -197,7 +197,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         RoundStartToEndModel roundStartToEndModel = new RoundStartToEndModel(upDivsList, downDivsList, drawablesUp, drawablesDown);
         roundStartToEnd = new RoundStartToEnd(SalonActivity.this, roundStartToEndModel);
         roundStartToEnd.setTime(round_start_time, round_end_time, first_join_time, second_join_time, round_date, round_time, rest_time);
-        roundStartToEnd.start();
+        try {
+            roundStartToEnd.start();
+        } catch (NullPointerException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void getRoundData(Bundle savedInstanceState) {

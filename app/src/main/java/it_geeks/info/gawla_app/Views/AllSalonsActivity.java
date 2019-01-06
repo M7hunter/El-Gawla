@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.General.OnItemClickListener;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
@@ -28,7 +29,7 @@ import it_geeks.info.gawla_app.Controllers.Adapters.CountrySpinnerAdapter;
 import it_geeks.info.gawla_app.Controllers.Adapters.DateAdapter;
 import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
 
-public class AllSalonsActivity extends AppCompatActivity implements DateAdapter.OnItemClickListener {
+public class AllSalonsActivity extends AppCompatActivity implements OnItemClickListener {
 
     public static Activity allSalonsActivityInstance;
 

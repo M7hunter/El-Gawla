@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.List;
 
+import it_geeks.info.gawla_app.General.OnItemClickListener;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
 
@@ -43,7 +44,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
             if (Integer.parseInt(salonDate.getDayOfMonth()) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) { // if today
                 dayIsToday(viewHolder);
             } else {
-                viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_white_nice_blue));
+                viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_white_borderd_nice_blue));
             }
         } else { // !selected
             if (Integer.parseInt(salonDate.getDayOfMonth()) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) { // if today
@@ -110,9 +111,5 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
             salonsCount = itemView.findViewById(R.id.date_salons_count);
             separator = itemView.findViewById(R.id.date_separator);
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
     }
 }
