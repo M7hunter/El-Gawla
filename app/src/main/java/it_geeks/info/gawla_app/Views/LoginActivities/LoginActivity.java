@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             @Override
                             public void handleEmptyResponse() {
-
+                                progressBar.setVisibility(View.GONE);
                             }
 
                             @Override

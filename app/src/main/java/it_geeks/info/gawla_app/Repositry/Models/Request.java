@@ -38,6 +38,8 @@ public class Request {
 
     private String provider_image ;
 
+    private String message;
+
     public Request(String email, String password) { // login Request
         this.email = email;
         this.password = password;
@@ -89,6 +91,14 @@ public class Request {
         this.user_id = user_id;
         this.api_token = api_token;
         this.image = image;
+    }
+
+    public Request( int user_id , String api_token , String name , String email , String message) {
+        this.user_id = user_id;
+        this.api_token = api_token;
+        this.name = name;
+        this.email = email;
+        this.message = message;
     }
 
     public int getUser_id() {

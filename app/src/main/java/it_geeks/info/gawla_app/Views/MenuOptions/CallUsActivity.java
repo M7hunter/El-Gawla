@@ -2,15 +2,30 @@ package it_geeks.info.gawla_app.Views.MenuOptions;
 
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 
+import com.google.gson.JsonObject;
+
+import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.Repositry.Models.Request;
+import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
+import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 
 public class CallUsActivity extends AppCompatActivity {
+
+    EditText usernameCallUS , emailCallUS , messageCallUS;
+    Button btnSendCallUs;
+    Snackbar snackbarMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +37,76 @@ public class CallUsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        initViews();
+        getDefailtData();
+        setData();
+    }
+
+    private void initViews() {
+        usernameCallUS = findViewById(R.id.usernameCallUs);
+        emailCallUS = findViewById(R.id.emailCallUs);
+        messageCallUS = findViewById(R.id.messageCallUs);
+        btnSendCallUs = findViewById(R.id.btnSendCallUs);
+    }
+
+    private void getDefailtData() {
+        usernameCallUS.setText(SharedPrefManager.getInstance(CallUsActivity.this).getUser().getName());
+        emailCallUS.setText(SharedPrefManager.getInstance(CallUsActivity.this).getUser().getEmail());
+    }
+
+    private void setData() {
+        btnSendCallUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (!usernameCallUS.getText().toString().trim().isEmpty()){
+                    if (!emailCallUS.getText().toString().trim().isEmpty()){
+                        if (!messageCallUS.getText().toString().trim().isEmpty()){
+                            handleData();
+                        }else{
+                            messageCallUS.setFocusable(true);
+                            messageCallUS.setError("Message Empty");
+                        }
+                    }else{
+                        emailCallUS.setFocusable(true);
+                        emailCallUS.setError("Email Empty");
+                    }
+                }else{
+                    usernameCallUS.setFocusable(true);
+                    usernameCallUS.setError("Username Empty");
+
+                }
+
+            }
+        });
+    }
+
+    private void handleData() {
+        snackbarMessage.make(findViewById(R.id.CallUsParentLayout), "Sending...", Snackbar.LENGTH_INDEFINITE).show();
+
+        int userID = SharedPrefManager.getInstance(CallUsActivity.this).getUser().getUser_id();
+        String apiToken = SharedPrefManager.getInstance(CallUsActivity.this).getUser().getApi_token();
+        String username = usernameCallUS.getText().toString();
+        String email = emailCallUS.getText().toString();
+        String message = messageCallUS.getText().toString();
+
+        RetrofitClient.getInstance(CallUsActivity.this).executeConnectionToServer("setUserContactMessage", new Request(userID,apiToken,username,email,message), new HandleResponses() {
+            @Override
+            public void handleResponseData(JsonObject mainObject) {
+                String message = mainObject.get("message").getAsString();
+                snackbarMessage.make(findViewById(R.id.CallUsParentLayout), message, Snackbar.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void handleEmptyResponse() {
+
+            }
+
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
+                snackbarMessage.make(findViewById(R.id.CallUsParentLayout), errorMessage, Snackbar.LENGTH_SHORT).show();
             }
         });
     }
