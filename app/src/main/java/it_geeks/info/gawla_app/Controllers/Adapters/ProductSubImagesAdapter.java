@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import java.util.List;
 
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
-import it_geeks.info.gawla_app.Views.SalonActivity;
+import it_geeks.info.gawla_app.views.SalonActivity;
 
 public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImagesAdapter.Holder> {
 
@@ -27,8 +26,6 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
     public ProductSubImagesAdapter(Context context, List<ProductSubImage> imagesList) {
         this.context = context;
         this.imagesList = imagesList;
-        imagesList.add(new ProductSubImage(imagesList.get(0).getProduct_id(),
-                "https://ia800201.us.archive.org/22/items/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4"));
     }
 
     @NonNull

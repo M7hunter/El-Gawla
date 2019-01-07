@@ -2,6 +2,8 @@ package it_geeks.info.gawla_app.Repositry.Models;
 
 public class Request {
 
+    private int integer;
+
     private String email;
 
     private String password;
@@ -89,6 +91,12 @@ public class Request {
         this.user_id = user_id;
         this.api_token = api_token;
         this.image = image;
+    }
+
+    public Request(int user_id, String api_token, int integer) { // User Profile Image Upload
+        this.user_id = user_id;
+        this.api_token = api_token;
+        this.integer = integer;
     }
 
     public int getUser_id() {

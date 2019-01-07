@@ -4,9 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".Views.NavigationFragments.MyRoundsFragment">
+    tools:context=".views.NavigationFragments.MyRoundsFragment">
 
-        <!-- main layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <!-- scroll main layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -14,7 +18,7 @@
             android:orientation="vertical">
 
             <!-- logo & bell container -->
-            <include layout="@layout/main_header" />
+            <include layout="@layout/main_header_layout" />
 
             <!-- title -->
             <TextView
@@ -41,7 +45,7 @@
                     android:layout_centerInParent="true" />
 
                 <!-- data -->
-                <android.support.v4.view.ViewPager
+                <it_geeks.info.gawla_app.General.WrapContentHeightViewPager
                     android:id="@+id/rounds_pager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -72,7 +76,7 @@
                     android:id="@+id/my_rounds_empty_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:visibility="gone">
@@ -80,9 +84,9 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:layout_weight="1"
                         android:layout_marginStart="@dimen/margin_xxlarge"
                         android:layout_marginEnd="@dimen/margin_xxlarge"
-                        android:layout_weight="1"
                         android:src="@drawable/empty_view_my_rounds" />
 
                     <TextView
@@ -97,10 +101,11 @@
                 </LinearLayout>
 
                 <!-- no connection view -->
-                <include layout="@layout/no_connection_layout"/>
+                <include layout="@layout/no_connection_layout" />
 
             </RelativeLayout>
 
         </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

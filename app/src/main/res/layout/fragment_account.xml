@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".Views.NavigationFragments.MainFragment">
+    tools:context=".views.NavigationFragments.MainFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                     android:orientation="vertical"
                     android:paddingTop="5dp">
 
-                    <include layout="@layout/main_header"/>
+                    <include layout="@layout/main_header_layout"/>
 
                     <!-- user image container -->
                     <RelativeLayout
@@ -226,7 +226,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@id/card_icon_3st"
-                        android:text="@string/privacy_policy"
+                        android:text="@string/privacy_details"
                         android:textColor="@color/darkSkyBlue"
                         android:textSize="@dimen/text_size_large" />
 

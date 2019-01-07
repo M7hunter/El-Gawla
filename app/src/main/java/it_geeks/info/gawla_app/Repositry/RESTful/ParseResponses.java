@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it_geeks.info.gawla_app.Repositry.Models.Card;
+import it_geeks.info.gawla_app.Repositry.Models.Category;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
@@ -143,6 +144,23 @@ public class ParseResponses {
         }
 
         return countries;
+    }
+
+    public static List<Category> parseCategories(JsonObject object) {
+        List<Category> categories = new ArrayList<>();
+        JsonArray categoriesArray = object.get("data").getAsJsonArray();
+
+        for (int i = 0; i < categoriesArray.size(); i++) {
+            JsonObject categoryObj = categoriesArray.get(i).getAsJsonObject();
+            int category_id = categoryObj.get("category_id").getAsInt();
+            String category_name = categoryObj.get("category_name").getAsString();
+            String category_color = categoryObj.get("category_color").getAsString();
+
+            categories.add(
+                    new Category(category_id, category_name, category_color));
+        }
+
+        return categories;
     }
 
     public static String parseServerErrors(JsonObject object) {

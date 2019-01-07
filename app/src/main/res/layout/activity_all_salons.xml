@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
     android:orientation="vertical"
-    tools:context=".Views.AllSalonsActivity">
+    tools:context=".views.AllSalonsActivity">
 
     <!-- title bar -->
     <RelativeLayout
@@ -70,7 +70,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_medium" />
 
-        <!-- salons container -->
+        <!-- salons & empty view container & 'to center the cards' -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -81,6 +81,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true" />
+
+            <!-- empty view -->
+            <LinearLayout
+                android:id="@+id/all_salons_empty_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/empty_view_salons" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:gravity="center"
+                    android:text="@string/no_salons"
+                    android:textColor="@color/blueGrey"
+                    android:textSize="@dimen/text_size_medium" />
+
+            </LinearLayout>
+
         </RelativeLayout>
 
     </LinearLayout>

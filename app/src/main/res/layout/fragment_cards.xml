@@ -4,29 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".Views.NavigationFragments.CardsFragment">
+    tools:context=".views.NavigationFragments.CardsFragment">
 
-        <!-- main layout -->
+    <!-- main layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <include layout="@layout/main_header_layout" />
+
+        <!-- title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:gravity="center"
+            android:text="@string/cards_store"
+            android:textAllCaps="true"
+            android:textColor="@color/midBlue"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:gravity="center"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/main_header"/>
-
-            <!-- title -->
-            <TextView
+            <!-- categories recycler -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/cards_categories_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:gravity="center"
-                android:text="@string/cards_bag"
-                android:textAllCaps="true"
-                android:textColor="@color/midBlue"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_medium" />
 
             <!-- cards recycler container -->
             <RelativeLayout
@@ -37,16 +50,16 @@
                 <!-- cards recycler-->
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/cards_recycler"
-                    android:layout_centerInParent="true"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true" />
 
                 <!-- cards progress -->
                 <ProgressBar
                     android:id="@+id/cards_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"/>
+                    android:layout_centerInParent="true" />
 
                 <!-- empty view -->
                 <LinearLayout
@@ -74,10 +87,12 @@
 
                 </LinearLayout>
 
-                <include layout="@layout/no_connection_layout"/>
-
             </RelativeLayout>
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <include layout="@layout/no_connection_layout" />
 
 </FrameLayout>

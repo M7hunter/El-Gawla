@@ -44,8 +44,10 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_play" />
-                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="C:\Users\M7awas\Downloads\gawla\group@3x.png" />
+                                      <entry key="outputName" value="empty_view_my_rounds" />
+                                      <entry key="theme" value="HOLO_DARK" />
                                       <entry key="themeColor" value="3a6aa5" />
                                     </map>
                                   </option>

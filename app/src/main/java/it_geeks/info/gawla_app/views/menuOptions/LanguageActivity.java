@@ -1,0 +1,56 @@
+package it_geeks.info.gawla_app.views.menuOptions;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.Controllers.Adapters.LanguageAdapter;
+
+public class LanguageActivity extends AppCompatActivity {
+
+    RecyclerView langRecycler;
+
+    List<String> langList = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Common.Instance(this).changeStatusBarColor("#ffffff", this);
+        setContentView(R.layout.activity_language);
+
+        initViews();
+
+        getData();
+
+        initLangRecycler();
+    }
+
+    private void initViews() {
+        // back
+        findViewById(R.id.language_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    private void getData() {
+        langList.add("العربية");
+        langList.add("English");
+    }
+
+    private void initLangRecycler() {
+        langRecycler = findViewById(R.id.lang_recycler);
+        langRecycler.setHasFixedSize(true);
+        langRecycler.setLayoutManager(new LinearLayoutManager(LanguageActivity.this, 1, false));
+        langRecycler.setAdapter(new LanguageAdapter(LanguageActivity.this, langList));
+    }
+}

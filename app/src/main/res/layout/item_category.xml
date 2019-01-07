@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_category"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_tiny"
+    android:background="@drawable/bg_rounded_corners_pale_grey"
+    android:gravity="center"
+    android:padding="@dimen/margin_small"
+    android:text="category"
+    android:textSize="@dimen/text_size_medium"
+    android:textStyle="bold" />

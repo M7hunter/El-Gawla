@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
-import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.RecentSalonsCallback;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 
@@ -37,7 +36,7 @@ public class SalonsViewModel extends AndroidViewModel {
                 .build();
 
         roundsList = new LivePagedListBuilder<>(factory, config)
-                .setBoundaryCallback(new RecentSalonsCallback(getApplication(), RetrofitClient.getInstance(getApplication()).getAPI(), gawlaDataBse, SharedPrefManager.getInstance(getApplication())))
+                .setBoundaryCallback(new RecentSalonsCallback(getApplication(), gawlaDataBse, SharedPrefManager.getInstance(getApplication())))
                 .build();
     }
 

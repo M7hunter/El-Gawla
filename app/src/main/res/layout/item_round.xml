@@ -59,7 +59,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
-                android:text="name"
+                android:maxLines="1"
+                android:text="@string/no_content"
                 android:textColor="@color/bgBlueDark"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
@@ -108,7 +109,7 @@
                         android:id="@+id/round_start_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="9:23"
+                        android:text="00:00"
                         android:textColor="@color/midBlue2"
                         android:textSize="@dimen/text_size_xlarge"
                         android:textStyle="bold" />
