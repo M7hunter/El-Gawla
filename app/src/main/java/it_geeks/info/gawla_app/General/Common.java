@@ -6,13 +6,17 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
@@ -158,6 +162,15 @@ public class Common {
         background.setColor(Color.parseColor(color));
     }
 
+    // to change status bar color in fragments || activities if wanted
+    public void changeStatusBarColor(String color, Context context){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = ((AppCompatActivity) context).getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.parseColor(color));
+        }
+    }
+
     // to if connected or not
     public boolean isConnected() {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -170,7 +183,7 @@ public class Common {
         Collections.sort(list, new Comparator<SalonDate>() {
             @Override
             public int compare(SalonDate o1, SalonDate o2) {
-                return o1.getDayOfMonth().compareTo(o2.getDayOfMonth());
+                return o1.getDate().compareTo(o2.getDate());
             }
         });
     }

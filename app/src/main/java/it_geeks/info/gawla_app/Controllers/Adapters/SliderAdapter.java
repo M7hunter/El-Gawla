@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Views.SplashActivities.IntroActivity;
+import it_geeks.info.gawla_app.views.splashActivities.IntroActivity;
 
 public class SliderAdapter extends PagerAdapter {
     Context context;

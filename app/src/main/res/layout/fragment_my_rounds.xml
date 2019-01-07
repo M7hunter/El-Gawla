@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".Views.NavigationFragments.MyRoundsFragment">
+    tools:context=".views.NavigationFragments.MyRoundsFragment">
 
     <ScrollView
         android:layout_width="match_parent"

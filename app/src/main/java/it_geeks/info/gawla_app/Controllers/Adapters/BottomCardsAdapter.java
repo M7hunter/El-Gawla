@@ -14,7 +14,7 @@ import java.util.List;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
-import it_geeks.info.gawla_app.Views.SalonActivity;
+import it_geeks.info.gawla_app.views.SalonActivity;
 
 public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.ViewHolder> {
 

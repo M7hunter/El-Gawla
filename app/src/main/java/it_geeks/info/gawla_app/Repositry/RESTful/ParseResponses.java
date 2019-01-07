@@ -153,11 +153,11 @@ public class ParseResponses {
         for (int i = 0; i < categoriesArray.size(); i++) {
             JsonObject categoryObj = categoriesArray.get(i).getAsJsonObject();
             int category_id = categoryObj.get("category_id").getAsInt();
-            String category_title = categoryObj.get("category_title").getAsString();
+            String category_name = categoryObj.get("category_name").getAsString();
             String category_color = categoryObj.get("category_color").getAsString();
 
             categories.add(
-                    new Category(category_id, category_title, category_color));
+                    new Category(category_id, category_name, category_color));
         }
 
         return categories;

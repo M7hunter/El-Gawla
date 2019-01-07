@@ -40,6 +40,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         Category category = categoryList.get(i);
 
+        viewHolder.tvCategory.setText(category.getCategoryName());
+
         // check if selected
         if (selectedPosition == i) { // selected
             selectedUI(viewHolder, category);
@@ -66,6 +68,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     private void unselectedUI(ViewHolder viewHolder, Category category) {
         viewHolder.tvCategory.setTextColor(Color.parseColor(category.getCategoryColor()));
+        Common.Instance(context).changeDrawableViewColor(viewHolder.itemView, "#f4f7fa");
     }
 
     @Override

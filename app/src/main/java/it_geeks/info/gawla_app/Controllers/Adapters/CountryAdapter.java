@@ -18,7 +18,7 @@ import java.util.List;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
-import it_geeks.info.gawla_app.Views.SplashActivities.IntroActivity;
+import it_geeks.info.gawla_app.views.splashActivities.IntroActivity;
 
 public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHolder> {
 

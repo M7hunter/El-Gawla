@@ -6,7 +6,7 @@
     android:background="@android:color/white"
     android:orientation="vertical"
     android:scrollbars="none"
-    tools:context=".Views.AccountOptions.PrivacyDetails">
+    tools:context=".views.accountOptions.PrivacyDetailsActivity">
     <!-- scroll main layout -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -82,15 +82,11 @@
             android:layout_weight="1"
             android:background="@drawable/edittext_shape"
             android:enabled="false"
-            android:focusable="auto"
-            android:fontFamily="@font/cairo_regular"
-            android:gravity="start|center"
+            android:gravity="center"
             android:hint="@string/email"
-            android:inputType="textPersonName"
-            android:paddingStart="30dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="30dp"
-            android:paddingBottom="10dp"
+            android:inputType="textEmailAddress"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingBottom="@dimen/margin_small"
             android:textColorHint="@color/editText_hint"
             android:textIsSelectable="true"
             android:textSize="@dimen/text_size_medium"
@@ -100,7 +96,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="40dp"
-
             android:layout_marginTop="20dp"
             android:layout_marginRight="40dp"
             android:layout_marginBottom="10dp"
@@ -147,11 +142,9 @@
             android:layout_weight="1"
             android:background="@drawable/edittext_shape"
             android:enabled="false"
-            android:focusable="auto"
-            android:fontFamily="@font/cairo_regular"
-            android:gravity="start|center"
+            android:gravity="center"
             android:hint="@string/password"
-            android:inputType="textPersonName"
+            android:inputType="textVisiblePassword"
             android:paddingStart="30dp"
             android:paddingTop="10dp"
             android:paddingEnd="30dp"
@@ -166,7 +159,6 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-
             android:layout_marginLeft="40dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="40dp"

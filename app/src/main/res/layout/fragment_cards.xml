@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".Views.NavigationFragments.CardsFragment">
+    tools:context=".views.NavigationFragments.CardsFragment">
 
     <!-- main layout -->
     <LinearLayout
@@ -91,8 +91,8 @@
 
         </LinearLayout>
 
-        <include layout="@layout/no_connection_layout" />
-
     </LinearLayout>
+
+    <include layout="@layout/no_connection_layout" />
 
 </FrameLayout>

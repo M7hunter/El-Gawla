@@ -7,7 +7,7 @@
     android:background="@android:color/white"
     android:orientation="vertical"
     android:scrollbars="none"
-    tools:context=".Views.MenuOptions.CallUsActivity">
+    tools:context=".views.menuOptions.CallUsActivity">
 
     <!-- title bar -->
     <RelativeLayout
