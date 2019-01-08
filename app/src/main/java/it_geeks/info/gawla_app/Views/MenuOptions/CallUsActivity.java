@@ -67,15 +67,15 @@ public class CallUsActivity extends AppCompatActivity {
                             handleData();
                         }else{
                             messageCallUS.setFocusable(true);
-                            messageCallUS.setError("Message Empty");
+                            messageCallUS.setError(getString(R.string.empty_name));
                         }
                     }else{
                         emailCallUS.setFocusable(true);
-                        emailCallUS.setError("Email Empty");
+                        emailCallUS.setError(getString(R.string.emptyMail));
                     }
                 }else{
                     usernameCallUS.setFocusable(true);
-                    usernameCallUS.setError("Username Empty");
+                    usernameCallUS.setError(getString(R.string.empty_message));
 
                 }
 
@@ -84,7 +84,7 @@ public class CallUsActivity extends AppCompatActivity {
     }
 
     private void handleData() {
-        snackbarMessage.make(findViewById(R.id.CallUsParentLayout), "Sending...", Snackbar.LENGTH_INDEFINITE).show();
+        snackbarMessage.make(findViewById(R.id.CallUsParentLayout), getString(R.string.sending_message), Snackbar.LENGTH_INDEFINITE).show();
 
         int userID = SharedPrefManager.getInstance(CallUsActivity.this).getUser().getUser_id();
         String apiToken = SharedPrefManager.getInstance(CallUsActivity.this).getUser().getApi_token();
@@ -97,6 +97,7 @@ public class CallUsActivity extends AppCompatActivity {
             public void handleResponseData(JsonObject mainObject) {
                 String message = mainObject.get("message").getAsString();
                 snackbarMessage.make(findViewById(R.id.CallUsParentLayout), message, Snackbar.LENGTH_SHORT).show();
+                messageCallUS.setText("");
             }
 
             @Override

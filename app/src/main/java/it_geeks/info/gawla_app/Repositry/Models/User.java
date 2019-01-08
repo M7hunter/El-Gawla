@@ -18,6 +18,16 @@ public class User {
 
     private String password;
 
+    private String firstName;
+
+    private String LastName;
+
+    private String country;
+
+    private String gender;
+
+    private String Telephone;
+
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;

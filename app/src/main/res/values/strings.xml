@@ -141,6 +141,10 @@
     <string name="all_salons">all salons</string>
     <string name="salons">" salons "</string>
     <string name="error_occurred">"error occurred"</string>
+    <string name="empty_name">Username Empty</string>
+    <string name="empty_message">Message Empty</string>
+    <string name="sending_message">Sending...</string>
+
     <!--  Arr For Test and will delete later .-->
     <array name="ArrGender">
         <item>Male</item>
