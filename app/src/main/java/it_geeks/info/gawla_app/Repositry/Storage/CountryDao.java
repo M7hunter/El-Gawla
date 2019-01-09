@@ -20,11 +20,11 @@ public interface CountryDao {
     void removeCountry(Country country);
 
     @Delete
-    void removeCountry(List<Country> Countries);
+    void removeCountries(List<Country> Countries);
 
     @Query("SELECT * FROM Country")
     List<Country> getCountries();
 
     @Query("SELECT * FROM Country where country_id = :countryID")
-    List<Country> getCountriesByID(String countryID);
+    Country getCountryByID(int countryID);
 }

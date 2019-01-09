@@ -11,6 +11,7 @@ import it_geeks.info.gawla_app.Repositry.Models.Category;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
+import it_geeks.info.gawla_app.Repositry.Models.User;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 
 public class ParseResponses {
@@ -24,22 +25,22 @@ public class ParseResponses {
 
         for (int i = 0; i < roundsArray.size(); i++) {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
-            int product_id =                     roundObj.get("product_id").getAsInt();
-            int salon_id =                       roundObj.get("salon_id").getAsInt();
-            String product_name =                roundObj.get("product_name").getAsString();
-            String category_name =               roundObj.get("category_name").getAsString();
-            String category_color =              roundObj.get("category_color").getAsString();
-            String country_name =                roundObj.get("country_name").getAsString();
-            String product_commercial_price =    roundObj.get("product_commercial_price").getAsString();
+            int product_id = roundObj.get("product_id").getAsInt();
+            int salon_id = roundObj.get("salon_id").getAsInt();
+            String product_name = roundObj.get("product_name").getAsString();
+            String category_name = roundObj.get("category_name").getAsString();
+            String category_color = roundObj.get("category_color").getAsString();
+            String country_name = roundObj.get("country_name").getAsString();
+            String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
             String product_product_description = roundObj.get("product_description").getAsString();
-            String product_image =               roundObj.get("product_image").getAsString();
-            String round_start_time =            roundObj.get("round_start_time").getAsString();
-            String round_end_time =              roundObj.get("round_end_time").getAsString();
-            String first_join_time =             roundObj.get("first_join_time").getAsString();
-            String second_join_time =            roundObj.get("second_join_time").getAsString();
-            String round_date =                  roundObj.get("round_date").getAsString();
-            String round_time =                  roundObj.get("round_time").getAsString();
-            String rest_time =                   roundObj.get("rest_time").getAsString();
+            String product_image = roundObj.get("product_image").getAsString();
+            String round_start_time = roundObj.get("round_start_time").getAsString();
+            String round_end_time = roundObj.get("round_end_time").getAsString();
+            String first_join_time = roundObj.get("first_join_time").getAsString();
+            String second_join_time = roundObj.get("second_join_time").getAsString();
+            String round_date = roundObj.get("round_date").getAsString();
+            String round_time = roundObj.get("round_time").getAsString();
+            String rest_time = roundObj.get("rest_time").getAsString();
 
             // save product images in locale storage
             gawlaDataBse.productImageDao().removeSubImages(gawlaDataBse.productImageDao().getSubImagesById(product_id));
@@ -92,11 +93,11 @@ public class ParseResponses {
         for (int j = 0; j < salon_cards.size(); j++) {
             JsonObject cardObj = salon_cards.get(j).getAsJsonObject();
 //            int card_id = cardObj.get("id").getAsInt();
-            String card_name =    cardObj.get("name").getAsString();
+            String card_name = cardObj.get("name").getAsString();
             String card_details = cardObj.get("details").getAsString();
-            String card_type =    cardObj.get("type").getAsString();
-            String card_color =   cardObj.get("color").getAsString();
-            String card_cost =    cardObj.get("cost").getAsString();
+            String card_type = cardObj.get("type").getAsString();
+            String card_color = cardObj.get("color").getAsString();
+            String card_cost = cardObj.get("cost").getAsString();
 
             salon_cardsList.add(new Card(salon_id, card_name, card_details, card_type, card_color, card_cost));
         }
@@ -146,8 +147,20 @@ public class ParseResponses {
         return countries;
     }
 
-    public static void parseUser(JsonObject object) {
+    public static User parseUser(JsonObject object) {
+        JsonObject userObj = object.get("user").getAsJsonObject();
 
+        return new User(userObj.get("user_id").getAsInt(),
+                userObj.get("api_token").getAsString(),
+                userObj.get("name").getAsString(),
+                userObj.get("country_id").getAsInt(),
+                userObj.get("image").getAsString(),
+                userObj.get("email").getAsString(),
+                userObj.get("membership").getAsString(),
+                userObj.get("gender").getAsString(),
+                userObj.get("firstName").getAsString(),
+                userObj.get("lastName").getAsString(),
+                userObj.get("phone").getAsString());
     }
 
     public static List<Category> parseCategories(JsonObject object) {

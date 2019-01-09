@@ -4,27 +4,27 @@ public class User {
 
     private int user_id;
 
+    private String api_token;
+
     private String name;
 
-    private String email;
-
-    private boolean active;
-
-    private String api_token;
+    private int country_id;
 
     private String image;
 
+    private String email;
+
     private String membership;
 
-    private String password;
+    private String gender;
 
     private String firstName;
 
     private String lastName;
 
-    private String gender;
-
     private String phone;
+
+    private String password;
 
     public User(String name, String email, String password) {
         this.name = name;
@@ -33,32 +33,17 @@ public class User {
         this.password = password;
     }
 
-    public User(int user_id, String name, String email, String api_token, String image , String firstName,String lastName,String phone,String gender,String membership) {
+    public User(int user_id, String api_token, String name, int country_id, String image, String email, String membership, String gender, String firstName, String lastName, String phone) {
         this.user_id = user_id;
-        this.name = name;
-        this.email = email;
         this.api_token = api_token;
+        this.name = name;
+        this.country_id = country_id;
         this.image = image;
+        this.email = email;
+        this.membership = membership;
+        this.gender = gender;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.gender = gender;
-        this.phone = phone;
-        this.membership = membership;
-    }
-
-    public User(int user_id, String name, String email, boolean active, String api_token, String image, String membership, String password, String firstName, String lastName, String country, String gender, String phone) {
-        this.user_id = user_id;
-        this.name = name;
-        this.email = email;
-        this.active = active;
-        this.api_token = api_token;
-        this.image = image;
-        this.membership = membership;
-        this.password = password;
-        this.firstName = firstName;
-        LastName = lastName;
-        this.country = country;
-        this.gender = gender;
         this.phone = phone;
     }
 
@@ -78,20 +63,20 @@ public class User {
         this.name = name;
     }
 
+    public int getCountry_id() {
+        return country_id;
+    }
+
+    public void setCountry_id(int country_id) {
+        this.country_id = country_id;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public String getApi_token() {

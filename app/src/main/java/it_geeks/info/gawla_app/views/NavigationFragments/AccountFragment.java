@@ -39,7 +39,7 @@ public class AccountFragment extends Fragment {
 
     private void getData() {  /// get data from sharedPreference
         name = SharedPrefManager.getInstance(getContext()).getUser().getName();
-        image = SharedPrefManager.getInstance(getContext()).getUserImage();
+        image = SharedPrefManager.getInstance(getContext()).getUser().getImage();
     }
 
     private void initViews(View v) {  //  initialize Views

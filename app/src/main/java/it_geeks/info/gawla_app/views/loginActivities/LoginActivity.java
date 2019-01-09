@@ -41,12 +41,11 @@ import org.json.JSONObject;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.List;
 
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
@@ -96,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (email.isEmpty()) {
                         txt_Email.setError(getResources().getString(R.string.emptyMail));
                         txt_Email.requestFocus();
-                    }else if (Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                         txt_Email.setError("enter a valid email address");
                         txt_Email.requestFocus();
                     } else if (pass.isEmpty()) {
@@ -108,10 +107,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer("login", new Request(email, pass), new HandleResponses() {
                             @Override
                             public void handleResponseData(JsonObject mainObject) {
-                                SharedPrefManager.getInstance(LoginActivity.this).saveProvider(getResources().getString(R.string.app_name)); // Provider
-                                SharedPrefManager.getInstance(LoginActivity.this).saveUser(handleServerResponse(mainObject));
+
+                                cacheUserData(mainObject, getResources().getString(R.string.app_name)); // with normal provider
+
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
+
                                 //hide progress
                                 progressBar.setVisibility(View.GONE);
                             }
@@ -146,28 +147,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private User handleServerResponse(JsonObject object) {
-        JsonObject userData = object.get("user").getAsJsonObject();
-
-        int user_id = userData.get("user_id").getAsInt();
-        String name = userData.get("name").getAsString();
-        String email = userData.get("email").getAsString();
-        String api_token = userData.get("api_token").getAsString();
-        String image = userData.get("image").getAsString();
-        String firstName = userData.get("firstName").getAsString();
-        String lastName = userData.get("lastName").getAsString();
-        String phone = userData.get("phone").getAsString();
-        String gender = userData.get("gender").getAsString();
-        String membership = userData.get("membership").getAsString();
-        SharedPrefManager.getInstance(LoginActivity.this).setMembership(membership);
-        String country_id = userData.get("country_id").getAsString();
-
-        Country userCountry = GawlaDataBse.getGawlaDatabase(LoginActivity.this).countryDao().getCountriesByID(country_id).get(0); // get user country from room
-        SharedPrefManager.getInstance(LoginActivity.this).setCountry(userCountry);
-        SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
-
-        return new User(user_id, name, email, api_token,image,firstName,lastName,phone,gender,membership);
-    }
 
     @SuppressLint("WrongViewCast")
     private void initialization() {
@@ -232,9 +211,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             socialLogin(id, name, email, image, provider);
 
+            Log.w("Mo7",id + name + email + image);
+
         } catch (ApiException e) {
             Log.w("Mo7", "signInResult:failed code=" + e.getStatusCode());
-
         }
     }
 
@@ -286,9 +266,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     // fb login
     private void getData(final JSONObject object) {
-
         try {
-
             URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/" + object.getString("id") + "/picture?type=normal");
             String id = object.optString("id");
             String name = object.optString("name");
@@ -312,9 +290,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void handleResponseData(JsonObject mainObject) {
 
-                SharedPrefManager.getInstance(LoginActivity.this).saveUser(handleServerResponse(mainObject));
-                SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
-                SharedPrefManager.getInstance(LoginActivity.this).saveProvider(provider); // Provider
+                cacheUserData(mainObject, provider);
+
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 finish();
             }
@@ -326,9 +303,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void handleConnectionErrors(String errorMessage) {
-                Log.e("Mo7", errorMessage);
+                Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void cacheUserData(JsonObject mainObject, String provider) {
+        User user = ParseResponses.parseUser(mainObject);
+        SharedPrefManager.getInstance(LoginActivity.this).saveUser(user);
+        SharedPrefManager.getInstance(LoginActivity.this).saveProvider(provider); // Provider
+
+        // save || update country
+        SharedPrefManager.getInstance(LoginActivity.this)
+                .setCountry(GawlaDataBse.getGawlaDatabase(LoginActivity.this).countryDao().getCountryByID(user.getCountry_id()));
     }
 
     @Override
