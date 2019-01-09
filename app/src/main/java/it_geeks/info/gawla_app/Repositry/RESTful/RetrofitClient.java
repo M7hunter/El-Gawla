@@ -71,6 +71,7 @@ public class RetrofitClient {
         return new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
                 if (response.isSuccessful()) {
                     try {
                         JsonObject mainObj = response.body().getAsJsonObject();
@@ -80,6 +81,9 @@ public class RetrofitClient {
                             HandleResponses.handleResponseData(mainObj);
 
                         } else { // server errors
+
+                            //TODO: check code
+
                             if (parseServerErrors(mainObj).contains("not logged in")) {
                                 context.startActivity(new Intent(context, LoginActivity.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));

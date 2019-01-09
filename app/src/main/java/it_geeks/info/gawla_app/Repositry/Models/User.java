@@ -26,7 +26,7 @@ public class User {
 
     private String gender;
 
-    private String Telephone;
+    private String phone;
 
     public User(String name, String email, String password) {
         this.name = name;
@@ -58,6 +58,22 @@ public class User {
         this.api_token = api_token;
         this.image = image;
         this.membership = "basic";
+    }
+
+    public User(int user_id, String name, String email, boolean active, String api_token, String image, String membership, String password, String firstName, String lastName, String country, String gender, String phone) {
+        this.user_id = user_id;
+        this.name = name;
+        this.email = email;
+        this.active = active;
+        this.api_token = api_token;
+        this.image = image;
+        this.membership = membership;
+        this.password = password;
+        this.firstName = firstName;
+        LastName = lastName;
+        this.country = country;
+        this.gender = gender;
+        this.phone = phone;
     }
 
     public int getUser_id() {
