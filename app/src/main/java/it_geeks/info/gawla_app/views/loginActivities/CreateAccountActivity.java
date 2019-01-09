@@ -41,13 +41,12 @@ import java.util.Arrays;
 
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.User;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.views.MainActivity;
 
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
@@ -168,8 +167,8 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                 Toast.makeText(CreateAccountActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
 
                 // save user data locally
-                SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(handleServerResponse(mainObject));
-                SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(getResources().getString(R.string.app_name)); // Provider
+                cacheUserData(mainObject, getResources().getString(R.string.app_name));
+
                 // goto next page
                 startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -234,29 +233,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         }
 
         return true;
-    }
-
-    private User handleServerResponse(JsonObject object) {
-        JsonObject userData = object.get("user").getAsJsonObject();
-
-        int user_id = userData.get("user_id").getAsInt();
-        String name = userData.get("name").getAsString();
-        String email = userData.get("email").getAsString();
-        String api_token = userData.get("api_token").getAsString();
-        String image = userData.get("image").getAsString();
-        String firstName = userData.get("firstName").getAsString();
-        String lastName = userData.get("lastName").getAsString();
-        String phone = userData.get("phone").getAsString();
-        String gender = userData.get("gender").getAsString();
-        String membership = userData.get("membership").getAsString();
-        SharedPrefManager.getInstance(CreateAccountActivity.this).setMembership(membership);
-        String country_id = userData.get("country_id").getAsString();
-
-        Country userCountry = GawlaDataBse.getGawlaDatabase(CreateAccountActivity.this).countryDao().getCountriesByID(country_id).get(0); // get user country from room
-        SharedPrefManager.getInstance(CreateAccountActivity.this).setCountry(userCountry);
-        SharedPrefManager.getInstance(CreateAccountActivity.this).saveUserImage(image);
-
-        return new User(user_id, name, email, api_token,image,firstName,lastName,phone,gender,membership);
     }
 
     private void facebookLogin() {
@@ -326,9 +302,8 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             @Override
             public void handleResponseData(JsonObject mainObject) {
 
-                SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(handleServerResponse(mainObject));
-                SharedPrefManager.getInstance(CreateAccountActivity.this).saveUserImage(image);
-                SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(provider); // Provider
+                cacheUserData(mainObject, provider);
+
                 startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));
                 finish();
             }
@@ -356,6 +331,12 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             handleSignInResult(task);
         }
 
+    }
+
+    public void cacheUserData(JsonObject mainObject, String provider) {
+        User user = ParseResponses.parseUser(mainObject);
+        SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(user);
+        SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(provider); // Provider
     }
 
     // google sign up

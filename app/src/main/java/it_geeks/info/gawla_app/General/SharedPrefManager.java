@@ -19,9 +19,7 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_LANG = "lang_shared_pref";
     private static final String SHARED_PREF_NAME2 = "user_shared_pref";
     private static final String SHARED_PREF_NAME3 = "country_shared_pref";
-    private static final String SHARED_PREF_NAME4 = "membership_shared_pref";
     private static final String SHARED_PREF_NAME5 = "last_request_shared_pref";
-    private static final String SHARED_PREF_USER_IMAGE = "user_image_shared_pref";
     private static final String SHARED_PREF_USER_PROVIDER = "user_socialMedia_Provider";
 
     private SharedPrefManager(Context context) {
@@ -59,16 +57,16 @@ public class SharedPrefManager {
         editor.clear();
 
         editor.putInt("userId", user.getUser_id());
-        editor.putString("userName", user.getName());
-        editor.putBoolean("userActive", user.isActive());
         editor.putString("userToken", user.getApi_token());
+        editor.putString("userName", user.getName());
+        editor.putInt("country_id", user.getCountry_id());
         editor.putString("userImage", user.getImage());
         editor.putString("userEmail", user.getEmail());
+        editor.putString("membership", user.getMembership());
+        editor.putString("gender", user.getGender());
         editor.putString("firstName", user.getFirstName());
         editor.putString("lastName", user.getLastName());
-        editor.putString("gender", user.getGender());
         editor.putString("phone", user.getPhone());
-        editor.putString("membership", user.getMembership());
 
         editor.putBoolean("userLogged", true);
         editor.apply();
@@ -84,15 +82,16 @@ public class SharedPrefManager {
 
         return new User(
                 sharedPreferences.getInt("userId", -1),
-                sharedPreferences.getString("userName", null),
-                sharedPreferences.getString("userEmail", null),
                 sharedPreferences.getString("userToken", null),
+                sharedPreferences.getString("userName", null),
+                sharedPreferences.getInt("country_id", -1),
                 sharedPreferences.getString("userImage", null),
+                sharedPreferences.getString("userEmail", null),
+                sharedPreferences.getString("membership", null),
+                sharedPreferences.getString("gender", null),
                 sharedPreferences.getString("firstName", null),
                 sharedPreferences.getString("lastName", null),
-                sharedPreferences.getString("phone", null),
-                sharedPreferences.getString("gender", null),
-                sharedPreferences.getString("membership", null)
+                sharedPreferences.getString("phone", null)
         );
     }
 
@@ -128,37 +127,6 @@ public class SharedPrefManager {
                 sharedPreferences.getString("country_timezone", ""),
                 sharedPreferences.getString("tel", ""),
                 sharedPreferences.getString("image", ""));
-    }
-
-    // ----  user profile ---- //
-    public void saveUserImage(String image) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_IMAGE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-
-        editor.putString("userImage", image);
-        editor.apply();
-    }
-
-    public String getUserImage() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_IMAGE, Context.MODE_PRIVATE);
-        return sharedPreferences.getString("userImage",null);
-    }
-
-    //--------------- membership -------------//
-    public void setMembership(String membership) {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME4, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.clear();
-
-        editor.putString("membership", membership);
-        editor.apply();
-    }
-
-    public String getMembership() {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME4, MODE_PRIVATE);
-        return sharedPreferences.getString("membership", "basic");
     }
 
     //--------------- last request -------------//

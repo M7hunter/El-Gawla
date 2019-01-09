@@ -10,6 +10,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,18 +24,21 @@ import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
+import it_geeks.info.gawla_app.Repositry.Models.User;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 
 public class AccountDetailsActivity extends AppCompatActivity {
 
-    EditText ed_update_first_name , ed_update_second_name , ed_update_telephone;
-    Spinner sp_update_country , sp_update_gender;
-    ImageView img_update_image , edit_update_image;
+    EditText ed_update_first_name, ed_update_second_name, ed_update_telephone;
+    Spinner sp_update_country, sp_update_gender;
+    ImageView img_update_image, edit_update_image;
     TextView btn_update_profile;
     int user_id;
     String api_token;
+
+    ProgressBar progressBarUpdateProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +49,27 @@ public class AccountDetailsActivity extends AppCompatActivity {
         initViews();
 
         getData();
-
     }
 
     private void initViews() {
+        ed_update_first_name = findViewById(R.id.ed_update_first_name);
+        ed_update_second_name = findViewById(R.id.ed_update_second_name);
+        ed_update_telephone = findViewById(R.id.ed_update_telephone);
+        sp_update_country = findViewById(R.id.sp_update_country);
+        sp_update_gender = findViewById(R.id.sp_update_gender);
+        img_update_image = findViewById(R.id.img_update_Image);
+
+        edit_update_image = findViewById(R.id.btn_choose_image);
+        btn_update_profile = findViewById(R.id.btn_update_profile);
+        progressBarUpdateProfile = findViewById(R.id.progress_update_profile);
+
+        edit_update_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
+
         // back
         findViewById(R.id.account_details_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,45 +78,31 @@ public class AccountDetailsActivity extends AppCompatActivity {
             }
         });
 
-        ed_update_first_name = findViewById(R.id.ed_update_first_name);
-        ed_update_second_name = findViewById(R.id.ed_update_second_name);
-        ed_update_telephone = findViewById(R.id.ed_update_telephone);
-        sp_update_country = findViewById(R.id.sp_update_country);
-        sp_update_gender = findViewById(R.id.sp_update_gender);
-        img_update_image = findViewById(R.id.img_update_Image);
-        edit_update_image = findViewById(R.id.edit_update_image);
-        btn_update_profile = findViewById(R.id.btn_update_profile);
-
-        edit_update_image.setOnClickListener(onClickListener);
-        btn_update_profile.setOnClickListener(onClickListener);
     }
 
     private void getData() {
-
+        User user = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser();
         try {
             Picasso.with(AccountDetailsActivity.this)
-                    .load(SharedPrefManager.getInstance(AccountDetailsActivity.this).getUserImage())
+                    .load(user.getImage())
                     .placeholder(AccountDetailsActivity.this.getResources().getDrawable(R.drawable.placeholder))
                     .into(img_update_image);
-        }catch (Exception e){}
+        } catch (Exception e) {}
 
+        ed_update_first_name.setText(user.getFirstName());
+        ed_update_second_name.setText(user.getLastName());
+        ed_update_telephone.setText(user.getPhone());
     }
 
-    private View.OnClickListener onClickListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
+    private void updateUI() {
+        progressBarUpdateProfile.setVisibility(View.VISIBLE);
+        btn_update_profile.setVisibility(View.INVISIBLE);
+    }
 
-                case R.id.edit_update_image:  // clicked to choose image
-                    selectImage();
-                    break;
-                case R.id.btn_update_profile:
-                    //    saveProfileData();
-                    break;
-
-            } // end of switch
-        }
-    };
+    private void updatedUI() {
+        progressBarUpdateProfile.setVisibility(View.INVISIBLE);
+        btn_update_profile.setVisibility(View.VISIBLE);
+    }
 
     private void selectImage() {
         Intent i = new Intent();
@@ -130,7 +137,13 @@ public class AccountDetailsActivity extends AppCompatActivity {
             final String encodedImage = Base64.encodeToString(imageAsByte, Base64.DEFAULT);
 
             // upload image
-            UploadImage(encodedImage);
+            btn_update_profile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    uploadImage(encodedImage);
+                    updateUI();
+                }
+            });
 
 
         } catch (Exception e) {
@@ -139,38 +152,36 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void UploadImage(final String encodedImage) {
-        new Thread(new Runnable() {
+    private void uploadImage(final String encodedImage) {
+        user_id = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getUser_id();
+        api_token = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getApi_token();
+
+        RetrofitClient.getInstance(AccountDetailsActivity.this).executeConnectionToServer("updateUserData", new Request(user_id, api_token, encodedImage), new HandleResponses() {
             @Override
-            public void run() {
-                user_id = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getUser_id();
-                api_token = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getApi_token();
-                RetrofitClient.getInstance(AccountDetailsActivity.this).executeConnectionToServer("updateUserData", new Request(user_id, api_token, encodedImage), new HandleResponses() {
-                    @Override
-                    public void handleResponseData(JsonObject mainObject) {
+            public void handleResponseData(JsonObject mainObject) {
 
-                        ParseResponses.parseCountries(mainObject);
+                User user = ParseResponses.parseUser(mainObject);
 
-//                        SharedPrefManager.getInstance(AccountDetailsActivity.this).saveUserImage(image); //
+                SharedPrefManager.getInstance(AccountDetailsActivity.this).saveUser(user); //
 
-                        Picasso.with(AccountDetailsActivity.this)
-                                .load("asd")
-                                .placeholder(AccountDetailsActivity.this.getResources().getDrawable(R.drawable.placeholder))
-                                .into(img_update_image);
-                    }
+                Picasso.with(AccountDetailsActivity.this)
+                        .load(user.getImage())
+                        .placeholder(AccountDetailsActivity.this.getResources().getDrawable(R.drawable.placeholder))
+                        .into(img_update_image);
 
-                    @Override
-                    public void handleEmptyResponse() {
-
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-
-                        Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                updatedUI();
             }
-        }).start();
+
+            @Override
+            public void handleEmptyResponse() {
+                updatedUI();
+            }
+
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
+                updatedUI();
+                Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

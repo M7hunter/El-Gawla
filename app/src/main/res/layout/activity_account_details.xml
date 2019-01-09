@@ -50,7 +50,7 @@
                 android:id="@+id/btn_update_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:padding="@dimen/margin_small"
                 android:text="@string/save"
@@ -58,40 +58,45 @@
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
 
+            <ProgressBar
+                android:id="@+id/progress_update_profile"
+                android:layout_width="@dimen/icon_notification"
+                android:layout_height="@dimen/icon_notification"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_tiny"
+                android:visibility="invisible" />
+
         </RelativeLayout>
 
         <!-- user image container -->
-
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp">
-
+            android:layout_marginTop="@dimen/margin_small">
 
             <!-- image -->
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/img_update_Image"
                 android:layout_width="@dimen/image_account"
                 android:layout_height="@dimen/image_account"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/margin_tiny"
                 android:background="@drawable/bg_circle_blue_grey"
                 app:civ_border_color="@color/blueyGrey"
                 app:civ_border_width="1dp" />
 
             <!-- btn edit -->
             <ImageView
-                android:id="@+id/edit_update_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="10dp"
-                android:alpha="0.5"
+                android:id="@+id/btn_choose_image"
+                android:layout_width="@dimen/icon_notification"
+                android:layout_height="@dimen/icon_notification"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/bg_circle_mid_blue"
                 android:padding="@dimen/margin_tiny"
-                android:src="@drawable/image_upload_from_account_details" />
+                android:src="@drawable/ic_edit" />
+
         </RelativeLayout>
 
         <TextView
