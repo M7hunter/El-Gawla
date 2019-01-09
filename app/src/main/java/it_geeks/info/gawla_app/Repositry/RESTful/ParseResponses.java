@@ -20,7 +20,7 @@ public class ParseResponses {
 
     public static List<Round> parseRounds(JsonObject object, GawlaDataBse gawlaDataBse) {
         List<Round> rounds = new ArrayList<>();
-        JsonArray roundsArray = object.get("data").getAsJsonArray();
+        JsonArray roundsArray = object.get("salon").getAsJsonArray();
 
         for (int i = 0; i < roundsArray.size(); i++) {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
@@ -144,6 +144,10 @@ public class ParseResponses {
         }
 
         return countries;
+    }
+
+    public static void parseUser(JsonObject object) {
+
     }
 
     public static List<Category> parseCategories(JsonObject object) {

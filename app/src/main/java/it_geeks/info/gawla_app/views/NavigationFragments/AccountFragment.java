@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
+
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.views.accountOptions.AccountDetailsActivity;
 import it_geeks.info.gawla_app.views.accountOptions.BuyingProcessesActivity;

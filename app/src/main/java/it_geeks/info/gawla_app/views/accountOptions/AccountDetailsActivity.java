@@ -2,16 +2,12 @@ package it_geeks.info.gawla_app.views.accountOptions;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -23,10 +19,12 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 
+import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 
 public class AccountDetailsActivity extends AppCompatActivity {
@@ -41,7 +39,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        changeStatusBarColor("#ffffff");
+        Common.Instance(this).changeStatusBarColor("#ffffff", this);
         setContentView(R.layout.activity_account_details);
 
         initViews();
@@ -67,13 +65,12 @@ public class AccountDetailsActivity extends AppCompatActivity {
         img_update_image = findViewById(R.id.img_update_Image);
         edit_update_image = findViewById(R.id.edit_update_image);
         btn_update_profile = findViewById(R.id.btn_update_profile);
+
         edit_update_image.setOnClickListener(onClickListener);
         btn_update_profile.setOnClickListener(onClickListener);
     }
 
     private void getData() {
-        
-        
 
         try {
             Picasso.with(AccountDetailsActivity.this)
@@ -143,7 +140,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     private void UploadImage(final String encodedImage) {
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -152,20 +148,15 @@ public class AccountDetailsActivity extends AppCompatActivity {
                 RetrofitClient.getInstance(AccountDetailsActivity.this).executeConnectionToServer("updateUserData", new Request(user_id, api_token, encodedImage), new HandleResponses() {
                     @Override
                     public void handleResponseData(JsonObject mainObject) {
-                        JsonObject mainObj = mainObject.getAsJsonObject();
-                        boolean status = mainObj.get("status").getAsBoolean();
-                        String message = mainObj.get("message").getAsString();
 
-                        JsonObject userData =  mainObj.get("userData").getAsJsonObject();
-                        String image = userData.get("image").getAsString();
-                        SharedPrefManager.getInstance(AccountDetailsActivity.this).saveUserImage(image);
+                        ParseResponses.parseCountries(mainObject);
+
+//                        SharedPrefManager.getInstance(AccountDetailsActivity.this).saveUserImage(image); //
 
                         Picasso.with(AccountDetailsActivity.this)
-                                .load(SharedPrefManager.getInstance(AccountDetailsActivity.this).getUserImage())
+                                .load("asd")
                                 .placeholder(AccountDetailsActivity.this.getResources().getDrawable(R.drawable.placeholder))
                                 .into(img_update_image);
-
-                        Toast.makeText(AccountDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -182,15 +173,4 @@ public class AccountDetailsActivity extends AppCompatActivity {
             }
         }).start();
     }
-
-
-    // to change status bar color
-    public void changeStatusBarColor(String color){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.parseColor(color));
-        }
-    }
-
 }
