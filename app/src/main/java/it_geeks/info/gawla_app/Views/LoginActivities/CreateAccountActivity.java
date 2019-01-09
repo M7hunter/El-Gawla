@@ -241,7 +241,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void handleServerResponse(JsonObject object, User user) {
-        JsonObject userData = object.get("userData").getAsJsonObject();
+        JsonObject userData = object.get("user").getAsJsonObject();
         int userId = userData.get("user_id").getAsInt();
         String name = userData.get("name").getAsString();
         String email = userData.get("email").getAsString();

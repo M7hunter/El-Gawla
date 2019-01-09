@@ -127,7 +127,7 @@ public class ParseResponses {
 
     public static List<Country> parseCountries(JsonObject object) {
         List<Country> countries = new ArrayList<>();
-        JsonArray roundsArray = object.get("data").getAsJsonArray();
+        JsonArray roundsArray = object.get("countries").getAsJsonArray();
 
         for (int i = 0; i < roundsArray.size(); i++) {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
