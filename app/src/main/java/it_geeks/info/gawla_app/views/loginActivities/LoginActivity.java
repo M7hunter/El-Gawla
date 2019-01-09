@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             @Override
                             public void handleEmptyResponse() {
-
+                                progressBar.setVisibility(View.GONE);
                             }
 
                             @Override
@@ -144,7 +144,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private User handleServerResponse(JsonObject object) {
-        JsonObject userData = object.get("userData").getAsJsonObject();
+        JsonObject userData = object.get("user").getAsJsonObject();
 
         mUser_id = userData.get("user_id").getAsInt();
         String name = userData.get("name").getAsString();

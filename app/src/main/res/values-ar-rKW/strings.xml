@@ -163,4 +163,7 @@
     <string name="salons">" صالات"</string>
     <string name="error_occurred">حدث خطأ</string>
     <string name="retry">أعد المحاولة</string>
+    <string name="empty_name">اسم المستخدم فارغ</string>
+    <string name="empty_message">محتوي الرسالة فارغ</string>
+    <string name="sending_message">جاري الارسال...</string>
 </resources>

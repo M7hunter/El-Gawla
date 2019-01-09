@@ -60,21 +60,6 @@
                             app:civ_border_color="@color/blueyGrey"
                             app:civ_border_width="1dp" />
 
-                        <ProgressBar
-                            android:id="@+id/image_progress"
-                            android:layout_width="wrap_content"
-                            android:visibility="gone"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true" />
-
-                        <!-- btn edit -->
-                        <ImageView
-                            android:id="@+id/edit_user_image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_circle_mid_blue"
-                            android:padding="@dimen/margin_tiny"
-                            android:src="@drawable/ic_edit" />
 
                         <ImageView
                             android:id="@+id/upload_user_image"
