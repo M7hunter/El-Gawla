@@ -64,6 +64,11 @@ public class SharedPrefManager {
         editor.putString("userToken", user.getApi_token());
         editor.putString("userImage", user.getImage());
         editor.putString("userEmail", user.getEmail());
+        editor.putString("firstName", user.getFirstName());
+        editor.putString("lastName", user.getLastName());
+        editor.putString("gender", user.getGender());
+        editor.putString("phone", user.getPhone());
+        editor.putString("membership", user.getMembership());
 
         editor.putBoolean("userLogged", true);
         editor.apply();
@@ -81,9 +86,13 @@ public class SharedPrefManager {
                 sharedPreferences.getInt("userId", -1),
                 sharedPreferences.getString("userName", null),
                 sharedPreferences.getString("userEmail", null),
-                sharedPreferences.getBoolean("userActive", false),
                 sharedPreferences.getString("userToken", null),
-                sharedPreferences.getString("userImage", null)
+                sharedPreferences.getString("userImage", null),
+                sharedPreferences.getString("firstName", null),
+                sharedPreferences.getString("lastName", null),
+                sharedPreferences.getString("phone", null),
+                sharedPreferences.getString("gender", null),
+                sharedPreferences.getString("membership", null)
         );
     }
 
