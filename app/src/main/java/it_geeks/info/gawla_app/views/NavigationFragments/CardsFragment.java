@@ -134,29 +134,13 @@ public class CardsFragment extends Fragment implements OnItemClickListener {
     }
 
     private void getCardsByCategoryFromServer(int categoryId) {
-//        RetrofitClient.getInstance(getContext()).executeConnectionToServer("getCardsByCategoryId", new Request(userId, apiToken, categoryId), new HandleResponses() {
-//            @Override
-//            public void handleResponseData(JsonObject mainObject) {
-//
+
 //                cardsList = ParseResponses.parseCards(mainObject);
 //
 //                initCardsRecycler();
-//            }
-//
-//            @Override
-//            public void handleEmptyResponse() {
-//
+
 //                initEmptyView(view);
-//            }
-//
-//            @Override
-//            public void handleConnectionErrors(String errorMessage) {
-//
-//                initEmptyView(view);
-//
-//                Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
     }
 
     private void initCardsRecycler() {

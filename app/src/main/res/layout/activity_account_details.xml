@@ -70,34 +70,51 @@
         </RelativeLayout>
 
         <!-- user image container -->
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_small">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layoutDirection="rtl">
 
             <!-- image -->
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/img_update_Image"
                 android:layout_width="@dimen/image_account"
                 android:layout_height="@dimen/image_account"
+                android:layout_centerInParent="true"
                 android:layout_margin="@dimen/margin_tiny"
                 android:background="@drawable/bg_circle_blue_grey"
                 app:civ_border_color="@color/blueyGrey"
-                app:civ_border_width="1dp" />
+                app:civ_border_width="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- btn edit -->
+            <!-- btn upload image -->
+            <ImageView
+                android:id="@+id/btn_upload_image"
+                android:layout_width="@dimen/icon_notification"
+                android:layout_height="@dimen/icon_notification"
+                android:background="@drawable/bg_circle_bordered_transparent"
+                android:padding="@dimen/margin_tiny"
+                android:src="@drawable/ic_check"
+                app:layout_constraintEnd_toStartOf="@id/img_update_Image"
+                app:layout_constraintStart_toStartOf="@id/img_update_Image" />
+
+            <!-- btn choose image -->
             <ImageView
                 android:id="@+id/btn_choose_image"
                 android:layout_width="@dimen/icon_notification"
                 android:layout_height="@dimen/icon_notification"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
                 android:background="@drawable/bg_circle_mid_blue"
                 android:padding="@dimen/margin_tiny"
-                android:src="@drawable/ic_edit" />
+                android:src="@drawable/ic_edit"
+                app:layout_constraintEnd_toStartOf="@id/img_update_Image"
+                app:layout_constraintStart_toStartOf="@id/img_update_Image" />
 
-        </RelativeLayout>
+        </android.support.constraint.ConstraintLayout>
 
         <TextView
             android:id="@+id/editText3"
@@ -172,7 +189,6 @@
             android:textColorHint="@color/editText_hint"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
-
 
         <TextView
             android:id="@+id/editText11"
@@ -288,6 +304,3 @@
 
     </LinearLayout>
 </ScrollView>
-
-
-

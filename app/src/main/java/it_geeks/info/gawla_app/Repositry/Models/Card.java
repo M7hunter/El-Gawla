@@ -22,6 +22,9 @@ public class Card {
     private String card_details;
 
     @ColumnInfo
+    private String card_category;
+
+    @ColumnInfo
     private String card_type;
 
     @ColumnInfo

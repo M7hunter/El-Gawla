@@ -114,14 +114,13 @@ public class ParseResponses {
             JsonObject cardObj = dataArray.get(i).getAsJsonObject();
             int card_id = cardObj.get("card_id").getAsInt();
             String card_name = cardObj.get("card_name").getAsString();
-            String card_details = cardObj.get("card_details").getAsString();
-            String card_type = cardObj.get("card_type").getAsString();
-            String card_color = cardObj.get("card_color").getAsString();
-            String card_cost = cardObj.get("card_cost").getAsString();
-            int count = cardObj.get("count").getAsInt();
+            String card_details = cardObj.get("card_category").getAsString();
+            String card_type = cardObj.get("type").getAsString();
+            String card_color = cardObj.get("color_code").getAsString();
+            String card_cost = cardObj.get("cost").getAsString();
 
             cardsList.add(
-                    new Card(card_name, card_details, card_type, card_color, card_cost, count));
+                    new Card(card_id, card_name, card_details, card_type, card_color, card_cost));
         }
 
         return cardsList;
@@ -165,7 +164,7 @@ public class ParseResponses {
 
     public static List<Category> parseCategories(JsonObject object) {
         List<Category> categories = new ArrayList<>();
-        JsonArray categoriesArray = object.get("data").getAsJsonArray();
+        JsonArray categoriesArray = object.get("categories").getAsJsonArray();
 
         for (int i = 0; i < categoriesArray.size(); i++) {
             JsonObject categoryObj = categoriesArray.get(i).getAsJsonObject();

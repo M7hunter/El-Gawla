@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -33,7 +34,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
     EditText ed_update_first_name, ed_update_second_name, ed_update_telephone;
     Spinner sp_update_country, sp_update_gender;
-    ImageView img_update_image, edit_update_image;
+    ImageView img_update_image, btn_choose_image, btn_upload_image;
     TextView btn_update_profile;
     int user_id;
     String api_token;
@@ -59,11 +60,12 @@ public class AccountDetailsActivity extends AppCompatActivity {
         sp_update_gender = findViewById(R.id.sp_update_gender);
         img_update_image = findViewById(R.id.img_update_Image);
 
-        edit_update_image = findViewById(R.id.btn_choose_image);
+        btn_choose_image = findViewById(R.id.btn_choose_image);
+        btn_upload_image = findViewById(R.id.btn_upload_image);
         btn_update_profile = findViewById(R.id.btn_update_profile);
         progressBarUpdateProfile = findViewById(R.id.progress_update_profile);
 
-        edit_update_image.setOnClickListener(new View.OnClickListener() {
+        btn_choose_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectImage();
@@ -87,11 +89,22 @@ public class AccountDetailsActivity extends AppCompatActivity {
                     .load(user.getImage())
                     .placeholder(AccountDetailsActivity.this.getResources().getDrawable(R.drawable.placeholder))
                     .into(img_update_image);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         ed_update_first_name.setText(user.getFirstName());
         ed_update_second_name.setText(user.getLastName());
         ed_update_telephone.setText(user.getPhone());
+    }
+
+    private void displayUploadImageButton() {
+        btn_upload_image.animate().translationX(btn_upload_image.getWidth() + 10).setDuration(400).start();
+        btn_upload_image.setEnabled(true);
+    }
+
+    private void hideUploadImageButton() {
+        btn_upload_image.animate().translationX(0).setDuration(300).start();
+        btn_upload_image.setEnabled(false);
     }
 
     private void updateUI() {
@@ -137,14 +150,15 @@ public class AccountDetailsActivity extends AppCompatActivity {
             final String encodedImage = Base64.encodeToString(imageAsByte, Base64.DEFAULT);
 
             // upload image
-            btn_update_profile.setOnClickListener(new View.OnClickListener() {
+            displayUploadImageButton();
+            btn_upload_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    uploadImage(encodedImage);
                     updateUI();
+                    btn_upload_image.setEnabled(false);
+                    uploadImage(encodedImage);
                 }
             });
-
 
         } catch (Exception e) {
             Toast.makeText(AccountDetailsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -156,32 +170,38 @@ public class AccountDetailsActivity extends AppCompatActivity {
         user_id = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getUser_id();
         api_token = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getApi_token();
 
-        RetrofitClient.getInstance(AccountDetailsActivity.this).executeConnectionToServer("updateUserData", new Request(user_id, api_token, encodedImage), new HandleResponses() {
+        new Thread(new Runnable() {
             @Override
-            public void handleResponseData(JsonObject mainObject) {
+            public void run() {
+                RetrofitClient.getInstance(AccountDetailsActivity.this).executeConnectionToServer("updateUserData", new Request(user_id, api_token, encodedImage), new HandleResponses() {
+                    @Override
+                    public void handleResponseData(JsonObject mainObject) {
 
-                User user = ParseResponses.parseUser(mainObject);
+                        User user = ParseResponses.parseUser(mainObject);
 
-                SharedPrefManager.getInstance(AccountDetailsActivity.this).saveUser(user); //
+                        Picasso.with(AccountDetailsActivity.this)
+                                .load(user.getImage())
+                                .placeholder(AccountDetailsActivity.this.getResources().getDrawable(R.drawable.placeholder))
+                                .into(img_update_image);
 
-                Picasso.with(AccountDetailsActivity.this)
-                        .load(user.getImage())
-                        .placeholder(AccountDetailsActivity.this.getResources().getDrawable(R.drawable.placeholder))
-                        .into(img_update_image);
+                        SharedPrefManager.getInstance(AccountDetailsActivity.this).saveUser(user); //
 
-                updatedUI();
+                        hideUploadImageButton();
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+                        updatedUI();
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        btn_upload_image.setEnabled(true);
+                        updatedUI();
+                        Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-
-            @Override
-            public void handleEmptyResponse() {
-                updatedUI();
-            }
-
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                updatedUI();
-                Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+        }).start();
     }
 }

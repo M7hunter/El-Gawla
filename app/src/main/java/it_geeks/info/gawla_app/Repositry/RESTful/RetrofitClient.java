@@ -6,11 +6,14 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
+import java.util.concurrent.TimeUnit;
+
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,6 +34,7 @@ public class RetrofitClient {
 
     private RetrofitClient() {
         this.retrofit = new Retrofit.Builder()
+                .client(new OkHttpClient.Builder().connectTimeout(20, TimeUnit.SECONDS).readTimeout(20, TimeUnit.SECONDS).writeTimeout(20, TimeUnit.SECONDS).build())
                 .baseUrl(selectBaseUrl())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
