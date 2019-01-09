@@ -81,15 +81,17 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     private void getData() {
+        User user = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser();
         try {
             Picasso.with(AccountDetailsActivity.this)
-                    .load(SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getImage())
+                    .load(user.getImage())
                     .placeholder(AccountDetailsActivity.this.getResources().getDrawable(R.drawable.placeholder))
                     .into(img_update_image);
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
 
-
+        ed_update_first_name.setText(user.getFirstName());
+        ed_update_second_name.setText(user.getLastName());
+        ed_update_telephone.setText(user.getPhone());
     }
 
     private void updateUI() {

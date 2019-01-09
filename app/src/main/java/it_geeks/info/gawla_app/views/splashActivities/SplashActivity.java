@@ -46,6 +46,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (SharedPrefManager.getInstance(SplashActivity.this).getCountry().getCountry_id() != -1) {
+
             startActivity(new Intent(SplashActivity.this, LoginActivity.class)
             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
 
@@ -93,13 +94,14 @@ public class SplashActivity extends AppCompatActivity {
                     displayCountriesList();
 
                     GawlaDataBse.getGawlaDatabase(SplashActivity.this).countryDao().insertCountryList(countries);
-
-                    Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
             }
 
             @Override
             public void handleEmptyResponse() {
-                retry();
+                if (countries.size() == 0) {
+                    retry();
+                }
+
                 Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
             }
 

@@ -208,7 +208,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String image = account.getPhotoUrl().toString();
             String provider = providerGoogle;
 
-
             socialLogin(id, name, email, image, provider);
 
             Log.w("Mo7",id + name + email + image);
