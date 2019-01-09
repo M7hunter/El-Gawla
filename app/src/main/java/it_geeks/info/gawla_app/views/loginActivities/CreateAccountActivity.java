@@ -41,19 +41,20 @@ import java.util.Arrays;
 
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.User;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.views.MainActivity;
 
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     EditText etName, etEmail, etPass;
     ProgressBar progressBar;
-    int reconnect = 0;
-    private static String mApi_token, mUser_id;
+    int reconnect = 0 ;
     // fb login
     CallbackManager callbackManager;
     LoginButton btn_fb_login;
@@ -167,8 +168,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                 Toast.makeText(CreateAccountActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
 
                 // save user data locally
-                handleServerResponse(mainObject, user);
-                SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(user);
+                SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(handleServerResponse(mainObject));
                 SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(getResources().getString(R.string.app_name)); // Provider
                 // goto next page
                 startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
@@ -236,21 +236,27 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         return true;
     }
 
-    private void handleServerResponse(JsonObject object, User user) {
+    private User handleServerResponse(JsonObject object) {
         JsonObject userData = object.get("user").getAsJsonObject();
-        int userId = userData.get("user_id").getAsInt();
+
+        int user_id = userData.get("user_id").getAsInt();
         String name = userData.get("name").getAsString();
         String email = userData.get("email").getAsString();
         String api_token = userData.get("api_token").getAsString();
         String image = userData.get("image").getAsString();
+        String firstName = userData.get("firstName").getAsString();
+        String lastName = userData.get("lastName").getAsString();
+        String phone = userData.get("phone").getAsString();
+        String gender = userData.get("gender").getAsString();
+        String membership = userData.get("membership").getAsString();
+        SharedPrefManager.getInstance(CreateAccountActivity.this).setMembership(membership);
+        String country_id = userData.get("country_id").getAsString();
 
-        user.setName(name);
-        user.setEmail(email);
-        user.setApi_token(api_token);
-        user.setUser_id(userId);
-        user.setImage(image);
-
+        Country userCountry = GawlaDataBse.getGawlaDatabase(CreateAccountActivity.this).countryDao().getCountriesByID(country_id).get(0); // get user country from room
+        SharedPrefManager.getInstance(CreateAccountActivity.this).setCountry(userCountry);
         SharedPrefManager.getInstance(CreateAccountActivity.this).saveUserImage(image);
+
+        return new User(user_id, name, email, api_token,image,firstName,lastName,phone,gender,membership);
     }
 
     private void facebookLogin() {
@@ -319,11 +325,8 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer("loginOrRegisterWithSocial", new Request(provider, id, name, email, image, countryId), new HandleResponses() {
             @Override
             public void handleResponseData(JsonObject mainObject) {
-                JsonObject data = mainObject.getAsJsonObject();
-                mApi_token = data.get("api_token").getAsString();
-                mUser_id = String.valueOf(data.get("user_id").getAsInt());
 
-                SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(new User(Integer.parseInt(mUser_id), name, email, mApi_token, image));
+                SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(handleServerResponse(mainObject));
                 SharedPrefManager.getInstance(CreateAccountActivity.this).saveUserImage(image);
                 SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(provider); // Provider
                 startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));

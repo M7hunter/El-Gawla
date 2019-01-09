@@ -24,4 +24,7 @@ public interface CountryDao {
 
     @Query("SELECT * FROM Country")
     List<Country> getCountries();
+
+    @Query("SELECT * FROM Country where country_id = :countryID")
+    List<Country> getCountriesByID(String countryID);
 }

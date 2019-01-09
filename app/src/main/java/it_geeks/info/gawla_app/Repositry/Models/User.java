@@ -20,13 +20,11 @@ public class User {
 
     private String firstName;
 
-    private String LastName;
-
-    private String country;
+    private String lastName;
 
     private String gender;
 
-    private String Telephone;
+    private String phone;
 
     public User(String name, String email, String password) {
         this.name = name;
@@ -35,29 +33,17 @@ public class User {
         this.password = password;
     }
 
-    public User(int user_id, String name, String email, String api_token, String image) {
+    public User(int user_id, String name, String email, String api_token, String image , String firstName,String lastName,String phone,String gender,String membership) {
         this.user_id = user_id;
         this.name = name;
         this.email = email;
         this.api_token = api_token;
         this.image = image;
-    }
-
-    public User(int user_id, String name, String email, String api_token) {
-        this.user_id = user_id;
-        this.name = name;
-        this.email = email;
-        this.api_token = api_token;
-    }
-
-    public User(int user_id, String name, String email , boolean active, String api_token, String image) {
-        this.user_id = user_id;
-        this.name = name;
-        this.email = email;
-        this.active = active;
-        this.api_token = api_token;
-        this.image = image;
-        this.membership = "basic";
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.phone = phone;
+        this.membership = membership;
     }
 
     public int getUser_id() {
@@ -122,5 +108,37 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

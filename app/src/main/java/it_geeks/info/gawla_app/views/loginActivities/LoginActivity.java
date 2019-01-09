@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,10 +41,13 @@ import org.json.JSONObject;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.User;
@@ -55,8 +59,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView txtForgetPassword, txtCreateAccount;
     private Button btnLogin;
     private EditText txt_Email, txt_Password;
-    private static String mApi_token;
-    int mUser_id;
     ProgressBar progressBar;
     // fb login
     CallbackManager callbackManager;
@@ -74,11 +76,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         boolean status = SharedPrefManager.getInstance(LoginActivity.this).isLoggedIn();
-        mApi_token = SharedPrefManager.getInstance(LoginActivity.this).getUser().getApi_token();
+        String api_token = SharedPrefManager.getInstance(LoginActivity.this).getUser().getApi_token();
 
-        if (status && mApi_token != null) {
-
-            Log.d("M7", "API_Token: " + mApi_token);
+        if (status && api_token != null) {
 
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
@@ -95,6 +95,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     if (email.isEmpty()) {
                         txt_Email.setError(getResources().getString(R.string.emptyMail));
+                        txt_Email.requestFocus();
+                    }else if (Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                        txt_Email.setError("enter a valid email address");
                         txt_Email.requestFocus();
                     } else if (pass.isEmpty()) {
                         txt_Password.setError(getResources().getString(R.string.emptyPass));
@@ -146,15 +149,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private User handleServerResponse(JsonObject object) {
         JsonObject userData = object.get("user").getAsJsonObject();
 
-        mUser_id = userData.get("user_id").getAsInt();
+        int user_id = userData.get("user_id").getAsInt();
         String name = userData.get("name").getAsString();
         String email = userData.get("email").getAsString();
-        mApi_token = userData.get("api_token").getAsString();
-//        String image = userData.get("image").getAsString();
+        String api_token = userData.get("api_token").getAsString();
+        String image = userData.get("image").getAsString();
+        String firstName = userData.get("firstName").getAsString();
+        String lastName = userData.get("lastName").getAsString();
+        String phone = userData.get("phone").getAsString();
+        String gender = userData.get("gender").getAsString();
+        String membership = userData.get("membership").getAsString();
+        SharedPrefManager.getInstance(LoginActivity.this).setMembership(membership);
+        String country_id = userData.get("country_id").getAsString();
 
-//        SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
+        Country userCountry = GawlaDataBse.getGawlaDatabase(LoginActivity.this).countryDao().getCountriesByID(country_id).get(0); // get user country from room
+        SharedPrefManager.getInstance(LoginActivity.this).setCountry(userCountry);
+        SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
 
-        return new User(mUser_id, name, email, mApi_token);
+        return new User(user_id, name, email, api_token,image,firstName,lastName,phone,gender,membership);
     }
 
     @SuppressLint("WrongViewCast")
@@ -299,11 +311,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer("loginOrRegisterWithSocial", new Request(provider, id, name, email, image, countryId), new HandleResponses() {
             @Override
             public void handleResponseData(JsonObject mainObject) {
-                JsonObject data = mainObject.getAsJsonObject();
-                mApi_token = data.get("api_token").getAsString();
-                mUser_id = data.get("user_id").getAsInt();
 
-                SharedPrefManager.getInstance(LoginActivity.this).saveUser(new User(mUser_id, name, email, mApi_token, image));
+                SharedPrefManager.getInstance(LoginActivity.this).saveUser(handleServerResponse(mainObject));
                 SharedPrefManager.getInstance(LoginActivity.this).saveUserImage(image);
                 SharedPrefManager.getInstance(LoginActivity.this).saveProvider(provider); // Provider
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -317,7 +326,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void handleConnectionErrors(String errorMessage) {
-
+                Log.e("Mo7", errorMessage);
             }
         });
     }

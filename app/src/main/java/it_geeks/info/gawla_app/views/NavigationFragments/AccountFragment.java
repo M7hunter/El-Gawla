@@ -10,11 +10,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.Views.AccountOptions.AccountDetails;
-import it_geeks.info.gawla_app.Views.AccountOptions.BuyingProcessesActivity;
-import it_geeks.info.gawla_app.Views.AccountOptions.PrivacyDetails;
+import it_geeks.info.gawla_app.views.accountOptions.AccountDetailsActivity;
+import it_geeks.info.gawla_app.views.accountOptions.BuyingProcessesActivity;
+import it_geeks.info.gawla_app.views.accountOptions.PrivacyDetailsActivity;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Views.NotificationActivity;
+import it_geeks.info.gawla_app.views.NotificationActivity;
 
 public class AccountFragment extends Fragment {
 

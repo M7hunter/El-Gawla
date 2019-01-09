@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context=".Views.MenuOptions.CallUsActivity">
+    tools:context=".views.MenuOptions.CallUsActivity">
     <!-- scroll main layout -->
     <LinearLayout
         android:id="@+id/CallUsParentLayout"
