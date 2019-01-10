@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView navigation;
 
+    ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
     View snackContainer;
 
     private Fragment fragment = new MainFragment();
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         mainInstance = this;
 
-        registerReceiver(new ConnectionChangeReceiver(), new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
 
         if (savedInstanceState == null) {
             displayFragment(fragment);
@@ -48,6 +49,22 @@ public class MainActivity extends AppCompatActivity {
         initNavigation();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (navigation.getSelectedItemId() == R.id.navigation_hales) {
+            super.onBackPressed();
+
+        } else {
+            displayFragment(new MainFragment());
+            navigation.setSelectedItemId(R.id.navigation_hales);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(connectionChangeReceiver);
+        super.onDestroy();
+    }
 
     public View getMainFrame() {
         if (snackContainer == null) {
@@ -105,19 +122,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //back from !main page ?
-    @Override
-    public void onBackPressed() {
-        if (navigation.getSelectedItemId() == R.id.navigation_hales) {
-            super.onBackPressed();
 
-        } else {
-            displayFragment(new MainFragment());
-            navigation.setSelectedItemId(R.id.navigation_hales);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }

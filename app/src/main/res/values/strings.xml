@@ -7,7 +7,7 @@
     <string name="add_offer">add offer</string>
     <string name="new_offer">new offer</string>
     <string name="hales">hales</string>
-    <string name="my_rounds">my data</string>
+    <string name="my_rounds">my rounds</string>
     <string name="cards">cards</string>
     <string name="account">account</string>
     <string name="menu">menu</string>
@@ -162,7 +162,7 @@
     <string name="lastNews">Latest News ...</string>
     <string name="notiNews">Member Muhammed Boucha has added a new offer</string>
     <string name="mainNotiNews">You can customize your settings so that only the notifications you want appear when the device is locked</string>
-    <string name="cards_empty_hint">you have no cards</string>
+    <string name="cards_empty_hint">no cards in this category yet</string>
     <string name="no_salons">no salons right now \n try later</string>
     <string name="no_connection">no connection</string>
     <string name="retry">retry</string>

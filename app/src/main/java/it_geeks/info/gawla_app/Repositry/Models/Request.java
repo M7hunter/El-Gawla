@@ -16,6 +16,14 @@ public class Request {
 
     private String image;
 
+    private String firstName;
+
+    private String lastName;
+
+    private String phone;
+
+    private String gender;
+
     private String membership;
 
     private String join_time;
@@ -92,6 +100,16 @@ public class Request {
         this.user_id = user_id;
         this.api_token = api_token;
         this.image = image;
+    }
+
+    public Request(int user_id, String api_token, String firstName,String lastName,String phone,String gender, int country_id) { // User Profile update
+        this.user_id = user_id;
+        this.api_token = api_token;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.gender = gender;
+        this.country_id = country_id;
     }
 
     public Request( int user_id , String api_token , String name , String email , String message) {

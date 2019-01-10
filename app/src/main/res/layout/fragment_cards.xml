@@ -6,92 +6,98 @@
     android:background="@color/paleGrey"
     tools:context=".views.NavigationFragments.CardsFragment">
 
-    <!-- main layout -->
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusableInTouchMode="true"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <include layout="@layout/main_header_layout" />
-
-        <!-- title -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_small"
-            android:gravity="center"
-            android:text="@string/cards_store"
-            android:textAllCaps="true"
-            android:textColor="@color/midBlue"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
-
+        android:layout_height="match_parent">
+        <!-- scroll main layout -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <!-- categories recycler -->
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/cards_categories_recycler"
+            <include layout="@layout/main_header_layout" />
+
+            <!-- title -->
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_medium" />
+                android:layout_margin="@dimen/margin_small"
+                android:gravity="center"
+                android:text="@string/cards_store"
+                android:textAllCaps="true"
+                android:textColor="@color/midBlue"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
 
-            <!-- cards recycler container -->
-            <RelativeLayout
+            <!-- recyclers container -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <!-- cards recycler-->
+                <!-- categories recycler -->
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/cards_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true" />
-
-                <!-- cards progress -->
-                <ProgressBar
-                    android:id="@+id/cards_progress"
+                    android:id="@+id/cards_categories_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true" />
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium" />
 
-                <!-- empty view -->
-                <LinearLayout
-                    android:id="@+id/cards_empty_view"
+                <!-- cards recycler container -->
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
 
-                    <ImageView
+                    <!-- cards recycler-->
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/cards_recycler"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/empty_view_cards" />
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true" />
 
-                    <TextView
+                    <!-- cards progress -->
+                    <ProgressBar
+                        android:id="@+id/cards_progress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
+                        android:layout_centerInParent="true" />
+
+                    <!-- empty view -->
+                    <LinearLayout
+                        android:id="@+id/cards_empty_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
                         android:gravity="center"
-                        android:text="@string/cards_empty_hint"
-                        android:textColor="@color/blueGrey"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
-                </LinearLayout>
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/empty_view_cards" />
 
-            </RelativeLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:gravity="center"
+                            android:text="@string/cards_empty_hint"
+                            android:textColor="@color/blueGrey"
+                            android:textSize="@dimen/text_size_medium" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
     <include layout="@layout/no_connection_layout" />
 

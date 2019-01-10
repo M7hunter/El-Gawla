@@ -35,6 +35,8 @@
             android:name=".views.MainActivity"
             android:clearTaskOnLaunch="true" />
 
+        <activity android:name=".views.AllSalonsActivity" />
+        <activity android:name=".views.NotificationActivity" />
         <activity android:name=".views.splashActivities.IntroActivity" />
         <activity android:name=".views.loginActivities.SubscribePlanActivity" />
         <activity android:name=".views.loginActivities.PaymentActivity" />
@@ -44,14 +46,12 @@
         <activity android:name=".views.menuOptions.SettingsActivity" />
         <activity android:name=".views.menuOptions.MoreAboutGawlaActivity" />
         <activity android:name=".views.menuOptions.PrivacyPolicyActivity" />
-        <activity android:name=".views.menuOptions.CallUsActivity" />
-        <activity android:name=".views.accountOptions.BuyingProcessesActivity" />
-        <activity android:name=".views.NotificationActivity" />
-        <activity android:name=".views.accountOptions.AccountDetailsActivity" />
-        <activity android:name=".views.accountOptions.PrivacyDetailsActivity" />
-        <activity android:name=".views.AllSalonsActivity" />
-        <activity android:name=".views.menuOptions.LanguageActivity" />
         <activity android:name=".views.menuOptions.TermsAndConditionsActivity" />
+        <activity android:name=".views.menuOptions.CallUsActivity" />
+        <activity android:name=".views.menuOptions.LanguageActivity" />
+        <activity android:name=".views.accountOptions.AccountDetailsActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".views.accountOptions.BuyingProcessesActivity" />
+        <activity android:name=".views.accountOptions.PrivacyDetailsActivity" />
 
         <receiver
             android:name=".General.ConnectionChangeReceiver"

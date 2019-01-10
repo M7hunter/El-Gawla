@@ -42,9 +42,6 @@ public class CardsFragment extends Fragment implements OnItemClickListener {
 
     ProgressBar cardsProgress;
 
-    int userId;
-    String apiToken;
-
     View view = null;
 
     @Override
@@ -53,9 +50,6 @@ public class CardsFragment extends Fragment implements OnItemClickListener {
         view = inflater.inflate(R.layout.fragment_cards, container, false);
 
         initViews(view);
-
-        userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
-        apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
         checkConnection(view);
 
@@ -90,6 +84,9 @@ public class CardsFragment extends Fragment implements OnItemClickListener {
     }
 
     private void getCategoriesFromServer(final View view) {
+        int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
+        String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
+
         RetrofitClient.getInstance(getContext()).executeConnectionToServer("getAllCardsCategories", new Request(userId, apiToken), new HandleResponses() {
             @Override
             public void handleResponseData(JsonObject mainObject) {
@@ -98,7 +95,7 @@ public class CardsFragment extends Fragment implements OnItemClickListener {
 
                 initCategoriesRecycler(view);
 
-                getCardsByCategoryFromServer(categoryList.get(0).getCategoryId());
+                getCardsByCategory(categoryList.get(0).getCategoryCards());
             }
 
             @Override
@@ -129,17 +126,17 @@ public class CardsFragment extends Fragment implements OnItemClickListener {
         cardsProgress.setVisibility(View.VISIBLE);
         Category category = categoryList.get(position);
 
-        // get cards from server
-        getCardsByCategoryFromServer(category.getCategoryId());
+        // get cards
+        getCardsByCategory(category.getCategoryCards());
     }
 
-    private void getCardsByCategoryFromServer(int categoryId) {
+    private void getCardsByCategory(List<Card> cards) {
 
-//                cardsList = ParseResponses.parseCards(mainObject);
-//
-//                initCardsRecycler();
+                cardsList = cards;
 
-//                initEmptyView(view);
+                initCardsRecycler();
+
+                initEmptyView(view);
 
     }
 

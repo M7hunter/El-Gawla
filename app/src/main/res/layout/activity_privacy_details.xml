@@ -1,253 +1,261 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:orientation="vertical"
-    android:scrollbars="none"
     tools:context=".views.accountOptions.PrivacyDetailsActivity">
-    <!-- scroll main layout -->
-    <LinearLayout
+
+    <!-- title bar -->
+    <RelativeLayout
+        android:id="@+id/privacy_details_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginTop="@dimen/margin_tiny"
+        android:layoutDirection="ltr">
 
-        <!-- title bar -->
-        <RelativeLayout
+        <!-- back -->
+        <ImageView
+            android:id="@+id/privacy_details_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_medium"
+            android:src="@drawable/ic_arrow_back" />
+
+        <!-- title -->
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:layoutDirection="ltr">
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/privacy_details"
+            android:textColor="@color/battleshipGrey"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
 
-            <!-- back -->
-            <ImageView
-                android:id="@+id/privacy_details_back"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:padding="@dimen/margin_medium"
-                android:src="@drawable/ic_arrow_back" />
+    </RelativeLayout>
 
-            <!-- title -->
-            <TextView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/privacy_details_header"
+        android:layout_marginTop="@dimen/margin_xxlarge"
+        android:scrollbars="none">
+        <!-- scroll main layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/editText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:inputType="textMultiLine"
+                    android:text="@string/email"
+                    android:textColor="@color/blueGrey" />
+
+                <TextView
+                    android:id="@+id/edit_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="@string/edit"
+                    android:textColor="@color/azureTwo"
+                    android:textSize="@dimen/text_size_medium" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/et_account_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/card_width"
+                android:layout_marginRight="@dimen/card_width"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_shape"
+                android:enabled="false"
                 android:gravity="center"
-                android:text="@string/privacy_details"
-                android:textColor="@color/battleshipGrey"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
+                android:textColorHint="@color/editText_hint"
+                android:textIsSelectable="true"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
-        </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/paleGreyTwo" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="8dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/editText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="8dp"
                 android:layout_weight="1"
-                android:ems="10"
-                android:fontFamily="@font/cairo_semibold"
-                android:inputType="textMultiLine"
-                android:text="@string/email"
-                android:textColor="@color/blueGrey" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/edit_email"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/editText3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:inputType="textMultiLine"
+                    android:text="@string/password"
+                    android:textColor="@color/blueGrey" />
+
+                <TextView
+                    android:id="@+id/edit_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="@string/edit"
+                    android:textColor="@color/azureTwo"
+                    android:textSize="@dimen/text_size_medium" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/et_account_password"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/cairo_semibold"
-                android:text="@string/edit"
-                android:textColor="@color/azureTwo"
-                android:textSize="@dimen/text_size_medium" />
-
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/et_account_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/card_width"
-            android:layout_marginRight="@dimen/card_width"
-            android:layout_weight="1"
-            android:background="@drawable/edittext_shape"
-            android:enabled="false"
-            android:gravity="center"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:paddingTop="@dimen/margin_small"
-            android:paddingBottom="@dimen/margin_small"
-            android:textColorHint="@color/editText_hint"
-            android:textIsSelectable="true"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/paleGreyTwo" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="8dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/editText3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/card_width"
+                android:layout_marginRight="@dimen/card_width"
                 android:layout_weight="1"
-                android:ems="10"
-                android:fontFamily="@font/cairo_semibold"
-                android:inputType="textMultiLine"
-                android:text="@string/password"
-                android:textColor="@color/blueGrey" />
-
-            <TextView
-                android:id="@+id/edit_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/cairo_semibold"
-                android:text="@string/edit"
-                android:textColor="@color/azureTwo"
-                android:textSize="@dimen/text_size_medium" />
-
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/et_account_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/card_width"
-            android:layout_marginRight="@dimen/card_width"
-            android:layout_weight="1"
-            android:background="@drawable/edittext_shape"
-            android:enabled="false"
-            android:gravity="center"
-            android:hint="@string/password"
-            android:inputType="textVisiblePassword"
-            android:paddingStart="30dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="30dp"
-            android:paddingBottom="10dp"
-            android:text="*****************"
-            android:textColorHint="@color/editText_hint"
-            android:textIsSelectable="true"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="1"
-            android:background="@color/paleGreyTwo" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:fontFamily="@font/cairo_semibold"
-                android:padding="@dimen/com_facebook_likeboxcountview_text_padding"
-                android:text="@string/connect_with"
-                android:textColor="@color/blueGrey"
-                android:textSize="@dimen/text_size_medium" />
-
-            <TextView
-                android:id="@+id/social_provider"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/cairo_semibold"
-                android:textColor="@color/blueGrey"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/social_div"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/social_image"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginStart="40dp"
-                android:padding="@dimen/margin_medium" />
-
-            <TextView
-                android:id="@+id/social_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/cairo_semibold"
-                android:gravity="center_vertical|center"
-                android:text=""
-                android:textColor="@color/duskBlue"
-                android:textSize="@dimen/text_size_large" />
-
-            <TextView
-                android:id="@+id/social_out"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="40dp"
-                android:fontFamily="@font/cairo_semibold"
+                android:background="@drawable/edittext_shape"
+                android:enabled="false"
                 android:gravity="center"
-                android:text="@string/delete_connection"
-                android:textColor="@color/azureTwo"
-                android:textSize="@dimen/text_size_medium" />
+                android:hint="@string/password"
+                android:inputType="textVisiblePassword"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="10dp"
+                android:text="*****************"
+                android:textColorHint="@color/editText_hint"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="@color/paleGreyTwo" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:padding="@dimen/com_facebook_likeboxcountview_text_padding"
+                    android:text="@string/connect_with"
+                    android:textColor="@color/blueGrey"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <TextView
+                    android:id="@+id/social_provider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:textColor="@color/blueGrey"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/social_div"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/social_image"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="40dp"
+                    android:padding="@dimen/margin_medium" />
+
+                <TextView
+                    android:id="@+id/social_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:gravity="center_vertical|center"
+                    android:text=""
+                    android:textColor="@color/duskBlue"
+                    android:textSize="@dimen/text_size_large" />
+
+                <TextView
+                    android:id="@+id/social_out"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="40dp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:gravity="center"
+                    android:text="@string/delete_connection"
+                    android:textColor="@color/azureTwo"
+                    android:textSize="@dimen/text_size_medium" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_Create_Account2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:layout_weight="1"
+                android:background="@drawable/create_account"
+                android:gravity="center"
+                android:padding="@dimen/margin_small"
+                android:text="@string/delete_account"
+                android:textColor="@color/blueGrey"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
 
         </LinearLayout>
+    </ScrollView>
 
-        <TextView
-            android:id="@+id/txt_Create_Account2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="@dimen/margin_large"
-            android:layout_weight="1"
-            android:background="@drawable/create_account"
-            android:gravity="center"
-            android:padding="@dimen/margin_small"
-            android:text="@string/delete_account"
-            android:textColor="@color/blueGrey"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
-
-
-    </LinearLayout>
-</ScrollView>
+</RelativeLayout>

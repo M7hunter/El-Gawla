@@ -37,7 +37,6 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
 
         viewHolder.cardTitle.setText(card.getCard_name());
         viewHolder.cardDescription.setText(card.getCard_details());
-        viewHolder.cardCount.setText(String.valueOf(card.getCount()));
 
         GradientDrawable background = (GradientDrawable) viewHolder.cardIcon.getBackground();
         background.setColor(Color.parseColor(card.getCard_color()));
@@ -50,7 +49,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView cardTitle, cardDescription, cardCount;
+        TextView cardTitle, cardDescription;
         View cardIcon;
 
         public ViewHolder(@NonNull View itemView) {
@@ -58,7 +57,6 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
 
             cardTitle = itemView.findViewById(R.id.card_title);
             cardDescription = itemView.findViewById(R.id.card_description);
-            cardCount = itemView.findViewById(R.id.card_count);
             cardIcon = itemView.findViewById(R.id.card_icon);
         }
     }

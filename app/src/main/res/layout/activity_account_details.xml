@@ -6,14 +6,12 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:scrollbars="none"
     tools:context=".views.accountOptions.AccountDetailsActivity">
     <!-- scroll main layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
+
         android:orientation="vertical">
 
         <!-- title bar -->
@@ -58,6 +56,7 @@
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
 
+            <!-- update progress -->
             <ProgressBar
                 android:id="@+id/progress_update_profile"
                 android:layout_width="@dimen/icon_notification"
@@ -84,7 +83,6 @@
                 android:layout_height="@dimen/image_account"
                 android:layout_centerInParent="true"
                 android:layout_margin="@dimen/margin_tiny"
-                android:background="@drawable/bg_circle_blue_grey"
                 app:civ_border_color="@color/blueyGrey"
                 app:civ_border_width="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -116,176 +114,161 @@
 
         </android.support.constraint.ConstraintLayout>
 
+        <!-- first name header -->
         <TextView
-            android:id="@+id/editText3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_width"
+            android:layout_marginStart="@dimen/margin_xxxlarge"
             android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/card_width"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="@dimen/margin_xxxlarge"
+            android:layout_marginBottom="@dimen/margin_small"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textMultiLine"
             android:text="@string/first_name"
             android:textColor="@color/blueGrey"
             android:textStyle="bold" />
 
+        <!-- first name -->
         <EditText
-            android:id="@+id/ed_update_first_name"
+            android:id="@+id/et_update_first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/card_width"
-            android:layout_marginRight="@dimen/card_width"
+            android:layout_marginLeft="@dimen/margin_xxxlarge"
+            android:layout_marginRight="@dimen/margin_xxxlarge"
             android:layout_weight="1"
             android:background="@drawable/edittext_shape"
             android:focusable="auto"
-            android:fontFamily="@font/cairo_regular"
-            android:gravity="start|center"
             android:hint="@string/first_name"
             android:inputType="textPersonName"
-            android:paddingStart="30dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="30dp"
-            android:paddingBottom="10dp"
+            android:paddingStart="@dimen/margin_xlarge"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_xlarge"
+            android:paddingBottom="@dimen/margin_small"
             android:textColorHint="@color/editText_hint"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
+        <!-- last name header -->
         <TextView
-            android:id="@+id/editText9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_width"
+            android:layout_marginStart="@dimen/margin_xxxlarge"
             android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/card_width"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="@dimen/margin_xxxlarge"
+            android:layout_marginBottom="@dimen/margin_small"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textMultiLine"
             android:text="@string/second_name"
             android:textColor="@color/blueGrey"
             android:textStyle="bold" />
 
+        <!-- last name -->
         <EditText
-            android:id="@+id/ed_update_second_name"
+            android:id="@+id/et_update_last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/card_width"
-            android:layout_marginRight="@dimen/card_width"
+            android:layout_marginLeft="@dimen/margin_xxxlarge"
+            android:layout_marginRight="@dimen/margin_xxxlarge"
             android:layout_weight="1"
             android:background="@drawable/edittext_shape"
             android:focusable="auto"
-            android:fontFamily="@font/cairo_regular"
-            android:gravity="start|center"
             android:hint="@string/second_name"
             android:inputType="textPersonName"
-            android:paddingStart="30dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="30dp"
-            android:paddingBottom="10dp"
+            android:paddingStart="@dimen/margin_xlarge"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_xlarge"
+            android:paddingBottom="@dimen/margin_small"
             android:textColorHint="@color/editText_hint"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
+        <!-- country header -->
         <TextView
-            android:id="@+id/editText11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_width"
+            android:layout_marginStart="@dimen/margin_xxxlarge"
             android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/card_width"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="@dimen/margin_xxxlarge"
+            android:layout_marginBottom="@dimen/margin_small"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textMultiLine"
             android:text="@string/country"
             android:textColor="@color/blueGrey"
             android:textStyle="bold" />
 
+        <!-- country -->
         <Spinner
             android:id="@+id/sp_update_country"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_width"
-            android:layout_marginRight="@dimen/card_width"
+            android:layout_marginStart="@dimen/margin_xxxlarge"
+            android:layout_marginEnd="@dimen/margin_xxxlarge"
             android:layout_weight="1"
             android:background="@drawable/account_details_spinner_shape"
-            android:entries="@array/ArrCountry"
-            android:paddingStart="30dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="30dp"
-            android:paddingBottom="10dp" />
+            android:paddingStart="@dimen/margin_xlarge"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_xlarge"
+            android:paddingBottom="@dimen/margin_small" />
 
+        <!-- gender header -->
         <TextView
-            android:id="@+id/editText12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_width"
+            android:layout_marginStart="@dimen/margin_xxxlarge"
             android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/card_width"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="@dimen/margin_xxxlarge"
+            android:layout_marginBottom="@dimen/margin_small"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textMultiLine"
             android:text="@string/gender"
             android:textColor="@color/blueGrey"
             android:textStyle="bold" />
 
+        <!-- gender -->
         <Spinner
             android:id="@+id/sp_update_gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_width"
-            android:layout_marginRight="@dimen/card_width"
+            android:layout_marginStart="@dimen/margin_xxxlarge"
+            android:layout_marginEnd="@dimen/margin_xxxlarge"
             android:layout_weight="1"
             android:background="@drawable/account_details_spinner_shape"
             android:entries="@array/ArrGender"
-            android:paddingStart="30dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="30dp"
-            android:paddingBottom="10dp" />
+            android:paddingStart="@dimen/margin_xlarge"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_xlarge"
+            android:paddingBottom="@dimen/margin_small" />
 
+        <!-- phone header -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_width"
+            android:layout_marginStart="@dimen/margin_xxxlarge"
             android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/card_width"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="@dimen/margin_xxxlarge"
+            android:layout_marginBottom="@dimen/margin_small"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textMultiLine"
             android:text="@string/telephone_number"
             android:textColor="@color/blueGrey"
             android:textStyle="bold" />
 
+        <!-- phone container -->
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_width"
-            android:layout_marginRight="@dimen/card_width"
-            android:layout_marginBottom="40dp">
+            android:layout_marginStart="@dimen/margin_xxxlarge"
+            android:layout_marginEnd="@dimen/margin_xxxlarge"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layoutDirection="rtl">
 
+            <!-- phone -->
             <EditText
-                android:id="@+id/ed_update_telephone"
+                android:id="@+id/et_update_telephone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:layout_weight="1"
                 android:background="@drawable/edittext_shape"
                 android:focusable="auto"
-                android:fontFamily="@font/cairo_regular"
                 android:gravity="center"
                 android:hint="@string/telephone_number"
                 android:inputType="phone"
-                android:paddingStart="30dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="30dp"
-                android:paddingBottom="10dp"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
                 android:textColorHint="@color/editText_hint"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
@@ -295,11 +278,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="20dp"
+                android:layout_marginLeft="@dimen/margin_large"
                 android:text="+2"
                 android:textColor="@color/com_facebook_button_background_color_disabled"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
+
         </RelativeLayout>
 
     </LinearLayout>

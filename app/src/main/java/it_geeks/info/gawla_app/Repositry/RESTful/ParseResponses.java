@@ -21,7 +21,7 @@ public class ParseResponses {
 
     public static List<Round> parseRounds(JsonObject object, GawlaDataBse gawlaDataBse) {
         List<Round> rounds = new ArrayList<>();
-        JsonArray roundsArray = object.get("salon").getAsJsonArray();
+        JsonArray roundsArray = object.get("salons").getAsJsonArray();
 
         for (int i = 0; i < roundsArray.size(); i++) {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
@@ -105,27 +105,6 @@ public class ParseResponses {
         return salon_cardsList;
     }
 
-    public static List<Card> parseCards(JsonObject object) {
-        JsonArray dataArray = object.get("data").getAsJsonArray();
-
-        List<Card> cardsList = new ArrayList<>();
-
-        for (int i = 0; i < dataArray.size(); i++) {
-            JsonObject cardObj = dataArray.get(i).getAsJsonObject();
-            int card_id = cardObj.get("card_id").getAsInt();
-            String card_name = cardObj.get("card_name").getAsString();
-            String card_details = cardObj.get("card_category").getAsString();
-            String card_type = cardObj.get("type").getAsString();
-            String card_color = cardObj.get("color_code").getAsString();
-            String card_cost = cardObj.get("cost").getAsString();
-
-            cardsList.add(
-                    new Card(card_id, card_name, card_details, card_type, card_color, card_cost));
-        }
-
-        return cardsList;
-    }
-
     public static List<Country> parseCountries(JsonObject object) {
         List<Country> countries = new ArrayList<>();
         JsonArray roundsArray = object.get("countries").getAsJsonArray();
@@ -173,10 +152,31 @@ public class ParseResponses {
             String category_color = categoryObj.get("category_color").getAsString();
 
             categories.add(
-                    new Category(category_id, category_name, category_color));
+                    new Category(category_id, category_name, category_color, parseCards(categoryObj)));
         }
 
         return categories;
+    }
+
+    private static List<Card> parseCards(JsonObject object) {
+        JsonArray dataArray = object.get("cards").getAsJsonArray();
+
+        List<Card> cardsList = new ArrayList<>();
+
+        for (int i = 0; i < dataArray.size(); i++) {
+            JsonObject cardObj = dataArray.get(i).getAsJsonObject();
+            int card_id = cardObj.get("card_id").getAsInt();
+            String card_name = cardObj.get("card_name").getAsString();
+            String card_details = cardObj.get("card_details").getAsString();
+            String card_type = cardObj.get("type").getAsString();
+            String card_color = cardObj.get("color_code").getAsString();
+            String card_cost = cardObj.get("cost").getAsString();
+
+            cardsList.add(
+                    new Card(card_id, card_name, card_details, card_type, card_color, card_cost));
+        }
+
+        return cardsList;
     }
 
     public static String parseServerErrors(JsonObject object) {

@@ -22,7 +22,7 @@ import it_geeks.info.gawla_app.views.NotificationActivity;
 public class AccountFragment extends Fragment {
 
     TextView userName;
-    CircleImageView userImage;
+    public CircleImageView userImage;
     String name, image;
 
     @Override

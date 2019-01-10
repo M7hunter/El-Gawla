@@ -91,6 +91,14 @@ public class Card {
         this.card_details = card_details;
     }
 
+    public String getCard_category() {
+        return card_category;
+    }
+
+    public void setCard_category(String card_category) {
+        this.card_category = card_category;
+    }
+
     public String getCard_type() {
         return card_type;
     }

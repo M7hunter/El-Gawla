@@ -44,7 +44,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
             if (Integer.parseInt(salonDate.getDayOfMonth()) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) { // if today
                 dayIsToday(viewHolder);
             } else {
-                viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_white_borderd_nice_blue));
+                viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_white_bordered_nice_blue));
             }
         } else { // !selected
             if (Integer.parseInt(salonDate.getDayOfMonth()) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) { // if today

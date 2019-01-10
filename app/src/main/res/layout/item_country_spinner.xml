@@ -6,12 +6,6 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_spinner_image"
-        android:layout_width="@dimen/margin_xxlarge"
-        android:layout_height="@dimen/margin_xxlarge"
-        android:src="@drawable/flag_egypt" />
-
     <TextView
         android:id="@+id/item_spinner_text"
         android:layout_width="wrap_content"
@@ -21,7 +15,7 @@
         android:paddingStart="@dimen/margin_tiny"
         android:paddingEnd="@dimen/margin_tiny"
         android:text="egypt"
-        android:textSize="@dimen/text_size_tiny"
+        android:textSize="@dimen/text_size_medium"
         android:textStyle="bold" />
 
 </LinearLayout>
