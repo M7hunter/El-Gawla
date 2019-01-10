@@ -22,6 +22,9 @@ public class Card {
     private String card_details;
 
     @ColumnInfo
+    private String card_category;
+
+    @ColumnInfo
     private String card_type;
 
     @ColumnInfo
@@ -86,6 +89,14 @@ public class Card {
 
     public void setCard_details(String card_details) {
         this.card_details = card_details;
+    }
+
+    public String getCard_category() {
+        return card_category;
+    }
+
+    public void setCard_category(String card_category) {
+        this.card_category = card_category;
     }
 
     public String getCard_type() {

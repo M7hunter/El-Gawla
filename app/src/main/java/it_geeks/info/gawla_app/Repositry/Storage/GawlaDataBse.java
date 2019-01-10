@@ -12,15 +12,16 @@ import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 
-@Database(entities = {Round.class, Country.class, Card.class, ProductSubImage.class}, version = 2, exportSchema = false)
+@Database(entities = {Round.class, Country.class, Card.class, ProductSubImage.class}, version = 3, exportSchema = false)
 public abstract class GawlaDataBse extends RoomDatabase {
 
     private static GawlaDataBse INSTANCE;
     private static final String DB_NAME = "Gawla_Database.db";
-    private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+    private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            // Since we didn't alter the table, there's nothing else to do here.
+            database.execSQL("ALTER TABLE Card "
+                    + " ADD COLUMN card_category TEXT");
         }
     };
 
@@ -29,8 +30,8 @@ public abstract class GawlaDataBse extends RoomDatabase {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context, GawlaDataBse.class, DB_NAME)
                     .allowMainThreadQueries()
-                    .fallbackToDestructiveMigration() // resolve this before release -> use migration <-
-//                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+//                    .fallbackToDestructiveMigration() // resolve this before release -> use migration <-
+                    .addMigrations(MIGRATION_2_3)
                     .build();
         }
         return INSTANCE;

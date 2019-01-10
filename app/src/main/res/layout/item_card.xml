@@ -70,17 +70,17 @@
                     android:padding="@dimen/margin_large" />
             </FrameLayout>
 
-            <!-- counter -->
-            <TextView
-                android:id="@+id/card_count"
-                android:layout_width="@dimen/margin_xxlarge"
-                android:layout_height="@dimen/margin_xxlarge"
-                android:layout_margin="@dimen/margin_tiny"
-                android:background="@drawable/bg_circle_red"
-                android:gravity="center"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+            <!--&lt;!&ndash; counter &ndash;&gt;-->
+            <!--<TextView-->
+                <!--android:id="@+id/card_count"-->
+                <!--android:layout_width="@dimen/margin_xxlarge"-->
+                <!--android:layout_height="@dimen/margin_xxlarge"-->
+                <!--android:layout_margin="@dimen/margin_tiny"-->
+                <!--android:background="@drawable/bg_circle_red"-->
+                <!--android:gravity="center"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/text_size_medium"-->
+                <!--android:textStyle="bold" />-->
 
         </RelativeLayout>
 

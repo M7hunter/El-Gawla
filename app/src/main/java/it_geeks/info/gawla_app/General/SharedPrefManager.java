@@ -2,7 +2,6 @@ package it_geeks.info.gawla_app.General;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.util.Locale;
 
@@ -17,10 +16,11 @@ public class SharedPrefManager {
     private Context context;
     private SharedPreferences sharedPreferences;
     private static final String SHARED_PREF_LANG = "lang_shared_pref";
-    private static final String SHARED_PREF_NAME2 = "user_shared_pref";
-    private static final String SHARED_PREF_NAME3 = "country_shared_pref";
-    private static final String SHARED_PREF_NAME5 = "last_request_shared_pref";
+    private static final String SHARED_PREF_USER = "user_shared_pref";
+    private static final String SHARED_PREF_COUNTRY = "country_shared_pref";
+    private static final String SHARED_PREF_LAST_REQUEST = "last_request_shared_pref";
     private static final String SHARED_PREF_USER_PROVIDER = "user_socialMedia_Provider";
+    private static final String SHARED_PREF_UPLOAD_STATUS = "upload_status_shared_pref";
 
     private SharedPrefManager(Context context) {
         this.context = context;
@@ -31,6 +31,22 @@ public class SharedPrefManager {
             sharedPrefManager = new SharedPrefManager(context);
         }
         return sharedPrefManager;
+    }
+
+    //--------------- upload status -------------//
+    public void setUploadStatus(UploadStatus status) { // uploading, uploaded, failed
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_UPLOAD_STATUS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.clear();
+
+        editor.putString("status", status.toString());
+        editor.apply();
+    }
+
+    public String getUploadStatus() {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_UPLOAD_STATUS, MODE_PRIVATE);
+        return sharedPreferences.getString("status", Locale.getDefault().getLanguage());
     }
 
     //--------------- lang -------------//
@@ -51,7 +67,7 @@ public class SharedPrefManager {
 
     //--------------- user -------------//
     public void saveUser(User user) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME2, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.clear();
@@ -69,16 +85,17 @@ public class SharedPrefManager {
         editor.putString("phone", user.getPhone());
 
         editor.putBoolean("userLogged", true);
+
         editor.apply();
     }
 
     public boolean isLoggedIn() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME2, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("userLogged", false);
     }
 
     public User getUser() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME2, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER, Context.MODE_PRIVATE);
 
         return new User(
                 sharedPreferences.getInt("userId", -1),
@@ -96,7 +113,7 @@ public class SharedPrefManager {
     }
 
     public void clearUser() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME2, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("userLogged", false);
         editor.clear();
@@ -105,7 +122,7 @@ public class SharedPrefManager {
 
     //--------------- country -------------//
     public void setCountry(Country country) {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME3, MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_COUNTRY, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.clear();
@@ -120,7 +137,7 @@ public class SharedPrefManager {
     }
 
     public Country getCountry() {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME3, MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_COUNTRY, MODE_PRIVATE);
         return new Country(sharedPreferences.getInt("country_id", -1),
                 sharedPreferences.getString("country_title", ""),
                 sharedPreferences.getString("count_code", ""),
@@ -131,7 +148,7 @@ public class SharedPrefManager {
 
     //--------------- last request -------------//
     public void setLastRequest(long lastRequest) {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME5, MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_LAST_REQUEST, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.clear();
@@ -141,7 +158,7 @@ public class SharedPrefManager {
     }
 
     public long getLastRequest() {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME5, MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_LAST_REQUEST, MODE_PRIVATE);
         return sharedPreferences.getLong("lastRequest", 0);
     }
 
@@ -161,8 +178,6 @@ public class SharedPrefManager {
     }
 
     public void clearProvider() {
-       context.getSharedPreferences(SHARED_PREF_USER_PROVIDER, Context.MODE_PRIVATE).edit().clear().commit();
+       context.getSharedPreferences(SHARED_PREF_USER_PROVIDER, Context.MODE_PRIVATE).edit().clear().apply();
     }
-
 }
-

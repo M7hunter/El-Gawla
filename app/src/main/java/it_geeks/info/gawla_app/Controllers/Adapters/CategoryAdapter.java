@@ -9,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.Calendar;
 import java.util.List;
 
-import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.OnItemClickListener;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Category;
@@ -41,12 +39,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         Category category = categoryList.get(i);
 
         viewHolder.tvCategory.setText(category.getCategoryName());
+        viewHolder.tvCategory.setTextColor(Color.parseColor(category.getCategoryColor()));
 
-        // check if selected
+        // selected ?
         if (selectedPosition == i) { // selected
             selectedUI(viewHolder, category);
         } else { // !selected
-            unselectedUI(viewHolder, category);
+            unselectedUI(viewHolder);
         }
 
         // select
@@ -62,13 +61,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     private void selectedUI(ViewHolder viewHolder, Category category) {
-        viewHolder.tvCategory.setTextColor(Color.WHITE);
-        Common.Instance(context).changeDrawableViewColor(viewHolder.itemView, category.getCategoryColor());
+        viewHolder.bottomLine.setBackgroundColor(Color.parseColor(category.getCategoryColor()));
     }
 
-    private void unselectedUI(ViewHolder viewHolder, Category category) {
-        viewHolder.tvCategory.setTextColor(Color.parseColor(category.getCategoryColor()));
-        Common.Instance(context).changeDrawableViewColor(viewHolder.itemView, "#f4f7fa");
+    private void unselectedUI(ViewHolder viewHolder) {
+        viewHolder.bottomLine.setBackgroundColor(Color.WHITE);
     }
 
     @Override
@@ -79,11 +76,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvCategory;
+        View bottomLine;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvCategory = itemView.findViewById(R.id.tv_category);
+            bottomLine = itemView.findViewById(R.id.bottom_line_category);
         }
     }
 }

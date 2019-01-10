@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import it_geeks.info.gawla_app.General.SharedPrefManager;
@@ -20,7 +22,7 @@ import it_geeks.info.gawla_app.views.NotificationActivity;
 public class AccountFragment extends Fragment {
 
     TextView userName;
-    CircleImageView userImage;
+    public CircleImageView userImage;
     String name, image;
 
     @Override
@@ -35,6 +37,13 @@ public class AccountFragment extends Fragment {
         setData();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        getData();
+        setData();
+        super.onResume();
     }
 
     private void getData() {  /// get data from sharedPreference
@@ -80,7 +89,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void setData() { // set data to views
-        Picasso.with(getContext()).load(image).placeholder(R.mipmap.ic_launcher_gawla).into(userImage);
+        Picasso.with(getContext()).load(image).placeholder(R.drawable.placeholder).into(userImage);
         userName.setText(name);
     }
 
