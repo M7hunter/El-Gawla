@@ -63,7 +63,7 @@
         android:orientation="vertical">
 
         <!-- dates recycler -->
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/date_recycler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
             android:layout_height="match_parent">
 
             <!-- salons recycler -->
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/date_salons_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

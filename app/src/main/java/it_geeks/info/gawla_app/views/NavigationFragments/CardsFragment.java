@@ -2,9 +2,6 @@ package it_geeks.info.gawla_app.views.NavigationFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +14,9 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Controllers.Adapters.CategoryAdapter;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.OnItemClickListener;
@@ -87,7 +87,8 @@ public class CardsFragment extends Fragment implements OnItemClickListener {
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
         String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
-        RetrofitClient.getInstance(getContext()).executeConnectionToServer("getAllCardsCategories", new Request(userId, apiToken), new HandleResponses() {
+        RetrofitClient.getInstance(getContext()).executeConnectionToServer(MainActivity.mainInstance,
+                "getAllCardsCategories", new Request(userId, apiToken), new HandleResponses() {
             @Override
             public void handleResponseData(JsonObject mainObject) {
 
@@ -117,7 +118,7 @@ public class CardsFragment extends Fragment implements OnItemClickListener {
     private void initCategoriesRecycler(final View view) {
         categoriesRecycler = view.findViewById(R.id.cards_categories_recycler);
         categoriesRecycler.setHasFixedSize(true);
-        categoriesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), 0, false));
+        categoriesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         categoriesRecycler.setAdapter(new CategoryAdapter(getContext(), categoryList, this));
     }
 
@@ -142,7 +143,7 @@ public class CardsFragment extends Fragment implements OnItemClickListener {
 
     private void initCardsRecycler() {
         cardsRecycler.setHasFixedSize(true);
-        cardsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), 1, false));
+        cardsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         cardsRecycler.setAdapter(new CardsAdapter(getContext(), cardsList));
 
         Common.Instance(getContext()).hideProgress(cardsRecycler, cardsProgress);

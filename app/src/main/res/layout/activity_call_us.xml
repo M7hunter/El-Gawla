@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context=".views.MenuOptions.CallUsActivity">
+    tools:context=".views.menuOptions.CallUsActivity">
     <!-- scroll main layout -->
     <LinearLayout
         android:id="@+id/CallUsParentLayout"
@@ -140,7 +140,7 @@
             android:textStyle="bold" />
 
         <!-- as button -->
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_xlarge"
@@ -159,7 +159,7 @@
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 </ScrollView>

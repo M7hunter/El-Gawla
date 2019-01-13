@@ -2,9 +2,6 @@ package it_geeks.info.gawla_app.views.loginActivities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -42,6 +39,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
@@ -104,7 +104,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     } else {
                         progressBar.setVisibility(View.VISIBLE);
 
-                        RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer("login", new Request(email, pass), new HandleResponses() {
+                        RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer(LoginActivity.this
+                                , "login", new Request(email, pass), new HandleResponses() {
                             @Override
                             public void handleResponseData(JsonObject mainObject) {
 
@@ -210,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             socialLogin(id, name, email, image, provider);
 
-            Log.w("Mo7",id + name + email + image);
+            Log.w("Mo7", id + name + email + image);
 
         } catch (ApiException e) {
             Log.w("Mo7", "signInResult:failed code=" + e.getStatusCode());
@@ -285,7 +286,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     // social login
     private void socialLogin(String id, final String name, final String email, final String image, final String provider) {
         int countryId = SharedPrefManager.getInstance(LoginActivity.this).getCountry().getCountry_id();
-        RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer("loginOrRegisterWithSocial", new Request(provider, id, name, email, image, countryId), new HandleResponses() {
+        RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer(LoginActivity.this,
+                "loginOrRegisterWithSocial", new Request(provider, id, name, email, image, countryId), new HandleResponses() {
             @Override
             public void handleResponseData(JsonObject mainObject) {
 

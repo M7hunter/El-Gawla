@@ -6,7 +6,7 @@
     android:background="@color/paleGrey"
     tools:context=".views.NavigationFragments.CardsFragment">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!-- scroll main layout -->
@@ -38,7 +38,7 @@
                 android:orientation="vertical">
 
                 <!-- categories recycler -->
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/cards_categories_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
                     android:layout_weight="1">
 
                     <!-- cards recycler-->
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/cards_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -97,7 +97,7 @@
             </LinearLayout>
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <include layout="@layout/no_connection_layout" />
 

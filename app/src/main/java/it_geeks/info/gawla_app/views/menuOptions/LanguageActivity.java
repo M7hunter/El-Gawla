@@ -1,14 +1,14 @@
 package it_geeks.info.gawla_app.views.menuOptions;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Controllers.Adapters.LanguageAdapter;
@@ -50,7 +50,7 @@ public class LanguageActivity extends AppCompatActivity {
     private void initLangRecycler() {
         langRecycler = findViewById(R.id.lang_recycler);
         langRecycler.setHasFixedSize(true);
-        langRecycler.setLayoutManager(new LinearLayoutManager(LanguageActivity.this, 1, false));
+        langRecycler.setLayoutManager(new LinearLayoutManager(LanguageActivity.this, RecyclerView.VERTICAL, false));
         langRecycler.setAdapter(new LanguageAdapter(LanguageActivity.this, langList));
     }
 }

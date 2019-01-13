@@ -3,9 +3,6 @@ package it_geeks.info.gawla_app.Controllers.Adapters;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +14,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.views.AllSalonsActivity;
@@ -125,7 +125,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
             btnJoinRound = itemView.findViewById(R.id.round_btn_join);
             cardsRecycler = itemView.findViewById(R.id.salon_cards_recycler);
             cardsRecycler.setHasFixedSize(true);
-            cardsRecycler.setLayoutManager(new LinearLayoutManager(context, 1, false));
+            cardsRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         }
 
         private void clearAnimation() {

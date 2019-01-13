@@ -22,14 +22,15 @@
             android:layoutDirection="ltr">
 
             <!-- back -->
-            <ImageView
+            <Button
                 android:id="@+id/account_details_back"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:padding="@dimen/margin_medium"
-                android:scaleType="fitStart"
-                android:src="@drawable/ic_arrow_back" />
+                app:icon="@drawable/ic_arrow_back"
+                app:iconPadding="0dp"
+                app:strokeWidth="0dp" />
 
             <!-- title -->
             <TextView
@@ -44,17 +45,18 @@
                 android:textStyle="bold" />
 
             <!-- save btn -->
-            <TextView
+            <Button
                 android:id="@+id/btn_update_profile"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:padding="@dimen/margin_small"
                 android:text="@string/save"
                 android:textColor="@color/midBlue"
                 android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:strokeWidth="0dp" />
 
             <!-- update progress -->
             <ProgressBar
@@ -69,7 +71,7 @@
         </RelativeLayout>
 
         <!-- user image container -->
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -112,7 +114,7 @@
                 app:layout_constraintEnd_toStartOf="@id/img_update_Image"
                 app:layout_constraintStart_toStartOf="@id/img_update_Image" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- first name header -->
         <TextView

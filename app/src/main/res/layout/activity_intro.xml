@@ -7,7 +7,7 @@
     android:background="@drawable/bg_splash"
     tools:context=".views.splashActivities.IntroActivity">
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/slideViewPager"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"

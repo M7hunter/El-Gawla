@@ -7,10 +7,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +16,8 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,6 +29,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
 
 public class Common {

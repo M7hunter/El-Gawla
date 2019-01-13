@@ -2,12 +2,12 @@ package it_geeks.info.gawla_app.views.Round;
 
 import android.content.Context;
 import android.os.CountDownTimer;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 
 import java.util.Calendar;
 
+import androidx.appcompat.app.AlertDialog;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.Repositry.Models.RoundStartToEndModel;
 import it_geeks.info.gawla_app.views.SalonActivity;
@@ -37,7 +37,9 @@ public class RoundStartToEnd {
     }
 
     public void stop() {
-        countDownTimer.cancel();
+        try {
+            countDownTimer.cancel();
+        } catch (NullPointerException e) {}
     }
 
     public void setJoinStatus(int joinStatus) {

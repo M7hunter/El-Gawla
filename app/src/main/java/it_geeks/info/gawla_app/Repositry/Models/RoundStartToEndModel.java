@@ -1,10 +1,6 @@
 package it_geeks.info.gawla_app.Repositry.Models;
 
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import java.util.List;
 
 public class RoundStartToEndModel {

@@ -2,8 +2,6 @@ package it_geeks.info.gawla_app.views.NavigationFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +15,10 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.General.WrapContentHeightViewPager;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
@@ -34,7 +33,7 @@ import static it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses.parseRoun
 
 public class MyRoundsFragment extends Fragment {
 
-    private WrapContentHeightViewPager roundsViewPager;
+    private ViewPager roundsViewPager;
     private List<Round> roundsList = new ArrayList<>();
 
     private ProgressBar myRoundProgress;
@@ -90,7 +89,8 @@ public class MyRoundsFragment extends Fragment {
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
         String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
-        RetrofitClient.getInstance(getActivity()).executeConnectionToServer("getSalonByUserID", new Request(userId, apiToken), new HandleResponses() {
+        RetrofitClient.getInstance(getActivity()).executeConnectionToServer(MainActivity.mainInstance,
+                "getSalonByUserID", new Request(userId, apiToken), new HandleResponses() {
             @Override
             public void handleResponseData(JsonObject mainObject) {
 

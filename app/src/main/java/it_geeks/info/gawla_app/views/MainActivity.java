@@ -3,13 +3,14 @@ package it_geeks.info.gawla_app.views;
 import android.app.Activity;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.General.SharedPrefManager;

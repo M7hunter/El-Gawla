@@ -1,8 +1,8 @@
 package it_geeks.info.gawla_app.views.loginActivities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.R;
 
