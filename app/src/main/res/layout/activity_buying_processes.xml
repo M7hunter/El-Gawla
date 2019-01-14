@@ -21,9 +21,11 @@
         <!-- back -->
         <ImageView
             android:id="@+id/buying_processes_back"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/icon_back"
             android:layout_height="wrap_content"
-            android:padding="@dimen/margin_medium"
+            android:layout_centerVertical="true"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/margin_small"
             android:src="@drawable/ic_arrow_back" />
 
         <!-- title -->
@@ -110,30 +112,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/separator"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
 
-    <!-- as button -->
-    <androidx.cardview.widget.CardView
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/margin_xlarge"
         android:layout_marginEnd="@dimen/margin_xlarge"
-        android:layout_marginBottom="@dimen/margin_xlarge"
-        app:cardCornerRadius="@dimen/margin_small">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_rounded_corners_blue_270"
-            android:gravity="center"
-            android:padding="@dimen/margin_medium"
-            android:text="@string/renew_membership"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
-
-    </androidx.cardview.widget.CardView>
+        android:layout_marginBottom="@dimen/margin_small"
+        android:padding="@dimen/margin_medium"
+        android:text="@string/renew_membership"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
 
 </RelativeLayout>

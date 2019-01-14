@@ -91,30 +91,30 @@ public class MyRoundsFragment extends Fragment {
 
         RetrofitClient.getInstance(getActivity()).executeConnectionToServer(MainActivity.mainInstance,
                 "getSalonByUserID", new Request(userId, apiToken), new HandleResponses() {
-            @Override
-            public void handleResponseData(JsonObject mainObject) {
+                    @Override
+                    public void handleResponseData(JsonObject mainObject) {
 
-                roundsList.addAll(parseRounds(mainObject, GawlaDataBse.getGawlaDatabase(getActivity())));
+                        roundsList.addAll(parseRounds(mainObject, GawlaDataBse.getGawlaDatabase(getActivity())));
 
-                initPager();
+                        initPager();
 
-                handleEvents(roundsList.size());
-            }
+                        handleEvents(roundsList.size());
+                    }
 
-            @Override
-            public void handleEmptyResponse() {
+                    @Override
+                    public void handleEmptyResponse() {
 
-                initEmptyView(view);
-            }
+                        initEmptyView(view);
+                    }
 
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
 
-                initEmptyView(view);
+                        initEmptyView(view);
 
-                Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void initPager() {
@@ -125,9 +125,11 @@ public class MyRoundsFragment extends Fragment {
     private void handleEvents(int cardsCount) {
         // at the beginning
         arrowLeft.setImageResource(R.drawable.ic_arrow_left_grey);
+        arrowLeft.setEnabled(false);
 
         if (cardsCount > 1) {
             arrowRight.setImageResource(R.drawable.ic_arrow_right);
+            arrowLeft.setEnabled(true);
         }
 
         // clicks
@@ -156,13 +158,19 @@ public class MyRoundsFragment extends Fragment {
             public void onPageSelected(int i) {
                 if (i == roundsViewPager.getAdapter().getCount() - 1) {
                     arrowRight.setImageResource(R.drawable.ic_arrow_right_grey);
+                    arrowRight.setEnabled(false);
                     arrowLeft.setImageResource(R.drawable.ic_arrow_left);
+                    arrowLeft.setEnabled(true);
                 } else if (i == 0) {
                     arrowLeft.setImageResource(R.drawable.ic_arrow_left_grey);
+                    arrowLeft.setEnabled(false);
                     arrowRight.setImageResource(R.drawable.ic_arrow_right);
+                    arrowRight.setEnabled(true);
                 } else {
                     arrowRight.setImageResource(R.drawable.ic_arrow_right);
+                    arrowRight.setEnabled(true);
                     arrowLeft.setImageResource(R.drawable.ic_arrow_left);
+                    arrowLeft.setEnabled(true);
                 }
             }
 

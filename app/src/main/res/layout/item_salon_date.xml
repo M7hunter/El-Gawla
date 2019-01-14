@@ -4,6 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_small"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/margin_small"
     app:cardElevation="@dimen/margin_tiny">
     <!-- card main layout -->

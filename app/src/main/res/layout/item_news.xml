@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_small"
     android:background="@drawable/bg_rounded_corners_white"
+    android:foreground="?android:attr/selectableItemBackground"
     android:gravity="center_horizontal"
     app:cardCornerRadius="@dimen/margin_small"
     app:cardElevation="@dimen/margin_tiny">

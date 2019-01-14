@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/paleGrey"
+    android:background="@color/colorBackground"
     tools:context=".views.NavigationFragments.MainFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -29,6 +29,7 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_medium"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="@dimen/margin_small"
                 app:cardElevation="@dimen/margin_tiny">
                 <!-- card view main layout -->
@@ -101,15 +102,15 @@
                     android:textSize="@dimen/text_size_large" />
 
                 <!-- btn see all -->
-                <Button
+                <TextView
                     android:id="@+id/recent_salons_see_all"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_small"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:text="@string/see_all"
                     android:textColor="@color/midBlue"
-                    android:textSize="@dimen/text_size_large"
-                    app:strokeWidth="0dp" />
+                    android:textSize="@dimen/text_size_large" />
 
             </LinearLayout>
 
@@ -173,8 +174,6 @@
 
                 <!-- header -->
                 <TextView
-                    android:clickable="true"
-                    android:focusable="auto"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -183,14 +182,14 @@
                     android:textSize="@dimen/text_size_large" />
 
                 <!-- btn see all -->
-                <Button
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                <TextView
                     android:layout_width="wrap_content"
+                    android:padding="@dimen/margin_small"
                     android:layout_height="wrap_content"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/see_all"
                     android:textColor="@color/midBlue"
-                    android:textSize="@dimen/text_size_large"
-                    app:strokeWidth="0dp" />
+                    android:textSize="@dimen/text_size_large" />
 
             </LinearLayout>
 

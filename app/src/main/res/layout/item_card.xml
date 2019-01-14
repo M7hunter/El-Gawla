@@ -6,6 +6,7 @@
     android:layout_marginStart="@dimen/margin_medium"
     android:layout_marginTop="@dimen/margin_tiny"
     android:layout_marginEnd="@dimen/margin_medium"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/margin_large"
     app:cardCornerRadius="@dimen/margin_small"
     app:cardElevation="@dimen/margin_tiny">

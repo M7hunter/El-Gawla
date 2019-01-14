@@ -40,7 +40,8 @@
                 android:layout_height="@dimen/icon_notification"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="@dimen/margin_tiny"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/margin_tiny"
                 android:src="@drawable/ic_bell" />
 
         </RelativeLayout>
@@ -140,7 +141,7 @@
                                     android:layout_marginTop="6dp"
                                     android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:scaleType="fitXY"/>
+                                    android:scaleType="fitXY" />
 
                                 <ImageView
                                     android:id="@+id/div_down9"
@@ -164,8 +165,8 @@
                                     android:layout_marginTop="6dp"
                                     android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:visibility="invisible"
-                                    android:scaleType="fitXY"/>
+                                    android:scaleType="fitXY"
+                                    android:visibility="invisible" />
 
                                 <ImageView
                                     android:id="@+id/div_down10"
@@ -190,7 +191,7 @@
                                     android:layout_marginTop="6dp"
                                     android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:scaleType="fitXY"/>
+                                    android:scaleType="fitXY" />
 
                                 <ImageView
                                     android:id="@+id/div_down11"
@@ -214,9 +215,8 @@
                                     android:layout_marginTop="6dp"
                                     android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:visibility="invisible"
                                     android:scaleType="fitXY"
-                                    />
+                                    android:visibility="invisible" />
 
                                 <ImageView
                                     android:id="@+id/div_down12"
@@ -268,7 +268,7 @@
                                     android:layout_marginTop="6dp"
                                     android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:scaleType="fitXY"/>
+                                    android:scaleType="fitXY" />
 
                                 <ImageView
                                     android:id="@+id/div_down5"
@@ -320,7 +320,7 @@
                                     android:layout_marginTop="6dp"
                                     android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:scaleType="fitXY"/>
+                                    android:scaleType="fitXY" />
 
                                 <ImageView
                                     android:id="@+id/div_down7"
@@ -344,8 +344,8 @@
                                     android:layout_marginTop="6dp"
                                     android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:visibility="invisible"
-                                    android:scaleType="fitXY"/>
+                                    android:scaleType="fitXY"
+                                    android:visibility="invisible" />
 
                                 <ImageView
                                     android:id="@+id/div_down8"
@@ -359,7 +359,6 @@
                                     android:gravity="center"
                                     android:scaleType="fitXY"
                                     android:visibility="invisible" />
-
 
 
                             </RelativeLayout>
@@ -399,7 +398,7 @@
                                     android:layout_marginTop="6dp"
                                     android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:scaleType="fitXY"/>
+                                    android:scaleType="fitXY" />
 
                                 <ImageView
                                     android:id="@+id/div_down1"
@@ -411,7 +410,7 @@
                                     android:layout_marginTop="31dp"
                                     android:background="@drawable/digit_0_lower"
                                     android:gravity="center"
-                                    android:scaleType="fitXY"/>
+                                    android:scaleType="fitXY" />
 
                                 <ImageView
                                     android:id="@+id/div_up2"
@@ -423,8 +422,8 @@
                                     android:layout_marginTop="6dp"
                                     android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:visibility="invisible"
-                                    android:scaleType="fitXY"/>
+                                    android:scaleType="fitXY"
+                                    android:visibility="invisible" />
 
                                 <ImageView
                                     android:id="@+id/div_down2"
@@ -436,8 +435,8 @@
                                     android:layout_marginTop="31dp"
                                     android:background="@drawable/digit_0_lower"
                                     android:gravity="center"
-                                    android:visibility="invisible"
-                                    android:scaleType="fitXY"/>
+                                    android:scaleType="fitXY"
+                                    android:visibility="invisible" />
 
                                 <ImageView
                                     android:id="@+id/div_up3"
@@ -449,7 +448,7 @@
                                     android:layout_marginTop="6dp"
                                     android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:scaleType="fitXY"/>
+                                    android:scaleType="fitXY" />
 
                                 <ImageView
                                     android:id="@+id/div_down3"
@@ -473,8 +472,8 @@
                                     android:layout_marginTop="6dp"
                                     android:background="@drawable/digit_0_upper"
                                     android:gravity="center"
-                                    android:visibility="invisible"
-                                    android:scaleType="fitXY"/>
+                                    android:scaleType="fitXY"
+                                    android:visibility="invisible" />
 
                                 <ImageView
                                     android:id="@+id/div_down4"
@@ -486,9 +485,8 @@
                                     android:layout_marginTop="31dp"
                                     android:background="@drawable/digit_0_lower"
                                     android:gravity="center"
-                                    android:visibility="invisible"
-                                    android:scaleType="fitXY"/>
-
+                                    android:scaleType="fitXY"
+                                    android:visibility="invisible" />
 
 
                             </RelativeLayout>
@@ -599,6 +597,7 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:background="@drawable/bg_rounded_corners_white"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="@dimen/margin_small">
                 <!-- card main layout -->
                 <LinearLayout
@@ -676,7 +675,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:padding="@dimen/margin_small"
+                        android:layout_margin="@dimen/margin_tiny"
                         android:text="@string/read_more"
                         android:textColor="@color/blueGrey" />
 
@@ -720,9 +719,9 @@
                             android:id="@+id/round_notification_text"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/margin_small"
                             android:layout_weight="1"
                             android:gravity="start"
-                            android:layout_marginEnd="@dimen/margin_small"
                             android:maxLines="2"
                             android:text="@string/joine_Round"
                             android:textColor="@color/blueGrey" />
@@ -741,16 +740,14 @@
         <Button
             android:id="@+id/btn_join_round"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/cards_container"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_tiny"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_tiny"
-            android:background="@drawable/login_shape"
+            android:padding="@dimen/margin_small"
             android:text="@string/join_round"
-            android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
             android:visibility="invisible" />
@@ -763,7 +760,7 @@
             android:layout_below="@id/cards_container"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_tiny"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
     </RelativeLayout>
 
@@ -774,6 +771,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:background="@drawable/bg_circle_bordered_transparent"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/margin_small">
 
         <!-- icon -->

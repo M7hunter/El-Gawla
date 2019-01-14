@@ -147,7 +147,6 @@
                 android:layout_marginEnd="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_tiny"
                 android:layout_marginTop="@dimen/margin_tiny"
-                android:background="@drawable/bg_rounded_corners_blue_270"
                 android:gravity="center"
                 android:padding="@dimen/margin_medium"
                 android:text="@string/enter"

@@ -297,14 +297,14 @@
                     android:textStyle="bold" />
             </RelativeLayout>
 
-
-            <TextView
+            <Button
                 android:id="@+id/txt_pay_later"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginRight="40dp"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/cairo_regular"
@@ -312,7 +312,7 @@
                 android:padding="10dp"
                 android:text="@string/pay_later"
                 android:textColor="@color/blueyGrey"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
         </LinearLayout>

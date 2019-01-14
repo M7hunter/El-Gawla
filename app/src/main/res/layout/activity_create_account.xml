@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white">
-
+        <!-- scroll main layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,13 +20,12 @@
 
             <!-- header -->
             <TextView
-                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/margin_small"
-                android:text="@string/create_new_account"
-                android:textColor="@color/bg_Splash_End"
+                android:text="@string/sign_up"
+                android:textColor="@color/BlueDark"
                 android:textSize="@dimen/text_size_large" />
 
             <!-- google plus -->
@@ -34,10 +33,11 @@
                 android:id="@+id/btn_google_sign_up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
+                android:layout_marginStart="@dimen/margin_xxlarge"
                 android:layout_marginTop="@dimen/margin_xxlarge"
-                android:layout_marginRight="40dp"
+                android:layout_marginEnd="@dimen/margin_xxlarge"
                 android:background="@drawable/btn_google_plus"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:gravity="center"
                 android:padding="@dimen/margin_small">
 
@@ -63,10 +63,11 @@
                 android:id="@+id/btn_facebook_sign_up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
+                android:layout_marginStart="@dimen/margin_xxlarge"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginRight="40dp"
+                android:layout_marginEnd="@dimen/margin_xxlarge"
                 android:background="@drawable/btn_facebook"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:gravity="center"
                 android:padding="@dimen/margin_small">
 
@@ -86,74 +87,92 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginBottom="20dp"
-                android:background="#cfcfcf" />
+                android:layout_marginStart="@dimen/margin_xxlarge"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:background="@color/paleGrey2" />
 
             <!-- name -->
-            <EditText
-                android:id="@+id/et_create_account_name"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/edittext_shape"
-                android:focusable="auto"
-                android:fontFamily="@font/cairo_regular"
-                android:gravity="start|center"
-                android:hint="@string/full_name"
-                android:inputType="textPersonName"
-                android:paddingStart="30dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="30dp"
-                android:paddingBottom="10dp"
-                android:textColorHint="@color/editText_hint"
-                android:textSize="@dimen/text_size_medium" />
+                android:layout_marginStart="@dimen/margin_xxlarge"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_weight="1"
+                android:textColorHint="@color/paleGrey2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_create_account_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:hint="@string/full_name"
+                    android:inputType="textPersonName"
+                    android:paddingStart="@dimen/margin_xlarge"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingEnd="@dimen/margin_xlarge"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- email -->
-            <EditText
-                android:id="@+id/et_create_account_email"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/edittext_shape"
-                android:focusable="auto"
-                android:fontFamily="@font/cairo_regular"
-                android:gravity="start|center"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:paddingStart="30dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="30dp"
-                android:paddingBottom="10dp"
-                android:textColorHint="@color/editText_hint"
-                android:textSize="@dimen/text_size_medium" />
+                android:layout_marginStart="@dimen/margin_xxlarge"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_weight="1"
+                android:textColorHint="@color/paleGrey2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_create_account_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="auto"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="@dimen/margin_xlarge"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingEnd="@dimen/margin_xlarge"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- pass -->
-            <EditText
-                android:id="@+id/et_create_account_pass"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:background="@drawable/edittext_shape"
-                android:gravity="start|center"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:paddingStart="30dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="30dp"
-                android:paddingBottom="10dp"
-                android:textColorHint="@color/editText_hint"
-                android:textSize="@dimen/text_size_medium" />
+                android:layout_marginStart="@dimen/margin_xxlarge"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_weight="1"
+                android:textColorHint="@color/paleGrey2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_create_account_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="auto"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:paddingStart="@dimen/margin_xlarge"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingEnd="@dimen/margin_xlarge"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- sign up -->
             <Button
@@ -161,36 +180,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginLeft="@dimen/margin_xxlarge"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_xxlarge"
                 android:background="@drawable/login_shape"
                 android:fontFamily="@font/cairo_regular"
                 android:gravity="center"
+                android:padding="@dimen/margin_small"
                 android:text="@string/sign_up"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
 
             <!-- back to sign in -->
-            <TextView
-                android:id="@+id/txt_haveAccount"
+            <Button
+                android:id="@+id/create_account_back"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginBottom="30dp"
-                android:fontFamily="@font/cairo_regular"
-                android:gravity="center"
-                android:padding="10dp"
+                android:layout_marginStart="@dimen/margin_xxlarge"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginBottom="@dimen/margin_xlarge"
+                android:padding="@dimen/margin_small"
                 android:text="@string/have_already_account"
+                android:textAllCaps="false"
                 android:textColor="@color/blueyGrey"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_large"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:rippleColor="@color/paleGrey2" />
 
         </LinearLayout>
     </ScrollView>
@@ -202,7 +223,7 @@
         android:layout_height="70dp"
         android:layout_gravity="center"
         android:visibility="gone"
-        app:SpinKit_Color="@color/colorAccent"
+        app:SpinKit_Color="@color/colorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -91,7 +91,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         });
 
         // have account ? goto previous page
-        findViewById(R.id.txt_haveAccount).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.create_account_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

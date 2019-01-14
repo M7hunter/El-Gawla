@@ -572,9 +572,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void bottomViews_setDetails(View parent) {
-        TextView tvProductName, tvProductPrice, tvProductDescription;
+        TextView tvProductName, tvProductCategory, tvProductPrice, tvProductDescription;
         // init views
         tvProductName = parent.findViewById(R.id.product_details_name);
+        tvProductCategory = parent.findViewById(R.id.product_details_category);
         tvProductPrice = parent.findViewById(R.id.product_details_price);
         tvProductDescription = parent.findViewById(R.id.product_details_descriptions);
         imProductMainImage = parent.findViewById(R.id.product_details_main_image);
@@ -583,6 +584,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         // set data
         tvProductName.setText(round.getProduct_name());
+        tvProductCategory.setText(round.getCategory_name());
         tvProductPrice.setText(round.getProduct_commercial_price());
         tvProductDescription.setText(round.getProduct_product_description());
         Picasso.with(SalonActivity.this)

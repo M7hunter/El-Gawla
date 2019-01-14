@@ -22,15 +22,14 @@
             android:layoutDirection="ltr">
 
             <!-- back -->
-            <Button
+            <ImageView
                 android:id="@+id/account_details_back"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/icon_back"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                app:icon="@drawable/ic_arrow_back"
-                app:iconPadding="0dp"
-                app:strokeWidth="0dp" />
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/margin_small"
+                android:src="@drawable/ic_arrow_back" />
 
             <!-- title -->
             <TextView
@@ -47,16 +46,15 @@
             <!-- save btn -->
             <Button
                 android:id="@+id/btn_update_profile"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="@string/save"
-                android:textColor="@color/midBlue"
+                android:textColor="@color/darkSkyBlue"
                 android:textSize="@dimen/text_size_large"
-                android:textStyle="bold"
-                app:strokeWidth="0dp" />
+                android:textStyle="bold" />
 
             <!-- update progress -->
             <ProgressBar
@@ -98,17 +96,20 @@
                 android:layout_width="@dimen/icon_notification"
                 android:layout_height="@dimen/icon_notification"
                 android:background="@drawable/bg_circle_bordered_transparent"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/margin_tiny"
                 android:src="@drawable/ic_check"
+                android:visibility="visible"
                 app:layout_constraintEnd_toStartOf="@id/img_update_Image"
                 app:layout_constraintStart_toStartOf="@id/img_update_Image" />
 
             <!-- btn choose image -->
-            <ImageView
+            <ImageButton
                 android:id="@+id/btn_choose_image"
                 android:layout_width="@dimen/icon_notification"
                 android:layout_height="@dimen/icon_notification"
                 android:background="@drawable/bg_circle_mid_blue"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/margin_tiny"
                 android:src="@drawable/ic_edit"
                 app:layout_constraintEnd_toStartOf="@id/img_update_Image"
@@ -116,78 +117,92 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- first name header -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xxxlarge"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_xxxlarge"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:layout_weight="1"
-            android:text="@string/first_name"
-            android:textColor="@color/blueGrey"
-            android:textStyle="bold" />
-
         <!-- first name -->
-        <EditText
-            android:id="@+id/et_update_first_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xxxlarge"
-            android:layout_marginRight="@dimen/margin_xxxlarge"
-            android:layout_weight="1"
-            android:background="@drawable/edittext_shape"
-            android:focusable="auto"
-            android:hint="@string/first_name"
-            android:inputType="textPersonName"
-            android:paddingStart="@dimen/margin_xlarge"
-            android:paddingTop="@dimen/margin_small"
-            android:paddingEnd="@dimen/margin_xlarge"
-            android:paddingBottom="@dimen/margin_small"
-            android:textColorHint="@color/editText_hint"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
-
-        <!-- last name header -->
-        <TextView
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_xxxlarge"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_xlarge"
             android:layout_marginEnd="@dimen/margin_xxxlarge"
-            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_xlarge"
             android:layout_weight="1"
-            android:text="@string/second_name"
-            android:textColor="@color/blueGrey"
-            android:textStyle="bold" />
+            android:textColorHint="@color/paleGrey2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_update_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="auto"
+                android:hint="@string/first_name"
+                android:inputType="textPersonName"
+                android:paddingStart="@dimen/margin_xlarge"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_xlarge"
+                android:paddingBottom="@dimen/margin_small"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- last name -->
-        <EditText
-            android:id="@+id/et_update_last_name"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xxxlarge"
             android:layout_marginRight="@dimen/margin_xxxlarge"
+            android:layout_marginBottom="@dimen/margin_xlarge"
             android:layout_weight="1"
-            android:background="@drawable/edittext_shape"
-            android:focusable="auto"
-            android:hint="@string/second_name"
-            android:inputType="textPersonName"
-            android:paddingStart="@dimen/margin_xlarge"
-            android:paddingTop="@dimen/margin_small"
-            android:paddingEnd="@dimen/margin_xlarge"
-            android:paddingBottom="@dimen/margin_small"
-            android:textColorHint="@color/editText_hint"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
+            android:textColorHint="@color/paleGrey2">
+
+            <EditText
+                android:id="@+id/et_update_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="auto"
+                android:hint="@string/second_name"
+                android:inputType="textPersonName"
+                android:paddingStart="@dimen/margin_xlarge"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_xlarge"
+                android:paddingBottom="@dimen/margin_small"
+                android:textColorHint="@color/editText_hint"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- phone -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_xxxlarge"
+            android:layout_marginRight="@dimen/margin_xxxlarge"
+            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:layout_weight="1"
+            android:textColorHint="@color/paleGrey2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_update_telephone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="auto"
+                android:hint="@string/telephone_number"
+                android:inputType="phone"
+                android:paddingStart="@dimen/margin_xlarge"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_xlarge"
+                android:paddingBottom="@dimen/margin_small"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
+                app:helperText="+2" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- country header -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_xxxlarge"
-            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_xxxlarge"
             android:layout_marginBottom="@dimen/margin_small"
             android:layout_weight="1"
@@ -195,6 +210,7 @@
             android:textColor="@color/blueGrey"
             android:textStyle="bold" />
 
+        <!-- TODO: make your own material spinner -->
         <!-- country -->
         <Spinner
             android:id="@+id/sp_update_country"
@@ -236,57 +252,6 @@
             android:paddingTop="@dimen/margin_small"
             android:paddingEnd="@dimen/margin_xlarge"
             android:paddingBottom="@dimen/margin_small" />
-
-        <!-- phone header -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xxxlarge"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_xxxlarge"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:layout_weight="1"
-            android:text="@string/telephone_number"
-            android:textColor="@color/blueGrey"
-            android:textStyle="bold" />
-
-        <!-- phone container -->
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xxxlarge"
-            android:layout_marginEnd="@dimen/margin_xxxlarge"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:layoutDirection="rtl">
-
-            <!-- phone -->
-            <EditText
-                android:id="@+id/et_update_telephone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edittext_shape"
-                android:focusable="auto"
-                android:gravity="center"
-                android:hint="@string/telephone_number"
-                android:inputType="phone"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small"
-                android:textColorHint="@color/editText_hint"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_large"
-                android:text="+2"
-                android:textColor="@color/com_facebook_button_background_color_disabled"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
 
     </LinearLayout>
 </ScrollView>
