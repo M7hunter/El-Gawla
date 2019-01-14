@@ -1,12 +1,12 @@
 package it_geeks.info.gawla_app.Repositry;
 
-import android.arch.paging.PagedList;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
+import androidx.annotation.NonNull;
+import androidx.paging.PagedList;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
@@ -31,7 +31,8 @@ public class RecentSalonsCallback extends PagedList.BoundaryCallback<Round> {
 
     @Override
     public void onZeroItemsLoaded() {
-        RetrofitClient.getInstance(context).executeConnectionToServer("getAllSalons", new Request(sm.getUser().getUser_id(), sm.getUser().getApi_token()), new HandleResponses() {
+        RetrofitClient.getInstance(context).executeConnectionToServer(context,
+                "getAllSalons", new Request(sm.getUser().getUser_id(), sm.getUser().getApi_token()), new HandleResponses() {
             @Override
             public void handleResponseData(JsonObject mainObject) {
                 insertItemsIntoDatabase(mainObject);

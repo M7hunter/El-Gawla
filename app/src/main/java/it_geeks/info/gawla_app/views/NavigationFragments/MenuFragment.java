@@ -2,7 +2,6 @@ package it_geeks.info.gawla_app.views.NavigationFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.squareup.picasso.Picasso;
 
+import androidx.fragment.app.Fragment;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.views.menuOptions.CallUsActivity;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;

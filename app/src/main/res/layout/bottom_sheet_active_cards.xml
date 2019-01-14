@@ -6,47 +6,36 @@
     android:layout_height="wrap_content"
     app:behavior_hideable="true"
     app:behavior_peekHeight="0dp"
-    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_xxlarge"
+        android:background="@drawable/bg_rounded_top_corners_white"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <android.support.v7.widget.CardView
+        <!-- header -->
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_xxlarge"
-            android:layout_marginBottom="@dimen/margin_small_minus"
-            app:cardCornerRadius="@dimen/margin_medium">
-            <!-- card view main layout -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:text="@string/cards"
+            android:textAllCaps="true"
+            android:textColor="@color/battleshipGrey"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
 
-                <!-- header -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginTop="@dimen/margin_large"
-                    android:layout_marginBottom="@dimen/margin_medium"
-                    android:text="@string/cards_store"
-                    android:textAllCaps="true"
-                    android:textColor="@color/battleshipGrey"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textStyle="bold" />
+        <!-- cards recycler -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/salon_cards_bottom_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-                <!-- cards recycler -->
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/salon_cards_bottom_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-    </FrameLayout>
+    </LinearLayout>
 
     <!-- close btn -->
     <ImageView
@@ -56,6 +45,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/margin_xxxlarge"
         android:background="@drawable/bg_circle_blue_270"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/margin_large"
         android:src="@drawable/ic_close"
         android:tint="@android:color/white" />

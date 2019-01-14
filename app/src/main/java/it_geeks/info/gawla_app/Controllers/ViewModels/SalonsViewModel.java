@@ -1,13 +1,13 @@
 package it_geeks.info.gawla_app.Controllers.ViewModels;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
-import android.arch.paging.DataSource;
-import android.arch.paging.LivePagedListBuilder;
-import android.arch.paging.PagedList;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.RecentSalonsCallback;

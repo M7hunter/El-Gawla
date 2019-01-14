@@ -1,12 +1,8 @@
 package it_geeks.info.gawla_app.Controllers.Adapters;
 
 import android.app.ActivityOptions;
-import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +12,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import androidx.annotation.NonNull;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.views.MainActivity;

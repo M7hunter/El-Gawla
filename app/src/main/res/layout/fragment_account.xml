@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <!-- logo, bell, user image & user name container -->
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_tiny_minus"
@@ -35,7 +35,7 @@
                     android:orientation="vertical"
                     android:paddingTop="5dp">
 
-                    <include layout="@layout/main_header_layout"/>
+                    <include layout="@layout/main_header_layout" />
 
                     <!-- user image container -->
                     <RelativeLayout
@@ -60,18 +60,6 @@
                             app:civ_border_color="@color/blueyGrey"
                             app:civ_border_width="1dp" />
 
-
-                        <ImageView
-                            android:id="@+id/upload_user_image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/bg_circle_red"
-                            android:padding="12dp"
-                            android:src="@drawable/com_facebook_button_like_icon_selected"
-                            android:visibility="gone" />
-
                     </RelativeLayout>
 
                     <!-- user name -->
@@ -87,16 +75,17 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <!-- 1st option card -->
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/cv_account_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="@dimen/margin_tiny"
                 app:cardElevation="@dimen/margin_tiny">
                 <!-- card view main layout -->
@@ -133,16 +122,17 @@
                         android:src="@drawable/ic_arrow_left" />
 
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <!-- 2nd option card -->
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/account_option_buying_processes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="@dimen/margin_tiny"
                 app:cardElevation="@dimen/margin_tiny">
                 <!-- card view main layout -->
@@ -179,16 +169,17 @@
                         android:src="@drawable/ic_arrow_left" />
 
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
             <!-- 3rd option card -->
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/cv_privacy_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="@dimen/margin_tiny"
                 app:cardElevation="@dimen/margin_tiny">
                 <!-- card view main layout -->
@@ -225,7 +216,7 @@
                         android:src="@drawable/ic_arrow_left" />
 
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </ScrollView>

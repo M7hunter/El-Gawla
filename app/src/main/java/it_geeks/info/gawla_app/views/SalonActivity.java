@@ -6,12 +6,6 @@ import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -27,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
@@ -34,6 +29,11 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
@@ -122,33 +122,34 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         int userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
 
 
-        RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer("getSalonByUserID", new Request(userId, apiToken), new HandleResponses() {
-            @Override
-            public void handleResponseData(JsonObject mainObject) {
+        RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
+                "getSalonByUserID", new Request(userId, apiToken), new HandleResponses() {
+                    @Override
+                    public void handleResponseData(JsonObject mainObject) {
 
-                if (getSalonIdFromResponse(mainObject).contains(salon_id)) { // joined before
-                    joinStatus = 2;
-                } else { // !joined
-                    joinStatus = 0;
-                }
+                        if (getSalonIdFromResponse(mainObject).contains(salon_id)) { // joined before
+                            joinStatus = 2;
+                        } else { // !joined
+                            joinStatus = 0;
+                        }
 
-                roundStartToEnd.setJoinStatus(joinStatus);
-            }
+                        roundStartToEnd.setJoinStatus(joinStatus);
+                    }
 
-            @Override
-            public void handleEmptyResponse() {
+                    @Override
+                    public void handleEmptyResponse() {
 
-                joinProgress.setVisibility(View.GONE);
-            }
+                        joinProgress.setVisibility(View.GONE);
+                    }
 
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
 
-                joinProgress.setVisibility(View.GONE);
+                        joinProgress.setVisibility(View.GONE);
 
-                Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+                        Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private List<Integer> getSalonIdFromResponse(JsonObject object) {
@@ -390,7 +391,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private void addUserToSalon() {
         joinConfirmationProgress.setVisibility(View.VISIBLE);
 
-        RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer("setUserSalon",
+        RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
+                "setUserSalon",
                 new Request(SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
                         , String.valueOf(Common.Instance(SalonActivity.this).getCurrentTimeInMillis())
@@ -417,32 +419,37 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void sendOfferToServer() {
-        int userOffer = Integer.parseInt(etAddOffer.getText().toString());
+        try {
+            int userOffer = Integer.parseInt(etAddOffer.getText().toString());
 
-        RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer("setUserOffer",
-                new Request(SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
-                        , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
-                        , salon_id
-                        , String.valueOf(Common.Instance(SalonActivity.this).getCurrentTimeInMillis())
-                        , userOffer), new HandleResponses() {
-                    @Override
-                    public void handleResponseData(JsonObject mainObject) {
+            RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
+                    "setUserOffer",
+                    new Request(SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
+                            , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
+                            , salon_id
+                            , String.valueOf(Common.Instance(SalonActivity.this).getCurrentTimeInMillis())
+                            , userOffer), new HandleResponses() {
+                        @Override
+                        public void handleResponseData(JsonObject mainObject) {
 
-                        joinConfirmationProgress.setVisibility(View.GONE);
-                    }
+                            joinConfirmationProgress.setVisibility(View.GONE);
+                        }
 
-                    @Override
-                    public void handleEmptyResponse() {
+                        @Override
+                        public void handleEmptyResponse() {
 
-                        joinConfirmationProgress.setVisibility(View.GONE);
-                    }
+                            joinConfirmationProgress.setVisibility(View.GONE);
+                        }
 
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                        @Override
+                        public void handleConnectionErrors(String errorMessage) {
 
-                        joinConfirmationProgress.setVisibility(View.GONE);
-                    }
-                });
+                            joinConfirmationProgress.setVisibility(View.GONE);
+                        }
+                    });
+        } catch (NumberFormatException e) {
+
+        }
     }
 
     // join events
@@ -512,7 +519,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         //init bottom sheet views
         RecyclerView cardsRecycler = sheetView.findViewById(R.id.salon_cards_bottom_recycler);
         cardsRecycler.setHasFixedSize(true);
-        cardsRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, 1, false));
+        cardsRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
         cardsRecycler.setAdapter(new BottomCardsAdapter(SalonActivity.this, GawlaDataBse.getGawlaDatabase(SalonActivity.this).cardDao().getCardsById(round.getSalon_id())));
 
         //close bottom sheet
@@ -565,9 +572,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void bottomViews_setDetails(View parent) {
-        TextView tvProductName, tvProductPrice, tvProductDescription;
+        TextView tvProductName, tvProductCategory, tvProductPrice, tvProductDescription;
         // init views
         tvProductName = parent.findViewById(R.id.product_details_name);
+        tvProductCategory = parent.findViewById(R.id.product_details_category);
         tvProductPrice = parent.findViewById(R.id.product_details_price);
         tvProductDescription = parent.findViewById(R.id.product_details_descriptions);
         imProductMainImage = parent.findViewById(R.id.product_details_main_image);
@@ -576,6 +584,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         // set data
         tvProductName.setText(round.getProduct_name());
+        tvProductCategory.setText(round.getCategory_name());
         tvProductPrice.setText(round.getProduct_commercial_price());
         tvProductDescription.setText(round.getProduct_product_description());
         Picasso.with(SalonActivity.this)

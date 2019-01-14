@@ -1,13 +1,12 @@
 package it_geeks.info.gawla_app.Repositry.Storage;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.OnConflictStrategy;
-import android.arch.persistence.room.Query;
-
 import java.util.List;
 
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
 
 @Dao
@@ -27,4 +26,13 @@ public interface CountryDao {
 
     @Query("SELECT * FROM Country where country_id = :countryID")
     Country getCountryByID(int countryID);
+
+    @Query("SELECT country_title FROM Country")
+    List<String> getCountriesNames();
+
+    @Query("SELECT country_id FROM Country where country_title = :countryName")
+    int getCountryIDByName(String countryName);
+
+    @Query("SELECT country_title FROM Country where country_id = :countryId")
+    String getCountryNameByID(int countryId);
 }

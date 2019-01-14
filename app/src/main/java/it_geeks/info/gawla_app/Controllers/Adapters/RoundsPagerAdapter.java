@@ -2,11 +2,6 @@ package it_geeks.info.gawla_app.Controllers.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +12,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.views.SalonActivity;
@@ -61,7 +61,7 @@ public class RoundsPagerAdapter extends PagerAdapter {
         btnJoinRound = view.findViewById(R.id.my_round_btn_enter);
         RecyclerView cardsRecycler = view.findViewById(R.id.my_round_cards_recycler); // nested recycler
         cardsRecycler.setHasFixedSize(true);
-        cardsRecycler.setLayoutManager(new LinearLayoutManager(context, 1, false));
+        cardsRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
 
         // set data
         Picasso.with(context).load(round.getProduct_image()).placeholder(R.drawable.placeholder).into(imgProductImage);

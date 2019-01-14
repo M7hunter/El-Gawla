@@ -2,10 +2,7 @@ package it_geeks.info.gawla_app.views.splashActivities;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,6 +16,9 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
@@ -86,7 +86,8 @@ public class SplashActivity extends AppCompatActivity {
     private void getCountriesFromSever() {
         final String apiToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
 
-        RetrofitClient.getInstance(SplashActivity.this).executeConnectionToServer("getAllCountries", new Request(apiToken), new HandleResponses() {
+        RetrofitClient.getInstance(SplashActivity.this).executeConnectionToServer(SplashActivity.this,
+                "getAllCountries", new Request(apiToken), new HandleResponses() {
             @Override
             public void handleResponseData(JsonObject mainObject) {
                     countries = ParseResponses.parseCountries(mainObject);
@@ -122,7 +123,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void displayCountriesList() {
-        countryRecycler.setLayoutManager(new LinearLayoutManager(SplashActivity.this, 1, false));
+        countryRecycler.setLayoutManager(new LinearLayoutManager(SplashActivity.this, RecyclerView.VERTICAL, false));
         countryRecycler.setHasFixedSize(true);
         countryRecycler.setAdapter(new CountryAdapter(SplashActivity.this, countries));
     }

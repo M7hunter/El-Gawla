@@ -2,9 +2,6 @@ package it_geeks.info.gawla_app.views.menuOptions;
 
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Handler;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -12,12 +9,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 
+import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
-import it_geeks.info.gawla_app.Repositry.Models.RequestMainBody;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 
@@ -92,7 +90,8 @@ public class CallUsActivity extends AppCompatActivity {
         String email = emailCallUS.getText().toString();
         String message = messageCallUS.getText().toString();
 
-        RetrofitClient.getInstance(CallUsActivity.this).executeConnectionToServer("setUserContactMessage", new Request(userID,apiToken,username,email,message), new HandleResponses() {
+        RetrofitClient.getInstance(CallUsActivity.this).executeConnectionToServer(CallUsActivity.this,
+                "setUserContactMessage", new Request(userID,apiToken,username,email,message), new HandleResponses() {
             @Override
             public void handleResponseData(JsonObject mainObject) {
                 String message = mainObject.get("message").getAsString();

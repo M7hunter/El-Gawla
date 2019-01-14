@@ -101,7 +101,6 @@
     <string name="Congratulations_Attention_Details">اضف افضل عرض لربح الجوالات و قم بمتابعة شنطة الكروت و استخدم الكروت لديك</string>
     <string name="enter">دخول</string>
     <string name="language">اللغة</string>
-    <string name="exit">خروج</string>
     <string name="Invalid_email_password">بيانات الدخول غير صحيحة</string>
     <string name="emptyMail">بريد الكتروني فارغ</string>
     <string name="emptyPass">كلمة سر فارغة</string>
@@ -142,7 +141,7 @@
         <item>الكويت</item>
         <item>الولايات المتحده</item>
     </array>
-    <string name="delete_account">حذف الحساب الخاص بيك</string>
+    <string name="delete_account">حذف الحساب الخاص بك</string>
     <string name="provider_fb">فيسبوك</string>
     <string name="provider_google">جوجل</string>
     <string name="save">حفظ</string>
@@ -166,4 +165,6 @@
     <string name="empty_name">اسم المستخدم فارغ</string>
     <string name="empty_message">محتوي الرسالة فارغ</string>
     <string name="sending_message">جاري الارسال...</string>
+    <string name="category">الفئة</string>
+    <string name="sign_out">تسجيل خ</string>
 </resources>

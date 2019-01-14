@@ -1,8 +1,6 @@
 package it_geeks.info.gawla_app.views.splashActivities;
 
 import android.content.Intent;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -11,6 +9,8 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 import it_geeks.info.gawla_app.Controllers.Adapters.SliderAdapter;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;

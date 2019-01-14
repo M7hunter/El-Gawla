@@ -2,9 +2,6 @@ package it_geeks.info.gawla_app.views.loginActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -39,6 +36,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.Models.User;
@@ -91,7 +91,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         });
 
         // have account ? goto previous page
-        findViewById(R.id.txt_haveAccount).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.create_account_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -158,7 +158,8 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void connectToServer(final User user, final int countryId) {
-        RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer("register", new Request(user.getName(), user.getEmail(), countryId, user.getName()), new HandleResponses() {
+        RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer(CreateAccountActivity.this,
+                "register", new Request(user.getName(), user.getEmail(), countryId, user.getPassword()), new HandleResponses() {
             @Override
             public void handleResponseData(JsonObject mainObject) {
                 progressBar.setVisibility(View.INVISIBLE);
@@ -298,7 +299,8 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
     private void socialLogin(String id, final String name, final String email, final String image, final String provider) {
         int countryId = SharedPrefManager.getInstance(CreateAccountActivity.this).getCountry().getCountry_id();
-        RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer("loginOrRegisterWithSocial", new Request(provider, id, name, email, image, countryId), new HandleResponses() {
+        RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer(CreateAccountActivity.this,
+                "loginOrRegisterWithSocial", new Request(provider, id, name, email, image, countryId), new HandleResponses() {
             @Override
             public void handleResponseData(JsonObject mainObject) {
 

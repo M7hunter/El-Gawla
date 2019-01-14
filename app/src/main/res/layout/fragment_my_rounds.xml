@@ -45,7 +45,7 @@
                     android:layout_centerInParent="true" />
 
                 <!-- data -->
-                <it_geeks.info.gawla_app.General.WrapContentHeightViewPager
+                <androidx.viewpager.widget.ViewPager
                     android:id="@+id/rounds_pager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -60,6 +60,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_arrow_left_grey" />
 
                 <!-- right arrow button -->
@@ -69,6 +70,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_arrow_right_grey" />
 
                 <!-- empty view -->
@@ -84,9 +86,9 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1"
                         android:layout_marginStart="@dimen/margin_xxlarge"
                         android:layout_marginEnd="@dimen/margin_xxlarge"
+                        android:layout_weight="1"
                         android:src="@drawable/empty_view_my_rounds" />
 
                     <TextView

@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.support.design.widget.Snackbar;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.MainActivity;
@@ -42,7 +44,7 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
             snackbar = Snackbar.make(((MainActivity) context).getMainFrame(), "NO CONNECTION", Snackbar.LENGTH_INDEFINITE);
 
             View view = snackbar.getView();
-            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+            TextView tv = (TextView) view.findViewById(R.id.snackbar_text);
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimension(R.dimen.text_size_small));
             view.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
 
@@ -63,6 +65,6 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
     private void unConnectedSnack(Context context) {
         snackbar.getView().setBackgroundColor(context.getResources().getColor(R.color.paleRed));
         snackbar.setText("NO CONNECTION");
-        snackbar.setDuration(Snackbar.LENGTH_INDEFINITE).show();
+        snackbar.setDuration(BaseTransientBottomBar.LENGTH_INDEFINITE).show();
     }
 }

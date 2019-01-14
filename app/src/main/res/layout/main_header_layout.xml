@@ -17,11 +17,13 @@
     <!-- bell -->
     <ImageView
         android:id="@+id/Notification"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
         android:layout_width="@dimen/icon_notification"
         android:layout_height="@dimen/icon_notification"
         android:layout_alignParentTop="true"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="@dimen/margin_tiny"
+        android:padding="@dimen/margin_tiny"
         android:src="@drawable/ic_bell" />
 
 </RelativeLayout>

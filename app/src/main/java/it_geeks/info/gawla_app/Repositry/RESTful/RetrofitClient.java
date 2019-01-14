@@ -67,11 +67,11 @@ public class RetrofitClient {
         return BASE_URL;
     }
 
-    public void executeConnectionToServer(String action, Request request, HandleResponses HandleResponses) {
-        getInstance(context).getAPI().request(new RequestMainBody(new Data(action), request)).enqueue(createWebserviceCallback(HandleResponses));
+    public void executeConnectionToServer(Context context, String action, Request request, HandleResponses HandleResponses) {
+        getInstance(context).getAPI().request(new RequestMainBody(new Data(action), request)).enqueue(createWebserviceCallback(HandleResponses, context));
     }
 
-    private Callback<JsonObject> createWebserviceCallback(final HandleResponses HandleResponses) {
+    private Callback<JsonObject> createWebserviceCallback(final HandleResponses HandleResponses, final Context context) {
         return new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

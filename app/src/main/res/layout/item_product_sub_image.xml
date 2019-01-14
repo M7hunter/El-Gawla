@@ -5,6 +5,7 @@
     android:layout_height="65dp"
     android:layout_margin="@dimen/margin_small"
     android:background="@drawable/img_product_item_shape"
+    android:foreground="?android:attr/selectableItemBackground"
     android:padding="@dimen/margin_small"
     android:scaleType="centerCrop"
     android:src="@drawable/placeholder" />

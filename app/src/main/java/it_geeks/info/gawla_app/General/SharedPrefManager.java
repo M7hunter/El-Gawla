@@ -21,6 +21,7 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_LAST_REQUEST = "last_request_shared_pref";
     private static final String SHARED_PREF_USER_PROVIDER = "user_socialMedia_Provider";
     private static final String SHARED_PREF_UPLOAD_STATUS = "upload_status_shared_pref";
+    private static final String SHARED_PREF_THREAD_ID = "thread_id_shared_pref";
 
     private SharedPrefManager(Context context) {
         this.context = context;
@@ -46,7 +47,23 @@ public class SharedPrefManager {
 
     public String getUploadStatus() {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_UPLOAD_STATUS, MODE_PRIVATE);
-        return sharedPreferences.getString("status", Locale.getDefault().getLanguage());
+        return sharedPreferences.getString("status", UploadStatus.UPLOADED.toString());
+    }
+
+    //--------------- upload thread id -------------//
+    public void setThreadName(String name) {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_THREAD_ID, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.clear();
+
+        editor.putString("threadName", name);
+        editor.apply();
+    }
+
+    public String getThreadName() {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_THREAD_ID, MODE_PRIVATE);
+        return sharedPreferences.getString("threadName", "non");
     }
 
     //--------------- lang -------------//

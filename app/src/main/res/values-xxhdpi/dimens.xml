@@ -26,6 +26,7 @@
     <dimen name="logo_width">140dp</dimen>
     <dimen name="logo_height">80dp</dimen>
     <dimen name="icon_notification">45dp</dimen>
+    <dimen name="icon_back">55dp</dimen>
     <dimen name="image_width_hales_fragment">190dp</dimen>
     <dimen name="image_width_round">300dp</dimen>
     <dimen name="image_height_round">165dp</dimen>

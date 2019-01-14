@@ -2,11 +2,7 @@ package it_geeks.info.gawla_app.views;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -17,6 +13,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.OnItemClickListener;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
@@ -136,14 +136,14 @@ public class AllSalonsActivity extends AppCompatActivity implements OnItemClickL
     private void initDatesRecycler() {
         dateRecycler = findViewById(R.id.date_recycler);
         dateRecycler.setHasFixedSize(true);
-        dateRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, 0, false));
+        dateRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
         dateRecycler.setAdapter(new DateAdapter(AllSalonsActivity.this, dateList, AllSalonsActivity.this));
     }
 
     private void initSalonsRecycler() {
         dateSalonsRecycler = findViewById(R.id.date_salons_recycler);
         dateSalonsRecycler.setHasFixedSize(true);
-        dateSalonsRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, 0, false));
+        dateSalonsRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
         dateSalonsRecycler.setAdapter(new SalonsAdapter(AllSalonsActivity.this, roundsList));
     }
 

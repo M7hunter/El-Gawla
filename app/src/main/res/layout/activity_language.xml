@@ -17,10 +17,11 @@
         <!-- back -->
         <ImageView
             android:id="@+id/language_back"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/icon_back"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:padding="@dimen/margin_medium"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/margin_small"
             android:src="@drawable/ic_arrow_back" />
 
         <!-- title -->
@@ -36,7 +37,7 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lang_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
