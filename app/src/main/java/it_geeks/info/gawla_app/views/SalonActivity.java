@@ -21,7 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
@@ -32,6 +34,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.General.Common;
@@ -40,8 +43,10 @@ import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.Repositry.Models.RoundRealTimeModel;
 import it_geeks.info.gawla_app.Repositry.Models.RoundStartToEndModel;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Controllers.Adapters.BottomCardsAdapter;
@@ -55,20 +60,24 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private List<Integer> drawablesUp = new ArrayList<>();
     private List<Integer> drawablesDown = new ArrayList<>();
     RoundStartToEnd roundStartToEnd;
-
+    RoundRealTimeModel roundRealTimeModel;
     public TextView round_notification_text;
 
     private String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time, first_join_time, second_join_time, round_date, round_time, rest_time;
     int product_id, salon_id;
+    String apiToken;
+    int userId;
 
-    int joinStatus; // 0 = watcher, 1 = want to join, 2 = joined
+    View salonMainContainer;
+
+    int joinStatus; // 0 // = watcher, 1 = want to join, 2 = joined
+    RelativeLayout FullActivityp;
     public Button btnJoinRound, btnAddOffer;
     EditText etAddOffer;
     CardView more, notificationCard, confirmationLayout;
     LinearLayout addOfferLayout;
     FrameLayout overlayLayout;
-    ProgressBar joinProgress, joinConfirmationProgress;
-
+    ProgressBar joinProgress, joinConfirmationProgress , loading;
     private Round round;
 
     private BottomSheetDialog mBottomSheetDialogActivateCard;
@@ -96,9 +105,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         initViews();
 
-        getRoundData(savedInstanceState);
-
         checkIfUserJoinedBefore();
+
+        getRoundData(savedInstanceState);
 
         initRoundViews_setData();
 
@@ -112,25 +121,48 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         initDivs();
 
-        startTimeDown();
-
         handleEvents();
     }
 
-    private void checkIfUserJoinedBefore() {
-        String apiToken = Common.Instance(SalonActivity.this).removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
-        int userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
+    public void getRealtimeOfRound() {
+        FullActivityp.setVisibility(View.INVISIBLE);
+        loading.setVisibility(View.VISIBLE);
+        RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,"getSalonWithRealTime", new Request(userId,apiToken,salon_id) ,new HandleResponses(){
 
+            @Override
+            public void handleResponseData(JsonObject mainObject) {
+                FullActivityp.setVisibility(View.VISIBLE);
+                loading.setVisibility(View.INVISIBLE);
+                  startTimeDown(ParseResponses.parseRoundRealTime(mainObject));
+            }
+
+            @Override
+            public void handleEmptyResponse() {
+                FullActivityp.setVisibility(View.VISIBLE);
+                loading.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
+                FullActivityp.setVisibility(View.VISIBLE);
+                loading.setVisibility(View.INVISIBLE);
+            }
+        });
+
+    }
+
+    private void checkIfUserJoinedBefore() {
 
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
                 "getSalonByUserID", new Request(userId, apiToken), new HandleResponses() {
                     @Override
                     public void handleResponseData(JsonObject mainObject) {
-
                         if (getSalonIdFromResponse(mainObject).contains(salon_id)) { // joined before
                             joinStatus = 2;
+                            hideConfirmationLayout();
                         } else { // !joined
                             joinStatus = 0;
+                            btnJoinRound.setVisibility(View.VISIBLE);
                         }
 
                         roundStartToEnd.setJoinStatus(joinStatus);
@@ -144,17 +176,28 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-
                         joinProgress.setVisibility(View.GONE);
 
-                        Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-                    }
+                        Snackbar.make(findViewById(R.id.salon_main_layout), errorMessage, Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getRealtimeOfRound();
+                            }
+                        }).show();
+
+                        }
                 });
     }
 
+    public View getMainFrame() {
+        if (salonMainContainer == null) {
+            salonMainContainer = findViewById(R.id.salon_main_layout);
+        }
+        return salonMainContainer;
+    }
     private List<Integer> getSalonIdFromResponse(JsonObject object) {
         List<Integer> ids = new ArrayList<>();
-        JsonArray roundsArray = object.get("data").getAsJsonArray();
+        JsonArray roundsArray = object.get("salons").getAsJsonArray();
 
         for (int i = 0; i < roundsArray.size(); i++) {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
@@ -193,11 +236,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     //Round Start
-    private void startTimeDown() {
-
+    private void startTimeDown(RoundRealTimeModel roundRealTimeModel) {
+        this.roundRealTimeModel = roundRealTimeModel;
         RoundStartToEndModel roundStartToEndModel = new RoundStartToEndModel(upDivsList, downDivsList, drawablesUp, drawablesDown);
-        roundStartToEnd = new RoundStartToEnd(SalonActivity.this, roundStartToEndModel);
-        roundStartToEnd.setTime(round_start_time, round_end_time, first_join_time, second_join_time, round_date, round_time, rest_time);
+            roundStartToEnd = new RoundStartToEnd(SalonActivity.this, roundStartToEndModel);
+            roundStartToEnd.setTime(roundRealTimeModel);// set round time
         try {
             roundStartToEnd.start();
         } catch (NullPointerException e) {
@@ -226,6 +269,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 round_time = extras.getString("round_time");
                 rest_time = extras.getString("rest_time");
 
+                getRealtimeOfRound();
 
                 round = new Round(product_id,
                         salon_id,
@@ -312,7 +356,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         addOfferLayout = findViewById(R.id.add_offer_layout);
         joinProgress = findViewById(R.id.join_progress);
         joinConfirmationProgress = findViewById(R.id.join_confirmation_progress);
-
+        apiToken = Common.Instance(SalonActivity.this).removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
+        userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
+        FullActivityp = findViewById(R.id.salon_container);
+        loading = findViewById(R.id.Salon_loading);
         // notification icon
         findViewById(R.id.salon_notification_icon).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -481,15 +528,22 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     public void hideConfirmationLayout() {
+
         // display background views
         more.setVisibility(View.VISIBLE);
         notificationCard.setVisibility(View.VISIBLE);
-        addOfferLayout.setVisibility(View.VISIBLE);
 
         // hide confirmation layout
         confirmationLayout.setVisibility(View.GONE);
         btnJoinRound.setVisibility(View.GONE);
         overlayLayout.setVisibility(View.GONE);
+
+        if (roundRealTimeModel.isFirst_round_status() || roundRealTimeModel.isSeconed_round_status()){
+            addOfferLayout.setVisibility(View.VISIBLE);
+        }
+
+
+
     }
 
     public void cancelConfirmation() {
@@ -774,7 +828,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        roundStartToEnd.stop(); // stop Time Down
+        try {
+            roundStartToEnd.stop(); // stop Time Down
+        }catch (Exception e){}
+
         Intent i = new Intent();
         setResult(RESULT_OK, i);
     }
@@ -782,6 +839,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        roundStartToEnd.stop(); // stop Time Down
+        try {
+            roundStartToEnd.stop(); // stop Time Down
+    }catch (Exception e){}
+
     }
 }

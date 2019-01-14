@@ -4,17 +4,18 @@ import android.content.Context;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
-
 import java.util.Calendar;
-
-import androidx.appcompat.app.AlertDialog;
 import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.Repositry.Models.RoundRealTimeModel;
 import it_geeks.info.gawla_app.Repositry.Models.RoundStartToEndModel;
 import it_geeks.info.gawla_app.views.SalonActivity;
 
 public class RoundStartToEnd {
 
-    private String round_start_time, round_end_time, first_join_time, second_join_time, round_date, round_time, rest_time;
+    boolean open_hall_status , free_join_status , pay_join_status , first_round_status , first_rest_status , seconed_round_status , seconed_rest_status , close_hall_status ;
+    int open_hall_value ,free_join_value ,pay_join_value ,first_round_value ,first_rest_value , seconed_round_value ,seconed_rest_value , close_hall_value;
+    String round_status;
+
     int[] mMinute = {0}, mHour = {0};
     Context context;
     RoundStartToEndModel roundStartToEndModel;
@@ -26,20 +27,31 @@ public class RoundStartToEnd {
         this.roundStartToEndModel = roundStartToEndModel;
     }
 
-    public void setTime(String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time) {
-        this.round_start_time = round_start_time+":00";
-        this.round_end_time = round_end_time+":00";
-        this.first_join_time = first_join_time+":00";
-        this.second_join_time = second_join_time+":00";
-        this.round_date = round_date;
-        this.round_time = "00:" + round_time;
-        this.rest_time = "00:"+rest_time;
+    public void setTime(RoundRealTimeModel roundRealTimeModel) {
+
+        open_hall_status = roundRealTimeModel.isOpen_hall_status();
+        free_join_status = roundRealTimeModel.isFree_join_status();
+        pay_join_status = roundRealTimeModel.isPay_join_status();
+        first_round_status = roundRealTimeModel.isFirst_round_status();
+        first_rest_status = roundRealTimeModel.isFirst_rest_status();
+        seconed_round_status = roundRealTimeModel.isSeconed_round_status();
+        seconed_rest_status = roundRealTimeModel.isSeconed_rest_status();
+        close_hall_status = roundRealTimeModel.isClose_hall_status();
+
+        open_hall_value = roundRealTimeModel.getOpen_hall_value();
+        free_join_value = roundRealTimeModel.getFree_join_value();
+        pay_join_value = roundRealTimeModel.getPay_join_value();
+        first_round_value = roundRealTimeModel.getFirst_round_value();
+        first_rest_value = roundRealTimeModel.getFirst_rest_value();
+        seconed_round_value = roundRealTimeModel.getSeconed_round_value();
+        seconed_rest_value = roundRealTimeModel.getSeconed_rest_value();
+        close_hall_value = roundRealTimeModel.getClose_hall_value();
+
+        round_status = roundRealTimeModel.getRound_status();
     }
 
     public void stop() {
-        try {
-            countDownTimer.cancel();
-        } catch (NullPointerException e) {}
+        countDownTimer.cancel();
     }
 
     public void setJoinStatus(int joinStatus) {
@@ -48,66 +60,50 @@ public class RoundStartToEnd {
     }
 
     public void start() {
-        long start = Common.Instance(context).formatTimeToMillis(getCurrentTime());
-        long end = Common.Instance(context).formatTimeToMillis(first_join_time);
-        long value = end - start;
+        int milli = 1000;
+        Log.e("Mo7",open_hall_status +" "+ free_join_status +" "+ pay_join_status +" "+ first_round_status +" "+ first_rest_status +" "+ seconed_round_status +" "+ seconed_rest_status +" "+ close_hall_status);
+       if (round_status.trim().equals("open")){
+           if (open_hall_status){
+               open_hall_value(open_hall_value * milli);
+           }else if (free_join_status){
+               free_join_status(free_join_value * milli);
+           }else if (pay_join_status){
+               pay_join_value(pay_join_value * milli);
+           }else if (first_round_status){
+               first_round_value(first_round_value * milli);
+           }else if (first_rest_status){
+               first_rest_value(first_rest_value * milli);
+           }else if (seconed_round_status){
+               seconed_round_value(seconed_round_value * milli);
+           }else if (seconed_rest_status){
+               seconed_rest_value(seconed_rest_value * milli);
+           }else if (close_hall_status){
+           }
+       }else {
+           ((SalonActivity) context).round_notification_text.setText(round_status);
+       }
 
-        countDownBeforeJoin(value);
     }
 
     // before round start and open join
-    private void countDownBeforeJoin(long value) {
-
+    private void open_hall_value(long value) {
         ((SalonActivity) context).round_notification_text.setText("wait round to start .");
-
-        try {
-            countDownTimer = new CountDownTimer(value, 1000) {
-                public void onTick(final long millisUntilFinished) {
-                    setTimeDown(millisUntilFinished);
-                }
-
-                public void onFinish() {
-                    countDown_FirstJoinTime();
-                }
-
-            }.start();
-        } catch (Exception e) {
-            Log.e("Mo7", e.getMessage());
-        }
-
+        DoCountDown(value);
     }
 
+
     // join Round Opened
-    private void countDown_FirstJoinTime() {
+    private void free_join_status(long value) {
         if (joinStatus == 2) {
             ((SalonActivity) context).round_notification_text.setText(" You are joined .");
-            ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
         } else {
             ((SalonActivity) context).round_notification_text.setText("You can Join Now .");
-            ((SalonActivity) context).btnJoinRound.setVisibility(View.VISIBLE);
         }
-
-        long start = Common.Instance(context).formatTimeToMillis(getCurrentTime());
-        long end = Common.Instance(context).formatTimeToMillis(second_join_time);
-        long value = end - start;
-        try {
-            countDownTimer = new CountDownTimer(value, 1000) {
-                public void onTick(final long millisUntilFinished) {
-                    setTimeDown(millisUntilFinished);
-                }
-
-                public void onFinish() {
-                    countDown_SecondJoinTime();
-                }
-            }.start();
-        } catch (Exception e) {
-            Log.e("Mo7", e.getMessage());
-        }
-
+        DoCountDown(value);
     }
 
     // join closed , use Golden Card
-    private void countDown_SecondJoinTime() {
+    private void pay_join_value(long value) {
         if (joinStatus == 2) {
             ((SalonActivity) context).round_notification_text.setText("You are joined .");
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
@@ -115,28 +111,11 @@ public class RoundStartToEnd {
             ((SalonActivity) context).round_notification_text.setText("You can use golden card to join now .");
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
         }
-
-        long start = Common.Instance(context).formatTimeToMillis(getCurrentTime());
-        long end = Common.Instance(context).formatTimeToMillis(round_start_time);
-        long value = end - start;
-        try {
-            countDownTimer = new CountDownTimer(value, 1000) {
-                public void onTick(final long millisUntilFinished) {
-                    setTimeDown(millisUntilFinished);
-                }
-
-                public void onFinish() {
-                    countDown_RoundTime();
-                }
-            }.start();
-        } catch (Exception e) {
-            Log.e("Mo7", e.getMessage());
-        }
-
+        DoCountDown(value);
     }
 
     // add deal to product ( Round Time )
-    private void countDown_RoundTime() {
+    private void first_round_value(long value) {
         if (joinStatus == 2) {
             ((SalonActivity) context).round_notification_text.setText("round stared add offers to win .");
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
@@ -146,41 +125,28 @@ public class RoundStartToEnd {
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
             ((SalonActivity) context).cancelConfirmation();
         }
-
-        long start = Common.Instance(context).formatTimeToMillis(getCurrentTime());
-        long endRound = Common.Instance(context).formatTimeToMillis(round_end_time);
-        long value = endRound - start;
-        try {
-            countDownTimer = new CountDownTimer(value, 1000) {
-                public void onTick(final long millisUntilFinished) {
-                    setTimeDown(millisUntilFinished);
-                }
-
-                public void onFinish() {
-
-                    countDownRestTime();
-                }
-
-            }.start();
-        } catch (Exception e) {
-            Log.e("Mo7", e.getMessage());
-        }
+        DoCountDown(value);
     }
 
     //Rest before show the winner
-    private void countDownRestTime() {
-
+    private void first_rest_value(long value) {
         ((SalonActivity) context).round_notification_text.setText("rest time .");
+        DoCountDown(value);
+    }
 
-        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-        Calendar endRound = Common.Instance(context).formatDateStringToCalendar(round_end_time);
-        Calendar restRound = Common.Instance(context).formatDateStringToCalendar(rest_time);
-        endRound.add(endRound.MINUTE,restRound.get(Calendar.MINUTE));
+    private void seconed_round_value(long value) {
+        ((SalonActivity) context).round_notification_text.setText("Second Round time .");
+        DoCountDown(value);
+    }
 
-        long start = Common.Instance(context).formatTimeToMillis(getCurrentTime());
-        long end =   Common.Instance(context).formatTimeToMillis(endRound.get(Calendar.HOUR_OF_DAY)+":"+endRound.get(Calendar.MINUTE)+":"+endRound.get(Calendar.SECOND));
-        long value = end - start;
+    private void seconed_rest_value(long value) {
+        ((SalonActivity) context).round_notification_text.setText("Second rest time .");
+        DoCountDown(value);
+    }
 
+            ///////////////////////////////////////////////////////
+
+    private void DoCountDown(long value) {
         try {
             countDownTimer = new CountDownTimer(value, 1000) {
                 public void onTick(final long millisUntilFinished) {
@@ -188,7 +154,7 @@ public class RoundStartToEnd {
                 }
 
                 public void onFinish() {
-                    ((SalonActivity) context).round_notification_text.setText("round ended .");
+                    ((SalonActivity)context).getRealtimeOfRound();
                 }
 
             }.start();
@@ -199,16 +165,16 @@ public class RoundStartToEnd {
 
     private void setTimeDown(long millisUntilFinished) {
         Calendar calendar = Common.Instance(context).formatMillisToTime(millisUntilFinished);
-                int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                if (calendar.get(Calendar.HOUR_OF_DAY) == 2) {
-                       hour = 0;
-                    } else if (calendar.get(Calendar.HOUR_OF_DAY) == 1) {
-                        hour = 23;
-                    } else if (calendar.get(Calendar.HOUR_OF_DAY) == 0) {
-                        hour = 22;
-                    } else {
-                    hour = calendar.get(Calendar.HOUR_OF_DAY) - 2;
-                }
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        if (calendar.get(Calendar.HOUR_OF_DAY) == 2) {
+            hour = 0;
+        } else if (calendar.get(Calendar.HOUR_OF_DAY) == 1) {
+            hour = 23;
+        } else if (calendar.get(Calendar.HOUR_OF_DAY) == 0) {
+            hour = 22;
+        } else {
+            hour = calendar.get(Calendar.HOUR_OF_DAY) - 2;
+        }
         int minute = calendar.get(Calendar.MINUTE);
         int second = calendar.get(Calendar.SECOND);
 
@@ -229,13 +195,6 @@ public class RoundStartToEnd {
             gawlaTimeDownMinute.NumberTick(hour);
         }
         mHour[0] = hour;
-    }
-
-
-    private String getCurrentTime(){
-        Calendar c = Common.Instance(context).getCurrentTimeWithTimeZone();
-        String currentTime = String.format(c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND));
-        return currentTime;
     }
 
 }
