@@ -764,7 +764,7 @@
             android:layout_below="@id/cards_container"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_tiny"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
     </RelativeLayout>
 
