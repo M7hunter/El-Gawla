@@ -106,7 +106,7 @@ public class CallUsActivity extends AppCompatActivity {
 
             @Override
             public void handleConnectionErrors(String errorMessage) {
-                snackbarMessage.make(findViewById(R.id.CallUsParentLayout), errorMessage, Snackbar.LENGTH_SHORT).show();
+                snackbarMessage.make(findViewById(R.id.CallUsParentLayout), R.string.no_connection, Snackbar.LENGTH_SHORT).show();
             }
         });
     }

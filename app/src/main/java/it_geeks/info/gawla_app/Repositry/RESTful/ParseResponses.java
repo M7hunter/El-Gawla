@@ -11,6 +11,7 @@ import it_geeks.info.gawla_app.Repositry.Models.Category;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
+import it_geeks.info.gawla_app.Repositry.Models.RoundRealTimeModel;
 import it_geeks.info.gawla_app.Repositry.Models.User;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 
@@ -83,6 +84,62 @@ public class ParseResponses {
         }
 
         return subImagesList;
+    }
+
+    public static RoundRealTimeModel parseRoundRealTime(JsonObject roundObj){
+        JsonObject roundtime = roundObj.get("hall").getAsJsonObject();
+
+        JsonObject open_hall = roundtime.get("open_hall").getAsJsonObject();
+        boolean open_hall_status = open_hall.get("status").getAsBoolean();
+        int open_hall_value = open_hall.get("value").getAsInt();
+
+        JsonObject free_join = roundtime.get("free_join").getAsJsonObject();
+        boolean free_join_status = free_join.get("status").getAsBoolean();
+        int free_join_value = free_join.get("value").getAsInt();
+
+        JsonObject pay_join = roundtime.get("pay_join").getAsJsonObject();
+        boolean pay_join_status = pay_join.get("status").getAsBoolean();
+        int pay_join_value = pay_join.get("value").getAsInt();
+
+        JsonObject first_round = roundtime.get("first_round").getAsJsonObject();
+        boolean first_round_status = first_round.get("status").getAsBoolean();
+        int first_round_value = first_round.get("value").getAsInt();
+
+        JsonObject first_rest = roundtime.get("first_rest").getAsJsonObject();
+        boolean first_rest_status = first_rest.get("status").getAsBoolean();
+        int first_rest_value = first_rest.get("value").getAsInt();
+
+        JsonObject seconed_round = roundtime.get("seconed_round").getAsJsonObject();
+        boolean seconed_round_status = seconed_round.get("status").getAsBoolean();
+        int seconed_round_value = seconed_round.get("value").getAsInt();
+
+        JsonObject seconed_rest = roundtime.get("seconed_rest").getAsJsonObject();
+        boolean seconed_rest_status = seconed_rest.get("status").getAsBoolean();
+        int seconed_rest_value = seconed_rest.get("value").getAsInt();
+
+        JsonObject close_hall = roundtime.get("close_hall").getAsJsonObject();
+        boolean close_hall_status = close_hall.get("status").getAsBoolean();
+        int close_hall_value = close_hall.get("value").getAsInt();
+
+        String round_status = roundtime.get("status").getAsString();
+        return new RoundRealTimeModel(
+                open_hall_status,
+                open_hall_value,
+                free_join_status,
+                free_join_value,
+                pay_join_status,
+                pay_join_value,
+                first_round_status,
+                first_round_value,
+                first_rest_status,
+                first_rest_value,
+                seconed_round_status,
+                seconed_round_value,
+                seconed_rest_status,
+                seconed_rest_value,
+                close_hall_status,
+                close_hall_value,
+                round_status);
     }
 
     private static List<Card> parseSalonCards(JsonObject roundObj, int salon_id) {

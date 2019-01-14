@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.SalonActivity;
 
 public class ConnectionChangeReceiver extends BroadcastReceiver {
 
@@ -41,7 +42,11 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
 
     public void initSnackbar(Context context) {
         if (snackbar == null) {
-            snackbar = Snackbar.make(((MainActivity) context).getMainFrame(), "NO CONNECTION", Snackbar.LENGTH_INDEFINITE);
+            if (context.getClass().equals(MainActivity.class)) {
+                snackbar = Snackbar.make(((MainActivity) context).getMainFrame(), "NO CONNECTION", Snackbar.LENGTH_INDEFINITE);
+            } else if (context.getClass().equals(SalonActivity.class)) {
+                snackbar = Snackbar.make(((SalonActivity) context).getMainFrame(), "NO CONNECTION", Snackbar.LENGTH_INDEFINITE);
+            }
 
             View view = snackbar.getView();
             TextView tv = (TextView) view.findViewById(R.id.snackbar_text);
