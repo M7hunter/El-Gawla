@@ -144,6 +144,7 @@ public class SharedPrefManager {
 
         editor.clear();
 
+        if (country != null) {
         editor.putInt("country_id", country.getCountry_id());
         editor.putString("country_title", country.getCountry_title());
         editor.putString("count_code", country.getCount_code());
@@ -151,6 +152,7 @@ public class SharedPrefManager {
         editor.putString("tel", country.getTel());
         editor.putString("image", country.getImage());
         editor.apply();
+        }
     }
 
     public Country getCountry() {

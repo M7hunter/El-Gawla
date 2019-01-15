@@ -36,6 +36,7 @@ public class RecentSalonsCallback extends PagedList.BoundaryCallback<Round> {
             @Override
             public void handleResponseData(JsonObject mainObject) {
                 insertItemsIntoDatabase(mainObject);
+                Toast.makeText(context, "connect", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -52,7 +53,7 @@ public class RecentSalonsCallback extends PagedList.BoundaryCallback<Round> {
 
     @Override
     public void onItemAtEndLoaded(@NonNull Round itemAtEnd) {
-        onZeroItemsLoaded();
+//        onZeroItemsLoaded();
     }
 
     private void insertItemsIntoDatabase(JsonObject mainObj) {
