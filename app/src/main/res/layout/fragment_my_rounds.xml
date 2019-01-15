@@ -45,7 +45,7 @@
                     android:layout_centerInParent="true" />
 
                 <!-- data -->
-                <androidx.viewpager.widget.ViewPager
+                <it_geeks.info.gawla_app.General.WrapContentHeightViewPager
                     android:id="@+id/rounds_pager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

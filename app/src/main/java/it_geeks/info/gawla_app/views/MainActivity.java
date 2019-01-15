@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // back from !main page ?
         if (navigation.getSelectedItemId() == R.id.navigation_hales) {
             super.onBackPressed();
 
@@ -121,7 +122,4 @@ public class MainActivity extends AppCompatActivity {
     private void displayFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, fragment).commit();
     }
-
-    //back from !main page ?
-
 }

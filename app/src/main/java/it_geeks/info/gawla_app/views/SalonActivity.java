@@ -201,7 +201,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         for (int i = 0; i < roundsArray.size(); i++) {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
-            int product_id = roundObj.get("product_id").getAsInt();
             int salon_id = roundObj.get("salon_id").getAsInt();
 
             ids.add(salon_id);

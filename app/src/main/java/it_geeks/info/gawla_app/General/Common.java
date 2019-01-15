@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app.General;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -32,6 +34,7 @@ import java.util.TimeZone;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
+import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
 
 public class Common {
@@ -178,6 +181,19 @@ public class Common {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    public void ApplyOnConnection(Context context, ConnectionInterface connectionInterface) {
+        LinearLayout noConnectionLayout = ((Activity) context).findViewById(R.id.no_connection);
+
+        if (Common.Instance(context).isConnected()) { // connected
+            noConnectionLayout.setVisibility(View.GONE);
+
+            connectionInterface.onConnected();
+
+        } else { // no connection
+            noConnectionLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     public void sortList(List<SalonDate> list) {

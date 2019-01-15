@@ -106,8 +106,8 @@
                     android:id="@+id/recent_salons_see_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_small"
                     android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/margin_small"
                     android:text="@string/see_all"
                     android:textColor="@color/midBlue"
                     android:textSize="@dimen/text_size_large" />
@@ -122,8 +122,9 @@
                 <!-- recent salons recycler -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recent_salons_recycler"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginStart="@dimen/margin_tiny"
                     android:layout_marginEnd="@dimen/margin_tiny" />
 
@@ -184,9 +185,9 @@
                 <!-- btn see all -->
                 <TextView
                     android:layout_width="wrap_content"
-                    android:padding="@dimen/margin_small"
                     android:layout_height="wrap_content"
                     android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="@dimen/margin_small"
                     android:text="@string/see_all"
                     android:textColor="@color/midBlue"
                     android:textSize="@dimen/text_size_large" />

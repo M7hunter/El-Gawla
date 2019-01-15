@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import java.text.DateFormatSymbols;
@@ -14,10 +13,10 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.General.ConnectionInterface;
 import it_geeks.info.gawla_app.General.OnItemClickListener;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
@@ -25,7 +24,6 @@ import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.Controllers.Adapters.CountrySpinnerAdapter;
 import it_geeks.info.gawla_app.Controllers.Adapters.DateAdapter;
 import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
 
@@ -33,7 +31,6 @@ public class AllSalonsActivity extends AppCompatActivity implements OnItemClickL
 
     public static Activity allSalonsActivityInstance;
 
-    AppCompatSpinner countrySpinner;
     ArrayList<Country> countries = new ArrayList<>();
 
     RecyclerView dateSalonsRecycler;
@@ -51,7 +48,12 @@ public class AllSalonsActivity extends AppCompatActivity implements OnItemClickL
 
         initViews();
 
-        checkConnection();
+        Common.Instance(AllSalonsActivity.this).ApplyOnConnection(AllSalonsActivity.this, new ConnectionInterface() {
+            @Override
+            public void onConnected() {
+                getDatesAndRounds();
+            }
+        });
     }
 
     private void initViews() {
@@ -69,19 +71,6 @@ public class AllSalonsActivity extends AppCompatActivity implements OnItemClickL
                 startActivity(new Intent(AllSalonsActivity.this, NotificationActivity.class));
             }
         });
-    }
-
-    private void checkConnection() {
-        LinearLayout noConnectionLayout = findViewById(R.id.no_connection);
-
-        if (Common.Instance(AllSalonsActivity.this).isConnected()) { // connected
-            noConnectionLayout.setVisibility(View.GONE);
-
-            getDatesAndRounds();
-
-        } else { // no connection
-            noConnectionLayout.setVisibility(View.VISIBLE);
-        }
     }
 
     private void getDatesAndRounds() {
@@ -159,23 +148,5 @@ public class AllSalonsActivity extends AppCompatActivity implements OnItemClickL
 
     private void getCountries() {
         countries = (ArrayList<Country>) GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).countryDao().getCountries();
-    }
-
-    private void initCountriesSpinner() {
-//        countrySpinner = findViewById(R.id.all_salons_country_spinner);
-        CountrySpinnerAdapter countrySpinnerAdapter = new CountrySpinnerAdapter(AllSalonsActivity.this, countries);
-        countrySpinner.setAdapter(countrySpinnerAdapter);
-
-        countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 }
