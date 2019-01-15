@@ -144,6 +144,7 @@
     <string name="empty_name">Username Empty</string>
     <string name="empty_message">Message Empty</string>
     <string name="sending_message">Sending...</string>
+    <string name="rOffer">The Offer</string>
 
     <!--  Arr For Test and will delete later .-->
     <array name="ArrGender">
@@ -167,4 +168,6 @@
     <string name="no_connection">no connection</string>
     <string name="retry">retry</string>
     <string name="category">category</string>
+    <string name="connection_error">Error connecting .</string>
+
 </resources>

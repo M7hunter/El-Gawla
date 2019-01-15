@@ -122,6 +122,8 @@ public class ParseResponses {
         int close_hall_value = close_hall.get("value").getAsInt();
 
         String round_status = roundtime.get("status").getAsString();
+        boolean isUserJoin = false ;
+         isUserJoin = roundObj.get("isUserJoin").getAsBoolean();  //
         return new RoundRealTimeModel(
                 open_hall_status,
                 open_hall_value,
@@ -139,7 +141,8 @@ public class ParseResponses {
                 seconed_rest_value,
                 close_hall_status,
                 close_hall_value,
-                round_status);
+                round_status,
+                isUserJoin);
     }
 
     private static List<Card> parseSalonCards(JsonObject roundObj, int salon_id) {
