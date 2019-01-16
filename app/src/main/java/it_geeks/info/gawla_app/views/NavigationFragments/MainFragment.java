@@ -30,6 +30,7 @@ import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.views.AllSalonsActivity;
+import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.menuOptions.MoreAboutGawlaActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 
@@ -63,6 +64,7 @@ public class MainFragment extends Fragment {
     }
 
     private void initViews(View view) {
+        recentSalonsRecycler = view.findViewById(R.id.recent_salons_recycler);
         recentSalonsProgress = view.findViewById(R.id.recent_salons_progress);
         winnersNewsProgress = view.findViewById(R.id.winners_news_progress);
         winnersHeader = view.findViewById(R.id.winners_header);
@@ -129,7 +131,7 @@ public class MainFragment extends Fragment {
                     public void handleConnectionErrors(String errorMessage) {
                         initSalonsEmptyView(view, roundList);
                         recentSalonsProgress.setVisibility(View.GONE);
-                        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -140,7 +142,6 @@ public class MainFragment extends Fragment {
     }
 
     private void initSalonsRecycler(final View view) {
-        recentSalonsRecycler = view.findViewById(R.id.recent_salons_recycler);
         recentSalonsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         recentSalonsPagedAdapter = new SalonsAdapter(getContext(), roundList);
 
