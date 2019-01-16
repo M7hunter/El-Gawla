@@ -13,8 +13,8 @@
 
     </style>
 
-    <style name="Widget.MaterialComponents.Button.Icon" parent="Widget.MaterialComponents.Button" tools:override="true">
-        <item name="rippleColor">@color/paleGrey2</item>
+    <style name="GreenButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:colorButtonNormal">@color/greenBlue</item>
     </style>
 
 </resources>
