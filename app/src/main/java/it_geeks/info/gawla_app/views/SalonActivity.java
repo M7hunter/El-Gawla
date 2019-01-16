@@ -553,7 +553,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         header.setText(getString(R.string.Attention));
         header.setTextColor(getResources().getColor(R.color.midBlue));
         text.setText(getString(R.string.Attention_Details));
-        btnJoinRound.setBackground(getDrawable(R.drawable.joined_play_shape));
+        btnJoinRound.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         btnJoinRound.setText(getString(R.string.join_round));
     }
 
@@ -562,7 +562,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         header.setText(getString(R.string.Congratulations_Attention));
         header.setTextColor(getResources().getColor(R.color.greenBlue));
         text.setText(getString(R.string.Congratulations_Attention_Details));
-        btnJoinRound.setBackground(getDrawable(R.drawable.joined_play_shape));
+        btnJoinRound.setBackgroundColor(getResources().getColor(R.color.greenBlue));
         btnJoinRound.setText(getString(R.string.start_play));
     }
 
