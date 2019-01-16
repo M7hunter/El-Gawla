@@ -551,7 +551,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/edittext_shape_add"
                 android:gravity="center"
-                android:hint="0"
+                android:hint="@string/rOffer"
                 android:inputType="number"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
@@ -562,11 +562,13 @@
             <Button
                 android:id="@+id/add_offer_btn"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_weight="1"
                 android:background="@drawable/login_shape"
                 android:text="@string/add_deal"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />

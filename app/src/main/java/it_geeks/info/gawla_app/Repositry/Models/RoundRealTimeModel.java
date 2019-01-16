@@ -2,14 +2,14 @@ package it_geeks.info.gawla_app.Repositry.Models;
 
 public class RoundRealTimeModel {
 
-    boolean open_hall_status , free_join_status , pay_join_status , first_round_status , first_rest_status , seconed_round_status , seconed_rest_status , close_hall_status ;
+    boolean open_hall_status , free_join_status , pay_join_status , first_round_status , first_rest_status , seconed_round_status , seconed_rest_status , close_hall_status , isUserJoin;
     int open_hall_value ,free_join_value ,pay_join_value ,first_round_value ,first_rest_value , seconed_round_value ,seconed_rest_value , close_hall_value;
     String round_status;
 
     public RoundRealTimeModel() {
     }
 
-    public RoundRealTimeModel(boolean open_hall_status, int open_hall_value, boolean free_join_status, int free_join_value, boolean pay_join_status, int pay_join_value, boolean first_round_status, int first_round_value, boolean first_rest_status, int first_rest_value, boolean seconed_round_status, int seconed_round_value, boolean seconed_rest_status, int seconed_rest_value, boolean close_hall_status, int close_hall_value ,String round_status) {
+    public RoundRealTimeModel(boolean open_hall_status, int open_hall_value, boolean free_join_status, int free_join_value, boolean pay_join_status, int pay_join_value, boolean first_round_status, int first_round_value, boolean first_rest_status, int first_rest_value, boolean seconed_round_status, int seconed_round_value, boolean seconed_rest_status, int seconed_rest_value, boolean close_hall_status, int close_hall_value ,String round_status , boolean isUserJoin) {
         this.open_hall_status = open_hall_status;
         this.open_hall_value = open_hall_value;
         this.free_join_status = free_join_status;
@@ -27,6 +27,15 @@ public class RoundRealTimeModel {
         this.close_hall_status = close_hall_status;
         this.close_hall_value = close_hall_value;
         this.round_status = round_status;
+        this.isUserJoin = isUserJoin;
+    }
+
+    public boolean isUserJoin() {
+        return isUserJoin;
+    }
+
+    public void setUserJoin(boolean userJoin) {
+        isUserJoin = userJoin;
     }
 
     public String getRound_status() {

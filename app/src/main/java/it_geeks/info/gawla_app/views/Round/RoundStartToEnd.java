@@ -62,6 +62,7 @@ public class RoundStartToEnd {
     public void start() {
         int milli = 1000;
         Log.e("Mo7",open_hall_status +" "+ free_join_status +" "+ pay_join_status +" "+ first_round_status +" "+ first_rest_status +" "+ seconed_round_status +" "+ seconed_rest_status +" "+ close_hall_status);
+        ((SalonActivity) context).hideConfirmationLayout();
        if (round_status.trim().equals("open")){
            if (open_hall_status){
                open_hall_value(open_hall_value * milli);
@@ -78,6 +79,7 @@ public class RoundStartToEnd {
            }else if (seconed_rest_status){
                seconed_rest_value(seconed_rest_value * milli);
            }else if (close_hall_status){
+               close_hall_value();
            }
        }else {
            ((SalonActivity) context).round_notification_text.setText(round_status);
@@ -98,6 +100,7 @@ public class RoundStartToEnd {
             ((SalonActivity) context).round_notification_text.setText(" You are joined .");
         } else {
             ((SalonActivity) context).round_notification_text.setText("You can Join Now .");
+            ((SalonActivity) context).btnJoinRound.setVisibility(View.VISIBLE);
         }
         DoCountDown(value);
     }
@@ -119,10 +122,8 @@ public class RoundStartToEnd {
         if (joinStatus == 2) {
             ((SalonActivity) context).round_notification_text.setText("round stared add offers to win .");
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
-            ((SalonActivity) context).hideConfirmationLayout();
         } else {
             ((SalonActivity) context).round_notification_text.setText("round stared .");
-            ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
             ((SalonActivity) context).cancelConfirmation();
         }
         DoCountDown(value);
@@ -142,6 +143,10 @@ public class RoundStartToEnd {
     private void seconed_rest_value(long value) {
         ((SalonActivity) context).round_notification_text.setText("Second rest time .");
         DoCountDown(value);
+    }
+
+    private void close_hall_value() {
+        ((SalonActivity) context).round_notification_text.setText("Round Closed .");
     }
 
             ///////////////////////////////////////////////////////
