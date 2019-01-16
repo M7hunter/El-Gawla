@@ -167,4 +167,5 @@
     <string name="no_connection">no connection</string>
     <string name="retry">retry</string>
     <string name="category">category</string>
+    <string name="filter_by">filter by</string>
 </resources>

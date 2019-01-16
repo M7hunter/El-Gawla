@@ -193,6 +193,8 @@ public class Common {
 
         } else { // no connection
             noConnectionLayout.setVisibility(View.VISIBLE);
+
+            connectionInterface.onFailed();
         }
     }
 

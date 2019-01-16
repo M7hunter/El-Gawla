@@ -6,6 +6,7 @@ import android.text.Html;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ public class IntroActivity extends AppCompatActivity {
     private TextView[] mDots;
     TextView txtback, txtnext;
     private int mCurrentPage;
+    Button btnSkip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class IntroActivity extends AppCompatActivity {
         //--------------------------------------------//
         setContentView(R.layout.activity_intro);
 
+        btnSkip = findViewById(R.id.btn_skip);
         txtback = findViewById(R.id.txt_back);
         txtnext = findViewById(R.id.txt_next);
         mViewPager = findViewById(R.id.slideViewPager);
@@ -71,6 +74,14 @@ public class IntroActivity extends AppCompatActivity {
 
             }
         });
+
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openNextPage();
+            }
+        });
+
         txtnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

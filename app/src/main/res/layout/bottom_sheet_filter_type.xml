@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_activate_cards"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_xxlarge"
+        android:background="@drawable/bg_rounded_top_corners_white"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:text="@string/filter_by"
+            android:textAllCaps="true"
+            android:textColor="@color/battleshipGrey"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+        <!-- country -->
+        <Button
+            android:id="@+id/btn_filter_by_country"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin_xxlarge"
+            android:layout_marginEnd="@dimen/margin_xxlarge"
+            android:gravity="start"
+            android:padding="@dimen/margin_small"
+            android:text="@string/country"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
+            app:icon="@drawable/ic_alarm"
+            app:iconPadding="@dimen/margin_large" />
+
+        <!-- date -->
+        <Button
+            android:id="@+id/btn_filter_by_date"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin_xxlarge"
+            android:layout_marginEnd="@dimen/margin_xxlarge"
+            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:gravity="start"
+            android:padding="@dimen/margin_small"
+            android:text="@string/date"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
+            app:icon="@drawable/ic_alarm"
+            app:iconPadding="@dimen/margin_large" />
+
+    </LinearLayout>
+
+    <!-- close btn -->
+    <ImageView
+        android:id="@+id/close_bottom_sheet_filter_type"
+        android:layout_width="@dimen/image_cards_round_updates"
+        android:layout_height="@dimen/image_cards_round_updates"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/margin_xxxlarge"
+        android:background="@drawable/bg_circle_blue_270"
+        android:padding="@dimen/margin_large"
+        android:src="@drawable/ic_close"
+        android:tint="@android:color/white" />
+
+</RelativeLayout>

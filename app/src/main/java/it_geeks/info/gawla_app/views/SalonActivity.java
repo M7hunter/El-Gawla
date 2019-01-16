@@ -358,7 +358,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         apiToken = Common.Instance(SalonActivity.this).removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
         userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
         FullActivityp = findViewById(R.id.salon_container);
-        loading = findViewById(R.id.Salon_loading);
+//        loading = findViewById(R.id.Salon_loading);
         // notification icon
         findViewById(R.id.salon_notification_icon).setOnClickListener(new View.OnClickListener() {
             @Override

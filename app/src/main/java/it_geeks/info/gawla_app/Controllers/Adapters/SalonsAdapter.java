@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app.Controllers.Adapters;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.views.AllSalonsActivity;
 import it_geeks.info.gawla_app.views.SalonActivity;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
@@ -28,8 +28,6 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
 
     private Context context;
     private List<Round> rounds;
-
-    private int lastPosition = -1;
 
     public SalonsAdapter(Context context, List<Round> rounds) {
         this.context = context;
@@ -90,7 +88,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                     pairs[0] = new Pair<View, String>(viewHolder.imgProductImage, "transProductImage");
                     pairs[1] = new Pair<View, String>(viewHolder.tvProductName, "transProductName");
 
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(AllSalonsActivity.allSalonsActivityInstance, pairs);
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), pairs);
                     context.startActivity(i, options.toBundle());
                 }
             });

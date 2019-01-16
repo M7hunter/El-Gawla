@@ -1,118 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?><!-- scroll main layout -->
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
     tools:context=".views.AllSalonsActivity">
-    <!-- scroll main layout -->
-    <LinearLayout
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <!-- title bar -->
-        <RelativeLayout
-            android:id="@+id/all_salons_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:layoutDirection="ltr">
-
-            <!-- back -->
-            <ImageView
-                android:id="@+id/all_salons_back"
-                android:layout_width="@dimen/icon_back"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/margin_small"
-                android:src="@drawable/ic_arrow_back" />
-
-            <!-- title -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="@string/all_salons"
-                android:textColor="@color/battleshipGrey"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
-
-            <!-- bell -->
-            <ImageView
-                android:id="@+id/all_salon_notification_icon"
-                android:layout_width="@dimen/icon_notification"
-                android:layout_height="@dimen/icon_notification"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="@dimen/margin_tiny"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:padding="@dimen/margin_tiny"
-                android:src="@drawable/ic_bell" />
-
-        </RelativeLayout>
-
-        <!-- recyclers container -->
+        android:layout_height="match_parent">
+        <!-- scroll main layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!-- dates recycler -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/date_recycler"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_medium" />
-
-            <!-- salons & empty view container & 'to center the cards' -->
+            <!-- title bar -->
             <RelativeLayout
+                android:id="@+id/all_salons_header"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/margin_large">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_tiny"
+                android:layoutDirection="ltr">
 
-                <!-- salons recycler -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/date_salons_recycler"
-                    android:layout_width="wrap_content"
+                <!-- back -->
+                <ImageView
+                    android:id="@+id/all_salons_back"
+                    android:layout_width="@dimen/icon_back"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true" />
+                    android:layout_centerVertical="true"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/margin_small"
+                    android:src="@drawable/ic_arrow_back" />
 
-                <!-- empty view -->
-                <LinearLayout
-                    android:id="@+id/all_salons_empty_view"
+                <!-- title -->
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:text="@string/all_salons"
+                    android:textColor="@color/battleshipGrey"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/empty_view_salons" />
+                <!-- bell -->
+                <ImageView
+                    android:id="@+id/all_salon_notification_icon"
+                    android:layout_width="@dimen/icon_notification"
+                    android:layout_height="@dimen/icon_notification"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="@dimen/margin_tiny"
+                    android:src="@drawable/ic_bell" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:gravity="center"
-                        android:text="@string/no_salons"
-                        android:textColor="@color/blueGrey"
-                        android:textSize="@dimen/text_size_medium" />
-
-                </LinearLayout>
+                <!-- filter btn -->
+                <ImageView
+                    android:id="@+id/all_salon_filter_icon"
+                    android:layout_width="@dimen/icon_notification"
+                    android:layout_height="@dimen/icon_notification"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@id/all_salon_notification_icon"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="@dimen/margin_tiny"
+                    android:src="@drawable/ic_bell" />
 
             </RelativeLayout>
 
+            <!-- recyclers container -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- dates recycler -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/date_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin_medium" />
+
+                <!-- salons & empty view container & 'to center the cards' -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/margin_large">
+
+                    <!-- salons recycler -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/date_salons_recycler"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+
+                    <!-- empty view -->
+                    <LinearLayout
+                        android:id="@+id/all_salons_empty_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/empty_view_salons" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:gravity="center"
+                            android:text="@string/no_salons"
+                            android:textColor="@color/blueGrey"
+                            android:textSize="@dimen/text_size_medium" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <include layout="@layout/no_connection_layout" />
+
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-        <include layout="@layout/no_connection_layout" />
+    <include layout="@layout/bottom_sheet_filter_type" />
 
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

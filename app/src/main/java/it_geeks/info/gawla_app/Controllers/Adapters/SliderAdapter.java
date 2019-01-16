@@ -18,7 +18,6 @@ public class SliderAdapter extends PagerAdapter {
     LayoutInflater LayoutInFlateR;
     public int[] slide_Images ;
     String[] slide_headings , slide_descs;
-    TextView txt_Splat_Skip;
 
     public SliderAdapter(Context context) {
         this.context = context;
@@ -57,7 +56,7 @@ public class SliderAdapter extends PagerAdapter {
         LayoutInFlateR = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View v = LayoutInFlateR.inflate(R.layout.slide_layout,container,false);
 
-        txt_Splat_Skip = v.findViewById(R.id.txt_splash_skip);
+
         ImageView slideImageView = v.findViewById(R.id.slide_Image);
         TextView slideHeading = v.findViewById(R.id.slide_Heading);
         TextView slideDesc = v.findViewById(R.id.slide_Desc);
@@ -65,13 +64,6 @@ public class SliderAdapter extends PagerAdapter {
         slideImageView.setImageResource(slide_Images[position]);
         slideHeading.setText(slide_headings[position]);
         slideDesc.setText(slide_descs[position]);
-
-        txt_Splat_Skip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((IntroActivity) context).openNextPage();
-            }
-        });
 
         container.addView(v);
         return v;
