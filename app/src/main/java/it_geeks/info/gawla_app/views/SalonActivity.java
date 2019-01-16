@@ -1,6 +1,8 @@
 package it_geeks.info.gawla_app.views;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.net.Uri;
@@ -32,12 +34,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.General.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
@@ -63,6 +67,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     RoundRealTimeModel roundRealTimeModel;
     public TextView round_notification_text;
 
+    //Attention Joun Screen
+    ImageView icon;
+    TextView header , text ;
+
     private String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time, first_join_time, second_join_time, round_date, round_time, rest_time;
     int product_id, salon_id;
     String apiToken;
@@ -79,7 +87,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     FrameLayout overlayLayout;
     ProgressBar joinProgress, joinConfirmationProgress , loading;
     private Round round;
-
+    ImageView out_round;
     private BottomSheetDialog mBottomSheetDialogActivateCard;
     private BottomSheetDialog mBottomSheetDialogProductDetails;
 
@@ -94,6 +102,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private ImageView btnPlayPause;
     private int stopPosition = 0;
 
+    ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
+
     public ProductSubImage productSubImage = new ProductSubImage();
 
     private List<ProductSubImage> imagesList = new ArrayList<>();
@@ -102,6 +112,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salon);
+
+        registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
 
         initViews();
 
@@ -131,7 +143,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             public void handleResponseData(JsonObject mainObject) {
                 FullActivityp.setVisibility(View.VISIBLE);
                 loading.setVisibility(View.INVISIBLE);
-                  startTimeDown(ParseResponses.parseRoundRealTime(mainObject));
+                startTimeDown(ParseResponses.parseRoundRealTime(mainObject));
+
             }
 
             @Override
@@ -150,7 +163,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         getRealtimeOfRound();
                     }
                 }).show();
-
             }
         });
 
@@ -194,14 +206,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         this.roundRealTimeModel = roundRealTimeModel;
         if (roundRealTimeModel.isUserJoin() == true){
             joinStatus = 2;
-        }else{
+        }else {
             joinStatus = 0;
         }
 
         RoundStartToEndModel roundStartToEndModel = new RoundStartToEndModel(upDivsList, downDivsList, drawablesUp, drawablesDown);
-            roundStartToEnd = new RoundStartToEnd(SalonActivity.this, roundStartToEndModel);
-            roundStartToEnd.setJoinStatus(joinStatus);  // User Status From Server to time
-            roundStartToEnd.setTime(roundRealTimeModel);// set round time
+        roundStartToEnd = new RoundStartToEnd(SalonActivity.this, roundStartToEndModel);
+        roundStartToEnd.setJoinStatus(joinStatus);  // User Status From Server to time
+        roundStartToEnd.setTime(roundRealTimeModel);// set round time
         try {
             roundStartToEnd.start();
         } catch (NullPointerException e) {
@@ -321,14 +333,66 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
         FullActivityp = findViewById(R.id.salon_container);
         loading = findViewById(R.id.Salon_loading);
+
+        icon = findViewById(R.id.join_confirmation_icon);
+        header = findViewById(R.id.join_confirmation_header);
+        text = findViewById(R.id.join_confirmation_text);
+
         // notification icon
-        findViewById(R.id.salon_notification_icon).setOnClickListener(new View.OnClickListener() {
+         findViewById(R.id.salon_notification_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SalonActivity.this, NotificationActivity.class));
             }
         });
+         // Leave Round
+        out_round = findViewById(R.id.out_round);
+        out_round.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            userOutRound();
+            }
+        });
+
     }
+
+    private void userOutRound() {
+        AlertDialog.Builder alertOut = new AlertDialog.Builder(SalonActivity.this);
+        alertOut.setMessage("Are you sure to leave this Salon ?.");
+        alertOut.setPositiveButton("Logout Me",outRound);
+        alertOut.setNegativeButton("Cancel",null);
+        alertOut.setCancelable(false);
+        alertOut.create();
+        alertOut.show();
+    } // check if user keep wanting out .
+
+    private DialogInterface.OnClickListener outRound = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this, "setRoundLeave", new Request(userId,apiToken,salon_id) , new HandleResponses() {
+                @Override
+                public void handleResponseData(JsonObject mainObject) {
+                    roundStartToEnd.stop(); // stop Time Down
+                    getRealtimeOfRound();
+                    attentionScreen();
+                }
+
+                @Override
+                public void handleEmptyResponse() {
+
+                }
+
+                @Override
+                public void handleConnectionErrors(String errorMessage) {
+                    Snackbar.make(findViewById(R.id.salon_main_layout), R.string.connection_error, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getRealtimeOfRound();
+                        }
+                    }).show();                }
+            });
+        }
+    };
 
     private void handleEvents() {
         btnJoinRound.setOnClickListener(new View.OnClickListener() {
@@ -344,6 +408,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     case 2:
                         hideConfirmationLayout();
                         round_notification_text.setText("You are joined .");
+                        out_round.setVisibility(View.VISIBLE);
                         break;
                     default:
                         break;
@@ -369,11 +434,15 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             public void onClick(View v) {
                 if (joinStatus == 2) {
                     hideConfirmationLayout();
-                } else {
-                    cancelConfirmation();
+                    out_round.setVisibility(View.VISIBLE);
+                } else if(roundRealTimeModel.isUserJoin()) {
+                    out_round.setVisibility(View.VISIBLE);
+                }else {
+                        cancelConfirmation();
+                    }
                 }
 
-            }
+
         });
 
         //
@@ -408,8 +477,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         , salon_id), new HandleResponses() {
                     @Override
                     public void handleResponseData(JsonObject mainObject) {
-
                         changeConfirmationState();
+                        out_round.setVisibility(View.VISIBLE);
+                        joinStatus = 2;
                     }
 
                     @Override
@@ -420,7 +490,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-
                         joinConfirmationProgress.setVisibility(View.GONE);
                     }
                 });
@@ -476,15 +545,24 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private void changeConfirmationState() {
         joinStatus = 2;
         roundStartToEnd.setJoinStatus(joinStatus);
-        ImageView icon = findViewById(R.id.join_confirmation_icon);
-        TextView header = findViewById(R.id.join_confirmation_header);
-        TextView text = findViewById(R.id.join_confirmation_text);
+        congratulationScreen();
+    }
 
+    private void attentionScreen() { // Attention Screen  to Join Round
+        icon.setImageDrawable(getDrawable(R.drawable.outline));
+        header.setText(getString(R.string.Attention));
+        header.setTextColor(getResources().getColor(R.color.midBlue));
+        text.setText(getString(R.string.Attention_Details));
+        btnJoinRound.setBackground(getDrawable(R.drawable.joined_play_shape));
+        btnJoinRound.setText(getString(R.string.join_round));
+    }
+
+    private void congratulationScreen() { // Congratulation Screen to Join Round
         icon.setImageDrawable(getDrawable(R.drawable.joinedrounddone));
         header.setText(getString(R.string.Congratulations_Attention));
         header.setTextColor(getResources().getColor(R.color.greenBlue));
         text.setText(getString(R.string.Congratulations_Attention_Details));
-        btnJoinRound.setBackground(getResources().getDrawable(R.drawable.joined_play_shape));
+        btnJoinRound.setBackground(getDrawable(R.drawable.joined_play_shape));
         btnJoinRound.setText(getString(R.string.start_play));
     }
 
@@ -500,8 +578,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         overlayLayout.setVisibility(View.GONE);
         addOfferLayout.setVisibility(View.GONE);
 
-        if (roundRealTimeModel.isFirst_round_status() && roundRealTimeModel.isUserJoin() == true || roundRealTimeModel.isSeconed_round_status() && roundRealTimeModel.isUserJoin() == true ){
+        if (roundRealTimeModel.isFirst_round_status() && roundRealTimeModel.isUserJoin() || roundRealTimeModel.isSeconed_round_status() && roundRealTimeModel.isUserJoin()){
             addOfferLayout.setVisibility(View.VISIBLE);
+        }
+        if (roundRealTimeModel.isFree_join_status() && roundRealTimeModel.isUserJoin() || roundRealTimeModel.isPay_join_status() && roundRealTimeModel.isUserJoin()){
+            out_round.setVisibility(View.VISIBLE);
+        }else{
+            out_round.setVisibility(View.GONE);
         }
 
 
@@ -803,9 +886,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(connectionChangeReceiver);
         try {
             roundStartToEnd.stop(); // stop Time Down
-    }catch (Exception e){}
+        }catch (Exception e){}
 
     }
 }

@@ -34,7 +34,6 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
 
         if (activeNetInfo != null) {
             connectedSnack(context);
-
         } else {
             unConnectedSnack(context);
         }
