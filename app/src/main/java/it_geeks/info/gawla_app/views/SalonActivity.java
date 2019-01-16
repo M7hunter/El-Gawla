@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonArray;
@@ -34,7 +33,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.General.Common;
@@ -195,6 +193,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         }
         return salonMainContainer;
     }
+
     private List<Integer> getSalonIdFromResponse(JsonObject object) {
         List<Integer> ids = new ArrayList<>();
         JsonArray roundsArray = object.get("salons").getAsJsonArray();
@@ -358,7 +357,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         apiToken = Common.Instance(SalonActivity.this).removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
         userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
         FullActivityp = findViewById(R.id.salon_container);
-//        loading = findViewById(R.id.Salon_loading);
+        loading = findViewById(R.id.Salon_loading);
         // notification icon
         findViewById(R.id.salon_notification_icon).setOnClickListener(new View.OnClickListener() {
             @Override

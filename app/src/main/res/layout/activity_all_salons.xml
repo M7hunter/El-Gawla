@@ -75,9 +75,9 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <!-- dates recycler -->
+                <!-- filter recycler -->
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/date_recycler"
+                    android:id="@+id/filter_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -87,7 +87,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/margin_large">
+                    android:layout_marginTop="@dimen/margin_xxlarge">
 
                     <!-- salons recycler -->
                     <androidx.recyclerview.widget.RecyclerView
@@ -132,6 +132,18 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/bottom_sheet_filter_type" />
+    <include layout="@layout/bottom_sheet_filter_by" />
+
+    <FrameLayout
+        android:id="@+id/dimmed_with_progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:drawable/screen_background_dark_transparent"/>
+
+    <ProgressBar
+        android:id="@+id/all_salon_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

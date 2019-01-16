@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginBottom="@dimen/margin_medium"
             android:text="@string/filter_by"
@@ -28,22 +28,6 @@
             android:textColor="@color/battleshipGrey"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
-
-        <!-- country -->
-        <Button
-            android:id="@+id/btn_filter_by_country"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margin_xxlarge"
-            android:layout_marginEnd="@dimen/margin_xxlarge"
-            android:gravity="start"
-            android:padding="@dimen/margin_small"
-            android:text="@string/country"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold"
-            app:icon="@drawable/ic_alarm"
-            app:iconPadding="@dimen/margin_large" />
 
         <!-- date -->
         <Button
@@ -53,10 +37,26 @@
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/margin_xxlarge"
             android:layout_marginEnd="@dimen/margin_xxlarge"
-            android:layout_marginBottom="@dimen/margin_xlarge"
             android:gravity="start"
             android:padding="@dimen/margin_small"
             android:text="@string/date"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
+            app:icon="@drawable/ic_alarm"
+            app:iconPadding="@dimen/margin_large" />
+
+        <!-- category -->
+        <Button
+            android:id="@+id/btn_filter_by_category"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin_xxlarge"
+            android:layout_marginEnd="@dimen/margin_xxlarge"
+            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:gravity="start"
+            android:padding="@dimen/margin_small"
+            android:text="@string/category"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
             app:icon="@drawable/ic_alarm"
@@ -66,7 +66,7 @@
 
     <!-- close btn -->
     <ImageView
-        android:id="@+id/close_bottom_sheet_filter_type"
+        android:id="@+id/close_bottom_sheet_filter_by"
         android:layout_width="@dimen/image_cards_round_updates"
         android:layout_height="@dimen/image_cards_round_updates"
         android:layout_alignParentEnd="true"

@@ -11,7 +11,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:orientation="vertical">
 
         <!-- title bar -->
@@ -101,7 +100,8 @@
                 android:src="@drawable/ic_check"
                 android:visibility="visible"
                 app:layout_constraintEnd_toStartOf="@id/img_update_Image"
-                app:layout_constraintStart_toStartOf="@id/img_update_Image" />
+                app:layout_constraintStart_toStartOf="@id/img_update_Image"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- btn choose image -->
             <ImageButton
@@ -113,7 +113,8 @@
                 android:padding="@dimen/margin_tiny"
                 android:src="@drawable/ic_edit"
                 app:layout_constraintEnd_toStartOf="@id/img_update_Image"
-                app:layout_constraintStart_toStartOf="@id/img_update_Image" />
+                app:layout_constraintStart_toStartOf="@id/img_update_Image"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -198,60 +199,59 @@
                 app:helperText="+2" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- country header -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xxxlarge"
-            android:layout_marginEnd="@dimen/margin_xxxlarge"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:layout_weight="1"
-            android:text="@string/country"
-            android:textColor="@color/blueGrey"
-            android:textStyle="bold" />
-
-        <!-- TODO: make your own material spinner -->
         <!-- country -->
-        <Spinner
-            android:id="@+id/sp_update_country"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xxxlarge"
-            android:layout_marginEnd="@dimen/margin_xxxlarge"
+            android:layout_marginLeft="@dimen/margin_xxxlarge"
+            android:layout_marginRight="@dimen/margin_xxxlarge"
+            android:layout_marginBottom="@dimen/margin_xlarge"
             android:layout_weight="1"
-            android:background="@drawable/account_details_spinner_shape"
-            android:paddingStart="@dimen/margin_xlarge"
-            android:paddingTop="@dimen/margin_small"
-            android:paddingEnd="@dimen/margin_xlarge"
-            android:paddingBottom="@dimen/margin_small" />
+            android:textColorHint="@color/paleGrey2">
 
-        <!-- gender header -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xxxlarge"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_xxxlarge"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:layout_weight="1"
-            android:text="@string/gender"
-            android:textColor="@color/blueGrey"
-            android:textStyle="bold" />
+            <EditText
+                android:id="@+id/my_sp_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_arrow_drop_down"
+                android:focusable="auto"
+                android:hint="@string/country"
+                android:inputType="none"
+                android:paddingStart="@dimen/margin_xlarge"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_small"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- gender -->
-        <Spinner
-            android:id="@+id/sp_update_gender"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xxxlarge"
-            android:layout_marginEnd="@dimen/margin_xxxlarge"
+            android:layout_marginLeft="@dimen/margin_xxxlarge"
+            android:layout_marginRight="@dimen/margin_xxxlarge"
+            android:layout_marginBottom="@dimen/margin_xlarge"
             android:layout_weight="1"
-            android:background="@drawable/account_details_spinner_shape"
-            android:entries="@array/ArrGender"
-            android:paddingStart="@dimen/margin_xlarge"
-            android:paddingTop="@dimen/margin_small"
-            android:paddingEnd="@dimen/margin_xlarge"
-            android:paddingBottom="@dimen/margin_small" />
+            android:textColorHint="@color/paleGrey2">
+
+            <EditText
+                android:id="@+id/my_sp_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_arrow_drop_down"
+                android:focusable="auto"
+                android:hint="@string/gender"
+                android:inputType="none"
+                android:paddingStart="@dimen/margin_xlarge"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_small"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 </ScrollView>

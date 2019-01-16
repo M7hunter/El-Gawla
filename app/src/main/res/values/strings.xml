@@ -168,4 +168,6 @@
     <string name="retry">retry</string>
     <string name="category">category</string>
     <string name="filter_by">filter by</string>
+    <string name="male">male</string>
+    <string name="female">female</string>
 </resources>

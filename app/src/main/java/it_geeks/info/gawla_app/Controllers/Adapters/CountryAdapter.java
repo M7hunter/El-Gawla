@@ -1,12 +1,11 @@
 package it_geeks.info.gawla_app.Controllers.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -15,19 +14,22 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import it_geeks.info.gawla_app.General.OnItemClickListener;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
-import it_geeks.info.gawla_app.views.splashActivities.IntroActivity;
 
 public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHolder> {
 
     private Context context;
     private List<Country> countriesList;
+    private OnItemClickListener onItemClickListener;
+    private int selectedPosition = 0;
 
-    public CountryAdapter(Context context, List<Country> countriesList) {
+    public CountryAdapter(Context context, List<Country> countriesList, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.countriesList = countriesList;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -37,21 +39,46 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         final Country country = countriesList.get(i);
 
-        viewHolder.label.setText(country.getCountry_title());
+        // check if selected
+        if (selectedPosition == i) { // selected ?
+            if (SharedPrefManager.getInstance(context).getCountry().getCountry_id() == country.getCountry_id()) { // my country ?
+                myCountry(viewHolder);
+            } else {
+                viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_white_bordered_nice_blue));
+            }
+        } else { // !selected
+            if (SharedPrefManager.getInstance(context).getCountry().getCountry_id() == country.getCountry_id()) { // my country ?
+                myCountry(viewHolder);
+            } else {
+                notMyCountry(viewHolder);
+            }
+        }
+
+        viewHolder.name.setText(country.getCountry_title());
         Picasso.with(context).load(country.getImage()).placeholder(R.drawable.placeholder).into(viewHolder.icon);
 
-        viewHolder.container.setOnClickListener(new View.OnClickListener() {
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPrefManager.getInstance(context).setCountry(country);
+                onItemClickListener.onItemClick(v, viewHolder.getAdapterPosition());
 
-                context.startActivity(new Intent(context, IntroActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                selectedPosition = viewHolder.getAdapterPosition();
+                notifyDataSetChanged();
             }
         });
+    }
+
+    private void myCountry(ViewHolder viewHolder) {
+        viewHolder.name.setTextColor(Color.WHITE);
+        viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_nice_blue));
+    }
+
+    private void notMyCountry(ViewHolder viewHolder) {
+        viewHolder.name.setTextColor(context.getResources().getColor(R.color.battleshipGrey));
+        viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_white));
     }
 
     @Override
@@ -61,16 +88,14 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView label;
+        TextView name;
         ImageView icon;
-        LinearLayout container;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            label = itemView.findViewById(R.id.country_child_label);
-            icon = itemView.findViewById(R.id.country_child_icon);
-            container = itemView.findViewById(R.id.country_child_container);
+            name = itemView.findViewById(R.id.country_name);
+            icon = itemView.findViewById(R.id.country_icon);
         }
     }
 }
