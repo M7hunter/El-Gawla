@@ -4,7 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.gson.JsonObject;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -15,29 +21,37 @@ import java.util.Locale;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import it_geeks.info.gawla_app.Controllers.Adapters.CategoryAdapter;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.ConnectionInterface;
 import it_geeks.info.gawla_app.General.OnItemClickListener;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Repositry.Models.Country;
+import it_geeks.info.gawla_app.Repositry.Models.Category;
+import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
+import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Controllers.Adapters.DateAdapter;
 import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
 
-public class AllSalonsActivity extends AppCompatActivity implements OnItemClickListener {
+public class AllSalonsActivity extends AppCompatActivity {
 
     public static Activity allSalonsActivityInstance;
 
-    ArrayList<Country> countries = new ArrayList<>();
-
     RecyclerView dateSalonsRecycler;
-    RecyclerView dateRecycler;
+    RecyclerView filterRecycler;
 
     List<Round> roundsList = new ArrayList<>();
+    List<Category> categoryList = new ArrayList<>();
     List<SalonDate> dateList = new ArrayList<>();
+
+    ProgressBar allSalonsProgress;
+    FrameLayout dimmedBackground;
+    BottomSheetDialog mBottomSheetDialogFilterBy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +62,29 @@ public class AllSalonsActivity extends AppCompatActivity implements OnItemClickL
 
         initViews();
 
+        initBottomSheetFilterBy();
+
         Common.Instance(AllSalonsActivity.this).ApplyOnConnection(AllSalonsActivity.this, new ConnectionInterface() {
             @Override
             public void onConnected() {
-                getDatesAndRounds();
+                transAndSortDates();
             }
 
             @Override
             public void onFailed() {
-
+                allSalonsProgress.setVisibility(View.GONE);
+                dimmedBackground.setVisibility(View.GONE);
             }
         });
     }
 
     private void initViews() {
+        filterRecycler = findViewById(R.id.filter_recycler);
+        filterRecycler.setHasFixedSize(true);
+        filterRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
+        allSalonsProgress = findViewById(R.id.all_salon_progress);
+        dimmedBackground = findViewById(R.id.dimmed_with_progress_layout);
+
         // back
         findViewById(R.id.all_salons_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +92,7 @@ public class AllSalonsActivity extends AppCompatActivity implements OnItemClickL
                 onBackPressed();
             }
         });
+
         // notification icon
         findViewById(R.id.all_salon_notification_icon).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,9 +100,22 @@ public class AllSalonsActivity extends AppCompatActivity implements OnItemClickL
                 startActivity(new Intent(AllSalonsActivity.this, NotificationActivity.class));
             }
         });
+
+        // open filter by bottom sheet
+        findViewById(R.id.all_salon_filter_icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // open sheet
+                if (mBottomSheetDialogFilterBy.isShowing()) {
+                    mBottomSheetDialogFilterBy.dismiss();
+                } else { // close sheet
+                    mBottomSheetDialogFilterBy.show();
+                }
+            }
+        });
     }
 
-    private void getDatesAndRounds() {
+    private void transAndSortDates() {
         List<String> dates = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsDates();
 
         for (String date : dates) {
@@ -87,28 +124,7 @@ public class AllSalonsActivity extends AppCompatActivity implements OnItemClickL
 
         Common.Instance(AllSalonsActivity.this).sortList(dateList);
 
-        initDatesRecycler();
-
-        try {
-            roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(dateList.get(0).getDate());
-        } catch (IndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
-
-        initSalonsRecycler();
-
-        initSalonsEmptyView(roundsList);
-    }
-
-    private void initSalonsEmptyView(List<Round> roundList) {
-        LinearLayout emptyViewLayout = findViewById(R.id.all_salons_empty_view);
-
-        if (roundList.size() > 0) { // !empty ?
-            emptyViewLayout.setVisibility(View.GONE);
-
-        } else {  // empty ?
-            emptyViewLayout.setVisibility(View.VISIBLE);
-        }
+        getDatesAndRounds();
     }
 
     public SalonDate transformDateToNames(String date) {
@@ -127,11 +143,86 @@ public class AllSalonsActivity extends AppCompatActivity implements OnItemClickL
         return new SalonDate(date, day, monthName, dayOfWeek, GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getDatesCount(date) + getResources().getString(R.string.salons));
     }
 
-    private void initDatesRecycler() {
-        dateRecycler = findViewById(R.id.date_recycler);
-        dateRecycler.setHasFixedSize(true);
-        dateRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
-        dateRecycler.setAdapter(new DateAdapter(AllSalonsActivity.this, dateList, AllSalonsActivity.this));
+    private void getDatesAndRounds() {
+        initDatesAdapter();
+
+        try {
+            roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(dateList.get(0).getDate());
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+
+        initSalonsRecycler();
+
+        initSalonsEmptyView();
+    }
+
+    private void initDatesAdapter() {
+        filterRecycler.setAdapter(new DateAdapter(AllSalonsActivity.this, dateList, new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                SalonDate salonDate = dateList.get(position);
+                roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(salonDate.getDate());
+
+                initSalonsRecycler();
+
+                initSalonsEmptyView();
+            }
+        }));
+    }
+
+    private void getCategoriesFromServer() {
+        int userId = SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getUser_id();
+        String apiToken = Common.Instance(AllSalonsActivity.this).removeQuotes(SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getApi_token());
+
+        RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
+                "getAllCardsCategories", new Request(userId, apiToken), new HandleResponses() {
+                    @Override
+                    public void handleResponseData(JsonObject mainObject) {
+
+                        categoryList = ParseResponses.parseCategories(mainObject);
+
+                        initCategoriesAdapter();
+
+                        try {
+                            roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
+                        } catch (IndexOutOfBoundsException e) {
+                            e.printStackTrace();
+                        }
+
+                        initSalonsRecycler();
+
+                        initSalonsEmptyView();
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+
+                        initSalonsEmptyView();
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+
+                        initSalonsEmptyView();
+
+                        Toast.makeText(AllSalonsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void initCategoriesAdapter() {
+        filterRecycler.setAdapter(new CategoryAdapter(AllSalonsActivity.this, categoryList, new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Category category = categoryList.get(position);
+                roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByCategory(category.getCategoryName());
+
+                initSalonsRecycler();
+
+                initSalonsEmptyView();
+            }
+        }));
     }
 
     private void initSalonsRecycler() {
@@ -141,17 +232,60 @@ public class AllSalonsActivity extends AppCompatActivity implements OnItemClickL
         dateSalonsRecycler.setAdapter(new SalonsAdapter(AllSalonsActivity.this, roundsList));
     }
 
-    @Override
-    public void onItemClick(View view, int position) {
-        SalonDate salonDate = dateList.get(position);
-        roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(salonDate.getDate());
+    private void initSalonsEmptyView() {
+        LinearLayout emptyViewLayout = findViewById(R.id.all_salons_empty_view);
 
-        initSalonsRecycler();
+        allSalonsProgress.setVisibility(View.GONE);
+        dimmedBackground.setVisibility(View.GONE);
 
-        initSalonsEmptyView(roundsList);
+        if (roundsList.size() > 0) { // !empty ?
+            emptyViewLayout.setVisibility(View.GONE);
+
+        } else {  // empty ?
+            emptyViewLayout.setVisibility(View.VISIBLE);
+        }
     }
 
-    private void getCountries() {
-        countries = (ArrayList<Country>) GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).countryDao().getCountries();
+    private void initBottomSheetFilterBy() {
+        mBottomSheetDialogFilterBy = new BottomSheetDialog(this);
+        View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_filter_by, null);
+
+        //init bottom sheet views
+        sheetView.findViewById(R.id.btn_filter_by_date).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDatesAndRounds();
+                mBottomSheetDialogFilterBy.dismiss();
+            }
+        });
+
+        sheetView.findViewById(R.id.btn_filter_by_category).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCategoriesFromServer();
+                allSalonsProgress.setVisibility(View.VISIBLE);
+                dimmedBackground.setVisibility(View.VISIBLE);
+                mBottomSheetDialogFilterBy.dismiss();
+            }
+        });
+
+        //close bottom sheet
+        sheetView.findViewById(R.id.close_bottom_sheet_filter_by).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mBottomSheetDialogFilterBy.isShowing()) {
+                    mBottomSheetDialogFilterBy.dismiss();
+
+                } else {
+                    mBottomSheetDialogFilterBy.show();
+                }
+            }
+        });
+
+        //
+        mBottomSheetDialogFilterBy.setContentView(sheetView);
+        Common.Instance(AllSalonsActivity.this).setBottomSheetHeight(sheetView);
+        mBottomSheetDialogFilterBy.getWindow().findViewById(R.id.design_bottom_sheet)
+                .setBackgroundResource(android.R.color.transparent);
     }
 }

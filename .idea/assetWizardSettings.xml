@@ -119,7 +119,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/av/ic_pause_circle_outline_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_arrow_drop_up_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -129,12 +129,10 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="a55700" />
-                            <entry key="height" value="50" />
-                            <entry key="outputName" value="ic_pause" />
+                            <entry key="color" value="4a90e2" />
+                            <entry key="outputName" value="ic_arrow_drop_up" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\M7awas" />
-                            <entry key="width" value="50" />
                           </map>
                         </option>
                       </PersistentState>

@@ -23,10 +23,10 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
     private OnItemClickListener clickListener;
     private int selectedPosition = 0;
 
-    public DateAdapter(Context context, List<SalonDate> dateList, OnItemClickListener clickListener) {
+    public DateAdapter(Context context, List<SalonDate> dateList, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.dateList = dateList;
-        this.clickListener = clickListener;
+        this.clickListener = onItemClickListener;
     }
 
     @NonNull
@@ -71,23 +71,23 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
     }
 
     private void dayIsToday(ViewHolder viewHolder) {
-        viewHolder.separator.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        viewHolder.dayOfMonth.setTextColor(Color.parseColor("#FFFFFF"));
-        viewHolder.month.setTextColor(Color.parseColor("#FFFFFF"));
-        viewHolder.dayOfWeek.setTextColor(Color.parseColor("#FFFFFF"));
-        viewHolder.dayOfWeek.setTextColor(Color.parseColor("#FFFFFF"));
-        viewHolder.salonsCount.setTextColor(Color.parseColor("#FFFFFF"));
+        viewHolder.month.setTextColor(Color.WHITE);
+        viewHolder.dayOfWeek.setTextColor(Color.WHITE);
+        viewHolder.dayOfWeek.setTextColor(Color.WHITE);
+        viewHolder.dayOfMonth.setTextColor(Color.WHITE);
+        viewHolder.salonsCount.setTextColor(Color.WHITE);
+        viewHolder.separator.setBackgroundColor(Color.WHITE);
         viewHolder.salonsCount.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_nice_blue));
         viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_nice_blue));
     }
 
     private void dayNotToday(ViewHolder viewHolder) {
-        viewHolder.separator.setBackgroundColor(context.getResources().getColor(R.color.niceBlue));
-        viewHolder.dayOfMonth.setTextColor(context.getResources().getColor(R.color.niceBlue));
         viewHolder.month.setTextColor(context.getResources().getColor(R.color.niceBlue));
         viewHolder.dayOfWeek.setTextColor(context.getResources().getColor(R.color.niceBlue));
         viewHolder.dayOfWeek.setTextColor(context.getResources().getColor(R.color.niceBlue));
+        viewHolder.dayOfMonth.setTextColor(context.getResources().getColor(R.color.niceBlue));
         viewHolder.salonsCount.setTextColor(context.getResources().getColor(R.color.niceBlue));
+        viewHolder.separator.setBackgroundColor(context.getResources().getColor(R.color.niceBlue));
         viewHolder.salonsCount.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_pale_grey));
         viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_white));
     }

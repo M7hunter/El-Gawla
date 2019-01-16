@@ -5,11 +5,14 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Base64;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,6 +22,7 @@ import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.General.Common;
@@ -34,8 +38,7 @@ import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 
 public class AccountDetailsActivity extends AppCompatActivity {
 
-    EditText et_update_first_name, et_update_last_name, et_update_telephone;
-    Spinner sp_update_country, sp_update_gender;
+    EditText et_update_first_name, et_update_last_name, et_update_telephone, sp_update_gender, sp_update_country;
     ImageView img_update_image, btn_choose_image, btn_upload_image;
     TextView btn_update_profile;
     int user_id;
@@ -65,8 +68,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
         et_update_first_name = findViewById(R.id.et_update_first_name);
         et_update_last_name = findViewById(R.id.et_update_last_name);
         et_update_telephone = findViewById(R.id.et_update_telephone);
-        sp_update_country = findViewById(R.id.sp_update_country);
-        sp_update_gender = findViewById(R.id.sp_update_gender);
+        sp_update_country = findViewById(R.id.my_sp_country);
+        sp_update_gender = findViewById(R.id.my_sp_gender);
         img_update_image = findViewById(R.id.img_update_Image);
 
         btn_choose_image = findViewById(R.id.btn_choose_image);
@@ -75,9 +78,9 @@ public class AccountDetailsActivity extends AppCompatActivity {
         btn_update_profile = findViewById(R.id.btn_update_profile);
         progressBarUpdateProfile = findViewById(R.id.progress_update_profile);
 
-        countriesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, GawlaDataBse.getGawlaDatabase(this).countryDao().getCountriesNames());
+        initGenderMaterialSpinner();
 
-        sp_update_country.setAdapter(countriesAdapter);
+        initCountriesMaterialSpinner();
 
         btn_update_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +106,91 @@ public class AccountDetailsActivity extends AppCompatActivity {
         });
     }
 
+    private void initGenderMaterialSpinner() {
+        sp_update_gender.setInputType(InputType.TYPE_NULL);
+        sp_update_gender.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    genderPopupMenu();
+                }
+            }
+        });
+        sp_update_gender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                genderPopupMenu();
+            }
+        });
+    }
+
+    private void initCountriesMaterialSpinner() {
+        sp_update_country.setInputType(InputType.TYPE_NULL);
+        sp_update_country.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    countryPopupMenu();
+                }
+            }
+        });
+        sp_update_country.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                countryPopupMenu();
+            }
+        });
+    }
+
+    private void genderPopupMenu() {
+        sp_update_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_arrow_drop_up), null);
+        PopupMenu genderMenu = new PopupMenu(AccountDetailsActivity.this, sp_update_gender);
+        genderMenu.getMenuInflater().inflate(R.menu.gender_menu, genderMenu.getMenu());
+        genderMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                sp_update_gender.setText(item.getTitle());
+                return true;
+            }
+        });
+
+        genderMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                sp_update_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_arrow_drop_down), null);
+            }
+        });
+
+        genderMenu.show();
+    }
+
+    private void countryPopupMenu() {
+        sp_update_country          .setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_arrow_drop_up), null);
+        PopupMenu countryMenu = new PopupMenu(AccountDetailsActivity.this, sp_update_country);
+
+        List<String> countries = GawlaDataBse.getGawlaDatabase(this).countryDao().getCountriesNames();
+        for (String country: countries) {
+            countryMenu.getMenu().add(country);
+        }
+
+        countryMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                sp_update_country.setText(item.getTitle());
+                return true;
+            }
+        });
+
+        countryMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                sp_update_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_arrow_drop_down), null);
+            }
+        });
+
+        countryMenu.show();
+    }
+
     private void setUserData() {
         User user = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser();
         try {
@@ -116,8 +204,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
         et_update_first_name.setText(user.getFirstName());
         et_update_last_name.setText(user.getLastName());
         et_update_telephone.setText(user.getPhone());
-        sp_update_country.setSelection(countriesAdapter.getPosition(GawlaDataBse.getGawlaDatabase(AccountDetailsActivity.this).countryDao().getCountryNameByID(user.getCountry_id())));
-        sp_update_gender.setSelection(genderId(user.getGender()));
+        sp_update_country.setText(GawlaDataBse.getGawlaDatabase(AccountDetailsActivity.this).countryDao().getCountryNameByID(user.getCountry_id()));
+        sp_update_gender.setText(user.getGender());
     }
 
     private void updateUserOnServer() {
@@ -129,8 +217,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
                                 et_update_first_name.getText().toString(),
                                 et_update_last_name.getText().toString(),
                                 et_update_telephone.getText().toString(),
-                                genderLabel(sp_update_gender.getSelectedItemPosition()),
-                                GawlaDataBse.getGawlaDatabase(AccountDetailsActivity.this).countryDao().getCountryIDByName(sp_update_country.getSelectedItem().toString())), new HandleResponses() {
+                                sp_update_gender.getText().toString(),
+                                GawlaDataBse.getGawlaDatabase(AccountDetailsActivity.this).countryDao().getCountryIDByName(sp_update_country.getText().toString())), new HandleResponses() {
                             @Override
                             public void handleResponseData(JsonObject mainObject) {
 
@@ -152,26 +240,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
                                 updatedUI();
                             }
                         });
-    }
-
-    private String genderLabel(int position) {
-        switch (position) {
-            case 0:
-                return "Male";
-            case 1:
-                return "Female";
-        }
-        return "Male";
-    }
-
-    private int genderId(String gender) {
-        switch (gender) {
-            case "Male":
-                return 0;
-            case "Female":
-                return 1;
-        }
-        return 0;
     }
 
     private void displayUploadImageButton() {

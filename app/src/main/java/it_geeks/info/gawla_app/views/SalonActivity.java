@@ -191,7 +191,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     //Round Start
     private void startTimeDown(RoundRealTimeModel roundRealTimeModel) {
-
         this.roundRealTimeModel = roundRealTimeModel;
         if (roundRealTimeModel.isUserJoin() == true){
             joinStatus = 2;

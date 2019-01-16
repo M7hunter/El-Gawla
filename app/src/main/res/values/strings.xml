@@ -171,4 +171,6 @@
     <string name="connection_error">Error connecting .</string>
 
     <string name="filter_by">filter by</string>
+    <string name="male">male</string>
+    <string name="female">female</string>
 </resources>

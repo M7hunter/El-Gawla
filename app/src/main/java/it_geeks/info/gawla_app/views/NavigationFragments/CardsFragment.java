@@ -14,6 +14,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,20 +33,19 @@ import it_geeks.info.gawla_app.Controllers.Adapters.CardsAdapter;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 
-public class CardsFragment extends Fragment implements OnItemClickListener {
+public class CardsFragment extends Fragment {
 
-    RecyclerView categoriesRecycler;
-    RecyclerView cardsRecycler;
+    private RecyclerView cardsRecycler;
 
-    List<Category> categoryList = new ArrayList<>();
-    List<Card> cardsList = new ArrayList<>();
+    private List<Category> categoryList = new ArrayList<>();
+    private List<Card> cardsList = new ArrayList<>();
 
-    ProgressBar cardsProgress;
+    private ProgressBar cardsProgress;
 
-    View view = null;
+    private View view = null;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_cards, container, false);
 
@@ -89,56 +89,55 @@ public class CardsFragment extends Fragment implements OnItemClickListener {
 
         RetrofitClient.getInstance(getContext()).executeConnectionToServer(MainActivity.mainInstance,
                 "getAllCardsCategories", new Request(userId, apiToken), new HandleResponses() {
-            @Override
-            public void handleResponseData(JsonObject mainObject) {
+                    @Override
+                    public void handleResponseData(JsonObject mainObject) {
 
-                categoryList = ParseResponses.parseCategories(mainObject);
+                        categoryList = ParseResponses.parseCategories(mainObject);
 
-                initCategoriesRecycler(view);
+                        initCategoriesRecycler(view);
 
-                getCardsByCategory(categoryList.get(0).getCategoryCards());
-            }
+                        getCardsByCategory(categoryList.get(0).getCategoryCards());
+                    }
 
-            @Override
-            public void handleEmptyResponse() {
+                    @Override
+                    public void handleEmptyResponse() {
 
-                initEmptyView(view);
-            }
+                        initEmptyView(view);
+                    }
 
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
 
-                initEmptyView(view);
+                        initEmptyView(view);
 
-                Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void initCategoriesRecycler(final View view) {
-        categoriesRecycler = view.findViewById(R.id.cards_categories_recycler);
+        RecyclerView categoriesRecycler = view.findViewById(R.id.cards_categories_recycler);
         categoriesRecycler.setHasFixedSize(true);
         categoriesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        categoriesRecycler.setAdapter(new CategoryAdapter(getContext(), categoryList, this));
-    }
+        categoriesRecycler.setAdapter(new CategoryAdapter(getContext(), categoryList, new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                cardsProgress.setVisibility(View.VISIBLE);
+                Category category = categoryList.get(position);
 
-    @Override
-    public void onItemClick(View v, int position) {
-        cardsProgress.setVisibility(View.VISIBLE);
-        Category category = categoryList.get(position);
-
-        // get cards
-        getCardsByCategory(category.getCategoryCards());
+                // get cards
+                getCardsByCategory(category.getCategoryCards());
+            }
+        }));
     }
 
     private void getCardsByCategory(List<Card> cards) {
 
-                cardsList = cards;
+        cardsList = cards;
 
-                initCardsRecycler();
+        initCardsRecycler();
 
-                initEmptyView(view);
-
+        initEmptyView(view);
     }
 
     private void initCardsRecycler() {
