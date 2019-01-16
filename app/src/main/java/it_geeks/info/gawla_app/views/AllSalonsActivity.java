@@ -53,6 +53,11 @@ public class AllSalonsActivity extends AppCompatActivity implements OnItemClickL
             public void onConnected() {
                 getDatesAndRounds();
             }
+
+            @Override
+            public void onFailed() {
+
+            }
         });
     }
 

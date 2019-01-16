@@ -31,29 +31,29 @@ public class RecentSalonsCallback extends PagedList.BoundaryCallback<Round> {
 
     @Override
     public void onZeroItemsLoaded() {
-        RetrofitClient.getInstance(context).executeConnectionToServer(context,
-                "getAllSalons", new Request(sm.getUser().getUser_id(), sm.getUser().getApi_token()), new HandleResponses() {
-            @Override
-            public void handleResponseData(JsonObject mainObject) {
-                insertItemsIntoDatabase(mainObject);
-                Toast.makeText(context, "connect", Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void handleEmptyResponse() {
-
-            }
-
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
     public void onItemAtEndLoaded(@NonNull Round itemAtEnd) {
-//        onZeroItemsLoaded();
+        RetrofitClient.getInstance(context).executeConnectionToServer(context,
+                "getAllSalons", new Request(sm.getUser().getUser_id(), sm.getUser().getApi_token()), new HandleResponses() {
+                    @Override
+                    public void handleResponseData(JsonObject mainObject) {
+                        insertItemsIntoDatabase(mainObject);
+                        Toast.makeText(context, "connect", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void insertItemsIntoDatabase(JsonObject mainObj) {

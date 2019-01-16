@@ -86,6 +86,26 @@ public class ParseResponses {
         return subImagesList;
     }
 
+    private static List<Card> parseSalonCards(JsonObject roundObj, int salon_id) {
+        JsonArray salon_cards = roundObj.get("salon_cards").getAsJsonArray();
+
+        List<Card> salon_cardsList = new ArrayList<>();
+
+        for (int j = 0; j < salon_cards.size(); j++) {
+            JsonObject cardObj = salon_cards.get(j).getAsJsonObject();
+//            int card_id = cardObj.get("id").getAsInt();
+            String card_name = cardObj.get("name").getAsString();
+            String card_details = cardObj.get("details").getAsString();
+            String card_type = cardObj.get("type").getAsString();
+            String card_color = cardObj.get("color").getAsString();
+            String card_cost = cardObj.get("cost").getAsString();
+
+            salon_cardsList.add(new Card(salon_id, card_name, card_details, card_type, card_color, card_cost));
+        }
+
+        return salon_cardsList;
+    }
+
     public static RoundRealTimeModel parseRoundRealTime(JsonObject roundObj){
         JsonObject roundtime = roundObj.get("hall").getAsJsonObject();
 
@@ -140,26 +160,6 @@ public class ParseResponses {
                 close_hall_status,
                 close_hall_value,
                 round_status);
-    }
-
-    private static List<Card> parseSalonCards(JsonObject roundObj, int salon_id) {
-        JsonArray salon_cards = roundObj.get("salon_cards").getAsJsonArray();
-
-        List<Card> salon_cardsList = new ArrayList<>();
-
-        for (int j = 0; j < salon_cards.size(); j++) {
-            JsonObject cardObj = salon_cards.get(j).getAsJsonObject();
-//            int card_id = cardObj.get("id").getAsInt();
-            String card_name = cardObj.get("name").getAsString();
-            String card_details = cardObj.get("details").getAsString();
-            String card_type = cardObj.get("type").getAsString();
-            String card_color = cardObj.get("color").getAsString();
-            String card_cost = cardObj.get("cost").getAsString();
-
-            salon_cardsList.add(new Card(salon_id, card_name, card_details, card_type, card_color, card_cost));
-        }
-
-        return salon_cardsList;
     }
 
     public static List<Country> parseCountries(JsonObject object) {
