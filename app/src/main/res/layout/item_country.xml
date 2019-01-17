@@ -3,20 +3,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_tiny"
-    android:background="@drawable/bg_rounded_corners_white"
-    android:elevation="@dimen/margin_tiny"
     android:foreground="?android:attr/selectableItemBackground"
     android:gravity="center"
-    android:orientation="horizontal"
-    android:padding="@dimen/margin_small"
-    android:paddingTop="@dimen/margin_small"
-    android:paddingBottom="@dimen/margin_small">
+    android:padding="@dimen/margin_small">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/country_icon"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:src="@drawable/flag_egypt" />
 
     <TextView
@@ -24,11 +19,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center"
-
+        android:gravity="start"
         android:text="@string/country"
-        android:textColor="@color/battleshipGrey"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold" />
+        android:textStyle="italic" />
 
 </LinearLayout>

@@ -1,12 +1,11 @@
 package it_geeks.info.gawla_app.views;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -49,9 +48,9 @@ public class AllSalonsActivity extends AppCompatActivity {
     List<Category> categoryList = new ArrayList<>();
     List<SalonDate> dateList = new ArrayList<>();
 
-    ProgressBar allSalonsProgress;
-    FrameLayout dimmedBackground;
     BottomSheetDialog mBottomSheetDialogFilterBy;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +71,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
             @Override
             public void onFailed() {
-                allSalonsProgress.setVisibility(View.GONE);
-                dimmedBackground.setVisibility(View.GONE);
+                progressDialog.dismiss();
             }
         });
     }
@@ -82,8 +80,8 @@ public class AllSalonsActivity extends AppCompatActivity {
         filterRecycler = findViewById(R.id.filter_recycler);
         filterRecycler.setHasFixedSize(true);
         filterRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
-        allSalonsProgress = findViewById(R.id.all_salon_progress);
-        dimmedBackground = findViewById(R.id.dimmed_with_progress_layout);
+
+        buildProgressDialog();
 
         // back
         findViewById(R.id.all_salons_back).setOnClickListener(new View.OnClickListener() {
@@ -124,7 +122,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
         Common.Instance(AllSalonsActivity.this).sortList(dateList);
 
-        getDatesAndRounds();
+        getDatesAndRoundsFromDb();
     }
 
     public SalonDate transformDateToNames(String date) {
@@ -143,7 +141,7 @@ public class AllSalonsActivity extends AppCompatActivity {
         return new SalonDate(date, day, monthName, dayOfWeek, GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getDatesCount(date) + getResources().getString(R.string.salons));
     }
 
-    private void getDatesAndRounds() {
+    private void getDatesAndRoundsFromDb() {
         initDatesAdapter();
 
         try {
@@ -171,7 +169,7 @@ public class AllSalonsActivity extends AppCompatActivity {
         }));
     }
 
-    private void getCategoriesFromServer() {
+    private void getCategoriesAndRoundsFromServer() {
         int userId = SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getUser_id();
         String apiToken = Common.Instance(AllSalonsActivity.this).removeQuotes(SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getApi_token());
 
@@ -235,8 +233,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     private void initSalonsEmptyView() {
         LinearLayout emptyViewLayout = findViewById(R.id.all_salons_empty_view);
 
-        allSalonsProgress.setVisibility(View.GONE);
-        dimmedBackground.setVisibility(View.GONE);
+        progressDialog.dismiss();
 
         if (roundsList.size() > 0) { // !empty ?
             emptyViewLayout.setVisibility(View.GONE);
@@ -254,7 +251,7 @@ public class AllSalonsActivity extends AppCompatActivity {
         sheetView.findViewById(R.id.btn_filter_by_date).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getDatesAndRounds();
+                getDatesAndRoundsFromDb();
                 mBottomSheetDialogFilterBy.dismiss();
             }
         });
@@ -262,9 +259,8 @@ public class AllSalonsActivity extends AppCompatActivity {
         sheetView.findViewById(R.id.btn_filter_by_category).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getCategoriesFromServer();
-                allSalonsProgress.setVisibility(View.VISIBLE);
-                dimmedBackground.setVisibility(View.VISIBLE);
+                getCategoriesAndRoundsFromServer();
+                progressDialog.show();
                 mBottomSheetDialogFilterBy.dismiss();
             }
         });
@@ -287,5 +283,11 @@ public class AllSalonsActivity extends AppCompatActivity {
         Common.Instance(AllSalonsActivity.this).setBottomSheetHeight(sheetView);
         mBottomSheetDialogFilterBy.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
+    }
+
+    private void buildProgressDialog() {
+        progressDialog = new ProgressDialog(AllSalonsActivity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
     }
 }

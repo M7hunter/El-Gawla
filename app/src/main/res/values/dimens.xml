@@ -1,5 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- margin & padding -->
+    <dimen name="margin_xTiny">5dp</dimen>
     <dimen name="margin_tiny">5dp</dimen>
     <dimen name="margin_tiny_minus">-5dp</dimen>
     <dimen name="margin_small">10dp</dimen>
@@ -9,6 +11,7 @@
     <dimen name="margin_xlarge">25dp</dimen>
     <dimen name="margin_xxlarge">35dp</dimen>
     <dimen name="margin_xxxlarge">50dp</dimen>
+    <dimen name="margin_xxxxlarge">60dp</dimen>
 
     <!-- text sizes -->
     <dimen name="text_size_tiny">10sp</dimen>
@@ -16,11 +19,14 @@
     <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_large">19sp</dimen>
     <dimen name="text_size_xlarge">22sp</dimen>
+    <dimen name="text_size_xxlarge">26sp</dimen>
+    <dimen name="num_tick" >42sp</dimen>
 
     <!-- icons & images -->
     <dimen name="logo_width">140dp</dimen>
     <dimen name="logo_height">80dp</dimen>
     <dimen name="icon_notification">45dp</dimen>
+    <dimen name="icon_back">55dp</dimen>
     <dimen name="image_width_hales_fragment">190dp</dimen>
     <dimen name="image_width_round">300dp</dimen>
     <dimen name="image_height_round">165dp</dimen>
@@ -34,7 +40,7 @@
     <dimen name="card_background_height">100dp</dimen>
     <dimen name="card_height">60dp</dimen>
     <dimen name="card_width">40dp</dimen>
-    <dimen name="single_card_height">170dp</dimen>
-    <dimen name="single_card_width">120dp</dimen>
+    <dimen name="single_card_height">140dp</dimen>
+    <dimen name="single_card_width">95dp</dimen>
 
 </resources>

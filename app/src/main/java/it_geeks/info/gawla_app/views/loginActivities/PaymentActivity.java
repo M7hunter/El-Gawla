@@ -26,7 +26,8 @@ public class PaymentActivity extends AppCompatActivity {
         btnConfirmPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(PaymentActivity.this, MainActivity.class));
+                startActivity(new Intent(PaymentActivity.this, MainActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
     }

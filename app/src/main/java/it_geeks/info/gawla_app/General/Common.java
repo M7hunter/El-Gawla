@@ -175,7 +175,7 @@ public class Common {
         }
     }
 
-    // to if connected or not
+    // connected ?
     public boolean isConnected() {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
