@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_splash"
+    android:layoutDirection="rtl"
     tools:context=".views.splashActivities.IntroActivity">
 
     <androidx.viewpager.widget.ViewPager
@@ -19,7 +20,6 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
         android:padding="@dimen/margin_tiny"
         android:text="@string/skip"
         android:textColor="@android:color/white"
@@ -49,7 +49,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/cairo_regular"
             android:gravity="center_vertical|center"
             android:includeFontPadding="false"
             android:padding="10dp"
@@ -74,13 +73,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/cairo_regular"
-            android:gravity="center_vertical|center"
-            android:includeFontPadding="false"
+            android:gravity="center"
             android:padding="10dp"
             android:text="@string/next"
             android:textColor="@android:color/white"
-            android:textSize="17sp"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
     </LinearLayout>

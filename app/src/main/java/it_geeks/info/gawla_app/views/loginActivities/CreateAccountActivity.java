@@ -157,47 +157,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private void connectToServer(final User user, final int countryId) {
-        RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer(CreateAccountActivity.this,
-                "register", new Request(user.getName(), user.getEmail(), countryId, user.getPassword()), new HandleResponses() {
-            @Override
-            public void handleResponseData(JsonObject mainObject) {
-                progressBar.setVisibility(View.INVISIBLE);
-
-                // notify user
-                Toast.makeText(CreateAccountActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-
-                // save user data locally
-                cacheUserData(mainObject, getResources().getString(R.string.app_name));
-
-                // goto next page
-                startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-            }
-
-            @Override
-            public void handleEmptyResponse() {
-
-            }
-
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                progressBar.setVisibility(View.INVISIBLE);
-
-                // notify user
-                String tMessage = errorMessage;
-                Toast.makeText(CreateAccountActivity.this, tMessage, Toast.LENGTH_SHORT).show();
-
-                // try one more time
-                if (tMessage.equals("timeout") && reconnect < 1) {
-                    reconnect++;
-                    connectToServer(user, countryId);
-                }
-            }
-        });
-
-    }
-
     private boolean checkEntries(String name, String email, String pass) {
         // check if empty
         if (name.isEmpty()) {
@@ -234,6 +193,46 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         }
 
         return true;
+    }
+
+    private void connectToServer(final User user, final int countryId) {
+        RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer(CreateAccountActivity.this,
+                "register", new Request(user.getName(), user.getEmail(), countryId, user.getPassword()), new HandleResponses() {
+            @Override
+            public void handleResponseData(JsonObject mainObject) {
+                progressBar.setVisibility(View.INVISIBLE);
+
+                // notify user
+                Toast.makeText(CreateAccountActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+
+                // save user data locally
+                cacheUserData(mainObject, getResources().getString(R.string.app_name));
+
+                // goto next page
+                startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
+
+            @Override
+            public void handleEmptyResponse() {
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
+                progressBar.setVisibility(View.INVISIBLE);
+
+                // notify user
+                Toast.makeText(CreateAccountActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+
+                // try one more time
+                if (errorMessage.contains("timeout") && reconnect < 1) {
+                    reconnect++;
+                    connectToServer(user, countryId);
+                }
+            }
+        });
+
     }
 
     private void facebookLogin() {

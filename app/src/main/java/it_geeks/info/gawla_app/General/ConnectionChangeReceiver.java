@@ -63,7 +63,8 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
     private void connectedSnack(Context context) {
         snackbar.getView().setBackgroundColor(context.getResources().getColor(R.color.greenBlue));
         snackbar.setText("CONNECTED");
-        snackbar.setDuration(500).show();
+        if (snackbar.isShown())
+            snackbar.setDuration(500).show();
     }
 
     private void unConnectedSnack(Context context) {

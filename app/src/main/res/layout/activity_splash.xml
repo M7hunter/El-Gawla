@@ -7,7 +7,7 @@
     android:background="@drawable/bg_splash"
     tools:context=".views.splashActivities.SplashActivity">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -55,10 +55,9 @@
                 <!-- countries recycler -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/country_recycler"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:nestedScrollingEnabled="false" />
+                    android:layout_centerInParent="true" />
 
                 <ProgressBar
                     android:id="@+id/countries_progress"
@@ -80,6 +79,6 @@
             </RelativeLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
