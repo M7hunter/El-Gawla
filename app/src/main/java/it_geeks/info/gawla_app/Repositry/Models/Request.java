@@ -118,12 +118,18 @@ public class Request {
         this.salon_id = salon_id;
     }
 
-    public Request( int user_id , String api_token , String name , String email , String message) {
+    public Request( int user_id , String api_token , String name , String email , String message) { // contact Us
         this.user_id = user_id;
         this.api_token = api_token;
         this.name = name;
         this.email = email;
         this.message = message;
+    }
+
+    public Request(String email, int user_id, String api_token) { // Update Email
+        this.email = email;
+        this.user_id = user_id;
+        this.api_token = api_token;
     }
 
     public int getUser_id() {

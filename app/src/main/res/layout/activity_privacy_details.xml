@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/privacy_details_Page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -41,8 +42,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/privacy_details_header"
-        android:layout_marginTop="@dimen/margin_xxlarge"
-        android:scrollbars="none">
+        android:layout_marginTop="@dimen/margin_xxlarge">
+
         <!-- scroll main layout -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -118,8 +119,8 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:focusable="auto"
-                    android:hint="*****************"
-                    android:inputType="textPersonName"
+                    android:hint="Password"
+                    android:inputType="textPassword"
                     android:paddingStart="@dimen/margin_xlarge"
                     android:paddingTop="@dimen/margin_small"
                     android:paddingEnd="@dimen/margin_xlarge"
@@ -223,5 +224,15 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/privacy_details_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/colorPrimary"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="gone" />
 
 </RelativeLayout>

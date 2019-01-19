@@ -7,17 +7,26 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.General.Common;
 import it_geeks.info.gawla_app.General.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.Repositry.Models.Request;
+import it_geeks.info.gawla_app.Repositry.Models.User;
+import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.views.SalonActivity;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 
 public class PrivacyDetailsActivity extends AppCompatActivity {
@@ -25,6 +34,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     EditText accountEmail, accountPassword;
     ImageView providerImage;
     LinearLayout socialDiv;
+    ProgressBar loading;
     private GoogleApiClient mGoogleApiClient;
 
     @Override
@@ -36,16 +46,6 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
 
         accountEmail.setText(SharedPrefManager.getInstance(this).getUser().getEmail());
         socialUsername.setText(SharedPrefManager.getInstance(this).getUser().getName());
-        if (SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider().trim() == "facebook") {
-            providerImage.setImageDrawable(getDrawable(R.drawable.com_facebook_button_icon_blue));
-            socialProvider.setText(getString(R.string.provider_fb));
-        } else if (SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider().trim() == "google") {
-            providerImage.setImageDrawable(getDrawable(R.drawable.googleg_standard_color_18));
-            socialProvider.setText(getString(R.string.provider_google));
-        } else{
-            socialProvider.setText(SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider());
-            providerImage.setImageDrawable(getDrawable(R.drawable.gawla_logo_blue));
-        }
 
         // Logout Disconnect
         socialOut.setOnClickListener(click);
@@ -68,6 +68,25 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         accountPassword = findViewById(R.id.et_account_password);
         editEmail = findViewById(R.id.edit_email);
         editPassword = findViewById(R.id.edit_password);
+        loading = findViewById(R.id.privacy_details_loading);
+        initProvider();
+    }
+
+    private void initProvider() {
+        switch (SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider()){
+            case "facebook":
+                providerImage.setImageDrawable(getDrawable(R.drawable.com_facebook_button_icon_blue));
+                socialProvider.setText(getString(R.string.provider_fb));
+                break;
+            case "google":
+                providerImage.setImageDrawable(getDrawable(R.drawable.googleg_standard_color_18));
+                socialProvider.setText(getString(R.string.provider_google));
+                break;
+             default:
+                 socialProvider.setText(SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider());
+                 providerImage.setImageDrawable(getDrawable(R.drawable.gawla_logo_blue));
+                break;
+        }
     }
 
     // On Click Action
@@ -84,6 +103,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                     } else if (editEmail.getText().toString() == getString(R.string.save)) {
                         accountEmail.setEnabled(false);
                         editEmail.setText(getString(R.string.edit));
+                        updateEmail();
+                        loading.setVisibility(View.VISIBLE);
                     }
                     break;
 
@@ -111,7 +132,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                                 mGoogleApiClient.connect();
                             }
                         }
-                        Toast.makeText(PrivacyDetailsActivity.this, SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider().trim(), Toast.LENGTH_SHORT).show();
+
                         SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearUser();
                         SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearProvider();
                         startActivity(new Intent(PrivacyDetailsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
@@ -129,5 +150,42 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
 
         }
     };
+
+    private void updateEmail() {
+        int id = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getUser().getUser_id();
+        String api_token = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getUser().getApi_token();
+        RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
+                PrivacyDetailsActivity.this,
+                "updateUserData",
+                new Request(accountEmail.getText().toString(),id,api_token),
+                new HandleResponses() {
+                    @Override
+                    public void handleResponseData(JsonObject mainObject) {
+                      User user = ParseResponses.parseUser(mainObject);
+                      accountEmail.setText(user.getEmail());
+                      SharedPrefManager.getInstance(PrivacyDetailsActivity.this).saveUser(user);
+                      Toast.makeText(PrivacyDetailsActivity.this, mainObject.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+                        loading.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+                        loading.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        Snackbar.make(findViewById(R.id.privacy_details_Page), R.string.connection_error, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                updateEmail();
+                            }
+                        }).show();
+                        loading.setVisibility(View.GONE);
+                    }
+                }
+        );
+    }
 
 }
