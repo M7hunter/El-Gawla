@@ -120,7 +120,7 @@
                     android:enabled="false"
                     android:focusable="auto"
                     android:hint="Password"
-                    android:inputType="textPersonName"
+                    android:inputType="textPassword"
                     android:paddingStart="@dimen/margin_xlarge"
                     android:paddingTop="@dimen/margin_small"
                     android:paddingEnd="@dimen/margin_xlarge"
