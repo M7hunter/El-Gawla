@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:layoutDirection="ltr"
+            android:layoutDirection="rtl"
             android:paddingStart="@dimen/margin_small"
             android:paddingTop="@dimen/margin_small"
             android:paddingEnd="@dimen/margin_small"
@@ -90,6 +90,7 @@
 
             <!-- switch -->
             <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/notification_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"

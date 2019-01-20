@@ -22,11 +22,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="@dimen/margin_small"
                 android:text="@string/sign_up"
+                android:textAllCaps="true"
                 android:textColor="@color/BlueDark"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
 
             <!-- google plus -->
             <LinearLayout

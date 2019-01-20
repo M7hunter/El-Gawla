@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.General;
+package it_geeks.info.gawla_app.Repositry.Storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.User;
+import it_geeks.info.gawla_app.general.States;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -21,7 +22,7 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_LAST_REQUEST = "last_request_shared_pref";
     private static final String SHARED_PREF_USER_PROVIDER = "user_socialMedia_Provider";
     private static final String SHARED_PREF_UPLOAD_STATUS = "upload_status_shared_pref";
-    private static final String SHARED_PREF_THREAD_ID = "thread_id_shared_pref";
+    private static final String SHARED_PREF_NOTIFICATION = "notification_shared_pref";
 
     private SharedPrefManager(Context context) {
         this.context = context;
@@ -35,7 +36,7 @@ public class SharedPrefManager {
     }
 
     //--------------- upload status -------------//
-    public void setUploadStatus(UploadStatus status) { // uploading, uploaded, failed
+    public void setUploadStatus(States status) { // uploading, uploaded, failed
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_UPLOAD_STATUS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -47,23 +48,23 @@ public class SharedPrefManager {
 
     public String getUploadStatus() {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_UPLOAD_STATUS, MODE_PRIVATE);
-        return sharedPreferences.getString("status", UploadStatus.UPLOADED.toString());
+        return sharedPreferences.getString("status", States.UPLOADED.toString());
     }
 
-    //--------------- upload thread id -------------//
-    public void setThreadName(String name) {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_THREAD_ID, MODE_PRIVATE);
+    //--------------- notification -------------//
+    public void setNotificationState(boolean state) { // enabled, disabled
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NOTIFICATION, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.clear();
 
-        editor.putString("threadName", name);
+        editor.putBoolean("notification_enabled",  state);
         editor.apply();
     }
 
-    public String getThreadName() {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_THREAD_ID, MODE_PRIVATE);
-        return sharedPreferences.getString("threadName", "non");
+    public boolean getNotificationState() {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NOTIFICATION, MODE_PRIVATE);
+        return sharedPreferences.getBoolean("notification_enabled", false);
     }
 
     //--------------- lang -------------//

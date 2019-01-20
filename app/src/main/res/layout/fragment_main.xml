@@ -41,7 +41,7 @@
                     android:layoutDirection="ltr">
 
                     <ImageView
-                        android:layout_width="@dimen/image_width_hales_fragment"
+                        android:layout_width="@dimen/image_width_main_fragment"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
                         android:src="@drawable/flodillus" />

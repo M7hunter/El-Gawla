@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.General;
+package it_geeks.info.gawla_app.general;
 
 public interface ConnectionInterface {
 

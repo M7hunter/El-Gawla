@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso;
 import androidx.fragment.app.Fragment;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.accountOptions.AccountDetailsActivity;
 import it_geeks.info.gawla_app.views.accountOptions.BuyingProcessesActivity;
 import it_geeks.info.gawla_app.views.accountOptions.PrivacyDetailsActivity;
@@ -22,7 +22,7 @@ import it_geeks.info.gawla_app.views.NotificationActivity;
 public class AccountFragment extends Fragment {
 
     TextView userName;
-    public CircleImageView userImage;
+    CircleImageView userImage;
     String name, image;
 
     @Override
@@ -92,5 +92,4 @@ public class AccountFragment extends Fragment {
         Picasso.with(getContext()).load(image).placeholder(R.drawable.placeholder).into(userImage);
         userName.setText(name);
     }
-
 }

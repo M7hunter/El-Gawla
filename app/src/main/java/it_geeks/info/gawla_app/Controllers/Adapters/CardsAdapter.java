@@ -1,9 +1,6 @@
 package it_geeks.info.gawla_app.Controllers.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
+import it_geeks.info.gawla_app.general.Common;
 
 public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> {
 
@@ -39,8 +37,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
         viewHolder.cardTitle.setText(card.getCard_name());
         viewHolder.cardDescription.setText(card.getCard_details());
 
-        GradientDrawable background = (GradientDrawable) viewHolder.cardIcon.getBackground();
-        background.setColor(Color.parseColor(card.getCard_color()));
+        Common.Instance(context).changeDrawableViewColor(viewHolder.cardIcon, card.getCard_color());
     }
 
     @Override

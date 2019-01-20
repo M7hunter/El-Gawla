@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.General;
+package it_geeks.info.gawla_app.general;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -17,9 +17,9 @@ import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-import it_geeks.info.gawla_app.General.Common;
-import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.General.WrapContentHeightViewPager;
+import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.general.WrapContentHeightViewPager;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
@@ -127,6 +127,7 @@ public class MyRoundsFragment extends Fragment {
         // at the beginning
         arrowLeft.setImageResource(R.drawable.ic_arrow_left_grey);
         arrowLeft.setEnabled(false);
+        arrowRight.setEnabled(false);
 
         if (cardsCount > 1) {
             arrowRight.setImageResource(R.drawable.ic_arrow_right);

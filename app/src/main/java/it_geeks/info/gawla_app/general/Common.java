@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.General;
+package it_geeks.info.gawla_app.general;
 
 import android.app.Activity;
 import android.content.Context;
@@ -36,6 +36,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
+import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 
 public class Common {
 
