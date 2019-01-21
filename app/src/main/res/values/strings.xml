@@ -145,7 +145,8 @@
     <string name="empty_message">Message Empty</string>
     <string name="sending_message">Sending...</string>
     <string name="rOffer">The Offer</string>
-
+    <string name="use">Use</string>
+    <string name="goldenCard">This Card use for join Round .</string>
     <!--  Arr For Test and will delete later .-->
     <array name="ArrGender">
         <item>Male</item>

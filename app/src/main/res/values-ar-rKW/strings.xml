@@ -129,6 +129,8 @@
     <string name="edit">تعديل</string>
     <string name="delete_connection">الغاء الاتصال</string>
     <string name="connect_with">"متصل بأستخدام "</string>
+    <string name="use">أستخدام</string>
+    <string name="goldenCard">هاذا الكارت يستخدم لدخول الجوله .</string>
 
     <!--  Arr For Test and will delete later .-->
     <array name="ArrGender">

@@ -3,6 +3,7 @@ package it_geeks.info.gawla_app.views;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.net.Uri;
@@ -69,7 +70,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     //Attention Joun Screen
     ImageView icon;
-    TextView header , text ;
+    public TextView header , text , tvSalonTime;
 
     private String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time, first_join_time, second_join_time, round_date, round_time, rest_time;
     int product_id, salon_id;
@@ -82,8 +83,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     RelativeLayout FullActivityp;
     public Button btnJoinRound, btnAddOffer;
     EditText etAddOffer;
-    CardView more, notificationCard, confirmationLayout;
-    LinearLayout addOfferLayout;
+    CardView more, notificationCard, confirmationLayout , useRoundCard;
+    LinearLayout addOfferLayout ;
     FrameLayout overlayLayout;
     ProgressBar joinProgress, joinConfirmationProgress , loading;
     private Round round;
@@ -299,10 +300,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void initRoundViews_setData() {
-        TextView tvEndTime, tvProductName, tvProductPrice, salonId;
+        TextView  tvProductName, tvProductPrice, salonId;
         ImageView imProductImage;
         // init views
-        tvEndTime = findViewById(R.id.salon_end_time);
+        tvSalonTime = findViewById(R.id.salon_time);
         tvProductName = findViewById(R.id.salon_round_product_name);
         tvProductPrice = findViewById(R.id.salon_round_product_price);
         imProductImage = findViewById(R.id.salon_round_product_image);
@@ -310,7 +311,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         round_notification_text = findViewById(R.id.round_notification_text);
 
         // set data
-        tvEndTime.setText(round.getRound_end_time());
         tvProductName.setText(round.getProduct_name());
         tvProductPrice.setText(round.getProduct_commercial_price());
         salonId.setText(String.valueOf(round.getSalon_id()));
@@ -324,6 +324,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         btnJoinRound = findViewById(R.id.btn_join_round);
         etAddOffer = findViewById(R.id.add_offer_et);
         confirmationLayout = findViewById(R.id.join_confirmation_layout);
+        useRoundCard = findViewById(R.id.use_round_card);
         notificationCard = findViewById(R.id.round_notification_card);
         btnAddOffer = findViewById(R.id.add_offer_btn);
         addOfferLayout = findViewById(R.id.add_offer_layout);
@@ -531,8 +532,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     // join events
     private void displayConfirmationLayout() {
+
         joinStatus = 1;
         roundStartToEnd.setJoinStatus(joinStatus);
+
         // hide background views
         more.setVisibility(View.GONE);
         notificationCard.setVisibility(View.GONE);
@@ -577,14 +580,24 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         btnJoinRound.setVisibility(View.GONE);
         overlayLayout.setVisibility(View.GONE);
         addOfferLayout.setVisibility(View.GONE);
+        useRoundCard.setVisibility(View.GONE);
+
+        if (roundRealTimeModel.isOpen_hall_status() || roundRealTimeModel.isClose_hall_status()){
+            notificationCard.setVisibility(View.GONE);
+        }
 
         if (roundRealTimeModel.isFirst_round_status() && roundRealTimeModel.isUserJoin() || roundRealTimeModel.isSeconed_round_status() && roundRealTimeModel.isUserJoin()){
             addOfferLayout.setVisibility(View.VISIBLE);
         }
+
         if (roundRealTimeModel.isFree_join_status() && roundRealTimeModel.isUserJoin() || roundRealTimeModel.isPay_join_status() && roundRealTimeModel.isUserJoin()){
             out_round.setVisibility(View.VISIBLE);
         }else{
             out_round.setVisibility(View.GONE);
+        }
+
+        if (roundRealTimeModel.isPay_join_status() && !roundRealTimeModel.isUserJoin()){
+            useRoundCard.setVisibility(View.VISIBLE);
         }
 
 
