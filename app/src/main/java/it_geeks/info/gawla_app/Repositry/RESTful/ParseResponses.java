@@ -1,8 +1,5 @@
 package it_geeks.info.gawla_app.Repositry.RESTful;
 
-import android.content.Context;
-import android.widget.Toast;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -17,10 +14,9 @@ import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Models.RoundRealTimeModel;
 import it_geeks.info.gawla_app.Repositry.Models.User;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.views.SalonActivity;
 
 public class ParseResponses {
-Context context;
+
     public ParseResponses() {
     }
 

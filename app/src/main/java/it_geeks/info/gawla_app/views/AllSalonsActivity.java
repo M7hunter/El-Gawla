@@ -99,7 +99,7 @@ public class AllSalonsActivity extends AppCompatActivity {
             }
         });
 
-        // open filter by bottom sheet
+        // open filter sheet
         findViewById(R.id.all_salon_filter_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

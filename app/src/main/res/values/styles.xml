@@ -6,15 +6,12 @@
         <item name="colorPrimary">@color/darkSkyBlue</item>
         <item name="colorPrimaryVariant">@color/BlueDark</item>
         <item name="colorSecondary">@color/darkSkyBlue</item>
+        <item name="colorOnSecondary">@color/paleGrey</item>
         <item name="android:statusBarColor">@color/paleGrey</item>
         <item name="android:fontFamily">@font/cairo_regular</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 
-    </style>
-
-    <style name="GreenButton" parent="Widget.MaterialComponents.Button">
-        <item name="android:colorButtonNormal">@color/greenBlue</item>
     </style>
 
 </resources>

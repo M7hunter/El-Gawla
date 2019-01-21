@@ -174,19 +174,10 @@ public class MainFragment extends Fragment {
         Common.Instance(getContext()).hideProgress(recentSalonsRecycler, recentSalonsProgress);
     }
 
-    private void initWinnersRecycler(View view) {
-        winnersNewsRecycler = view.findViewById(R.id.winners_news_recycler);
-        winnersNewsRecycler.setHasFixedSize(true);
-        winnersNewsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VISIBLE, false));
-        winnersNewsAdapter = new WinnersNewsAdapter(getActivity(), winnerNewsList);
-        winnersNewsRecycler.setAdapter(winnersNewsAdapter);
-
-        // to remove progress bar
-        Common.Instance(getContext()).hideProgress(winnersNewsRecycler, winnersNewsProgress);
-    }
-
     private void initSalonsEmptyView(View view, List<Round> roundList) {
         LinearLayout emptyViewLayout = view.findViewById(R.id.recent_salons_empty_view);
+
+        recentSalonsProgress.setVisibility(View.GONE);
 
         if (roundList.size() > 0) {
             emptyViewLayout.setVisibility(View.GONE);
@@ -198,11 +189,27 @@ public class MainFragment extends Fragment {
         }
     }
 
+    private void getWinnersFromServer(final View view) {
+
+    }
+
+    private void initWinnersRecycler(View view) {
+        winnersNewsRecycler = view.findViewById(R.id.winners_news_recycler);
+        winnersNewsRecycler.setHasFixedSize(true);
+        winnersNewsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VISIBLE, false));
+        winnersNewsAdapter = new WinnersNewsAdapter(getActivity(), winnerNewsList);
+        winnersNewsRecycler.setAdapter(winnersNewsAdapter);
+
+        // to remove progress bar
+        Common.Instance(getContext()).hideProgress(winnersNewsRecycler, winnersNewsProgress);
+    }
+
     public void initWinnersEmptyView() {
         // no data ? hide header
         if (winnerNewsList == null || winnerNewsList.size() == 0) {
             winnersHeader.setVisibility(View.GONE);
             winnersNewsProgress.setVisibility(View.GONE);
+            winnersNewsRecycler.setVisibility(View.GONE);
         }
     }
 }

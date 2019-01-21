@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!-- scroll main layout -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -55,17 +56,6 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:padding="@dimen/margin_tiny"
                     android:src="@drawable/ic_bell" />
-
-                <!-- filter btn -->
-                <ImageView
-                    android:id="@+id/all_salon_filter_icon"
-                    android:layout_width="@dimen/icon_notification"
-                    android:layout_height="@dimen/icon_notification"
-                    android:layout_alignParentTop="true"
-                    android:layout_toLeftOf="@id/all_salon_notification_icon"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="@dimen/margin_tiny"
-                    android:src="@drawable/ic_filter" />
 
             </RelativeLayout>
 
@@ -127,10 +117,19 @@
 
             </LinearLayout>
 
-            <include layout="@layout/no_connection_layout" />
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/all_salon_filter_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/margin_medium"
+        android:src="@drawable/ic_filter"
+        app:backgroundTint="@color/colorPrimary" />
+
+    <include layout="@layout/no_connection_layout" />
 
     <include layout="@layout/bottom_sheet_filter_by" />
 
