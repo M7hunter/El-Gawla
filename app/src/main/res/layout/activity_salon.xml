@@ -10,6 +10,16 @@
     tools:context=".views.SalonActivity" >
 
     <!-- main layout -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
     <RelativeLayout
         android:id="@+id/salon_container"
         android:layout_width="match_parent"
@@ -503,22 +513,11 @@
                         android:layout_margin="@dimen/margin_small"
                         android:orientation="horizontal">
 
-                        <!-- end time label -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/margin_small"
-                            android:text="@string/Discount_the_tour"
-                            android:textColor="@color/blueGrey"
-                            android:textSize="@dimen/text_size_medium"
-                            android:textStyle="bold" />
-
                         <!-- end time -->
                         <TextView
-                            android:id="@+id/salon_end_time"
+                            android:id="@+id/salon_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/paleRed"
                             android:textSize="@dimen/text_size_medium"
                             android:textStyle="bold" />
 
@@ -694,7 +693,8 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:background="@drawable/bg_rounded_corners_white"
-                app:cardCornerRadius="@dimen/margin_tiny">
+                app:cardCornerRadius="@dimen/margin_tiny"
+                android:visibility="gone">
                 <!-- card main layout -->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -737,6 +737,8 @@
             <!-- join confirmation card -->
             <include layout="@layout/join_round_confirmation_layout" />
 
+            <include layout="@layout/use_salon_card" android:visibility="gone"/>
+
         </LinearLayout>
 
         <!-- join btn -->
@@ -754,9 +756,10 @@
             android:text="@string/join_round"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <!-- joined progress -->
+
         <ProgressBar
             android:id="@+id/join_progress"
             android:layout_width="wrap_content"
@@ -775,7 +778,12 @@
             android:padding="@dimen/margin_medium"
             android:src="@drawable/out_round"
             android:visibility="gone"/>
+
+
     </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>
 
     <!-- cards bag btn container -->
     <RelativeLayout
@@ -821,6 +829,7 @@
         android:visibility="gone"/>
 
     <!-- bottom sheet activate cards-->
+
     <include layout="@layout/bottom_sheet_active_cards" />
 
     <!-- bottom sheet single card -->
@@ -828,6 +837,7 @@
 
     <!-- bottom sheet product details -->
     <include layout="@layout/bottom_sheet_product_details" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
