@@ -3,16 +3,23 @@ package it_geeks.info.gawla_app.views.menuOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.google.android.material.switchmaterial.SwitchMaterial;
+
 import androidx.appcompat.app.AppCompatActivity;
-import it_geeks.info.gawla_app.General.Common;
-import it_geeks.info.gawla_app.General.SharedPrefManager;
+import androidx.appcompat.widget.SwitchCompat;
+import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.views.splashActivities.SplashActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 
     TextView tvLang, tvCountry, tvCurrency;
+
+    SwitchMaterial notificationSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +34,18 @@ public class SettingsActivity extends AppCompatActivity {
         tvLang = findViewById(R.id.app_settings_language);
         tvCountry = findViewById(R.id.app_settings_country);
         tvCurrency = findViewById(R.id.app_settings_currency);
+        notificationSwitch = findViewById(R.id.notification_switch);
+
+        if (SharedPrefManager.getInstance(SettingsActivity.this).getNotificationState()) {
+            notificationSwitch.setChecked(true);
+        }
+
+        notificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPrefManager.getInstance(SettingsActivity.this).setNotificationState(isChecked);
+            }
+        });
 
         tvLang.setText(displayLanguage());
         tvCountry.setText(SharedPrefManager.getInstance(SettingsActivity.this).getCountry().getCountry_title());

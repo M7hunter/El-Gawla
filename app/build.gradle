@@ -32,14 +32,18 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    // dagger
+//    implementation 'com.google.dagger:dagger:2.21'
+//    annotationProcessor 'com.google.dagger:dagger-compiler:2.21'
     // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     // viewModel
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-alpha1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.0.0-alpha1'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.1.0-alpha01'
     // paging
-    implementation 'androidx.paging:paging-runtime:2.0.0-alpha1'
+    implementation 'androidx.paging:paging-runtime:2.1.0-rc01'
     // room
     implementation 'androidx.room:room-runtime:2.1.0-alpha03'
     annotationProcessor "androidx.room:room-compiler:2.1.0-alpha03"

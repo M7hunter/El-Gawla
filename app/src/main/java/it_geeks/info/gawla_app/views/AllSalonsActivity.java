@@ -21,10 +21,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Controllers.Adapters.CategoryAdapter;
-import it_geeks.info.gawla_app.General.Common;
-import it_geeks.info.gawla_app.General.ConnectionInterface;
-import it_geeks.info.gawla_app.General.OnItemClickListener;
-import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.general.ConnectionInterface;
+import it_geeks.info.gawla_app.general.OnItemClickListener;
+import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Category;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
@@ -99,7 +99,7 @@ public class AllSalonsActivity extends AppCompatActivity {
             }
         });
 
-        // open filter by bottom sheet
+        // open filter sheet
         findViewById(R.id.all_salon_filter_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

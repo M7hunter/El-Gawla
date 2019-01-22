@@ -5,7 +5,7 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import java.util.Calendar;
-import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Models.RoundRealTimeModel;
 import it_geeks.info.gawla_app.Repositry.Models.RoundStartToEndModel;
 import it_geeks.info.gawla_app.views.SalonActivity;

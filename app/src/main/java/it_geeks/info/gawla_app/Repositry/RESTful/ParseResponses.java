@@ -1,8 +1,5 @@
 package it_geeks.info.gawla_app.Repositry.RESTful;
 
-import android.content.Context;
-import android.widget.Toast;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -12,15 +9,15 @@ import java.util.List;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.Repositry.Models.Category;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
+import it_geeks.info.gawla_app.Repositry.Models.Trans;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Models.RoundRealTimeModel;
 import it_geeks.info.gawla_app.Repositry.Models.User;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.views.SalonActivity;
 
 public class ParseResponses {
-Context context;
+
     public ParseResponses() {
     }
 
@@ -221,6 +218,10 @@ Context context;
         }
 
         return categories;
+    }
+
+    public static List<Trans> parseLanguages(JsonObject object) {
+        return null;
     }
 
     private static List<Card> parseCards(JsonObject object) {

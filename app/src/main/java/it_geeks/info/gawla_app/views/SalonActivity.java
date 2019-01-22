@@ -24,10 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
@@ -38,12 +36,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.General.Common;
-import it_geeks.info.gawla_app.General.ConnectionChangeReceiver;
-import it_geeks.info.gawla_app.General.SharedPrefManager;
+import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.general.ConnectionChangeReceiver;
+import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
@@ -169,7 +166,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     }
 
-
     public View getMainFrame() {
         if (salonMainContainer == null) {
             salonMainContainer = findViewById(R.id.salon_main_layout);
@@ -205,7 +201,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     //Round Start
     private void startTimeDown(RoundRealTimeModel roundRealTimeModel) {
         this.roundRealTimeModel = roundRealTimeModel;
-        if (roundRealTimeModel.isUserJoin() == true){
+        if (roundRealTimeModel.isUserJoin()){
             joinStatus = 2;
         }else {
             joinStatus = 0;
@@ -442,8 +438,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         cancelConfirmation();
                     }
                 }
-
-
         });
 
         //
@@ -485,7 +479,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                     @Override
                     public void handleEmptyResponse() {
-
                         joinConfirmationProgress.setVisibility(View.GONE);
                     }
 
@@ -515,13 +508,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                         @Override
                         public void handleEmptyResponse() {
-
                             joinConfirmationProgress.setVisibility(View.GONE);
                         }
 
                         @Override
                         public void handleConnectionErrors(String errorMessage) {
-
                             joinConfirmationProgress.setVisibility(View.GONE);
                         }
                     });
@@ -532,7 +523,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     // join events
     private void displayConfirmationLayout() {
-
         joinStatus = 1;
         roundStartToEnd.setJoinStatus(joinStatus);
 

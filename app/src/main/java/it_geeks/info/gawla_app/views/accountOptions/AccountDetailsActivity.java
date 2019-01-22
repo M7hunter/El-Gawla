@@ -9,12 +9,10 @@ import android.text.InputType;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,9 +23,9 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
-import it_geeks.info.gawla_app.General.Common;
-import it_geeks.info.gawla_app.General.SharedPrefManager;
-import it_geeks.info.gawla_app.General.UploadStatus;
+import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.general.UploadImageService;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.User;
@@ -38,13 +36,15 @@ import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 
 public class AccountDetailsActivity extends AppCompatActivity {
 
+    public static AccountDetailsActivity accountDetailsInstance;
+
     EditText et_update_first_name, et_update_last_name, et_update_telephone, sp_update_gender, sp_update_country;
-    ImageView img_update_image, btn_choose_image, btn_upload_image;
+    ImageView img_update_image, btn_choose_image;
+    public ImageView btn_upload_image;
     TextView btn_update_profile;
     int user_id;
     String api_token;
-
-    ArrayAdapter countriesAdapter;
+    public String encodedImage;
 
     Uri imagePath;
 
@@ -55,6 +55,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Common.Instance(this).changeStatusBarColor("#ffffff", this);
         setContentView(R.layout.activity_account_details);
+        accountDetailsInstance = this;
 
         user_id = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getUser_id();
         api_token = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getApi_token();
@@ -85,7 +86,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         btn_update_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUI();
+                updatingStateUI();
                 updateUserOnServer();
             }
         });
@@ -165,11 +166,11 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     private void countryPopupMenu() {
-        sp_update_country          .setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_arrow_drop_up), null);
+        sp_update_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_arrow_drop_up), null);
         PopupMenu countryMenu = new PopupMenu(AccountDetailsActivity.this, sp_update_country);
 
         List<String> countries = GawlaDataBse.getGawlaDatabase(this).countryDao().getCountriesNames();
-        for (String country: countries) {
+        for (String country : countries) {
             countryMenu.getMenu().add(country);
         }
 
@@ -227,17 +228,18 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
                                 // notify user
                                 Toast.makeText(AccountDetailsActivity.this, "updated", Toast.LENGTH_SHORT).show();
-                                updatedUI();
+                                updatedStateUI();
                             }
 
                             @Override
                             public void handleEmptyResponse() {
+                                updatedStateUI();
                             }
 
                             @Override
                             public void handleConnectionErrors(String errorMessage) {
                                 Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-                                updatedUI();
+                                updatedStateUI();
                             }
                         });
     }
@@ -247,12 +249,12 @@ public class AccountDetailsActivity extends AppCompatActivity {
         btn_upload_image.setEnabled(true);
     }
 
-    private void hideUploadImageButton() {
+    public void hideUploadImageButton() {
         btn_upload_image.animate().translationX(0).setDuration(400).start();
         btn_upload_image.setEnabled(false);
     }
 
-    private void updateUI() {
+    public void updatingStateUI() {
         progressBarUpdateProfile.setVisibility(View.VISIBLE);
         btn_update_profile.setVisibility(View.INVISIBLE);
 
@@ -263,8 +265,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
         sp_update_gender.setEnabled(false);
     }
 
-    private void updatedUI() {
-        progressBarUpdateProfile.setVisibility(View.INVISIBLE);
+    public void updatedStateUI() {
+        progressBarUpdateProfile.setVisibility(View.GONE);
         btn_update_profile.setVisibility(View.VISIBLE);
 
         et_update_first_name.setEnabled(true);
@@ -304,16 +306,20 @@ public class AccountDetailsActivity extends AppCompatActivity {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
             byte[] imageAsByte = outputStream.toByteArray();
-            final String encodedImage = Base64.encodeToString(imageAsByte, Base64.DEFAULT);
+            encodedImage = Base64.encodeToString(imageAsByte, Base64.DEFAULT);
 
             // upload image
             displayUploadImageButton();
             btn_upload_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateUI();
+                    if (Common.Instance(AccountDetailsActivity.this).isConnected()) {
+                    uploadImage();
+                    updatingStateUI();
                     btn_upload_image.setEnabled(false);
-                    uploadImage(encodedImage);
+                    } else {
+                        Toast.makeText(AccountDetailsActivity.this, "check your connection", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
@@ -322,66 +328,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void uploadImage(final String encodedImage) {
-        Thread uploadImageThread = new Thread(new Runnable() { // TODO: service is better
-            @Override
-            public void run() {
-
-                SharedPrefManager.getInstance(AccountDetailsActivity.this).setUploadStatus(UploadStatus.UPLOADING);
-
-                RetrofitClient.getInstance(AccountDetailsActivity.this).executeConnectionToServer(AccountDetailsActivity.this,
-                        "updateUserData", new Request(user_id, api_token, encodedImage), new HandleResponses() {
-                            @Override
-                            public void handleResponseData(JsonObject mainObject) {
-
-                                // update uploading status
-                                SharedPrefManager.getInstance(AccountDetailsActivity.this).setUploadStatus(UploadStatus.UPLOADED);
-
-                                final User user = ParseResponses.parseUser(mainObject);
-
-                                // display image to user after updating
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Picasso.with(AccountDetailsActivity.this)
-                                                .load(user.getImage())
-                                                .placeholder(AccountDetailsActivity.this.getResources().getDrawable(R.drawable.placeholder))
-                                                .into(img_update_image);
-
-//                                Picasso.with(AccountDetailsActivity.this)
-//                                .load(user.getImage())
-//                                .placeholder(AccountDetailsActivity.this.getResources().getDrawable(R.drawable.placeholder))
-//                                .into(new AccountFragment().userImage);
-                                    }
-                                });
-
-                                // save updated user data
-                                SharedPrefManager.getInstance(AccountDetailsActivity.this).saveUser(user);
-
-                                // notify user
-                                Toast.makeText(AccountDetailsActivity.this, "updated", Toast.LENGTH_SHORT).show();
-                                updatedUI();
-                                hideUploadImageButton();
-                            }
-
-                            @Override
-                            public void handleEmptyResponse() {
-                            }
-
-                            @Override
-                            public void handleConnectionErrors(String errorMessage) {
-                                Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-                                updatedUI();
-                                btn_upload_image.setEnabled(true);
-                                SharedPrefManager.getInstance(AccountDetailsActivity.this).setUploadStatus(UploadStatus.FAILED);
-                            }
-                        });
-            }
-        });
-
-        // !uploading ?
-        if (!SharedPrefManager.getInstance(AccountDetailsActivity.this).getUploadStatus().equals(UploadStatus.UPLOADING.toString())) {
-            uploadImageThread.start();
-        }
+    private void uploadImage() {
+        // upload image in a service
+        startService(new Intent(getApplicationContext(), UploadImageService.class));
     }
 }

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import it_geeks.info.gawla_app.General.Common;
+import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.R;
 
 public class TermsAndConditionsActivity extends AppCompatActivity {
