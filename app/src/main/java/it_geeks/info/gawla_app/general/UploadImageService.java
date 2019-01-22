@@ -21,9 +21,9 @@ import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.accountOptions.AccountDetailsActivity;
 
-public class UploadImageNotificationService extends Service {
+public class UploadImageService extends Service {
 
-    private static final String CHANNEL_ID = "upload image notification";
+    private static final String CHANNEL_ID = "upload image service";
     private static final int NOTIFICATION_ID = 1;
 
     private NotificationManager notificationManager;
@@ -56,17 +56,13 @@ public class UploadImageNotificationService extends Service {
                     "updateUserData", new Request(user_id, api_token, activity.encodedImage), new HandleResponses() {
                         @Override
                         public void handleResponseData(JsonObject mainObject) {
-
-                            // update uploading status
-                            SharedPrefManager.getInstance(UploadImageNotificationService.this).setUploadStatus(States.UPLOADED);
-
                             // save updated user data
-                            SharedPrefManager.getInstance(UploadImageNotificationService.this).saveUser(ParseResponses.parseUser(mainObject));
+                            SharedPrefManager.getInstance(UploadImageService.this).saveUser(ParseResponses.parseUser(mainObject));
 
                             // notify user
-                            Toast.makeText(UploadImageNotificationService.this, "updated", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UploadImageService.this, "updated", Toast.LENGTH_SHORT).show();
 
-                            if (SharedPrefManager.getInstance(UploadImageNotificationService.this).getNotificationState()) {
+                            if (SharedPrefManager.getInstance(UploadImageService.this).getNotificationState()) {
                                 messageNotification("Image updated successfully");
                             }
 
@@ -82,12 +78,11 @@ public class UploadImageNotificationService extends Service {
 
                         @Override
                         public void handleConnectionErrors(String errorMessage) {
-                            if (SharedPrefManager.getInstance(UploadImageNotificationService.this).getNotificationState()) {
+                            if (SharedPrefManager.getInstance(UploadImageService.this).getNotificationState()) {
                                 messageNotification(errorMessage);
                             }
 
-                            Toast.makeText(UploadImageNotificationService.this, errorMessage, Toast.LENGTH_SHORT).show();
-                            SharedPrefManager.getInstance(UploadImageNotificationService.this).setUploadStatus(States.FAILED);
+                            Toast.makeText(UploadImageService.this, errorMessage, Toast.LENGTH_SHORT).show();
 
                             if (activity != null) {
                                 activity.updatedStateUI();

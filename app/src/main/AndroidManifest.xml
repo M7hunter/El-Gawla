@@ -61,7 +61,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".general.UploadImageNotificationService"/>
+        <service android:name=".general.UploadImageService"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

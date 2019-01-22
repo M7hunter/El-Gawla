@@ -86,7 +86,7 @@ public class RetrofitClient {
 
                         } else { // server errors
 
-                            //TODO: check codes instead of strings
+                            // TODO: check codes instead of strings
 
                             if (parseServerErrors(mainObj).contains("not logged in")) {
                                 context.startActivity(new Intent(context, LoginActivity.class)

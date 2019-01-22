@@ -7,7 +7,6 @@ import java.util.Locale;
 
 import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.User;
-import it_geeks.info.gawla_app.general.States;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -21,7 +20,6 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_COUNTRY = "country_shared_pref";
     private static final String SHARED_PREF_LAST_REQUEST = "last_request_shared_pref";
     private static final String SHARED_PREF_USER_PROVIDER = "user_socialMedia_Provider";
-    private static final String SHARED_PREF_UPLOAD_STATUS = "upload_status_shared_pref";
     private static final String SHARED_PREF_NOTIFICATION = "notification_shared_pref";
 
     private SharedPrefManager(Context context) {
@@ -33,22 +31,6 @@ public class SharedPrefManager {
             sharedPrefManager = new SharedPrefManager(context);
         }
         return sharedPrefManager;
-    }
-
-    //--------------- upload status -------------//
-    public void setUploadStatus(States status) { // uploading, uploaded, failed
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_UPLOAD_STATUS, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.clear();
-
-        editor.putString("status", status.toString());
-        editor.apply();
-    }
-
-    public String getUploadStatus() {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_UPLOAD_STATUS, MODE_PRIVATE);
-        return sharedPreferences.getString("status", States.UPLOADED.toString());
     }
 
     //--------------- notification -------------//

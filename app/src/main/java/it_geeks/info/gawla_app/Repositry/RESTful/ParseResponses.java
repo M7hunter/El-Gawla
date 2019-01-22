@@ -9,6 +9,7 @@ import java.util.List;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.Repositry.Models.Category;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
+import it_geeks.info.gawla_app.Repositry.Models.Trans;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Models.RoundRealTimeModel;
@@ -217,6 +218,10 @@ public class ParseResponses {
         }
 
         return categories;
+    }
+
+    public static List<Trans> parseLanguages(JsonObject object) {
+        return null;
     }
 
     private static List<Card> parseCards(JsonObject object) {

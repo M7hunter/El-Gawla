@@ -25,7 +25,7 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.general.UploadImageNotificationService;
+import it_geeks.info.gawla_app.general.UploadImageService;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.User;
@@ -330,6 +330,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
     private void uploadImage() {
         // upload image in a service
-        startService(new Intent(getApplicationContext(), UploadImageNotificationService.class));
+        startService(new Intent(getApplicationContext(), UploadImageService.class));
     }
 }
