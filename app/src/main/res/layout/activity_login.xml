@@ -8,7 +8,7 @@
     tools:context=".views.loginActivities.LoginActivity">
 
     <ScrollView
-        android:id="@+id/scrollView4"
+        android:id="@+id/loginMainScreen"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
@@ -40,9 +40,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_xxlarge"
                 android:layout_marginTop="@dimen/margin_xxlarge"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:layout_marginRight="@dimen/margin_xxlarge"
                 android:background="@drawable/btn_google_plus"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:gravity="center"
                 android:padding="@dimen/margin_small">
 
@@ -71,9 +71,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_xxlarge"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:layout_marginRight="@dimen/margin_xxlarge"
                 android:background="@drawable/btn_facebook"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:gravity="center"
                 android:padding="@dimen/margin_small">
 
@@ -100,15 +100,17 @@
 
             <!-- email -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:focusable="true"
                 android:layout_marginStart="@dimen/margin_xxlarge"
                 android:layout_marginEnd="@dimen/margin_xxlarge"
-                android:layout_marginBottom="@dimen/margin_xlarge"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:layout_weight="1"
-                android:textColorHint="@color/paleGrey2">
+                android:focusable="true"
+                android:textColorHint="@color/paleGrey2"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_Email"
@@ -126,15 +128,17 @@
 
             <!-- pass -->
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_pass"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:focusable="auto"
                 android:layout_marginStart="@dimen/margin_xxlarge"
                 android:layout_marginEnd="@dimen/margin_xxlarge"
-                android:layout_marginBottom="@dimen/margin_xlarge"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:layout_weight="1"
-                android:textColorHint="@color/paleGrey2">
+                android:focusable="true"
+                android:textColorHint="@color/paleGrey2"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_Password"
@@ -146,9 +150,9 @@
                     android:paddingTop="@dimen/margin_small"
                     android:paddingEnd="@dimen/margin_xlarge"
                     android:paddingBottom="@dimen/margin_small"
-                    app:counterMaxLength="26"
                     android:textSize="@dimen/text_size_large"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:counterMaxLength="26" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- sign in btn -->
@@ -159,9 +163,9 @@
                 android:layout_marginLeft="@dimen/margin_xxlarge"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginRight="@dimen/margin_xxlarge"
+                android:padding="@dimen/margin_small"
                 android:text="@string/sign_in"
                 android:textSize="@dimen/text_size_large"
-                android:padding="@dimen/margin_small"
                 android:textStyle="bold" />
 
             <!-- forget pass btn -->

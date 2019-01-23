@@ -7,6 +7,7 @@
     tools:context=".views.loginActivities.CreateAccountActivity">
 
     <ScrollView
+        android:id="@+id/createAccountMainScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white">
@@ -97,12 +98,14 @@
             <!-- name -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/tl_create_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_xxlarge"
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_xxlarge"
                 android:layout_marginBottom="@dimen/margin_small"
+                app:errorEnabled="true"
                 android:layout_weight="1"
                 android:textColorHint="@color/paleGrey2">
 
@@ -124,12 +127,14 @@
             <!-- email -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/tl_create_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_xxlarge"
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_xxlarge"
                 android:layout_marginBottom="@dimen/margin_small"
+                app:errorEnabled="true"
                 android:layout_weight="1"
                 android:textColorHint="@color/paleGrey2">
 
@@ -151,11 +156,13 @@
             <!-- pass -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/tl_create_pass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_xxlarge"
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_xxlarge"
+                app:errorEnabled="true"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:layout_weight="1"
                 android:textColorHint="@color/paleGrey2">

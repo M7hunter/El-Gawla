@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.R;
 
@@ -16,6 +17,7 @@ public class PaymentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Common.Instance(this).changeStatusBarColor("#ffffff",this);
         setContentView(R.layout.activity_payment);
 
         initViews();
