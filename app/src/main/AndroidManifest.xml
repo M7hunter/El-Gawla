@@ -51,7 +51,7 @@
         <activity android:name=".views.menuOptions.LanguageActivity" />
         <activity android:name=".views.accountOptions.AccountDetailsActivity" />
         <activity android:name=".views.accountOptions.BuyingProcessesActivity" />
-        <activity android:name=".views.accountOptions.PrivacyDetailsActivity" />
+        <activity android:name=".views.accountOptions.PrivacyDetailsActivity" android:windowSoftInputMode="adjustPan" />
 
         <receiver
             android:name=".general.ConnectionChangeReceiver"

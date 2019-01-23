@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/privacy_details_Page"
     android:layout_width="match_parent"
@@ -61,13 +62,15 @@
                 android:textSize="@dimen/text_size_medium" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_privacy_details_email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_xxlarge"
                 android:layout_marginEnd="@dimen/margin_xxlarge"
                 android:layout_weight="1"
-                android:textColorHint="@color/paleGrey2">
+                android:textColorHint="@color/paleGrey2"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_account_email"
@@ -76,7 +79,7 @@
                     android:enabled="false"
                     android:focusable="auto"
                     android:hint="@string/email"
-                    android:inputType="textPersonName"
+                    android:inputType="textEmailAddress"
                     android:paddingStart="@dimen/margin_xlarge"
                     android:paddingTop="@dimen/margin_small"
                     android:paddingEnd="@dimen/margin_xlarge"
@@ -105,13 +108,15 @@
                 android:textSize="@dimen/text_size_medium" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_privacy_details_pass"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_xxlarge"
                 android:layout_marginEnd="@dimen/margin_xxlarge"
                 android:layout_weight="1"
-                android:textColorHint="@color/paleGrey2">
+                android:textColorHint="@color/paleGrey2"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_account_password"
@@ -119,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:focusable="auto"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:inputType="textPassword"
                     android:paddingStart="@dimen/margin_xlarge"
                     android:paddingTop="@dimen/margin_small"

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,8 @@ public class CallUsActivity extends AppCompatActivity {
     Button btnSendCallUs;
     Snackbar snackbarMessage;
 
+    TextInputLayout tlName, tlEmail, tlText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +42,7 @@ public class CallUsActivity extends AppCompatActivity {
         });
 
         initViews();
-        getDefailtData();
+        getDefaultData();
         setData();
     }
 
@@ -48,9 +51,13 @@ public class CallUsActivity extends AppCompatActivity {
         emailCallUS = findViewById(R.id.emailCallUs);
         messageCallUS = findViewById(R.id.messageCallUs);
         btnSendCallUs = findViewById(R.id.btnSendCallUs);
+
+        tlName = findViewById(R.id.tl_call_us_name);
+        tlEmail = findViewById(R.id.tl_call_us_email);
+        tlText = findViewById(R.id.tl_text);
     }
 
-    private void getDefailtData() {
+    private void getDefaultData() {
         usernameCallUS.setText(SharedPrefManager.getInstance(CallUsActivity.this).getUser().getName());
         emailCallUS.setText(SharedPrefManager.getInstance(CallUsActivity.this).getUser().getEmail());
     }
@@ -65,18 +72,17 @@ public class CallUsActivity extends AppCompatActivity {
                             handleData();
                         }else{
                             messageCallUS.setFocusable(true);
-                            messageCallUS.setError(getString(R.string.empty_name));
+                            tlText.setError(getString(R.string.empty_message));
                         }
                     }else{
                         emailCallUS.setFocusable(true);
-                        emailCallUS.setError(getString(R.string.emptyMail));
+                        tlEmail.setError(getString(R.string.emptyMail));
                     }
                 }else{
                     usernameCallUS.setFocusable(true);
-                    usernameCallUS.setError(getString(R.string.empty_message));
+                    tlName.setError(getString(R.string.empty_name));
 
                 }
-
             }
         });
     }
