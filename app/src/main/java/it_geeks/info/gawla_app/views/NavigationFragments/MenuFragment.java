@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
@@ -14,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import androidx.fragment.app.Fragment;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.menuOptions.CallUsActivity;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
@@ -30,22 +32,54 @@ public class MenuFragment extends Fragment {
 
     private GoogleApiClient mGoogleApiClient;
 
+    private TextView tvMenuFragmentHint, tvAppSettings, tvMoreAboutGawla, tvPrivacyPolicy, tvTermsAndCo, tvCallUs, tvHowGawlaWorks, tvSignOut;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
 
+        mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext()).addApi(Auth.GOOGLE_SIGN_IN_API).build();
+
         initViews(view);
+
+        setupTrans();
+
+        handleEvents(view);
 
         return view;
     }
 
-    private void initViews(final View view) {
-        mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext()).addApi(Auth.GOOGLE_SIGN_IN_API).build();
+    private void initViews(View view) {
         ImageView imCountryIcon = view.findViewById(R.id.menu_country_icon);
 
-        Picasso.with(getContext()).load(SharedPrefManager.getInstance(getContext()).getCountry().getImage()).into(imCountryIcon);
+        tvMenuFragmentHint = view.findViewById(R.id.tv_menu_fragment_hint);
+        tvAppSettings = view.findViewById(R.id.tv_app_settings);
+        tvMoreAboutGawla = view.findViewById(R.id.tv_more_about_gawla);
+        tvPrivacyPolicy = view.findViewById(R.id.tv_privacy_policy);
+        tvTermsAndCo = view.findViewById(R.id.tv_terms_and_conditions);
+        tvCallUs = view.findViewById(R.id.tv_call_us);
+        tvHowGawlaWorks = view.findViewById(R.id.tv_how_gawla_works);
+        tvSignOut = view.findViewById(R.id.tv_sign_out);
 
+        Picasso.with(getContext()).load(SharedPrefManager.getInstance(getContext()).getCountry().getImage()).into(imCountryIcon);
+    }
+
+    private void setupTrans() {
+        TransHolder transHolder = new TransHolder(getContext());
+        transHolder.getMenuFragmentTranses(getContext());
+
+        tvMenuFragmentHint.setText(transHolder.menu_fragment_hint);
+        tvAppSettings.setText(transHolder.app_settings);
+        tvMoreAboutGawla.setText(transHolder.more_about_gawla);
+        tvPrivacyPolicy.setText(transHolder.privacy_policy);
+        tvTermsAndCo.setText(transHolder.terms_and_conditions);
+        tvCallUs.setText(transHolder.call_us);
+        tvHowGawlaWorks.setText(transHolder.how_gawla_works);
+        tvSignOut.setText(transHolder.sign_out);
+    }
+
+    private void handleEvents(View view) {
         // open settings page
         view.findViewById(R.id.menu_option_settings).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +149,7 @@ public class MenuFragment extends Fragment {
         view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),NotificationActivity.class));
+                startActivity(new Intent(getContext(), NotificationActivity.class));
             }
         });
     }

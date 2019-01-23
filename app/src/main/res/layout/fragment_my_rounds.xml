@@ -22,11 +22,12 @@
 
             <!-- title -->
             <TextView
+                android:id="@+id/tv_my_rounds_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_small"
                 android:gravity="center"
-                android:text="@string/joined_hales"
+                android:text="@string/joined_salons"
                 android:textAllCaps="true"
                 android:textColor="@color/midBlue"
                 android:textSize="@dimen/text_size_large"
@@ -92,11 +93,12 @@
                         android:src="@drawable/empty_view_my_rounds" />
 
                     <TextView
+                        android:id="@+id/tv_my_rounds_empty_hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_medium"
                         android:gravity="center"
-                        android:text="@string/joined_hales_empty_hint"
+                        android:text="@string/joined_salons_empty_hint"
                         android:textColor="@color/blueGrey"
                         android:textSize="@dimen/text_size_medium" />
 

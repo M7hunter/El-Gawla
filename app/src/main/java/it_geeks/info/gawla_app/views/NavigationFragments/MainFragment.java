@@ -52,7 +52,8 @@ public class MainFragment extends Fragment {
     private ProgressBar winnersNewsProgress;
     private LinearLayout winnersHeader;
 
-    private TextView btnRecentSalonsSeeAll, recentSalonsLabel, btnWinnersSeeAll, winnersLabel;
+    private TextView btnRecentSalonsSeeAll,btnWinnersSeeAll; // <- trans & more
+    private TextView recentSalonsLabel, winnersLabel, tvEmptyHint; // <- trans
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class MainFragment extends Fragment {
 
         initViews(view);
 
-//        setupTrans();
+        setupTrans();
 
         handleEvents(view);
 
@@ -82,16 +83,19 @@ public class MainFragment extends Fragment {
         recentSalonsLabel = view.findViewById(R.id.recent_salons_header_label);
         btnWinnersSeeAll = view.findViewById(R.id.winners_news_see_all_btn);
         winnersLabel = view.findViewById(R.id.winners_news_header_label);
+        tvEmptyHint = view.findViewById(R.id.recent_salons_empty_hint);
 
     }
 
     private void setupTrans() {
         TransHolder transHolder = new TransHolder(getContext());
+        transHolder.getMainFragmentTranses(getContext());
 
         btnWinnersSeeAll.setText(transHolder.see_all);
         btnRecentSalonsSeeAll.setText(transHolder.see_all);
         recentSalonsLabel.setText(transHolder.recent_salons);
-//        winnersLabel.setText(transHolder.winners_of_hales_news);
+        winnersLabel.setText(transHolder.winners_of_hales_news);
+        tvEmptyHint.setText(transHolder.salons_empty_hint);
     }
 
     private void handleEvents(View view) {

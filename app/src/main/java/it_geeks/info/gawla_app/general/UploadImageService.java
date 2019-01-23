@@ -98,6 +98,7 @@ public class UploadImageService extends Service {
         notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
         notificationBuilder.setContentTitle("Updating User Image")
                 .setSmallIcon(R.mipmap.ic_launcher_gawla)
+                .setAutoCancel(false)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setProgress(0, 0, true);
 
@@ -113,7 +114,8 @@ public class UploadImageService extends Service {
     private void messageNotification(String message) {
         notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
         notificationBuilder.setContentText(message)
-                .setSmallIcon(R.mipmap.ic_launcher_gawla);
+                .setSmallIcon(R.mipmap.ic_launcher_gawla)
+                .setAutoCancel(true);
 
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
         stopSelf();

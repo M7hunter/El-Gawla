@@ -39,11 +39,12 @@
 
             <!-- title -->
             <TextView
+                android:id="@+id/tv_menu_fragment_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_small"
                 android:gravity="center"
-                android:text="@string/menu_fragment_title"
+                android:text="@string/menu_fragment_hint"
                 android:textColor="@color/blueGrey"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
@@ -69,6 +70,7 @@
 
                 <!-- label -->
                 <TextView
+                    android:id="@+id/tv_app_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -115,6 +117,7 @@
 
                 <!-- label -->
                 <TextView
+                    android:id="@+id/tv_more_about_gawla"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -156,6 +159,7 @@
 
                 <!-- label -->
                 <TextView
+                    android:id="@+id/tv_privacy_policy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -197,6 +201,7 @@
 
                 <!-- label -->
                 <TextView
+                    android:id="@+id/tv_terms_and_conditions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -243,6 +248,7 @@
 
                 <!-- label -->
                 <TextView
+                    android:id="@+id/tv_call_us"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -289,6 +295,7 @@
 
                 <!-- label -->
                 <TextView
+                    android:id="@+id/tv_how_gawla_works"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -335,6 +342,7 @@
 
                 <!-- label -->
                 <TextView
+                    android:id="@+id/tv_sign_out"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

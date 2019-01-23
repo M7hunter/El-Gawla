@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -30,6 +31,7 @@ import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Controllers.Adapters.CardsAdapter;
+import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 
@@ -44,12 +46,18 @@ public class CardsFragment extends Fragment {
 
     private View view = null;
 
+    private TextView tvCardsStoreHeader, tvCardsStoreEmptyHint; // <- trans
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_cards, container, false);
 
         initViews(view);
+
+        setupTrans();
+
+        handleEvents();
 
         checkConnection(view);
 
@@ -60,6 +68,20 @@ public class CardsFragment extends Fragment {
         cardsProgress = view.findViewById(R.id.cards_progress);
         cardsRecycler = view.findViewById(R.id.cards_recycler);
 
+        // translatable views
+        tvCardsStoreHeader = view.findViewById(R.id.tv_cards_store_header);
+        tvCardsStoreEmptyHint = view.findViewById(R.id.tv_cards_empty_hint);
+    }
+
+    private void setupTrans() {
+        TransHolder transHolder = new TransHolder(getContext());
+        transHolder.getCardStoreFragmentTranses(getContext());
+
+        tvCardsStoreHeader.setText(transHolder.cards_store);
+        tvCardsStoreEmptyHint.setText(transHolder.cards_empty_hint);
+    }
+
+    private void handleEvents() {
         // open Notification
         view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
             @Override

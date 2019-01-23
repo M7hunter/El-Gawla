@@ -1,11 +1,13 @@
 package it_geeks.info.gawla_app.views;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.NavigationFragments.AccountFragment;
 import it_geeks.info.gawla_app.views.NavigationFragments.CardsFragment;
 import it_geeks.info.gawla_app.views.NavigationFragments.MainFragment;
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
     View snackContainer;
 
+    TransHolder transHolder;
+
     private Fragment fragment = new MainFragment();
 
     @Override
@@ -41,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
         mainInstance = this;
 
+        transHolder = new TransHolder(MainActivity.this);
+        transHolder.getMainActivityTranses(MainActivity.this);
+
         registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
 
         if (savedInstanceState == null) {
@@ -48,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         initNavigation();
+
+        setupTrans();
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(connectionChangeReceiver);
+        super.onDestroy();
     }
 
     @Override
@@ -60,12 +76,6 @@ public class MainActivity extends AppCompatActivity {
             displayFragment(new MainFragment());
             navigation.setSelectedItemId(R.id.navigation_hales);
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        unregisterReceiver(connectionChangeReceiver);
-        super.onDestroy();
     }
 
     public View getMainFrame() {
@@ -84,26 +94,31 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_hales:
                         fragment = new MainFragment();
+                        menuItem.setTitle(transHolder.hales);
                         // change status bar color
                         Common.Instance(MainActivity.this).changeStatusBarColor("#f4f7fa", MainActivity.this);
                         break;
                     case R.id.navigation_my_rounds:
                         fragment = new MyRoundsFragment();
+                        menuItem.setTitle(transHolder.my_rounds);
                         // change status bar color
                         Common.Instance(MainActivity.this).changeStatusBarColor("#f4f7fa", MainActivity.this);
                         break;
                     case R.id.navigation_cards:
                         fragment = new CardsFragment();
+                        menuItem.setTitle(transHolder.cards);
                         // change status bar color
                         Common.Instance(MainActivity.this).changeStatusBarColor("#f4f7fa", MainActivity.this);
                         break;
                     case R.id.navigation_account:
                         fragment = new AccountFragment();
+                        menuItem.setTitle(transHolder.account);
                         // change status bar color to white
                         Common.Instance(MainActivity.this).changeStatusBarColor("#FFFFFF", MainActivity.this);
                         break;
                     case R.id.navigation_menu:
                         fragment = new MenuFragment();
+                        menuItem.setTitle(transHolder.menu);
                         // change status bar color
                         Common.Instance(MainActivity.this).changeStatusBarColor("#f4f7fa", MainActivity.this);
                         break;
@@ -117,6 +132,15 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @SuppressLint("RestrictedApi")
+    private void setupTrans() {
+        ((BottomNavigationItemView) findViewById(R.id.navigation_hales)).setTitle(transHolder.hales);
+        ((BottomNavigationItemView) findViewById(R.id.navigation_my_rounds)).setTitle(transHolder.my_rounds);
+        ((BottomNavigationItemView) findViewById(R.id.navigation_cards)).setTitle(transHolder.cards);
+        ((BottomNavigationItemView) findViewById(R.id.navigation_account)).setTitle(transHolder.account);
+        ((BottomNavigationItemView) findViewById(R.id.navigation_menu)).setTitle(transHolder.menu);
     }
 
     private void displayFragment(Fragment fragment) {
