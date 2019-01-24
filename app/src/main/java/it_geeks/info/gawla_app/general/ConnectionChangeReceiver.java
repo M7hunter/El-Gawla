@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.SalonActivity;
@@ -42,15 +43,21 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
     public void initSnackbar(Context context) {
         if (snackbar == null) {
             if (context.getClass().equals(MainActivity.class)) {
-                snackbar = Snackbar.make(((MainActivity) context).getMainFrame(), "NO CONNECTION", Snackbar.LENGTH_INDEFINITE);
+                snackbar = Snackbar.make(((MainActivity) context).getSnackbarContainer(), "NO CONNECTION", Snackbar.LENGTH_INDEFINITE);
             } else if (context.getClass().equals(SalonActivity.class)) {
-                snackbar = Snackbar.make(((SalonActivity) context).getMainFrame(), "NO CONNECTION", Snackbar.LENGTH_INDEFINITE);
+                snackbar = Snackbar.make(((SalonActivity) context).getSnackbarContainer(), "NO CONNECTION", Snackbar.LENGTH_INDEFINITE);
             }
 
-            View view = snackbar.getView();
-            TextView tv = (TextView) view.findViewById(R.id.snackbar_text);
+            View snackbarView = snackbar.getView();
+
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) snackbarView.getLayoutParams();
+            params.setMargins(params.leftMargin / 2, 0, params.rightMargin / 2, 0);
+            snackbarView.setLayoutParams(params);
+
+            snackbarView.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+
+            TextView tv = (TextView) snackbarView.findViewById(R.id.snackbar_text);
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimension(R.dimen.text_size_small));
-            view.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -61,10 +68,13 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
     }
 
     private void connectedSnack(Context context) {
-        snackbar.getView().setBackgroundColor(context.getResources().getColor(R.color.greenBlue));
-        snackbar.setText("CONNECTED");
-        if (snackbar.isShown())
+        if (snackbar.isShown()) {
+            snackbar.getView().setBackgroundColor(context.getResources().getColor(R.color.greenBlue));
+            snackbar.setText("CONNECTED");
             snackbar.setDuration(500).show();
+
+            ((MainActivity) context).recreate();
+        }
     }
 
     private void unConnectedSnack(Context context) {

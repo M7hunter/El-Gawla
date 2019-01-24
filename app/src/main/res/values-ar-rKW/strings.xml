@@ -37,14 +37,14 @@
     <string name="activate_card">تفعيل الكارت</string>
     <string name="buy_card">شراء الكارت</string>
     <string name="cards_store">متجر الكروت</string>
-    <string name="menu_fragment_title">جوله هي تطبيق تفاعلي يمكنك من شراء المنتجات بناء علي افضل عرض تقدمة لسعر المنتج , انضم الان حقيبة الكروت</string>
+    <string name="menu_fragment_hint">جوله هي تطبيق تفاعلي يمكنك من شراء المنتجات بناء علي افضل عرض تقدمة لسعر المنتج , انضم الان حقيبة الكروت</string>
     <string name="more_about_gawla">المزيد عن الجولة</string>
     <string name="terms_conditions">الشروط والأحكام</string>
     <string name="call_us">اتصل بنا</string>
     <string name="how_gawla_works">كيف تعمل الجولة</string>
     <string name="zero_members_joined">0 عضو انضموا للجولة</string>
-    <string name="joined_hales">الصالات المشترك بها</string>
-    <string name="joined_hales_empty_hint">قم الانضمام الي  احد الصالات لديك فرصه واحده للمشاركة كل يوم</string>
+    <string name="joined_salons">الصالات المشترك بها</string>
+    <string name="joined_salons_empty_hint">قم الانضمام الي  احد الصالات لديك فرصه واحده للمشاركة كل يوم</string>
     <string name="dont_have_green_card">ليس لديك الكارت الاخضر</string>
     <string name="dont_have_golden_card">ليس لديك الكارت الزهبي</string>
     <string name="dont_have_red_card">ليس لديك الكارت الاحمر</string>
@@ -138,19 +138,12 @@
         <item>انثي</item>
     </array>
 
-    <array name="ArrCountry">
-        <item>مصر</item>
-        <item>الكويت</item>
-        <item>الولايات المتحده</item>
-    </array>
     <string name="delete_account">حذف الحساب الخاص بك</string>
     <string name="provider_fb">فيسبوك</string>
     <string name="provider_google">جوجل</string>
     <string name="save">حفظ</string>
     <string name="country">الدولة</string>
     <string name="privacy_details">بيانات الخصوصية</string>
-
-
 
     <!--  TODO Will Delete This Strings Later -->
     <string name="lastNews">اخر اخبار الصالة …</string>
@@ -172,4 +165,6 @@
     <string name="connection_error">حدث خطأ أثناء الاتصال .</string>
     <string name="sign_out">تسجيل خروج</string>
     <string name="filter_by">فرز حسب</string>
+    <string name="male">ذكر</string>
+    <string name="female">أنثى</string>
 </resources>

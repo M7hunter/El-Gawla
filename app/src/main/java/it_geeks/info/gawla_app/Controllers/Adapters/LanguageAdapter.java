@@ -57,7 +57,6 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String s = SharedPrefManager.getInstance(context).getSavedLang();
                 Common.Instance(context).setLang(sLang(lang));
                 context.startActivity(new Intent(context, MainActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -68,6 +67,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 //            @Override
 //            public void onClick(View v) {
 //                downloadLangFromServer();
+
 //                GawlaDataBse.getGawlaDatabase(context).transDao().insertTrans(new Trans("see_all", "test ar", "ar"));
 //                GawlaDataBse.getGawlaDatabase(context).transDao().insertTrans(new Trans("see_all", "test en", "en"));
 //                GawlaDataBse.getGawlaDatabase(context).transDao().insertTrans(new Trans("recent_salons", "recent salons ar", "ar"));

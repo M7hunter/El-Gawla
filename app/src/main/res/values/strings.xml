@@ -34,7 +34,7 @@
     <string name="call_us">call us</string>
     <string name="how_gawla_works">how Gawla works</string>
     <string name="zero_members_joined">0 members joined</string>
-    <string name="joined_hales">joined hales</string>
+    <string name="joined_salons">joined salons</string>
     <string name="tit2">choose your country</string>
     <string name="egypt">egypt</string>
     <string name="kuwait">kuwait</string>
@@ -50,8 +50,8 @@
     <string name="slide_descs1"> Sign up now so you can join your favorite tours </string>
     <string name="slide_descs2">Choose your favorite room and join it and then watch the bidding time</string>
     <string name="slide_descs3">Provide the best favorable price to buy inside the lounge to win the tour</string>
-    <string name="menu_fragment_title">Tour is an interactive application that enables you to purchase products based on the best offer of an offer for the price of the product, now join the card bag</string>
-    <string name="joined_hales_empty_hint">Join one of the lounges and you have one chance to participate every day</string>
+    <string name="menu_fragment_hint">Tour is an interactive application that enables you to purchase products based on the best offer of an offer for the price of the product, now join the card bag</string>
+    <string name="joined_salons_empty_hint">Join one of the lounges and you have one chance to participate every day</string>
     <string name="tit1e">A tour is an interactive application that enables you to buy products based on the best offer offer for the price of the product, now join</string>
     <string name="wile_send_password">The email will be sent for password renewal</string>
     <string name="hale_number">Hall No: </string>
@@ -147,16 +147,11 @@
     <string name="rOffer">The Offer</string>
     <string name="use">Use</string>
     <string name="goldenCard">This Card use for join Round .</string>
+
     <!--  Arr For Test and will delete later .-->
     <array name="ArrGender">
         <item>Male</item>
         <item>Female</item>
-    </array>
-
-    <array name="ArrCountry">
-        <item>Egypt</item>
-        <item>Kuwait</item>
-        <item>USA</item>
     </array>
 
     <!--  TODO Will Delete This Strings Later -->
@@ -169,7 +164,6 @@
     <string name="retry">retry</string>
     <string name="category">category</string>
     <string name="connection_error">Error connecting .</string>
-
     <string name="filter_by">filter by</string>
     <string name="male">male</string>
     <string name="female">female</string>

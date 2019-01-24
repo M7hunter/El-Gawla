@@ -46,6 +46,7 @@
 
         <!-- name -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_call_us_name"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,7 +54,8 @@
             android:layout_marginTop="@dimen/margin_xlarge"
             android:layout_marginRight="@dimen/margin_xlarge"
             android:layout_marginBottom="@dimen/margin_xlarge"
-            android:textColorHint="@color/paleGrey2">
+            android:textColorHint="@color/paleGrey2"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/usernameCallUs"
@@ -72,13 +74,15 @@
 
         <!-- email -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_call_us_email"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xlarge"
             android:layout_marginRight="@dimen/margin_xlarge"
             android:layout_marginBottom="@dimen/margin_xlarge"
-            android:textColorHint="@color/paleGrey2">
+            android:textColorHint="@color/paleGrey2"
+            app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailCallUs"
@@ -97,6 +101,7 @@
 
         <!-- text -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_text"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -104,7 +109,8 @@
             android:layout_marginRight="@dimen/margin_xlarge"
             android:layout_marginBottom="@dimen/margin_xlarge"
             android:layout_weight="1"
-            android:textColorHint="@color/paleGrey2">
+            android:textColorHint="@color/paleGrey2"
+            app:errorEnabled="true">
 
             <EditText
                 android:id="@+id/messageCallUs"

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.accountOptions.AccountDetailsActivity;
 import it_geeks.info.gawla_app.views.accountOptions.BuyingProcessesActivity;
 import it_geeks.info.gawla_app.views.accountOptions.PrivacyDetailsActivity;
@@ -21,9 +22,11 @@ import it_geeks.info.gawla_app.views.NotificationActivity;
 
 public class AccountFragment extends Fragment {
 
-    TextView userName;
-    CircleImageView userImage;
-    String name, image;
+    private TextView userName;
+    private CircleImageView userImage;
+    private String name, image;
+
+    private TextView tvAccountDetails, tvBuyingProcesses, tvPrivacyDetails; // <- trans
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,10 +37,15 @@ public class AccountFragment extends Fragment {
 
         initViews(view);
 
+        setupTrans();
+
+        handleEvents(view);
+
         setData();
 
         return view;
     }
+
 
     @Override
     public void onResume() {
@@ -46,15 +54,26 @@ public class AccountFragment extends Fragment {
         super.onResume();
     }
 
-    private void getData() {  /// get data from sharedPreference
-        name = SharedPrefManager.getInstance(getContext()).getUser().getName();
-        image = SharedPrefManager.getInstance(getContext()).getUser().getImage();
-    }
-
-    private void initViews(View v) {  //  initialize Views
+    private void initViews(View v) {
         userName = v.findViewById(R.id.user_name);
         userImage = v.findViewById(R.id.user_image);
 
+        // translatable views
+        tvAccountDetails = v.findViewById(R.id.tv_account_details);
+        tvBuyingProcesses = v.findViewById(R.id.tv_buying_processes);
+        tvPrivacyDetails = v.findViewById(R.id.tv_privacy_details);
+    }
+
+    private void setupTrans() {
+        TransHolder transHolder = new TransHolder(getContext());
+        transHolder.getAccountFragmentTranses(getContext());
+
+        tvAccountDetails.setText(transHolder.account_details);
+        tvBuyingProcesses.setText(transHolder.buying_processes);
+        tvPrivacyDetails.setText(transHolder.privacy_details);
+    }
+
+    private void handleEvents(View v) {
         //intent to account details
         v.findViewById(R.id.cv_account_details).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +105,11 @@ public class AccountFragment extends Fragment {
                 startActivity(new Intent(getContext(), NotificationActivity.class));
             }
         });
+    }
+
+    private void getData() {  /// get data from sharedPreference
+        name = SharedPrefManager.getInstance(getContext()).getUser().getName();
+        image = SharedPrefManager.getInstance(getContext()).getUser().getImage();
     }
 
     private void setData() { // set data to views

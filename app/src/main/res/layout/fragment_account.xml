@@ -104,6 +104,7 @@
 
                     <!-- label -->
                     <TextView
+                        android:id="@+id/tv_account_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -151,6 +152,7 @@
 
                     <!-- label -->
                     <TextView
+                        android:id="@+id/tv_buying_processes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -198,6 +200,7 @@
 
                     <!-- label -->
                     <TextView
+                        android:id="@+id/tv_privacy_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"

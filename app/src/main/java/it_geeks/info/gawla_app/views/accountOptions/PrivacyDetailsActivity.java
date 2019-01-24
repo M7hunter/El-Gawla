@@ -15,17 +15,18 @@ import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.User;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 
 public class PrivacyDetailsActivity extends AppCompatActivity {
@@ -34,6 +35,10 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     ImageView providerImage;
     LinearLayout socialDiv;
     ProgressBar loading;
+    private GoogleApiClient mGoogleApiClient;
+
+    TextInputLayout tlEmail, tlPass;
+
     GoogleApiClient mGoogleApiClient;
     String Provider;
     @Override
@@ -69,6 +74,9 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         editPassword = findViewById(R.id.edit_password);
         loading = findViewById(R.id.privacy_details_loading);
         initProvider();
+
+        tlEmail = findViewById(R.id.tl_privacy_details_email);
+        tlPass = findViewById(R.id.tl_privacy_details_pass);
     }
 
     private void initProvider() {
@@ -82,9 +90,9 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                 providerImage.setImageDrawable(getDrawable(R.drawable.googleg_standard_color_18));
                 socialProvider.setText(getString(R.string.provider_google));
                 break;
-             default:
-                 socialProvider.setText(SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider());
-                 providerImage.setImageDrawable(getDrawable(R.drawable.gawla_logo_blue));
+            default:
+                socialProvider.setText(SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider());
+                providerImage.setImageDrawable(getDrawable(R.drawable.gawla_logo_blue));
                 break;
         }
     }
@@ -101,10 +109,17 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                         accountEmail.setEnabled(true);
                         editEmail.setText(getString(R.string.save));
                     } else if (editEmail.getText().toString() == getString(R.string.save)) {
-                        accountEmail.setEnabled(false);
-                        editEmail.setText(getString(R.string.edit));
-                        updateEmail();
-                        loading.setVisibility(View.VISIBLE);
+
+                        if (accountEmail.getText().toString().isEmpty()) { // empty ?
+                            tlEmail.setError(getString(R.string.emptyMail));
+                            accountEmail.requestFocus();
+
+                        } else { // !empty
+                            updateEmail();
+                            editEmail.setText(getString(R.string.edit));
+                            accountEmail.setEnabled(false);
+                            loading.setVisibility(View.VISIBLE);
+                        }
                     }
                     break;
 
@@ -113,9 +128,16 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                     if (editPassword.getText().toString() == getString(R.string.edit)) {
                         accountPassword.setEnabled(true);
                         editPassword.setText(getString(R.string.save));
+
                     } else if (editPassword.getText().toString() == getString(R.string.save)) {
-                        accountPassword.setEnabled(false);
-                        editPassword.setText(getString(R.string.edit));
+                        if (accountPassword.getText().toString().isEmpty()) { // empty ?
+                            accountPassword.requestFocus();
+                            tlPass.setError(getString(R.string.emptyPass));
+
+                        } else { // !empty
+                            accountPassword.setEnabled(false);
+                            editPassword.setText(getString(R.string.edit));
+                        }
                     }
 
                     break;
@@ -143,7 +165,6 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                 case R.id.privacy_details_back:
                     PrivacyDetailsActivity.this.onBackPressed();
                     break;
-
             }
 
         }
@@ -155,14 +176,14 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
                 PrivacyDetailsActivity.this,
                 "updateUserData",
-                new Request(accountEmail.getText().toString(),id,api_token),
+                new Request(accountEmail.getText().toString(), id, api_token),
                 new HandleResponses() {
                     @Override
                     public void handleResponseData(JsonObject mainObject) {
-                      User user = ParseResponses.parseUser(mainObject);
-                      accountEmail.setText(user.getEmail());
-                      SharedPrefManager.getInstance(PrivacyDetailsActivity.this).saveUser(user);
-                      Toast.makeText(PrivacyDetailsActivity.this, mainObject.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+                        User user = ParseResponses.parseUser(mainObject);
+                        accountEmail.setText(user.getEmail());
+                        SharedPrefManager.getInstance(PrivacyDetailsActivity.this).saveUser(user);
+                        Toast.makeText(PrivacyDetailsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                         loading.setVisibility(View.GONE);
                     }
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.general.WrapContentHeightViewPager;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
@@ -40,12 +42,17 @@ public class MyRoundsFragment extends Fragment {
     private ProgressBar myRoundProgress;
 
     private ImageView arrowRight, arrowLeft;
+    private TextView tvMyRoundsHeader, tvMyRoundsEmptyHint; // <- trans
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_rounds, container, false);
 
         initViews(view);
+
+        setupTrans();
+
+        handleEvents(view);
 
         checkConnection(view);
 
@@ -60,6 +67,20 @@ public class MyRoundsFragment extends Fragment {
         arrowRight = view.findViewById(R.id.my_rounds_right_arrow);
         arrowLeft = view.findViewById(R.id.my_rounds_left_arrow);
 
+        // translatable views
+        tvMyRoundsHeader = view.findViewById(R.id.tv_my_rounds_header);
+        tvMyRoundsEmptyHint = view.findViewById(R.id.tv_my_rounds_empty_hint);
+    }
+
+    private void setupTrans() {
+        TransHolder transHolder = new TransHolder(getContext());
+        transHolder.getMyRoundsFragmentTranses(getContext());
+
+        tvMyRoundsHeader.setText(transHolder.joined_salons);
+        tvMyRoundsEmptyHint.setText(transHolder.my_rounds_empty_hint);
+    }
+
+    private void handleEvents(View view) {
         // open Notification
         view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +88,6 @@ public class MyRoundsFragment extends Fragment {
                 startActivity(new Intent(getContext(), NotificationActivity.class));
             }
         });
-
     }
 
     private void checkConnection(View view) {
@@ -99,7 +119,7 @@ public class MyRoundsFragment extends Fragment {
 
                         initPager();
 
-                        handleEvents(roundsList.size());
+                        handlePagerAndArrowsEvents(roundsList.size());
                     }
 
                     @Override
@@ -123,7 +143,7 @@ public class MyRoundsFragment extends Fragment {
         roundsViewPager.setAdapter(new RoundsPagerAdapter(getActivity(), roundsList));
     }
 
-    private void handleEvents(int cardsCount) {
+    private void handlePagerAndArrowsEvents(int cardsCount) {
         // at the beginning
         arrowLeft.setImageResource(R.drawable.ic_arrow_left_grey);
         arrowLeft.setEnabled(false);

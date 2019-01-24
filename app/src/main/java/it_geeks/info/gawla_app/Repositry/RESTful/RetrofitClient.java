@@ -44,7 +44,7 @@ public class RetrofitClient {
         if (mInstance == null) { // on creation
             mInstance = new RetrofitClient();
 
-        } else if (!mInstance.selectBaseUrl().contains(SharedPrefManager.getInstance(context).getSavedLang())) { // on lang changed
+        } else if (!mInstance.selectBaseUrl().equals(SharedPrefManager.getInstance(context).getSavedLang())) { // on lang changed
             mInstance = new RetrofitClient();
         }
         return mInstance;

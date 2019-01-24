@@ -107,7 +107,8 @@
                 android:layout_marginBottom="@dimen/margin_small"
                 app:errorEnabled="true"
                 android:layout_weight="1"
-                android:textColorHint="@color/paleGrey2">
+                android:textColorHint="@color/paleGrey2"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_create_account_name"
@@ -136,7 +137,8 @@
                 android:layout_marginBottom="@dimen/margin_small"
                 app:errorEnabled="true"
                 android:layout_weight="1"
-                android:textColorHint="@color/paleGrey2">
+                android:textColorHint="@color/paleGrey2"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_create_account_email"
@@ -165,7 +167,8 @@
                 app:errorEnabled="true"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:layout_weight="1"
-                android:textColorHint="@color/paleGrey2">
+                android:textColorHint="@color/paleGrey2"
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_create_account_pass"

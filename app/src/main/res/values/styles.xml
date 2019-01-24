@@ -14,4 +14,8 @@
 
     </style>
 
+    <style name="PopupMenuTheme" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:textColor">@color/darkSkyBlue</item>
+    </style>
+
 </resources>

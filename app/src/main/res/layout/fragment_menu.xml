@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <include layout="@layout/main_header_layout"/>
+                <include layout="@layout/main_header_layout" />
 
                 <!-- country -->
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -38,6 +38,7 @@
 
             <!-- title -->
             <TextView
+                android:id="@+id/tv_menu_fragment_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_medium"
@@ -70,6 +71,7 @@
 
                 <!-- label -->
                 <TextView
+                    android:id="@+id/tv_app_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -117,6 +119,7 @@
 
                 <!-- label -->
                 <TextView
+                    android:id="@+id/tv_more_about_gawla"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -159,6 +162,7 @@
 
                 <!-- label -->
                 <TextView
+                    android:id="@+id/tv_privacy_policy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -201,6 +205,7 @@
 
                 <!-- label -->
                 <TextView
+                    android:id="@+id/tv_terms_and_conditions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -248,6 +253,7 @@
 
                 <!-- label -->
                 <TextView
+                    android:id="@+id/tv_call_us"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -295,6 +301,7 @@
 
                 <!-- label -->
                 <TextView
+                    android:id="@+id/tv_how_gawla_works"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -342,6 +349,7 @@
 
                 <!-- label -->
                 <TextView
+                    android:id="@+id/tv_sign_out"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -366,8 +374,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/paleGrey2"
-                android:layout_marginBottom="@dimen/margin_medium"/>
+                android:layout_marginBottom="@dimen/margin_small"
+                android:background="@color/paleGrey2" />
 
         </LinearLayout>
     </ScrollView>
