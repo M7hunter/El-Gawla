@@ -17,7 +17,7 @@
     <dimen name="num_tick" >44sp</dimen>
 
     <!-- icons -->
-    <dimen name="icon_notification">50dp</dimen>
+    <dimen name="icon_notification">45dp</dimen>
     <dimen name="image_width_main_fragment">210dp</dimen>
     <dimen name="image_width_round">320dp</dimen>
     <dimen name="image_height_round">185dp</dimen>

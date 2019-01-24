@@ -19,7 +19,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <!-- logo, bell, user image & user name container -->
+            <!-- logo, bell, user image & user name container -->`
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -98,16 +98,16 @@
                         android:id="@+id/card_icon_1st"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentStart="true"
                         android:layout_margin="@dimen/margin_medium"
-                        android:src="@drawable/ic_user" />
+                        android:src="@drawable/ic_user2" />
 
                     <!-- label -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/card_icon_1st"
+                        android:layout_toEndOf="@id/card_icon_1st"
                         android:text="@string/account_details"
                         android:textColor="@color/darkSkyBlue"
                         android:textSize="@dimen/text_size_large" />
@@ -116,10 +116,10 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="@dimen/margin_medium"
-                        android:src="@drawable/ic_arrow_left" />
+                        android:src="@drawable/ic_arrow" />
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -145,16 +145,16 @@
                         android:id="@+id/card_icon_2st"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentStart="true"
                         android:layout_margin="@dimen/margin_medium"
-                        android:src="@drawable/ic_credit_card" />
+                        android:src="@drawable/ic_credit_card2" />
 
                     <!-- label -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/card_icon_2st"
+                        android:layout_toEndOf="@id/card_icon_2st"
                         android:text="@string/buying_processes"
                         android:textColor="@color/darkSkyBlue"
                         android:textSize="@dimen/text_size_large" />
@@ -163,10 +163,10 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="@dimen/margin_medium"
-                        android:src="@drawable/ic_arrow_left" />
+                        android:src="@drawable/ic_arrow" />
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -192,16 +192,16 @@
                         android:id="@+id/card_icon_3st"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentStart="true"
                         android:layout_margin="@dimen/margin_medium"
-                        android:src="@drawable/ic_lock" />
+                        android:src="@drawable/ic_lock2" />
 
                     <!-- label -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/card_icon_3st"
+                        android:layout_toEndOf="@id/card_icon_3st"
                         android:text="@string/privacy_details"
                         android:textColor="@color/darkSkyBlue"
                         android:textSize="@dimen/text_size_large" />
@@ -210,10 +210,10 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="@dimen/margin_medium"
-                        android:src="@drawable/ic_arrow_left" />
+                        android:src="@drawable/ic_arrow" />
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

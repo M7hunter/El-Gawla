@@ -24,6 +24,7 @@ public class IntroActivity extends AppCompatActivity {
     TextView txtback, txtnext;
     private int mCurrentPage;
     Button btnSkip;
+    public static boolean settingPage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +102,10 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     public void openNextPage() {
-        startActivity(new Intent(IntroActivity.this, LoginActivity.class)
+        if (settingPage){
+            settingPage = false;
+            finish();
+        }else startActivity(new Intent(IntroActivity.this, LoginActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 

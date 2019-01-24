@@ -34,7 +34,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/file/ic_cloud_download_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/social/ic_notifications_none_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -55,10 +55,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="imageAsset" value="C:\Users\M7awas\Downloads\gawla\filter.png" />
-                                      <entry key="outputName" value="ic_download" />
+                                      <entry key="outputName" value="ic_notification" />
                                       <entry key="theme" value="CUSTOM" />
-                                      <entry key="themeColor" value="2066c6" />
+                                      <entry key="themeColor" value="4a90e2" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -74,24 +73,12 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="trimmed" value="true" />
+                                                <entry key="color" value="000000" />
                                               </map>
                                             </option>
                                           </PersistentState>
                                         </value>
                                       </entry>
-                                    </map>
-                                  </option>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="ffffff" />
-                                      <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="C:\Users\M7awas\Downloads\gawla\flash3@3x.png" />
-                                      <entry key="foregroundLayerName" value="ic_launcher_foreground" />
-                                      <entry key="legacyIconShape" value="CIRCLE" />
-                                      <entry key="outputName" value="ic_launcher_gawla" />
-                                      <entry key="showSafeZone" value="false" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -113,25 +100,6 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
-                                      <entry key="image">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="color" value="000000" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                    </map>
-                                  </option>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="assetType" value="IMAGE" />
-                                      <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="C:\Users\M7awas\Downloads\palceholder.png" />
-                                      <entry key="outputName" value="placeholder" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -188,7 +156,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_arrow_drop_up_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_chevron_left_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -198,10 +166,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="autoMirrored" value="true" />
                             <entry key="color" value="4a90e2" />
-                            <entry key="outputName" value="ic_arrow_drop_up" />
-                            <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\M7awas" />
+                            <entry key="outputName" value="ic_arrow2" />
+                            <entry key="sourceFile" value="C:\Users\Android PC" />
                           </map>
                         </option>
                       </PersistentState>

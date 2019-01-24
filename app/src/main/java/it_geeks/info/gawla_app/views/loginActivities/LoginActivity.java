@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,51 +23,47 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
-import com.google.gson.JsonObject;
+import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Arrays;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
-import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
-import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.views.MainActivity;
-import it_geeks.info.gawla_app.Repositry.Models.Request;
-import it_geeks.info.gawla_app.Repositry.Models.User;
+import it_geeks.info.gawla_app.Controllers.ViewModels.LoginViewModel;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.views.MainActivity;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private TextView txtForgetPassword, txtCreateAccount;
     private Button btnLogin;
     private EditText txt_Email, txt_Password;
-    ProgressBar progressBar;
+    public ProgressBar progressBar;
+    ScrollView loginMainScreen;
     // fb login
     CallbackManager callbackManager;
     LoginButton btn_fb_login;
-    String providerFacebook = "facebook";
+    public static final String providerFacebook = "facebook";
     // google login
-    String providerGoogle = "google";
+    public static final String providerGoogle = "google";
     GoogleSignInClient mGoogleSignInClient;
     public static int GOOGLE_REQUEST = 1000;
+    GoogleApiClient mGoogleApiClient;
+
+    TextInputLayout tlEmail, tlPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,50 +82,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else {
             initialization();
             facebookLogin();
+
             // login
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    String email = txt_Email.getText().toString();
-                    String pass = txt_Password.getText().toString();
 
-                    if (email.isEmpty()) {
-                        txt_Email.setError(getResources().getString(R.string.emptyMail));
-                        txt_Email.requestFocus();
-                    } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                        txt_Email.setError("enter a valid email address");
-                        txt_Email.requestFocus();
-                    } else if (pass.isEmpty()) {
-                        txt_Password.setError(getResources().getString(R.string.emptyPass));
-                        txt_Password.requestFocus();
-                    } else {
-                        progressBar.setVisibility(View.VISIBLE);
-
-                        RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer(LoginActivity.this
-                                , "login", new Request(email, pass), new HandleResponses() {
-                            @Override
-                            public void handleResponseData(JsonObject mainObject) {
-
-                                cacheUserData(mainObject, getResources().getString(R.string.app_name)); // with normal provider
-
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                finish();
-
-                                //hide progress
-                                progressBar.setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public void handleEmptyResponse() {
-                                progressBar.setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public void handleConnectionErrors(String errorMessage) {
-                                progressBar.setVisibility(View.GONE);
-                                Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
-                            }
-                        });
+                    if (checkEntries(txt_Email.getText().toString(),txt_Password.getText().toString())) {
+                        setLoadingScreen();
+                        new LoginViewModel(LoginActivity.this).login(txt_Email.getText().toString(), txt_Password.getText().toString()); // Login ViewModel
                     }
                 }
             });
@@ -148,6 +110,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private boolean checkEntries(String email, String pass) {
+        if (email.isEmpty()) {
+            tlEmail.setError(getResources().getString(R.string.emptyMail));
+            txt_Email.requestFocus();
+            return false;
+        } else tlEmail.setErrorEnabled(false);
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            tlEmail.setError("enter a valid email address");
+            txt_Email.requestFocus();
+            return false;
+        } else tlEmail.setErrorEnabled(false);
+
+        if (pass.isEmpty()) {
+            tlPass.setError(getResources().getString(R.string.emptyPass));
+            txt_Password.requestFocus();
+            return false;
+        } else tlPass.setErrorEnabled(false);
+        return true;
+    }
 
     @SuppressLint("WrongViewCast")
     private void initialization() {
@@ -158,6 +140,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         txt_Email = findViewById(R.id.txt_Email);
         txt_Password = findViewById(R.id.txt_Password);
         progressBar = findViewById(R.id.login_loading);
+        loginMainScreen = findViewById(R.id.loginMainScreen);
+
+        tlEmail = findViewById(R.id.tl_email);
+        tlPass = findViewById(R.id.tl_pass);
 
         //fb login
         callbackManager = CallbackManager.Factory.create();
@@ -181,10 +167,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    // loading screen
+    public void setLoadingScreen() {
+        loginMainScreen.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void closeLoadingScreen() {
+        loginMainScreen.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+    }
+
     // google login
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, GOOGLE_REQUEST);
+        setLoadingScreen();
     }
 
     @Override
@@ -195,28 +193,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // google login
         if (requestCode == GOOGLE_REQUEST) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+            new LoginViewModel(LoginActivity.this).handleSignInResult(task, providerGoogle);
         }
     }
 
-    // google login
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            String id = account.getId();
-            String name = account.getDisplayName();
-            String email = account.getEmail();
-            String image = account.getPhotoUrl().toString();
-            String provider = providerGoogle;
-
-            socialLogin(id, name, email, image, provider);
-
-            Log.w("Mo7", id + name + email + image);
-
-        } catch (ApiException e) {
-            Log.w("Mo7", "signInResult:failed code=" + e.getStatusCode());
-        }
-    }
 
     // fb login
     private void facebookLogin() {
@@ -225,12 +205,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onSuccess(LoginResult loginResult) {
                 String accesstoken = loginResult.getAccessToken().getToken();
-
+                setLoadingScreen();
                 GraphRequest mGraphRequest = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
-                                getData(object);
+                                new LoginViewModel(LoginActivity.this).getData(object, providerFacebook);
                             }
                         });
                 Bundle parameters = new Bundle();
@@ -264,64 +244,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    // fb login
-    private void getData(final JSONObject object) {
-        try {
-            URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/" + object.getString("id") + "/picture?type=normal");
-            String id = object.optString("id");
-            String name = object.optString("name");
-            String email = object.optString("email");
-            String image = Profile_Picture.toString();
-            String provider = providerFacebook;
-
-            socialLogin(id, name, email, image, provider);
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // social login
-    private void socialLogin(String id, final String name, final String email, final String image, final String provider) {
-        int countryId = SharedPrefManager.getInstance(LoginActivity.this).getCountry().getCountry_id();
-        RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer(LoginActivity.this,
-                "loginOrRegisterWithSocial", new Request(provider, id, name, email, image, countryId), new HandleResponses() {
-            @Override
-            public void handleResponseData(JsonObject mainObject) {
-
-                cacheUserData(mainObject, provider);
-
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                finish();
-            }
-
-            @Override
-            public void handleEmptyResponse() {
-
-            }
-
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    public void cacheUserData(JsonObject mainObject, String provider) {
-        User user = ParseResponses.parseUser(mainObject);
-        SharedPrefManager.getInstance(LoginActivity.this).saveUser(user);
-        SharedPrefManager.getInstance(LoginActivity.this).saveProvider(provider); // Provider
-
-        // save || update country
-        SharedPrefManager.getInstance(LoginActivity.this)
-                .setCountry(GawlaDataBse.getGawlaDatabase(LoginActivity.this).countryDao().getCountryByID(user.getCountry_id()));
-    }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (loginMainScreen.getVisibility() == View.INVISIBLE) {
+            try {
+                SharedPrefManager.getInstance(LoginActivity.this).clearUser();
+                SharedPrefManager.getInstance(LoginActivity.this).clearProvider();
+                startActivity(new Intent(LoginActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                LoginManager.getInstance().logOut();
+                if (mGoogleApiClient.isConnected()) {
+                    Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                    mGoogleApiClient.disconnect();
+                    mGoogleApiClient.connect();
+                }
+                SharedPrefManager.getInstance(LoginActivity.this).clearProvider();
+            } catch (Exception e) {
+                Log.e("Mo7", e.getMessage());
+            }
+        } else super.onBackPressed();
+
     }
 
     // google login

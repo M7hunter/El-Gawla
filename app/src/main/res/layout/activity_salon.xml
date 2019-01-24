@@ -13,11 +13,11 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
 
     <RelativeLayout
@@ -53,7 +53,7 @@
                 android:layout_alignParentEnd="true"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/margin_tiny"
-                android:src="@drawable/ic_bell" />
+                android:src="@drawable/ic_notification" />
 
         </RelativeLayout>
 
@@ -769,15 +769,7 @@
             android:layout_marginTop="@dimen/margin_tiny"
             android:visibility="gone" />
 
-        <!-- Out Leave Round -->
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/out_round"
-            android:layout_width="@dimen/margin_xxxxlarge"
-            android:layout_height="@dimen/margin_xxxxlarge"
-            android:layout_alignParentBottom="true"
-            android:padding="@dimen/margin_medium"
-            android:src="@drawable/out_round"
-            android:visibility="gone"/>
+
 
 
     </RelativeLayout>
@@ -801,6 +793,7 @@
             android:layout_height="@dimen/image_cards_round_updates"
             android:background="@drawable/bg_circle_blue_270"
             android:padding="@dimen/margin_large"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_cards"
             android:tint="@android:color/white" />
 
@@ -818,6 +811,23 @@
 
     </RelativeLayout>
 
+    <!-- Out Leave Round -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/out_round"
+            android:layout_width="@dimen/margin_xxxxlarge"
+            android:layout_height="@dimen/margin_xxxxlarge"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp"
+            android:padding="@dimen/margin_medium"
+            android:src="@drawable/out_round"
+            android:visibility="gone" />
+    </RelativeLayout>
+
     <ProgressBar
         android:id="@+id/Salon_loading"
         android:layout_width="wrap_content"
@@ -827,6 +837,7 @@
         android:indeterminateTint="@color/colorPrimary"
         android:indeterminateTintMode="src_atop"
         android:visibility="gone"/>
+
 
     <!-- bottom sheet activate cards-->
 

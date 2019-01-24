@@ -18,14 +18,14 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.User;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 
 public class PrivacyDetailsActivity extends AppCompatActivity {
@@ -34,8 +34,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     ImageView providerImage;
     LinearLayout socialDiv;
     ProgressBar loading;
-    private GoogleApiClient mGoogleApiClient;
-
+    GoogleApiClient mGoogleApiClient;
+    String Provider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,12 +72,13 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     }
 
     private void initProvider() {
-        switch (SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider()){
-            case "facebook":
+        Provider = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider();
+        switch (Provider){
+            case LoginActivity.providerFacebook :
                 providerImage.setImageDrawable(getDrawable(R.drawable.com_facebook_button_icon_blue));
                 socialProvider.setText(getString(R.string.provider_fb));
                 break;
-            case "google":
+            case LoginActivity.providerGoogle:
                 providerImage.setImageDrawable(getDrawable(R.drawable.googleg_standard_color_18));
                 socialProvider.setText(getString(R.string.provider_google));
                 break;
@@ -122,19 +123,17 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                 //Logout Disconnect
                 case R.id.social_out:
                     try {
-                        if (SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider().trim() == "facebook") {
-                            LoginManager.getInstance().logOut();
-                        } else if (SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider().trim() == "google") {
-                            if (mGoogleApiClient.isConnected()) {
-                                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                                mGoogleApiClient.disconnect();
-                                mGoogleApiClient.connect();
-                            }
-                        }
-
                         SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearUser();
                         SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearProvider();
                         startActivity(new Intent(PrivacyDetailsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        LoginManager.getInstance().logOut();
+                        if (mGoogleApiClient.isConnected()) {
+                            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                            mGoogleApiClient.disconnect();
+                            mGoogleApiClient.connect();
+                        }
+                        SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearProvider();
+                        PrivacyDetailsActivity.this.finish();
                     } catch (Exception e) {
                         Log.e("Mo7", e.getMessage());
                     }

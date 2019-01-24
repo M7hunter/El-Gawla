@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -19,41 +20,40 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Arrays;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import it_geeks.info.gawla_app.Controllers.ViewModels.CreateAccountViewModel;
+import it_geeks.info.gawla_app.Repositry.RequestsActions;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.Models.User;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
-import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.views.MainActivity;
 
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     EditText etName, etEmail, etPass;
     ProgressBar progressBar;
-    int reconnect = 0 ;
+    ScrollView createAccountMainScreen;
+    public int reconnect = 0 ;
     // fb login
     CallbackManager callbackManager;
     LoginButton btn_fb_login;
@@ -62,6 +62,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     String providerGoogle = "google";
     GoogleSignInClient mGoogleSignInClient;
     public static int GOOGLE_REQUEST = 1000;
+    TextInputLayout tl_create_name,tl_create_email,tl_create_pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +81,13 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         etEmail = findViewById(R.id.et_create_account_email);
         etPass = findViewById(R.id.et_create_account_pass);
         progressBar = findViewById(R.id.register_loading);
+        createAccountMainScreen = findViewById(R.id.createAccountMainScreen);
 
         // finished ? goto next page
         findViewById(R.id.txtCreateAndLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog();
+                setLoadingScreen();
                 registerNewUser();
             }
         });
@@ -98,6 +100,10 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             }
         });
 
+        tl_create_name = findViewById(R.id.tl_create_name);
+        tl_create_email = findViewById(R.id.tl_create_email);
+        tl_create_pass = findViewById(R.id.tl_create_pass);
+
         //fb login
         callbackManager = CallbackManager.Factory.create();
         callbackManager = CallbackManager.Factory.create();
@@ -109,6 +115,16 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         findViewById(R.id.btn_google_sign_up).setOnClickListener(this);
 
+    }
+
+    // loading screen
+    public void setLoadingScreen(){
+        createAccountMainScreen.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+    public void closeLoadingScreen(){
+        createAccountMainScreen.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 
     // google sign up
@@ -125,25 +141,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, GOOGLE_REQUEST);
-    }
-
-    // google sign up
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            String id = account.getId();
-            String name = account.getDisplayName();
-            String email = account.getEmail();
-            String image = account.getPhotoUrl().toString();
-            String provider = providerGoogle;
-
-            Log.e("Mo7", id + " - " + name + " - " + email + " - " + provider + " - " + image);
-            socialLogin(id, name, email, image, provider);
-
-        } catch (ApiException e) {
-            Log.w("", "signInResult:failed code=" + e.getStatusCode());
-
-        }
+        setLoadingScreen();
     }
 
     private void registerNewUser() {
@@ -160,53 +158,58 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     private boolean checkEntries(String name, String email, String pass) {
         // check if empty
         if (name.isEmpty()) {
-            etName.setError("this field can't be empty");
+            tl_create_name.setError("this field can't be empty");
             etName.requestFocus();
-            progressBar.setVisibility(View.INVISIBLE);
+            closeLoadingScreen();
             return false;
-        }
-        if (email.isEmpty()) {
-            etEmail.setError("this field can't be empty");
-            etEmail.requestFocus();
-            progressBar.setVisibility(View.INVISIBLE);
-            return false;
-        }
-        if (pass.isEmpty()) {
-            etPass.setError("this field can't be empty");
-            etPass.requestFocus();
-            progressBar.setVisibility(View.INVISIBLE);
-            return false;
-        }
-
+        }else tl_create_name.setErrorEnabled(false);
         // check validation
         if (name.length() < 6) {
-            etName.setError("name should be more than 5 chars");
+            tl_create_name.setError("name should be more than 5 chars");
             etName.requestFocus();
-            progressBar.setVisibility(View.INVISIBLE);
+            closeLoadingScreen();
             return false;
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.setError("enter a valid email address");
+        }else tl_create_name.setErrorEnabled(false);
+        if (email.isEmpty()) {
+            tl_create_email.setError("this field can't be empty");
             etEmail.requestFocus();
-            progressBar.setVisibility(View.INVISIBLE);
+            closeLoadingScreen();
             return false;
-        }
-
+        }else tl_create_email.setErrorEnabled(false);
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            tl_create_email.setError("enter a valid email address");
+            etEmail.requestFocus();
+            closeLoadingScreen();
+            return false;
+        }else tl_create_email.setErrorEnabled(false);
+        if (pass.isEmpty()) {
+            tl_create_pass.setError("this field can't be empty");
+            etPass.requestFocus();
+            closeLoadingScreen();
+            return false;
+        }else tl_create_pass.setErrorEnabled(false);
+        if (pass.length() < 6) {
+            tl_create_pass.setError("Password should be more than 5 chars and number");
+            etPass.requestFocus();
+            closeLoadingScreen();
+            return false;
+        }else tl_create_pass.setErrorEnabled(false);
         return true;
     }
 
     private void connectToServer(final User user, final int countryId) {
+        setLoadingScreen();
         RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer(CreateAccountActivity.this,
-                "register", new Request(user.getName(), user.getEmail(), countryId, user.getPassword()), new HandleResponses() {
+                RequestsActions.register.toString(), new Request(user.getName(), user.getEmail(), countryId, user.getPassword()), new HandleResponses() {
             @Override
             public void handleResponseData(JsonObject mainObject) {
-                progressBar.setVisibility(View.INVISIBLE);
+                closeLoadingScreen();
 
                 // notify user
                 Toast.makeText(CreateAccountActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
 
                 // save user data locally
-                cacheUserData(mainObject, getResources().getString(R.string.app_name));
+                new CreateAccountViewModel(CreateAccountActivity.this).cacheUserData(mainObject, getResources().getString(R.string.app_name));
 
                 // goto next page
                 startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
@@ -215,12 +218,12 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
             @Override
             public void handleEmptyResponse() {
-                progressBar.setVisibility(View.INVISIBLE);
+                closeLoadingScreen();
             }
 
             @Override
             public void handleConnectionErrors(String errorMessage) {
-                progressBar.setVisibility(View.INVISIBLE);
+                closeLoadingScreen();
 
                 // notify user
                 Toast.makeText(CreateAccountActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
@@ -234,17 +237,18 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         });
 
     }
-
+   // facebook Login
     private void facebookLogin() {
         btn_fb_login.setReadPermissions(Arrays.asList("public_profile", "email"));
         btn_fb_login.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                setLoadingScreen();
                 GraphRequest mGraphRequest = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
-                                getData(object);
+                                new CreateAccountViewModel(CreateAccountActivity.this).getData(object);
                             }
                         });
                 Bundle parameters = new Bundle();
@@ -278,49 +282,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         });
     }
 
-    private void getData(JSONObject object) {
-        try {
-            URL Profile_Picture = new URL("https://graph.facebook.com/" + object.getString("id") + "/picture?type=normal");
-
-            String id = object.optString("id");
-            String name = object.optString("name");
-            String email = object.optString("email");
-            String image = Profile_Picture.toString();
-            String provider = providerFacebook;
-
-            socialLogin(id, name, email, image, provider);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void socialLogin(String id, final String name, final String email, final String image, final String provider) {
-        int countryId = SharedPrefManager.getInstance(CreateAccountActivity.this).getCountry().getCountry_id();
-        RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer(CreateAccountActivity.this,
-                "loginOrRegisterWithSocial", new Request(provider, id, name, email, image, countryId), new HandleResponses() {
-            @Override
-            public void handleResponseData(JsonObject mainObject) {
-
-                cacheUserData(mainObject, provider);
-
-                startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));
-                finish();
-            }
-
-            @Override
-            public void handleEmptyResponse() {
-
-            }
-
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                Log.e("Mo7", errorMessage);
-            }
-        });
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -329,15 +290,9 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         // google login
         if (requestCode == GOOGLE_REQUEST) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+            new CreateAccountViewModel(CreateAccountActivity.this).handleSignInResult(task);
         }
 
-    }
-
-    public void cacheUserData(JsonObject mainObject, String provider) {
-        User user = ParseResponses.parseUser(mainObject);
-        SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(user);
-        SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(provider); // Provider
     }
 
     // google sign up
@@ -346,7 +301,9 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         Toast.makeText(this, connectionResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    private void progressDialog() {
-        progressBar.setVisibility(View.VISIBLE);
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
+
 }

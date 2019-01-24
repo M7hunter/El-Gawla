@@ -91,6 +91,7 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), IntroActivity.class));
+                IntroActivity.settingPage = true;
             }
         });
 
