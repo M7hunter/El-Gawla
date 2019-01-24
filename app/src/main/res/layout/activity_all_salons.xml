@@ -55,7 +55,7 @@
                     android:layout_marginRight="@dimen/margin_tiny"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:padding="@dimen/margin_tiny"
-                    android:src="@drawable/ic_bell" />
+                    android:src="@drawable/ic_notification" />
 
             </RelativeLayout>
 

@@ -21,8 +21,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layoutDirection="ltr">
+                android:orientation="horizontal">
 
                 <include layout="@layout/main_header_layout"/>
 
@@ -32,7 +31,7 @@
                     android:layout_width="@dimen/icon_notification"
                     android:layout_height="@dimen/icon_notification"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_large"
                     android:src="@drawable/flag_egypt" />
 
             </RelativeLayout>
@@ -71,9 +70,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/card_icon_1st"
                     android:text="@string/app_settings"
                     android:textColor="@color/darkSkyBlue"
                     android:textSize="@dimen/text_size_large" />
@@ -82,9 +80,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_left" />
+                    android:src="@drawable/ic_arrow" />
 
             </RelativeLayout>
 
@@ -117,9 +115,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/card_icon_1st"
                     android:text="@string/more_about_gawla"
                     android:textColor="@color/darkSkyBlue"
                     android:textSize="@dimen/text_size_large" />
@@ -128,9 +125,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_left" />
+                    android:src="@drawable/ic_arrow" />
 
             </RelativeLayout>
 
@@ -158,9 +155,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/card_icon_1st"
                     android:text="@string/privacy_policy"
                     android:textColor="@color/darkSkyBlue"
                     android:textSize="@dimen/text_size_large" />
@@ -169,9 +165,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_left" />
+                    android:src="@drawable/ic_arrow" />
 
             </RelativeLayout>
 
@@ -199,9 +195,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/card_icon_1st"
                     android:text="@string/terms_conditions"
                     android:textColor="@color/darkSkyBlue"
                     android:textSize="@dimen/text_size_large" />
@@ -210,9 +205,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_left" />
+                    android:src="@drawable/ic_arrow" />
 
             </RelativeLayout>
 
@@ -245,9 +240,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/card_icon_1st"
                     android:text="@string/call_us"
                     android:textColor="@color/darkSkyBlue"
                     android:textSize="@dimen/text_size_large" />
@@ -256,9 +250,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_left" />
+                    android:src="@drawable/ic_arrow" />
 
             </RelativeLayout>
 
@@ -291,9 +285,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/card_icon_1st"
                     android:text="@string/how_gawla_works"
                     android:textColor="@color/darkSkyBlue"
                     android:textSize="@dimen/text_size_large" />
@@ -302,9 +295,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_left" />
+                    android:src="@drawable/ic_arrow" />
 
             </RelativeLayout>
 
@@ -337,9 +330,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/card_icon_1st"
                     android:text="@string/sign_out"
                     android:textColor="@color/paleRed"
                     android:textSize="@dimen/text_size_large" />
@@ -348,9 +340,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow_left" />
+                    android:src="@drawable/ic_arrow" />
 
             </RelativeLayout>
 

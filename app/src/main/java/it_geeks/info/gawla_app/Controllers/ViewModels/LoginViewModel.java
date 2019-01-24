@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app.Controllers.ViewModels;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -12,6 +13,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import androidx.lifecycle.AndroidViewModel;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.User;
@@ -24,7 +27,7 @@ import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 
-public class LoginViewModel {
+public class LoginViewModel{
    private Context context;
 
     public LoginViewModel(Context context) {

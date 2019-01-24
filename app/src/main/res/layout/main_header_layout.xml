@@ -4,15 +4,15 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/margin_medium"
     android:layout_marginTop="@dimen/margin_large"
-    android:layout_marginEnd="@dimen/margin_medium"
-    android:layoutDirection="ltr">
+    android:layout_marginEnd="@dimen/margin_medium">
 
     <!-- logo -->
     <ImageView
         android:layout_width="@dimen/logo_width"
         android:layout_height="@dimen/logo_height"
         android:layout_centerInParent="true"
-        android:src="@drawable/gawla_logo_blue" />
+        android:src="@drawable/gawla_logo_blue"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless" />
 
     <!-- bell -->
     <ImageView
@@ -24,6 +24,6 @@
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:layout_alignParentEnd="true"
         android:padding="@dimen/margin_tiny"
-        android:src="@drawable/ic_bell" />
+        android:src="@drawable/ic_notification" />
 
 </RelativeLayout>

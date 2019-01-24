@@ -48,7 +48,8 @@
                 android:layout_marginEnd="@dimen/margin_xxxxlarge"
                 android:layout_marginBottom="@dimen/margin_xxlarge"
                 android:background="@drawable/single_card"
-                android:padding="@dimen/margin_large" />
+                android:padding="@dimen/margin_large"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"/>
         </FrameLayout>
 
         <!-- card title -->
@@ -91,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/login_shape"
                 android:gravity="center"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:orientation="vertical">
 
                 <!-- card price container -->

@@ -53,7 +53,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -214,6 +214,7 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginBottom="10dp"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:background="@drawable/login_shape"
                 android:orientation="vertical">
 
