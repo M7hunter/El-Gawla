@@ -8,7 +8,6 @@
     tools:context=".views.MainActivity">
 
     <LinearLayout
-        app:layout_behavior=""
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -19,10 +18,10 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <!-- snackbar container -->
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/snackbar_container"
             android:layout_width="match_parent"
+            android:background="@android:color/transparent"
             android:layout_height="wrap_content">
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

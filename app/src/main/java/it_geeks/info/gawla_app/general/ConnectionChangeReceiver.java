@@ -9,6 +9,7 @@ import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -49,6 +50,12 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
 
             View snackbarView = snackbar.getView();
 
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) snackbarView.getLayoutParams();
+            params.setMargins(params.leftMargin / 2, 0, params.rightMargin / 2, 0);
+            snackbarView.setLayoutParams(params);
+
+            snackbarView.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+
             TextView tv = (TextView) snackbarView.findViewById(R.id.snackbar_text);
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimension(R.dimen.text_size_small));
 
@@ -57,12 +64,6 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
             } else {
                 tv.setGravity(Gravity.CENTER_HORIZONTAL);
             }
-
-            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) snackbarView.getLayoutParams();
-            params.setMargins(0, 0, 0, 0);
-//            snackbarView.setElevation(0);
-
-            snackbarView.setLayoutParams(params);
         }
     }
 
