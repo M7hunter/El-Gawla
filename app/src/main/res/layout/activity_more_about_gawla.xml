@@ -17,8 +17,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:layoutDirection="ltr">
+            android:layout_marginTop="@dimen/margin_tiny">
 
             <!-- back -->
             <ImageView
@@ -28,7 +27,8 @@
                 android:layout_centerVertical="true"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/margin_small"
-                android:src="@drawable/ic_arrow_back" />
+                android:src="@drawable/ic_arrow2"
+                android:layout_alignParentStart="true"/>
 
             <!-- title -->
             <TextView
@@ -46,10 +46,11 @@
 
         <!-- image -->
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_gravity="center"
             android:src="@drawable/flodillus" />
 
         <TextView
@@ -71,6 +72,7 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:text="نبذة مختصرة عن ثمن المنتج المعروض و ثمن المعروض من رابح الجولة او شئ يتعلق بسير الجولة , نبذة مختصرة عن ثمن المنتج المعروض و ثمن المعروض من رابح الجولة او شئ يتعلق بسير الجولة، نبذة مختصرة عن ثمن المنتج المعروض و ثمن المعروض من رابح الجولة او شئ يتعلق بسير الجولة , نبذة مختصرة عن ثمن المنتج المعروض و ثمن المعروض من رابح الجولة او شئ يتعلق بسير الجولة"
             android:textColor="@color/blueGrey"
+            android:layout_marginBottom="@dimen/margin_xxlarge"
             android:textSize="@dimen/text_size_medium" />
 
     </LinearLayout>

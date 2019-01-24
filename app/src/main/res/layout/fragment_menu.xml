@@ -40,8 +40,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:gravity="center"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:gravity="fill"
+                android:padding="@dimen/margin_small"
                 android:text="@string/menu_fragment_title"
                 android:textColor="@color/blueGrey"
                 android:textSize="@dimen/text_size_medium"
@@ -72,6 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/app_settings"
                     android:textColor="@color/darkSkyBlue"
                     android:textSize="@dimen/text_size_large" />
@@ -81,6 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_arrow" />
 
@@ -117,6 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/more_about_gawla"
                     android:textColor="@color/darkSkyBlue"
                     android:textSize="@dimen/text_size_large" />
@@ -127,6 +132,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:src="@drawable/ic_arrow" />
 
             </RelativeLayout>
@@ -135,8 +141,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginStart="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginStart="@dimen/margin_xxlarge"
+                android:layout_marginEnd="@dimen/margin_xxlarge"
                 android:background="@color/paleGrey2" />
 
             <!-- 3rd option -->
@@ -157,6 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/privacy_policy"
                     android:textColor="@color/darkSkyBlue"
                     android:textSize="@dimen/text_size_large" />
@@ -167,6 +174,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:src="@drawable/ic_arrow" />
 
             </RelativeLayout>
@@ -175,8 +183,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginStart="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginStart="@dimen/margin_xxlarge"
+                android:layout_marginEnd="@dimen/margin_xxlarge"
                 android:background="@color/paleGrey2" />
 
             <!-- 4th option -->
@@ -199,6 +207,7 @@
                     android:layout_centerVertical="true"
                     android:text="@string/terms_conditions"
                     android:textColor="@color/darkSkyBlue"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:textSize="@dimen/text_size_large" />
 
                 <!-- icon -->
@@ -207,6 +216,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:src="@drawable/ic_arrow" />
 
             </RelativeLayout>
@@ -244,6 +254,7 @@
                     android:layout_centerVertical="true"
                     android:text="@string/call_us"
                     android:textColor="@color/darkSkyBlue"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:textSize="@dimen/text_size_large" />
 
                 <!-- icon -->
@@ -252,6 +263,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:src="@drawable/ic_arrow" />
 
             </RelativeLayout>
@@ -289,6 +301,7 @@
                     android:layout_centerVertical="true"
                     android:text="@string/how_gawla_works"
                     android:textColor="@color/darkSkyBlue"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:textSize="@dimen/text_size_large" />
 
                 <!-- icon -->
@@ -297,6 +310,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:src="@drawable/ic_arrow" />
 
             </RelativeLayout>
@@ -333,6 +347,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:text="@string/sign_out"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:textColor="@color/paleRed"
                     android:textSize="@dimen/text_size_large" />
 
@@ -342,6 +357,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:src="@drawable/ic_arrow" />
 
             </RelativeLayout>
@@ -350,7 +366,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/paleGrey2" />
+                android:background="@color/paleGrey2"
+                android:layout_marginBottom="@dimen/margin_medium"/>
 
         </LinearLayout>
     </ScrollView>

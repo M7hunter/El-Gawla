@@ -25,7 +25,7 @@
     <!-- icons & images -->
     <dimen name="logo_width">140dp</dimen>
     <dimen name="logo_height">80dp</dimen>
-    <dimen name="icon_notification">40dp</dimen>
+    <dimen name="icon_notification">35dp</dimen>
     <dimen name="icon_back">55dp</dimen>
     <dimen name="image_width_main_fragment">190dp</dimen>
     <dimen name="image_width_round">300dp</dimen>
