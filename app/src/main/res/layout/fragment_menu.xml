@@ -41,11 +41,11 @@
                 android:id="@+id/tv_menu_fragment_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:gravity="fill"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:gravity="center"
                 android:padding="@dimen/margin_small"
-                android:text="@string/menu_fragment_title"
+                android:text="@string/menu_fragment_hint"
                 android:textColor="@color/blueGrey"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
@@ -62,11 +62,10 @@
                 android:id="@+id/menu_option_settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:background="@android:color/white"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small">
 
                 <!-- label -->
@@ -86,8 +85,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:src="@drawable/ic_arrow" />
 
             </RelativeLayout>
@@ -110,11 +109,10 @@
                 android:id="@+id/menu_option_more_about_gawla"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:background="@android:color/white"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small">
 
                 <!-- label -->
@@ -157,7 +155,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_small"
+
                 android:paddingBottom="@dimen/margin_small">
 
                 <!-- label -->
@@ -196,11 +194,10 @@
                 android:id="@+id/menu_option_terms_conditions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:background="@android:color/white"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small">
 
                 <!-- label -->
@@ -210,9 +207,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/terms_conditions"
                     android:textColor="@color/darkSkyBlue"
-                    android:layout_marginStart="@dimen/margin_medium"
                     android:textSize="@dimen/text_size_large" />
 
                 <!-- icon -->
@@ -248,7 +245,6 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small">
 
                 <!-- label -->
@@ -258,9 +254,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/call_us"
                     android:textColor="@color/darkSkyBlue"
-                    android:layout_marginStart="@dimen/margin_medium"
                     android:textSize="@dimen/text_size_large" />
 
                 <!-- icon -->
@@ -292,11 +288,10 @@
                 android:id="@+id/menu_option_how_gawla_works"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:background="@android:color/white"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small">
 
                 <!-- label -->
@@ -306,9 +301,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/how_gawla_works"
                     android:textColor="@color/darkSkyBlue"
-                    android:layout_marginStart="@dimen/margin_medium"
                     android:textSize="@dimen/text_size_large" />
 
                 <!-- icon -->
@@ -344,7 +339,6 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small">
 
                 <!-- label -->
@@ -354,8 +348,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:text="@string/sign_out"
                     android:layout_marginStart="@dimen/margin_medium"
+                    android:text="@string/sign_out"
                     android:textColor="@color/paleRed"
                     android:textSize="@dimen/text_size_large" />
 

@@ -39,8 +39,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
 
     TextInputLayout tlEmail, tlPass;
 
-    GoogleApiClient mGoogleApiClient;
     String Provider;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
