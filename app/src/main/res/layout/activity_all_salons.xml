@@ -21,8 +21,7 @@
                 android:id="@+id/all_salons_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layoutDirection="ltr">
+                android:layout_marginTop="@dimen/margin_tiny">
 
                 <!-- back -->
                 <ImageView
@@ -32,7 +31,8 @@
                     android:layout_centerVertical="true"
                     android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:padding="@dimen/margin_small"
-                    android:src="@drawable/ic_arrow_back" />
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/ic_arrow2" />
 
                 <!-- title -->
                 <TextView
@@ -52,7 +52,7 @@
                     android:layout_height="@dimen/icon_notification"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginRight="@dimen/margin_tiny"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:padding="@dimen/margin_tiny"
                     android:src="@drawable/ic_notification" />

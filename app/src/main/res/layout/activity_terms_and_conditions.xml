@@ -17,8 +17,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:layoutDirection="ltr">
+            android:layout_marginTop="@dimen/margin_tiny">
 
             <!-- back -->
             <ImageView
@@ -28,7 +27,8 @@
                 android:layout_centerVertical="true"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/margin_small"
-                android:src="@drawable/ic_arrow_back" />
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_arrow2" />
 
             <!-- title -->
             <TextView
@@ -62,6 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_xxlarge"
             android:text="إنشاء حساب بائع لدولة مختارة: حسب التعليمات الواردة في الموقع، يتعين عليك إنشاء
              حساب بائع لدينا عن كل دولة من الدول المختارة التي تحتاج إلى الاستفادة من خدماتنا فيها إذا كنت فرداً يجب أن تكون مقيماً في تلك الدولة المختارة أما في حالة الشركات، يتعين أن يكون لدى الشركة القدرة على ممارسة الأعمال في الدولة المختارة
              حسب القوانين المعمول بها في تلك الدولة المختارة. قد نقوم بمساعدتكم في إنشاء حساب في كل دولة من الدول المختارة بعد تلقي المعلومات اللازمة
