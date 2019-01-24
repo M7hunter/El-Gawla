@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public View getMainFrame() {
+    public View getSnackbarContainer() {
         if (snackContainer == null) {
             snackContainer = findViewById(R.id.snackbar_container);
         }

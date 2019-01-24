@@ -166,7 +166,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     }
 
-    public View getMainFrame() {
+    public View getSnackbarContainer() {
         if (salonMainContainer == null) {
             salonMainContainer = findViewById(R.id.salon_main_layout);
         }

@@ -21,10 +21,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layoutDirection="ltr">
+                android:layoutDirection="ltr"
+                android:orientation="horizontal">
 
-                <include layout="@layout/main_header_layout"/>
+                <include layout="@layout/main_header_layout" />
 
                 <!-- country -->
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -61,8 +61,8 @@
                 android:id="@+id/menu_option_settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:background="@android:color/white"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingEnd="@dimen/margin_small"
@@ -108,8 +108,8 @@
                 android:id="@+id/menu_option_more_about_gawla"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:background="@android:color/white"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingEnd="@dimen/margin_small"
@@ -192,8 +192,8 @@
                 android:id="@+id/menu_option_terms_conditions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:background="@android:color/white"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingEnd="@dimen/margin_small"
@@ -286,8 +286,8 @@
                 android:id="@+id/menu_option_how_gawla_works"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:background="@android:color/white"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingEnd="@dimen/margin_small"
@@ -366,6 +366,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginBottom="@dimen/margin_small"
                 android:background="@color/paleGrey2" />
 
         </LinearLayout>
