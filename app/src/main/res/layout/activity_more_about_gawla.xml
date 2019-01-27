@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:scrollbars="none"
+    android:id="@+id/main_more_about_gawla"
     tools:context=".views.menuOptions.MoreAboutGawlaActivity">
     <!-- scroll main layout -->
     <LinearLayout
@@ -27,8 +27,8 @@
                 android:layout_centerVertical="true"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/margin_small"
-                android:src="@drawable/ic_arrow2"
-                android:layout_alignParentStart="true"/>
+                android:src="@drawable/ic_arrow_left_only"
+                android:layout_alignParentLeft="true"/>
 
             <!-- title -->
             <TextView
@@ -70,8 +70,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:text="نبذة مختصرة عن ثمن المنتج المعروض و ثمن المعروض من رابح الجولة او شئ يتعلق بسير الجولة , نبذة مختصرة عن ثمن المنتج المعروض و ثمن المعروض من رابح الجولة او شئ يتعلق بسير الجولة، نبذة مختصرة عن ثمن المنتج المعروض و ثمن المعروض من رابح الجولة او شئ يتعلق بسير الجولة , نبذة مختصرة عن ثمن المنتج المعروض و ثمن المعروض من رابح الجولة او شئ يتعلق بسير الجولة"
+            android:text="@string/about_gawla_text"
             android:textColor="@color/blueGrey"
+            android:gravity="center"
             android:layout_marginBottom="@dimen/margin_xxlarge"
             android:textSize="@dimen/text_size_medium" />
 
