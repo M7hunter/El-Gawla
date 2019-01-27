@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -13,11 +15,13 @@ import androidx.appcompat.widget.SwitchCompat;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
 import it_geeks.info.gawla_app.views.splashActivities.SplashActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 
     TextView tvLang, tvCountry, tvCurrency;
+    ScrollView mainSettingsActivity;
 
     SwitchMaterial notificationSwitch;
 
@@ -64,6 +68,12 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 onBackPressed();
             }
+        });
+
+        // Swipe Page Back
+        mainSettingsActivity = findViewById(R.id.mainSettingsActivity);
+        mainSettingsActivity.setOnTouchListener(new OnSwipeTouchListener(SettingsActivity.this){
+            public void onSwipeRight() { finish(); }
         });
     }
 

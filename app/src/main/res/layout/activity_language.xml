@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
+    android:id="@+id/mainLanguageActivity"
     tools:context=".views.menuOptions.LanguageActivity">
 
     <!-- title bar -->
@@ -21,8 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:layout_alignParentLeft="true"
             android:padding="@dimen/margin_small"
-            android:src="@drawable/ic_arrow_back" />
+            android:src="@drawable/ic_arrow_left_only" />
 
         <!-- title -->
         <TextView
@@ -40,6 +42,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lang_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_small"/>
 
 </LinearLayout>

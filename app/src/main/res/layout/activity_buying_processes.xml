@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:scrollbars="none"
-    tools:context=".views.menuOptions.CallUsActivity">
+    android:id="@+id/mainBuyingProcesses"
+    tools:context=".views.accountOptions.BuyingProcessesActivity">
 
     <!-- title bar -->
     <RelativeLayout
@@ -26,7 +26,8 @@
             android:layout_centerVertical="true"
             android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:padding="@dimen/margin_small"
-            android:src="@drawable/ic_arrow_back" />
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_arrow_left_only" />
 
         <!-- title -->
         <TextView

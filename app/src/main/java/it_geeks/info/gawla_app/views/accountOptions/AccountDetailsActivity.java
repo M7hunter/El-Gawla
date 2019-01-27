@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
 import it_geeks.info.gawla_app.general.UploadImageService;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
@@ -35,11 +37,12 @@ import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
+import it_geeks.info.gawla_app.views.menuOptions.CallUsActivity;
 
 public class AccountDetailsActivity extends AppCompatActivity {
 
     public static AccountDetailsActivity accountDetailsInstance;
-
+    ScrollView mainAccountDetails;
     private EditText et_update_first_name, et_update_last_name, et_update_telephone, sp_update_gender, sp_update_country;
     private ImageView img_update_image, btn_choose_image;
     public ImageView btn_upload_image;
@@ -106,6 +109,12 @@ public class AccountDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 onBackPressed();
             }
+        });
+
+        // Swipe Page Back
+        mainAccountDetails = findViewById(R.id.mainAccountDetails);
+        mainAccountDetails.setOnTouchListener(new OnSwipeTouchListener(AccountDetailsActivity.this){
+            public void onSwipeRight() { finish(); }
         });
     }
 

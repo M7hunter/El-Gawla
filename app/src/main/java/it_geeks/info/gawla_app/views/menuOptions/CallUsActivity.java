@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
@@ -19,13 +20,14 @@ import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
 
 public class CallUsActivity extends AppCompatActivity {
 
     EditText usernameCallUS , emailCallUS , messageCallUS;
     Button btnSendCallUs;
     Snackbar snackbarMessage;
-
+    ScrollView mainCallUsActivity;
     TextInputLayout tlName, tlEmail, tlText;
 
     @Override
@@ -55,6 +57,12 @@ public class CallUsActivity extends AppCompatActivity {
         tlName = findViewById(R.id.tl_call_us_name);
         tlEmail = findViewById(R.id.tl_call_us_email);
         tlText = findViewById(R.id.tl_text);
+
+        // Swipe Page Back
+        mainCallUsActivity = findViewById(R.id.mainCallUsActivity);
+        mainCallUsActivity.setOnTouchListener(new OnSwipeTouchListener(CallUsActivity.this){
+            public void onSwipeRight() { finish(); }
+        });
     }
 
     private void getDefaultData() {
