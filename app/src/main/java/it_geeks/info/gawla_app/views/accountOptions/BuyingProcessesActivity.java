@@ -2,6 +2,9 @@ package it_geeks.info.gawla_app.views.accountOptions;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +15,13 @@ import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.BuyingProcess;
 import it_geeks.info.gawla_app.Controllers.Adapters.BuyingProcessAdapter;
+import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
+import it_geeks.info.gawla_app.views.menuOptions.CallUsActivity;
 
 public class BuyingProcessesActivity extends AppCompatActivity {
 
     List<BuyingProcess> buyingProcessList = new ArrayList<>();
+    RelativeLayout mainBuyingProcessesActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +55,18 @@ public class BuyingProcessesActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        // Swipe Page Back
+        mainBuyingProcessesActivity = findViewById(R.id.mainBuyingProcesses);
+        mainBuyingProcessesActivity.setOnTouchListener(new OnSwipeTouchListener(BuyingProcessesActivity.this){
+            public void onSwipeRight() { finish(); }
+        });
+
     }
 
     private void initRecycler() {
         RecyclerView buyingProcessRecycler = findViewById(R.id.buying_processes_recycler);
         buyingProcessRecycler.setHasFixedSize(true);
-        buyingProcessRecycler.setLayoutManager(new LinearLayoutManager(BuyingProcessesActivity.this, 1, false));
+        buyingProcessRecycler.setLayoutManager(new LinearLayoutManager(BuyingProcessesActivity.this, RecyclerView.VERTICAL, false));
         buyingProcessRecycler.setAdapter(new BuyingProcessAdapter(BuyingProcessesActivity.this, buyingProcessList));
     }
 }

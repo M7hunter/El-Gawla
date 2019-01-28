@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:scrollbars="none"
+    android:id="@+id/mainTermsAndConditionsActivity"
     tools:context=".views.menuOptions.TermsAndConditionsActivity">
     <!-- scroll main layout -->
     <LinearLayout
@@ -27,8 +27,8 @@
                 android:layout_centerVertical="true"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/margin_small"
-                android:layout_alignParentStart="true"
-                android:src="@drawable/ic_arrow2" />
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/ic_arrow_left_only" />
 
             <!-- title -->
             <TextView
@@ -63,14 +63,9 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_xxlarge"
-            android:text="إنشاء حساب بائع لدولة مختارة: حسب التعليمات الواردة في الموقع، يتعين عليك إنشاء
-             حساب بائع لدينا عن كل دولة من الدول المختارة التي تحتاج إلى الاستفادة من خدماتنا فيها إذا كنت فرداً يجب أن تكون مقيماً في تلك الدولة المختارة أما في حالة الشركات، يتعين أن يكون لدى الشركة القدرة على ممارسة الأعمال في الدولة المختارة
-             حسب القوانين المعمول بها في تلك الدولة المختارة. قد نقوم بمساعدتكم في إنشاء حساب في كل دولة من الدول المختارة بعد تلقي المعلومات اللازمة
-              من طرفكم ويجب عليكم التعرف بأنفسكم على العملية الواردة في الموقع والتعرف كذلك على جميع شروط الموقع. ويجب عدم التسجيل باسم مستعار و/أو انتحال بيانات اعتماد تسجيل الدخول الخاصة بأي بائع آخر أو كلمة (كلمات) السر الخاصة به، حيث ينتج عن هذا السلوك الاحتيالي مخالفة القوانين
-             واللوائح الاتحادية أو الوطنية أو الإقليمية أو الدولية المعمول بها (القوانين المعمول بها) في الدولة المختارة ذات الصلة كما أنكم توافقون على تقديم كافة المعلومات ذات الصلة إلينا طالما كان حسابكم فعالاً. ويجب عليكم عند تسجيل حساب
-             البائع الخاص بكم وذلك لدى كل دولة من الدول المختارة، تقديم الوثائق الثبوتية السارية والأصلية التي نحددها
-              (حسب القوانين المعمول بها في الدولة المختارة) وذلك حسب ما نطلبه من خلال الموقع أو حساب البائع الخاص بكم"
+            android:text="@string/terms_text"
             android:textColor="@color/blueGrey"
+            android:gravity="center"
             android:textSize="@dimen/text_size_medium" />
 
     </LinearLayout>

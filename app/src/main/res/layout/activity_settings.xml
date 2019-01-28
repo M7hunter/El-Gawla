@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:scrollbars="none"
+    android:id="@+id/mainSettingsActivity"
     tools:context=".views.menuOptions.SettingsActivity">
     <!-- scroll main layout -->
     <LinearLayout
@@ -28,9 +28,9 @@
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
                 android:padding="@dimen/margin_small"
-                android:src="@drawable/ic_arrow2" />
+                android:src="@drawable/ic_arrow_left_only" />
 
             <!-- title -->
             <TextView
@@ -48,7 +48,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="@string/save"
                 android:textColor="@color/darkSkyBlue"

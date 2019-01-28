@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +29,10 @@ import it_geeks.info.gawla_app.Repositry.Models.User;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
+import it_geeks.info.gawla_app.views.menuOptions.CallUsActivity;
+import it_geeks.info.gawla_app.views.menuOptions.PrivacyPolicyActivity;
 
 public class PrivacyDetailsActivity extends AppCompatActivity {
     TextView socialUsername, socialProvider, socialOut, editEmail, editPassword;
@@ -36,7 +41,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     LinearLayout socialDiv;
     ProgressBar loading;
     private GoogleApiClient mGoogleApiClient;
-
+    ScrollView mainPrivacyDetailsActivity;
     TextInputLayout tlEmail, tlPass;
 
     String Provider;
@@ -77,12 +82,20 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
 
         tlEmail = findViewById(R.id.tl_privacy_details_email);
         tlPass = findViewById(R.id.tl_privacy_details_pass);
+
+        // Swipe Page Back
+        mainPrivacyDetailsActivity = findViewById(R.id.privacy_details_Page);
+        mainPrivacyDetailsActivity.setOnTouchListener(new OnSwipeTouchListener(PrivacyDetailsActivity.this) {
+            public void onSwipeRight() {
+                finish();
+            }
+        });
     }
 
     private void initProvider() {
         Provider = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider();
-        switch (Provider){
-            case LoginActivity.providerFacebook :
+        switch (Provider) {
+            case LoginActivity.providerFacebook:
                 providerImage.setImageDrawable(getDrawable(R.drawable.com_facebook_button_icon_blue));
                 socialProvider.setText(getString(R.string.provider_fb));
                 break;
@@ -147,7 +160,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                     try {
                         SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearUser();
                         SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearProvider();
-                        startActivity(new Intent(PrivacyDetailsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        startActivity(new Intent(PrivacyDetailsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         LoginManager.getInstance().logOut();
                         if (mGoogleApiClient.isConnected()) {
                             Auth.GoogleSignInApi.signOut(mGoogleApiClient);

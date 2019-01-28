@@ -2,6 +2,8 @@ package it_geeks.info.gawla_app.views.menuOptions;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Controllers.Adapters.LanguageAdapter;
+import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
 
 public class LanguageActivity extends AppCompatActivity {
 
-    RecyclerView langRecycler;
+    LinearLayout mainLanguageActivity;
 
+    RecyclerView langRecycler;
     List<String> langList = new ArrayList<>();
 
     @Override
@@ -39,6 +43,12 @@ public class LanguageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 onBackPressed();
             }
+        });
+
+        // Swipe Page Back
+        mainLanguageActivity = findViewById(R.id.mainLanguageActivity);
+        mainLanguageActivity.setOnTouchListener(new OnSwipeTouchListener(LanguageActivity.this){
+            public void onSwipeRight() { finish(); }
         });
     }
 
