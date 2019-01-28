@@ -2,13 +2,14 @@ package it_geeks.info.gawla_app.views.loginActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -20,7 +21,6 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -47,6 +47,7 @@ import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.general.TransHolder;
 
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -64,6 +65,9 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     public static int GOOGLE_REQUEST = 1000;
     TextInputLayout tl_create_name,tl_create_email,tl_create_pass;
 
+    Button btnCreateAccount, btnAlreadyHaveAccount;
+    TextView tvSignUp, tvGooglePlus, tvFacebook;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,37 +76,29 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
         initViews();
 
+        setupTrans();
+
+        handleEvents();
+
         facebookLogin();
     }
 
     private void initViews() {
-        // ets
+        progressBar = findViewById(R.id.register_loading);
+        createAccountMainScreen = findViewById(R.id.createAccountMainScreen);
         etName = findViewById(R.id.et_create_account_name);
         etEmail = findViewById(R.id.et_create_account_email);
         etPass = findViewById(R.id.et_create_account_pass);
-        progressBar = findViewById(R.id.register_loading);
-        createAccountMainScreen = findViewById(R.id.createAccountMainScreen);
 
-        // finished ? goto next page
-        findViewById(R.id.txtCreateAndLogin).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setLoadingScreen();
-                registerNewUser();
-            }
-        });
-
-        // have account ? goto previous page
-        findViewById(R.id.create_account_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
+        // translatable views
+        tvSignUp = findViewById(R.id.tv_sign_up);
+        tvGooglePlus = findViewById(R.id.tv_google_plus_su);
+        tvFacebook = findViewById(R.id.tv_facebook_su);
         tl_create_name = findViewById(R.id.tl_create_name);
         tl_create_email = findViewById(R.id.tl_create_email);
         tl_create_pass = findViewById(R.id.tl_create_pass);
+        btnCreateAccount = findViewById(R.id.btn_create_account);
+        btnAlreadyHaveAccount = findViewById(R.id.btn_already_have_account);
 
         //fb login
         callbackManager = CallbackManager.Factory.create();
@@ -117,11 +113,44 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    // loading screen
+    private void setupTrans() {
+        TransHolder transHolder = new TransHolder(this);
+        transHolder.getSignUpActivityTranses(this);
+
+        tvSignUp.setText(transHolder.sign_up);
+        tvGooglePlus.setText(transHolder.via_google_plus);
+        tvFacebook.setText(transHolder.via_facebook);
+        tl_create_name.setHint(transHolder.full_name);
+        tl_create_email.setHint(transHolder.email);
+        tl_create_pass.setHint(transHolder.password);
+        btnCreateAccount.setText(transHolder.sign_up);
+        btnAlreadyHaveAccount.setText(transHolder.already_have_account);
+    }
+
+    private void handleEvents() {
+        // finished ? goto next page
+        btnCreateAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setLoadingScreen();
+                registerNewUser();
+            }
+        });
+
+        // have account ? goto previous page
+        btnAlreadyHaveAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
     public void setLoadingScreen(){
         createAccountMainScreen.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
     }
+
     public void closeLoadingScreen(){
         createAccountMainScreen.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
@@ -237,6 +266,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         });
 
     }
+
    // facebook Login
     private void facebookLogin() {
         btn_fb_login.setReadPermissions(Arrays.asList("public_profile", "email"));

@@ -350,7 +350,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             userOutRound();
             }
         });
-
     }
 
     private void userOutRound() {

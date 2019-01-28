@@ -44,13 +44,13 @@ import it_geeks.info.gawla_app.Controllers.ViewModels.LoginViewModel;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
-    private TextView txtForgetPassword, txtCreateAccount;
-    private Button btnLogin;
-    private EditText txt_Email, txt_Password;
+    private Button btnForgetPassword, btnCreateAccount, btnLogin;
+    private EditText etEmail, etPassword;
     public ProgressBar progressBar;
     ScrollView loginMainScreen;
     // fb login
@@ -65,6 +65,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     TextInputLayout tlEmail, tlPass;
 
+    private TextView tvSingIn, tvGooglePlus, tvFacebook;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,13 +76,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         boolean status = SharedPrefManager.getInstance(LoginActivity.this).isLoggedIn();
         String api_token = SharedPrefManager.getInstance(LoginActivity.this).getUser().getApi_token();
 
+        initialization();
+
+        setupTrans();
+
         if (status && api_token != null) {
 
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
 
         } else {
-            initialization();
             facebookLogin();
 
             // login
@@ -88,20 +93,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onClick(final View v) {
 
-                    if (checkEntries(txt_Email.getText().toString(),txt_Password.getText().toString())) {
+                    if (checkEntries(etEmail.getText().toString(), etPassword.getText().toString())) {
                         setLoadingScreen();
-                        new LoginViewModel(LoginActivity.this).login(txt_Email.getText().toString(), txt_Password.getText().toString()); // Login ViewModel
+                        new LoginViewModel(LoginActivity.this).login(etEmail.getText().toString(), etPassword.getText().toString()); // Login ViewModel
                     }
                 }
             });
 
-            txtForgetPassword.setOnClickListener(new View.OnClickListener() {
+            btnForgetPassword.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(LoginActivity.this, ForgetPasswordActivity.class));
                 }
             });
-            txtCreateAccount.setOnClickListener(new View.OnClickListener() {
+
+            btnCreateAccount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
@@ -110,40 +116,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private boolean checkEntries(String email, String pass) {
-        if (email.isEmpty()) {
-            tlEmail.setError(getResources().getString(R.string.emptyMail));
-            txt_Email.requestFocus();
-            return false;
-        } else tlEmail.setErrorEnabled(false);
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            tlEmail.setError("enter a valid email address");
-            txt_Email.requestFocus();
-            return false;
-        } else tlEmail.setErrorEnabled(false);
-
-        if (pass.isEmpty()) {
-            tlPass.setError(getResources().getString(R.string.emptyPass));
-            txt_Password.requestFocus();
-            return false;
-        } else tlPass.setErrorEnabled(false);
-        return true;
-    }
-
     @SuppressLint("WrongViewCast")
     private void initialization() {
-
-        btnLogin = findViewById(R.id.btnLogin);
-        txtForgetPassword = findViewById(R.id.btn_forget_password);
-        txtCreateAccount = findViewById(R.id.txt_Create_Account);
-        txt_Email = findViewById(R.id.txt_Email);
-        txt_Password = findViewById(R.id.txt_Password);
         progressBar = findViewById(R.id.login_loading);
         loginMainScreen = findViewById(R.id.loginMainScreen);
+        etEmail = findViewById(R.id.et_Email);
+        etPassword = findViewById(R.id.et_Password);
 
+        // translatable views
+        tvSingIn = findViewById(R.id.tv_sign_in);
+        tvGooglePlus = findViewById(R.id.tv_google_plus_si);
+        tvFacebook = findViewById(R.id.tv_facebook_si);
         tlEmail = findViewById(R.id.tl_email);
         tlPass = findViewById(R.id.tl_pass);
+        btnLogin = findViewById(R.id.btn_login);
+        btnForgetPassword = findViewById(R.id.btn_forget_password);
+        btnCreateAccount = findViewById(R.id.btn_Create_Account);
 
         //fb login
         callbackManager = CallbackManager.Factory.create();
@@ -155,6 +143,41 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         findViewById(R.id.btn_google_sign_in).setOnClickListener(this);
+    }
+
+    private void setupTrans() {
+        TransHolder transHolder = new TransHolder(this);
+        transHolder.getSignInActivityTranses(this);
+
+        tvSingIn.setText(transHolder.sign_in);
+        tvGooglePlus.setText(transHolder.via_google_plus);
+        tvFacebook.setText(transHolder.via_facebook);
+        tlEmail.setHint(transHolder.email);
+        tlPass.setHint(transHolder.password);
+        btnLogin.setText(transHolder.sign_in);
+        btnForgetPassword.setText(transHolder.forget_pass);
+        btnCreateAccount.setText(transHolder.create_account);
+    }
+
+    private boolean checkEntries(String email, String pass) {
+        if (email.isEmpty()) {
+            tlEmail.setError(getResources().getString(R.string.emptyMail));
+            etEmail.requestFocus();
+            return false;
+        } else tlEmail.setErrorEnabled(false);
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            tlEmail.setError("enter a valid email address");
+            etEmail.requestFocus();
+            return false;
+        } else tlEmail.setErrorEnabled(false);
+
+        if (pass.isEmpty()) {
+            tlPass.setError(getResources().getString(R.string.emptyPass));
+            etPassword.requestFocus();
+            return false;
+        } else tlPass.setErrorEnabled(false);
+        return true;
     }
 
     // google login
@@ -196,7 +219,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             new LoginViewModel(LoginActivity.this).handleSignInResult(task, providerGoogle);
         }
     }
-
 
     // fb login
     private void facebookLogin() {
@@ -243,7 +265,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
     }
-
 
     @Override
     public void onBackPressed() {
