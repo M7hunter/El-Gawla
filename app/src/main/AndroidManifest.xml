@@ -49,9 +49,11 @@
         <activity android:name=".views.menuOptions.TermsAndConditionsActivity" />
         <activity android:name=".views.menuOptions.CallUsActivity" />
         <activity android:name=".views.menuOptions.LanguageActivity" />
-        <activity android:name=".views.accountOptions.AccountDetailsActivity" />
         <activity android:name=".views.accountOptions.BuyingProcessesActivity" />
-        <activity android:name=".views.accountOptions.PrivacyDetailsActivity" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".views.accountOptions.AccountDetailsActivity" />
+        <activity
+            android:name=".views.accountOptions.PrivacyDetailsActivity"
+            android:windowSoftInputMode="adjustPan" />
 
         <receiver
             android:name=".general.ConnectionChangeReceiver"
@@ -61,7 +63,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".general.UploadImageService"/>
+        <service android:name=".general.UploadImageService" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

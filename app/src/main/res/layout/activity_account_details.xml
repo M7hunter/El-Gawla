@@ -99,6 +99,7 @@
                 android:padding="@dimen/margin_small"
                 android:src="@drawable/ic_check"
                 android:visibility="visible"
+                app:cornerRadius="4dp"
                 app:layout_constraintEnd_toStartOf="@id/img_update_Image"
                 app:layout_constraintStart_toStartOf="@id/img_update_Image"
                 app:layout_constraintTop_toTopOf="parent" />

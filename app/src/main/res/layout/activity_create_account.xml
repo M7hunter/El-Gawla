@@ -212,7 +212,7 @@
                 android:layout_marginEnd="@dimen/margin_xxlarge"
                 android:layout_marginBottom="@dimen/margin_xlarge"
                 android:padding="@dimen/margin_small"
-                android:text="@string/have_already_account"
+                android:text="@string/already_have_account"
                 android:textAllCaps="false"
                 android:textColor="@color/blueyGrey"
                 android:textSize="@dimen/text_size_large"

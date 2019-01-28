@@ -32,7 +32,7 @@
     <string name="send">ارسال</string>
     <string name="full_name">الاسم بالكامل</string>
     <string name="create_new_account">انشاء حساب جديد</string>
-    <string name="have_already_account">لدي حساب بالفعل</string>
+    <string name="already_have_account">لدي حساب بالفعل</string>
     <string name="pay_later">دفع لاحقاً</string>
     <string name="activate_card">تفعيل الكارت</string>
     <string name="buy_card">شراء الكارت</string>

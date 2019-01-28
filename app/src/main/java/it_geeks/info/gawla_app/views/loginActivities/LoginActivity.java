@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void initialization() {
 
         btnLogin = findViewById(R.id.btnLogin);
-        txtForgetPassword = findViewById(R.id.txt_forget_password);
+        txtForgetPassword = findViewById(R.id.btn_forget_password);
         txtCreateAccount = findViewById(R.id.txt_Create_Account);
         txt_Email = findViewById(R.id.txt_Email);
         txt_Password = findViewById(R.id.txt_Password);

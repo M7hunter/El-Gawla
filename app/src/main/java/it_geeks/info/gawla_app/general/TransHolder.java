@@ -14,6 +14,20 @@ public class TransHolder {
     private String lang;
 
     // ---> keys <--- //
+    // sign in activity keys
+    public String sign_in;
+    public String via_google_plus;
+    public String via_facebook;
+    public String email;
+    public String password;
+    public String forget_pass;
+    public String create_account;
+
+    // sign up activity keys
+    public String sign_up;
+    public String full_name;
+    public String already_have_account;
+
     // main activity keys
     public String hales;
     public String my_rounds;
@@ -22,7 +36,6 @@ public class TransHolder {
     public String menu;
 
     // main fragment keys
-    public String sign_in;
     public String see_all;
     public String recent_salons;
     public String winners_of_hales_news;
@@ -60,6 +73,80 @@ public class TransHolder {
         return SharedPrefManager.getInstance(context).getSavedLang();
     }
 
+    public void getSignInActivityTranses(Context context) {
+        sign_in = transDao.getTransByKeyAndLang("sign_in", lang);
+        if (sign_in == null || sign_in.isEmpty()) {
+            sign_in = context.getResources().getString(R.string.sign_in);
+        }
+
+        via_google_plus = transDao.getTransByKeyAndLang("via_google_plus", lang);
+        if (via_google_plus == null || via_google_plus.isEmpty()) {
+            via_google_plus = context.getResources().getString(R.string.google_plus);
+        }
+
+        via_facebook = transDao.getTransByKeyAndLang("via_facebook", lang);
+        if (via_facebook == null || via_facebook.isEmpty()) {
+            via_facebook = context.getResources().getString(R.string.facebook);
+        }
+
+        email = transDao.getTransByKeyAndLang("email", lang);
+        if (email == null || email.isEmpty()) {
+            email = context.getResources().getString(R.string.email);
+        }
+
+        password = transDao.getTransByKeyAndLang("password", lang);
+        if (password == null || password.isEmpty()) {
+            password = context.getResources().getString(R.string.password);
+        }
+
+        forget_pass = transDao.getTransByKeyAndLang("forget_pass", lang);
+        if (forget_pass == null || forget_pass.isEmpty()) {
+            forget_pass = context.getResources().getString(R.string.forgetPassword);
+        }
+
+        create_account = transDao.getTransByKeyAndLang("create_account", lang);
+        if (create_account == null || create_account.isEmpty()) {
+            create_account = context.getResources().getString(R.string.create_account);
+        }
+    }
+
+    public void getSignUpActivityTranses(Context context) {
+        sign_up = transDao.getTransByKeyAndLang("sign_up", lang);
+        if (sign_up == null || sign_up.isEmpty()) {
+            sign_up = context.getResources().getString(R.string.sign_up);
+        }
+
+        via_google_plus = transDao.getTransByKeyAndLang("via_google_plus", lang);
+        if (via_google_plus == null || via_google_plus.isEmpty()) {
+            via_google_plus = context.getResources().getString(R.string.google_plus);
+        }
+
+        via_facebook = transDao.getTransByKeyAndLang("via_facebook", lang);
+        if (via_facebook == null || via_facebook.isEmpty()) {
+            via_facebook = context.getResources().getString(R.string.facebook);
+        }
+
+        full_name = transDao.getTransByKeyAndLang("full_name", lang);
+        if (full_name == null || full_name.isEmpty()) {
+            full_name = context.getResources().getString(R.string.full_name);
+        }
+
+        email = transDao.getTransByKeyAndLang("email", lang);
+        if (email == null || email.isEmpty()) {
+            email = context.getResources().getString(R.string.email);
+        }
+
+        password = transDao.getTransByKeyAndLang("password", lang);
+        if (password == null || password.isEmpty()) {
+            password = context.getResources().getString(R.string.password);
+        }
+
+        already_have_account = transDao.getTransByKeyAndLang("already_have_account", lang);
+        if (already_have_account == null || already_have_account.isEmpty()) {
+            already_have_account = context.getResources().getString(R.string.already_have_account);
+        }
+    }
+
     public void getMainActivityTranses(Context context) {
         hales = transDao.getTransByKeyAndLang("hales", lang);
         if (hales == null || hales.isEmpty()) {
@@ -91,11 +178,6 @@ public class TransHolder {
         see_all = transDao.getTransByKeyAndLang("see_all", lang);
         if (see_all == null || see_all.isEmpty()) {
             see_all = context.getResources().getString(R.string.see_all);
-        }
-
-        sign_in = transDao.getTransByKeyAndLang("sign_in", lang);
-        if (sign_in == null || sign_in.isEmpty()) {
-            sign_in = context.getResources().getString(R.string.sign_in);
         }
 
         recent_salons = transDao.getTransByKeyAndLang("recent_salons", lang);

@@ -42,7 +42,7 @@
     <string name="create_account">create account</string>
     <string name="send">send</string>
     <string name="create_new_account">create new account</string>
-    <string name="have_already_account">already have an account</string>
+    <string name="already_have_account">already have an account</string>
     <string name="forgetPassword">forget password ?</string>
     <string name="email">e-mail</string>
     <string name="facebook">via facebook</string>

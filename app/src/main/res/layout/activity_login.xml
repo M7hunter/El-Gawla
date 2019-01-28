@@ -24,6 +24,7 @@
 
             <!-- header -->
             <TextView
+                android:id="@+id/tv_sign_in"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
@@ -47,6 +48,7 @@
                 android:padding="@dimen/margin_small">
 
                 <TextView
+                    android:id="@+id/tv_google_plus_si"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/googleg_standard_color_18"
@@ -78,6 +80,7 @@
                 android:padding="@dimen/margin_small">
 
                 <TextView
+                    android:id="@+id/tv_facebook_si"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/com_facebook_button_icon"
@@ -170,7 +173,7 @@
 
             <!-- forget pass btn -->
             <Button
-                android:id="@+id/txt_forget_password"
+                android:id="@+id/btn_forget_password"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
