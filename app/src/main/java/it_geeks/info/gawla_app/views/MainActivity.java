@@ -4,11 +4,17 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +31,8 @@ import it_geeks.info.gawla_app.views.NavigationFragments.MyRoundsFragment;
 import it_geeks.info.gawla_app.R;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String TAG = "MO7";
 
     public static Activity mainInstance;
 
@@ -44,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         Common.Instance(this).changeStatusBarColor("#f4f7fa", this);
         setContentView(R.layout.activity_main);
 
+        // Firebase initialize
+        // FirebaseInstanceInitialize();
+
         mainInstance = this;
 
         transHolder = new TransHolder(MainActivity.this);
@@ -58,6 +69,29 @@ public class MainActivity extends AppCompatActivity {
         initNavigation();
 
         setupTrans();
+    }
+
+    // Firebase initialize
+    private void FirebaseInstanceInitialize() {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+
+                        // Log and toast
+                        String msg = ("Token is : "+ token);
+                        Log.d(TAG, msg);
+                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 
     @Override

@@ -199,12 +199,14 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             closeLoadingScreen();
             return false;
         }else tl_create_name.setErrorEnabled(false);
+
         if (email.isEmpty()) {
             tl_create_email.setError("this field can't be empty");
             etEmail.requestFocus();
             closeLoadingScreen();
             return false;
         }else tl_create_email.setErrorEnabled(false);
+
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             tl_create_email.setError("enter a valid email address");
             etEmail.requestFocus();
@@ -217,12 +219,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             closeLoadingScreen();
             return false;
         }else tl_create_pass.setErrorEnabled(false);
-        if (pass.length() < 6) {
-            tl_create_pass.setError("Password should be more than 5 chars and number");
-            etPass.requestFocus();
-            closeLoadingScreen();
-            return false;
-        }else tl_create_pass.setErrorEnabled(false);
+
         return true;
     }
 

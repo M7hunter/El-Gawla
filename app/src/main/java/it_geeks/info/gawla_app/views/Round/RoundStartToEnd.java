@@ -204,8 +204,8 @@ public class RoundStartToEnd {
         mMinute[0] = minute;
 
         if (mHour[0] != hour) {
-            GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "hour");
-            gawlaTimeDownMinute.NumberTick(hour);
+            GawlaTimeDown gawlaTimeDownHour = new GawlaTimeDown(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "hour");
+            gawlaTimeDownHour.NumberTick(hour);
         }
         mHour[0] = hour;
     }

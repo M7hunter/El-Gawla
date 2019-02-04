@@ -113,6 +113,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
 
+//        initnotificationData();
+
         initViews();
 
         getRoundData(savedInstanceState);
@@ -131,6 +133,27 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         handleEvents();
     }
+
+ /*   private void initnotificationData() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+           String title = bundle.get("title").toString();
+           String body = bundle.get("body").toString();
+           String startSalon = bundle.get("start_salon").toString();
+           String endSalon = bundle.get("end_salon").toString();
+           String newSalon = bundle.get("new_salon").toString();
+
+            if (!newSalon.isEmpty()){
+                Toast.makeText(this, newSalon, Toast.LENGTH_SHORT).show();
+            }else if(!startSalon.isEmpty()){
+                Toast.makeText(this, startSalon, Toast.LENGTH_SHORT).show();
+            }else if (!endSalon.isEmpty()){
+                Toast.makeText(this, endSalon, Toast.LENGTH_SHORT).show();
+            }else Toast.makeText(this, "No Action In Salon", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+*/
 
     public void getRealtimeOfRound() {
         FullActivityp.setVisibility(View.INVISIBLE);
@@ -541,7 +564,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void attentionScreen() { // Attention Screen  to Join Round
-        icon.setImageDrawable(getDrawable(R.drawable.outline));
+        icon.setImageDrawable(getResources().getDrawable(R.drawable.outline));
         header.setText(getString(R.string.Attention));
         header.setTextColor(getResources().getColor(R.color.midBlue));
         text.setText(getString(R.string.Attention_Details));
@@ -550,7 +573,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void congratulationScreen() { // Congratulation Screen to Join Round
-        icon.setImageDrawable(getDrawable(R.drawable.joinedrounddone));
+        icon.setImageDrawable(getResources().getDrawable(R.drawable.joinedrounddone));
         header.setText(getString(R.string.Congratulations_Attention));
         header.setTextColor(getResources().getColor(R.color.greenBlue));
         text.setText(getString(R.string.Congratulations_Attention_Details));
@@ -756,7 +779,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     if (vpProductMainVideo.canPause()) {
                         stopPosition = vpProductMainVideo.getCurrentPosition();
                         vpProductMainVideo.pause();
-                        btnPlayPause.setImageDrawable(getDrawable(R.drawable.ic_play));
+                        btnPlayPause.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
 
                         handler.removeCallbacks(runnable);
                     }
@@ -764,7 +787,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     vpProductMainVideo.seekTo(stopPosition);
                     vpProductMainVideo.start();
 
-                    btnPlayPause.setImageDrawable(getDrawable(R.drawable.ic_pause));
+                    btnPlayPause.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
                     hidePP(handler, runnable);
                 }
             }

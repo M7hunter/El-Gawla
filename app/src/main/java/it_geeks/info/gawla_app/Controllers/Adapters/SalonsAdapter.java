@@ -51,7 +51,8 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         .load(round.getProduct_image())
                         .placeholder(context.getResources().getDrawable(R.drawable.placeholder))
                         .into(viewHolder.imgProductImage);
-            }catch (Exception e){}
+            } catch (Exception e) {
+            }
 
             viewHolder.tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
             viewHolder.tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
@@ -88,8 +89,12 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                     pairs[0] = new Pair<View, String>(viewHolder.imgProductImage, "transProductImage");
                     pairs[1] = new Pair<View, String>(viewHolder.tvProductName, "transProductName");
 
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), pairs);
-                    context.startActivity(i, options.toBundle());
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), pairs);
+                        context.startActivity(i, options.toBundle());
+                    } else {
+                        context.startActivity(i);
+                    }
                 }
             });
 
@@ -99,7 +104,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
 
     @Override
     public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
-        ((ViewHolder)holder).clearAnimation();
+        ((ViewHolder) holder).clearAnimation();
     }
 
     @Override

@@ -29,7 +29,7 @@ import androidx.appcompat.view.ContextThemeWrapper;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
-import it_geeks.info.gawla_app.general.UploadImageService;
+import it_geeks.info.gawla_app.Repositry.Services.fcm.UploadImageService;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.User;
@@ -37,7 +37,6 @@ import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.views.menuOptions.CallUsActivity;
 
 public class AccountDetailsActivity extends AppCompatActivity {
 
@@ -155,7 +154,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     private void countryPopupMenu() {
-        sp_update_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_arrow_drop_up), null);
+        sp_update_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_up), null);
 
         Context wrapper = new ContextThemeWrapper(this, R.style.PopupMenuTheme);
         PopupMenu countryMenu = new PopupMenu(wrapper, sp_update_country);
@@ -176,7 +175,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         countryMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
-                sp_update_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_arrow_drop_down), null);
+                sp_update_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_down), null);
             }
         });
 
@@ -184,7 +183,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     private void genderPopupMenu() {
-        sp_update_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_arrow_drop_up), null);
+        sp_update_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_up), null);
 
         Context wrapper = new ContextThemeWrapper(this, R.style.PopupMenuTheme);
         PopupMenu genderMenu = new PopupMenu(wrapper, sp_update_gender);
@@ -200,7 +199,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         genderMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
-                sp_update_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_arrow_drop_down), null);
+                sp_update_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_down), null);
             }
         });
 
