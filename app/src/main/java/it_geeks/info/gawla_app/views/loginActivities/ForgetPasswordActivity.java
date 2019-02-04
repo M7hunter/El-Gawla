@@ -6,10 +6,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import it_geeks.info.gawla_app.Repositry.Models.Request;
+import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.general.TransHolder;
@@ -60,8 +65,27 @@ public class ForgetPasswordActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = etEmail.getText().toString();
                 if (checkEntries(email)) {
-                    //
+//                    sendEmail(email);
                 }
+            }
+
+            private void sendEmail(String email) {
+                RetrofitClient.getInstance(ForgetPasswordActivity.this).executeConnectionToServer(ForgetPasswordActivity.this, "fffff", new Request(email), new HandleResponses() {
+                    @Override
+                    public void handleResponseData(JsonObject mainObject) {
+                        Toast.makeText(ForgetPasswordActivity.this, "check your mailbox and create new password", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        Toast.makeText(ForgetPasswordActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

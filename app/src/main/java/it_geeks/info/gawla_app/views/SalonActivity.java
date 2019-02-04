@@ -189,7 +189,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     }
 
-    public View getSnackbarContainer() {
+    public View getSnackBarContainer() {
         if (salonMainContainer == null) {
             salonMainContainer = findViewById(R.id.salon_main_layout);
         }

@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainBuyingProcesses"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:id="@+id/mainBuyingProcesses"
     tools:context=".views.accountOptions.BuyingProcessesActivity">
 
     <!-- title bar -->
@@ -23,10 +23,10 @@
             android:id="@+id/buying_processes_back"
             android:layout_width="@dimen/icon_back"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:padding="@dimen/margin_small"
-            android:layout_alignParentLeft="true"
             android:src="@drawable/ic_arrow_left_only" />
 
         <!-- title -->
@@ -61,7 +61,8 @@
             android:layout_marginEnd="@dimen/margin_tiny"
             android:layout_weight="1.5"
             android:text="@string/processes"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
 
         <!-- card -->
         <TextView
@@ -72,7 +73,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/card"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
 
         <!-- date -->
         <TextView
@@ -83,7 +85,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/date"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
 
         <!-- cost -->
         <TextView
@@ -94,7 +97,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/cost"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
