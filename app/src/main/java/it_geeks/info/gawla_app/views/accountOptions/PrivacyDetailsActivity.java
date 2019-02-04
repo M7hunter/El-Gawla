@@ -96,16 +96,16 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         Provider = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider();
         switch (Provider) {
             case LoginActivity.providerFacebook:
-                providerImage.setImageDrawable(getDrawable(R.drawable.com_facebook_button_icon_blue));
+                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.com_facebook_button_icon_blue));
                 socialProvider.setText(getString(R.string.provider_fb));
                 break;
             case LoginActivity.providerGoogle:
-                providerImage.setImageDrawable(getDrawable(R.drawable.googleg_standard_color_18));
+                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.googleg_standard_color_18));
                 socialProvider.setText(getString(R.string.provider_google));
                 break;
             default:
                 socialProvider.setText(SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider());
-                providerImage.setImageDrawable(getDrawable(R.drawable.gawla_logo_blue));
+                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.gawla_logo_blue));
                 break;
         }
     }
@@ -157,7 +157,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
 
                 //Logout Disconnect
                 case R.id.social_out:
-                    try {
+                    try { //TODO Here Error in Line 165
                         SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearUser();
                         SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearProvider();
                         startActivity(new Intent(PrivacyDetailsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
@@ -168,9 +168,9 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                             mGoogleApiClient.connect();
                         }
                         SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearProvider();
-                        PrivacyDetailsActivity.this.finish();
+                        finish();
                     } catch (Exception e) {
-                        Log.e("Mo7", e.getMessage());
+                        Log.e("Mo7", e.getMessage()+ " ");
                     }
                     break;
 

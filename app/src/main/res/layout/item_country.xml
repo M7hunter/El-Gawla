@@ -8,11 +8,11 @@
     android:padding="@dimen/margin_small">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/country_icon"
+        android:id="@+id/country_flag"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:src="@drawable/flag_egypt" />
+        android:layout_weight="1"
+        android:src="@drawable/flag_egypt"/>
 
     <TextView
         android:id="@+id/country_name"

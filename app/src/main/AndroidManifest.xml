@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -63,7 +64,14 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".general.UploadImageService" />
+        <service android:name=".Repositry.Services.fcm.UploadImageService" />
+
+        <!-- Firebase Services -->
+        <service android:name=".Repositry.Services.fcm.NotificationFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

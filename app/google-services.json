@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "129212834621",
+    "firebase_url": "https://elgawla-225111.firebaseio.com",
+    "project_id": "elgawla-225111",
+    "storage_bucket": "elgawla-225111.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129212834621:android:2995c75bbb2e2965",
+        "android_client_info": {
+          "package_name": "it_geeks.info.gawla_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129212834621-fijto12dd2gi9tvifih892ua2rsa3vlp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "it_geeks.info.gawla_app",
+            "certificate_hash": "6484b8f1966de199884850966f85b8d8fc9abca3"
+          }
+        },
+        {
+          "client_id": "129212834621-ntpf3okjbutvp5um90dl651bdoe812ll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB--zATg9Sc42antTA5QT0szJG-sV8FZgI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129212834621-ntpf3okjbutvp5um90dl651bdoe812ll.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -40,7 +40,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
         final Country country = countriesList.get(i);
 
         viewHolder.name.setText(country.getCountry_title());
-        Picasso.with(context).load(country.getImage()).placeholder(R.drawable.placeholder).into(viewHolder.icon);
+        Picasso.with(context).load(country.getImage()).placeholder(R.drawable.placeholder).into(viewHolder.flag);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,13 +58,13 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView name;
-        ImageView icon;
+        ImageView flag;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.country_name);
-            icon = itemView.findViewById(R.id.country_icon);
+            flag = itemView.findViewById(R.id.country_flag);
         }
     }
 }

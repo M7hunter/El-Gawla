@@ -2,6 +2,7 @@ package it_geeks.info.gawla_app.Repositry.RESTful;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -54,13 +55,13 @@ public class RetrofitClient {
         String BASE_URL;
         switch (SharedPrefManager.getInstance(context).getSavedLang()) {
             case "en":
-                BASE_URL = "https://dev.itgeeks.info/api/v1/en/";
+                BASE_URL = "http://dev.itgeeks.info/api/v1/en/";
                 break;
             case "ar":
-                BASE_URL = "https://dev.itgeeks.info/api/v1/ar/";
+                BASE_URL = "http://dev.itgeeks.info/api/v1/ar/";
                 break;
             default:
-                BASE_URL = "https://dev.itgeeks.info/api/v1/en/";
+                BASE_URL = "http://dev.itgeeks.info/api/v1/en/";
                 break;
         }
 
@@ -109,6 +110,7 @@ public class RetrofitClient {
             public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
 
                 HandleResponses.handleConnectionErrors(t.getMessage());
+                Log.d("connection failure: @@ ", t.getCause().toString()+"");
             }
         };
     }
