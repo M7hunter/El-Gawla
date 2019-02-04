@@ -65,7 +65,7 @@
             android:layout_marginBottom="@dimen/margin_xxlarge"
             android:text="@string/terms_text"
             android:textColor="@color/blueGrey"
-            android:gravity="center"
+            android:gravity="start"
             android:textSize="@dimen/text_size_medium" />
 
     </LinearLayout>

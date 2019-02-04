@@ -23,6 +23,7 @@ import androidx.core.app.NotificationCompat;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
+import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.SalonActivity;
 
 public class NotificationFirebaseMessagingService extends FirebaseMessagingService {
@@ -88,7 +89,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
 		bundle.putString("start_salon",data.get("start_salon"));
 		bundle.putString("end_salon",data.get("end_salon"));
 
-		Intent intent = new Intent(this, SalonActivity.class);
+		Intent intent = new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtras(bundle);
 		return PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 	}

@@ -15,6 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
         Common.Instance(this).changeStatusBarColor("#f4f7fa", this);
         setContentView(R.layout.activity_main);
 
-        // Firebase initialize
-        // FirebaseInstanceInitialize();
+        // Firebase Recive messaging notification
+        FirebaseMessagingInitialize();
 
         mainInstance = this;
 
@@ -72,26 +73,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Firebase initialize
-    private void FirebaseInstanceInitialize() {
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-
-                        // Log and toast
-                        String msg = ("Token is : "+ token);
-                        Log.d(TAG, msg);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+    private void FirebaseMessagingInitialize() {
+        FirebaseMessaging.getInstance().subscribeToTopic("all");
+        FirebaseMessaging.getInstance().subscribeToTopic("country_"+String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
     }
 
     @Override

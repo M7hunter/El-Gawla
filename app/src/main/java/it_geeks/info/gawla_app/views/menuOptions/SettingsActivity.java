@@ -9,6 +9,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -16,6 +17,8 @@ import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
+import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.SalonActivity;
 import it_geeks.info.gawla_app.views.splashActivities.SplashActivity;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -48,6 +51,11 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SharedPrefManager.getInstance(SettingsActivity.this).setNotificationState(isChecked);
+                if (isChecked){
+                    startNotifications();
+                }else {
+                    stopNotifications();
+                }
             }
         });
 
@@ -75,6 +83,18 @@ public class SettingsActivity extends AppCompatActivity {
         mainSettingsActivity.setOnTouchListener(new OnSwipeTouchListener(SettingsActivity.this){
             public void onSwipeRight() { finish(); }
         });
+    }
+
+    private void stopNotifications() {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("all");
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("country_"+String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("round");
+    }
+
+    private void startNotifications() {
+        FirebaseMessaging.getInstance().subscribeToTopic("all");
+        FirebaseMessaging.getInstance().subscribeToTopic("country_"+String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
+        FirebaseMessaging.getInstance().subscribeToTopic("round");
     }
 
     private String displayLanguage() {
