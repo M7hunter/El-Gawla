@@ -28,6 +28,10 @@ public class TransHolder {
     public String full_name;
     public String already_have_account;
 
+    // forget pass activity keys
+    public String forget_pass_hint;
+    public String send;
+
     // main activity keys
     public String hales;
     public String my_rounds;
@@ -49,7 +53,7 @@ public class TransHolder {
     public String cards_store;
     public String cards_empty_hint;
 
-    // cards fragment keys
+    // account fragment keys
     public String account_details;
     public String buying_processes;
     public String privacy_details;
@@ -144,6 +148,28 @@ public class TransHolder {
         already_have_account = transDao.getTransByKeyAndLang("already_have_account", lang);
         if (already_have_account == null || already_have_account.isEmpty()) {
             already_have_account = context.getResources().getString(R.string.already_have_account);
+        }
+    }
+
+    public void getForgetPassActivityTranses(Context context) {
+        forget_pass = transDao.getTransByKeyAndLang("forget_pass", lang);
+        if (forget_pass == null || forget_pass.isEmpty()) {
+            forget_pass = context.getResources().getString(R.string.forgetPassword);
+        }
+
+        forget_pass_hint = transDao.getTransByKeyAndLang("forget_pass_hint", lang);
+        if (forget_pass_hint == null || forget_pass_hint.isEmpty()) {
+            forget_pass_hint = context.getResources().getString(R.string.wile_send_password);
+        }
+
+        email = transDao.getTransByKeyAndLang("email", lang);
+        if (email == null || email.isEmpty()) {
+            email = context.getResources().getString(R.string.email);
+        }
+
+        send = transDao.getTransByKeyAndLang("send", lang);
+        if (send == null || send.isEmpty()) {
+            send = context.getResources().getString(R.string.send);
         }
     }
 
