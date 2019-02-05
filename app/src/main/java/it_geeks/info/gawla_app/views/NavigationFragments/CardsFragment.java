@@ -112,13 +112,17 @@ public class CardsFragment extends Fragment {
         RetrofitClient.getInstance(getContext()).executeConnectionToServer(MainActivity.mainInstance,
                 "getAllCardsCategories", new Request(userId, apiToken), new HandleResponses() {
                     @Override
-                    public void handleResponseData(JsonObject mainObject) {
-
+                    public void handleTrueResponse(JsonObject mainObject) {
                         categoryList = ParseResponses.parseCategories(mainObject);
 
                         initCategoriesRecycler(view);
 
                         getCardsByCategory(categoryList.get(0).getCategoryCards());
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+
                     }
 
                     @Override

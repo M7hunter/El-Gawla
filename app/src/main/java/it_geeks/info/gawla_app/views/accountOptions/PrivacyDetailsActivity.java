@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
@@ -31,26 +32,36 @@ import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
-import it_geeks.info.gawla_app.views.menuOptions.CallUsActivity;
-import it_geeks.info.gawla_app.views.menuOptions.PrivacyPolicyActivity;
 
 public class PrivacyDetailsActivity extends AppCompatActivity {
-    TextView socialUsername, socialProvider, socialOut, editEmail, editPassword;
-    EditText accountEmail, accountPassword;
+    TextView socialUsername, socialProvider, socialOut;
+    Button btnEditEmail, btnEditPassword;
+    EditText accountEmail;
     ImageView providerImage;
     LinearLayout socialDiv;
     ProgressBar loading;
     private GoogleApiClient mGoogleApiClient;
     ScrollView mainPrivacyDetailsActivity;
-    TextInputLayout tlEmail, tlPass;
+    TextInputLayout tlEmail;
 
     String Provider;
+
+    int id;
+    String api_token;
+
+    ProgressBar pbEditPass;
+    TextInputLayout tlOldPass;
+    TextInputLayout tlNewPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Common.Instance(this).changeStatusBarColor("#ffffff", this);
         setContentView(R.layout.activity_privacy_details);
+
+        id = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getUser().getUser_id();
+        api_token = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getUser().getApi_token();
+
         init();
 
         accountEmail.setText(SharedPrefManager.getInstance(this).getUser().getEmail());
@@ -59,9 +70,9 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         // Logout Disconnect
         socialOut.setOnClickListener(click);
         // make user can edit email
-        editEmail.setOnClickListener(click);
+        btnEditEmail.setOnClickListener(click);
         // make user can edit pass
-        editPassword.setOnClickListener(click);
+        btnEditPassword.setOnClickListener(click);
         // arrow back
         findViewById(R.id.privacy_details_back).setOnClickListener(click);
 
@@ -74,14 +85,12 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         socialDiv = findViewById(R.id.social_div);
         socialOut = findViewById(R.id.social_out);
         accountEmail = findViewById(R.id.et_account_email);
-        accountPassword = findViewById(R.id.et_account_password);
-        editEmail = findViewById(R.id.edit_email);
-        editPassword = findViewById(R.id.edit_password);
+        btnEditEmail = findViewById(R.id.btn_edit_email);
+        btnEditPassword = findViewById(R.id.btn_edit_password);
         loading = findViewById(R.id.privacy_details_loading);
         initProvider();
 
         tlEmail = findViewById(R.id.tl_privacy_details_email);
-        tlPass = findViewById(R.id.tl_privacy_details_pass);
 
         // Swipe Page Back
         mainPrivacyDetailsActivity = findViewById(R.id.privacy_details_Page);
@@ -117,11 +126,11 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
             switch (v.getId()) {
 
                 // edit email
-                case R.id.edit_email:
-                    if (editEmail.getText().toString() == getString(R.string.edit)) {
+                case R.id.btn_edit_email:
+                    if (btnEditEmail.getText().toString() == getString(R.string.edit)) {
                         accountEmail.setEnabled(true);
-                        editEmail.setText(getString(R.string.save));
-                    } else if (editEmail.getText().toString() == getString(R.string.save)) {
+                        btnEditEmail.setText(getString(R.string.save));
+                    } else if (btnEditEmail.getText().toString() == getString(R.string.save)) {
 
                         if (accountEmail.getText().toString().isEmpty()) { // empty ?
                             tlEmail.setError(getString(R.string.emptyMail));
@@ -129,7 +138,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
 
                         } else { // !empty
                             updateEmail();
-                            editEmail.setText(getString(R.string.edit));
+                            btnEditEmail.setText(getString(R.string.edit));
                             accountEmail.setEnabled(false);
                             loading.setVisibility(View.VISIBLE);
                         }
@@ -137,22 +146,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                     break;
 
                 //edit pass
-                case R.id.edit_password:
-                    if (editPassword.getText().toString() == getString(R.string.edit)) {
-                        accountPassword.setEnabled(true);
-                        editPassword.setText(getString(R.string.save));
-
-                    } else if (editPassword.getText().toString() == getString(R.string.save)) {
-                        if (accountPassword.getText().toString().isEmpty()) { // empty ?
-                            accountPassword.requestFocus();
-                            tlPass.setError(getString(R.string.emptyPass));
-
-                        } else { // !empty
-                            accountPassword.setEnabled(false);
-                            editPassword.setText(getString(R.string.edit));
-                        }
-                    }
-
+                case R.id.btn_edit_password:
+                    displayEditPassDialog();
                     break;
 
                 //Logout Disconnect
@@ -170,7 +165,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                         SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearProvider();
                         finish();
                     } catch (Exception e) {
-                        Log.e("Mo7", e.getMessage()+ " ");
+                        Log.e("Mo7", e.getMessage() + " ");
                     }
                     break;
 
@@ -183,21 +178,112 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         }
     };
 
+    private void displayEditPassDialog() {
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PrivacyDetailsActivity.this);
+
+        View dialogView = this.getLayoutInflater().inflate(R.layout.edit_pass_layout, null);
+        dialogBuilder.setView(dialogView);
+        final AlertDialog dialog = dialogBuilder.create();
+
+        final EditText etOldPass = dialogView.findViewById(R.id.et_old_pass);
+        final EditText etNewPass = dialogView.findViewById(R.id.et_new_pass);
+        tlOldPass = dialogView.findViewById(R.id.tl_old_pass);
+        tlNewPass = dialogView.findViewById(R.id.tl_new_pass);
+        Button btnContinue = dialogView.findViewById(R.id.btn_continue_op);
+        Button btnCancel = dialogView.findViewById(R.id.btn_cancel_op);
+        pbEditPass = dialogView.findViewById(R.id.pb_edit_pass);
+
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String oldPass = etOldPass.getText().toString();
+                String newPass = etNewPass.getText().toString();
+                if (oldPass.isEmpty()) { // empty ?
+                    tlOldPass.setError(getResources().getString(R.string.emptyPass));
+                } else { // !empty
+                    if (newPass.isEmpty()) { // empty ?
+                        tlNewPass.setError(getResources().getString(R.string.emptyPass));
+                    } else { // !empty
+
+                        sendPassToServer(dialog, oldPass, newPass);
+                        hideEditFields();
+                    }
+                }
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void sendPassToServer(final AlertDialog dialog, String oldPass, String newPass) {
+        RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
+                PrivacyDetailsActivity.this,
+                "changeUserPasswordByID",
+                new Request(id, api_token, oldPass, newPass),
+                new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        dialog.dismiss();
+                        Toast.makeText(PrivacyDetailsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+                        dialog.dismiss();
+                        Toast.makeText(PrivacyDetailsActivity.this, ParseResponses.parseServerErrors(mainObject), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+                        displayEditFields();
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        Snackbar.make(findViewById(R.id.privacy_details_Page), errorMessage, Snackbar.LENGTH_LONG).show();
+                        displayEditFields();
+                    }
+                }
+        );
+    }
+
+    private void displayEditFields() {
+        pbEditPass.setVisibility(View.GONE);
+        tlOldPass.setVisibility(View.VISIBLE);
+        tlNewPass.setVisibility(View.VISIBLE);
+    }
+
+    private void hideEditFields() {
+        pbEditPass.setVisibility(View.VISIBLE);
+        tlOldPass.setVisibility(View.GONE);
+        tlNewPass.setVisibility(View.GONE);
+    }
+
     private void updateEmail() {
-        int id = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getUser().getUser_id();
-        String api_token = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getUser().getApi_token();
         RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
                 PrivacyDetailsActivity.this,
                 "updateUserData",
                 new Request(accountEmail.getText().toString(), id, api_token),
                 new HandleResponses() {
                     @Override
-                    public void handleResponseData(JsonObject mainObject) {
+                    public void handleTrueResponse(JsonObject mainObject) {
                         User user = ParseResponses.parseUser(mainObject);
                         accountEmail.setText(user.getEmail());
                         SharedPrefManager.getInstance(PrivacyDetailsActivity.this).saveUser(user);
                         Toast.makeText(PrivacyDetailsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                         loading.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+
                     }
 
                     @Override

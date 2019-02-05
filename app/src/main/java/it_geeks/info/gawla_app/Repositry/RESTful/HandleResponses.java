@@ -4,7 +4,9 @@ import com.google.gson.JsonObject;
 
 public interface HandleResponses {
 
-    void handleResponseData(JsonObject mainObject);
+    void handleTrueResponse(JsonObject mainObject);
+
+    void handleFalseResponse(JsonObject mainObject);
 
     void handleEmptyResponse();
 

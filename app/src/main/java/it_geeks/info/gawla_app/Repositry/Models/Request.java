@@ -77,6 +77,13 @@ public class Request {
         this.password = pass;
     }
 
+    public Request(int  userId, String api_token, String oldPass, String newPass) { // new pass Request
+        user_id = userId;
+        this.api_token = api_token;
+        String old_password = oldPass;
+        String password = newPass;
+    }
+
     public Request(String provider, String provider_id, String provider_name, String provider_email, String provider_image,int country_id) { // Login and Register SocialMedia Request
         this.provider = provider;
         this.provider_id = provider_id;

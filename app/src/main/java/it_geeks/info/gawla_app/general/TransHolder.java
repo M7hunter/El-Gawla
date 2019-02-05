@@ -13,7 +13,7 @@ public class TransHolder {
 
     private String lang;
 
-    // ---> keys <--- //
+    // ------> keys <------ //
     // sign in activity keys
     public String sign_in;
     public String via_google_plus;

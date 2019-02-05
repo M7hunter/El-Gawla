@@ -113,13 +113,17 @@ public class MyRoundsFragment extends Fragment {
         RetrofitClient.getInstance(getActivity()).executeConnectionToServer(MainActivity.mainInstance,
                 "getSalonByUserID", new Request(userId, apiToken), new HandleResponses() {
                     @Override
-                    public void handleResponseData(JsonObject mainObject) {
-
+                    public void handleTrueResponse(JsonObject mainObject) {
                         roundsList.addAll(parseRounds(mainObject, GawlaDataBse.getGawlaDatabase(getActivity())));
 
                         initPager();
 
                         handlePagerAndArrowsEvents(roundsList.size());
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+
                     }
 
                     @Override

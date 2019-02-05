@@ -83,10 +83,10 @@ public class RetrofitClient {
                         boolean status = mainObj.get("status").getAsBoolean();
 
                         if (status) { // no errors
-                            HandleResponses.handleResponseData(mainObj);
+                            HandleResponses.handleTrueResponse(mainObj);
 
                         } else { // server errors
-
+                            HandleResponses.handleFalseResponse(mainObj);
                             // TODO: check codes instead of strings
 
                             if (parseServerErrors(mainObj).contains("not logged in")) {
@@ -108,9 +108,7 @@ public class RetrofitClient {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
-
                 HandleResponses.handleConnectionErrors(t.getMessage());
-                Log.d("connection failure: @@ ", t.getCause().toString()+"");
             }
         };
     }

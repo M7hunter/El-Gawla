@@ -30,8 +30,8 @@ public interface CountryDao {
     @Query("SELECT country_title FROM Country")
     List<String> getCountriesNames();
 
-    @Query("SELECT country_id FROM Country where country_title = :countryName")
-    int getCountryIDByName(String countryName);
+    @Query("SELECT * FROM Country where country_title = :countryName")
+    Country getCountryByName(String countryName);
 
     @Query("SELECT country_title FROM Country where country_id = :countryId")
     String getCountryNameByID(int countryId);

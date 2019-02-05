@@ -72,8 +72,13 @@ public class ForgetPasswordActivity extends AppCompatActivity {
             private void sendEmail(String email) {
                 RetrofitClient.getInstance(ForgetPasswordActivity.this).executeConnectionToServer(ForgetPasswordActivity.this, "fffff", new Request(email), new HandleResponses() {
                     @Override
-                    public void handleResponseData(JsonObject mainObject) {
+                    public void handleTrueResponse(JsonObject mainObject) {
                         Toast.makeText(ForgetPasswordActivity.this, "check your mailbox and create new password", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+
                     }
 
                     @Override
