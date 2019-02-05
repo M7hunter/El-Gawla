@@ -101,6 +101,7 @@ public class LoginViewModel{
     // google login
     public void handleSignInResult(Task<GoogleSignInAccount> completedTask,String providerGoogle) {
         try {
+
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String id = account.getId();
             String name = account.getDisplayName();
