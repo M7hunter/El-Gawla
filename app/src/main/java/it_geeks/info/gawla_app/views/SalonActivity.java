@@ -26,6 +26,7 @@ import android.widget.VideoView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
@@ -113,8 +114,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
 
-//        initnotificationData();
-
         initViews();
 
         getRoundData(savedInstanceState);
@@ -133,27 +132,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         handleEvents();
     }
-
- /*   private void initnotificationData() {
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-           String title = bundle.get("title").toString();
-           String body = bundle.get("body").toString();
-           String startSalon = bundle.get("start_salon").toString();
-           String endSalon = bundle.get("end_salon").toString();
-           String newSalon = bundle.get("new_salon").toString();
-
-            if (!newSalon.isEmpty()){
-                Toast.makeText(this, newSalon, Toast.LENGTH_SHORT).show();
-            }else if(!startSalon.isEmpty()){
-                Toast.makeText(this, startSalon, Toast.LENGTH_SHORT).show();
-            }else if (!endSalon.isEmpty()){
-                Toast.makeText(this, endSalon, Toast.LENGTH_SHORT).show();
-            }else Toast.makeText(this, "No Action In Salon", Toast.LENGTH_SHORT).show();
-
-        }
-    }
-*/
 
     public void getRealtimeOfRound() {
         FullActivityp.setVisibility(View.INVISIBLE);
@@ -392,6 +370,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 @Override
                 public void handleResponseData(JsonObject mainObject) {
                     roundStartToEnd.stop(); // stop Time Down
+                    stopSalonNotification();
                     getRealtimeOfRound();
                     attentionScreen();
                 }
@@ -494,9 +473,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         , salon_id), new HandleResponses() {
                     @Override
                     public void handleResponseData(JsonObject mainObject) {
+                         // Notification
                         changeConfirmationState();
                         out_round.setVisibility(View.VISIBLE);
                         joinStatus = 2;
+                        startSalonNotification();
                     }
 
                     @Override
@@ -509,6 +490,16 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         joinConfirmationProgress.setVisibility(View.GONE);
                     }
                 });
+    }
+
+    // start Notification To This Salon
+    public void startSalonNotification(){
+        FirebaseMessaging.getInstance().subscribeToTopic("salon_"+salon_id);
+    }
+
+    // stop Notification To This Salon
+    public void stopSalonNotification(){
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("salon_"+salon_id);
     }
 
     private void sendOfferToServer() {

@@ -25,7 +25,6 @@
                 android:layout_width="@dimen/icon_back"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/margin_small"
                 android:layout_alignParentLeft="true"
                 android:src="@drawable/ic_arrow_left_only" />
@@ -64,7 +63,7 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:text="@string/privacy_text"
             android:textColor="@color/blueGrey"
-            android:gravity="center"
+            android:gravity="start"
             android:layout_marginBottom="@dimen/margin_xxxlarge"
             android:textSize="@dimen/text_size_medium" />
 
