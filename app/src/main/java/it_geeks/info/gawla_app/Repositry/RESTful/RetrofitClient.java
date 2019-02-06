@@ -86,16 +86,14 @@ public class RetrofitClient {
                             HandleResponses.handleResponseData(mainObj);
 
                         } else { // server errors
-
                             // TODO: check codes instead of strings
-
                             if (parseServerErrors(mainObj).contains("not logged in")) {
                                 context.startActivity(new Intent(context, LoginActivity.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
 
                                 SharedPrefManager.getInstance(context).clearUser();
                             }
-                            Toast.makeText(context, parseServerErrors(mainObj), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, parseServerErrors(mainObj), Toast.LENGTH_LONG).show();
                         }
 
                     } catch (NullPointerException e) { // errors of response body 'maybe response body has changed'
@@ -110,7 +108,6 @@ public class RetrofitClient {
             public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
 
                 HandleResponses.handleConnectionErrors(t.getMessage());
-                Log.d("connection failure: @@ ", t.getCause().toString()+"");
             }
         };
     }

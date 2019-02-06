@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app.views;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -78,13 +79,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     View salonMainContainer;
 
     int joinStatus; // 0 // = watcher, 1 = want to join, 2 = joined
-    RelativeLayout FullActivityp;
+
     public Button btnJoinRound, btnAddOffer;
     EditText etAddOffer;
     CardView more, notificationCard, confirmationLayout , useRoundCard;
     LinearLayout addOfferLayout ;
     FrameLayout overlayLayout;
-    ProgressBar joinProgress, joinConfirmationProgress , loading;
+    ProgressBar joinProgress, joinConfirmationProgress ;
+    ProgressDialog progress;
     private Round round;
     ImageView out_round;
     private BottomSheetDialog mBottomSheetDialogActivateCard;
@@ -132,30 +134,36 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         handleEvents();
     }
+    // loading screen
+    public void setLoadingScreen() {
+        progress.setMessage("Wait while loading...");
+        progress.setCancelable(false);
+        progress.show();
 
+    }
+
+    public void closeLoadingScreen() {
+        progress.dismiss();
+    }
     public void getRealtimeOfRound() {
-        FullActivityp.setVisibility(View.INVISIBLE);
-        loading.setVisibility(View.VISIBLE);
+        setLoadingScreen();
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,"getSalonWithRealTime", new Request(userId,apiToken,salon_id) ,new HandleResponses(){
 
             @Override
             public void handleResponseData(JsonObject mainObject) {
-                FullActivityp.setVisibility(View.VISIBLE);
-                loading.setVisibility(View.INVISIBLE);
+                closeLoadingScreen();
                 startTimeDown(ParseResponses.parseRoundRealTime(mainObject));
 
             }
 
             @Override
             public void handleEmptyResponse() {
-                FullActivityp.setVisibility(View.VISIBLE);
-                loading.setVisibility(View.INVISIBLE);
+                closeLoadingScreen();
             }
 
             @Override
             public void handleConnectionErrors(String errorMessage) {
-                FullActivityp.setVisibility(View.VISIBLE);
-                loading.setVisibility(View.INVISIBLE);
+                closeLoadingScreen();
                 Snackbar.make(findViewById(R.id.salon_main_layout), R.string.connection_error, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -316,6 +324,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     public void initViews() {
+        progress = new ProgressDialog(this);
         overlayLayout = findViewById(R.id.overlay_layout);
         more = findViewById(R.id.more);
         btnJoinRound = findViewById(R.id.btn_join_round);
@@ -329,8 +338,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         joinConfirmationProgress = findViewById(R.id.join_confirmation_progress);
         apiToken = Common.Instance(SalonActivity.this).removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
         userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
-        FullActivityp = findViewById(R.id.salon_container);
-        loading = findViewById(R.id.Salon_loading);
 
         icon = findViewById(R.id.join_confirmation_icon);
         header = findViewById(R.id.join_confirmation_header);
@@ -450,8 +457,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     if (btnAddOffer.getText().toString() == getString(R.string.add_deal)) {
                         etAddOffer.setEnabled(false);
                         btnAddOffer.setText(getResources().getString(R.string.edit));
-//                        joinConfirmationProgress.setVisibility(View.VISIBLE);
-//                        sendOfferToServer();
+
+                        setLoadingScreen();
+                        sendOfferToServer();
+
                     } else if (btnAddOffer.getText().toString().equals(getString(R.string.edit))) {
                         etAddOffer.setEnabled(true);
                         btnAddOffer.setText(getResources().getString(R.string.add_deal));
@@ -511,22 +520,23 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     new Request(SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
                             , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
                             , salon_id
-                            , String.valueOf(Common.Instance(SalonActivity.this).getCurrentTimeInMillis())
                             , userOffer), new HandleResponses() {
                         @Override
                         public void handleResponseData(JsonObject mainObject) {
-                            joinConfirmationProgress.setVisibility(View.GONE);
+                            closeLoadingScreen();
                             round_notification_text.setText("You added a new Deal .");
+                            Toast.makeText(SalonActivity.this, "You added a new Deal .", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void handleEmptyResponse() {
-                            joinConfirmationProgress.setVisibility(View.GONE);
+                            closeLoadingScreen();
                         }
 
                         @Override
                         public void handleConnectionErrors(String errorMessage) {
-                            joinConfirmationProgress.setVisibility(View.GONE);
+                            closeLoadingScreen();
+                            Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                         }
                     });
         } catch (NumberFormatException e) {
