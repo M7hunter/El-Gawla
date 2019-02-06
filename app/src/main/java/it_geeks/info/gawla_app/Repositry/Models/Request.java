@@ -61,11 +61,10 @@ public class Request {
         this.salon_id = salon_id;
     }
 
-    public Request(int user_id, String api_token, int salon_id, String offer_time, int offer) { // add offer
+    public Request(int user_id, String api_token, int salon_id, int offer) { // add offer
         this.user_id = user_id;
         this.api_token = api_token;
         this.salon_id = salon_id;
-        this.offer_time = offer_time;
         this.offer = offer;
     }
 

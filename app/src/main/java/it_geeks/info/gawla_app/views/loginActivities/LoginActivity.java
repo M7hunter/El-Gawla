@@ -1,6 +1,7 @@
 package it_geeks.info.gawla_app.views.loginActivities;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,6 +53,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btnForgetPassword, btnCreateAccount, btnLogin;
     private EditText etEmail, etPassword;
     public ProgressBar progressBar;
+    ProgressDialog progress;
+
     ScrollView loginMainScreen;
     // fb login
     CallbackManager callbackManager;
@@ -118,6 +121,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @SuppressLint("WrongViewCast")
     private void initialization() {
+        progress = new ProgressDialog(this);
         progressBar = findViewById(R.id.login_loading);
         loginMainScreen = findViewById(R.id.loginMainScreen);
         etEmail = findViewById(R.id.et_Email);
@@ -192,13 +196,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     // loading screen
     public void setLoadingScreen() {
-        loginMainScreen.setVisibility(View.INVISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
+        progress.setMessage("Wait while loading...");
+        progress.setCancelable(false);
+        progress.show();
+
     }
 
     public void closeLoadingScreen() {
-        loginMainScreen.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
+        progress.dismiss();
     }
 
     // google login

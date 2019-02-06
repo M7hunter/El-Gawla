@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app.views.NavigationFragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.squareup.picasso.Picasso;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.TransHolder;
@@ -133,16 +135,27 @@ public class MenuFragment extends Fragment {
         view.findViewById(R.id.menu_option_logout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPrefManager.getInstance(getActivity()).clearUser();
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-                LoginManager.getInstance().logOut();
-                if (mGoogleApiClient.isConnected()) {
-                    Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                    mGoogleApiClient.disconnect();
-                    mGoogleApiClient.connect();
-                }
-                SharedPrefManager.getInstance(getActivity()).clearProvider();
-                getActivity().finish();
+
+                AlertDialog.Builder alertOut = new AlertDialog.Builder(getContext());
+                alertOut.setMessage("Are You Sure You Want To Log Out ?");
+                alertOut.setNegativeButton("Cancel",null);
+                alertOut.setPositiveButton("Sign out", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPrefManager.getInstance(getActivity()).clearUser();
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        LoginManager.getInstance().logOut();
+                        if (mGoogleApiClient.isConnected()) {
+                            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                            mGoogleApiClient.disconnect();
+                            mGoogleApiClient.connect();
+                        }
+                        SharedPrefManager.getInstance(getActivity()).clearProvider();
+                        getActivity().finish();
+                    }
+                });
+                alertOut.create();
+                alertOut.show();
             }
         });
 

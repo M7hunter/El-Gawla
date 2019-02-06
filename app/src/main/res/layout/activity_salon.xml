@@ -51,7 +51,6 @@
                 android:layout_height="@dimen/icon_notification"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/margin_tiny"
                 android:src="@drawable/ic_notification" />
 
@@ -784,7 +783,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:background="@drawable/bg_circle_bordered_transparent"
-        android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/margin_small">
 
         <!-- icon -->
@@ -793,7 +791,6 @@
             android:layout_height="@dimen/image_cards_round_updates"
             android:background="@drawable/bg_circle_blue_270"
             android:padding="@dimen/margin_large"
-            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_cards"
             android:tint="@android:color/white" />
 
@@ -820,7 +817,6 @@
             android:id="@+id/out_round"
             android:layout_width="@dimen/margin_xxxxlarge"
             android:layout_height="@dimen/margin_xxxxlarge"
-            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="0dp"
             android:padding="@dimen/margin_medium"
