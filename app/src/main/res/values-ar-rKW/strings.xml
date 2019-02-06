@@ -179,7 +179,7 @@
     <string name="filter_by">فرز حسب</string>
     <string name="male">ذكر</string>
     <string name="female">أنثى</string>
-    <string name="old_pass">كلمة السر السابقة</string>
+    <string name="recent_pass">كلمة السر الحالية</string>
     <string name="continue_">متابعة</string>
     <string name="cancel">الغاء</string>
     <string name="new_pass">كلمة السر الجديدة</string>

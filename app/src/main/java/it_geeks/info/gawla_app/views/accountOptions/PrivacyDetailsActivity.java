@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app.views.accountOptions;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,7 +36,7 @@ import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 
 public class PrivacyDetailsActivity extends AppCompatActivity {
     TextView socialUsername, socialProvider, socialOut;
-    Button btnEditEmail, btnEditPassword;
+    Button btnEditEmail, btnEditPassword, btnDeleteAccount;
     EditText accountEmail;
     ImageView providerImage;
     LinearLayout socialDiv;
@@ -88,17 +89,75 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         btnEditEmail = findViewById(R.id.btn_edit_email);
         btnEditPassword = findViewById(R.id.btn_edit_password);
         loading = findViewById(R.id.privacy_details_loading);
+        tlEmail = findViewById(R.id.tl_privacy_details_email);
+        mainPrivacyDetailsActivity = findViewById(R.id.privacy_details_Page);
+        btnDeleteAccount = findViewById(R.id.btn_delete_account);
+
         initProvider();
 
-        tlEmail = findViewById(R.id.tl_privacy_details_email);
+        btnDeleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAccountDialog();
+            }
+        });
 
         // Swipe Page Back
-        mainPrivacyDetailsActivity = findViewById(R.id.privacy_details_Page);
         mainPrivacyDetailsActivity.setOnTouchListener(new OnSwipeTouchListener(PrivacyDetailsActivity.this) {
             public void onSwipeRight() {
                 finish();
             }
         });
+    }
+
+    private void deleteAccountDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PrivacyDetailsActivity.this);
+        dialogBuilder.setMessage("Delete this account ?")
+                .setPositiveButton(getResources().getString(R.string.continue_), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteAccount();
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+    }
+
+    private void deleteAccount() {
+        RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
+                PrivacyDetailsActivity.this,
+                "deactivateUserAccountByID",
+                new Request(id, api_token),
+                new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        Toast.makeText(PrivacyDetailsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+
+                        SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearUser();
+
+                        startActivity(new Intent(PrivacyDetailsActivity.this, LoginActivity.class)
+                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        Snackbar.make(findViewById(R.id.privacy_details_Page), errorMessage, Snackbar.LENGTH_LONG).show();
+                    }
+                }
+        );
     }
 
     private void initProvider() {
@@ -178,94 +237,6 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         }
     };
 
-    private void displayEditPassDialog() {
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PrivacyDetailsActivity.this);
-
-        View dialogView = this.getLayoutInflater().inflate(R.layout.edit_pass_layout, null);
-        dialogBuilder.setView(dialogView);
-        final AlertDialog dialog = dialogBuilder.create();
-
-        final EditText etOldPass = dialogView.findViewById(R.id.et_old_pass);
-        final EditText etNewPass = dialogView.findViewById(R.id.et_new_pass);
-        tlOldPass = dialogView.findViewById(R.id.tl_old_pass);
-        tlNewPass = dialogView.findViewById(R.id.tl_new_pass);
-        Button btnContinue = dialogView.findViewById(R.id.btn_continue_op);
-        Button btnCancel = dialogView.findViewById(R.id.btn_cancel_op);
-        pbEditPass = dialogView.findViewById(R.id.pb_edit_pass);
-
-        btnContinue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String oldPass = etOldPass.getText().toString();
-                String newPass = etNewPass.getText().toString();
-                if (oldPass.isEmpty()) { // empty ?
-                    tlOldPass.setError(getResources().getString(R.string.emptyPass));
-                } else { // !empty
-                    if (newPass.isEmpty()) { // empty ?
-                        tlNewPass.setError(getResources().getString(R.string.emptyPass));
-                    } else { // !empty
-
-                        sendPassToServer(dialog, oldPass, newPass);
-                        hideEditFields();
-                    }
-                }
-            }
-        });
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }
-
-    private void sendPassToServer(final AlertDialog dialog, String oldPass, String newPass) {
-        RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
-                PrivacyDetailsActivity.this,
-                "changeUserPasswordByID",
-                new Request(id, api_token, oldPass, newPass),
-                new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        dialog.dismiss();
-                        Toast.makeText(PrivacyDetailsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void handleFalseResponse(JsonObject mainObject) {
-                        dialog.dismiss();
-                        Toast.makeText(PrivacyDetailsActivity.this, ParseResponses.parseServerErrors(mainObject), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void handleEmptyResponse() {
-                        displayEditFields();
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        Snackbar.make(findViewById(R.id.privacy_details_Page), errorMessage, Snackbar.LENGTH_LONG).show();
-                        displayEditFields();
-                    }
-                }
-        );
-    }
-
-    private void displayEditFields() {
-        pbEditPass.setVisibility(View.GONE);
-        tlOldPass.setVisibility(View.VISIBLE);
-        tlNewPass.setVisibility(View.VISIBLE);
-    }
-
-    private void hideEditFields() {
-        pbEditPass.setVisibility(View.VISIBLE);
-        tlOldPass.setVisibility(View.GONE);
-        tlNewPass.setVisibility(View.GONE);
-    }
-
     private void updateEmail() {
         RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
                 PrivacyDetailsActivity.this,
@@ -306,4 +277,90 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         );
     }
 
+    private void displayEditPassDialog() {
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PrivacyDetailsActivity.this);
+
+        View dialogView = this.getLayoutInflater().inflate(R.layout.edit_pass_layout, null);
+        dialogBuilder.setView(dialogView);
+        final AlertDialog dialog = dialogBuilder.create();
+
+        final EditText etOldPass = dialogView.findViewById(R.id.et_old_pass);
+        final EditText etNewPass = dialogView.findViewById(R.id.et_new_pass);
+        tlOldPass = dialogView.findViewById(R.id.tl_old_pass);
+        tlNewPass = dialogView.findViewById(R.id.tl_new_pass);
+        Button btnContinue = dialogView.findViewById(R.id.btn_continue_op);
+        Button btnCancel = dialogView.findViewById(R.id.btn_cancel_op);
+        pbEditPass = dialogView.findViewById(R.id.pb_edit_pass);
+
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String oldPass = etOldPass.getText().toString();
+                String newPass = etNewPass.getText().toString();
+
+                if (oldPass.isEmpty()) { // empty ?
+                    tlOldPass.setError(getResources().getString(R.string.emptyPass));
+                } else { // !empty
+                    if (newPass.isEmpty()) { // empty ?
+                        tlNewPass.setError(getResources().getString(R.string.emptyPass));
+                    } else { // !empty
+                        sendPassToServer(dialog, oldPass, newPass);
+                        hideEditFields();
+                    }
+                }
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void sendPassToServer(final AlertDialog dialog, String oldPass, String newPass) {
+        RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
+                PrivacyDetailsActivity.this,
+                "changeUserPasswordByID",
+                new Request(id, api_token, oldPass, newPass),
+                new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        dialog.dismiss();
+                        Toast.makeText(PrivacyDetailsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+                        displayEditFields();
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        Snackbar.make(findViewById(R.id.privacy_details_Page), errorMessage, Snackbar.LENGTH_LONG).show();
+                        displayEditFields();
+                    }
+                }
+        );
+    }
+
+    private void displayEditFields() {
+        pbEditPass.setVisibility(View.GONE);
+        tlOldPass.setVisibility(View.VISIBLE);
+        tlNewPass.setVisibility(View.VISIBLE);
+    }
+
+    private void hideEditFields() {
+        pbEditPass.setVisibility(View.VISIBLE);
+        tlOldPass.setVisibility(View.GONE);
+        tlNewPass.setVisibility(View.GONE);
+    }
 }

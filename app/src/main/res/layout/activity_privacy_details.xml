@@ -44,13 +44,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/privacy_details_header"
         android:layout_marginTop="@dimen/margin_xxlarge">
-
         <!-- scroll main layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- edit email btn -->
             <Button
                 android:id="@+id/btn_edit_email"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -62,6 +62,7 @@
                 android:textColor="@color/azureTwo"
                 android:textSize="@dimen/text_size_medium" />
 
+            <!-- email -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tl_privacy_details_email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -89,6 +90,7 @@
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- separator -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -119,6 +121,7 @@
                 android:layout_marginEnd="@dimen/margin_xxlarge"
                 android:text="@string/edit" />
 
+            <!-- separator -->
             <View
                 android:id="@+id/view"
                 android:layout_width="match_parent"
@@ -196,8 +199,9 @@
 
             </LinearLayout>
 
+            <!-- btn delete account -->
             <Button
-                android:id="@+id/txt_Create_Account2"
+                android:id="@+id/btn_delete_account"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

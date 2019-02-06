@@ -3,7 +3,6 @@ package it_geeks.info.gawla_app.views;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.net.Uri;
@@ -583,7 +582,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void attentionScreen() { // Attention Screen  to Join Round
-        icon.setImageDrawable(getResources().getDrawable(R.drawable.outline));
+        icon.setImageDrawable(getResources().getDrawable(R.drawable.q_mark_in_circle));
         header.setText(getString(R.string.Attention));
         header.setTextColor(getResources().getColor(R.color.midBlue));
         text.setText(getString(R.string.Attention_Details));
@@ -837,7 +836,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     public boolean onTouch(View view, MotionEvent motionEvent) {
         // just clicked
         if (gestureDetector.onTouchEvent(motionEvent)) {
-            cardClicked();
+            cardIconClicked();
         }
 
         // moved
@@ -889,21 +888,21 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         }
     }
 
-    private void cardClicked() {
-        // open sheet
-        if (mBottomSheetDialogActivateCard.isShowing()) {
-            mBottomSheetDialogActivateCard.dismiss();
-        } else { // close sheet
-            mBottomSheetDialogActivateCard.show();
-        }
-    }
-
     private void screenDimensions() {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
+    }
+
+    private void cardIconClicked() {
+        // open sheet
+        if (mBottomSheetDialogActivateCard.isShowing()) {
+            mBottomSheetDialogActivateCard.dismiss();
+        } else { // close sheet
+            mBottomSheetDialogActivateCard.show();
+        }
     }
 
     // help to separate click from touch

@@ -94,14 +94,14 @@ public class ParseResponses {
 
         for (int j = 0; j < salon_cards.size(); j++) {
             JsonObject cardObj = salon_cards.get(j).getAsJsonObject();
-//            int card_id = cardObj.get("id").getAsInt();
+            int card_id = cardObj.get("id").getAsInt();
             String card_name = cardObj.get("name").getAsString();
             String card_details = cardObj.get("details").getAsString();
             String card_type = cardObj.get("type").getAsString();
             String card_color = cardObj.get("color").getAsString();
             String card_cost = cardObj.get("cost").getAsString();
 
-            salon_cardsList.add(new Card(salon_id, card_name, card_details, card_type, card_color, card_cost));
+            salon_cardsList.add(new Card(card_id, salon_id, card_name, card_details, card_type, card_color, card_cost));
         }
 
         return salon_cardsList;
@@ -247,7 +247,12 @@ public class ParseResponses {
 
     public static String parseServerErrors(JsonObject object) {
         String error = "no errors";
-        JsonArray errors = object.get("errors").getAsJsonArray();
+        JsonArray errors = null;
+        try {
+            errors = object.get("errors").getAsJsonArray();
+        } catch (NullPointerException e) {
+            errors = object.get("error").getAsJsonArray();
+        }
         for (int i = 0; i < errors.size(); i++) {
             error = errors.get(i).getAsString();
         }

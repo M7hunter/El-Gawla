@@ -4,7 +4,4 @@ public enum RequestsActions {
     login,
     loginOrRegisterWithSocial,
     register,
-
-    
-
 }

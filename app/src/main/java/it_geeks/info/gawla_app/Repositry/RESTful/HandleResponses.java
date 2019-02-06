@@ -6,7 +6,7 @@ public interface HandleResponses {
 
     void handleTrueResponse(JsonObject mainObject);
 
-    void handleFalseResponse(JsonObject mainObject);
+    void handleFalseResponse(JsonObject errorObject);
 
     void handleEmptyResponse();
 

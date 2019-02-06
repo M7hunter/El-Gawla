@@ -177,7 +177,7 @@
     <string name="male">male</string>
     <string name="female">female</string>
     <string name="enter_valid_email">enter valid email</string>
-    <string name="old_pass">old password</string>
+    <string name="recent_pass">recent password</string>
     <string name="continue_">continue</string>
     <string name="cancel">cancel</string>
     <string name="edit_pass">edit password</string>

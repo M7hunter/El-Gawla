@@ -2,6 +2,8 @@ package it_geeks.info.gawla_app.Repositry.Models;
 
 public class Request {
 
+    private  int card_id;
+
     private String email;
 
     private String password;
@@ -38,15 +40,17 @@ public class Request {
 
     private String provider;
 
-    private String provider_id ;
+    private String provider_id;
 
-    private String provider_name ;
+    private String provider_name;
 
-    private String provider_email ;
+    private String provider_email;
 
-    private String provider_image ;
+    private String provider_image;
 
     private String message;
+
+    private String old_password;
 
     public Request(String email, String password) { // login Request
         this.email = email;
@@ -77,14 +81,14 @@ public class Request {
         this.password = pass;
     }
 
-    public Request(int  userId, String api_token, String oldPass, String newPass) { // new pass Request
-        user_id = userId;
+    public Request(int user_id, String api_token, String old_password, String password) { // new pass Request
+        this.user_id = user_id;
         this.api_token = api_token;
-        String old_password = oldPass;
-        String password = newPass;
+        this.old_password = old_password;
+        this.password = password;
     }
 
-    public Request(String provider, String provider_id, String provider_name, String provider_email, String provider_image,int country_id) { // Login and Register SocialMedia Request
+    public Request(String provider, String provider_id, String provider_name, String provider_email, String provider_image, int country_id) { // Login and Register SocialMedia Request
         this.provider = provider;
         this.provider_id = provider_id;
         this.provider_name = provider_name;
@@ -109,7 +113,7 @@ public class Request {
         this.image = image;
     }
 
-    public Request(int user_id, String api_token, String firstName,String lastName,String phone,String gender, int country_id) { // User Profile update
+    public Request(int user_id, String api_token, String firstName, String lastName, String phone, String gender, int country_id) { // User Profile update
         this.user_id = user_id;
         this.api_token = api_token;
         this.firstName = firstName;
@@ -119,13 +123,19 @@ public class Request {
         this.country_id = country_id;
     }
 
-    public Request(int user_id, String api_token, int salon_id) { // get round Realtime
+    public Request(int user_id, String api_token, int salon_id) { // get round RealTime
         this.user_id = user_id;
         this.api_token = api_token;
         this.salon_id = salon_id;
     }
 
-    public Request( int user_id , String api_token , String name , String email , String message) { // contact Us
+    public Request(int user_id, int card_id, String api_token) { // buy card
+        this.user_id = user_id;
+        this.card_id = card_id;
+        this.api_token = api_token;
+    }
+
+    public Request(int user_id, String api_token, String name, String email, String message) { // contact Us
         this.user_id = user_id;
         this.api_token = api_token;
         this.name = name;
@@ -137,61 +147,5 @@ public class Request {
         this.email = email;
         this.user_id = user_id;
         this.api_token = api_token;
-    }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
-    public String getApi_token() {
-        return api_token;
-    }
-
-    public void setApi_token(String api_token) {
-        this.api_token = api_token;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getMembership() {
-        return membership;
-    }
-
-    public void setMembership(String membership) {
-        this.membership = membership;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
