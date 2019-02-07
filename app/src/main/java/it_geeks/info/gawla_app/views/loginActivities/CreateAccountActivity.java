@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app.views.loginActivities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -52,7 +53,6 @@ import it_geeks.info.gawla_app.general.TransHolder;
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     EditText etName, etEmail, etPass;
-    ProgressBar progressBar;
     ScrollView createAccountMainScreen;
     public int reconnect = 0;
     // fb login
@@ -64,7 +64,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     GoogleSignInClient mGoogleSignInClient;
     public static int GOOGLE_REQUEST = 1000;
     TextInputLayout tl_create_name, tl_create_email, tl_create_pass;
-
+    ProgressDialog progress;
     Button btnCreateAccount, btnAlreadyHaveAccount;
     TextView tvSignUp, tvGooglePlus, tvFacebook;
 
@@ -84,7 +84,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void initViews() {
-        progressBar = findViewById(R.id.register_loading);
+        progress = new ProgressDialog(this);
         createAccountMainScreen = findViewById(R.id.createAccountMainScreen);
         etName = findViewById(R.id.et_create_account_name);
         etEmail = findViewById(R.id.et_create_account_email);
@@ -146,14 +146,16 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         });
     }
 
+    // loading screen
     public void setLoadingScreen() {
-        createAccountMainScreen.setVisibility(View.INVISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
+        progress.setMessage("Wait while loading...");
+        progress.setCancelable(false);
+        progress.show();
+
     }
 
     public void closeLoadingScreen() {
-        createAccountMainScreen.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
+        progress.dismiss();
     }
 
     // google sign up

@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.net.Uri;
@@ -139,18 +138,18 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         progress.setMessage("Wait while loading...");
         progress.setCancelable(false);
         progress.show();
-
     }
 
     public void closeLoadingScreen() {
         progress.dismiss();
     }
+
     public void getRealtimeOfRound() {
         setLoadingScreen();
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,"getSalonWithRealTime", new Request(userId,apiToken,salon_id) ,new HandleResponses(){
 
             @Override
-            public void handleResponseData(JsonObject mainObject) {
+            public void handleTrueResponse(JsonObject mainObject) {
                 closeLoadingScreen();
                 startTimeDown(ParseResponses.parseRoundRealTime(mainObject));
             }
@@ -176,7 +175,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 }).show();
             }
         });
-
     }
 
     public View getSnackBarContainer() {
@@ -187,7 +185,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void initDivs() {
-
         /// for timedown TODO TimeDown View Init
         for (int i = 1; i <= 12; i++) {
             String divUpID = "div_up" + i;
@@ -342,8 +339,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         joinConfirmationProgress = findViewById(R.id.join_confirmation_progress);
         apiToken = Common.Instance(SalonActivity.this).removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
         userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
-        FullActivityp = findViewById(R.id.salon_container);
-        loading = findViewById(R.id.Salon_loading);
 
         icon = findViewById(R.id.join_confirmation_icon);
         header = findViewById(R.id.join_confirmation_header);
@@ -381,11 +376,16 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         public void onClick(DialogInterface dialog, int which) {
             RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this, "setRoundLeave", new Request(userId,apiToken,salon_id) , new HandleResponses() {
                 @Override
-                public void handleResponseData(JsonObject mainObject) {
+                public void handleTrueResponse(JsonObject mainObject) {
                     roundStartToEnd.stop(); // stop Time Down
                     stopSalonNotification();
                     getRealtimeOfRound();
                     attentionScreen();
+                }
+
+                @Override
+                public void handleFalseResponse(JsonObject errorObject) {
+
                 }
 
                 @Override
@@ -487,12 +487,17 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         , ""
                         , salon_id), new HandleResponses() {
                     @Override
-                    public void handleResponseData(JsonObject mainObject) {
-                         // Notification
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        // Notification
                         changeConfirmationState();
                         out_round.setVisibility(View.VISIBLE);
                         joinStatus = 2;
                         startSalonNotification();
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject errorObject) {
+
                     }
 
                     @Override
@@ -528,10 +533,15 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             , salon_id
                             , userOffer), new HandleResponses() {
                         @Override
-                        public void handleResponseData(JsonObject mainObject) {
+                        public void handleTrueResponse(JsonObject mainObject) {
                             closeLoadingScreen();
                             round_notification_text.setText("You added a new Deal .");
                             Toast.makeText(SalonActivity.this, "You added a new Deal .", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void handleFalseResponse(JsonObject errorObject) {
+
                         }
 
                         @Override
@@ -589,7 +599,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     public void hideConfirmationLayout() {
-
         // display background views
         more.setVisibility(View.VISIBLE);
         notificationCard.setVisibility(View.VISIBLE);

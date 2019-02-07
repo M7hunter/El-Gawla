@@ -52,7 +52,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private Button btnForgetPassword, btnCreateAccount, btnLogin;
     private EditText etEmail, etPassword;
-    public ProgressBar progressBar;
     ProgressDialog progress;
 
     ScrollView loginMainScreen;
@@ -122,7 +121,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @SuppressLint("WrongViewCast")
     private void initialization() {
         progress = new ProgressDialog(this);
-        progressBar = findViewById(R.id.login_loading);
         loginMainScreen = findViewById(R.id.loginMainScreen);
         etEmail = findViewById(R.id.et_Email);
         etPassword = findViewById(R.id.et_Password);

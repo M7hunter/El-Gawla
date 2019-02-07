@@ -105,6 +105,7 @@ public class RetrofitClient {
 
                             SharedPrefManager.getInstance(context).clearUser();
                         }
+
                     } catch (IOException e) { // errors of error body
                         e.printStackTrace();
                     }

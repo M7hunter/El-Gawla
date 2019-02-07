@@ -176,7 +176,7 @@ public class MainFragment extends Fragment {
     }
 
     private void initSalonsRecycler(final View view) {
-        recentSalonsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
+        recentSalonsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, true));
         recentSalonsPagedAdapter = new SalonsAdapter(getContext(), roundList);
 
 //        recentSalonsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -205,6 +205,8 @@ public class MainFragment extends Fragment {
 
         recentSalonsRecycler.setAdapter(recentSalonsPagedAdapter);
         Common.Instance(getContext()).hideProgress(recentSalonsRecycler, recentSalonsProgress);
+
+        recentSalonsRecycler.scrollToPosition(recentSalonsPagedAdapter.getItemCount() - 1);
     }
 
     private void initSalonsEmptyView(View view, List<Round> roundList) {
@@ -222,20 +224,20 @@ public class MainFragment extends Fragment {
         }
     }
 
-    private void getWinnersFromServer(final View view) {
-
-    }
-
-    private void initWinnersRecycler(View view) {
-        winnersNewsRecycler = view.findViewById(R.id.winners_news_recycler);
-        winnersNewsRecycler.setHasFixedSize(true);
-        winnersNewsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VISIBLE, false));
-        winnersNewsAdapter = new WinnersNewsAdapter(getActivity(), winnerNewsList);
-        winnersNewsRecycler.setAdapter(winnersNewsAdapter);
-
-        // to remove progress bar
-        Common.Instance(getContext()).hideProgress(winnersNewsRecycler, winnersNewsProgress);
-    }
+//    private void getWinnersFromServer(final View view) {
+//
+//    }
+//
+//    private void initWinnersRecycler(View view) {
+//        winnersNewsRecycler = view.findViewById(R.id.winners_news_recycler);
+//        winnersNewsRecycler.setHasFixedSize(true);
+//        winnersNewsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VISIBLE, false));
+//        winnersNewsAdapter = new WinnersNewsAdapter(getActivity(), winnerNewsList);
+//        winnersNewsRecycler.setAdapter(winnersNewsAdapter);
+//
+//        // to remove progress bar
+//        Common.Instance(getContext()).hideProgress(winnersNewsRecycler, winnersNewsProgress);
+//    }
 
     public void initWinnersEmptyView() {
         // no data ? hide header

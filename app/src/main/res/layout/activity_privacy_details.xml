@@ -114,11 +114,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_xxlarge"
+                android:layout_marginEnd="@dimen/margin_xxlarge"
                 android:paddingTop="@dimen/margin_tiny"
                 android:paddingBottom="@dimen/margin_tiny"
-                android:textSize="@dimen/text_size_medium"
-                android:layout_marginEnd="@dimen/margin_xxlarge"
-                android:text="@string/edit" />
+                android:text="@string/edit"
+                android:textSize="@dimen/text_size_medium" />
 
             <!-- separator -->
             <View
@@ -142,8 +142,7 @@
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
-                    android:fontFamily="@font/cairo_semibold"
+                    android:layout_marginStart="@dimen/margin_xxlarge"
                     android:padding="@dimen/com_facebook_likeboxcountview_text_padding"
                     android:text="@string/connect_with"
                     android:textColor="@color/blueGrey"
@@ -176,21 +175,20 @@
 
                 <TextView
                     android:id="@+id/social_username"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/cairo_semibold"
                     android:gravity="center_vertical|center"
                     android:text=""
                     android:textColor="@color/duskBlue"
                     android:textSize="@dimen/text_size_large" />
 
-                <TextView
+                <Button
                     android:id="@+id/social_out"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="40dp"
-                    android:fontFamily="@font/cairo_semibold"
+                    android:layout_marginEnd="@dimen/margin_xxlarge"
                     android:gravity="center"
                     android:text="@string/delete_connection"
                     android:textColor="@color/azureTwo"
