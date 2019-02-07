@@ -115,7 +115,12 @@ public class LoginViewModel {
             String id = account.getId();
             String name = account.getDisplayName();
             String email = account.getEmail();
-            String image = account.getPhotoUrl().toString();
+            String image;
+            if(account.getPhotoUrl() == null){
+                 image = "https://i.stack.imgur.com/l60Hf.png";
+            } else {
+                 image = account.getPhotoUrl().toString();
+            }
             String provider = providerGoogle;
 
             socialLogin(id, name, email, image, provider);

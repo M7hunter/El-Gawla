@@ -114,6 +114,7 @@
     <string name="processes">العمليات</string>
     <string name="cost">التكاليف</string>
     <string name="date">التاريخ</string>
+    <string name="round_date">تاريخ الجولة</string>
     <string name="card">الكارت</string>
     <string name="renew_membership">تجديد العضوية</string>
     <string name="app_settings">اعدادات التطبيق</string>
@@ -184,4 +185,5 @@
     <string name="cancel">الغاء</string>
     <string name="new_pass">كلمة السر الجديدة</string>
     <string name="edit_pass">تعديل كلمة السر</string>
+    <string name="day">يوم</string>
 </resources>

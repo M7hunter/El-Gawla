@@ -130,6 +130,7 @@
     <string name="processes">processes</string>
     <string name="cost">cost</string>
     <string name="date">date</string>
+    <string name="round_date">Round Date : </string>
     <string name="card">card</string>
     <string name="save">save</string>
     <string name="country">country</string>
@@ -183,4 +184,6 @@
     <string name="edit_pass">edit password</string>
     <string name="new_pass">new password</string>
     <string name="action_share">share</string>
+    <string name="day">Day</string>
+
 </resources>

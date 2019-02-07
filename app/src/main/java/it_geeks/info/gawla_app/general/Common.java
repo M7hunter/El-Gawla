@@ -133,6 +133,16 @@ public class Common {
 
         return cal;
     }
+    public Calendar formatDateStringToCalendar_D_M_Y(String date) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd:mm:yyyy", Locale.ENGLISH);
+        try {
+            cal.setTime(sdf.parse(date));
+        } catch (Exception e) {
+        }
+
+        return cal;
+    }
 
     public Calendar getCurrentTimeWithTimeZone() {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"), Locale.ENGLISH);
