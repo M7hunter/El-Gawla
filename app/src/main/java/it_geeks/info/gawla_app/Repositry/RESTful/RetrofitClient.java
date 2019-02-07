@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -73,6 +74,12 @@ public class RetrofitClient {
         getInstance(context).getAPI().request(new RequestMainBody(new Data(action), request)).enqueue(createWebserviceCallback(HandleResponses, context));
     }
 
+    public void getSalonsPerPageFromServer(Context context, Data data, Request request, HandleResponses HandleResponses) {
+        getInstance(context).getAPI().request(new RequestMainBody(data, request)).enqueue(createWebserviceCallback(HandleResponses, context));
+    }
+
+
+
     private APIs getAPI() {
         return retrofit.create(APIs.class);
     }
@@ -107,6 +114,8 @@ public class RetrofitClient {
                         }
 
                     } catch (IOException e) { // errors of error body
+                        e.printStackTrace();
+                    } catch (JsonSyntaxException e) {
                         e.printStackTrace();
                     }
                 }

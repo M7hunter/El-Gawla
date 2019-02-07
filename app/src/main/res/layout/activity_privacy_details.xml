@@ -99,26 +99,45 @@
                 android:layout_marginBottom="@dimen/margin_small"
                 android:background="@color/paleGreyTwo" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_medium"
-                android:text="@string/password"
-                android:textColor="@color/azureTwo"
-                android:textSize="@dimen/text_size_large" />
-
+            <!-- edit pass btn -->
             <Button
                 android:id="@+id/btn_edit_password"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:text="@string/edit"
+                android:textColor="@color/azureTwo"
+                android:textSize="@dimen/text_size_medium" />
+
+            <!-- pass -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_privacy_details_pass"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_xxlarge"
                 android:layout_marginEnd="@dimen/margin_xxlarge"
-                android:paddingTop="@dimen/margin_tiny"
-                android:paddingBottom="@dimen/margin_tiny"
-                android:text="@string/edit"
-                android:textSize="@dimen/text_size_medium" />
+                android:layout_weight="1"
+                android:textColorHint="@color/paleGrey2"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_account_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:focusable="auto"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:paddingStart="@dimen/margin_xlarge"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingEnd="@dimen/margin_xlarge"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- separator -->
             <View
@@ -222,8 +241,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:indeterminateTint="@color/colorPrimary"
-        android:indeterminateTintMode="src_atop"
         android:visibility="gone" />
 
 </RelativeLayout>

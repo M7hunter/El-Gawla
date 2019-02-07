@@ -115,58 +115,65 @@
 
             </LinearLayout>
 
-            <!-- recent salons container -->
-            <RelativeLayout
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <!-- recent salons recycler -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recent_salons_recycler"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:layout_marginEnd="@dimen/margin_tiny" />
-
-                <!-- recent salons progress -->
-                <ProgressBar
-                    android:id="@+id/recent_salons_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true" />
-
-                <!-- empty view -->
-                <LinearLayout
-                    android:id="@+id/recent_salons_empty_view"
+                <!-- recent salons container -->
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/empty_view_salons" />
-
-                    <TextView
-                        android:id="@+id/recent_salons_empty_hint"
+                    <!-- recent salons recycler -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recent_salons_recycler"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="@dimen/margin_tiny"
+                        android:layout_marginEnd="@dimen/margin_tiny" />
+
+                    <!-- recent salons progress -->
+                    <ProgressBar
+                        android:id="@+id/recent_salons_progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/margin_large"/>
+
+                    <!-- empty view -->
+                    <LinearLayout
+                        android:id="@+id/recent_salons_empty_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
                         android:gravity="center"
-                        android:text="@string/no_salons"
-                        android:textColor="@color/blueGrey"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
-                </LinearLayout>
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/empty_view_salons" />
 
-                <!-- no connection view -->
-                <include layout="@layout/no_connection_layout" />
+                        <TextView
+                            android:id="@+id/recent_salons_empty_hint"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:gravity="center"
+                            android:text="@string/no_salons"
+                            android:textColor="@color/blueGrey"
+                            android:textSize="@dimen/text_size_medium" />
 
-            </RelativeLayout>
+                    </LinearLayout>
+
+                    <!-- no connection view -->
+                    <include layout="@layout/no_connection_layout" />
+
+                </RelativeLayout>
+
+            </androidx.core.widget.NestedScrollView>
 
             <!-- winners news header -->
             <LinearLayout
