@@ -117,7 +117,7 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
 
         Log.d("cardsss", card.getCard_id()+ "");
 
-        RetrofitClient.getInstance(context).executeConnectionToServer(context, "addCardsToUser", new Request(user_id, card.getCard_id(), api_token), new HandleResponses() {
+        RetrofitClient.getInstance(context).executeConnectionToServer(context, "addCardsToUser", new Request(user_id, api_token,  card.getCard_id()), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();

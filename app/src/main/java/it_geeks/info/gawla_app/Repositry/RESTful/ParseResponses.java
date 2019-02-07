@@ -247,14 +247,13 @@ public class ParseResponses {
 
     public static String parseServerErrors(JsonObject object) {
         String error = "no errors";
-        JsonArray errors = null;
         try {
-            errors = object.get("errors").getAsJsonArray();
+            JsonArray errors = object.get("errors").getAsJsonArray();
+            for (int i = 0; i < errors.size(); i++) {
+                error = errors.get(i).getAsString();
+            }
         } catch (NullPointerException e) {
-            errors = object.get("error").getAsJsonArray();
-        }
-        for (int i = 0; i < errors.size(); i++) {
-            error = errors.get(i).getAsString();
+
         }
         return error;
     }

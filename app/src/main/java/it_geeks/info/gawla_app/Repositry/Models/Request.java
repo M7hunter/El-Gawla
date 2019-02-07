@@ -80,13 +80,6 @@ public class Request {
         this.password = pass;
     }
 
-    public Request(int user_id, String api_token, String old_password, String password) { // new pass Request
-        this.user_id = user_id;
-        this.api_token = api_token;
-        this.old_password = old_password;
-        this.password = password;
-    }
-
     public Request(String provider, String provider_id, String provider_name, String provider_email, String provider_image, int country_id) { // Login and Register SocialMedia Request
         this.provider = provider;
         this.provider_id = provider_id;
@@ -103,11 +96,13 @@ public class Request {
 
     public Request(String api_token) { // all countries
         this.api_token = api_token;
+        this.email = api_token;
     }
 
     public Request(int user_id, String api_token, String image) { // User Profile Image Upload
         this.user_id = user_id;
         this.api_token = api_token;
+        this.password = image;
         this.image = image;
     }
 
@@ -125,12 +120,7 @@ public class Request {
         this.user_id = user_id;
         this.api_token = api_token;
         this.salon_id = salon_id;
-    }
-
-    public Request(int user_id, int card_id, String api_token) { // buy card
-        this.user_id = user_id;
-        this.card_id = card_id;
-        this.api_token = api_token;
+        this.card_id = salon_id;
     }
 
     public Request(int user_id, String api_token, String name, String email, String message) { // contact Us

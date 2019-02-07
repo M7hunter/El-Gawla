@@ -228,6 +228,4 @@ public class Common {
         Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
         viewToAnimate.startAnimation(animation);
     }
-
-
 }

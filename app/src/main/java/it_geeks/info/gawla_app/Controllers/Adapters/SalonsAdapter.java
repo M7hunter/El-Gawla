@@ -98,7 +98,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                 }
             });
 
-            Common.Instance(context).setAnimation(viewHolder.itemView);
+//            Common.Instance(context).setAnimation(viewHolder.itemView);
         }
     }
 

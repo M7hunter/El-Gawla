@@ -15,10 +15,12 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
+import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Controllers.Adapters.WinnersNewsAdapter;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
@@ -42,6 +44,7 @@ public class MainFragment extends Fragment {
     private RecyclerView winnersNewsRecycler;
     private SalonsAdapter recentSalonsPagedAdapter;
     private WinnersNewsAdapter winnersNewsAdapter;
+    private LinearLayoutManager layoutManager;
 
     private List<Round> roundList = new ArrayList<>();
     private List<WinnerNews> winnerNewsList = new ArrayList<>();
@@ -54,6 +57,9 @@ public class MainFragment extends Fragment {
 
     private TextView btnRecentSalonsSeeAll,btnWinnersSeeAll; // <- trans & more
     private TextView recentSalonsLabel, winnersLabel, tvEmptyHint; // <- trans
+
+    private int page = 1;
+    private int last_page = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -131,7 +137,7 @@ public class MainFragment extends Fragment {
         if (Common.Instance(getActivity()).isConnected()) {
             noConnectionLayout.setVisibility(View.GONE);
 
-            getSalonsFromServer(view);
+            getFirstSalonsFromServer(view);
 
         } else {
             noConnectionLayout.setVisibility(View.VISIBLE);
@@ -140,14 +146,18 @@ public class MainFragment extends Fragment {
         }
     }
 
-    private void getSalonsFromServer(final View view) {
-        RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(),
-                "getAllSalons", new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
+    private void getFirstSalonsFromServer(final View view) {
+        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
+                new Data("getAllSalons", page), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        insertItemsIntoDatabase(mainObject);
-                        roundList = ParseResponses.parseRounds(mainObject, gawlaDataBse);
-                        initSalonsRecycler(view);
+                        roundList.addAll(ParseResponses.parseRounds(mainObject, gawlaDataBse));
+                        insertItemsIntoDatabase(roundList);
+                        initSalonsRecycler();
+
+                        last_page = mainObject.get("last_page").getAsInt();
+
+                        page = page + 1;
                     }
 
                     @Override
@@ -170,14 +180,56 @@ public class MainFragment extends Fragment {
                 });
     }
 
-    private void insertItemsIntoDatabase(JsonObject mainObj) {
-        gawlaDataBse.roundDao().removeRounds(gawlaDataBse.roundDao().getRounds());
-        gawlaDataBse.roundDao().insertRoundList(ParseResponses.parseRounds(mainObj, gawlaDataBse));
+    private void getNextSalonsFromServer() {
+        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
+                new Data("getAllSalons", page), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        int nextFirstPosition = roundList.size();
+                        roundList.addAll(ParseResponses.parseRounds(mainObject, gawlaDataBse));
+                        for (int i = nextFirstPosition; i < roundList.size(); i++) {
+                            recentSalonsPagedAdapter.notifyItemInserted(i);
+                        }
+
+                        recentSalonsRecycler.smoothScrollToPosition(nextFirstPosition);
+
+                        insertItemsIntoDatabase(roundList);
+
+                        page = page + 1;
+
+                        addScrollListener();
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
-    private void initSalonsRecycler(final View view) {
-        recentSalonsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, true));
+    private void insertItemsIntoDatabase(List<Round> rounds) {
+//        gawlaDataBse.roundDao().removeRounds(gawlaDataBse.roundDao().getRounds());
+        gawlaDataBse.roundDao().insertRoundList(rounds);
+    }
+
+    private void initSalonsRecycler() {
+        layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
+        recentSalonsRecycler.setLayoutManager(layoutManager);
         recentSalonsPagedAdapter = new SalonsAdapter(getContext(), roundList);
+        recentSalonsRecycler.setAdapter(recentSalonsPagedAdapter);
+
+        Common.Instance(getContext()).hideProgress(recentSalonsRecycler, recentSalonsProgress);
+        recentSalonsRecycler.scrollToPosition(recentSalonsPagedAdapter.getItemCount() - 11);
+
+        addScrollListener();
 
 //        recentSalonsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //            @Override
@@ -202,11 +254,25 @@ public class MainFragment extends Fragment {
 //                }
 //            }
 //        });
+    }
 
-        recentSalonsRecycler.setAdapter(recentSalonsPagedAdapter);
-        Common.Instance(getContext()).hideProgress(recentSalonsRecycler, recentSalonsProgress);
+    public void addScrollListener() {
+        recentSalonsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (page <= last_page) {
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() == recentSalonsPagedAdapter.getItemCount() - 1) {
+                        getNextSalonsFromServer();
+                        Toast.makeText(getContext(), "loading...", Toast.LENGTH_SHORT).show();
 
-        recentSalonsRecycler.scrollToPosition(recentSalonsPagedAdapter.getItemCount() - 1);
+                        recentSalonsRecycler.removeOnScrollListener(this);
+                    }
+                } else {
+                    recentSalonsRecycler.removeOnScrollListener(this);
+                }
+            }
+        });
     }
 
     private void initSalonsEmptyView(View view, List<Round> roundList) {
