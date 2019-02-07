@@ -1,8 +1,12 @@
 package it_geeks.info.gawla_app.views.loginActivities;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -36,6 +40,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.Arrays;
 
 import androidx.annotation.NonNull;
@@ -218,8 +223,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // google login
         if (requestCode == GOOGLE_REQUEST) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            new LoginViewModel(LoginActivity.this).handleSignInResult(task, providerGoogle);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                    checkSelfPermission (Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                new LoginViewModel(LoginActivity.this).handleSignInResult(task, providerGoogle);
+            }else{
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                new LoginViewModel(LoginActivity.this).handleSignInResult(task, providerGoogle);
+            }
+
+
         }
     }
 

@@ -19,7 +19,7 @@ public class RoundStartToEnd {
     int open_hall_value ,free_join_value ,pay_join_value ,first_round_value ,first_rest_value , seconed_round_value ,seconed_rest_value , close_hall_value;
     String round_status;
 
-    int[] mMinute = {0}, mHour = {0};
+    int[] mSecond = {0}, mMinute = {0}, mHour = {0} , mDay = {0};
     Context context;
     RoundStartToEndModel roundStartToEndModel;
     CountDownTimer countDownTimer;
@@ -191,14 +191,15 @@ public class RoundStartToEnd {
         } else {
             hour = calendar.get(Calendar.HOUR_OF_DAY) - 2;
         }
-        int minute = calendar.get(Calendar.MINUTE);
         int second = calendar.get(Calendar.SECOND);
+        int minute = calendar.get(Calendar.MINUTE);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-
-        GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "second");
-        gawlaTimeDownSecond.NumberTick(second);
-
-        Log.e("Mo7", hour + " " + minute + " " + second + "");
+        if (mSecond[0] != second) {
+            GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "second");
+            gawlaTimeDownSecond.NumberTick(second);
+        }
+        mSecond[0] = second;
 
         if (mMinute[0] != minute) {
             GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "minute");
@@ -211,6 +212,8 @@ public class RoundStartToEnd {
             gawlaTimeDownHour.NumberTick(hour);
         }
         mHour[0] = hour;
+
+
     }
 
 }

@@ -4,11 +4,13 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.format.Time;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -31,6 +33,7 @@ import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -151,7 +154,16 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 closeLoadingScreen();
-                startTimeDown(ParseResponses.parseRoundRealTime(mainObject));
+
+                boolean isToday = mainObject.get("isToday").getAsBoolean();
+                if (isToday){
+
+                    startTimeDown(ParseResponses.parseRoundRealTime(mainObject));
+                }else {
+                        tvSalonTime.setText(getResources().getString(R.string.round_date) + round_date);
+                        tvSalonTime.setTextColor(Color.RED);
+                }
+
             }
 
             @Override
