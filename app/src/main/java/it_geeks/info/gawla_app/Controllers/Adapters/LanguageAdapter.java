@@ -83,8 +83,13 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
                         sLang(lang)), // <- new lang
                 new HandleResponses() {
                     @Override
-                    public void handleResponseData(JsonObject mainObject) {
+                    public void handleTrueResponse(JsonObject mainObject) {
                         GawlaDataBse.getGawlaDatabase(context).transDao().insertTranses(ParseResponses.parseLanguages(mainObject));
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+
                     }
 
                     @Override

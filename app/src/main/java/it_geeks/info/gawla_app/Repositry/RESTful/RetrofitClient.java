@@ -2,11 +2,12 @@ package it_geeks.info.gawla_app.Repositry.RESTful;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
@@ -72,31 +73,39 @@ public class RetrofitClient {
         getInstance(context).getAPI().request(new RequestMainBody(new Data(action), request)).enqueue(createWebserviceCallback(HandleResponses, context));
     }
 
+    private APIs getAPI() {
+        return retrofit.create(APIs.class);
+    }
+
     private Callback<JsonObject> createWebserviceCallback(final HandleResponses HandleResponses, final Context context) {
         return new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
-                if (response.isSuccessful()) {
+                if (response.isSuccessful()) { // code == 200
                     try {
                         JsonObject mainObj = response.body().getAsJsonObject();
-                        boolean status = mainObj.get("status").getAsBoolean();
 
-                        if (status) { // no errors
-                            HandleResponses.handleResponseData(mainObj);
-
-                        } else { // server errors
-                            // TODO: check codes instead of strings
-                            if (parseServerErrors(mainObj).contains("not logged in")) {
-                                context.startActivity(new Intent(context, LoginActivity.class)
-                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
-                                SharedPrefManager.getInstance(context).clearUser();
-                            }
-                            Toast.makeText(context, parseServerErrors(mainObj), Toast.LENGTH_LONG).show();
-                        }
+                        HandleResponses.handleTrueResponse(mainObj);
 
                     } catch (NullPointerException e) { // errors of response body 'maybe response body has changed'
+                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else { // code != 200
+                    try {
+                        JsonObject errorObj = new JsonParser().parse(response.errorBody().string()).getAsJsonObject();
+
+                        Toast.makeText(context, parseServerErrors(errorObj), Toast.LENGTH_SHORT).show();
+                        HandleResponses.handleFalseResponse(errorObj);
+
+                        // TODO: check codes instead of strings
+                        if (parseServerErrors(errorObj).contains("not logged in") || parseServerErrors(errorObj).contains("api token")) {
+                            context.startActivity(new Intent(context, LoginActivity.class)
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+
+                            SharedPrefManager.getInstance(context).clearUser();
+                        }
+                    } catch (IOException e) { // errors of error body
                         e.printStackTrace();
                     }
                 }
@@ -106,13 +115,8 @@ public class RetrofitClient {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
-
                 HandleResponses.handleConnectionErrors(t.getMessage());
             }
         };
-    }
-
-    public APIs getAPI() {
-        return retrofit.create(APIs.class);
     }
 }

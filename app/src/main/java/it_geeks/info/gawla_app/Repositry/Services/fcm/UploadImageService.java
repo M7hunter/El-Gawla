@@ -55,7 +55,7 @@ public class UploadImageService extends Service {
             RetrofitClient.getInstance(this).executeConnectionToServer(this,
                     "updateUserData", new Request(user_id, api_token, activity.encodedImage), new HandleResponses() {
                         @Override
-                        public void handleResponseData(JsonObject mainObject) {
+                        public void handleTrueResponse(JsonObject mainObject) {
                             // save updated user data
                             SharedPrefManager.getInstance(UploadImageService.this).saveUser(ParseResponses.parseUser(mainObject));
 
@@ -70,6 +70,11 @@ public class UploadImageService extends Service {
                                 activity.updatedStateUI();
                                 activity.hideUploadImageButton();
                             }
+                        }
+
+                        @Override
+                        public void handleFalseResponse(JsonObject mainObject) {
+
                         }
 
                         @Override

@@ -24,7 +24,7 @@ import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
 
 public class CallUsActivity extends AppCompatActivity {
 
-    EditText usernameCallUS , emailCallUS , messageCallUS;
+    EditText usernameCallUS, emailCallUS, messageCallUS;
     Button btnSendCallUs;
     Snackbar snackbarMessage;
     ScrollView mainCallUsActivity;
@@ -60,8 +60,10 @@ public class CallUsActivity extends AppCompatActivity {
 
         // Swipe Page Back
         mainCallUsActivity = findViewById(R.id.mainCallUsActivity);
-        mainCallUsActivity.setOnTouchListener(new OnSwipeTouchListener(CallUsActivity.this){
-            public void onSwipeRight() { finish(); }
+        mainCallUsActivity.setOnTouchListener(new OnSwipeTouchListener(CallUsActivity.this) {
+            public void onSwipeRight() {
+                finish();
+            }
         });
     }
 
@@ -74,19 +76,19 @@ public class CallUsActivity extends AppCompatActivity {
         btnSendCallUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (!usernameCallUS.getText().toString().trim().isEmpty()){
-                    if (!emailCallUS.getText().toString().trim().isEmpty()){
-                        if (!messageCallUS.getText().toString().trim().isEmpty()){
+                if (!usernameCallUS.getText().toString().trim().isEmpty()) {
+                    if (!emailCallUS.getText().toString().trim().isEmpty()) {
+                        if (!messageCallUS.getText().toString().trim().isEmpty()) {
                             handleData();
-                        }else{
+                        } else {
                             messageCallUS.setFocusable(true);
                             tlText.setError(getString(R.string.empty_message));
                         }
-                    }else{
+                    } else {
                         emailCallUS.setFocusable(true);
                         tlEmail.setError(getString(R.string.emptyMail));
                     }
-                }else{
+                } else {
                     usernameCallUS.setFocusable(true);
                     tlName.setError(getString(R.string.empty_name));
 
@@ -105,28 +107,33 @@ public class CallUsActivity extends AppCompatActivity {
         String message = messageCallUS.getText().toString();
 
         RetrofitClient.getInstance(CallUsActivity.this).executeConnectionToServer(CallUsActivity.this,
-                "setUserContactMessage", new Request(userID,apiToken,username,email,message), new HandleResponses() {
-            @Override
-            public void handleResponseData(JsonObject mainObject) {
-                String message = mainObject.get("message").getAsString();
-                snackbarMessage.make(findViewById(R.id.CallUsParentLayout), message, Snackbar.LENGTH_SHORT).show();
-                messageCallUS.setText("");
-            }
+                "setUserContactMessage", new Request(userID, apiToken, username, email, message), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        String message = mainObject.get("message").getAsString();
+                        snackbarMessage.make(findViewById(R.id.CallUsParentLayout), message, Snackbar.LENGTH_SHORT).show();
+                        messageCallUS.setText("");
+                    }
 
-            @Override
-            public void handleEmptyResponse() {
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
 
-            }
+                    }
 
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                snackbarMessage.make(findViewById(R.id.CallUsParentLayout), R.string.no_connection, Snackbar.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void handleEmptyResponse() {
+
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        snackbarMessage.make(findViewById(R.id.CallUsParentLayout), R.string.no_connection, Snackbar.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     // to change status bar color
-    public void changeStatusBarColor(String color){
+    public void changeStatusBarColor(String color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

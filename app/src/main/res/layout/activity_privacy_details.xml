@@ -19,9 +19,9 @@
             android:id="@+id/privacy_details_back"
             android:layout_width="@dimen/icon_back"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:padding="@dimen/margin_small"
-            android:layout_alignParentLeft="true"
             android:src="@drawable/ic_arrow_left_only" />
 
         <!-- title -->
@@ -38,20 +38,21 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/privacy_details_Page"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/privacy_details_Page"
         android:layout_below="@id/privacy_details_header"
         android:layout_marginTop="@dimen/margin_xxlarge">
-
         <!-- scroll main layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/edit_email"
+            <!-- edit email btn -->
+            <Button
+                android:id="@+id/btn_edit_email"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -60,6 +61,7 @@
                 android:textColor="@color/azureTwo"
                 android:textSize="@dimen/text_size_medium" />
 
+            <!-- email -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tl_privacy_details_email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -87,60 +89,46 @@
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- separator -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginStart="@dimen/margin_xxlarge"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginBottom="@dimen/margin_small"
                 android:background="@color/paleGreyTwo" />
 
             <TextView
-                android:id="@+id/edit_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/margin_xxlarge"
-                android:text="@string/edit"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_medium"
+                android:text="@string/password"
                 android:textColor="@color/azureTwo"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_large" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tl_privacy_details_pass"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <Button
+                android:id="@+id/btn_edit_password"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_xxlarge"
+                android:paddingTop="@dimen/margin_tiny"
+                android:paddingBottom="@dimen/margin_tiny"
+                android:textSize="@dimen/text_size_medium"
                 android:layout_marginEnd="@dimen/margin_xxlarge"
-                android:layout_weight="1"
-                android:textColorHint="@color/paleGrey2"
-                app:errorEnabled="true">
+                android:text="@string/edit" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_account_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:focusable="auto"
-                    android:hint="@string/password"
-                    android:inputType="textPassword"
-                    android:paddingStart="@dimen/margin_xlarge"
-                    android:paddingTop="@dimen/margin_small"
-                    android:paddingEnd="@dimen/margin_xlarge"
-                    android:paddingBottom="@dimen/margin_small"
-                    android:textSize="@dimen/text_size_large"
-                    android:textStyle="bold" />
-            </com.google.android.material.textfield.TextInputLayout>
-
+            <!-- separator -->
             <View
                 android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginStart="@dimen/margin_xxlarge"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:layout_weight="1"
                 android:background="@color/paleGreyTwo" />
 
@@ -210,8 +198,9 @@
 
             </LinearLayout>
 
+            <!-- btn delete account -->
             <Button
-                android:id="@+id/txt_Create_Account2"
+                android:id="@+id/btn_delete_account"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

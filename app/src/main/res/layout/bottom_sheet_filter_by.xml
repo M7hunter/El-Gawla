@@ -65,15 +65,19 @@
     </LinearLayout>
 
     <!-- close btn -->
-    <ImageView
+    <Button
         android:id="@+id/close_bottom_sheet_filter_by"
         android:layout_width="@dimen/image_cards_round_updates"
         android:layout_height="@dimen/image_cards_round_updates"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/margin_xxxlarge"
         android:background="@drawable/bg_circle_blue_270"
+        android:elevation="10dp"
         android:padding="@dimen/margin_large"
-        android:src="@drawable/ic_close"
-        android:tint="@android:color/white" />
+        app:cornerRadius="200dp"
+        app:icon="@drawable/ic_close"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="30dp" />
 
 </RelativeLayout>

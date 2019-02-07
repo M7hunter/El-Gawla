@@ -37,14 +37,14 @@ public class MainActivity extends AppCompatActivity {
 
     public static Activity mainInstance;
 
-    BottomNavigationView navigation;
-
-    ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
-    View snackContainer;
-
-    TransHolder transHolder;
-
+    private BottomNavigationView navigation;
     private Fragment fragment = new MainFragment();
+
+    private ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
+
+    private View snackContainer;
+
+    private TransHolder transHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public View getSnackbarContainer() {
+    public View getSnackBarContainer() {
         if (snackContainer == null) {
             snackContainer = findViewById(R.id.snackbar_container);
         }

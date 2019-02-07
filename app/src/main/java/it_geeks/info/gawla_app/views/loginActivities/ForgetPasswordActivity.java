@@ -5,11 +5,17 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import it_geeks.info.gawla_app.Repositry.Models.Request;
+import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.general.TransHolder;
@@ -20,6 +26,8 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     private Button btnSend;
     private EditText etEmail;
     private TextInputLayout tlEmail;
+
+    private ProgressBar pbForgetPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +50,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         tvForgetPassHint = findViewById(R.id.tv_forget_pass_hint);
         btnSend = findViewById(R.id.btn_send_fp);
         tlEmail = findViewById(R.id.tl_email_fp);
+        pbForgetPass = findViewById(R.id.pb_forget_pass);
     }
 
     private void setupTrans() {
@@ -60,8 +69,34 @@ public class ForgetPasswordActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = etEmail.getText().toString();
                 if (checkEntries(email)) {
-                    //
+                    hideSendBtn();
+                    sendEmail(email);
                 }
+            }
+        });
+    }
+
+    private void sendEmail(String email) {
+        RetrofitClient.getInstance(ForgetPasswordActivity.this).executeConnectionToServer(ForgetPasswordActivity.this, "forgotPassword", new Request(email), new HandleResponses() {
+            @Override
+            public void handleTrueResponse(JsonObject mainObject) {
+                Toast.makeText(ForgetPasswordActivity.this, "check your mailbox to create new password", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void handleFalseResponse(JsonObject mainObject) {
+
+            }
+
+            @Override
+            public void handleEmptyResponse() {
+                displaySendBtn();
+            }
+
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
+                Toast.makeText(ForgetPasswordActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                displaySendBtn();
             }
         });
     }
@@ -83,5 +118,15 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                 return false;
             }
         }
+    }
+
+    private void displaySendBtn() {
+        btnSend.setVisibility(View.VISIBLE);
+        pbForgetPass.setVisibility(View.GONE);
+    }
+
+    private void hideSendBtn() {
+        btnSend.setVisibility(View.GONE);
+        pbForgetPass.setVisibility(View.VISIBLE);
     }
 }

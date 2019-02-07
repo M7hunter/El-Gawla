@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/salon_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".views.SalonActivity" >
+    tools:context=".views.SalonActivity">
 
     <!-- main layout -->
 
@@ -18,763 +17,761 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-    <RelativeLayout
-        android:id="@+id/salon_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible">
-
-        <!-- logo & bell container -->
-        <RelativeLayout
-            android:id="@+id/salon_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layoutDirection="ltr">
-
-            <!-- logo -->
-            <ImageView
-                android:layout_width="@dimen/logo_width"
-                android:layout_height="@dimen/logo_height"
-                android:layout_centerInParent="true"
-                android:src="@drawable/gawla_logo_blue" />
-
-            <!-- bell -->
-            <ImageView
-                android:id="@+id/salon_notification_icon"
-                android:layout_width="@dimen/icon_notification"
-                android:layout_height="@dimen/icon_notification"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:padding="@dimen/margin_tiny"
-                android:src="@drawable/ic_notification" />
-
-        </RelativeLayout>
-
-        <!-- salon number container -->
-        <LinearLayout
-            android:id="@+id/salon_number_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/salon_header"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <!-- salon number label -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hale_number"
-                android:textColor="@color/battleshipGrey"
-                android:textSize="@dimen/text_size_large" />
-
-            <!-- salon number -->
-            <TextView
-                android:id="@+id/salon_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:textColor="@color/midBlue"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <!-- time container -->
-        <FrameLayout
-            android:id="@+id/time_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/salon_number_container"
-            android:layout_centerHorizontal="true">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
-                android:background="@drawable/bg_rounded_corners_white"
-                app:cardCornerRadius="@dimen/margin_small">
-                <!-- card main layout -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <!-- start time container -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:baselineAligned="false"
-                        android:layoutDirection="ltr">
-
-                        <!-- hours container -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center_horizontal"
-                            android:orientation="vertical">
-
-                            <!-- hours label -->
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/hour"
-                                android:textColor="@color/duskBlue"
-                                android:textSize="@dimen/text_size_medium" />
-
-                            <!-- hours -->
-                            <RelativeLayout
-                                android:id="@+id/hour_div"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp">
-
-                                <ImageView
-                                    android:id="@+id/div_up9"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="6dp"
-                                    android:background="@drawable/digit_0_upper"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY" />
-
-                                <ImageView
-                                    android:id="@+id/div_down9"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="31dp"
-                                    android:background="@drawable/digit_0_lower"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY" />
-
-                                <ImageView
-                                    android:id="@+id/div_up10"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="6dp"
-                                    android:background="@drawable/digit_0_upper"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY"
-                                    android:visibility="invisible" />
-
-                                <ImageView
-                                    android:id="@+id/div_down10"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="31dp"
-                                    android:background="@drawable/digit_0_lower"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY"
-                                    android:visibility="invisible" />
-
-                                <ImageView
-                                    android:id="@+id/div_up11"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="6dp"
-                                    android:background="@drawable/digit_0_upper"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY" />
-
-                                <ImageView
-                                    android:id="@+id/div_down11"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="31dp"
-                                    android:background="@drawable/digit_0_lower"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY" />
-
-                                <ImageView
-                                    android:id="@+id/div_up12"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="6dp"
-                                    android:background="@drawable/digit_0_upper"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY"
-                                    android:visibility="invisible" />
-
-                                <ImageView
-                                    android:id="@+id/div_down12"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="false"
-                                    android:layout_alignParentTop="false"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="31dp"
-                                    android:background="@drawable/digit_0_lower"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY"
-                                    android:visibility="invisible" />
-
-                            </RelativeLayout>
-
-                        </LinearLayout>
-
-                        <!-- minutes container -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center_horizontal"
-                            android:orientation="vertical">
-
-                            <!-- seconds label -->
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/Minute"
-                                android:textColor="@color/duskBlue"
-                                android:textSize="@dimen/text_size_medium" />
-
-                            <!-- minutes -->
-                            <RelativeLayout
-                                android:id="@+id/minute_div"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp">
-
-                                <ImageView
-                                    android:id="@+id/div_up5"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="6dp"
-                                    android:background="@drawable/digit_0_upper"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY" />
-
-                                <ImageView
-                                    android:id="@+id/div_down5"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="31dp"
-                                    android:background="@drawable/digit_0_lower"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY" />
-
-                                <ImageView
-                                    android:id="@+id/div_up6"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignBottom="@+id/div_up5"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="6dp"
-                                    android:layout_marginBottom="0dp"
-                                    android:background="@drawable/digit_0_upper"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY"
-                                    android:visibility="invisible" />
-
-                                <ImageView
-                                    android:id="@+id/div_down6"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="31dp"
-                                    android:background="@drawable/digit_0_lower"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY"
-                                    android:visibility="invisible" />
-
-                                <ImageView
-                                    android:id="@+id/div_up7"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="6dp"
-                                    android:background="@drawable/digit_0_upper"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY" />
-
-                                <ImageView
-                                    android:id="@+id/div_down7"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="31dp"
-                                    android:background="@drawable/digit_0_lower"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY" />
-
-                                <ImageView
-                                    android:id="@+id/div_up8"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="6dp"
-                                    android:background="@drawable/digit_0_upper"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY"
-                                    android:visibility="invisible" />
-
-                                <ImageView
-                                    android:id="@+id/div_down8"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="31dp"
-                                    android:background="@drawable/digit_0_lower"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY"
-                                    android:visibility="invisible" />
-
-
-                            </RelativeLayout>
-
-                        </LinearLayout>
-
-                        <!-- seconds container -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center_horizontal"
-                            android:orientation="vertical">
-
-                            <!-- seconds label -->
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/second"
-                                android:textColor="@color/duskBlue"
-                                android:textSize="@dimen/text_size_medium" />
-
-                            <!-- seconds -->
-                            <RelativeLayout
-                                android:id="@+id/second_div"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp">
-
-                                <ImageView
-                                    android:id="@+id/div_up1"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="false"
-                                    android:layout_alignParentTop="false"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="6dp"
-                                    android:background="@drawable/digit_0_upper"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY" />
-
-                                <ImageView
-                                    android:id="@+id/div_down1"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="false"
-                                    android:layout_alignParentTop="false"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="31dp"
-                                    android:background="@drawable/digit_0_lower"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY" />
-
-                                <ImageView
-                                    android:id="@+id/div_up2"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="false"
-                                    android:layout_alignParentTop="false"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="6dp"
-                                    android:background="@drawable/digit_0_upper"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY"
-                                    android:visibility="invisible" />
-
-                                <ImageView
-                                    android:id="@+id/div_down2"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="false"
-                                    android:layout_alignParentTop="false"
-                                    android:layout_marginStart="50dp"
-                                    android:layout_marginTop="31dp"
-                                    android:background="@drawable/digit_0_lower"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY"
-                                    android:visibility="invisible" />
-
-                                <ImageView
-                                    android:id="@+id/div_up3"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="false"
-                                    android:layout_alignParentTop="false"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="6dp"
-                                    android:background="@drawable/digit_0_upper"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY" />
-
-                                <ImageView
-                                    android:id="@+id/div_down3"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="false"
-                                    android:layout_alignParentTop="false"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="31dp"
-                                    android:background="@drawable/digit_0_lower"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY" />
-
-                                <ImageView
-                                    android:id="@+id/div_up4"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="false"
-                                    android:layout_alignParentTop="false"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="6dp"
-                                    android:background="@drawable/digit_0_upper"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY"
-                                    android:visibility="invisible" />
-
-                                <ImageView
-                                    android:id="@+id/div_down4"
-                                    android:layout_width="35dp"
-                                    android:layout_height="25dp"
-                                    android:layout_alignParentStart="false"
-                                    android:layout_alignParentTop="false"
-                                    android:layout_marginStart="5dp"
-                                    android:layout_marginTop="31dp"
-                                    android:background="@drawable/digit_0_lower"
-                                    android:gravity="center"
-                                    android:scaleType="fitXY"
-                                    android:visibility="invisible" />
-
-
-                            </RelativeLayout>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <!-- end time container -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small"
-                        android:orientation="horizontal">
-
-                        <!-- end time -->
-                        <TextView
-                            android:id="@+id/salon_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_medium"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </FrameLayout>
-
-        <!-- add offer btn & et -->
-        <LinearLayout
-            android:id="@+id/add_offer_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cards_container"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_tiny"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <!-- add offer et -->
-            <EditText
-                android:id="@+id/add_offer_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:layout_weight="1"
-                android:background="@drawable/edittext_shape_add"
-                android:gravity="center"
-                android:hint="@string/rOffer"
-                android:inputType="number"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small"
-                android:textColor="@color/battleshipGrey"
-                android:textColorHint="@color/editText_hint" />
-
-            <!-- add offer btn -->
-            <Button
-                android:id="@+id/add_offer_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_weight="1"
-                android:background="@drawable/login_shape"
-                android:text="@string/add_deal"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <!-- for dimmed background -->
-        <FrameLayout
-            android:id="@+id/overlay_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/black_overlay"
-            android:visibility="gone" />
-
-        <!-- -->
-        <LinearLayout
-            android:id="@+id/cards_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/time_container"
             android:orientation="vertical">
 
-            <!-- product container -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/more"
+            <RelativeLayout
+                android:id="@+id/salon_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
-                android:background="@drawable/bg_rounded_corners_white"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardCornerRadius="@dimen/margin_small">
-                <!-- card main layout -->
-                <LinearLayout
+                android:visibility="visible">
+
+                <!-- logo & bell container -->
+                <RelativeLayout
+                    android:id="@+id/salon_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layoutDirection="ltr">
 
-                    <LinearLayout
+                    <!-- logo -->
+                    <ImageView
+                        android:layout_width="@dimen/logo_width"
+                        android:layout_height="@dimen/logo_height"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/gawla_logo_blue" />
+
+                    <!-- bell -->
+                    <ImageView
+                        android:id="@+id/salon_notification_icon"
+                        android:layout_width="@dimen/icon_notification"
+                        android:layout_height="@dimen/icon_notification"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/margin_tiny"
+                        android:src="@drawable/ic_notification" />
+
+                </RelativeLayout>
+
+                <!-- salon number container -->
+                <LinearLayout
+                    android:id="@+id/salon_number_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/salon_header"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <!-- salon number label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hale_number"
+                        android:textColor="@color/battleshipGrey"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <!-- salon number -->
+                    <TextView
+                        android:id="@+id/salon_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_tiny"
+                        android:textColor="@color/midBlue"
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!-- time container -->
+                <FrameLayout
+                    android:id="@+id/time_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/salon_number_container"
+                    android:layout_centerHorizontal="true">
+
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <!-- product image -->
-                        <ImageView
-                            android:id="@+id/salon_round_product_image"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_tiny"
-                            android:layout_weight="1"
-                            android:src="@drawable/macbook"
-                            android:transitionName="transProductImage" />
-
-                        <!-- details container -->
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:layout_marginBottom="@dimen/margin_medium"
+                        android:background="@drawable/bg_rounded_corners_white"
+                        app:cardCornerRadius="@dimen/margin_small">
+                        <!-- card main layout -->
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_small"
-                            android:layout_weight="2"
+                            android:gravity="center_horizontal"
                             android:orientation="vertical">
 
-                            <!-- product name -->
-                            <TextView
-                                android:id="@+id/salon_round_product_name"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_tiny"
-                                android:gravity="center"
-                                android:textColor="@color/duskBlue"
-                                android:textSize="@dimen/text_size_medium"
-                                android:textStyle="bold"
-                                android:transitionName="transProductName" />
-
-                            <!-- price container -->
+                            <!-- start time container -->
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:baselineAligned="false"
+                                android:layoutDirection="ltr">
 
-                                <!-- price label -->
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/Prod_price"
-                                    android:textSize="@dimen/text_size_medium" />
-
-                                <!-- price -->
-                                <TextView
-                                    android:id="@+id/salon_round_product_price"
+                                <!-- hours container -->
+                                <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:textColor="@color/azureTwo"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical">
+
+                                    <!-- hours label -->
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/hour"
+                                        android:textColor="@color/duskBlue"
+                                        android:textSize="@dimen/text_size_medium" />
+
+                                    <!-- hours -->
+                                    <RelativeLayout
+                                        android:id="@+id/hour_div"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="5dp">
+
+                                        <ImageView
+                                            android:id="@+id/div_up9"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="50dp"
+                                            android:layout_marginTop="6dp"
+                                            android:background="@drawable/digit_0_upper"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY" />
+
+                                        <ImageView
+                                            android:id="@+id/div_down9"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="50dp"
+                                            android:layout_marginTop="31dp"
+                                            android:background="@drawable/digit_0_lower"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY" />
+
+                                        <ImageView
+                                            android:id="@+id/div_up10"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="50dp"
+                                            android:layout_marginTop="6dp"
+                                            android:background="@drawable/digit_0_upper"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY"
+                                            android:visibility="invisible" />
+
+                                        <ImageView
+                                            android:id="@+id/div_down10"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="50dp"
+                                            android:layout_marginTop="31dp"
+                                            android:background="@drawable/digit_0_lower"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY"
+                                            android:visibility="invisible" />
+
+                                        <ImageView
+                                            android:id="@+id/div_up11"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="5dp"
+                                            android:layout_marginTop="6dp"
+                                            android:background="@drawable/digit_0_upper"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY" />
+
+                                        <ImageView
+                                            android:id="@+id/div_down11"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="5dp"
+                                            android:layout_marginTop="31dp"
+                                            android:background="@drawable/digit_0_lower"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY" />
+
+                                        <ImageView
+                                            android:id="@+id/div_up12"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="5dp"
+                                            android:layout_marginTop="6dp"
+                                            android:background="@drawable/digit_0_upper"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY"
+                                            android:visibility="invisible" />
+
+                                        <ImageView
+                                            android:id="@+id/div_down12"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="false"
+                                            android:layout_alignParentTop="false"
+                                            android:layout_marginStart="5dp"
+                                            android:layout_marginTop="31dp"
+                                            android:background="@drawable/digit_0_lower"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY"
+                                            android:visibility="invisible" />
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                                <!-- minutes container -->
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical">
+
+                                    <!-- seconds label -->
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/Minute"
+                                        android:textColor="@color/duskBlue"
+                                        android:textSize="@dimen/text_size_medium" />
+
+                                    <!-- minutes -->
+                                    <RelativeLayout
+                                        android:id="@+id/minute_div"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="5dp">
+
+                                        <ImageView
+                                            android:id="@+id/div_up5"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="50dp"
+                                            android:layout_marginTop="6dp"
+                                            android:background="@drawable/digit_0_upper"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY" />
+
+                                        <ImageView
+                                            android:id="@+id/div_down5"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="50dp"
+                                            android:layout_marginTop="31dp"
+                                            android:background="@drawable/digit_0_lower"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY" />
+
+                                        <ImageView
+                                            android:id="@+id/div_up6"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignBottom="@+id/div_up5"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="50dp"
+                                            android:layout_marginTop="6dp"
+                                            android:layout_marginBottom="0dp"
+                                            android:background="@drawable/digit_0_upper"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY"
+                                            android:visibility="invisible" />
+
+                                        <ImageView
+                                            android:id="@+id/div_down6"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="50dp"
+                                            android:layout_marginTop="31dp"
+                                            android:background="@drawable/digit_0_lower"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY"
+                                            android:visibility="invisible" />
+
+                                        <ImageView
+                                            android:id="@+id/div_up7"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="5dp"
+                                            android:layout_marginTop="6dp"
+                                            android:background="@drawable/digit_0_upper"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY" />
+
+                                        <ImageView
+                                            android:id="@+id/div_down7"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="5dp"
+                                            android:layout_marginTop="31dp"
+                                            android:background="@drawable/digit_0_lower"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY" />
+
+                                        <ImageView
+                                            android:id="@+id/div_up8"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="5dp"
+                                            android:layout_marginTop="6dp"
+                                            android:background="@drawable/digit_0_upper"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY"
+                                            android:visibility="invisible" />
+
+                                        <ImageView
+                                            android:id="@+id/div_down8"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginStart="5dp"
+                                            android:layout_marginTop="31dp"
+                                            android:background="@drawable/digit_0_lower"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY"
+                                            android:visibility="invisible" />
+
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                                <!-- seconds container -->
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical">
+
+                                    <!-- seconds label -->
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/second"
+                                        android:textColor="@color/duskBlue"
+                                        android:textSize="@dimen/text_size_medium" />
+
+                                    <!-- seconds -->
+                                    <RelativeLayout
+                                        android:id="@+id/second_div"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="5dp">
+
+                                        <ImageView
+                                            android:id="@+id/div_up1"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="false"
+                                            android:layout_alignParentTop="false"
+                                            android:layout_marginStart="50dp"
+                                            android:layout_marginTop="6dp"
+                                            android:background="@drawable/digit_0_upper"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY" />
+
+                                        <ImageView
+                                            android:id="@+id/div_down1"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="false"
+                                            android:layout_alignParentTop="false"
+                                            android:layout_marginStart="50dp"
+                                            android:layout_marginTop="31dp"
+                                            android:background="@drawable/digit_0_lower"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY" />
+
+                                        <ImageView
+                                            android:id="@+id/div_up2"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="false"
+                                            android:layout_alignParentTop="false"
+                                            android:layout_marginStart="50dp"
+                                            android:layout_marginTop="6dp"
+                                            android:background="@drawable/digit_0_upper"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY"
+                                            android:visibility="invisible" />
+
+                                        <ImageView
+                                            android:id="@+id/div_down2"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="false"
+                                            android:layout_alignParentTop="false"
+                                            android:layout_marginStart="50dp"
+                                            android:layout_marginTop="31dp"
+                                            android:background="@drawable/digit_0_lower"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY"
+                                            android:visibility="invisible" />
+
+                                        <ImageView
+                                            android:id="@+id/div_up3"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="false"
+                                            android:layout_alignParentTop="false"
+                                            android:layout_marginStart="5dp"
+                                            android:layout_marginTop="6dp"
+                                            android:background="@drawable/digit_0_upper"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY" />
+
+                                        <ImageView
+                                            android:id="@+id/div_down3"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="false"
+                                            android:layout_alignParentTop="false"
+                                            android:layout_marginStart="5dp"
+                                            android:layout_marginTop="31dp"
+                                            android:background="@drawable/digit_0_lower"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY" />
+
+                                        <ImageView
+                                            android:id="@+id/div_up4"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="false"
+                                            android:layout_alignParentTop="false"
+                                            android:layout_marginStart="5dp"
+                                            android:layout_marginTop="6dp"
+                                            android:background="@drawable/digit_0_upper"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY"
+                                            android:visibility="invisible" />
+
+                                        <ImageView
+                                            android:id="@+id/div_down4"
+                                            android:layout_width="35dp"
+                                            android:layout_height="25dp"
+                                            android:layout_alignParentStart="false"
+                                            android:layout_alignParentTop="false"
+                                            android:layout_marginStart="5dp"
+                                            android:layout_marginTop="31dp"
+                                            android:background="@drawable/digit_0_lower"
+                                            android:gravity="center"
+                                            android:scaleType="fitXY"
+                                            android:visibility="invisible" />
+
+                                    </RelativeLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <!-- end time container -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_small"
+                                android:orientation="horizontal">
+
+                                <!-- end time -->
+                                <TextView
+                                    android:id="@+id/salon_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:textSize="@dimen/text_size_medium"
                                     android:textStyle="bold" />
 
                             </LinearLayout>
 
                         </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </FrameLayout>
 
-                    </LinearLayout>
-
-                    <!-- read more as btn -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_margin="@dimen/margin_tiny"
-                        android:text="@string/read_more"
-                        android:textColor="@color/blueGrey" />
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- notification container -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/round_notification_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
-                android:background="@drawable/bg_rounded_corners_white"
-                app:cardCornerRadius="@dimen/margin_tiny"
-                android:visibility="gone">
-                <!-- card main layout -->
+                <!-- add offer btn & et -->
                 <LinearLayout
+                    android:id="@+id/add_offer_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cards_container"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_tiny"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
-                    <!-- round's notification bar -->
-                    <LinearLayout
+                    <!-- add offer et -->
+                    <EditText
+                        android:id="@+id/add_offer_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittext_shape_add"
+                        android:gravity="center"
+                        android:hint="@string/rOffer"
+                        android:inputType="number"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingBottom="@dimen/margin_small"
+                        android:textColor="@color/battleshipGrey"
+                        android:textColorHint="@color/editText_hint" />
+
+                    <!-- add offer btn -->
+                    <Button
+                        android:id="@+id/add_offer_btn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_small"
-                        android:gravity="center">
-
-                        <!-- notification icon -->
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/round_notification_icon"
-                            android:layout_width="@dimen/icon_notification"
-                            android:layout_height="@dimen/icon_notification"
-                            android:layout_margin="@dimen/margin_small"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_account" />
-
-                        <!-- notification text -->
-                        <TextView
-                            android:id="@+id/round_notification_text"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/margin_small"
-                            android:layout_weight="1"
-                            android:gravity="start"
-                            android:maxLines="2"
-                            android:text="@string/joine_Round"
-                            android:textColor="@color/blueGrey" />
-
-                    </LinearLayout>
+                        android:layout_weight="1"
+                        android:background="@drawable/login_shape"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingBottom="@dimen/margin_small"
+                        android:text="@string/add_deal"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
-            <!-- join confirmation card -->
-            <include layout="@layout/join_round_confirmation_layout" />
+                <!-- for dimmed background -->
+                <FrameLayout
+                    android:id="@+id/overlay_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/black_overlay"
+                    android:visibility="gone" />
 
-            <include layout="@layout/use_salon_card" android:visibility="gone"/>
+                <!-- -->
+                <LinearLayout
+                    android:id="@+id/cards_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/time_container"
+                    android:orientation="vertical">
+
+                    <!-- product container -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/more"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:layout_marginBottom="@dimen/margin_medium"
+                        android:background="@drawable/bg_rounded_corners_white"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        app:cardCornerRadius="@dimen/margin_small">
+                        <!-- card main layout -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <!-- product image -->
+                                <ImageView
+                                    android:id="@+id/salon_round_product_image"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="@dimen/margin_tiny"
+                                    android:layout_weight="1"
+                                    android:src="@drawable/macbook"
+                                    android:transitionName="transProductImage" />
+
+                                <!-- details container -->
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/margin_small"
+                                    android:layout_weight="2"
+                                    android:orientation="vertical">
+
+                                    <!-- product name -->
+                                    <TextView
+                                        android:id="@+id/salon_round_product_name"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="@dimen/margin_tiny"
+                                        android:gravity="center"
+                                        android:textColor="@color/duskBlue"
+                                        android:textSize="@dimen/text_size_medium"
+                                        android:textStyle="bold"
+                                        android:transitionName="transProductName" />
+
+                                    <!-- price container -->
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+
+                                        <!-- price label -->
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/Prod_price"
+                                            android:textSize="@dimen/text_size_medium" />
+
+                                        <!-- price -->
+                                        <TextView
+                                            android:id="@+id/salon_round_product_price"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:textColor="@color/azureTwo"
+                                            android:textSize="@dimen/text_size_medium"
+                                            android:textStyle="bold" />
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <!-- read more as btn -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:layout_margin="@dimen/margin_tiny"
+                                android:text="@string/read_more"
+                                android:textColor="@color/blueGrey" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- notification container -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/round_notification_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginEnd="@dimen/margin_medium"
+                        android:layout_marginBottom="@dimen/margin_medium"
+                        android:background="@drawable/bg_rounded_corners_white"
+                        android:visibility="gone"
+                        app:cardCornerRadius="@dimen/margin_tiny">
+                        <!-- card main layout -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <!-- round's notification bar -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_small"
+                                android:gravity="center">
+
+                                <!-- notification icon -->
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/round_notification_icon"
+                                    android:layout_width="@dimen/icon_notification"
+                                    android:layout_height="@dimen/icon_notification"
+                                    android:layout_margin="@dimen/margin_small"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/ic_account" />
+
+                                <!-- notification text -->
+                                <TextView
+                                    android:id="@+id/round_notification_text"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="@dimen/margin_small"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:maxLines="2"
+                                    android:text="@string/joine_Round"
+                                    android:textColor="@color/blueGrey" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- join confirmation card -->
+                    <include layout="@layout/join_round_confirmation_layout" />
+
+                    <include
+                        layout="@layout/use_salon_card"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <!-- join btn -->
+                <Button
+                    android:id="@+id/btn_join_round"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cards_container"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_tiny"
+                    android:background="@drawable/joined_play_shape"
+                    android:padding="@dimen/margin_small"
+                    android:text="@string/join_round"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <!-- joined progress -->
+                <ProgressBar
+                    android:id="@+id/join_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cards_container"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
 
         </LinearLayout>
-
-        <!-- join btn -->
-        <Button
-            android:id="@+id/btn_join_round"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cards_container"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_tiny"
-            android:background="@drawable/joined_play_shape"
-            android:padding="@dimen/margin_small"
-            android:text="@string/join_round"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold"
-            android:visibility="gone" />
-
-        <!-- joined progress -->
-
-        <ProgressBar
-            android:id="@+id/join_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/cards_container"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:visibility="gone" />
-
-
-
-
-    </RelativeLayout>
-
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
 
     <!-- cards bag btn container -->
     <RelativeLayout
@@ -783,6 +780,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:background="@drawable/bg_circle_bordered_transparent"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/margin_small">
 
         <!-- icon -->
@@ -832,11 +830,9 @@
         android:layout_gravity="center"
         android:indeterminateTint="@color/colorPrimary"
         android:indeterminateTintMode="src_atop"
-        android:visibility="gone"/>
-
+        android:visibility="gone" />
 
     <!-- bottom sheet activate cards-->
-
     <include layout="@layout/bottom_sheet_active_cards" />
 
     <!-- bottom sheet single card -->
@@ -844,7 +840,6 @@
 
     <!-- bottom sheet product details -->
     <include layout="@layout/bottom_sheet_product_details" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

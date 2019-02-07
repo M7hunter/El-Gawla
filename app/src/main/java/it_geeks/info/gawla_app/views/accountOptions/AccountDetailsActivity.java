@@ -22,10 +22,12 @@ import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
+import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
@@ -160,6 +162,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         PopupMenu countryMenu = new PopupMenu(wrapper, sp_update_country);
 
         List<String> countries = GawlaDataBse.getGawlaDatabase(this).countryDao().getCountriesNames();
+
         for (String country : countries) {
             countryMenu.getMenu().add(country);
         }
@@ -227,6 +230,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     private void updateUserOnServer() {
+        final Country country = GawlaDataBse.getGawlaDatabase(AccountDetailsActivity.this).countryDao().getCountryByName(sp_update_country.getText().toString());
         RetrofitClient.getInstance(AccountDetailsActivity.this)
                 .executeConnectionToServer(AccountDetailsActivity.this,
                         "updateUserData",
@@ -236,16 +240,22 @@ public class AccountDetailsActivity extends AppCompatActivity {
                                 et_update_last_name.getText().toString(),
                                 et_update_telephone.getText().toString(),
                                 sp_update_gender.getText().toString(),
-                                GawlaDataBse.getGawlaDatabase(AccountDetailsActivity.this).countryDao().getCountryIDByName(sp_update_country.getText().toString())), new HandleResponses() {
+                                country.getCountry_id()), new HandleResponses() {
                             @Override
-                            public void handleResponseData(JsonObject mainObject) {
+                            public void handleTrueResponse(JsonObject mainObject) {
 
-                                // save updated user data
+                                // save updated data
                                 SharedPrefManager.getInstance(AccountDetailsActivity.this).saveUser(ParseResponses.parseUser(mainObject));
+                                SharedPrefManager.getInstance(AccountDetailsActivity.this).setCountry(country);
 
                                 // notify user
                                 Toast.makeText(AccountDetailsActivity.this, "updated", Toast.LENGTH_SHORT).show();
                                 updatedStateUI();
+                            }
+
+                            @Override
+                            public void handleFalseResponse(JsonObject mainObject) {
+
                             }
 
                             @Override

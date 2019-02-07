@@ -49,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
         if (SharedPrefManager.getInstance(SplashActivity.this).getCountry().getCountry_id() != -1) {
 
             startActivity(new Intent(SplashActivity.this, LoginActivity.class)
-            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
 
         } else {
             requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -89,31 +89,36 @@ public class SplashActivity extends AppCompatActivity {
 
         RetrofitClient.getInstance(SplashActivity.this).executeConnectionToServer(SplashActivity.this,
                 "getAllCountries", new Request(apiToken), new HandleResponses() {
-            @Override
-            public void handleResponseData(JsonObject mainObject) {
-                    countries = ParseResponses.parseCountries(mainObject);
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        countries = ParseResponses.parseCountries(mainObject);
 
-                    displayCountriesList();
+                        displayCountriesList();
 
-                    GawlaDataBse.getGawlaDatabase(SplashActivity.this).countryDao().insertCountryList(countries);
-            }
+                        GawlaDataBse.getGawlaDatabase(SplashActivity.this).countryDao().insertCountryList(countries);
+                    }
 
-            @Override
-            public void handleEmptyResponse() {
-                if (countries.size() == 0) {
-                    retry();
-                }
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
 
-                Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
-            }
+                    }
 
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                retry();
-                Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
-                Toast.makeText(SplashActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void handleEmptyResponse() {
+                        if (countries.size() == 0) {
+                            retry();
+                        }
+
+                        Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        retry();
+                        Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
+                        Toast.makeText(SplashActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 

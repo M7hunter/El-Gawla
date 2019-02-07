@@ -9,7 +9,6 @@ import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -31,7 +30,7 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
 
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
 
-        initSnackbar(context);
+        initSnackBar(context);
 
         if (activeNetInfo != null) {
             connectedSnack(context);
@@ -40,23 +39,23 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
         }
     }
 
-    public void initSnackbar(Context context) {
+    public void initSnackBar(Context context) {
         if (snackbar == null) {
             if (context.getClass().equals(MainActivity.class)) {
-                snackbar = Snackbar.make(((MainActivity) context).getSnackbarContainer(), "NO CONNECTION", Snackbar.LENGTH_INDEFINITE);
+                snackbar = Snackbar.make(((MainActivity) context).getSnackBarContainer(), "NO CONNECTION", Snackbar.LENGTH_INDEFINITE);
             } else if (context.getClass().equals(SalonActivity.class)) {
-                snackbar = Snackbar.make(((SalonActivity) context).getSnackbarContainer(), "NO CONNECTION", Snackbar.LENGTH_INDEFINITE);
+                snackbar = Snackbar.make(((SalonActivity) context).getSnackBarContainer(), "NO CONNECTION", Snackbar.LENGTH_INDEFINITE);
             }
 
-            View snackbarView = snackbar.getView();
+            View snackBarView = snackbar.getView();
 
-            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) snackbarView.getLayoutParams();
-            params.setMargins(params.leftMargin / 2, 0, params.rightMargin / 2, 0);
-            snackbarView.setLayoutParams(params);
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) snackBarView.getLayoutParams();
+            params.setMargins(params.leftMargin, 0, params.rightMargin, 0);
+            snackBarView.setLayoutParams(params);
 
-            snackbarView.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+            snackBarView.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
 
-            TextView tv = (TextView) snackbarView.findViewById(R.id.snackbar_text);
+            TextView tv = (TextView) snackBarView.findViewById(R.id.snackbar_text);
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimension(R.dimen.text_size_small));
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

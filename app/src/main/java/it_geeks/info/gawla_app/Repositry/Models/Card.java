@@ -1,6 +1,5 @@
 package it_geeks.info.gawla_app.Repositry.Models;
 
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -9,7 +8,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Card {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo
     private int card_id;
 
@@ -41,7 +40,8 @@ public class Card {
     }
 
     @Ignore
-    public Card(int salon_id, String card_name, String card_details, String card_type, String card_color, String card_cost) {
+    public Card(int card_id, int salon_id, String card_name, String card_details, String card_type, String card_color, String card_cost) {
+        this.card_id = card_id;
         this.salon_id = salon_id;
         this.card_name = card_name;
         this.card_details = card_details;
@@ -51,13 +51,14 @@ public class Card {
     }
 
     @Ignore
-    public Card(String card_name, String card_details, String card_type, String card_color, String card_cost, int count) {
+    public Card(int card_id, String card_name, String card_details, String card_type, String card_color, String card_cost) {
+        this.card_id = card_id;
         this.card_name = card_name;
         this.card_details = card_details;
         this.card_type = card_type;
         this.card_color = card_color;
         this.card_cost = card_cost;
-        this.count = count;
+
     }
 
     public int getSalon_id() {

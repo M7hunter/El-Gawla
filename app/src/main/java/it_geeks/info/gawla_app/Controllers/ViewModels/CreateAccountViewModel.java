@@ -37,14 +37,14 @@ public class CreateAccountViewModel {
     public CreateAccountViewModel(Context context) {
         this.context = context;
     }
-    
+
     public void connectToServer(final User user, final int countryId) {
-        ((CreateAccountActivity)context).setLoadingScreen();
+        ((CreateAccountActivity) context).setLoadingScreen();
         RetrofitClient.getInstance(context).executeConnectionToServer(context,
                 RequestsActions.register.toString(), new Request(user.getName(), user.getEmail(), countryId, user.getPassword()), new HandleResponses() {
                     @Override
-                    public void handleResponseData(JsonObject mainObject) {
-                        ((CreateAccountActivity)context).closeLoadingScreen();
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        ((CreateAccountActivity) context).closeLoadingScreen();
 
                         // notify user
                         Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
@@ -58,20 +58,25 @@ public class CreateAccountViewModel {
                     }
 
                     @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+
+                    }
+
+                    @Override
                     public void handleEmptyResponse() {
-                        ((CreateAccountActivity)context).closeLoadingScreen();
+                        ((CreateAccountActivity) context).closeLoadingScreen();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        ((CreateAccountActivity)context).closeLoadingScreen();
+                        ((CreateAccountActivity) context).closeLoadingScreen();
 
                         // notify user
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
 
                         // try one more time
-                        if (errorMessage.contains("timeout") && ((CreateAccountActivity)context).reconnect < 1) {
-                            ((CreateAccountActivity)context).reconnect++;
+                        if (errorMessage.contains("timeout") && ((CreateAccountActivity) context).reconnect < 1) {
+                            ((CreateAccountActivity) context).reconnect++;
                             connectToServer(user, countryId);
                         }
                     }
@@ -102,12 +107,16 @@ public class CreateAccountViewModel {
         RetrofitClient.getInstance(context).executeConnectionToServer(context,
                 RequestsActions.loginOrRegisterWithSocial.toString(), new Request(provider, id, name, email, image, countryId), new HandleResponses() {
                     @Override
-                    public void handleResponseData(JsonObject mainObject) {
-
+                    public void handleTrueResponse(JsonObject mainObject) {
                         cacheUserData(mainObject, provider);
 
                         context.startActivity(new Intent(context, MainActivity.class));
-                        ((CreateAccountActivity)context).finish();
+                        ((CreateAccountActivity) context).finish();
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+
                     }
 
                     @Override

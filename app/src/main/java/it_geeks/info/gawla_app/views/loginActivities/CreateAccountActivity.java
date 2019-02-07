@@ -54,7 +54,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     EditText etName, etEmail, etPass;
     ProgressBar progressBar;
     ScrollView createAccountMainScreen;
-    public int reconnect = 0 ;
+    public int reconnect = 0;
     // fb login
     CallbackManager callbackManager;
     LoginButton btn_fb_login;
@@ -63,7 +63,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     String providerGoogle = "google";
     GoogleSignInClient mGoogleSignInClient;
     public static int GOOGLE_REQUEST = 1000;
-    TextInputLayout tl_create_name,tl_create_email,tl_create_pass;
+    TextInputLayout tl_create_name, tl_create_email, tl_create_pass;
 
     Button btnCreateAccount, btnAlreadyHaveAccount;
     TextView tvSignUp, tvGooglePlus, tvFacebook;
@@ -146,12 +146,12 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         });
     }
 
-    public void setLoadingScreen(){
+    public void setLoadingScreen() {
         createAccountMainScreen.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
-    public void closeLoadingScreen(){
+    public void closeLoadingScreen() {
         createAccountMainScreen.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
     }
@@ -191,34 +191,34 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             etName.requestFocus();
             closeLoadingScreen();
             return false;
-        }else tl_create_name.setErrorEnabled(false);
+        } else tl_create_name.setErrorEnabled(false);
         // check validation
         if (name.length() < 6) {
             tl_create_name.setError("name should be more than 5 chars");
             etName.requestFocus();
             closeLoadingScreen();
             return false;
-        }else tl_create_name.setErrorEnabled(false);
+        } else tl_create_name.setErrorEnabled(false);
 
         if (email.isEmpty()) {
             tl_create_email.setError("this field can't be empty");
             etEmail.requestFocus();
             closeLoadingScreen();
             return false;
-        }else tl_create_email.setErrorEnabled(false);
+        } else tl_create_email.setErrorEnabled(false);
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             tl_create_email.setError("enter a valid email address");
             etEmail.requestFocus();
             closeLoadingScreen();
             return false;
-        }else tl_create_email.setErrorEnabled(false);
+        } else tl_create_email.setErrorEnabled(false);
         if (pass.isEmpty()) {
             tl_create_pass.setError("this field can't be empty");
             etPass.requestFocus();
             closeLoadingScreen();
             return false;
-        }else tl_create_pass.setErrorEnabled(false);
+        } else tl_create_pass.setErrorEnabled(false);
 
         return true;
     }
@@ -227,44 +227,49 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         setLoadingScreen();
         RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer(CreateAccountActivity.this,
                 RequestsActions.register.toString(), new Request(user.getName(), user.getEmail(), countryId, user.getPassword()), new HandleResponses() {
-            @Override
-            public void handleResponseData(JsonObject mainObject) {
-                closeLoadingScreen();
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        closeLoadingScreen();
 
-                // notify user
-                Toast.makeText(CreateAccountActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        // notify user
+                        Toast.makeText(CreateAccountActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
 
-                // save user data locally
-                new CreateAccountViewModel(CreateAccountActivity.this).cacheUserData(mainObject, getResources().getString(R.string.app_name));
+                        // save user data locally
+                        new CreateAccountViewModel(CreateAccountActivity.this).cacheUserData(mainObject, getResources().getString(R.string.app_name));
 
-                // goto next page
-                startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-            }
+                        // goto next page
+                        startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                    }
 
-            @Override
-            public void handleEmptyResponse() {
-                closeLoadingScreen();
-            }
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
 
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                closeLoadingScreen();
+                    }
 
-                // notify user
-                Toast.makeText(CreateAccountActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void handleEmptyResponse() {
+                        closeLoadingScreen();
+                    }
 
-                // try one more time
-                if (errorMessage.contains("timeout") && reconnect < 1) {
-                    reconnect++;
-                    connectToServer(user, countryId);
-                }
-            }
-        });
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        closeLoadingScreen();
+
+                        // notify user
+                        Toast.makeText(CreateAccountActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+
+                        // try one more time
+                        if (errorMessage.contains("timeout") && reconnect < 1) {
+                            reconnect++;
+                            connectToServer(user, countryId);
+                        }
+                    }
+                });
 
     }
 
-   // facebook Login
+    // facebook Login
     private void facebookLogin() {
         btn_fb_login.setReadPermissions(Arrays.asList("public_profile", "email"));
         btn_fb_login.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {

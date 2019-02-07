@@ -39,9 +39,14 @@ public class RecentSalonsCallback extends PagedList.BoundaryCallback<Round> {
         RetrofitClient.getInstance(context).executeConnectionToServer(context,
                 "getAllSalons", new Request(sm.getUser().getUser_id(), sm.getUser().getApi_token()), new HandleResponses() {
                     @Override
-                    public void handleResponseData(JsonObject mainObject) {
+                    public void handleTrueResponse(JsonObject mainObject) {
                         insertItemsIntoDatabase(mainObject);
                         Toast.makeText(context, "connect", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+
                     }
 
                     @Override

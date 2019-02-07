@@ -144,11 +144,15 @@ public class MainFragment extends Fragment {
         RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(),
                 "getAllSalons", new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
                     @Override
-                    public void handleResponseData(JsonObject mainObject) {
-
+                    public void handleTrueResponse(JsonObject mainObject) {
                         insertItemsIntoDatabase(mainObject);
                         roundList = ParseResponses.parseRounds(mainObject, gawlaDataBse);
                         initSalonsRecycler(view);
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+
                     }
 
                     @Override

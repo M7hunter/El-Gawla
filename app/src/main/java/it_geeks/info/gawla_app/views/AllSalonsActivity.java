@@ -176,7 +176,7 @@ public class AllSalonsActivity extends AppCompatActivity {
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
                 "getAllCardsCategories", new Request(userId, apiToken), new HandleResponses() {
                     @Override
-                    public void handleResponseData(JsonObject mainObject) {
+                    public void handleTrueResponse(JsonObject mainObject) {
 
                         categoryList = ParseResponses.parseCategories(mainObject);
 
@@ -191,6 +191,11 @@ public class AllSalonsActivity extends AppCompatActivity {
                         initSalonsRecycler();
 
                         initSalonsEmptyView();
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+
                     }
 
                     @Override

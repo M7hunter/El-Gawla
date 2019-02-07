@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <!-- title -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:gravity="center"
+        android:text="@string/edit_pass"
+        android:textColor="@color/azure"
+        android:textSize="@dimen/text_size_large" />
+
+    <!-- old pass -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tl_old_pass"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_xxlarge"
+        android:layout_marginEnd="@dimen/margin_xxlarge"
+        android:layout_marginBottom="@dimen/margin_tiny"
+        android:textColorHint="@color/paleGrey2"
+        app:errorEnabled="true">
+
+        <EditText
+            android:id="@+id/et_old_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/recent_pass"
+            android:inputType="textPassword"
+            android:paddingStart="@dimen/margin_xlarge"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_xlarge"
+            android:paddingBottom="@dimen/margin_small"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- new pass -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tl_new_pass"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_xxlarge"
+        android:layout_marginEnd="@dimen/margin_xxlarge"
+        android:textColorHint="@color/paleGrey2"
+        app:errorEnabled="true">
+
+        <EditText
+            android:id="@+id/et_new_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/new_pass"
+            android:inputType="textPassword"
+            android:paddingStart="@dimen/margin_xlarge"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_xlarge"
+            android:paddingBottom="@dimen/margin_small"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_edit_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <!-- buttons container -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/margin_tiny">
+
+        <!-- continue -->
+        <Button
+            android:id="@+id/btn_continue_op"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_xTiny"
+            android:paddingTop="@dimen/margin_tiny"
+            android:paddingBottom="@dimen/margin_tiny"
+            android:text="@string/continue_" />
+
+        <!-- cancel -->
+        <Button
+            android:id="@+id/btn_cancel_op"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_xTiny"
+            android:paddingTop="@dimen/margin_tiny"
+            android:paddingBottom="@dimen/margin_tiny"
+            android:text="@string/cancel" />
+
+    </LinearLayout>
+
+</LinearLayout>
