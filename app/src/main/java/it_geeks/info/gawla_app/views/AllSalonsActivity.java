@@ -181,8 +181,9 @@ public class AllSalonsActivity extends AppCompatActivity {
     private void transAndSortDates() {
         List<String> dates = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsDates();
 
+        dateList.clear();
+
         for (String date : dates) {
-            dateList.clear();
             dateList.add(transformDateToNames(date));
         }
 

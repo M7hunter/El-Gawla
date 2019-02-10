@@ -74,10 +74,12 @@ public class RoundStartToEnd {
            }else if (pay_join_status){
                pay_join_value(pay_join_value * milli);
            }else if (first_round_status){
+               ((SalonActivity) context).timeState = "first_round_status";
                first_round_value(first_round_value * milli);
            }else if (first_rest_status){
                first_rest_value(first_rest_value * milli);
            }else if (seconed_round_status){
+               ((SalonActivity) context).timeState = "seconed_round_status";
                seconed_round_value(seconed_round_value * milli);
            }else if (seconed_rest_status){
                seconed_rest_value(seconed_rest_value * milli);

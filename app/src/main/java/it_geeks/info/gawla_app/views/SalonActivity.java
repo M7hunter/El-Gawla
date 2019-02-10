@@ -10,7 +10,6 @@ import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.format.Time;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -32,8 +31,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -42,6 +41,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import io.socket.client.Ack;
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.ConnectionChangeReceiver;
@@ -55,7 +58,6 @@ import it_geeks.info.gawla_app.Repositry.Models.RoundStartToEndModel;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Controllers.Adapters.BottomCardsAdapter;
 import it_geeks.info.gawla_app.Controllers.Adapters.ProductSubImagesAdapter;
 import it_geeks.info.gawla_app.views.Round.RoundStartToEnd;
@@ -108,6 +110,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private ImageView btnPlayPause;
     private int stopPosition = 0;
 
+    private Socket socket;
+
+    public String timeState = "";
+
     ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
 
     public ProductSubImage productSubImage = new ProductSubImage();
@@ -138,9 +144,22 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         handleEvents();
     }
 
+    public void initSocket() {
+        try {
+            socket = IO.socket("http://192.168.1.3:8888");
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        socket.connect();
+
+        socket.emit("join", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
+    }
+
     // loading screen
     public void setLoadingScreen() {
-        progress.setMessage("Wait while loading...");
+        progress.setMessage(getResources().getString(R.string.loading));
         progress.setCancelable(false);
         progress.show();
     }
@@ -158,12 +177,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 closeLoadingScreen();
 
                 boolean isToday = mainObject.get("isToday").getAsBoolean();
-                if (isToday){
+                if (isToday) {
 
                     startTimeDown(ParseResponses.parseRoundRealTime(mainObject));
-                }else {
-                        tvSalonTime.setText(getResources().getString(R.string.round_date) + round_date);
-                        tvSalonTime.setTextColor(Color.RED);
+                } else {
+                    tvSalonTime.setText(getResources().getString(R.string.round_date) + round_date);
+                    tvSalonTime.setTextColor(Color.RED);
                 }
 
             }
@@ -239,6 +258,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             roundStartToEnd.start();
         } catch (NullPointerException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        if (timeState.equals("first_round_status") || timeState.equals("seconed_round_status")) {
+            initSocket();
         }
     }
 
@@ -548,6 +571,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private void sendOfferToServer() {
         try {
             int userOffer = Integer.parseInt(etAddOffer.getText().toString());
+
+            socket.emit("setUserOffer", userOffer);
 
             RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
                     "setUserOffer",
@@ -946,10 +971,15 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(connectionChangeReceiver);
+        if (socket != null) {
+            if (socket.connected()) {
+                socket.emit(Socket.EVENT_DISCONNECT, SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
+                socket.disconnect();
+            }
+        }
         try {
             roundStartToEnd.stop(); // stop Time Down
         } catch (Exception e) {
         }
-
     }
 }
