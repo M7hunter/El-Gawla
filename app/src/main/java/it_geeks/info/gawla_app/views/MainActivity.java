@@ -2,8 +2,13 @@ package it_geeks.info.gawla_app.views;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Process;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;

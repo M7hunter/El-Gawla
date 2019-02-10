@@ -1,6 +1,9 @@
 package it_geeks.info.gawla_app.Controllers.Adapters;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +17,9 @@ import com.google.gson.JsonObject;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
-import it_geeks.info.gawla_app.Repositry.Models.Trans;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
@@ -58,8 +61,9 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Common.Instance(context).setLang(sLang(lang));
-                context.startActivity(new Intent(context, MainActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+//                context.startActivity(new Intent(context, MainActivity.class)
+//                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                restartDialog();
             }
         });
 
@@ -75,6 +79,27 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 //                GawlaDataBse.getGawlaDatabase(context).transDao().insertTrans(new Trans("recent_salons", "recent salons en", "en"));
 //            }
 //        });
+    }
+
+
+
+    private void restartDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        dialogBuilder.setMessage("Restart the app and change language ?")
+                .setNegativeButton(context.getResources().getString(R.string.cancel), null)
+                .setPositiveButton(context.getResources().getString(R.string.continue_), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        RestartTheApp();
+                    }
+                }).show();
+    }
+
+    private void RestartTheApp() {
+        AlarmManager alm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alm.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_CANCEL_CURRENT));
+//        Process.killProcess(Process.myPid());
+        System.exit(0);
     }
 
     private void downloadLangFromServer(String lang) {

@@ -570,9 +570,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void sendOfferToServer() {
         try {
-            int userOffer = Integer.parseInt(etAddOffer.getText().toString());
+            final int userOffer = Integer.parseInt(etAddOffer.getText().toString());
 
-            socket.emit("setUserOffer", userOffer);
+            socket.emit("add_offer", userOffer);
 
             RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
                     "setUserOffer",
@@ -583,8 +583,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
                             closeLoadingScreen();
-                            round_notification_text.setText("You added a new Deal .");
-                            Toast.makeText(SalonActivity.this, "You added a new Deal .", Toast.LENGTH_SHORT).show();
+                            round_notification_text.setText("You offered " + userOffer);
+                            Toast.makeText(SalonActivity.this, "You added a new Deal", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
