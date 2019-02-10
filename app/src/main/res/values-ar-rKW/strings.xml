@@ -184,4 +184,5 @@
     <string name="cancel">الغاء</string>
     <string name="new_pass">كلمة السر الجديدة</string>
     <string name="edit_pass">تعديل كلمة السر</string>
+    <string name="loading">تحميل...</string>
 </resources>

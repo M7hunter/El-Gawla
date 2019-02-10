@@ -10,7 +10,7 @@ import retrofit2.http.POST;
 
 public interface APIs {
 
-    // request salons || cards || login || register || upload Image || SocialMedia Login
-    @POST("master")
-    Call<JsonObject> request(@Body RequestMainBody requestMainBody);
+  // request salons || cards || login || register || upload Image || SocialMedia Login
+  @POST("master")
+  Call<JsonObject> request(@Body RequestMainBody requestMainBody);
 }

@@ -63,6 +63,6 @@ public class RecentSalonsCallback extends PagedList.BoundaryCallback<Round> {
 
     private void insertItemsIntoDatabase(JsonObject mainObj) {
         gawlaDataBse.roundDao().removeRounds(gawlaDataBse.roundDao().getRounds());
-        gawlaDataBse.roundDao().insertRoundList(ParseResponses.parseRounds(mainObj, gawlaDataBse));
+        gawlaDataBse.roundDao().insertRoundList(ParseResponses.parseRounds(mainObj));
     }
 }

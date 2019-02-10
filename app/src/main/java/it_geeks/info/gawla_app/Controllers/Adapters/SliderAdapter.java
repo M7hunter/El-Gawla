@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.views.splashActivities.IntroActivity;
 
 public class SliderAdapter extends PagerAdapter {
     Context context;
@@ -21,23 +20,23 @@ public class SliderAdapter extends PagerAdapter {
 
     public SliderAdapter(Context context) {
         this.context = context;
-          slide_Images = new int[]{
-                  R.drawable.onbord1,
-                  R.drawable.onbord2,
-                  R.drawable.onbord3
-          };
+        slide_Images = new int[]{
+                R.drawable.onbord1,
+                R.drawable.onbord2,
+                R.drawable.onbord3
+        };
 
-         slide_headings = new String[]{
-                 context.getResources().getString(R.string.slide_heading1),
-                 context.getResources().getString(R.string.slide_heading2),
-                 context.getResources().getString(R.string.slide_heading3)
-         };
+        slide_headings = new String[]{
+                context.getResources().getString(R.string.slide_heading1),
+                context.getResources().getString(R.string.slide_heading2),
+                context.getResources().getString(R.string.slide_heading3)
+        };
 
-         slide_descs = new String[]{
-                 context.getResources().getString(R.string.slide_descs1),
-                 context.getResources().getString(R.string.slide_descs2),
-                 context.getResources().getString(R.string.slide_descs3)
-         };
+        slide_descs = new String[]{
+                context.getResources().getString(R.string.slide_descs1),
+                context.getResources().getString(R.string.slide_descs2),
+                context.getResources().getString(R.string.slide_descs3)
+        };
     }
 
     @Override

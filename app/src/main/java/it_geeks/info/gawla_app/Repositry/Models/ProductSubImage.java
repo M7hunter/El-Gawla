@@ -1,12 +1,14 @@
 package it_geeks.info.gawla_app.Repositry.Models;
 
+import java.io.Serializable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class ProductSubImage {
+public class ProductSubImage implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo

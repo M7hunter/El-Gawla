@@ -21,6 +21,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Controllers.Adapters.CategoryAdapter;
+import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
+import it_geeks.info.gawla_app.Repositry.Storage.CardDao;
+import it_geeks.info.gawla_app.Repositry.Storage.ProductImageDao;
+import it_geeks.info.gawla_app.Repositry.Storage.RoundDao;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.ConnectionInterface;
 import it_geeks.info.gawla_app.general.OnItemClickListener;
@@ -41,16 +45,19 @@ public class AllSalonsActivity extends AppCompatActivity {
 
     public static Activity allSalonsActivityInstance;
 
-    RecyclerView dateSalonsRecycler;
-    RecyclerView filterRecycler;
+    private RecyclerView dateSalonsRecycler;
+    private RecyclerView filterRecycler;
 
-    List<Round> roundsList = new ArrayList<>();
-    List<Category> categoryList = new ArrayList<>();
-    List<SalonDate> dateList = new ArrayList<>();
+    private List<Round> roundsList = new ArrayList<>();
+    private List<Category> categoryList = new ArrayList<>();
+    private List<SalonDate> dateList = new ArrayList<>();
 
-    BottomSheetDialog mBottomSheetDialogFilterBy;
+    private BottomSheetDialog mBottomSheetDialogFilterBy;
 
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
+
+    private int userId;
+    private String apiToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +66,9 @@ public class AllSalonsActivity extends AppCompatActivity {
 
         allSalonsActivityInstance = this;
 
+        userId = SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getUser_id();
+        apiToken = Common.Instance(AllSalonsActivity.this).removeQuotes(SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getApi_token());
+
         initViews();
 
         initBottomSheetFilterBy();
@@ -66,7 +76,7 @@ public class AllSalonsActivity extends AppCompatActivity {
         Common.Instance(AllSalonsActivity.this).ApplyOnConnection(AllSalonsActivity.this, new ConnectionInterface() {
             @Override
             public void onConnected() {
-                transAndSortDates();
+                getDatesAndRoundsFromServer();
             }
 
             @Override
@@ -113,16 +123,70 @@ public class AllSalonsActivity extends AppCompatActivity {
         });
     }
 
+    private void getDatesAndRoundsFromServer() {
+        progressDialog.show();
+        RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
+                "getAllSalons", new Request(userId, apiToken), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        updateDatabaseList(ParseResponses.parseRounds(mainObject));
+
+                        transAndSortDates();
+
+                        initDatesAdapter();
+
+                        try {
+                            roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(dateList.get(0).getDate());
+                        } catch (IndexOutOfBoundsException e) {
+                            e.printStackTrace();
+                        }
+
+                        initSalonsRecycler();
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+                        initSalonsEmptyView();
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        initSalonsEmptyView();
+                        Toast.makeText(AllSalonsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void updateDatabaseList(List<Round> rounds) {
+        RoundDao roundDao = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao();
+        roundDao.removeRounds(roundDao.getRounds());
+        roundDao.insertRoundList(rounds);
+
+        ProductImageDao productImageDao = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).productImageDao();
+        productImageDao.removeSubImages(productImageDao.getSubImages());
+        CardDao cardDao = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).cardDao();
+        cardDao.removeCards(cardDao.getCards());
+
+        for (int i = 0; i < rounds.size(); i++) {
+            productImageDao.insertSubImages(rounds.get(i).getProduct_images());
+            cardDao.insertCards(rounds.get(i).getSalon_cards());
+        }
+    }
+
     private void transAndSortDates() {
         List<String> dates = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsDates();
 
         for (String date : dates) {
+            dateList.clear();
             dateList.add(transformDateToNames(date));
         }
 
         Common.Instance(AllSalonsActivity.this).sortList(dateList);
-
-        getDatesAndRoundsFromDb();
     }
 
     public SalonDate transformDateToNames(String date) {
@@ -141,20 +205,6 @@ public class AllSalonsActivity extends AppCompatActivity {
         return new SalonDate(date, day, monthName, dayOfWeek, GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getDatesCount(date) + getResources().getString(R.string.salons));
     }
 
-    private void getDatesAndRoundsFromDb() {
-        initDatesAdapter();
-
-        try {
-            roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(dateList.get(0).getDate());
-        } catch (IndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
-
-        initSalonsRecycler();
-
-        initSalonsEmptyView();
-    }
-
     private void initDatesAdapter() {
         filterRecycler.setAdapter(new DateAdapter(AllSalonsActivity.this, dateList, new OnItemClickListener() {
             @Override
@@ -170,9 +220,6 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void getCategoriesAndRoundsFromServer() {
-        int userId = SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getUser_id();
-        String apiToken = Common.Instance(AllSalonsActivity.this).removeQuotes(SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getApi_token());
-
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
                 "getAllCardsCategories", new Request(userId, apiToken), new HandleResponses() {
                     @Override
@@ -189,26 +236,20 @@ public class AllSalonsActivity extends AppCompatActivity {
                         }
 
                         initSalonsRecycler();
-
-                        initSalonsEmptyView();
                     }
 
                     @Override
                     public void handleFalseResponse(JsonObject mainObject) {
-
                     }
 
                     @Override
                     public void handleEmptyResponse() {
-
                         initSalonsEmptyView();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-
                         initSalonsEmptyView();
-
                         Toast.makeText(AllSalonsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -256,7 +297,8 @@ public class AllSalonsActivity extends AppCompatActivity {
         sheetView.findViewById(R.id.btn_filter_by_date).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getDatesAndRoundsFromDb();
+                getDatesAndRoundsFromServer();
+                progressDialog.show();
                 mBottomSheetDialogFilterBy.dismiss();
             }
         });
@@ -292,7 +334,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
     private void buildProgressDialog() {
         progressDialog = new ProgressDialog(AllSalonsActivity.this);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getResources().getString(R.string.loading));
         progressDialog.setCancelable(false);
     }
 }

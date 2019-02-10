@@ -13,46 +13,46 @@ import it_geeks.info.gawla_app.Controllers.Adapters.NotificationAdapter;
 
 public class NotificationActivity extends AppCompatActivity {
 
-    RecyclerView recyclerNotificationList;
+  RecyclerView recyclerNotificationList;
 
-    ArrayList<String> arrayList = new ArrayList<>();
+  ArrayList<String> arrayList = new ArrayList<>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notification);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_notification);
 
-        initViews();
+    initViews();
 
-        getData();
+    getData();
 
-        initNotiRecycler();
+    initNotiRecycler();
+  }
+
+  private void getData() {
+    for (int i = 0; i < 6; i++) {
+      arrayList.add(i+"");
     }
+  }
 
-    private void getData() {
-        for (int i = 0; i < 6; i++) {
-            arrayList.add(i+"");
-        }
-    }
+  private void initViews() {
+    View back = findViewById(R.id.notification_back);
+    // back
+    back.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        onBackPressed();
+      }
+    });
+    back.requestFocus();
+  }
 
-    private void initViews() {
-        View back = findViewById(R.id.notification_back);
-        // back
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        back.requestFocus();
-    }
+  private void initNotiRecycler() {
+    recyclerNotificationList = findViewById(R.id.notification_list);
+    recyclerNotificationList.setLayoutManager(new LinearLayoutManager(this));
+    NotificationAdapter notificationAdapter = new NotificationAdapter(NotificationActivity.this,arrayList);
+    recyclerNotificationList.setAdapter(notificationAdapter);
 
-    private void initNotiRecycler() {
-        recyclerNotificationList = findViewById(R.id.notification_list);
-        recyclerNotificationList.setLayoutManager(new LinearLayoutManager(this));
-        NotificationAdapter notificationAdapter = new NotificationAdapter(NotificationActivity.this,arrayList);
-        recyclerNotificationList.setAdapter(notificationAdapter);
-
-    }
+  }
 
 }
