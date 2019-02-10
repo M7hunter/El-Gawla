@@ -31,7 +31,7 @@ public class RoundsPagerAdapter extends PagerAdapter {
     public RoundsPagerAdapter(Context context, List<Round> roundsList) {
         this.context = context;
         this.roundsList = roundsList;
-        }
+    }
 
     @Override
     public int getCount() {
@@ -68,7 +68,7 @@ public class RoundsPagerAdapter extends PagerAdapter {
         tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
         tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
         tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getRound_start_time()));
-        cardsRecycler.setAdapter(new SalonCardsAdapter(context, GawlaDataBse.getGawlaDatabase(context).cardDao().getCardsById(round.getSalon_id())));
+        cardsRecycler.setAdapter(new SalonCardsAdapter(context, round.getSalon_cards()));
         Common.Instance(context).changeDrawableViewColor(tvProductCategory, round.getCategory_color());
 
         // open round page

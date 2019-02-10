@@ -1,14 +1,18 @@
 package it_geeks.info.gawla_app.Repositry.Models;
 
+import java.io.Serializable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Card {
+public class Card implements Serializable {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
     @ColumnInfo
     private int card_id;
 
@@ -59,6 +63,14 @@ public class Card {
         this.card_color = card_color;
         this.card_cost = card_cost;
 
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getSalon_id() {

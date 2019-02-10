@@ -114,7 +114,7 @@ public class MyRoundsFragment extends Fragment {
                 "getSalonByUserID", new Request(userId, apiToken), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        roundsList.addAll(parseRounds(mainObject, GawlaDataBse.getGawlaDatabase(getActivity())));
+                        roundsList.addAll(parseRounds(mainObject));
 
                         initPager();
 

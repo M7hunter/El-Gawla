@@ -3,6 +3,7 @@ package it_geeks.info.gawla_app.Controllers.Adapters;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,6 +60,7 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
 
             // open round page
             viewHolder.btnJoinRound.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(context, SalonActivity.class);
@@ -90,7 +93,7 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
             });
         } else { // placeholder
 
-            viewHolder.imgProductImage.setImageDrawable(context.getDrawable(R.drawable.placeholder));
+            viewHolder.imgProductImage.setImageDrawable(context.getResources().getDrawable(R.drawable.placeholder));
             viewHolder.tvProductName.setText("...");
             viewHolder.tvProductCategory.setText("...");
             viewHolder.tvStartTime.setText("...");
@@ -116,7 +119,7 @@ public class RecentSalonsPagedAdapter extends PagedListAdapter<Round, RecentSalo
             // nested recycler
             cardsRecycler = itemView.findViewById(R.id.salon_cards_recycler);
             cardsRecycler.setHasFixedSize(true);
-            cardsRecycler.setLayoutManager(new LinearLayoutManager(context, 1, false));
+            cardsRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         }
     }
 }

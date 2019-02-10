@@ -43,5 +43,4 @@ public interface RoundDao {
     @Query("SELECT COUNT(round_date) FROM Round WHERE round_date = :date")
     String getDatesCount(String date);
 
-
 }

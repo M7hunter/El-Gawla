@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Round {
 
-    @PrimaryKey()
+    @PrimaryKey
     @ColumnInfo
     private int product_id;
 
@@ -41,7 +41,7 @@ public class Round {
     private String product_image;
 
     @Ignore
-    private List<String> product_images;
+    private List<ProductSubImage> product_images;
 
     @Ignore
     private List<Card> salon_cards;
@@ -71,8 +71,7 @@ public class Round {
     public Round() {
     }
 
-    @Ignore
-    public Round(int product_id, int salon_id,String product_name, String category_name, String category_color, String country_name, String product_commercial_price, String product_product_description, String product_image, String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time) {
+    public Round(int product_id, int salon_id, String product_name, String category_name, String category_color, String country_name, String product_commercial_price, String product_product_description, String product_image, List<ProductSubImage> product_images, List<Card> salon_cards, String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time) {
         this.product_id = product_id;
         this.salon_id = salon_id;
         this.product_name = product_name;
@@ -82,6 +81,8 @@ public class Round {
         this.product_commercial_price = product_commercial_price;
         this.product_product_description = product_product_description;
         this.product_image = product_image;
+        this.product_images = product_images;
+        this.salon_cards = salon_cards;
         this.round_start_time = round_start_time;
         this.round_end_time = round_end_time;
         this.first_join_time = first_join_time;
@@ -164,11 +165,11 @@ public class Round {
         this.product_image = product_image;
     }
 
-    public List<String> getProduct_images() {
+    public List<ProductSubImage> getProduct_images() {
         return product_images;
     }
 
-    public void setProduct_images(List<String> product_images) {
+    public void setProduct_images(List<ProductSubImage> product_images) {
         this.product_images = product_images;
     }
 

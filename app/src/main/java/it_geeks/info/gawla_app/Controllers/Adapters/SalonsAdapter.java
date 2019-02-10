@@ -13,11 +13,14 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.views.SalonActivity;
@@ -57,7 +60,15 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
             viewHolder.tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
             viewHolder.tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
             viewHolder.tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getRound_start_time()));
-            viewHolder.cardsRecycler.setAdapter(new SalonCardsAdapter(context, GawlaDataBse.getGawlaDatabase(context).cardDao().getCardsById(round.getSalon_id())));
+
+            if (round.getSalon_cards() != null) {
+                viewHolder.cardsRecycler.setAdapter(new SalonCardsAdapter(context, round.getSalon_cards()));
+            } else {
+                List<Card> cards = GawlaDataBse.getGawlaDatabase(context).cardDao().getCardsById(round.getSalon_id());
+                viewHolder.cardsRecycler.setAdapter(new SalonCardsAdapter(context, cards));
+                round.setSalon_cards(cards);
+                round.setProduct_images(GawlaDataBse.getGawlaDatabase(context).productImageDao().getSubImagesById(round.getProduct_id()));
+            }
 
             Common.Instance(context).changeDrawableViewColor(viewHolder.tvProductCategory, round.getCategory_color());
 
@@ -83,6 +94,8 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                     i.putExtra("round_date", round.getRound_date());
                     i.putExtra("round_time", round.getRound_time());
                     i.putExtra("rest_time", round.getRest_time());
+                    i.putExtra("product_images", (Serializable) round.getProduct_images());
+                    i.putExtra("salon_cards", (Serializable) round.getSalon_cards());
 
                     // start with transition
                     Pair[] pairs = new Pair[2];

@@ -2,144 +2,144 @@ package it_geeks.info.gawla_app.Repositry.Models;
 
 public class User {
 
-    private int user_id;
+  private int user_id;
 
-    private String api_token;
+  private String api_token;
 
-    private String name;
+  private String name;
 
-    private int country_id;
+  private int country_id;
 
-    private String image;
+  private String image;
 
-    private String email;
+  private String email;
 
-    private String membership;
+  private String membership;
 
-    private String gender;
+  private String gender;
 
-    private String firstName;
+  private String firstName;
 
-    private String lastName;
+  private String lastName;
 
-    private String phone;
+  private String phone;
 
-    private String password;
+  private String password;
 
-    public User(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.membership = "basic";
-        this.password = password;
-    }
+  public User(String name, String email, String password) {
+    this.name = name;
+    this.email = email;
+    this.membership = "basic";
+    this.password = password;
+  }
 
-    public User(int user_id, String api_token, String name, int country_id, String image, String email, String membership, String gender, String firstName, String lastName, String phone) {
-        this.user_id = user_id;
-        this.api_token = api_token;
-        this.name = name;
-        this.country_id = country_id;
-        this.image = image;
-        this.email = email;
-        this.membership = membership;
-        this.gender = gender;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-    }
+  public User(int user_id, String api_token, String name, int country_id, String image, String email, String membership, String gender, String firstName, String lastName, String phone) {
+    this.user_id = user_id;
+    this.api_token = api_token;
+    this.name = name;
+    this.country_id = country_id;
+    this.image = image;
+    this.email = email;
+    this.membership = membership;
+    this.gender = gender;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.phone = phone;
+  }
 
-    public int getUser_id() {
-        return user_id;
-    }
+  public int getUser_id() {
+    return user_id;
+  }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
+  public void setUser_id(int user_id) {
+    this.user_id = user_id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public int getCountry_id() {
-        return country_id;
-    }
+  public int getCountry_id() {
+    return country_id;
+  }
 
-    public void setCountry_id(int country_id) {
-        this.country_id = country_id;
-    }
+  public void setCountry_id(int country_id) {
+    this.country_id = country_id;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public String getApi_token() {
-        return api_token;
-    }
+  public String getApi_token() {
+    return api_token;
+  }
 
-    public void setApi_token(String api_token) {
-        this.api_token = api_token;
-    }
+  public void setApi_token(String api_token) {
+    this.api_token = api_token;
+  }
 
-    public String getImage() {
-        return image;
-    }
+  public String getImage() {
+    return image;
+  }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+  public void setImage(String image) {
+    this.image = image;
+  }
 
-    public String getMembership() {
-        return membership;
-    }
+  public String getMembership() {
+    return membership;
+  }
 
-    public void setMembership(String membership) {
-        this.membership = membership;
-    }
+  public void setMembership(String membership) {
+    this.membership = membership;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public String getFirstName() {
-        return firstName;
-    }
+  public String getFirstName() {
+    return firstName;
+  }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
 
-    public String getLastName() {
-        return lastName;
-    }
+  public String getLastName() {
+    return lastName;
+  }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 
-    public String getGender() {
-        return gender;
-    }
+  public String getGender() {
+    return gender;
+  }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
+  public void setGender(String gender) {
+    this.gender = gender;
+  }
 
-    public String getPhone() {
-        return phone;
-    }
+  public String getPhone() {
+    return phone;
+  }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
 }

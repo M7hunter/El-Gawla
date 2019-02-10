@@ -68,6 +68,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 //            public void onClick(View v) {
 //                downloadLangFromServer();
 
+        // test
 //                GawlaDataBse.getGawlaDatabase(context).transDao().insertTrans(new Trans("see_all", "test ar", "ar"));
 //                GawlaDataBse.getGawlaDatabase(context).transDao().insertTrans(new Trans("see_all", "test en", "en"));
 //                GawlaDataBse.getGawlaDatabase(context).transDao().insertTrans(new Trans("recent_salons", "recent salons ar", "ar"));

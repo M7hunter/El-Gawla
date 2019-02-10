@@ -14,14 +14,13 @@ import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Models.RoundRealTimeModel;
 import it_geeks.info.gawla_app.Repositry.Models.User;
-import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 
 public class ParseResponses {
 
     public ParseResponses() {
     }
 
-    public static List<Round> parseRounds(JsonObject object, GawlaDataBse gawlaDataBse) {
+    public static List<Round> parseRounds(JsonObject object) {
         List<Round> rounds = new ArrayList<>();
         JsonArray roundsArray = object.get("salons").getAsJsonArray();
 
@@ -44,14 +43,6 @@ public class ParseResponses {
             String round_time = roundObj.get("round_time").getAsString();
             String rest_time = roundObj.get("rest_time").getAsString();
 
-            // save product images in locale storage
-            gawlaDataBse.productImageDao().removeSubImages(gawlaDataBse.productImageDao().getSubImagesById(product_id));
-            gawlaDataBse.productImageDao().insertSubImages(parseImages(roundObj, product_id));
-
-            // save product cards in locale storage
-            gawlaDataBse.cardDao().removeCards(gawlaDataBse.cardDao().getCardsById(salon_id));
-            gawlaDataBse.cardDao().insertCards(parseSalonCards(roundObj, salon_id));
-
             rounds.add(
                     new Round(product_id,
                             salon_id,
@@ -62,6 +53,8 @@ public class ParseResponses {
                             product_commercial_price,
                             product_product_description,
                             product_image,
+                            parseSubImages(roundObj, product_id),
+                            parseSalonCards(roundObj, salon_id),
                             round_start_time,
                             round_end_time,
                             first_join_time,
@@ -74,7 +67,7 @@ public class ParseResponses {
         return rounds;
     }
 
-    private static List<ProductSubImage> parseImages(JsonObject roundObj, int product_id) {
+    private static List<ProductSubImage> parseSubImages(JsonObject roundObj, int product_id) {
         JsonArray product_images = roundObj.get("product_images").getAsJsonArray();
 
         List<ProductSubImage> subImagesList = new ArrayList<>();

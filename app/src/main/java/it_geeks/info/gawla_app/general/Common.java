@@ -1,7 +1,6 @@
 package it_geeks.info.gawla_app.general;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -19,7 +18,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -39,8 +37,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.views.menuOptions.MoreAboutGawlaActivity;
-import it_geeks.info.gawla_app.views.menuOptions.TermsAndConditionsActivity;
 
 public class Common {
 

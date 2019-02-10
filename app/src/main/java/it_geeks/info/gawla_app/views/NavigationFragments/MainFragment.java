@@ -151,8 +151,7 @@ public class MainFragment extends Fragment {
                 new Data("getAllSalons", page), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        roundList.addAll(ParseResponses.parseRounds(mainObject, gawlaDataBse));
-                        insertItemsIntoDatabase(roundList);
+                        roundList.addAll(ParseResponses.parseRounds(mainObject));
                         initSalonsRecycler();
 
                         last_page = mainObject.get("last_page").getAsInt();
@@ -186,18 +185,15 @@ public class MainFragment extends Fragment {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         int nextFirstPosition = roundList.size();
-                        roundList.addAll(ParseResponses.parseRounds(mainObject, gawlaDataBse));
+                        roundList.addAll(ParseResponses.parseRounds(mainObject));
                         for (int i = nextFirstPosition; i < roundList.size(); i++) {
                             recentSalonsPagedAdapter.notifyItemInserted(i);
                         }
 
                         recentSalonsRecycler.smoothScrollToPosition(nextFirstPosition);
 
-                        insertItemsIntoDatabase(roundList);
-
-                        page = page + 1;
-
                         addScrollListener();
+                        page = page + 1;
                     }
 
                     @Override
@@ -213,11 +209,6 @@ public class MainFragment extends Fragment {
                         Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    private void insertItemsIntoDatabase(List<Round> rounds) {
-//        gawlaDataBse.roundDao().removeRounds(gawlaDataBse.roundDao().getRounds());
-        gawlaDataBse.roundDao().insertRoundList(rounds);
     }
 
     private void initSalonsRecycler() {
@@ -256,7 +247,7 @@ public class MainFragment extends Fragment {
 //        });
     }
 
-    public void addScrollListener() {
+    private void addScrollListener() {
         recentSalonsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {

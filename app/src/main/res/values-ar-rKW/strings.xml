@@ -186,4 +186,5 @@
     <string name="new_pass">كلمة السر الجديدة</string>
     <string name="edit_pass">تعديل كلمة السر</string>
     <string name="day">يوم</string>
+    <string name="loading">تحميل...</string>
 </resources>
