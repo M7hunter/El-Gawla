@@ -53,8 +53,14 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
 
         PendingIntent pendingIntent = getNotificationData(data);
 
-        String title = data.get("title").toString();
-        String body = data.get("body").toString();
+        String title = "Gawla";
+        String body = "";
+        try {
+            title = data.get("title");
+            body = data.get("body");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
