@@ -26,6 +26,7 @@ import it_geeks.info.gawla_app.Repositry.RequestsActions;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.loginActivities.CreateAccountActivity;
+import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 import it_geeks.info.gawla_app.views.loginActivities.SubscribePlanActivity;
 
 import static it_geeks.info.gawla_app.views.loginActivities.LoginActivity.providerFacebook;
@@ -105,7 +106,7 @@ public class CreateAccountViewModel {
     public void socialLogin(String id, final String name, final String email, final String image, final String provider) {
         int countryId = SharedPrefManager.getInstance(context).getCountry().getCountry_id();
         RetrofitClient.getInstance(context).executeConnectionToServer(context,
-                RequestsActions.loginOrRegisterWithSocial.toString(), new Request(provider, id, name, email, image, countryId), new HandleResponses() {
+                RequestsActions.loginOrRegisterWithSocial.toString(), new Request(provider, id, name, email, image, countryId, LoginActivity.FirebaseInstanceTokenID()), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         cacheUserData(mainObject, provider);

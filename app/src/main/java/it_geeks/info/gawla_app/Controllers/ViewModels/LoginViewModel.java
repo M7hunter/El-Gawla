@@ -36,7 +36,7 @@ public class LoginViewModel {
     }
 
     public void login(String email, String pass) {
-        RetrofitClient.getInstance(context).executeConnectionToServer(context, RequestsActions.login.toString(), new Request(email, pass), new HandleResponses() {
+        RetrofitClient.getInstance(context).executeConnectionToServer(context, RequestsActions.login.toString(), new Request(email, pass,LoginActivity.FirebaseInstanceTokenID()), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 cacheUserData(mainObject, context.getResources().getString(R.string.app_name)); // with normal provider
@@ -80,7 +80,7 @@ public class LoginViewModel {
     private void socialLogin(String id, final String name, final String email, final String image, final String provider) {
         int countryId = SharedPrefManager.getInstance(context).getCountry().getCountry_id();
         RetrofitClient.getInstance(context).executeConnectionToServer(context,
-                RequestsActions.loginOrRegisterWithSocial.toString(), new Request(provider, id, name, email, image, countryId), new HandleResponses() {
+                RequestsActions.loginOrRegisterWithSocial.toString(), new Request(provider, id, name, email, image, countryId,LoginActivity.FirebaseInstanceTokenID()), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         cacheUserData(mainObject, provider);

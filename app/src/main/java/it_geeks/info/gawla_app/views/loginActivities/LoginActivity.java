@@ -35,8 +35,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONObject;
 
@@ -73,6 +76,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     TextInputLayout tlEmail, tlPass;
 
     private TextView tvSingIn, tvGooglePlus, tvFacebook;
+    public static String firebaseToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,6 +239,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         }
+    }
+
+    public static String FirebaseInstanceTokenID() {
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                            // Get new Instance ID token
+                            firebaseToken = task.getResult().getToken();
+                    }
+                });
+        return firebaseToken ;
     }
 
     // fb login

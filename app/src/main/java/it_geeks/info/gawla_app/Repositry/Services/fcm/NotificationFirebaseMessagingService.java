@@ -27,6 +27,7 @@ import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.NotificationActivity;
 import it_geeks.info.gawla_app.views.SalonActivity;
 
 public class NotificationFirebaseMessagingService extends FirebaseMessagingService {
@@ -37,112 +38,74 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        super.onMessageReceived(remoteMessage);
+      //  super.onMessageReceived(remoteMessage);
 
-        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+      //  FirebaseMessaging.getInstance().setAutoInitEnabled(true);
 
-        if (!remoteMessage.getData().isEmpty()) {
-            showNotification(remoteMessage.getData());
-        } else {
-            //	showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
-        }
-
-    }
-
-    private void showNotification(Map<String, String> data) {
-
-        PendingIntent pendingIntent = getNotificationData(data);
-
-        String title = "Gawla";
-        String body = "";
         try {
-            title = data.get("title");
-            body = data.get("body");
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+            showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+        } catch (Exception e) {
         }
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
-            notificationChannel.setDescription(NOTIFICATION_CHANNEL_DESC);
-            notificationChannel.enableLights(true);
-            notificationChannel.setLightColor(Color.BLUE);
-            notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
-            notificationChannel.enableLights(true);
-
-            notificationManager.createNotificationChannel(notificationChannel);
-        }
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-        builder.setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.drawable.ic_stat_message)
-                .setContentTitle(title)
-                .setContentIntent(pendingIntent)
-                .setContentText(body)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.example_picture))
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(body)
-                        .setBigContentTitle(title))
-                .addAction(
-                        R.drawable.ic_action_stat_share,
-                        getResources().getString(R.string.action_share),
-                        PendingIntent.getActivity(
-                                getApplication(),
-                                new Random().nextInt(),
-                                Intent.createChooser(new Intent(Intent.ACTION_SEND)
-                                        .setType("text/plain")
-                                        .putExtra(Intent.EXTRA_TEXT, "http://www.google.com"), "Share Gawla Link"),
-                                PendingIntent.FLAG_UPDATE_CURRENT))
-                .setContentInfo("Info");
-        notificationManager.notify(new Random().nextInt(), builder.build());
 
     }
 
-    private PendingIntent getNotificationData(Map<String, String> data) {
+    private void showNotification(String title, String body) {
+
+        if (!title.isEmpty() && !body.isEmpty()) {
+
+            PendingIntent pendingIntent = getNotificationData(title, body);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+                notificationChannel.setDescription(NOTIFICATION_CHANNEL_DESC);
+                notificationChannel.enableLights(true);
+                notificationChannel.setLightColor(Color.BLUE);
+                notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
+                notificationChannel.enableLights(true);
+
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+            builder.setAutoCancel(true)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setWhen(System.currentTimeMillis())
+                    .setSmallIcon(R.drawable.ic_stat_message)
+                    .setContentTitle(title)
+                    .setContentIntent(pendingIntent)
+                    .setContentText(body)
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.example_picture))
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(body)
+                            .setBigContentTitle(title))
+                    .addAction(
+                            R.drawable.ic_action_stat_share,
+                            getResources().getString(R.string.action_share),
+                            PendingIntent.getActivity(
+                                    getApplication(),
+                                    new Random().nextInt(),
+                                    Intent.createChooser(new Intent(Intent.ACTION_SEND)
+                                            .setType("text/plain")
+                                            .putExtra(Intent.EXTRA_TEXT, "http://dev.itgeeks.info"), "Share Gawla Link"),
+                                    PendingIntent.FLAG_UPDATE_CURRENT))
+                    .setContentInfo("Info");
+            notificationManager.notify(new Random().nextInt(), builder.build());
+
+        }
+    }
+
+
+    private PendingIntent getNotificationData(String title, String body) {
         Bundle bundle = new Bundle();
 
-        bundle.putString("title", data.get("title"));
-        bundle.putString("body", data.get("body"));
-        bundle.putString("salon", data.get("salon"));
-        bundle.putString("new_salon", data.get("new_salon"));
-        bundle.putString("start_salon", data.get("start_salon"));
-        bundle.putString("end_salon", data.get("end_salon"));
+        bundle.putString("title", title);
+        bundle.putString("body", body);
 
-        Intent intent = new Intent(this, MainActivity.class) ;
+        Intent intent = new Intent(this, NotificationActivity.class);
         intent.putExtras(bundle);
         return PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
-
-/*	private void showNotification(String title, String body) {
-
-		NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-			NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,NOTIFICATION_CHANNEL_NAME,NotificationManager.IMPORTANCE_DEFAULT);
-			notificationChannel.setDescription(NOTIFICATION_CHANNEL_DESC);
-			notificationChannel.enableLights(true);
-			notificationChannel.setLightColor(Color.BLUE);
-			notificationChannel.setVibrationPattern(new long[]{0,1000,500,1000});
-			notificationChannel.enableLights(true);
-
-			notificationManager.createNotificationChannel(notificationChannel);
-		}
-
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(this,NOTIFICATION_CHANNEL_ID);
-		builder.setAutoCancel(true)
-				.setDefaults(Notification.DEFAULT_ALL)
-				.setWhen(System.currentTimeMillis())
-				.setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
-				.setContentTitle(title)
-				.setContentText(body)
-				.setContentInfo("Info");
-		notificationManager.notify(new Random().nextInt(),builder.build());
-	}
-	*/
 
     @Override
     public void onNewToken(String token) {
