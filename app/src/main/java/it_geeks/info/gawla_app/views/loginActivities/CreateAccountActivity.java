@@ -148,10 +148,9 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
     // loading screen
     public void setLoadingScreen() {
-        progress.setMessage("Wait while loading...");
+        progress.setMessage(getString(R.string.loading));
         progress.setCancelable(false);
         progress.show();
-
     }
 
     public void closeLoadingScreen() {
@@ -189,34 +188,34 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     private boolean checkEntries(String name, String email, String pass) {
         // check if empty
         if (name.isEmpty()) {
-            tl_create_name.setError("this field can't be empty");
+            tl_create_name.setError(getString(R.string.empty_hint));
             etName.requestFocus();
             closeLoadingScreen();
             return false;
         } else tl_create_name.setErrorEnabled(false);
         // check validation
         if (name.length() < 6) {
-            tl_create_name.setError("name should be more than 5 chars");
+            tl_create_name.setError(getString(R.string.name_length_hint));
             etName.requestFocus();
             closeLoadingScreen();
             return false;
         } else tl_create_name.setErrorEnabled(false);
 
         if (email.isEmpty()) {
-            tl_create_email.setError("this field can't be empty");
+            tl_create_email.setError(getString(R.string.empty_hint));
             etEmail.requestFocus();
             closeLoadingScreen();
             return false;
         } else tl_create_email.setErrorEnabled(false);
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            tl_create_email.setError("enter a valid email address");
+            tl_create_email.setError(getString(R.string.enter_valid_email));
             etEmail.requestFocus();
             closeLoadingScreen();
             return false;
         } else tl_create_email.setErrorEnabled(false);
         if (pass.isEmpty()) {
-            tl_create_pass.setError("this field can't be empty");
+            tl_create_pass.setError(getString(R.string.empty_hint));
             etPass.requestFocus();
             closeLoadingScreen();
             return false;

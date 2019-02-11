@@ -59,7 +59,7 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
 
     private BottomSheetDialog initBottomSheetSingleCard(final Card card) {
         final BottomSheetDialog mBottomSheetDialogSingleCard;
-        mBottomSheetDialogSingleCard = new BottomSheetDialog(context);
+        mBottomSheetDialogSingleCard = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
         final View sheetView = ((SalonActivity) context).getLayoutInflater().inflate(R.layout.bottom_sheet_single_card, null);
 
         //init bottom sheet views

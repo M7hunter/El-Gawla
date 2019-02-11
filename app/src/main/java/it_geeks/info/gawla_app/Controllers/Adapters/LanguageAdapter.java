@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Process;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.menuOptions.SettingsActivity;
 
 public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHolder> {
 
@@ -56,14 +59,14 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
             viewHolder.langLabel.setTextColor(context.getResources().getColor(R.color.midBlue));
         }
 
-        // HandleResponses events
+        // events
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Common.Instance(context).setLang(sLang(lang));
+
 //                context.startActivity(new Intent(context, MainActivity.class)
 //                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
-                restartDialog();
+                restartDialog(lang);
             }
         });
 
@@ -81,24 +84,29 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 //        });
     }
 
-
-
-    private void restartDialog() {
+    private void restartDialog(final String lang) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-        dialogBuilder.setMessage("Restart the app and change language ?")
+        dialogBuilder.setMessage(context.getResources().getString(R.string.restart_hint))
                 .setNegativeButton(context.getResources().getString(R.string.cancel), null)
                 .setPositiveButton(context.getResources().getString(R.string.continue_), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        RestartTheApp();
+                        Common.Instance(context).setLang(sLang(lang));
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                RestartTheApp();
+                            }
+                        }, 500);
                     }
                 }).show();
     }
 
     private void RestartTheApp() {
         AlarmManager alm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alm.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_CANCEL_CURRENT));
-//        Process.killProcess(Process.myPid());
+        Intent i = new Intent(context, MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        alm.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT));
         System.exit(0);
     }
 

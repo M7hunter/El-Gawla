@@ -41,10 +41,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.ConnectionChangeReceiver;
@@ -146,7 +144,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     public void initSocket() {
         try {
-            socket = IO.socket("http://192.168.1.3:8888");
+            socket = IO.socket("http://192.168.1.2:8888");
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -700,7 +698,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void initBottomSheetActivateCards() {
-        mBottomSheetDialogActivateCard = new BottomSheetDialog(this);
+        mBottomSheetDialogActivateCard = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
         View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_active_cards, null);
 
         //init bottom sheet views
@@ -733,7 +731,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     // product details
     private void initBottomSheetProductDetails() {
-        mBottomSheetDialogProductDetails = new BottomSheetDialog(this);
+        mBottomSheetDialogProductDetails = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
         final View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_product_details, null);
 
         //init bottom sheet views
@@ -770,17 +768,19 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void bottomViews_setDetails(View parent) {
-        TextView tvProductName, tvProductCategory, tvProductPrice, tvProductDescription;
+        TextView tvProductName, tvProductCategory, tvProductPrice, tvProductDescription, tvCategoryLabel;
         // init views
         tvProductName = parent.findViewById(R.id.product_details_name);
         tvProductCategory = parent.findViewById(R.id.product_details_category);
         tvProductPrice = parent.findViewById(R.id.product_details_price);
         tvProductDescription = parent.findViewById(R.id.product_details_descriptions);
+        tvCategoryLabel = parent.findViewById(R.id.tv_category_label);
         imProductMainImage = parent.findViewById(R.id.product_details_main_image);
         vpProductMainVideo = parent.findViewById(R.id.player);
         btnPlayPause = parent.findViewById(R.id.btn_play_pause);
 
         // set data
+        tvCategoryLabel.setText(getResources().getString(R.string.category) + ":");
         tvProductName.setText(round.getProduct_name());
         tvProductCategory.setText(round.getCategory_name());
         tvProductPrice.setText(round.getProduct_commercial_price());

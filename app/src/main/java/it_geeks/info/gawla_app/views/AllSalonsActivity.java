@@ -291,7 +291,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initBottomSheetFilterBy() {
-        mBottomSheetDialogFilterBy = new BottomSheetDialog(this);
+        mBottomSheetDialogFilterBy = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
         View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_filter_by, null);
 
         //init bottom sheet views

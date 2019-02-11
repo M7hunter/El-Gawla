@@ -89,16 +89,6 @@
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- separator -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="@dimen/margin_xxlarge"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_xxlarge"
-                android:layout_marginBottom="@dimen/margin_small"
-                android:background="@color/paleGreyTwo" />
-
             <!-- edit pass btn -->
             <Button
                 android:id="@+id/btn_edit_password"
@@ -208,8 +198,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_xxlarge"
-                    android:gravity="center"
-                    android:text="@string/delete_connection"
+                    android:text="@string/disconnect"
                     android:textColor="@color/azureTwo"
                     android:textSize="@dimen/text_size_medium" />
 
