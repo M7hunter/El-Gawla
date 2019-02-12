@@ -140,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
                 .requestIdToken("129212834621-ntpf3okjbutvp5um90dl651bdoe812ll.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
+
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         // Initialize Facebook Login button

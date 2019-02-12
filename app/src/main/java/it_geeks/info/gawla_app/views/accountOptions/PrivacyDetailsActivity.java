@@ -20,6 +20,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AlertDialog;
@@ -260,14 +261,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         try { //TODO Here Error in Line 165
             SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearUser();
             SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearProvider();
+            FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(PrivacyDetailsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            LoginManager.getInstance().logOut();
-            if (mGoogleApiClient.isConnected()) {
-                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                mGoogleApiClient.disconnect();
-                mGoogleApiClient.connect();
-            }
-            SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearProvider();
             finish();
         } catch (Exception e) {
             Log.e("Mo7", e.getMessage() + " ");

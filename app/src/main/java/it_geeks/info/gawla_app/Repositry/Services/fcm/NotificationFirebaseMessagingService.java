@@ -109,7 +109,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
 
     @Override
     public void onNewToken(String token) {
-        Log.e("MO7", "Refreshed token: " + token);
+
     }
 
 }
