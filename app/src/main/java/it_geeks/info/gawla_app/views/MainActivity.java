@@ -79,8 +79,19 @@ public class MainActivity extends AppCompatActivity {
 
     // Firebase initialize
     private void FirebaseMessagingInitialize() {
+        boolean notificationStatus = SharedPrefManager.getInstance(this).getNotificationState();
+        if (notificationStatus) startNotifications();
+        else stopNotifications();
+    }
+
+    private void startNotifications() {
         FirebaseMessaging.getInstance().subscribeToTopic("all");
-        FirebaseMessaging.getInstance().subscribeToTopic("country_"+String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
+        FirebaseMessaging.getInstance().subscribeToTopic("country_" + String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
+    }
+
+    private void stopNotifications() {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("all");
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
     }
 
     @Override
