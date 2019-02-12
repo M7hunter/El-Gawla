@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -29,11 +30,14 @@ import it_geeks.info.gawla_app.views.loginActivities.CreateAccountActivity;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 import it_geeks.info.gawla_app.views.loginActivities.SubscribePlanActivity;
 
-import static it_geeks.info.gawla_app.views.loginActivities.LoginActivity.providerFacebook;
-import static it_geeks.info.gawla_app.views.loginActivities.LoginActivity.providerGoogle;
-
 public class CreateAccountViewModel {
     private Context context;
+
+    public void cacheUserData(JsonObject mainObject, String provider) {
+        User user = ParseResponses.parseUser(mainObject);
+        SharedPrefManager.getInstance(context).saveUser(user);
+        SharedPrefManager.getInstance(context).saveProvider(provider); // Provider
+    }
 
     public CreateAccountViewModel(Context context) {
         this.context = context;
@@ -60,17 +64,20 @@ public class CreateAccountViewModel {
 
                     @Override
                     public void handleFalseResponse(JsonObject mainObject) {
-
+                        FirebaseAuth.getInstance().signOut();
+                        ((CreateAccountActivity) context).closeLoadingScreen();
                     }
 
                     @Override
                     public void handleEmptyResponse() {
                         ((CreateAccountActivity) context).closeLoadingScreen();
+                        FirebaseAuth.getInstance().signOut();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         ((CreateAccountActivity) context).closeLoadingScreen();
+                        FirebaseAuth.getInstance().signOut();
 
                         // notify user
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
@@ -84,29 +91,10 @@ public class CreateAccountViewModel {
                 });
     }
 
-    // google sign up
-    public void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            String id = account.getId();
-            String name = account.getDisplayName();
-            String email = account.getEmail();
-            String image = account.getPhotoUrl().toString();
-            String provider = providerGoogle;
-
-            Log.e("Mo7", id + " - " + name + " - " + email + " - " + provider + " - " + image);
-            socialLogin(id, name, email, image, provider);
-
-        } catch (ApiException e) {
-            Log.w("", "signInResult:failed code=" + e.getStatusCode());
-
-        }
-    }
-
     public void socialLogin(String id, final String name, final String email, final String image, final String provider) {
         int countryId = SharedPrefManager.getInstance(context).getCountry().getCountry_id();
         RetrofitClient.getInstance(context).executeConnectionToServer(context,
-                RequestsActions.loginOrRegisterWithSocial.toString(), new Request(provider, id, name, email, image, countryId, LoginActivity.FirebaseInstanceTokenID()), new HandleResponses() {
+                RequestsActions.loginOrRegisterWithSocial.toString(), new Request(provider, id, name, email, image, countryId), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         cacheUserData(mainObject, provider);
@@ -117,41 +105,24 @@ public class CreateAccountViewModel {
 
                     @Override
                     public void handleFalseResponse(JsonObject mainObject) {
-
+                        FirebaseAuth.getInstance().signOut();
+                        ((CreateAccountActivity) context).closeLoadingScreen();
                     }
 
                     @Override
                     public void handleEmptyResponse() {
-
+                        ((CreateAccountActivity) context).closeLoadingScreen();
+                        FirebaseAuth.getInstance().signOut();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         Log.e("Mo7", errorMessage);
+                        ((CreateAccountActivity) context).closeLoadingScreen();
+                        FirebaseAuth.getInstance().signOut();
                     }
                 });
     }
 
-    public void getData(JSONObject object) {
-        try {
-            URL Profile_Picture = new URL("https://graph.facebook.com/" + object.getString("id") + "/picture?type=normal");
 
-            String id = object.optString("id");
-            String name = object.optString("name");
-            String email = object.optString("email");
-            String image = Profile_Picture.toString();
-            String provider = providerFacebook;
-            new CreateAccountViewModel(context).socialLogin(id, name, email, image, provider);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void cacheUserData(JsonObject mainObject, String provider) {
-        User user = ParseResponses.parseUser(mainObject);
-        SharedPrefManager.getInstance(context).saveUser(user);
-        SharedPrefManager.getInstance(context).saveProvider(provider); // Provider
-    }
 }

@@ -48,11 +48,12 @@ dependencies {
 
     // google services & social
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
-    implementation 'com.facebook.android:facebook-android-sdk:4.38.1'
+    implementation 'com.facebook.android:facebook-login:[4,5)'
 
     //firebase
     implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-auth:16.1.0'
 
     // socket io
     implementation 'io.socket:socket.io-client:1.0.0'

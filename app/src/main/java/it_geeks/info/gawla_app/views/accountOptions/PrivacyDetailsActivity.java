@@ -95,7 +95,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         etEmail.setText(SharedPrefManager.getInstance(this).getUser().getEmail());
         socialUsername.setText(SharedPrefManager.getInstance(this).getUser().getName());
 
-        initProvider();
+      //  initProvider();
 
         // Swipe Page Back
         mainPrivacyDetailsActivity.setOnTouchListener(new OnSwipeTouchListener(PrivacyDetailsActivity.this) {
@@ -274,23 +274,23 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void initProvider() {
-        Provider = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider();
-        switch (Provider) {
-            case LoginActivity.providerFacebook:
-                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.com_facebook_button_icon_blue));
-                socialProvider.setText(getString(R.string.provider_fb));
-                break;
-            case LoginActivity.providerGoogle:
-                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.googleg_standard_color_18));
-                socialProvider.setText(getString(R.string.provider_google));
-                break;
-            default:
-                socialProvider.setText(SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider());
-                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.gawla_logo_blue));
-                break;
-        }
-    }
+//    private void initProvider() {
+//        Provider = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider();
+//        switch (Provider) {
+//            case LoginActivity.providerFacebook:
+//                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.com_facebook_button_icon_blue));
+//                socialProvider.setText(getString(R.string.provider_fb));
+//                break;
+//            case LoginActivity.providerGoogle:
+//                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.googleg_standard_color_18));
+//                socialProvider.setText(getString(R.string.provider_google));
+//                break;
+//            default:
+//                socialProvider.setText(SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider());
+//                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.gawla_logo_blue));
+//                break;
+//        }
+//    }
 
     private void updateEmail() {
         RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
