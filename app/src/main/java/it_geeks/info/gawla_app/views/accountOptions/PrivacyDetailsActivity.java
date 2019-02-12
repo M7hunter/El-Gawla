@@ -124,14 +124,6 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
             }
         });
 
-        // disconnect
-        findViewById(R.id.social_out).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                disconnectDialog();
-            }
-        });
-
         // delete account 'deactivate'
         btnDeleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,28 +191,11 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
 
     private void deleteAccountDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PrivacyDetailsActivity.this);
-        dialogBuilder.setMessage("Delete this account ?")
+        dialogBuilder.setMessage(getString(R.string.delete_account_hint))
                 .setPositiveButton(getResources().getString(R.string.continue_), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         deleteAccount();
-                    }
-                })
-                .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
-    }
-
-    private void disconnectDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PrivacyDetailsActivity.this);
-        dialogBuilder.setMessage("Disconnect ?")
-                .setPositiveButton(getResources().getString(R.string.continue_), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        disconnect();
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -264,22 +239,21 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         );
     }
 
-    private void initProvider() {
-        Provider = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider();
-        switch (Provider) {
-            case LoginActivity.providerFacebook:
-                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.com_facebook_button_icon_blue));
-                socialProvider.setText(getString(R.string.provider_fb));
-                break;
-            case LoginActivity.providerGoogle:
-                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.googleg_standard_color_18));
-                socialProvider.setText(getString(R.string.provider_google));
-                break;
-            default:
-                socialProvider.setText(SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider());
-                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.gawla_logo_blue));
-                break;
-        }
+    private void disconnectDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PrivacyDetailsActivity.this);
+        dialogBuilder.setMessage(getString(R.string.disconnect) + " ?")
+                .setPositiveButton(getResources().getString(R.string.continue_), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        disconnect();
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
     }
 
     private void disconnect() {
@@ -297,6 +271,24 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
             finish();
         } catch (Exception e) {
             Log.e("Mo7", e.getMessage() + " ");
+        }
+    }
+
+    private void initProvider() {
+        Provider = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider();
+        switch (Provider) {
+            case LoginActivity.providerFacebook:
+                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.com_facebook_button_icon_blue));
+                socialProvider.setText(getString(R.string.provider_fb));
+                break;
+            case LoginActivity.providerGoogle:
+                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.googleg_standard_color_18));
+                socialProvider.setText(getString(R.string.provider_google));
+                break;
+            default:
+                socialProvider.setText(SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider());
+                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.gawla_logo_blue));
+                break;
         }
     }
 
@@ -366,6 +358,10 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                 // back
                 case R.id.privacy_details_back:
                     PrivacyDetailsActivity.this.onBackPressed();
+                    break;
+
+                case R.id.social_out:
+                    disconnectDialog();
                     break;
             }
         }

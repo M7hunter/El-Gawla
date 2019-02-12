@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +38,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.Arrays;
 
 import androidx.annotation.NonNull;
@@ -174,7 +171,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else tlEmail.setErrorEnabled(false);
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            tlEmail.setError("enter a valid email address");
+            tlEmail.setError(getString(R.string.enter_valid_email));
             etEmail.requestFocus();
             return false;
         } else tlEmail.setErrorEnabled(false);
@@ -199,10 +196,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     // loading screen
     public void setLoadingScreen() {
-        progress.setMessage("Wait while loading...");
+        progress.setMessage(getString(R.string.loading));
         progress.setCancelable(false);
         progress.show();
-
     }
 
     public void closeLoadingScreen() {

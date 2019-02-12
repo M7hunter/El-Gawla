@@ -43,18 +43,6 @@
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
-            <!-- save btn -->
-            <Button
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="@string/save"
-                android:textColor="@color/darkSkyBlue"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
-
         </RelativeLayout>
 
         <!-- top border -->

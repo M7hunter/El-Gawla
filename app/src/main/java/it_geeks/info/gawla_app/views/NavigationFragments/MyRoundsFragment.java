@@ -25,7 +25,6 @@ import it_geeks.info.gawla_app.general.WrapContentHeightViewPager;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Controllers.Adapters.RoundsPagerAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.R;
@@ -128,15 +127,12 @@ public class MyRoundsFragment extends Fragment {
 
                     @Override
                     public void handleEmptyResponse() {
-
                         initEmptyView(view);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-
                         initEmptyView(view);
-
                         Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });

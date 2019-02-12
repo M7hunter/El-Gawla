@@ -22,7 +22,6 @@ import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -114,8 +113,10 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
         // Swipe Page Back
         mainAccountDetails = findViewById(R.id.mainAccountDetails);
-        mainAccountDetails.setOnTouchListener(new OnSwipeTouchListener(AccountDetailsActivity.this){
-            public void onSwipeRight() { finish(); }
+        mainAccountDetails.setOnTouchListener(new OnSwipeTouchListener(AccountDetailsActivity.this) {
+            public void onSwipeRight() {
+                finish();
+            }
         });
     }
 
@@ -182,7 +183,10 @@ public class AccountDetailsActivity extends AppCompatActivity {
             }
         });
 
-        countryMenu.show();
+        try {
+            countryMenu.show();
+        } catch (RuntimeException e) {
+        }
     }
 
     private void genderPopupMenu() {
@@ -206,7 +210,10 @@ public class AccountDetailsActivity extends AppCompatActivity {
             }
         });
 
-        genderMenu.show();
+        try {
+            genderMenu.show();
+        } catch (RuntimeException e) {
+        }
     }
 
     private void setUserData() {

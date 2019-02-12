@@ -11,6 +11,7 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
@@ -79,7 +80,6 @@ public class RetrofitClient {
     }
 
 
-
     private APIs getAPI() {
         return retrofit.create(APIs.class);
     }
@@ -117,6 +117,10 @@ public class RetrofitClient {
                         e.printStackTrace();
                     } catch (JsonSyntaxException e) {
                         e.printStackTrace();
+                    } catch (RuntimeException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 
@@ -125,7 +129,7 @@ public class RetrofitClient {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
-                HandleResponses.handleConnectionErrors(t.getMessage());
+                HandleResponses.handleConnectionErrors(context.getString(R.string.no_connection));
             }
         };
     }
