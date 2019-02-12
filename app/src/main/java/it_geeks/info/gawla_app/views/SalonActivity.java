@@ -43,6 +43,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.ConnectionChangeReceiver;
@@ -77,6 +78,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time, first_join_time, second_join_time, round_date, round_time, rest_time;
     int product_id, salon_id;
     String apiToken;
+    String userName;
     int userId;
     private List<ProductSubImage> subImageList = new ArrayList<>();
     private List<Card> cardList = new ArrayList<>();
@@ -122,6 +124,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         setContentView(R.layout.activity_salon);
 
         registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        userName = SharedPrefManager.getInstance(SalonActivity.this).getUser().getName();
 
         initViews();
 
@@ -144,7 +147,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     public void initSocket() {
         try {
-            socket = IO.socket("http://192.168.1.2:8888");
+            socket = IO.socket("http://192.168.1.3:8888");
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -152,7 +155,34 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         socket.connect();
 
-        socket.emit("join", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
+        socket.emit("user_join", userName) ;
+
+        socket.on("new_member", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                displayRoundNotification(args[0].toString());
+            }
+        }).on("member_add_offer", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                displayRoundNotification(args[0].toString());
+            }
+        }).on("member_leave", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                displayRoundNotification(args[0].toString());
+            }
+        });
+    }
+
+    private void displayRoundNotification(String notificationMsg) {
+        try {
+            round_notification_text.setText(notificationMsg);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            Toast.makeText(SalonActivity.this, "index!", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(SalonActivity.this, "!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // loading screen
@@ -570,7 +600,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         try {
             final int userOffer = Integer.parseInt(etAddOffer.getText().toString());
 
-            socket.emit("add_offer", userOffer);
+            socket.emit("addOffer", userName);
 
             RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
                     "setUserOffer",
@@ -581,7 +611,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
                             closeLoadingScreen();
-                            round_notification_text.setText("You offered " + userOffer);
+                            round_notification_text.setText(mainObject.get("message").getAsString());
                             Toast.makeText(SalonActivity.this, "You added a new Deal", Toast.LENGTH_SHORT).show();
                         }
 
@@ -973,7 +1003,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         unregisterReceiver(connectionChangeReceiver);
         if (socket != null) {
             if (socket.connected()) {
-                socket.emit(Socket.EVENT_DISCONNECT, SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
+                socket.emit("leave", userName);
+                socket.emit(Socket.EVENT_DISCONNECT, userName);
                 socket.disconnect();
             }
         }
