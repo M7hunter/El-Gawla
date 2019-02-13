@@ -29,15 +29,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".views.SalonActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".views.MainActivity"
-            android:clearTaskOnLaunch="true" />
+            android:clearTaskOnLaunch="true" >
+            <intent-filter>
+                <action android:name="main_page"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".views.AllSalonsActivity" />
-        <activity android:name=".views.NotificationActivity" />
+        <activity android:name=".views.NotificationActivity" >
+            <intent-filter>
+                <action android:name="notification_page"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".views.splashActivities.IntroActivity" />
         <activity android:name=".views.loginActivities.SubscribePlanActivity" />
         <activity android:name=".views.loginActivities.PaymentActivity" />
@@ -70,7 +82,11 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_message" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/greenBlue" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

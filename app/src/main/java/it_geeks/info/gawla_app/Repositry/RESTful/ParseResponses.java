@@ -9,6 +9,7 @@ import java.util.List;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.Repositry.Models.Category;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
+import it_geeks.info.gawla_app.Repositry.Models.Notification;
 import it_geeks.info.gawla_app.Repositry.Models.Trans;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
@@ -249,6 +250,27 @@ public class ParseResponses {
 
         }
         return error;
+    }
+
+
+    // parse Notifications
+    public static ArrayList<Notification> parseNotifications(JsonObject object) {
+
+        ArrayList<Notification> notificationList = new ArrayList<>();
+        JsonArray notificationsArr = object.get("notifications").getAsJsonArray();
+
+        for (int i = 0; i < notificationsArr.size(); i++) {
+        JsonObject notificationObj = notificationsArr.get(i).getAsJsonObject();
+
+            notificationList.add(new Notification(
+                    notificationObj.get("title").getAsString(),
+                    notificationObj.get("body").getAsString(),
+                    notificationObj.get("type").getAsString(),
+                    notificationObj.get("date").getAsString(),
+                    notificationObj.get("id").getAsInt()));
+        }
+        return notificationList;
+
     }
 
 }

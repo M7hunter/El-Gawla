@@ -190,7 +190,7 @@
     <string name="day">Day</string>
     <string name="restart_hint">Restart the app and change language ?</string>
     <string name="delete_account_hint">Delete this account ?</string>
-    <string name="empty_hint">this field can\'t be empty</string>
+    <string name="empty_hint"> this field can\'t be empty</string>
     <string name="name_length_hint">name should be more than 5 chars</string>
     <string name="sign_out_hint">Sign out ?</string>
 

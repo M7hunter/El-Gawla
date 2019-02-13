@@ -50,14 +50,12 @@ public class Request {
 
     private String message;
 
-    private String old_password;
-
     private String firebase_token;
 
-    public Request(String email, String password , String firebase_token) { // login Request
+    public Request(String email, String password) { // login Request
         this.email = email;
         this.password = password;
-        this.firebase_token = firebase_token;
+
     }
 
     public Request(int user_id, String api_token, String join_time, String left_time, int salon_id) { // join salon
@@ -83,14 +81,13 @@ public class Request {
         this.password = pass;
     }
 
-    public Request(String provider, String provider_id, String provider_name, String provider_email, String provider_image, int country_id , String firebase_token) { // Login and Register SocialMedia Request
+    public Request(String provider, String provider_id, String provider_name, String provider_email, String provider_image, int country_id) { // Login and Register SocialMedia Request
         this.provider = provider;
         this.provider_id = provider_id;
         this.provider_name = provider_name;
         this.provider_email = provider_email;
         this.provider_image = provider_image;
         this.country_id = country_id;
-        this.firebase_token = firebase_token;
     }
 
     public Request(int user_id, String api_token) { // salons & cards Request
@@ -100,7 +97,6 @@ public class Request {
 
     public Request(String api_token) { // all countries
         this.api_token = api_token;
-        this.email = api_token;
     }
 
     public Request(int user_id, String api_token, String image) { // User Profile Image Upload
@@ -140,4 +136,12 @@ public class Request {
         this.user_id = user_id;
         this.api_token = api_token;
     }
+
+
+    public Request(int user_id, String api_token ,String firebase_token,int x) { // /Update Firebase Token
+        this.user_id = user_id;
+        this.api_token = api_token;
+        this.firebase_token = firebase_token;
+    }
+
 }

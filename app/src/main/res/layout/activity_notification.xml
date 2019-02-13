@@ -8,6 +8,8 @@
     android:orientation="vertical"
     tools:context=".views.NotificationActivity">
 
+
+
     <!-- title bar -->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +23,6 @@
             android:layout_width="@dimen/icon_back"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:padding="@dimen/margin_small"
             android:src="@drawable/ic_arrow_back" />
 
@@ -51,6 +52,7 @@
             android:descendantFocusability="blocksDescendants"
             android:orientation="vertical">
 
+            <!-- card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,7 +64,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:gravity="center"
                     android:padding="@dimen/text_size_medium"
                     android:text="@string/mainNotiNews"
@@ -71,6 +72,15 @@
 
             </androidx.cardview.widget.CardView>
 
+            <!-- loading -->
+            <TextView
+                android:id="@+id/notification_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/loading" />
+
+            <!-- Notification List -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/notification_list"
                 android:layout_width="match_parent"
