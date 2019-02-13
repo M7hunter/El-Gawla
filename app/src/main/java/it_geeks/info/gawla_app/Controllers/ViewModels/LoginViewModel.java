@@ -10,13 +10,6 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonObject;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.User;
@@ -24,10 +17,12 @@ import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.RequestsActions;
+import it_geeks.info.gawla_app.Repositry.Services.fcm.UpdateFirebaseToken;
 import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
+
 
 public class LoginViewModel {
     private Context context;
@@ -44,6 +39,7 @@ public class LoginViewModel {
 
                 ((LoginActivity) context).startActivity(new Intent(context, MainActivity.class));
                 ((LoginActivity) context).finish();
+                new UpdateFirebaseToken(context);
 
                 //hide progress
                 ((LoginActivity) context).closeLoadingScreen();
@@ -91,6 +87,7 @@ public class LoginViewModel {
                         ((LoginActivity) context).startActivity(new Intent(context, MainActivity.class));
                         ((LoginActivity) context).finish();
                         ((LoginActivity) context).closeLoadingScreen();
+                        new UpdateFirebaseToken(context);
                     }
 
                     @Override

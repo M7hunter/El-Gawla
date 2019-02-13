@@ -4,19 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonObject;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.User;
@@ -24,6 +13,7 @@ import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.RequestsActions;
+import it_geeks.info.gawla_app.Repositry.Services.fcm.UpdateFirebaseToken;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.loginActivities.CreateAccountActivity;
@@ -56,6 +46,8 @@ public class CreateAccountViewModel {
 
                         // save user data locally
                         cacheUserData(mainObject, context.getResources().getString(R.string.app_name));
+
+                        new UpdateFirebaseToken(context);
 
                         // goto next page
                         context.startActivity(new Intent(context, SubscribePlanActivity.class)
@@ -98,7 +90,7 @@ public class CreateAccountViewModel {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         cacheUserData(mainObject, provider);
-
+                        new UpdateFirebaseToken(context);
                         context.startActivity(new Intent(context, MainActivity.class));
                         ((CreateAccountActivity) context).finish();
                     }

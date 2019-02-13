@@ -50,6 +50,8 @@ public class Request {
 
     private String message;
 
+    private String firebase_token;
+
     public Request(String email, String password) { // login Request
         this.email = email;
         this.password = password;
@@ -95,7 +97,6 @@ public class Request {
 
     public Request(String api_token) { // all countries
         this.api_token = api_token;
-        this.email = api_token;
     }
 
     public Request(int user_id, String api_token, String image) { // User Profile Image Upload
@@ -135,4 +136,12 @@ public class Request {
         this.user_id = user_id;
         this.api_token = api_token;
     }
+
+
+    public Request(int user_id, String api_token ,String firebase_token,int x) { // /Update Firebase Token
+        this.user_id = user_id;
+        this.api_token = api_token;
+        this.firebase_token = firebase_token;
+    }
+
 }

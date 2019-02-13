@@ -54,9 +54,9 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout tlEmail, tlPass;
 
     // facebook
-    public static String providerFacebook = "facebook";
+    public static final String providerFacebook = "facebook";
     // google login
-    public static String providerGoogle = "google";
+    public static final String providerGoogle = "google";
     public int REQUEST_GOOGLE = 1000;
     private TextView tvSingIn, tvGooglePlus, tvFacebook;
 
