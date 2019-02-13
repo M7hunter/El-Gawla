@@ -247,7 +247,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (page <= last_page) {
+                if (page < last_page) {
                     if (layoutManager.findLastCompletelyVisibleItemPosition() == recentSalonsPagedAdapter.getItemCount() - 1) {
                         getNextSalonsFromServer();
                         Toast.makeText(getContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();

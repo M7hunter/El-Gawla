@@ -5,8 +5,6 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 
-import com.google.firebase.messaging.FirebaseMessaging;
-
 import java.util.Calendar;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Models.RoundRealTimeModel;
@@ -15,7 +13,7 @@ import it_geeks.info.gawla_app.views.SalonActivity;
 
 public class RoundStartToEnd {
 
-    boolean open_hall_status , free_join_status , pay_join_status , first_round_status , first_rest_status , seconed_round_status , seconed_rest_status , close_hall_status ;
+    boolean open_hall_status , free_join_status , pay_join_status , first_round_status , first_rest_status , second_round_status, seconed_rest_status , close_hall_status ;
     int open_hall_value ,free_join_value ,pay_join_value ,first_round_value ,first_rest_value , seconed_round_value ,seconed_rest_value , close_hall_value;
     String round_status;
 
@@ -37,7 +35,7 @@ public class RoundStartToEnd {
         pay_join_status = roundRealTimeModel.isPay_join_status();
         first_round_status = roundRealTimeModel.isFirst_round_status();
         first_rest_status = roundRealTimeModel.isFirst_rest_status();
-        seconed_round_status = roundRealTimeModel.isSeconed_round_status();
+        second_round_status = roundRealTimeModel.isSeconed_round_status();
         seconed_rest_status = roundRealTimeModel.isSeconed_rest_status();
         close_hall_status = roundRealTimeModel.isClose_hall_status();
 
@@ -64,7 +62,7 @@ public class RoundStartToEnd {
 
     public void start() {
         int milli = 1000;
-        Log.e("Mo7",open_hall_status +" "+ free_join_status +" "+ pay_join_status +" "+ first_round_status +" "+ first_rest_status +" "+ seconed_round_status +" "+ seconed_rest_status +" "+ close_hall_status);
+        Log.e("Mo7",open_hall_status +" "+ free_join_status +" "+ pay_join_status +" "+ first_round_status +" "+ first_rest_status +" "+ second_round_status +" "+ seconed_rest_status +" "+ close_hall_status);
         ((SalonActivity) context).hideConfirmationLayout();
        if (round_status.trim().equals("open")){
            if (open_hall_status){
@@ -78,8 +76,8 @@ public class RoundStartToEnd {
                first_round_value(first_round_value * milli);
            }else if (first_rest_status){
                first_rest_value(first_rest_value * milli);
-           }else if (seconed_round_status){
-               ((SalonActivity) context).timeState = "seconed_round_status";
+           }else if (second_round_status){
+               ((SalonActivity) context).timeState = "second_round_status";
                seconed_round_value(seconed_round_value * milli);
            }else if (seconed_rest_status){
                seconed_rest_value(seconed_rest_value * milli);

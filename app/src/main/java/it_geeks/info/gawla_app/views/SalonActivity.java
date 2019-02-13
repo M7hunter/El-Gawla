@@ -31,6 +31,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -147,7 +150,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     public void initSocket() {
         try {
-            socket = IO.socket("http://192.168.1.3:8888");
+            // http://dev.itgeeks.info:8888
+            socket = IO.socket("http://dev.itgeeks.info:8888");
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -155,7 +159,15 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         socket.connect();
 
-        socket.emit("user_join", userName) ;
+        try {
+            JSONObject o = new JSONObject();
+            o.put("room", salon_id);
+            socket.emit("joinRoom", o);
+        } catch (JSONException e) {
+
+        }
+
+        socket.emit("user_join", userName);
 
         socket.on("new_member", new Emitter.Listener() {
             @Override
@@ -288,7 +300,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        if (timeState.equals("first_round_status") || timeState.equals("seconed_round_status")) {
+        if (timeState.equals("first_round_status") || timeState.equals("second_round_status")) {
             initSocket();
         }
     }
@@ -534,16 +546,17 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             public void onClick(View v) {
                 if (roundRealTimeModel.isUserJoin()) {
                     // switch
-                    if (btnAddOffer.getText().toString() == getString(R.string.add_deal)) {
+                    if (btnAddOffer.getText().toString().equals(getString(R.string.add_deal))) {
                         etAddOffer.setEnabled(false);
                         btnAddOffer.setText(getResources().getString(R.string.edit));
+                        btnAddOffer.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 
-                        setLoadingScreen();
                         sendOfferToServer();
 
                     } else if (btnAddOffer.getText().toString().equals(getString(R.string.edit))) {
                         etAddOffer.setEnabled(true);
                         btnAddOffer.setText(getResources().getString(R.string.add_deal));
+                        btnAddOffer.setBackgroundColor(getResources().getColor(R.color.greenBlue));
                     }
                 }
             }
@@ -597,10 +610,24 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void sendOfferToServer() {
+        addOfferLayout.setVisibility(View.GONE);
+        joinProgress.setVisibility(View.VISIBLE);
         try {
             final int userOffer = Integer.parseInt(etAddOffer.getText().toString());
 
-            socket.emit("addOffer", userName);
+            if (String.valueOf(userOffer).isEmpty() || userOffer == 0) {
+                joinProgress.setVisibility(View.GONE);
+                addOfferLayout.setVisibility(View.VISIBLE);
+                etAddOffer.setText("");
+                etAddOffer.setHint(getString(R.string.no_content));
+                etAddOffer.setHintTextColor(getResources().getColor(R.color.paleRed));
+                return;
+            }
+
+            // test
+//            socket.emit("addOffer", userName);
+//            joinProgress.setVisibility(View.GONE);
+//            addOfferLayout.setVisibility(View.VISIBLE);
 
             RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
                     "setUserOffer",
@@ -610,9 +637,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             , userOffer), new HandleResponses() {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
-                            closeLoadingScreen();
                             round_notification_text.setText(mainObject.get("message").getAsString());
-                            Toast.makeText(SalonActivity.this, "You added a new Deal", Toast.LENGTH_SHORT).show();
+                            socket.emit("addOffer", userName);
                         }
 
                         @Override
@@ -622,17 +648,20 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                         @Override
                         public void handleEmptyResponse() {
-                            closeLoadingScreen();
+                            addOfferLayout.setVisibility(View.VISIBLE);
+                            joinProgress.setVisibility(View.GONE);
                         }
 
                         @Override
                         public void handleConnectionErrors(String errorMessage) {
-                            closeLoadingScreen();
+                            addOfferLayout.setVisibility(View.VISIBLE);
+                            joinProgress.setVisibility(View.GONE);
                             Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                         }
                     });
         } catch (NumberFormatException e) {
-
+            joinProgress.setVisibility(View.GONE);
+            addOfferLayout.setVisibility(View.VISIBLE);
         }
     }
 
