@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -48,7 +50,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.notificationCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,notification.getTitle(), Toast.LENGTH_SHORT).show();
+                LayoutInflater layoutInflater = LayoutInflater.from(context);
+                View vv = layoutInflater.inflate(R.layout.message_notification,null);
+                TextView messageTitle = vv.findViewById(R.id.message_title);
+                TextView messageBody = vv.findViewById(R.id.message_body);
+                messageTitle.setText(notification.getTitle());
+                messageBody.setText(notification.getBody());
+                BottomSheetDialog Dialog = new BottomSheetDialog(context);
+                Dialog.setContentView(vv);
+                Dialog.show();
             }
         });
     }

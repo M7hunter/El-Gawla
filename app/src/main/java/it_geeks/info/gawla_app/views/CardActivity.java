@@ -16,6 +16,7 @@ import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.Common;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -98,6 +99,14 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void handleEvents() {
+        // notification
+        findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CardActivity.this, NotificationActivity.class));
+            }
+        });
+
         // back
         findViewById(R.id.card_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,7 +187,7 @@ public class CardActivity extends AppCompatActivity {
         int user_id = SharedPrefManager.getInstance(this).getUser().getUser_id();
         String api_token = SharedPrefManager.getInstance(this).getUser().getApi_token();
 
-        RetrofitClient.getInstance(this).executeConnectionToServer(this, "addCardsToUser", new Request(user_id, api_token,  card.getCard_id()), new HandleResponses() {
+        RetrofitClient.getInstance(this).executeConnectionToServer(this, "addCardsToUser", new Request(user_id, api_token, card.getCard_id()), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 Toast.makeText(CardActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
