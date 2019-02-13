@@ -54,6 +54,10 @@ public class NotificationActivity extends AppCompatActivity {
                         NotificationList = ParseResponses.parseNotifications(mainObject);
                         initNotiRecycler();
                         notificationLoading.setVisibility(View.GONE);
+                        if (NotificationList.isEmpty()){
+                            notificationLoading.setVisibility(View.VISIBLE);
+                            notificationLoading.setText("no notifications");
+                        }
                     }
 
                     @Override

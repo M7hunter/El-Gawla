@@ -109,13 +109,14 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
 
     @Override
     public void onNewToken(String token) {
-        int user_id = SharedPrefManager.getInstance(this).getUser().getUser_id();
-        String apiToken = SharedPrefManager.getInstance(this).getUser().getApi_token();
+        try {
+            int user_id = SharedPrefManager.getInstance(this).getUser().getUser_id();
+            String apiToken = SharedPrefManager.getInstance(this).getUser().getApi_token();
 
-        if (!String.valueOf(user_id).isEmpty() && !apiToken.isEmpty()){
-           new UpdateFirebaseToken(this);
-        }
-
+            if (!String.valueOf(user_id).isEmpty() && !apiToken.isEmpty()){
+                new UpdateFirebaseToken(this);
+            }
+        }catch (Exception e){}
     }
 
 
