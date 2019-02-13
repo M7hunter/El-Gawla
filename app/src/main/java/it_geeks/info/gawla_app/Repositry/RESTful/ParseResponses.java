@@ -213,10 +213,6 @@ public class ParseResponses {
         return categories;
     }
 
-    public static List<Trans> parseLanguages(JsonObject object) {
-        return null;
-    }
-
     private static List<Card> parseCards(JsonObject object) {
         JsonArray dataArray = object.get("cards").getAsJsonArray();
 
@@ -236,6 +232,10 @@ public class ParseResponses {
         }
 
         return cardsList;
+    }
+
+    public static List<Trans> parseLanguages(JsonObject object) {
+        return null;
     }
 
     public static String parseServerErrors(JsonObject object) {

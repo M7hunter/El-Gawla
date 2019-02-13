@@ -31,7 +31,6 @@ import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.AllSalonsActivity;
 import it_geeks.info.gawla_app.views.MainActivity;
@@ -49,8 +48,6 @@ public class MainFragment extends Fragment {
     private List<Round> roundList = new ArrayList<>();
     private List<WinnerNews> winnerNewsList = new ArrayList<>();
 
-    private GawlaDataBse gawlaDataBse;
-
     private ProgressBar recentSalonsProgress;
     private ProgressBar winnersNewsProgress;
     private LinearLayout winnersHeader;
@@ -64,8 +61,6 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-
-        gawlaDataBse = GawlaDataBse.getGawlaDatabase(getContext());
 
         initViews(view);
 
@@ -252,10 +247,10 @@ public class MainFragment extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (page <= last_page) {
+                if (page < last_page) {
                     if (layoutManager.findLastCompletelyVisibleItemPosition() == recentSalonsPagedAdapter.getItemCount() - 1) {
                         getNextSalonsFromServer();
-                        Toast.makeText(getContext(), "loading...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();
 
                         recentSalonsRecycler.removeOnScrollListener(this);
                     }

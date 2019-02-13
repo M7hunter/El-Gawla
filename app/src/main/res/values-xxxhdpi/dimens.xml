@@ -1,26 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- margin & padding -->
+    <dimen name="margin_xTiny">5dp</dimen>
     <dimen name="margin_tiny">8dp</dimen>
+    <dimen name="margin_tiny_minus">-8dp</dimen>
     <dimen name="margin_small">13dp</dimen>
+    <dimen name="margin_small_minus">-13dp</dimen>
     <dimen name="margin_medium">18dp</dimen>
     <dimen name="margin_large">23dp</dimen>
     <dimen name="margin_xlarge">28dp</dimen>
+    <dimen name="margin_xxlarge">38dp</dimen>
+    <dimen name="margin_xxxlarge">55dp</dimen>
+    <dimen name="margin_xxxxlarge">65dp</dimen>
 
     <!-- text sizes -->
-    <dimen name="image_width">220dp</dimen>
     <dimen name="text_size_tiny">12sp</dimen>
     <dimen name="text_size_small">15sp</dimen>
     <dimen name="text_size_medium">18sp</dimen>
     <dimen name="text_size_large">21sp</dimen>
     <dimen name="text_size_xlarge">24sp</dimen>
-    <dimen name="num_tick" >44sp</dimen>
+    <dimen name="text_size_xxlarge">27sp</dimen>
+    <dimen name="num_tick">45sp</dimen>
 
-    <!-- icons -->
+    <!-- icons & images -->
+    <dimen name="logo_width">140dp</dimen>
+    <dimen name="logo_height">80dp</dimen>
     <dimen name="icon_notification">40dp</dimen>
+    <dimen name="icon_back">55dp</dimen>
     <dimen name="image_width_main_fragment">210dp</dimen>
     <dimen name="image_width_round">320dp</dimen>
     <dimen name="image_height_round">185dp</dimen>
+    <dimen name="image_height_product">220dp</dimen>
     <dimen name="image_news">120dp</dimen>
+    <dimen name="image_account">130dp</dimen>
+    <dimen name="image_cards_round_updates">70dp</dimen>
+
+    <!-- mix -->
+    <dimen name="my_rounds_view_pager_height">550dp</dimen>
+    <dimen name="card_background_height">100dp</dimen>
+    <dimen name="card_height">60dp</dimen>
+    <dimen name="card_width">40dp</dimen>
+    <dimen name="single_card_height">140dp</dimen>
+    <dimen name="single_card_width">95dp</dimen>
 
 </resources>

@@ -181,8 +181,9 @@ public class AllSalonsActivity extends AppCompatActivity {
     private void transAndSortDates() {
         List<String> dates = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsDates();
 
+        dateList.clear();
+
         for (String date : dates) {
-            dateList.clear();
             dateList.add(transformDateToNames(date));
         }
 
@@ -290,7 +291,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initBottomSheetFilterBy() {
-        mBottomSheetDialogFilterBy = new BottomSheetDialog(this);
+        mBottomSheetDialogFilterBy = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
         View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_filter_by, null);
 
         //init bottom sheet views

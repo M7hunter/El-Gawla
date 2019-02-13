@@ -88,13 +88,11 @@ public class SettingsActivity extends AppCompatActivity {
     private void stopNotifications() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic("all");
         FirebaseMessaging.getInstance().unsubscribeFromTopic("country_"+String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
-        FirebaseMessaging.getInstance().unsubscribeFromTopic("round");
     }
 
     private void startNotifications() {
         FirebaseMessaging.getInstance().subscribeToTopic("all");
         FirebaseMessaging.getInstance().subscribeToTopic("country_"+String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
-        FirebaseMessaging.getInstance().subscribeToTopic("round");
     }
 
     private String displayLanguage() {

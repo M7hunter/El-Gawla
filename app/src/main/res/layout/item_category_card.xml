@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RadioButton
+        android:id="@+id/rb_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="engines"
+        android:textSize="@dimen/text_size_large"
+        android:textStyle="bold"
+        android:paddingStart="@dimen/margin_large"
+        android:textColor="@color/battleshipGrey"/>
+
+</LinearLayout>

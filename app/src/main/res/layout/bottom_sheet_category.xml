@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/bottom_sheet_single_card"
+    android:id="@+id/bottom_sheet_category"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:behavior_hideable="true"
@@ -23,76 +23,39 @@
             android:layout_marginStart="@dimen/margin_small"
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginBottom="@dimen/margin_medium"
-            android:text="@string/card"
+            android:text="card price by category"
             android:textAllCaps="true"
             android:textColor="@color/battleshipGrey"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
-        <!-- icon container -->
-        <FrameLayout
+        <!-- categories recycler -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categories_recycler_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_small"
-            android:background="@drawable/bg_circle_grey">
-            <!-- card icon -->
-            <View
-                android:id="@+id/single_card_icon"
-                android:layout_width="@dimen/single_card_width"
-                android:layout_height="@dimen/single_card_height"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/margin_xxxxlarge"
-                android:layout_marginTop="@dimen/margin_xxlarge"
-                android:layout_marginEnd="@dimen/margin_xxxxlarge"
-                android:layout_marginBottom="@dimen/margin_xxlarge"
-                android:background="@drawable/single_card"
-                android:padding="@dimen/margin_large" />
-        </FrameLayout>
-
-        <!-- card title -->
-        <TextView
-            android:id="@+id/single_card_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_medium"
-            android:text="red card"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
-
-        <!-- card description -->
-        <TextView
-            android:id="@+id/single_card_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_medium"
-            android:gravity="center"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
+            android:layout_marginStart="@dimen/margin_xxxxlarge" />
 
         <!-- btn confirm -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/btn_confirm_buying_card"
+            android:id="@+id/btn_confirm_buying_card_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xxlarge"
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginRight="@dimen/margin_xxlarge"
             android:layout_marginBottom="@dimen/margin_large"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             app:cardCornerRadius="@dimen/margin_small"
             app:cardElevation="@dimen/margin_small">
             <!-- card main layout -->
             <LinearLayout
-                android:id="@+id/payment_confirm_btn"
+                android:id="@+id/payment_confirm_btn_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/login_shape"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:background="@color/greenBlue"
                 android:gravity="center"
                 android:orientation="vertical">
-
                 <!-- card price container -->
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -106,12 +69,12 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/card_price"
-                        android:textColor="@color/babyBlue"
+                        android:textColor="@color/paleGreyTwo"
                         android:textSize="@dimen/text_size_small" />
 
                     <!-- price -->
                     <TextView
-                        android:id="@+id/single_card_cost"
+                        android:id="@+id/card_cost_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_small"
@@ -141,7 +104,7 @@
         </androidx.cardview.widget.CardView>
 
         <ProgressBar
-            android:id="@+id/pb_buy_card"
+            android:id="@+id/pb_buy_card_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -152,7 +115,7 @@
 
     <!-- close btn -->
     <ImageView
-        android:id="@+id/close_bottom_sheet_single_card"
+        android:id="@+id/close_bottom_sheet_category"
         android:layout_width="@dimen/image_cards_round_updates"
         android:layout_height="@dimen/image_cards_round_updates"
         android:layout_alignParentEnd="true"

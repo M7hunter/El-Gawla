@@ -32,71 +32,55 @@
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
 
-            <!-- recyclers container -->
-            <LinearLayout
+            <!-- cards recycler container -->
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
-                <!-- categories recycler -->
+                <!-- cards recycler -->
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/cards_categories_recycler"
+                    android:id="@+id/cards_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true" />
+
+                <!-- cards progress -->
+                <ProgressBar
+                    android:id="@+id/cards_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_medium" />
+                    android:layout_centerInParent="true"
+                    android:layout_margin="@dimen/margin_large" />
 
-                <!-- cards recycler container -->
-                <RelativeLayout
+                <!-- empty view -->
+                <LinearLayout
+                    android:id="@+id/cards_empty_view"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                    <!-- cards recycler-->
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/cards_recycler"
+                    <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true" />
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/empty_view_cards" />
 
-                    <!-- cards progress -->
-                    <ProgressBar
-                        android:id="@+id/cards_progress"
+                    <TextView
+                        android:id="@+id/tv_cards_empty_hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true" />
-
-                    <!-- empty view -->
-                    <LinearLayout
-                        android:id="@+id/cards_empty_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerHorizontal="true"
+                        android:layout_margin="@dimen/margin_medium"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="gone">
+                        android:text="@string/cards_empty_hint"
+                        android:textColor="@color/blueGrey"
+                        android:textSize="@dimen/text_size_medium" />
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/empty_view_cards" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tv_cards_empty_hint"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_medium"
-                            android:gravity="center"
-                            android:text="@string/cards_empty_hint"
-                            android:textColor="@color/blueGrey"
-                            android:textSize="@dimen/text_size_medium" />
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

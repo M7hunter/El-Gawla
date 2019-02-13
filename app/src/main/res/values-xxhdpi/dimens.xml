@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- margin & padding -->
-    <dimen name="margin_xTiny">5dp</dimen>
+    <dimen name="margin_xTiny">3dp</dimen>
     <dimen name="margin_tiny">5dp</dimen>
     <dimen name="margin_tiny_minus">-5dp</dimen>
     <dimen name="margin_small">10dp</dimen>
@@ -20,7 +20,7 @@
     <dimen name="text_size_large">19sp</dimen>
     <dimen name="text_size_xlarge">22sp</dimen>
     <dimen name="text_size_xxlarge">26sp</dimen>
-    <dimen name="num_tick" >42sp</dimen>
+    <dimen name="num_tick">43sp</dimen>
 
     <!-- icons & images -->
     <dimen name="logo_width">140dp</dimen>
@@ -35,7 +35,7 @@
     <dimen name="image_account">120dp</dimen>
     <dimen name="image_cards_round_updates">65dp</dimen>
 
-    <!-- -->
+    <!-- mix -->
     <dimen name="my_rounds_view_pager_height">550dp</dimen>
     <dimen name="card_background_height">100dp</dimen>
     <dimen name="card_height">60dp</dimen>

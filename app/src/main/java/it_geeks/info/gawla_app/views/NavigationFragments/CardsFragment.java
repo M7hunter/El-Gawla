@@ -39,7 +39,7 @@ public class CardsFragment extends Fragment {
 
     private RecyclerView cardsRecycler;
 
-    private List<Category> categoryList = new ArrayList<>();
+    //    private List<Category> categoryList = new ArrayList<>();
     private List<Card> cardsList = new ArrayList<>();
 
     private ProgressBar cardsProgress;
@@ -59,7 +59,19 @@ public class CardsFragment extends Fragment {
 
         handleEvents();
 
-        checkConnection(view);
+        for (int i = 0; i < 6; i++) {
+            cardsList.add(new Card(i,
+                    "card " + i,
+                    "details " + i,
+                    "type " + i,
+                    "#" + i + i + i + i + i + i,
+                    i + "0 EGP"));
+        }
+
+        initCardsRecycler();
+
+
+//        checkConnection(view);
 
         return view;
     }
@@ -97,7 +109,7 @@ public class CardsFragment extends Fragment {
         if (Common.Instance(getActivity()).isConnected()) {
             noConnectionLayout.setVisibility(View.GONE);
 
-            getCategoriesFromServer(view);
+//            getCategoriesFromServer(view);
 
         } else {
             noConnectionLayout.setVisibility(View.VISIBLE);
@@ -113,11 +125,11 @@ public class CardsFragment extends Fragment {
                 "getAllCardsCategories", new Request(userId, apiToken), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        categoryList = ParseResponses.parseCategories(mainObject);
+//                        categoryList = ParseResponses.parseCategories(mainObject);
 
-                        initCategoriesRecycler(view);
+//                        initCategoriesRecycler(view);
 
-                        getCardsByCategory(categoryList.get(0).getCategoryCards());
+//                        getCardsByCategory(categoryList.get(0).getCategoryCards());
                     }
 
                     @Override
@@ -141,30 +153,30 @@ public class CardsFragment extends Fragment {
                 });
     }
 
-    private void initCategoriesRecycler(final View view) {
-        RecyclerView categoriesRecycler = view.findViewById(R.id.cards_categories_recycler);
-        categoriesRecycler.setHasFixedSize(true);
-        categoriesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        categoriesRecycler.setAdapter(new CategoryAdapter(getContext(), categoryList, new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                cardsProgress.setVisibility(View.VISIBLE);
-                Category category = categoryList.get(position);
+//    private void initCategoriesRecycler(final View view) {
+//        RecyclerView categoriesRecycler = view.findViewById(R.id.cards_categories_recycler);
+//        categoriesRecycler.setHasFixedSize(true);
+//        categoriesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+//        categoriesRecycler.setAdapter(new CategoryAdapter(getContext(), categoryList, new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                cardsProgress.setVisibility(View.VISIBLE);
+//                Category category = categoryList.get(position);
+//
+//                // get cards
+//                getCardsByCategory(category.getCategoryCards());
+//            }
+//        }));
+//    }
 
-                // get cards
-                getCardsByCategory(category.getCategoryCards());
-            }
-        }));
-    }
-
-    private void getCardsByCategory(List<Card> cards) {
-
-        cardsList = cards;
-
-        initCardsRecycler();
-
-        initEmptyView(view);
-    }
+//    private void getCardsByCategory(List<Card> cards) {
+//
+//        cardsList = cards;
+//
+//        initCardsRecycler();
+//
+//        initEmptyView(view);
+//    }
 
     private void initCardsRecycler() {
         cardsRecycler.setHasFixedSize(true);

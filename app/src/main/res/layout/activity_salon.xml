@@ -822,16 +822,6 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-    <ProgressBar
-        android:id="@+id/Salon_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/colorPrimary"
-        android:indeterminateTintMode="src_atop"
-        android:visibility="gone" />
-
     <!-- bottom sheet activate cards-->
     <include layout="@layout/bottom_sheet_active_cards" />
 

@@ -114,7 +114,7 @@
     <string name="processes">العمليات</string>
     <string name="cost">التكاليف</string>
     <string name="date">التاريخ</string>
-    <string name="round_date">تاريخ الجولة</string>
+    <string name="round_date">تاريخ الجولة : </string>
     <string name="card">الكارت</string>
     <string name="renew_membership">تجديد العضوية</string>
     <string name="app_settings">اعدادات التطبيق</string>
@@ -128,7 +128,7 @@
     <string name="telephone_number">رقم الهاتف</string>
     <string name="account_info">بيانات الحساب</string>
     <string name="edit">تعديل</string>
-    <string name="delete_connection">الغاء الاتصال</string>
+    <string name="disconnect">الغاء الاتصال</string>
     <string name="connect_with">"متصل بأستخدام "</string>
     <string name="use">أستخدام</string>
     <string name="goldenCard">هاذا الكارت يستخدم لدخول الجوله .</string>
@@ -172,7 +172,7 @@
     <string name="retry">أعد المحاولة</string>
     <string name="empty_name">اسم المستخدم فارغ</string>
     <string name="empty_message">محتوي الرسالة فارغ</string>
-    <string name="sending_message">جاري الارسال...</string>
+    <string name="sending_message">جاري الارسال ...</string>
     <string name="category">الفئة</string>
     <string name="rOffer">العرض</string>
     <string name="connection_error">حدث خطأ أثناء الاتصال .</string>
@@ -186,5 +186,8 @@
     <string name="new_pass">كلمة السر الجديدة</string>
     <string name="edit_pass">تعديل كلمة السر</string>
     <string name="day">يوم</string>
-    <string name="loading">تحميل...</string>
+    <string name="loading">تحميل ...</string>
+    <string name="restart_hint">إعادة تشغيل البرنامج و تغيير اللغة ؟</string>
+    <string name="delete_account_hint">حذف هذا الحساب ؟</string>
+    <string name="sign_out_hint">تسجيل خروج ؟</string>
 </resources>

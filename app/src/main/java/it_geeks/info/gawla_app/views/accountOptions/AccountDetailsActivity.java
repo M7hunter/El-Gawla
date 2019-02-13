@@ -18,11 +18,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +31,7 @@ import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
-import it_geeks.info.gawla_app.Repositry.Services.fcm.UploadImageService;
+import it_geeks.info.gawla_app.Repositry.Services.UploadImageService;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.User;
@@ -114,8 +114,10 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
         // Swipe Page Back
         mainAccountDetails = findViewById(R.id.mainAccountDetails);
-        mainAccountDetails.setOnTouchListener(new OnSwipeTouchListener(AccountDetailsActivity.this){
-            public void onSwipeRight() { finish(); }
+        mainAccountDetails.setOnTouchListener(new OnSwipeTouchListener(AccountDetailsActivity.this) {
+            public void onSwipeRight() {
+                finish();
+            }
         });
     }
 
@@ -182,7 +184,10 @@ public class AccountDetailsActivity extends AppCompatActivity {
             }
         });
 
-        countryMenu.show();
+        try {
+            countryMenu.show();
+        } catch (RuntimeException e) {
+        }
     }
 
     private void genderPopupMenu() {
@@ -206,7 +211,10 @@ public class AccountDetailsActivity extends AppCompatActivity {
             }
         });
 
-        genderMenu.show();
+        try {
+            genderMenu.show();
+        } catch (RuntimeException e) {
+        }
     }
 
     private void setUserData() {
@@ -244,9 +252,16 @@ public class AccountDetailsActivity extends AppCompatActivity {
                             @Override
                             public void handleTrueResponse(JsonObject mainObject) {
 
+                                // Stop Notification to last country
+                                int LastCountryID = SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id();
+                                FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + LastCountryID);
+
                                 // save updated data
                                 SharedPrefManager.getInstance(AccountDetailsActivity.this).saveUser(ParseResponses.parseUser(mainObject));
                                 SharedPrefManager.getInstance(AccountDetailsActivity.this).setCountry(country);
+
+                                // Start Notification To a new Country
+                                FirebaseMessaging.getInstance().subscribeToTopic("country_" + String.valueOf(SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id()));
 
                                 // notify user
                                 Toast.makeText(AccountDetailsActivity.this, "updated", Toast.LENGTH_SHORT).show();

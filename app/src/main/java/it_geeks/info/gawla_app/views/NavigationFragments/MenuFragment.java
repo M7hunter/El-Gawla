@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.TransHolder;
+import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.menuOptions.CallUsActivity;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
@@ -136,10 +137,10 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder alertOut = new AlertDialog.Builder(getContext());
-                alertOut.setMessage("Are You Sure You Want To Log Out ?");
-                alertOut.setNegativeButton("Cancel",null);
-                alertOut.setPositiveButton("Sign out", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder alertOut = new AlertDialog.Builder(MainActivity.mainInstance);
+                alertOut.setMessage(getString(R.string.sign_out_hint));
+                alertOut.setNegativeButton(getString(R.string.cancel),null);
+                alertOut.setPositiveButton(getString(R.string.sign_out), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         SharedPrefManager.getInstance(getActivity()).clearUser();
@@ -154,7 +155,6 @@ public class MenuFragment extends Fragment {
                         getActivity().finish();
                     }
                 });
-                alertOut.create();
                 alertOut.show();
             }
         });

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -93,6 +94,8 @@ public class RoundsPagerAdapter extends PagerAdapter {
                 i.putExtra("round_date", round.getRound_date());
                 i.putExtra("round_time", round.getRound_time());
                 i.putExtra("rest_time", round.getRest_time());
+                i.putExtra("product_images", (Serializable) round.getProduct_images());
+                i.putExtra("salon_cards", (Serializable) round.getSalon_cards());
 
                 context.startActivity(i);
             }
@@ -104,7 +107,7 @@ public class RoundsPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        ((ViewPager)container).removeView((View) object);
+        ((ViewPager) container).removeView((View) object);
     }
 
 }
