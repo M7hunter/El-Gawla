@@ -190,5 +190,5 @@
     <string name="restart_hint">إعادة تشغيل البرنامج و تغيير اللغة ؟</string>
     <string name="delete_account_hint">حذف هذا الحساب ؟</string>
     <string name="sign_out_hint">تسجيل خروج ؟</string>
-
+    <string name="updated">تم التحديث</string>
 </resources>

@@ -27,10 +27,9 @@
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="40dp"
+                android:layout_marginEnd="20dp"
                 android:fontFamily="@font/cairo_semibold"
                 android:text="@string/lastNews"
                 android:textColor="@color/blueGrey" />
@@ -60,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="10dp"
-                        android:layout_marginEnd="40dp"
+                        android:layout_marginEnd="20dp"
                         android:layout_weight="1"
                         android:maxLines="3"
                         android:text="@string/notiNews"
@@ -72,7 +71,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:layout_marginEnd="40dp"
+                        android:layout_marginEnd="20dp"
                         android:text="3:50 hrs" />
                 </LinearLayout>
 

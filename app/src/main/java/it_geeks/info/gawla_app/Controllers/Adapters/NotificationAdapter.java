@@ -1,6 +1,7 @@
 package it_geeks.info.gawla_app.Controllers.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,17 +9,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Notification;
+import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.views.SalonActivity;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.Holder> {
 
     Context context;
     ArrayList<Notification> notificationList;
+    private static String lastDate;
 
     public NotificationAdapter(Context context, ArrayList<Notification> notificationList) {
         this.context = context;
@@ -48,7 +53,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.notificationCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,notification.getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, notification.getType(), Toast.LENGTH_SHORT).show();
+            if (notification.getType() == "salons"){
+                Intent i = new Intent(context, SalonActivity.class);
+                i.putExtra("salon_id",notification.getId());
+                Toast.makeText(context, notification.getId()+"", Toast.LENGTH_SHORT).show();
+                context.startActivity(i);
+            }
             }
         });
     }

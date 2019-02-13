@@ -48,7 +48,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
         //FirebaseMessaging.getInstance().setAutoInitEnabled(true);
 
         String clickAction = remoteMessage.getNotification().getClickAction();
-        new Intent(clickAction);
+        Intent i = new Intent(clickAction);
 
         try {
             showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),clickAction);

@@ -53,7 +53,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
     private int user_id;
     private String api_token;
     public String encodedImage;
-
     private Uri imagePath;
 
     @Override
@@ -264,7 +263,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
                                 FirebaseMessaging.getInstance().subscribeToTopic("country_" + String.valueOf(SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id()));
 
                                 // notify user
-                                Toast.makeText(AccountDetailsActivity.this, "updated", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AccountDetailsActivity.this, getString(R.string.updated), Toast.LENGTH_SHORT).show();
                                 updatedStateUI();
                             }
 
@@ -360,7 +359,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
                         updatingStateUI();
                         btn_upload_image.setEnabled(false);
                     } else {
-                        Toast.makeText(AccountDetailsActivity.this, "check your connection", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AccountDetailsActivity.this, getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
