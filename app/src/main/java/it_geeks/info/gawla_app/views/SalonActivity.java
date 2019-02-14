@@ -1,10 +1,8 @@
 package it_geeks.info.gawla_app.views;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.net.Uri;
