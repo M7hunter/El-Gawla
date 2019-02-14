@@ -19,16 +19,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.Controllers.Adapters.CategoryAdapter;
+import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.OnItemClickListener;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
-import it_geeks.info.gawla_app.Repositry.Models.Category;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
-import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Controllers.Adapters.CardsAdapter;
 import it_geeks.info.gawla_app.general.TransHolder;
@@ -39,7 +36,6 @@ public class CardsFragment extends Fragment {
 
     private RecyclerView cardsRecycler;
 
-    //    private List<Category> categoryList = new ArrayList<>();
     private List<Card> cardsList = new ArrayList<>();
 
     private ProgressBar cardsProgress;
@@ -59,17 +55,7 @@ public class CardsFragment extends Fragment {
 
         handleEvents();
 
-        for (int i = 0; i < 6; i++) {
-            cardsList.add(new Card(i,
-                    "card " + i,
-                    "details " + i,
-                    "type " + i,
-                    "#" + i + i + i + i + i + i,
-                    i + "0 EGP"));
-        }
-
-        initCardsRecycler();
-
+        getCardsFromServer(view);
 
 //        checkConnection(view);
 
@@ -109,7 +95,6 @@ public class CardsFragment extends Fragment {
         if (Common.Instance(getActivity()).isConnected()) {
             noConnectionLayout.setVisibility(View.GONE);
 
-//            getCategoriesFromServer(view);
 
         } else {
             noConnectionLayout.setVisibility(View.VISIBLE);
@@ -117,19 +102,21 @@ public class CardsFragment extends Fragment {
         }
     }
 
-    private void getCategoriesFromServer(final View view) {
+    private void getCardsFromServer(final View view) {
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
         String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
         RetrofitClient.getInstance(getContext()).executeConnectionToServer(MainActivity.mainInstance,
-                "getAllCardsCategories", new Request(userId, apiToken), new HandleResponses() {
+                "getAllCards", new Request(userId, apiToken), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-//                        categoryList = ParseResponses.parseCategories(mainObject);
+                        cardsList = ParseResponses.parseCards(mainObject);
 
-//                        initCategoriesRecycler(view);
+                        for (int i = 0; i < cardsList.size(); i++) {
+                            cardsList.get(i).setPosition(i);
+                        }
 
-//                        getCardsByCategory(categoryList.get(0).getCategoryCards());
+                        initCardsRecycler();
                     }
 
                     @Override
@@ -139,44 +126,16 @@ public class CardsFragment extends Fragment {
 
                     @Override
                     public void handleEmptyResponse() {
-
                         initEmptyView(view);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-
                         initEmptyView(view);
-
                         Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
-
-//    private void initCategoriesRecycler(final View view) {
-//        RecyclerView categoriesRecycler = view.findViewById(R.id.cards_categories_recycler);
-//        categoriesRecycler.setHasFixedSize(true);
-//        categoriesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-//        categoriesRecycler.setAdapter(new CategoryAdapter(getContext(), categoryList, new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                cardsProgress.setVisibility(View.VISIBLE);
-//                Category category = categoryList.get(position);
-//
-//                // get cards
-//                getCardsByCategory(category.getCategoryCards());
-//            }
-//        }));
-//    }
-
-//    private void getCardsByCategory(List<Card> cards) {
-//
-//        cardsList = cards;
-//
-//        initCardsRecycler();
-//
-//        initEmptyView(view);
-//    }
 
     private void initCardsRecycler() {
         cardsRecycler.setHasFixedSize(true);

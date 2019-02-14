@@ -85,7 +85,7 @@ public class RoundStartToEnd {
                close_hall_value();
            }
        }else {
-           ((SalonActivity) context).round_notification_text.setText(round_status);
+           ((SalonActivity) context).tvRoundActivity.setText(round_status);
        }
 
     }
@@ -93,7 +93,7 @@ public class RoundStartToEnd {
     // before round start and open join
     private void open_hall_value(long value) {
         ((SalonActivity)context).tvSalonTime.setText("Time to To Free Join");
-        ((SalonActivity) context).round_notification_text.setText("wait round to start");
+        ((SalonActivity) context).tvRoundActivity.setText("wait round to start");
         DoCountDown(value);
     }
 
@@ -102,9 +102,9 @@ public class RoundStartToEnd {
     private void free_join_status(long value) {
         ((SalonActivity)context).tvSalonTime.setText("Free Join");
         if (joinStatus == 2) {
-            ((SalonActivity) context).round_notification_text.setText(" You are joined");
+            ((SalonActivity) context).tvRoundActivity.setText(" You are joined");
         } else {
-            ((SalonActivity) context).round_notification_text.setText("You can Join Now");
+            ((SalonActivity) context).tvRoundActivity.setText("You can Join Now");
             ((SalonActivity) context).btnJoinRound.setVisibility(View.VISIBLE);
         }
         DoCountDown(value);
@@ -114,10 +114,10 @@ public class RoundStartToEnd {
     private void pay_join_value(long value) {
         ((SalonActivity)context).tvSalonTime.setText("Card Join Time");
         if (joinStatus == 2) {
-            ((SalonActivity) context).round_notification_text.setText("You are joined");
+            ((SalonActivity) context).tvRoundActivity.setText("You are joined");
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
         } else {
-            ((SalonActivity) context).round_notification_text.setText("You can use golden card to join now");
+            ((SalonActivity) context).tvRoundActivity.setText("You can use golden card to join now");
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
         }
         DoCountDown(value);
@@ -127,10 +127,10 @@ public class RoundStartToEnd {
     private void first_round_value(long value) {
         ((SalonActivity)context).tvSalonTime.setText("First Round Time");
         if (joinStatus == 2) {
-            ((SalonActivity) context).round_notification_text.setText("round stared add offers to win");
+            ((SalonActivity) context).tvRoundActivity.setText("round stared add offers to win");
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
         } else {
-            ((SalonActivity) context).round_notification_text.setText("round stared");
+            ((SalonActivity) context).tvRoundActivity.setText("round stared");
             ((SalonActivity) context).cancelConfirmation();
         }
         DoCountDown(value);
@@ -139,25 +139,25 @@ public class RoundStartToEnd {
     //Rest show the winner
     private void first_rest_value(long value) {
         ((SalonActivity)context).tvSalonTime.setText("Rest Time");
-        ((SalonActivity) context).round_notification_text.setText("rest time");
+        ((SalonActivity) context).tvRoundActivity.setText("rest time");
         DoCountDown(value);
     }
     // Second Round when user restart the round
     private void seconed_round_value(long value) {
         ((SalonActivity)context).tvSalonTime.setText("Second Round time");
-        ((SalonActivity) context).round_notification_text.setText("Second Round time");
+        ((SalonActivity) context).tvRoundActivity.setText("Second Round time");
         DoCountDown(value);
     }
     // second Rest
     private void seconed_rest_value(long value) {
         ((SalonActivity)context).tvSalonTime.setText("Second Rest time");
-        ((SalonActivity) context).round_notification_text.setText("Second rest time");
+        ((SalonActivity) context).tvRoundActivity.setText("Second rest time");
         DoCountDown(value);
     }
 
     private void close_hall_value() {
         ((SalonActivity)context).tvSalonTime.setText("Round Closed");
-        ((SalonActivity) context).round_notification_text.setText("Round Closed");
+        ((SalonActivity) context).tvRoundActivity.setText("Round Closed");
     }
 
             ///////////////////////////////////////////////////////
@@ -170,7 +170,7 @@ public class RoundStartToEnd {
                 }
 
                 public void onFinish() {
-                    ((SalonActivity)context).getRealtimeOfRound();
+                    ((SalonActivity)context).getRemainingTimeOfRound();
                 }
 
             }.start();

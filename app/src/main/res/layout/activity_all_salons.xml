@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
+    android:id="@+id/all_salon_main_layout"
     tools:context=".views.AllSalonsActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -131,5 +132,7 @@
     <include layout="@layout/no_connection_layout" />
 
     <include layout="@layout/bottom_sheet_filter_by" />
+
+    <include layout="@layout/loading_card_layout" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

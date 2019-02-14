@@ -10,13 +10,10 @@ public class Category {
 
     private String CategoryColor;
 
-    private List<Card> categoryCards;
-
-    public Category(int categoryId, String categoryName, String categoryColor, List<Card> categoryCards) {
+    public Category(int categoryId, String categoryName, String categoryColor) {
         CategoryId = categoryId;
         CategoryName = categoryName;
         CategoryColor = categoryColor;
-        this.categoryCards = categoryCards;
     }
 
     public int getCategoryId() {
@@ -41,13 +38,5 @@ public class Category {
 
     public void setCategoryColor(String categoryColor) {
         CategoryColor = categoryColor;
-    }
-
-    public List<Card> getCategoryCards() {
-        return categoryCards;
-    }
-
-    public void setCategoryCards(List<Card> categoryCards) {
-        this.categoryCards = categoryCards;
     }
 }

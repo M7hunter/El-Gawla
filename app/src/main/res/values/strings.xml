@@ -124,7 +124,7 @@
     <string name="provider_fb">Facebook</string>
     <string name="facebook_app_id" translatable="false">1076557455858728</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb1076557455858728</string>
-    <string name="card_price">card price for this salon</string>
+    <string name="card_price_salon">card price for this salon</string>
     <string name="what_is_Gawla">what is Gawla ?</string>
     <string name="text">text</string>
     <string name="processes">processes</string>
@@ -184,7 +184,7 @@
     <string name="edit_pass">edit password</string>
     <string name="new_pass">new password</string>
     <string name="action_share">share</string>
-    <string name="update">update</string>
+    <string name="updated">updated</string>
     <string name="loading">Loading ...</string>
 
     <string name="day">Day</string>
@@ -193,5 +193,8 @@
     <string name="empty_hint"> this field can\'t be empty</string>
     <string name="name_length_hint">name should be more than 5 chars</string>
     <string name="sign_out_hint">Sign out ?</string>
+    <string name="card_price_category">card price for this category</string>
+    <string name="card_price_by_category">card price by category</string>
+    <string name="card_price">card price</string>
 
 </resources>

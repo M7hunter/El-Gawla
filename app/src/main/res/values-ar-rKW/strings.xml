@@ -108,7 +108,7 @@
     <string name="choose_country">اختر الدولة</string>
     <string name="no_content">لا يوجد محتوي</string>
     <string name="sign_up">انشاء حساب</string>
-    <string name="card_price">سعر الكارت للصالة</string>
+    <string name="card_price_salon">سعر الكارت للصالة</string>
     <string name="what_is_Gawla">ما هي الجولة ؟</string>
     <string name="text">نص الرسالة</string>
     <string name="processes">العمليات</string>
@@ -190,5 +190,10 @@
     <string name="restart_hint">إعادة تشغيل البرنامج و تغيير اللغة ؟</string>
     <string name="delete_account_hint">حذف هذا الحساب ؟</string>
     <string name="sign_out_hint">تسجيل خروج ؟</string>
+    <string name="card_price_category">سعر الكارت لهذه الفئة</string>
+    <string name="name_length_hint">يجب ان يزيد الاسم عن خمسة احرف</string>
+    <string name="card_price_by_category">سعر الكارت حسب الفئة</string>
+    <string name="card_price">سعر الكارت</string>
+    <string name="updated">تم التحديث</string>
 
 </resources>

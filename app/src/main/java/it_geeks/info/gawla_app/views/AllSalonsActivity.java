@@ -1,10 +1,10 @@
 package it_geeks.info.gawla_app.views;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Controllers.Adapters.CategoryAdapter;
-import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Storage.CardDao;
 import it_geeks.info.gawla_app.Repositry.Storage.ProductImageDao;
 import it_geeks.info.gawla_app.Repositry.Storage.RoundDao;
@@ -45,7 +45,6 @@ public class AllSalonsActivity extends AppCompatActivity {
 
     public static Activity allSalonsActivityInstance;
 
-    private RecyclerView dateSalonsRecycler;
     private RecyclerView filterRecycler;
 
     private List<Round> roundsList = new ArrayList<>();
@@ -54,7 +53,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
     private BottomSheetDialog mBottomSheetDialogFilterBy;
 
-    private ProgressDialog progressDialog;
+    private CardView loadingCard;
 
     private int userId;
     private String apiToken;
@@ -81,17 +80,27 @@ public class AllSalonsActivity extends AppCompatActivity {
 
             @Override
             public void onFailed() {
-                progressDialog.dismiss();
+                hideLoading();
             }
         });
     }
 
+    private void displayLoading() {
+        loadingCard.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    private void hideLoading() {
+        loadingCard.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
     private void initViews() {
+        loadingCard = findViewById(R.id.loading_card);
         filterRecycler = findViewById(R.id.filter_recycler);
         filterRecycler.setHasFixedSize(true);
         filterRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
-
-        buildProgressDialog();
 
         // back
         findViewById(R.id.all_salons_back).setOnClickListener(new View.OnClickListener() {
@@ -124,7 +133,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void getDatesAndRoundsFromServer() {
-        progressDialog.show();
+        displayLoading();
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
                 "getAllSalons", new Request(userId, apiToken), new HandleResponses() {
                     @Override
@@ -222,7 +231,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
     private void getCategoriesAndRoundsFromServer() {
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
-                "getAllCardsCategories", new Request(userId, apiToken), new HandleResponses() {
+                "getAllCategories", new Request(userId, apiToken), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
 
@@ -271,7 +280,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initSalonsRecycler() {
-        dateSalonsRecycler = findViewById(R.id.date_salons_recycler);
+        RecyclerView dateSalonsRecycler = findViewById(R.id.date_salons_recycler);
         dateSalonsRecycler.setHasFixedSize(true);
         dateSalonsRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
         dateSalonsRecycler.setAdapter(new SalonsAdapter(AllSalonsActivity.this, roundsList));
@@ -280,7 +289,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     private void initSalonsEmptyView() {
         LinearLayout emptyViewLayout = findViewById(R.id.all_salons_empty_view);
 
-        progressDialog.dismiss();
+        hideLoading();
 
         if (roundsList.size() > 0) { // !empty ?
             emptyViewLayout.setVisibility(View.GONE);
@@ -299,7 +308,7 @@ public class AllSalonsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getDatesAndRoundsFromServer();
-                progressDialog.show();
+                displayLoading();
                 mBottomSheetDialogFilterBy.dismiss();
             }
         });
@@ -308,7 +317,7 @@ public class AllSalonsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getCategoriesAndRoundsFromServer();
-                progressDialog.show();
+                displayLoading();
                 mBottomSheetDialogFilterBy.dismiss();
             }
         });
@@ -331,11 +340,5 @@ public class AllSalonsActivity extends AppCompatActivity {
         Common.Instance(AllSalonsActivity.this).setBottomSheetHeight(sheetView);
         mBottomSheetDialogFilterBy.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
-    }
-
-    private void buildProgressDialog() {
-        progressDialog = new ProgressDialog(AllSalonsActivity.this);
-        progressDialog.setMessage(getResources().getString(R.string.loading));
-        progressDialog.setCancelable(false);
     }
 }

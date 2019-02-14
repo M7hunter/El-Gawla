@@ -116,11 +116,11 @@ public class Request {
         this.country_id = country_id;
     }
 
-    public Request(int user_id, String api_token, int salon_id) { // get round RealTime
+    public Request(int user_id, String api_token, int integer) { // get round RealTime
         this.user_id = user_id;
         this.api_token = api_token;
-        this.salon_id = salon_id;
-        this.card_id = salon_id;
+        this.salon_id = integer;
+        this.card_id = integer;
     }
 
     public Request(int user_id, String api_token, String name, String email, String message) { // contact Us

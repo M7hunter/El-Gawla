@@ -9,14 +9,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import it_geeks.info.gawla_app.Controllers.Adapters.WebViewAdapter;
+import it_geeks.info.gawla_app.Repositry.Models.Request;
+import it_geeks.info.gawla_app.Repositry.Models.WebPage;
+import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
+import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
@@ -36,7 +47,10 @@ public class MenuFragment extends Fragment {
 
     private GoogleApiClient mGoogleApiClient;
 
-    private TextView tvMenuFragmentHint, tvAppSettings, tvMoreAboutGawla, tvPrivacyPolicy, tvTermsAndCo, tvCallUs, tvHowGawlaWorks, tvSignOut;
+    private TextView tvMenuFragmentHint, tvAppSettings, tvMoreAboutGawla, tvPrivacyPolicy, tvTermsAndCo, tvCallUs, tvHowGawlaWorks, tvSignOut; // <- trans
+    private RecyclerView webViewsRecycler;
+
+    private List<WebPage> webPageList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,11 +65,14 @@ public class MenuFragment extends Fragment {
 
         handleEvents(view);
 
+        getWebPagesFromServer();
+
         return view;
     }
 
     private void initViews(View view) {
         ImageView imCountryIcon = view.findViewById(R.id.menu_country_icon);
+        webViewsRecycler = view.findViewById(R.id.web_views_recycler);
 
         tvMenuFragmentHint = view.findViewById(R.id.tv_menu_fragment_hint);
         tvAppSettings = view.findViewById(R.id.tv_app_settings);
@@ -140,7 +157,7 @@ public class MenuFragment extends Fragment {
 
                 AlertDialog.Builder alertOut = new AlertDialog.Builder(MainActivity.mainInstance);
                 alertOut.setMessage(getString(R.string.sign_out_hint));
-                alertOut.setNegativeButton(getString(R.string.cancel),null);
+                alertOut.setNegativeButton(getString(R.string.cancel), null);
                 alertOut.setPositiveButton(getString(R.string.sign_out), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -162,5 +179,40 @@ public class MenuFragment extends Fragment {
                 startActivity(new Intent(getContext(), NotificationActivity.class));
             }
         });
+    }
+
+    private void getWebPagesFromServer() {
+        int user_id = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
+        String api_token = SharedPrefManager.getInstance(getContext()).getUser().getApi_token();
+
+        RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(), "getAllPages", new Request(user_id, api_token), new HandleResponses() {
+            @Override
+            public void handleTrueResponse(JsonObject mainObject) {
+                webPageList = ParseResponses.parseWebPages(mainObject);
+
+                initWebViewRecycler();
+            }
+
+            @Override
+            public void handleFalseResponse(JsonObject errorObject) {
+
+            }
+
+            @Override
+            public void handleEmptyResponse() {
+
+            }
+
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
+
+            }
+        });
+    }
+
+    private void initWebViewRecycler() {
+        webViewsRecycler.setHasFixedSize(true);
+        webViewsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        webViewsRecycler.setAdapter(new WebViewAdapter(getContext(), webPageList));
     }
 }

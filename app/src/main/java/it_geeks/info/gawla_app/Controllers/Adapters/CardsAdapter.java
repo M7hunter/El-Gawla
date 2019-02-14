@@ -34,8 +34,8 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        final Card card = cardList.get(i);
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
+        final Card card = cardList.get(position);
 
         // bind
         viewHolder.cardTitle.setText(card.getCard_name());
@@ -48,6 +48,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
                 Intent i = new Intent(context, CardActivity.class);
                 i.putExtra("card", card);
                 i.putExtra("card_list", (Serializable) cardList);
+
                 i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
                 context.startActivity(i);

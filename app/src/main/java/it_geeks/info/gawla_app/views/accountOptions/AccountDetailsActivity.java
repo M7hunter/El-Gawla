@@ -264,7 +264,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
                                 FirebaseMessaging.getInstance().subscribeToTopic("country_" + String.valueOf(SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id()));
 
                                 // notify user
-                                Toast.makeText(AccountDetailsActivity.this, "updated", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AccountDetailsActivity.this, getString(R.string.updated), Toast.LENGTH_SHORT).show();
                                 updatedStateUI();
                             }
 

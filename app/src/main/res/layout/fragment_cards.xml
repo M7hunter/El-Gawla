@@ -45,14 +45,6 @@
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true" />
 
-                <!-- cards progress -->
-                <ProgressBar
-                    android:id="@+id/cards_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_margin="@dimen/margin_large" />
-
                 <!-- empty view -->
                 <LinearLayout
                     android:id="@+id/cards_empty_view"
@@ -86,5 +78,13 @@
     </androidx.core.widget.NestedScrollView>
 
     <include layout="@layout/no_connection_layout" />
+
+    <!-- cards progress -->
+    <ProgressBar
+        android:id="@+id/cards_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/margin_large" />
 
 </FrameLayout>

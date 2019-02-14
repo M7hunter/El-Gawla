@@ -30,9 +30,11 @@ public class RetrofitClient {
 
     // locale : http://192.168.1.2/elgawla/public/api/v1/en/
     // online : https://dev.itgeeks.info/api/v1/en/
+    // online : http://134.209.0.250/dev/public/api
 
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
+
 
     private Context context;
 
@@ -91,9 +93,9 @@ public class RetrofitClient {
 
                 if (response.isSuccessful()) { // code == 200
                     try {
-                        JsonObject mainObj = response.body().getAsJsonObject();
+                    JsonObject mainObj = response.body().getAsJsonObject();
 
-                        HandleResponses.handleTrueResponse(mainObj);
+                    HandleResponses.handleTrueResponse(mainObj);
 
                     } catch (NullPointerException e) { // errors of response body 'maybe response body has changed'
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();

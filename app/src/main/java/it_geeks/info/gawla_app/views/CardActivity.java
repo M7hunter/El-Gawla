@@ -17,10 +17,10 @@ import it_geeks.info.gawla_app.general.Common;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +34,8 @@ public class CardActivity extends AppCompatActivity {
 
     public static Activity cardInstance;
 
+    public TextView cardPrice;
+
     private View vCardIcon;
     private TextView tvCardName, tvCardDesc;
     private Button btnBuy;
@@ -43,8 +45,6 @@ public class CardActivity extends AppCompatActivity {
     private List<Card> cardList = new ArrayList<>();
 
     private BottomSheetDialog mBottomSheetDialogCategory;
-
-    public TextView cardPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,9 @@ public class CardActivity extends AppCompatActivity {
 
             if (extras != null) {
                 card = (Card) extras.getSerializable("card");
-                cardList = (List<Card>) extras.getSerializable("card_list");
+                cardList.addAll((List<Card>) extras.getSerializable("card_list"));
+
+                cardList.remove(card.getPosition());
             }
 
         } else {
@@ -125,22 +127,24 @@ public class CardActivity extends AppCompatActivity {
         final View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_category, null);
 
         //init bottom sheet views
-        RecyclerView categoryRecycler;
+//        RecyclerView categoryRecycler;
         final CardView btnConfirmBuying;
         final ProgressBar pbBuyCard;
 
-        categoryRecycler = sheetView.findViewById(R.id.categories_recycler_category);
+//        categoryRecycler = sheetView.findViewById(R.id.categories_recycler_category);
         cardPrice = sheetView.findViewById(R.id.card_cost_category);
         btnConfirmBuying = sheetView.findViewById(R.id.btn_confirm_buying_card_category);
         pbBuyCard = sheetView.findViewById(R.id.pb_buy_card_category);
 
-        initCategoryRecycler(categoryRecycler);
+//        initCategoryRecycler(categoryRecycler);
+
+        cardPrice.setText(card.getCard_cost());
 
         btnConfirmBuying.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideConfirmationBtn(btnConfirmBuying, pbBuyCard);
-                buyCard(card, btnConfirmBuying, pbBuyCard);
+                buyCard(btnConfirmBuying, pbBuyCard);
             }
         });
 
@@ -163,22 +167,22 @@ public class CardActivity extends AppCompatActivity {
                 .setBackgroundResource(android.R.color.transparent);
     }
 
-    private void initCategoryRecycler(RecyclerView categoryRecycler) {
-        List<Category> categories = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            categories.add(new Category(i, "cat" + i, "#000000", null));
-        }
+//    private void initCategoryRecycler(RecyclerView categoryRecycler) {
+//        List<Category> categories = new ArrayList<>();
+//        for (int i = 0; i < 5; i++) {
+//            categories.add(new Category(i, "cat " + i, "#000000"));
+//        }
+//
+//        categoryRecycler.setHasFixedSize(true);
+//        categoryRecycler.setLayoutManager(new LinearLayoutManager(CardActivity.this, RecyclerView.VERTICAL, false));
+//        categoryRecycler.setAdapter(new CategoryCardAdapter(this, categories));
+//    }
 
-        categoryRecycler.setHasFixedSize(true);
-        categoryRecycler.setLayoutManager(new LinearLayoutManager(CardActivity.this, RecyclerView.VERTICAL, false));
-        categoryRecycler.setAdapter(new CategoryCardAdapter(this, categories));
-    }
-
-    private void buyCard(Card card, final CardView btnConfirmBuying, final ProgressBar pbBuyCard) {
+    private void buyCard(final CardView btnConfirmBuying, final ProgressBar pbBuyCard) {
         int user_id = SharedPrefManager.getInstance(this).getUser().getUser_id();
         String api_token = SharedPrefManager.getInstance(this).getUser().getApi_token();
 
-        RetrofitClient.getInstance(this).executeConnectionToServer(this, "addCardsToUser", new Request(user_id, api_token,  card.getCard_id()), new HandleResponses() {
+        RetrofitClient.getInstance(this).executeConnectionToServer(this, "addCardsToUser", new Request(user_id, api_token, card.getCard_id()), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 Toast.makeText(CardActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();

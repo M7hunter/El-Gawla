@@ -1,7 +1,6 @@
 package it_geeks.info.gawla_app.views.loginActivities;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +36,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import it_geeks.info.gawla_app.Controllers.ViewModels.LoginViewModel;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
@@ -49,9 +49,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button btnForgetPassword, btnCreateAccount, btnLogin;
     private EditText etEmail, etPassword;
-    ProgressDialog progress;
     ScrollView loginMainScreen;
     TextInputLayout tlEmail, tlPass;
+
+    private CardView loadingCard;
 
     // facebook
     public static final String providerFacebook = "facebook";
@@ -116,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @SuppressLint("WrongViewCast")
     private void initialization() {
-        progress = new ProgressDialog(this);
+        loadingCard =findViewById(R.id.loading_card);
         loginMainScreen = findViewById(R.id.loginMainScreen);
         etEmail = findViewById(R.id.et_Email);
         etPassword = findViewById(R.id.et_Password);
@@ -251,16 +252,12 @@ public class LoginActivity extends AppCompatActivity {
 
     // loading screen
     public void setLoadingScreen() {
-        progress.setMessage(getString(R.string.loading));
-        progress.setCancelable(false);
-        progress.show();
+        loadingCard.setVisibility(View.VISIBLE);
     }
 
     public void closeLoadingScreen() {
-        progress.dismiss();
+        loadingCard.setVisibility(View.GONE);
     }
-
-
 
     public static String FirebaseInstanceTokenID() {
 

@@ -1,6 +1,5 @@
 package it_geeks.info.gawla_app.views.loginActivities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,8 +34,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.gson.JsonObject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import it_geeks.info.gawla_app.Controllers.ViewModels.CreateAccountViewModel;
-import it_geeks.info.gawla_app.Controllers.ViewModels.LoginViewModel;
 import it_geeks.info.gawla_app.Repositry.RequestsActions;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
@@ -56,7 +55,6 @@ public class CreateAccountActivity extends AppCompatActivity {
     public int reconnect = 0;
 
     TextInputLayout tl_create_name, tl_create_email, tl_create_pass;
-    ProgressDialog progress;
     Button btnCreateAccount, btnAlreadyHaveAccount;
     TextView tvSignUp, tvGooglePlus, tvFacebook;
     public int REQUEST_GOOGLE = 1000;
@@ -67,6 +65,8 @@ public class CreateAccountActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     LoginButton loginButton;
     GoogleSignInClient mGoogleSignInClient;
+
+    private CardView loadingCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +85,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        progress = new ProgressDialog(this);
+        loadingCard =findViewById(R.id.loading_card);
         createAccountMainScreen = findViewById(R.id.createAccountMainScreen);
         etName = findViewById(R.id.et_create_account_name);
         etEmail = findViewById(R.id.et_create_account_email);
@@ -217,13 +217,11 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     // loading screen
     public void setLoadingScreen() {
-        progress.setMessage(getString(R.string.loading));
-        progress.setCancelable(false);
-        progress.show();
+        loadingCard.setVisibility(View.VISIBLE);
     }
 
     public void closeLoadingScreen() {
-        progress.dismiss();
+        loadingCard.setVisibility(View.GONE);
     }
 
 

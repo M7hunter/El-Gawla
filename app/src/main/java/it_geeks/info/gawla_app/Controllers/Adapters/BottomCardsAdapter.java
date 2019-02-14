@@ -1,6 +1,7 @@
 package it_geeks.info.gawla_app.Controllers.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,6 +114,8 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
     private void buyCard(Card card, final CardView btnConfirmBuying, final ProgressBar pbBuyCard) {
         int user_id = SharedPrefManager.getInstance(context).getUser().getUser_id();
         String api_token = SharedPrefManager.getInstance(context).getUser().getApi_token();
+
+        Log.d("M7", "bottom card id : " + card.getCard_id());
 
         RetrofitClient.getInstance(context).executeConnectionToServer(context, "addCardsToUser", new Request(user_id, api_token,  card.getCard_id()), new HandleResponses() {
             @Override

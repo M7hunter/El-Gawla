@@ -48,7 +48,7 @@ dependencies {
 
     // google services & social
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
-    implementation 'com.facebook.android:facebook-login:[4,5)'
+    implementation 'com.facebook.android:facebook-login:4.40.0'
 
     //firebase
     implementation 'com.google.firebase:firebase-core:16.0.7'

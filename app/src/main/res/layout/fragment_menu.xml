@@ -321,7 +321,14 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:background="@color/paleGrey2" />
+
+            <!-- webViews recycler -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/web_views_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <!-- top border -->
             <View

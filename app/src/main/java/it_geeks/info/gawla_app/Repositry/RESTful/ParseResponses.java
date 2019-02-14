@@ -15,6 +15,7 @@ import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Models.RoundRealTimeModel;
 import it_geeks.info.gawla_app.Repositry.Models.User;
+import it_geeks.info.gawla_app.Repositry.Models.WebPage;
 
 public class ParseResponses {
 
@@ -101,7 +102,7 @@ public class ParseResponses {
         return salon_cardsList;
     }
 
-    public static RoundRealTimeModel parseRoundRealTime(JsonObject roundObj){
+    public static RoundRealTimeModel parseRoundRealTime(JsonObject roundObj) {
         JsonObject roundtime = roundObj.get("hall").getAsJsonObject();
 
         JsonObject open_hall = roundtime.get("open_hall").getAsJsonObject();
@@ -137,8 +138,8 @@ public class ParseResponses {
         int close_hall_value = close_hall.get("value").getAsInt();
 
         String round_status = roundtime.get("status").getAsString();
-        boolean isUserJoin = false ;
-         isUserJoin = roundObj.get("isUserJoin").getAsBoolean();
+        boolean isUserJoin = false;
+        isUserJoin = roundObj.get("isUserJoin").getAsBoolean();
 
         return new RoundRealTimeModel(
                 open_hall_status,
@@ -208,13 +209,13 @@ public class ParseResponses {
             String category_color = categoryObj.get("category_color").getAsString();
 
             categories.add(
-                    new Category(category_id, category_name, category_color, parseCards(categoryObj)));
+                    new Category(category_id, category_name, category_color));
         }
 
         return categories;
     }
 
-    private static List<Card> parseCards(JsonObject object) {
+    public static List<Card> parseCards(JsonObject object) {
         JsonArray dataArray = object.get("cards").getAsJsonArray();
 
         List<Card> cardsList = new ArrayList<>();
@@ -224,12 +225,11 @@ public class ParseResponses {
             int card_id = cardObj.get("card_id").getAsInt();
             String card_name = cardObj.get("card_name").getAsString();
             String card_details = cardObj.get("card_details").getAsString();
-            String card_type = cardObj.get("type").getAsString();
             String card_color = cardObj.get("color_code").getAsString();
-            String card_cost = cardObj.get("cost").getAsString();
+            String cost = cardObj.get("cost").getAsString();
 
             cardsList.add(
-                    new Card(card_id, card_name, card_details, card_type, card_color, card_cost));
+                    new Card(card_id, card_name, card_details, card_color, cost));
         }
 
         return cardsList;
@@ -252,6 +252,24 @@ public class ParseResponses {
         return error;
     }
 
+    public static List<WebPage> parseWebPages(JsonObject object) {
+        JsonArray dataArray = object.get("pages").getAsJsonArray();
+
+        List<WebPage> webPageList = new ArrayList<>();
+
+        for (int i = 0; i < dataArray.size(); i++) {
+            JsonObject cardObj = dataArray.get(i).getAsJsonObject();
+            int page_id = cardObj.get("page_id").getAsInt();
+            String page_title = cardObj.get("page_title").getAsString();
+            String page_link = cardObj.get("page_link").getAsString();
+
+            webPageList.add(
+                    new WebPage(page_id, page_title, page_link));
+        }
+
+        return webPageList;
+    }
+
 
     // parse Notifications
     public static ArrayList<Notification> parseNotifications(JsonObject object) {
@@ -260,7 +278,7 @@ public class ParseResponses {
         JsonArray notificationsArr = object.get("notifications").getAsJsonArray();
 
         for (int i = 0; i < notificationsArr.size(); i++) {
-        JsonObject notificationObj = notificationsArr.get(i).getAsJsonObject();
+            JsonObject notificationObj = notificationsArr.get(i).getAsJsonObject();
 
             notificationList.add(new Notification(
                     notificationObj.get("title").getAsString(),
