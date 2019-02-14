@@ -24,7 +24,7 @@ import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 public class NotificationActivity extends AppCompatActivity {
 
     RecyclerView recyclerNotificationList;
-    TextView notificationLoading;
+    public TextView notificationLoading;
     ArrayList<Notification> NotificationList = new ArrayList<>();
 
     @Override
@@ -54,7 +54,7 @@ public class NotificationActivity extends AppCompatActivity {
                         NotificationList = ParseResponses.parseNotifications(mainObject);
                         initNotiRecycler();
                         notificationLoading.setVisibility(View.GONE);
-                        if (NotificationList.isEmpty()){
+                        if (NotificationList.size() == 0){
                             notificationLoading.setVisibility(View.VISIBLE);
                             notificationLoading.setText("no notifications");
                         }
