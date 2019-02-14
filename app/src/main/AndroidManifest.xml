@@ -30,10 +30,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".views.SalonActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".views.MainActivity"
             android:clearTaskOnLaunch="true">
@@ -44,7 +46,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".views.AllSalonsActivity" />
-        <activity android:name=".views.NotificationActivity">
+        <activity android:name=".views.NotificationActivity" >
             <intent-filter>
                 <action android:name="notification_page" />
 
@@ -86,10 +88,9 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_stat_message" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/greenBlue" />
+            android:resource="@mipmap/ic_launcher_gawla" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimary" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

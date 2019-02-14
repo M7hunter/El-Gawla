@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.google.gson.JsonObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -25,6 +27,7 @@ import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
@@ -71,63 +74,63 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                 if (notification.getType().trim().equals("salons")) {
                     try {
-                        ((NotificationActivity) context).notificationLoading.setVisibility(View.VISIBLE);
-                        RetrofitClient.getInstance(context).executeConnectionToServer(MainActivity.mainInstance,
-                                "getSalonByID", new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), notification.getId()), new HandleResponses() {
-                                    @Override
-                                    public void handleTrueResponse(JsonObject mainObject) {
-                                        Round round = parseRoundByID(mainObject);
-                                        Intent i = new Intent(context, SalonActivity.class);
-                                        // send round's data to round page
-                                        i.putExtra("product_id", round.getProduct_id());
-                                        i.putExtra("salon_id", round.getSalon_id());
-                                        i.putExtra("product_name", round.getProduct_name());
-                                        i.putExtra("category_name", round.getCategory_name());
-                                        i.putExtra("category_color", round.getCategory_color());
-                                        i.putExtra("country_name", round.getCountry_name());
-                                        i.putExtra("product_commercial_price", round.getProduct_commercial_price());
-                                        i.putExtra("product_product_description", round.getProduct_product_description());
-                                        i.putExtra("product_image", round.getProduct_image());
-                                        i.putExtra("round_start_time", round.getRound_start_time());
-                                        i.putExtra("round_end_time", round.getRound_end_time());
-                                        i.putExtra("first_join_time", round.getFirst_join_time());
-                                        i.putExtra("second_join_time", round.getSecond_join_time());
-                                        i.putExtra("round_date", round.getRound_date());
-                                        i.putExtra("round_time", round.getRound_time());
-                                        i.putExtra("rest_time", round.getRest_time());
-                                        i.putExtra("product_images", (Serializable) round.getProduct_images());
-                                        i.putExtra("salon_cards", (Serializable) round.getSalon_cards());
+                    ((NotificationActivity) context).notificationLoading.setVisibility(View.VISIBLE);
+                    RetrofitClient.getInstance(context).executeConnectionToServer(MainActivity.mainInstance,
+                            "getSalonByID", new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), notification.getId()), new HandleResponses() {
+                                @Override
+                                public void handleTrueResponse(JsonObject mainObject) {
+                                    Round round = parseRoundByID(mainObject);
+                                    Intent i = new Intent(context, SalonActivity.class);
+                                    // send round's data to round page
+                                    i.putExtra("product_id", round.getProduct_id());
+                                    i.putExtra("salon_id", round.getSalon_id());
+                                    i.putExtra("product_name", round.getProduct_name());
+                                    i.putExtra("category_name", round.getCategory_name());
+                                    i.putExtra("category_color", round.getCategory_color());
+                                    i.putExtra("country_name", round.getCountry_name());
+                                    i.putExtra("product_commercial_price", round.getProduct_commercial_price());
+                                    i.putExtra("product_product_description", round.getProduct_product_description());
+                                    i.putExtra("product_image", round.getProduct_image());
+                                    i.putExtra("round_start_time", round.getRound_start_time());
+                                    i.putExtra("round_end_time", round.getRound_end_time());
+                                    i.putExtra("first_join_time", round.getFirst_join_time());
+                                    i.putExtra("second_join_time", round.getSecond_join_time());
+                                    i.putExtra("round_date", round.getRound_date());
+                                    i.putExtra("round_time", round.getRound_time());
+                                    i.putExtra("rest_time", round.getRest_time());
+                                    i.putExtra("product_images", (Serializable) round.getProduct_images());
+                                    i.putExtra("salon_cards", (Serializable) round.getSalon_cards());
 
-                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                                            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context));
-                                            context.startActivity(i, options.toBundle());
-                                        } else {
-                                            context.startActivity(i);
-                                        }
-                                        ((NotificationActivity) context).notificationLoading.setVisibility(View.GONE);
-                                        holder.notificationCard.setEnabled(true);
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context));
+                                        context.startActivity(i, options.toBundle());
+                                    } else {
+                                        context.startActivity(i);
                                     }
+                                    ((NotificationActivity) context).notificationLoading.setVisibility(View.GONE);
+                                    holder.notificationCard.setEnabled(true);
+                                }
 
-                                    @Override
-                                    public void handleFalseResponse(JsonObject mainObject) {
-                                        ((NotificationActivity) context).notificationLoading.setVisibility(View.GONE);
-                                        holder.notificationCard.setEnabled(true);
-                                    }
+                                @Override
+                                public void handleFalseResponse(JsonObject mainObject) {
+                                    ((NotificationActivity) context).notificationLoading.setVisibility(View.GONE);
+                                    holder.notificationCard.setEnabled(true);
+                                }
 
-                                    @Override
-                                    public void handleEmptyResponse() {
-                                        ((NotificationActivity) context).notificationLoading.setVisibility(View.GONE);
-                                        holder.notificationCard.setEnabled(true);
-                                    }
+                                @Override
+                                public void handleEmptyResponse() {
+                                    ((NotificationActivity) context).notificationLoading.setVisibility(View.GONE);
+                                    holder.notificationCard.setEnabled(true);
+                                }
 
-                                    @Override
-                                    public void handleConnectionErrors(String errorMessage) {
-                                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
-                                        ((NotificationActivity) context).notificationLoading.setVisibility(View.GONE);
-                                        holder.notificationCard.setEnabled(true);
-                                    }
-                                });
-                    }catch(Exception e){}
+                                @Override
+                                public void handleConnectionErrors(String errorMessage) {
+                                    Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+                                    ((NotificationActivity) context).notificationLoading.setVisibility(View.GONE);
+                                    holder.notificationCard.setEnabled(true);
+                                }
+                            });
+                }catch(Exception e){}
 
                 } else {
                     try{
