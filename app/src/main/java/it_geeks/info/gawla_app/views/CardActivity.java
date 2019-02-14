@@ -16,6 +16,7 @@ import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.Common;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -100,6 +101,14 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void handleEvents() {
+        // notification
+        findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CardActivity.this, NotificationActivity.class));
+            }
+        });
+
         // back
         findViewById(R.id.card_back).setOnClickListener(new View.OnClickListener() {
             @Override
