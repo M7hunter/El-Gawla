@@ -93,7 +93,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     public Button btnJoinRound, btnAddOffer;
     EditText etAddOffer;
     CardView more, notificationCard, confirmationLayout, useRoundCard;
-    LinearLayout addOfferLayout;
+    LinearLayout addOfferLayout , roundTimeCard;
     FrameLayout overlayLayout;
     ProgressBar joinProgress, joinConfirmationProgress;
     ProgressDialog progress;
@@ -218,11 +218,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                 boolean isToday = mainObject.get("isToday").getAsBoolean();
                 if (isToday) {
-
                     startTimeDown(ParseResponses.parseRoundRealTime(mainObject));
                 } else {
-                    tvSalonTime.setText(getResources().getString(R.string.round_date) + round_date);
-                    tvSalonTime.setTextColor(Color.RED);
+                    tvSalonTime.setText(getResources().getString(R.string.round_date)+"\n" + round_date);
+                    tvSalonTime.setTextSize(20);
                 }
 
             }
@@ -420,6 +419,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         notificationCard = findViewById(R.id.round_notification_card);
         btnAddOffer = findViewById(R.id.add_offer_btn);
         addOfferLayout = findViewById(R.id.add_offer_layout);
+        roundTimeCard = findViewById(R.id.roundTimeCard);
         joinProgress = findViewById(R.id.join_progress);
         joinConfirmationProgress = findViewById(R.id.join_confirmation_progress);
         apiToken = Common.Instance(SalonActivity.this).removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
