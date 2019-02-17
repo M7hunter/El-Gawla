@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -17,10 +18,13 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
+import it_geeks.info.gawla_app.Repositry.Models.Notifications;
+import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Controllers.Adapters.WinnersNewsAdapter;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
@@ -31,6 +35,7 @@ import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.AllSalonsActivity;
 import it_geeks.info.gawla_app.views.MainActivity;
@@ -52,8 +57,9 @@ public class MainFragment extends Fragment {
     private ProgressBar winnersNewsProgress;
     private LinearLayout winnersHeader;
 
-    private TextView btnRecentSalonsSeeAll,btnWinnersSeeAll; // <- trans & more
+    private TextView btnRecentSalonsSeeAll, btnWinnersSeeAll; // <- trans & more
     private TextView recentSalonsLabel, winnersLabel, tvEmptyHint; // <- trans
+    ImageView imgNotification;
 
     private int page = 1;
     private int last_page = 1;
@@ -78,6 +84,9 @@ public class MainFragment extends Fragment {
         recentSalonsProgress = view.findViewById(R.id.recent_salons_progress);
         winnersNewsProgress = view.findViewById(R.id.winners_news_progress);
         winnersHeader = view.findViewById(R.id.winners_header);
+
+        //Notification icon
+        imgNotification = view.findViewById(R.id.Notification);
 
         // translatable views
         btnRecentSalonsSeeAll = view.findViewById(R.id.recent_salons_see_all_btn);
@@ -116,7 +125,11 @@ public class MainFragment extends Fragment {
             }
         });
 
-        view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+        // notification status LiveData
+        new NotificationStatus().LiveStatus(getContext(),imgNotification);
+
+        // notofocation onClick
+        imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), NotificationActivity.class));

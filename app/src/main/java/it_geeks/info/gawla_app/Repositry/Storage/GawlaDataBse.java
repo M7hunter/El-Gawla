@@ -5,15 +5,14 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
+import it_geeks.info.gawla_app.Repositry.Models.Notifications;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Models.Trans;
 
-@Database(entities = {Round.class, Country.class, Card.class, ProductSubImage.class, Trans.class}, version = 1, exportSchema = false)
+@Database(entities = {Round.class, Country.class, Card.class, ProductSubImage.class, Trans.class , Notifications.class}, version = 1, exportSchema = false)
 public abstract class GawlaDataBse extends RoomDatabase {
 
     private static GawlaDataBse INSTANCE;
@@ -54,4 +53,5 @@ public abstract class GawlaDataBse extends RoomDatabase {
     public abstract ProductImageDao productImageDao();
     public abstract CardDao cardDao();
     public abstract TransDao transDao();
+    public abstract NotificationDao notificationDao();
 }

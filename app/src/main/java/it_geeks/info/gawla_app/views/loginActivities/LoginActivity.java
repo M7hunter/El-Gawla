@@ -56,9 +56,12 @@ public class LoginActivity extends AppCompatActivity {
     private CardView loadingCard;
 
     // facebook
-    public static final String providerFacebook = "facebook";
+    public static final String providerFacebook = "Facebook";
     // google login
-    public static final String providerGoogle = "google";
+    public static final String providerGoogle = "Google";
+    // normal login
+    public static final String providerNormalLogin = "Gawla";
+
     public int REQUEST_GOOGLE = 1000;
     private TextView tvSingIn, tvGooglePlus, tvFacebook;
 

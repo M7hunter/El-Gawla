@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import it_geeks.info.gawla_app.Repositry.Storage.ProductImageDao;
 import it_geeks.info.gawla_app.Repositry.Storage.RoundDao;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.ConnectionInterface;
+import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.OnItemClickListener;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
@@ -52,6 +54,8 @@ public class AllSalonsActivity extends AppCompatActivity {
     private List<SalonDate> dateList = new ArrayList<>();
 
     private BottomSheetDialog mBottomSheetDialogFilterBy;
+
+    ImageView imgNotification;
 
     private CardView loadingCard;
 
@@ -110,8 +114,14 @@ public class AllSalonsActivity extends AppCompatActivity {
             }
         });
 
-        // notification icon
-        findViewById(R.id.all_salon_notification_icon).setOnClickListener(new View.OnClickListener() {
+        //Notification icon
+        imgNotification = findViewById(R.id.all_salon_notification_icon);
+
+        // notification status LiveData
+        new NotificationStatus().LiveStatus(this,imgNotification);
+
+        // notofocation onClick
+        imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(AllSalonsActivity.this, NotificationActivity.class));

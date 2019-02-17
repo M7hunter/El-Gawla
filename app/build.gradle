@@ -57,5 +57,9 @@ dependencies {
 
     // socket io
     implementation 'io.socket:socket.io-client:1.0.0'
+
+    // RX Java
+    implementation 'io.reactivex:rxandroid:1.2.0'
+    implementation 'io.reactivex:rxjava:1.1.5'
 }
 apply plugin: 'com.google.gms.google-services'

@@ -252,7 +252,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
                             @Override
                             public void handleTrueResponse(JsonObject mainObject) {
 
-                                // Stop Notification to last country
+                                // Stop NotificationDao to last country
                                 int LastCountryID = SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id();
                                 FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + LastCountryID);
 
@@ -260,7 +260,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
                                 SharedPrefManager.getInstance(AccountDetailsActivity.this).saveUser(ParseResponses.parseUser(mainObject));
                                 SharedPrefManager.getInstance(AccountDetailsActivity.this).setCountry(country);
 
-                                // Start Notification To a new Country
+                                // Start NotificationDao To a new Country
                                 FirebaseMessaging.getInstance().subscribeToTopic("country_" + String.valueOf(SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id()));
 
                                 // notify user

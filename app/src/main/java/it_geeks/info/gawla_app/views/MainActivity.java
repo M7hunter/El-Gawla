@@ -7,7 +7,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Process;
 import android.util.Log;
 import android.view.MenuItem;
@@ -35,6 +37,9 @@ import it_geeks.info.gawla_app.views.NavigationFragments.MainFragment;
 import it_geeks.info.gawla_app.views.NavigationFragments.MenuFragment;
 import it_geeks.info.gawla_app.views.NavigationFragments.MyRoundsFragment;
 import it_geeks.info.gawla_app.R;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscription;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +62,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Common.Instance(this).changeStatusBarColor("#f4f7fa", this);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences.OnSharedPreferenceChangeListener spChanged = new
+                SharedPreferences.OnSharedPreferenceChangeListener() {
+                    @Override
+                    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                        // your stuff here
+                    }
+                };
+
 
         // Firebase Recive messaging notification
         FirebaseMessagingInitialize();

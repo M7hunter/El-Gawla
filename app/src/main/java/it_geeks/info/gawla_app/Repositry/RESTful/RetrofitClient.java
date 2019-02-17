@@ -60,13 +60,13 @@ public class RetrofitClient {
         String BASE_URL;
         switch (SharedPrefManager.getInstance(context).getSavedLang()) {
             case "en":
-                BASE_URL = "http://134.209.0.250/dev/public/api/v1/en/";
+                BASE_URL = "http://elgawla.net/dev/public/api/v1/en/";
                 break;
             case "ar":
-                BASE_URL = "http://134.209.0.250/dev/public/api/v1/ar/";
+                BASE_URL = "http://elgawla.net/dev/public/api/v1/ar/";
                 break;
             default:
-                BASE_URL = "http://134.209.0.250/dev/public/api/v1/en/";
+                BASE_URL = "http://elgawla.net/dev/public/api/v1/en/";
                 break;
         }
 

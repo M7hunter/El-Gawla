@@ -35,7 +35,7 @@ public class LoginViewModel {
         RetrofitClient.getInstance(context).executeConnectionToServer(context, RequestsActions.login.toString(), new Request(email, pass), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
-                cacheUserData(mainObject, context.getResources().getString(R.string.app_name)); // with normal provider
+                cacheUserData(mainObject, LoginActivity.providerNormalLogin); // with normal provider
 
                 ((LoginActivity) context).startActivity(new Intent(context, MainActivity.class));
                 ((LoginActivity) context).finish();
@@ -109,31 +109,6 @@ public class LoginViewModel {
                         FirebaseAuth.getInstance().signOut();
                     }
                 });
-    }
-
-    // google login
-    public void handleSignInResult(Task<GoogleSignInAccount> completedTask, String providerGoogle) {
-        try {
-
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            String id = account.getId();
-            String name = account.getDisplayName();
-            String email = account.getEmail();
-            String image;
-            if(account.getPhotoUrl() == null){
-                 image = "https://i.stack.imgur.com/l60Hf.png";
-            } else {
-                 image = account.getPhotoUrl().toString();
-            }
-            String provider = providerGoogle;
-
-            socialLogin(id, name, email, image, provider);
-            ((LoginActivity) context).setLoadingScreen();
-
-            Log.w("Mo7", id + name + email + image);
-        } catch (ApiException e) {
-            Log.w("Mo7", "signInResult:failed code=" + e.getStatusCode());
-        }
     }
 
 }

@@ -180,7 +180,7 @@
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_marginStart="40dp"
-                    android:padding="@dimen/margin_medium" />
+                    android:padding="@dimen/text_size_tiny" />
 
                 <TextView
                     android:id="@+id/social_username"

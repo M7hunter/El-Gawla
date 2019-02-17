@@ -574,7 +574,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         , salon_id), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        // Notification
+                        // NotificationDao
                         changeConfirmationState();
                         out_round.setVisibility(View.VISIBLE);
                         joinStatus = 2;
@@ -598,12 +598,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 });
     }
 
-    // start Notification To This Salon
+    // start NotificationDao To This Salon
     public void startSalonNotification() {
         FirebaseMessaging.getInstance().subscribeToTopic("salon_" + salon_id);
     }
 
-    // stop Notification To This Salon
+    // stop NotificationDao To This Salon
     public void stopSalonNotification() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic("salon_" + salon_id);
     }

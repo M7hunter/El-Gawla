@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Controllers.Adapters.CardsAdapter;
+import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
@@ -41,6 +43,8 @@ public class CardsFragment extends Fragment {
     private ProgressBar cardsProgress;
 
     private View view = null;
+
+    ImageView imgNotification;
 
     private TextView tvCardsStoreHeader, tvCardsStoreEmptyHint; // <- trans
 
@@ -66,6 +70,9 @@ public class CardsFragment extends Fragment {
         cardsProgress = view.findViewById(R.id.cards_progress);
         cardsRecycler = view.findViewById(R.id.cards_recycler);
 
+        //Notification icon
+        imgNotification = view.findViewById(R.id.Notification);
+
         // translatable views
         tvCardsStoreHeader = view.findViewById(R.id.tv_cards_store_header);
         tvCardsStoreEmptyHint = view.findViewById(R.id.tv_cards_empty_hint);
@@ -80,8 +87,11 @@ public class CardsFragment extends Fragment {
     }
 
     private void handleEvents() {
-        // open Notification
-        view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+        // notification status LiveData
+        new NotificationStatus().LiveStatus(getContext(),imgNotification);
+
+        // notofocation onClick
+        imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), NotificationActivity.class));

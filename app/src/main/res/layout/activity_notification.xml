@@ -80,7 +80,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="@string/loading" />
 
-            <!-- Notification List -->
+            <!-- NotificationDao List -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/notification_list"
                 android:layout_width="match_parent"

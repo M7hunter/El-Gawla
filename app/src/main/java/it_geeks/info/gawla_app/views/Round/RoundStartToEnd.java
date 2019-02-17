@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import it_geeks.info.gawla_app.general.Common;
@@ -17,7 +18,7 @@ public class RoundStartToEnd {
     int open_hall_value ,free_join_value ,pay_join_value ,first_round_value ,first_rest_value , seconed_round_value ,seconed_rest_value , close_hall_value;
     String round_status;
 
-    int[] mSecond = {0}, mMinute = {0}, mHour = {0} , mDay = {0};
+    long[] mSecond = {0}, mMinute = {0}, mHour = {0};
     Context context;
     RoundStartToEndModel roundStartToEndModel;
     CountDownTimer countDownTimer;
@@ -166,7 +167,7 @@ public class RoundStartToEnd {
         try {
             countDownTimer = new CountDownTimer(value, 1000) {
                 public void onTick(final long millisUntilFinished) {
-                    setTimeDown(millisUntilFinished);
+                    setTimeDown(millisUntilFinished/1000);
                 }
 
                 public void onFinish() {
@@ -180,20 +181,10 @@ public class RoundStartToEnd {
     }
 
     private void setTimeDown(long millisUntilFinished) {
-        Calendar calendar = Common.Instance(context).formatMillisToTime(millisUntilFinished);
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        if (calendar.get(Calendar.HOUR_OF_DAY) == 2) {
-            hour = 0;
-        } else if (calendar.get(Calendar.HOUR_OF_DAY) == 1) {
-            hour = 23;
-        } else if (calendar.get(Calendar.HOUR_OF_DAY) == 0) {
-            hour = 22;
-        } else {
-            hour = calendar.get(Calendar.HOUR_OF_DAY) - 2;
-        }
-        int second = calendar.get(Calendar.SECOND);
-        int minute = calendar.get(Calendar.MINUTE);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        long second = millisUntilFinished % 60;
+        long minute = (millisUntilFinished / 60) % 60;
+        long hour = (millisUntilFinished / (60 * 60)) % 24;
 
         if (mSecond[0] != second) {
             GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "second");
