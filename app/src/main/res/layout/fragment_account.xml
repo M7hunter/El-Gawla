@@ -33,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:paddingTop="5dp">
+                    android:paddingTop="2dp">
 
                     <include layout="@layout/main_header_layout" />
 

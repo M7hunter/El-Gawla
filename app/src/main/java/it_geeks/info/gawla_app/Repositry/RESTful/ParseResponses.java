@@ -9,7 +9,7 @@ import java.util.List;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.Repositry.Models.Category;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
-import it_geeks.info.gawla_app.Repositry.Models.Notification;
+import it_geeks.info.gawla_app.Repositry.Models.Notifications;
 import it_geeks.info.gawla_app.Repositry.Models.Trans;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
@@ -311,20 +311,21 @@ public class ParseResponses {
     }
 
     // parse Notifications
-    public static ArrayList<Notification> parseNotifications(JsonObject object) {
+    public static List<Notifications> parseNotifications(JsonObject object) {
 
-        ArrayList<Notification> notificationList = new ArrayList<>();
+        List<Notifications> notificationList = new ArrayList<>();
         JsonArray notificationsArr = object.get("notifications").getAsJsonArray();
 
         for (int i = 0; i < notificationsArr.size(); i++) {
             JsonObject notificationObj = notificationsArr.get(i).getAsJsonObject();
 
-            notificationList.add(new Notification(
+            notificationList.add(new Notifications(
                     notificationObj.get("title").getAsString(),
                     notificationObj.get("body").getAsString(),
                     notificationObj.get("type").getAsString(),
                     notificationObj.get("date").getAsString(),
-                    notificationObj.get("id").getAsInt()));
+                    notificationObj.get("id").getAsInt(),
+                            false));
         }
         return notificationList;
 

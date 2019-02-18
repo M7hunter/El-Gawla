@@ -14,6 +14,7 @@ import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.general.NotificationStatus;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,8 @@ public class CardActivity extends AppCompatActivity {
     private TextView tvCardName, tvCardDesc;
     private Button btnBuy;
     private RecyclerView cardsListRecycler;
+
+    ImageView imgNotification;
 
     private Card card;
     private List<Card> cardList = new ArrayList<>();
@@ -101,8 +105,15 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void handleEvents() {
-        // notification
-        findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+
+        //Notification icon
+        imgNotification = findViewById(R.id.Notification);
+
+        // notification status LiveData
+        new NotificationStatus().LiveStatus(this,imgNotification);
+
+        // notofocation onClick
+        imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(CardActivity.this, NotificationActivity.class));

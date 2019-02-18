@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.accountOptions.AccountDetailsActivity;
 import it_geeks.info.gawla_app.views.accountOptions.BuyingProcessesActivity;
@@ -25,6 +27,8 @@ public class AccountFragment extends Fragment {
     private TextView userName;
     private CircleImageView userImage;
     private String name, image;
+
+    ImageView imgNotification;
 
     private TextView tvAccountDetails, tvBuyingProcesses, tvPrivacyDetails; // <- trans
 
@@ -54,14 +58,17 @@ public class AccountFragment extends Fragment {
         super.onResume();
     }
 
-    private void initViews(View v) {
-        userName = v.findViewById(R.id.user_name);
-        userImage = v.findViewById(R.id.user_image);
+    private void initViews(View view) {
+        userName = view.findViewById(R.id.user_name);
+        userImage = view.findViewById(R.id.user_image);
+
+        //Notification icon
+        imgNotification = view.findViewById(R.id.Notification);
 
         // translatable views
-        tvAccountDetails = v.findViewById(R.id.tv_account_details);
-        tvBuyingProcesses = v.findViewById(R.id.tv_buying_processes);
-        tvPrivacyDetails = v.findViewById(R.id.tv_privacy_details);
+        tvAccountDetails = view.findViewById(R.id.tv_account_details);
+        tvBuyingProcesses = view.findViewById(R.id.tv_buying_processes);
+        tvPrivacyDetails = view.findViewById(R.id.tv_privacy_details);
     }
 
     private void setupTrans() {
@@ -98,8 +105,11 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        // open Notification
-        v.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+        // notification status LiveData
+        new NotificationStatus().LiveStatus(getContext(),imgNotification);
+
+        // notofocation onClick
+        imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), NotificationActivity.class));

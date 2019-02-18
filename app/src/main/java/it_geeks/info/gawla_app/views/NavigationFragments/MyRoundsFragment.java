@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.general.WrapContentHeightViewPager;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
@@ -39,6 +40,8 @@ public class MyRoundsFragment extends Fragment {
     private List<Round> roundsList = new ArrayList<>();
 
     private ProgressBar myRoundProgress;
+
+    ImageView imgNotification;
 
     private ImageView arrowRight, arrowLeft;
     private TextView tvMyRoundsHeader, tvMyRoundsEmptyHint; // <- trans
@@ -62,6 +65,9 @@ public class MyRoundsFragment extends Fragment {
         myRoundProgress = view.findViewById(R.id.my_rounds_progress);
         roundsViewPager = view.findViewById(R.id.rounds_pager);
 
+        //Notification icon
+        imgNotification = view.findViewById(R.id.Notification);
+
         // arrows
         arrowRight = view.findViewById(R.id.my_rounds_right_arrow);
         arrowLeft = view.findViewById(R.id.my_rounds_left_arrow);
@@ -80,8 +86,11 @@ public class MyRoundsFragment extends Fragment {
     }
 
     private void handleEvents(View view) {
-        // open Notification
-        view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+        // notification status LiveData
+        new NotificationStatus().LiveStatus(getContext(),imgNotification);
+
+        // notofocation onClick
+        imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), NotificationActivity.class));

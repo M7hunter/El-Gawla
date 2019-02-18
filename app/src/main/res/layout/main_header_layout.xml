@@ -23,6 +23,6 @@
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:layout_alignParentEnd="true"
         android:padding="@dimen/margin_tiny"
-        android:src="@drawable/ic_notification" />
+        android:src="@drawable/bell" />
 
 </RelativeLayout>

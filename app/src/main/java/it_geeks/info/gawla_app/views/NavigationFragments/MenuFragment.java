@@ -29,6 +29,7 @@ import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.menuOptions.CallUsActivity;
@@ -49,7 +50,7 @@ public class MenuFragment extends Fragment {
 
     private TextView tvMenuFragmentHint, tvAppSettings, tvMoreAboutGawla, tvPrivacyPolicy, tvTermsAndCo, tvCallUs, tvHowGawlaWorks, tvSignOut; // <- trans
     private RecyclerView webViewsRecycler;
-
+    ImageView imgNotification;
     private List<WebPage> webPageList = new ArrayList<>();
 
     @Override
@@ -73,6 +74,9 @@ public class MenuFragment extends Fragment {
     private void initViews(View view) {
         ImageView imCountryIcon = view.findViewById(R.id.menu_country_icon);
         webViewsRecycler = view.findViewById(R.id.web_views_recycler);
+
+        //Notification icon
+        imgNotification = view.findViewById(R.id.Notification);
 
         tvMenuFragmentHint = view.findViewById(R.id.tv_menu_fragment_hint);
         tvAppSettings = view.findViewById(R.id.tv_app_settings);
@@ -172,8 +176,11 @@ public class MenuFragment extends Fragment {
             }
         });
 
-        // open Notification
-        view.findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+        // notification status LiveData
+        new NotificationStatus().LiveStatus(getContext(),imgNotification);
+
+        // notofocation onClick
+        imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), NotificationActivity.class));

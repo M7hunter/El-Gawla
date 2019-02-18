@@ -45,7 +45,7 @@ public class CreateAccountViewModel {
                         Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
 
                         // save user data locally
-                        cacheUserData(mainObject, context.getResources().getString(R.string.app_name));
+                        cacheUserData(mainObject, LoginActivity.providerNormalLogin);
 
                         new UpdateFirebaseToken(context);
 

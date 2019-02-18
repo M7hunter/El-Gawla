@@ -8,24 +8,27 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Controllers.Adapters.NotificationAdapter;
-import it_geeks.info.gawla_app.Repositry.Models.Notification;
+import it_geeks.info.gawla_app.Repositry.Models.Notifications;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 
 public class NotificationActivity extends AppCompatActivity {
 
     RecyclerView recyclerNotificationList;
     public TextView notificationLoading;
-    ArrayList<Notification> NotificationList = new ArrayList<>();
+    List<Notifications> NotificationList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,7 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void getData() {
+
         notificationLoading.setVisibility(View.VISIBLE);
         RetrofitClient.getInstance(NotificationActivity.this).executeConnectionToServer(
                 NotificationActivity.this,
@@ -51,7 +55,11 @@ public class NotificationActivity extends AppCompatActivity {
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
+
                         NotificationList = ParseResponses.parseNotifications(mainObject);
+                        GawlaDataBse.getGawlaDatabase(NotificationActivity.this).notificationDao().removeNotifications();
+                        GawlaDataBse.getGawlaDatabase(NotificationActivity.this).notificationDao().insertNotification(NotificationList);
+                        GawlaDataBse.getGawlaDatabase(NotificationActivity.this).notificationDao().updateStatusNotification(false);
                         initNotiRecycler();
                         notificationLoading.setVisibility(View.GONE);
                         if (NotificationList.size() == 0){
@@ -76,6 +84,7 @@ public class NotificationActivity extends AppCompatActivity {
                         Toast.makeText(NotificationActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
+
     }
 
     private void initViews() {
@@ -92,10 +101,17 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void initNotiRecycler() {
-        recyclerNotificationList = findViewById(R.id.notification_list);
-        recyclerNotificationList.setLayoutManager(new LinearLayoutManager(this));
-        NotificationAdapter notificationAdapter = new NotificationAdapter(NotificationActivity.this, NotificationList);
-        recyclerNotificationList.setAdapter(notificationAdapter);
+        GawlaDataBse.getGawlaDatabase(NotificationActivity.this).notificationDao().selectAllNotification().observe(NotificationActivity.this, new Observer<List<Notifications>>() {
+            @Override
+            public void onChanged(List<Notifications> notifications) {
+                NotificationList = notifications;
+                recyclerNotificationList = findViewById(R.id.notification_list);
+                recyclerNotificationList.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
+                NotificationAdapter notificationAdapter = new NotificationAdapter(NotificationActivity.this, NotificationList);
+                recyclerNotificationList.setAdapter(notificationAdapter);
+            }
+        });
+
 
     }
 

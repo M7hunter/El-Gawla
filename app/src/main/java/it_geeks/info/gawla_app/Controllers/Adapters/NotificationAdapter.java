@@ -22,7 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Repositry.Models.Notification;
+import it_geeks.info.gawla_app.Repositry.Models.Notifications;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
@@ -39,9 +39,9 @@ import static it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses.parseRoun
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.Holder> {
 
     Context context;
-    ArrayList<Notification> notificationList;
+    List<Notifications> notificationList;
 
-    public NotificationAdapter(Context context, ArrayList<Notification> notificationList) {
+    public NotificationAdapter(Context context, List<Notifications> notificationList) {
         this.context = context;
         this.notificationList = notificationList;
     }
@@ -56,16 +56,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int i) {
-        Notification notification = notificationList.get(i);
+        Notifications notification = notificationList.get(i);
         setdata(holder, notification);
     }
 
-    private void setdata(final Holder holder, final Notification notification) {
+    private void setdata(final Holder holder, final Notifications notification) {
         holder.title.setText(notification.getTitle());
         holder.body.setText(notification.getBody());
         holder.date.setText(notification.getDate());
 
-        // On Click Notification
+        // On Click NotificationDao
         holder.notificationCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,6 +169,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
     }
 
-    // On Click Notification
+    // On Click NotificationDao
     ;
 }

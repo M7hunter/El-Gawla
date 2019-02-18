@@ -15,6 +15,7 @@ import java.util.Random;
 
 import androidx.core.app.NotificationCompat;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 
@@ -29,15 +30,15 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
         super.onMessageReceived(remoteMessage);
         //FirebaseMessaging.getInstance().setAutoInitEnabled(true);
 
-
-
         try {
             new Intent("main_page");
             new Intent("notification_page");
-            showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+            GawlaDataBse.getGawlaDatabase(this).notificationDao().updateStatusNotification(true);
+            showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
         } catch (Exception e) {
             new Intent("main_page");
         }
+
 
     }
 
