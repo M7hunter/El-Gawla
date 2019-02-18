@@ -118,7 +118,7 @@ public class AllSalonsActivity extends AppCompatActivity {
         imgNotification = findViewById(R.id.all_salon_notification_icon);
 
         // notification status LiveData
-        new NotificationStatus().LiveStatus(this,imgNotification);
+        NotificationStatus.notificationStatus(this,imgNotification);
 
         // notofocation onClick
         imgNotification.setOnClickListener(new View.OnClickListener() {

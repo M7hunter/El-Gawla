@@ -37,8 +37,6 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
         } catch (Exception e) {
             new Intent("main_page");
         }
-
-
     }
 
     private void showNotification(String title, String body) {

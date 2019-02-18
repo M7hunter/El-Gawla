@@ -126,9 +126,9 @@ public class MainFragment extends Fragment {
         });
 
         // notification status LiveData
-        new NotificationStatus().LiveStatus(getContext(),imgNotification);
+        NotificationStatus.notificationStatus(getContext(), imgNotification);
 
-        // notofocation onClick
+        // notification onClick
         imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

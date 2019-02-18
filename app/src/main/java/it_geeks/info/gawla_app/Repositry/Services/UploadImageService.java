@@ -60,10 +60,10 @@ public class UploadImageService extends Service {
                             SharedPrefManager.getInstance(UploadImageService.this).saveUser(ParseResponses.parseUser(mainObject));
 
                             // notify user
-                            Toast.makeText(UploadImageService.this, "updated", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UploadImageService.this, getString(R.string.updated), Toast.LENGTH_SHORT).show();
 
                             if (SharedPrefManager.getInstance(UploadImageService.this).getNotificationState()) {
-                                messageNotification("Image updated successfully");
+                                messageNotification(getString(R.string.image_updared));
                             }
 
                             if (activity != null) {
@@ -101,7 +101,7 @@ public class UploadImageService extends Service {
     public void displayNotification() {
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
-        notificationBuilder.setContentTitle("Updating User Image")
+        notificationBuilder.setContentTitle(getString(R.string.updating_image))
                 .setSmallIcon(R.mipmap.ic_launcher_gawla)
                 .setAutoCancel(false)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

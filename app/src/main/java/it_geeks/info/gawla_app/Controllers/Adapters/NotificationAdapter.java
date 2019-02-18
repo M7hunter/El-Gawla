@@ -1,10 +1,7 @@
 package it_geeks.info.gawla_app.Controllers.Adapters;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +12,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.JsonObject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.Notifications;
@@ -27,7 +22,6 @@ import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
@@ -38,8 +32,8 @@ import static it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses.parseRoun
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.Holder> {
 
-    Context context;
-    List<Notifications> notificationList;
+    private Context context;
+    private List<Notifications> notificationList;
 
     public NotificationAdapter(Context context, List<Notifications> notificationList) {
         this.context = context;
@@ -49,31 +43,28 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(context).inflate(R.layout.item_notification, viewGroup, false);
-        Holder holder = new Holder(v);
-        return holder;
+        return new Holder(LayoutInflater.from(context).inflate(R.layout.item_notification, viewGroup, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int i) {
         Notifications notification = notificationList.get(i);
-        setdata(holder, notification);
+        setData(holder, notification);
     }
 
-    private void setdata(final Holder holder, final Notifications notification) {
+    private void setData(final Holder holder, final Notifications notification) {
         holder.title.setText(notification.getTitle());
         holder.body.setText(notification.getBody());
         holder.date.setText(notification.getDate());
 
         // On Click NotificationDao
-        holder.notificationCard.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (notification.getType().trim().equals("salons")) {
-                    try {
-                        holder.notificationCard.setEnabled(false);
-                        ((NotificationActivity) context).notificationLoading.setVisibility(View.VISIBLE);
+                        ((NotificationActivity) context).displayLoading();
+
                         RetrofitClient.getInstance(context).executeConnectionToServer(MainActivity.mainInstance,
                                 "getSalonByID", new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), notification.getId()), new HandleResponses() {
                                     @Override
@@ -100,37 +91,25 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                         i.putExtra("product_images", (Serializable) round.getProduct_images());
                                         i.putExtra("salon_cards", (Serializable) round.getSalon_cards());
 
-                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                                            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context));
-                                            context.startActivity(i, options.toBundle());
-                                        } else {
-                                            context.startActivity(i);
-                                        }
-                                        ((NotificationActivity) context).notificationLoading.setVisibility(View.GONE);
-                                        holder.notificationCard.setEnabled(true);
+                                        context.startActivity(i);
                                     }
 
                                     @Override
                                     public void handleFalseResponse(JsonObject mainObject) {
-                                        ((NotificationActivity) context).notificationLoading.setVisibility(View.GONE);
-                                        holder.notificationCard.setEnabled(true);
+
                                     }
 
                                     @Override
                                     public void handleEmptyResponse() {
-                                        ((NotificationActivity) context).notificationLoading.setVisibility(View.GONE);
-                                        holder.notificationCard.setEnabled(true);
+                                        ((NotificationActivity) context).hideLoading();
                                     }
 
                                     @Override
                                     public void handleConnectionErrors(String errorMessage) {
                                         Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
-                                        ((NotificationActivity) context).notificationLoading.setVisibility(View.GONE);
-                                        holder.notificationCard.setEnabled(true);
+                                        ((NotificationActivity) context).hideLoading();
                                     }
                                 });
-                    } catch (Exception e) {
-                    }
 
                 } else {
                     try {
@@ -145,7 +124,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                         Dialog.show();
                     } catch (Exception e) {
                     }
-
                 }
             }
         });
@@ -157,18 +135,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     class Holder extends RecyclerView.ViewHolder {
+
         TextView title, body, date;
-        CardView notificationCard;
 
         public Holder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.tv_title);
             body = itemView.findViewById(R.id.tv_body);
             date = itemView.findViewById(R.id.tv_date);
-            notificationCard = itemView.findViewById(R.id.notification_card);
         }
     }
-
-    // On Click NotificationDao
-    ;
 }

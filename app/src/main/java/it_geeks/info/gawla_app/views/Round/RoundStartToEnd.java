@@ -98,7 +98,6 @@ public class RoundStartToEnd {
         DoCountDown(value);
     }
 
-
     // join Round Opened
     private void free_join_status(long value) {
         ((SalonActivity)context).tvSalonTime.setText("Free Join");

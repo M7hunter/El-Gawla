@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".views.menuOptions.WebPageActivity">
+
+    <!-- header -->
+    <RelativeLayout
+        android:id="@+id/wep_page_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="ltr">
+
+        <include layout="@layout/main_header_layout" />
+
+        <!-- back -->
+        <ImageView
+            android:id="@+id/wep_page_back"
+            android:layout_width="@dimen/icon_back"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/margin_small"
+            android:src="@drawable/ic_arrow_left_only" />
+
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/wep_page_header" />
+
+    <include layout="@layout/loading_card_layout" />
+
+</RelativeLayout>

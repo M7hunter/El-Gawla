@@ -54,7 +54,7 @@ public class MyRoundsFragment extends Fragment {
 
         setupTrans();
 
-        handleEvents(view);
+        handleEvents();
 
         checkConnection(view);
 
@@ -85,9 +85,9 @@ public class MyRoundsFragment extends Fragment {
         tvMyRoundsEmptyHint.setText(transHolder.my_rounds_empty_hint);
     }
 
-    private void handleEvents(View view) {
+    private void handleEvents() {
         // notification status LiveData
-        new NotificationStatus().LiveStatus(getContext(),imgNotification);
+        NotificationStatus.notificationStatus(getContext(),imgNotification);
 
         // notofocation onClick
         imgNotification.setOnClickListener(new View.OnClickListener() {

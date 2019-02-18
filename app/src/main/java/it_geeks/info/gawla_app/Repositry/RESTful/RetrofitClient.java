@@ -29,12 +29,12 @@ import static it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses.parseServ
 public class RetrofitClient {
 
     // locale : http://192.168.1.2/elgawla/public/api/v1/en/
-    // online : https://dev.itgeeks.info/api/v1/en/
-    // online : http://134.209.0.250/dev/public/api
+    // it geeks server : https://dev.itgeeks.info/api/v1/en/
+    // gawla server : http://elgawla.net/dev/public/api/v1/en/
+    // gawla server ip : http://134.209.0.250/dev/public/api/v1/en/
 
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
-
 
     private Context context;
 

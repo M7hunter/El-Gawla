@@ -196,5 +196,8 @@
     <string name="card_price_category">card price for this category</string>
     <string name="card_price_by_category">card price by category</string>
     <string name="card_price">card price</string>
+    <string name="salon_activity">salon activity</string>
+    <string name="image_updared">Image updated successfully</string>
+    <string name="updating_image">Updating User Image</string>
 
 </resources>

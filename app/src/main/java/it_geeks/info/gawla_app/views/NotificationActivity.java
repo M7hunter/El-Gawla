@@ -2,6 +2,7 @@ package it_geeks.info.gawla_app.views;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,9 +28,11 @@ import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 
 public class NotificationActivity extends AppCompatActivity {
 
-    RecyclerView recyclerNotificationList;
+    private RecyclerView recyclerNotificationList;
+    private List<Notifications> NotificationList = new ArrayList<>();
+
     public TextView notificationLoading;
-    List<Notifications> NotificationList = new ArrayList<>();
+    private CardView loadingCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +47,8 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void getData() {
-
         notificationLoading.setVisibility(View.VISIBLE);
+
         RetrofitClient.getInstance(NotificationActivity.this).executeConnectionToServer(
                 NotificationActivity.this,
                 "getAllUserNotification",
@@ -62,7 +66,7 @@ public class NotificationActivity extends AppCompatActivity {
                         GawlaDataBse.getGawlaDatabase(NotificationActivity.this).notificationDao().updateStatusNotification(false);
                         initNotiRecycler();
                         notificationLoading.setVisibility(View.GONE);
-                        if (NotificationList.size() == 0){
+                        if (NotificationList.size() == 0) {
                             notificationLoading.setVisibility(View.VISIBLE);
                             notificationLoading.setText("no notifications");
                         }
@@ -84,20 +88,30 @@ public class NotificationActivity extends AppCompatActivity {
                         Toast.makeText(NotificationActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
     private void initViews() {
+        loadingCard = findViewById(R.id.loading_card);
         notificationLoading = findViewById(R.id.notification_loading);
-        View back = findViewById(R.id.notification_back);
+
         // back
-        back.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.notification_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-        back.requestFocus();
+    }
+
+    public void displayLoading() {
+        loadingCard.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    public void hideLoading() {
+        loadingCard.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     private void initNotiRecycler() {
@@ -107,12 +121,8 @@ public class NotificationActivity extends AppCompatActivity {
                 NotificationList = notifications;
                 recyclerNotificationList = findViewById(R.id.notification_list);
                 recyclerNotificationList.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
-                NotificationAdapter notificationAdapter = new NotificationAdapter(NotificationActivity.this, NotificationList);
-                recyclerNotificationList.setAdapter(notificationAdapter);
+                recyclerNotificationList.setAdapter(new NotificationAdapter(NotificationActivity.this, NotificationList));
             }
         });
-
-
     }
-
 }

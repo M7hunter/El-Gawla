@@ -110,7 +110,7 @@ public class CardActivity extends AppCompatActivity {
         imgNotification = findViewById(R.id.Notification);
 
         // notification status LiveData
-        new NotificationStatus().LiveStatus(this,imgNotification);
+        NotificationStatus.notificationStatus(this,imgNotification);
 
         // notofocation onClick
         imgNotification.setOnClickListener(new View.OnClickListener() {

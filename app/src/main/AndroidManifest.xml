@@ -18,8 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".views.menuOptions.WebPageActivity"></activity>
-        <activity android:name=".views.CardActivity" />
+
         <activity
             android:name=".views.splashActivities.SplashActivity"
             android:launchMode="singleTask"
@@ -30,12 +29,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".views.SalonActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name=".views.MainActivity"
             android:clearTaskOnLaunch="true">
@@ -46,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".views.AllSalonsActivity" />
-        <activity android:name=".views.NotificationActivity" >
+        <activity android:name=".views.NotificationActivity">
             <intent-filter>
                 <action android:name="notification_page" />
 
@@ -67,6 +64,9 @@
         <activity android:name=".views.menuOptions.LanguageActivity" />
         <activity android:name=".views.accountOptions.BuyingProcessesActivity" />
         <activity android:name=".views.accountOptions.AccountDetailsActivity" />
+        <activity android:name=".views.SalonActivitiesActivity"/>
+        <activity android:name=".views.menuOptions.WebPageActivity" />
+        <activity android:name=".views.CardActivity" />
         <activity
             android:name=".views.accountOptions.PrivacyDetailsActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -80,6 +80,7 @@
         </receiver>
 
         <service android:name=".Repositry.Services.UploadImageService" /> <!-- Firebase Services -->
+
         <service android:name=".Repositry.Services.fcm.NotificationFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -89,10 +90,9 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@mipmap/ic_launcher_gawla" />
-
-        <meta-data android:name="com.google.firebase.messaging.default_notification_color"
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorPrimary" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

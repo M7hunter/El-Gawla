@@ -195,5 +195,6 @@
     <string name="card_price_by_category">سعر الكارت حسب الفئة</string>
     <string name="card_price">سعر الكارت</string>
     <string name="updated">تم التحديث</string>
+    <string name="salon_activity">نشاط الصالة</string>
 
 </resources>

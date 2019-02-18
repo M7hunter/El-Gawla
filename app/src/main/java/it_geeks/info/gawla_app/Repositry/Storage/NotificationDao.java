@@ -16,7 +16,7 @@ public interface NotificationDao {
     void insertNotification(List<Notifications> notifications);
 
     @Update
-    void removeNotification(List<Notifications> notifications);
+    void removeNotifications(List<Notifications> notifications);
 
     @Query("DELETE FROM Notifications")
     void removeNotifications();

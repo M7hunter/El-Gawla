@@ -15,12 +15,12 @@ import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 
 public class NotificationStatus {
 
-    public void LiveStatus(final Context context, final ImageView imgNotification){
+    public static void notificationStatus(final Context context, final ImageView imgNotification) {
         // notification status LiveData
         GawlaDataBse.getGawlaDatabase(context).notificationDao().getStatusNotification(true).observe((LifecycleOwner) context, new Observer<List<Notifications>>() {
             @Override
             public void onChanged(List<Notifications> notifications) {
-                if (notifications.size()>0){
+                if (notifications.size() > 0){
                     imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.bell_two));
                 }else {
                     imgNotification.setImageDrawable(context.getResources().getDrawable(R.drawable.bell));
