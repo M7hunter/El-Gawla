@@ -29,11 +29,10 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         //FirebaseMessaging.getInstance().setAutoInitEnabled(true);
-
         try {
+            GawlaDataBse.getGawlaDatabase(this).notificationDao().updateStatusNotification(true);
             new Intent("main_page");
             new Intent("notification_page");
-            GawlaDataBse.getGawlaDatabase(this).notificationDao().updateStatusNotification(true);
             showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
         } catch (Exception e) {
             new Intent("main_page");
