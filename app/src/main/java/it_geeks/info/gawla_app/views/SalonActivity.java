@@ -92,7 +92,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     public Button btnJoinRound, btnAddOffer;
     EditText etAddOffer;
     CardView more, notificationCard, confirmationLayout, useRoundCard;
-    LinearLayout addOfferLayout , roundTimeCard;
+    LinearLayout addOfferLayout, roundTimeCard;
     FrameLayout overlayLayout;
     ProgressBar joinProgress, joinConfirmationProgress;
     private Round round;
@@ -213,16 +213,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
-                hideLoading();
-
                 boolean isToday = mainObject.get("isToday").getAsBoolean();
                 if (isToday) {
                     startTimeDown(ParseResponses.parseRoundRealTime(mainObject));
                 } else {
-                    tvSalonTime.setText(getResources().getString(R.string.round_date)+"\n" + round_date);
+                    tvSalonTime.setText(getResources().getString(R.string.round_date) + "\n" + round_date);
                     tvSalonTime.setTextSize(20);
                 }
-
             }
 
             @Override
@@ -524,6 +521,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             }
         });
 
+        notificationCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SalonActivity.this, SalonActivitiesActivity.class));
+            }
+        });
+
         // cancel confirmation
         overlayLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -544,19 +548,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void onClick(View v) {
                 if (roundRealTimeModel.isUserJoin()) {
-                    // switch
-                    if (btnAddOffer.getText().toString().equals(getString(R.string.add_deal))) {
-                        etAddOffer.setEnabled(false);
-                        btnAddOffer.setText(getResources().getString(R.string.edit));
-                        btnAddOffer.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-
-                        sendOfferToServer();
-
-                    } else if (btnAddOffer.getText().toString().equals(getString(R.string.edit))) {
-                        etAddOffer.setEnabled(true);
-                        btnAddOffer.setText(getResources().getString(R.string.add_deal));
-                        btnAddOffer.setBackgroundColor(getResources().getColor(R.color.greenBlue));
-                    }
+                    etAddOffer.setEnabled(false);
+                    sendOfferToServer();
                 }
             }
         });
@@ -617,16 +610,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             if (String.valueOf(userOffer).isEmpty() || userOffer == 0) {
                 joinProgress.setVisibility(View.GONE);
                 addOfferLayout.setVisibility(View.VISIBLE);
+                etAddOffer.setEnabled(true);
                 etAddOffer.setText("");
                 etAddOffer.setHint(getString(R.string.no_content));
                 etAddOffer.setHintTextColor(getResources().getColor(R.color.paleRed));
                 return;
             }
-
-            // test
-//            socket.emit("addOffer", userName);
-//            joinProgress.setVisibility(View.GONE);
-//            addOfferLayout.setVisibility(View.VISIBLE);
 
             RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
                     "setUserOffer",
@@ -649,12 +638,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         public void handleEmptyResponse() {
                             addOfferLayout.setVisibility(View.VISIBLE);
                             joinProgress.setVisibility(View.GONE);
+                            etAddOffer.setEnabled(true);
                         }
 
                         @Override
                         public void handleConnectionErrors(String errorMessage) {
                             addOfferLayout.setVisibility(View.VISIBLE);
                             joinProgress.setVisibility(View.GONE);
+                            etAddOffer.setEnabled(true);
                             Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -662,6 +653,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             joinProgress.setVisibility(View.GONE);
             addOfferLayout.setVisibility(View.VISIBLE);
         }
+        etAddOffer.setEnabled(true);
     }
 
     // join events

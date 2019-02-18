@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import it_geeks.info.gawla_app.Repositry.Models.Activity;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.Repositry.Models.Category;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
@@ -273,6 +274,23 @@ public class ParseResponses {
         }
 
         return cardsList;
+    }
+
+    public static List<Activity> parseSalonActivity(JsonObject object) {
+        JsonArray dataArray = object.get("salon_activity").getAsJsonArray();
+
+        List<Activity> activityListList = new ArrayList<>();
+
+        for (int i = 0; i < dataArray.size(); i++) {
+            JsonObject cardObj = dataArray.get(i).getAsJsonObject();
+            String card_id = cardObj.get("body").getAsString();
+            String card_name = cardObj.get("time").getAsString();
+
+            activityListList.add(
+                    new Activity(card_id, card_name));
+        }
+
+        return activityListList;
     }
 
     public static List<Trans> parseLanguages(JsonObject object) {

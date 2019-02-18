@@ -22,9 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <include
-                    layout="@layout/main_header_layout"
-                    android:layoutDirection="ltr" />
+                <include layout="@layout/main_header_layout" />
 
                 <!-- back -->
                 <ImageView

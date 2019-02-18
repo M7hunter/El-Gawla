@@ -3,10 +3,16 @@ package it_geeks.info.gawla_app.views.menuOptions;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.views.NotificationActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -20,11 +26,16 @@ public class WebPageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web_view);
+        Common.Instance(this).changeStatusBarColor("#FFFFFF", this);
+        setContentView(R.layout.activity_web_page);
 
         getData(savedInstanceState);
 
         initViews();
+
+        displayLoading();
+
+        handleEvents();
 
         initWebView();
     }
@@ -45,29 +56,56 @@ public class WebPageActivity extends AppCompatActivity {
         loadingCard = findViewById(R.id.loading_card);
     }
 
+    private void handleEvents() {
+        // back
+        findViewById(R.id.wep_page_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        // goto notification page
+        findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(WebPageActivity.this, NotificationActivity.class));
+            }
+        });
+    }
+
+    private void displayLoading() {
+        loadingCard.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    private void hideLoading() {
+        loadingCard.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
     private void initWebView() {
-        webView.getSettings().setLoadsImagesAutomatically(true);
-        webView.getSettings().setJavaScriptEnabled(true);
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setLoadsImagesAutomatically(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setSupportZoom(true);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setDisplayZoomControls(false);
+        webView.getSettings().setSupportZoom(false);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
+                displayLoading();
 
-                loadingCard.setVisibility(View.VISIBLE);
+                super.onPageStarted(view, url, favicon);
             }
 
             @Override
             public void onPageCommitVisible(WebView view, String url) {
                 super.onPageCommitVisible(view, url);
 
-                loadingCard.setVisibility(View.GONE);
+                hideLoading();
             }
         });
 
