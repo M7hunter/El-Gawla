@@ -115,6 +115,7 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void initNotiRecycler() {
+        SharedPrefManager.getInstance(this).setNewNotfication(false);
         GawlaDataBse.getGawlaDatabase(NotificationActivity.this).notificationDao().selectAllNotification().observe(NotificationActivity.this, new Observer<List<Notifications>>() {
             @Override
             public void onChanged(List<Notifications> notifications) {

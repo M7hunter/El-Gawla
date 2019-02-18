@@ -199,5 +199,6 @@
     <string name="salon_activity">salon activity</string>
     <string name="image_updared">Image updated successfully</string>
     <string name="updating_image">Updating User Image</string>
+    <string name="chat_room">Chat Room</string>
 
 </resources>

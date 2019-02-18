@@ -99,6 +99,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private Round round;
     ImageView out_round;
     private BottomSheetDialog mBottomSheetDialogActivateCard;
+    private BottomSheetDialog mBottomSheetDialogActivateChat;
     private BottomSheetDialog mBottomSheetDialogProductDetails;
 
     private PointF staringPoint = new PointF();
@@ -144,6 +145,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         initBottomSheetProductDetails();
 
         initBottomSheetActivateCards();
+
+        initBottomSheetActivateChat();
 
         initDivs();
 
@@ -455,6 +458,18 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void onClick(View v) {
                 userOutRound();
+            }
+        });
+
+        // button chat room
+        findViewById(R.id.btn_chat_room).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mBottomSheetDialogActivateChat.isShowing()) { // close sheet
+                    mBottomSheetDialogActivateChat.dismiss();
+                } else {
+                    mBottomSheetDialogActivateChat.show();
+                }
             }
         });
     }
@@ -782,19 +797,49 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             public void onClick(View view) {
                 if (mBottomSheetDialogActivateCard.isShowing()) {
                     mBottomSheetDialogActivateCard.dismiss();
-
                 } else {
                     mBottomSheetDialogActivateCard.show();
                 }
             }
         });
 
-        //
         mBottomSheetDialogActivateCard.setContentView(sheetView);
         Common.Instance(SalonActivity.this).setBottomSheetHeight(sheetView);
         mBottomSheetDialogActivateCard.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
     }
+
+
+    private void initBottomSheetActivateChat() {
+        mBottomSheetDialogActivateChat = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
+        View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_active_chat, null);
+
+//        //init bottom sheet views
+//        if (cardList != null) {
+//            RecyclerView cardsRecycler = sheetView.findViewById(R.id.salon_cards_bottom_recycler);
+//            cardsRecycler.setHasFixedSize(true);
+//            cardsRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
+//            cardsRecycler.setAdapter(new BottomCardsAdapter(SalonActivity.this, cardList));
+//        }
+
+        //close bottom sheet
+        sheetView.findViewById(R.id.close_bottom_sheet_activate_chat).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mBottomSheetDialogActivateChat.isShowing()) {
+                    mBottomSheetDialogActivateChat.dismiss();
+                } else {
+                    mBottomSheetDialogActivateChat.show();
+                }
+            }
+        });
+
+        mBottomSheetDialogActivateChat.setContentView(sheetView);
+        Common.Instance(SalonActivity.this).setBottomSheetHeight(sheetView);
+        mBottomSheetDialogActivateChat.getWindow().findViewById(R.id.design_bottom_sheet)
+                .setBackgroundResource(android.R.color.transparent);
+    }
+
 
     // product details
     private void initBottomSheetProductDetails() {

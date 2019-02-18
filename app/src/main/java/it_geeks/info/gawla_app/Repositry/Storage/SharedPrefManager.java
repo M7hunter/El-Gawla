@@ -12,6 +12,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SharedPrefManager {
 
+
     private static SharedPrefManager sharedPrefManager;
     private Context context;
     private SharedPreferences sharedPreferences;
@@ -21,6 +22,7 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_LAST_REQUEST = "last_request_shared_pref";
     private static final String SHARED_PREF_USER_PROVIDER = "user_socialMedia_Provider";
     private static final String SHARED_PREF_NOTIFICATION = "notification_shared_pref";
+    private static final String SHARED_PREF_NEW_NOTIFICATION = "new_notification";
 
     private SharedPrefManager(Context context) {
         this.context = context;
@@ -182,4 +184,24 @@ public class SharedPrefManager {
     public void clearProvider() {
        context.getSharedPreferences(SHARED_PREF_USER_PROVIDER, Context.MODE_PRIVATE).edit().clear().apply();
     }
+
+    // New Notifications status
+    public void setNewNotfication(Boolean newNotfication) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        
+        editor.putBoolean("new_notification", newNotfication);
+        editor.apply();
+    }
+
+    public boolean getNewNotification() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("new_notification",true);
+    }
+
+    public void clearNewNotification() {
+        context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE).edit().clear().apply();
+    }
+
 }
