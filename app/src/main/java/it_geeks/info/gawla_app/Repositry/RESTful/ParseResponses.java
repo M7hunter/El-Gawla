@@ -11,6 +11,7 @@ import it_geeks.info.gawla_app.Repositry.Models.Card;
 import it_geeks.info.gawla_app.Repositry.Models.Category;
 import it_geeks.info.gawla_app.Repositry.Models.Country;
 import it_geeks.info.gawla_app.Repositry.Models.Notifications;
+import it_geeks.info.gawla_app.Repositry.Models.TopTen;
 import it_geeks.info.gawla_app.Repositry.Models.Trans;
 import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
@@ -291,6 +292,24 @@ public class ParseResponses {
         }
 
         return activityListList;
+    }
+
+    public static List<TopTen> parseTopTen(JsonObject object) {
+        JsonArray dataObj = object.get("top").getAsJsonArray();
+
+        List<TopTen> topTenList = new ArrayList<>();
+
+        for (int i = 0; i < dataObj.size(); i++) {
+            JsonObject userObj = dataObj.get(i).getAsJsonObject();
+            int userId = userObj.get("id").getAsInt();
+            String userName = userObj.get("user").getAsString();
+            String userOffer = userObj.get("offer").getAsString();
+
+            topTenList.add(
+                    new TopTen(userId, userName, userOffer));
+        }
+
+        return topTenList;
     }
 
     public static List<Trans> parseLanguages(JsonObject object) {

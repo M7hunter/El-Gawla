@@ -123,6 +123,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     public ProductSubImage productSubImage = new ProductSubImage();
 
+    private Intent salonActivityIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +136,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         initViews();
 
         getRoundData(savedInstanceState);
+
+        initSalonActivityIntent();
 
         initRoundViews_setData();
 
@@ -148,6 +152,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         initDivs();
 
         handleEvents();
+    }
+
+    private void initSalonActivityIntent() {
+        salonActivityIntent = new Intent(this, SalonActivitiesActivity.class);
+        salonActivityIntent.putExtra("request_type", "activity");
+        salonActivityIntent.putExtra("salon_id", salon_id);
     }
 
     public void initSocket() {
@@ -185,7 +195,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             public void call(Object... args) {
                 displayRoundActivity(args[0].toString());
             }
+        }).on("winner", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                displayRoundActivity(args[0].toString());
+            }
         });
+
     }
 
     private void displayRoundActivity(String notificationMsg) {
@@ -297,9 +313,75 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        if (timeState.equals("first_round_status") || timeState.equals("second_round_status")) {
+        checkOnTime();
+    }
+
+    private void checkOnTime() {
+        if (!timeState.equals("open_hall_status") && !timeState.equals("free_join_status") && !timeState.equals("pay_join_status") && !timeState.equals("close_hall_status")) {
+
             initSocket();
+
+            switch (timeState) {
+                case "first_rest_status":  // on first rest display top ten
+                    salonActivityIntent.putExtra("request_type", "top_ten");
+                    startActivity(salonActivityIntent);
+
+                    break;
+                case "second_rest_status": // on second rest display winner
+                    salonActivityIntent.putExtra("request_type", "top_ten");
+
+                    getWinner();
+
+                    break;
+                default:
+                    salonActivityIntent.putExtra("request_type", "activity");
+
+                    break;
+            }
+
+        } else if (timeState.equals("close_hall_status")) {
+
+            getWinner();
+
+            startActivity(new Intent(this, WinnerActivity.class));
         }
+    }
+
+    private void getWinner() {
+        displayLoading();
+        RetrofitClient.getInstance(this).executeConnectionToServer(this, "getWinner", new Request(userId, apiToken, salon_id), new HandleResponses() {
+            @Override
+            public void handleTrueResponse(JsonObject mainObject) {
+                String winnerName = mainObject.get("user_name").getAsString();
+                String message = mainObject.get("message").getAsString();
+                String offer = mainObject.get("offer").getAsString();
+
+                if (userId == mainObject.get("winner_id").getAsInt()) { // winner ?
+                    Intent i = new Intent(SalonActivity.this, WinnerActivity.class);
+                    i.putExtra("winner_name", winnerName);
+                    i.putExtra("offer", offer);
+                    startActivity(i);
+
+                } else { // !winner
+                    displayRoundActivity(winnerName + " " + message + offer + " good luck next time!");
+                }
+            }
+
+            @Override
+            public void handleFalseResponse(JsonObject errorObject) {
+
+            }
+
+            @Override
+            public void handleEmptyResponse() {
+                hideLoading();
+            }
+
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
+                hideLoading();
+            }
+        });
     }
 
     private void getRoundData(Bundle savedInstanceState) {
@@ -431,7 +513,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         imgNotification = findViewById(R.id.Notification);
 
         // notification status LiveData
-        NotificationStatus.notificationStatus(this,imgNotification);
+        NotificationStatus.notificationStatus(this, imgNotification);
 
         // notofocation onClick
         imgNotification.setOnClickListener(new View.OnClickListener() {
@@ -541,7 +623,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         notificationCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SalonActivity.this, SalonActivitiesActivity.class));
+//                salonActivityIntent.putExtra("request_type", "top_ten"); // <- for test
+                startActivity(salonActivityIntent);
             }
         });
 

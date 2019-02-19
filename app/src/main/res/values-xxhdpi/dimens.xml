@@ -34,6 +34,7 @@
     <dimen name="image_news">100dp</dimen>
     <dimen name="image_account">120dp</dimen>
     <dimen name="image_cards_round_updates">65dp</dimen>
+    <dimen name="winner_image_height">320dp</dimen>
 
     <!-- mix -->
     <dimen name="my_rounds_view_pager_height">550dp</dimen>

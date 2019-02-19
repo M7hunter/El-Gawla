@@ -42,5 +42,6 @@
     <dimen name="card_width">40dp</dimen>
     <dimen name="single_card_height">140dp</dimen>
     <dimen name="single_card_width">95dp</dimen>
+    <dimen name="winner_image_height">350dp</dimen>
 
 </resources>

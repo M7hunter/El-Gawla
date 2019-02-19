@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_margin="@dimen/margin_small">
+    android:layout_margin="@dimen/margin_small"
+    android:orientation="vertical">
 
+    <!-- main layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +32,6 @@
                 android:id="@+id/tv_activity_body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="asdsad"
                 android:textColor="@color/battleshipGrey"
                 android:textSize="@dimen/text_size_medium" />
 
@@ -40,7 +40,6 @@
                 android:id="@+id/tv_activity_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20"
                 android:textSize="@dimen/text_size_tiny" />
 
         </LinearLayout>
@@ -51,8 +50,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/margin_xxxlarge"
+        android:layout_marginEnd="@dimen/margin_xxlarge"
         android:background="@color/paleGrey" />
 
 </LinearLayout>

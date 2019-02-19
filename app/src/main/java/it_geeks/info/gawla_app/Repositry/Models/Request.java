@@ -131,8 +131,8 @@ public class Request {
         this.message = message;
     }
 
-    public Request(String email, int user_id, String api_token) { // Update Email
-        this.email = email;
+    public Request(String text, int user_id, String api_token) { // Update Email
+        this.email = text;
         this.user_id = user_id;
         this.api_token = api_token;
     }
