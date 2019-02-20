@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/text_size_tiny">
+
+    <TextView
+        android:id="@+id/chat_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="30"
+        android:layout_weight="3"
+        android:layout_marginTop="@dimen/margin_large"
+        android:text="Mohamed Abdelhady"
+        android:textColor="@color/black"
+        android:layout_gravity="top"
+        android:textSize="@dimen/text_size_small"
+        android:textStyle="bold"/>
+
+    <View
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="top"
+        android:layout_marginTop="@dimen/margin_large"
+        android:background="@drawable/triangle_right" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_chat_message_send"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/chat_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Advertising_space_for_special_tours"
+                    android:padding="@dimen/margin_small"
+                    android:textSize="@dimen/text_size_small"
+                    android:textColor="@color/ic_launcher_background"/>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/chat_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="منذ 15 دقيقة"
+                android:textSize="@dimen/text_size_small"
+                android:padding="5dp"
+                android:textColor="@color/ic_launcher_background"/>
+
+        </LinearLayout>
+
+</LinearLayout>

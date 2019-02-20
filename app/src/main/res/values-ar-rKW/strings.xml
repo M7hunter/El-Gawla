@@ -197,5 +197,6 @@
     <string name="updated">تم التحديث</string>
     <string name="salon_activity">نشاط الصالة</string>
     <string name="chat_room">غرفة المحادثة</string>
+    <string name="write_message">أرسال رسالة</string>
 
 </resources>

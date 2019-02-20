@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/salon_main_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/paleGrey"
     tools:context=".views.SalonActivity">
 
     <!-- main layout -->
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <!-- scroll main layout -->
@@ -37,7 +38,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:padding="@dimen/margin_small"
                     android:src="@drawable/ic_arrow_left_only" />
 
@@ -754,6 +754,7 @@
                 android:visibility="gone" />
 
         </RelativeLayout>
+
     </ScrollView>
 
     <!-- cards bag btn container -->
@@ -804,25 +805,21 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/btn_chat_room"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/icon_chat_room" />
-
-    <!-- bottom sheet activate cards-->
-    <include layout="@layout/bottom_sheet_active_cards" />
-
-    <!-- bottom sheet activate Chat-->
-    <include layout="@layout/bottom_sheet_active_chat" />
-
-    <!-- bottom sheet single card -->
-    <include layout="@layout/bottom_sheet_single_card" />
-
-    <!-- bottom sheet product details -->
-    <include layout="@layout/bottom_sheet_product_details" />
 
     <include layout="@layout/loading_card_layout" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_chat_room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/chat_room"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
