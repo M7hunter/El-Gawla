@@ -157,8 +157,8 @@ public class SalonActivitiesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 initActivityRecycler();
 
-                tvActivityHeader.setBackground(getResources().getDrawable(R.drawable.bg_rounded_corners_pale_grey));
-                tvTopTenHeader.setBackground(getResources().getDrawable(R.drawable.bg_rounded_corners_bordered_white_pale_grey));
+                tvActivityHeader.setBackground(getResources().getDrawable(R.drawable.bg_rounded_corners_bordered_white_pale_grey));
+                tvTopTenHeader.setBackground(getResources().getDrawable(R.drawable.bg_rounded_corners_pale_grey));
             }
         });
 
@@ -167,8 +167,8 @@ public class SalonActivitiesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 initTopTenRecycler();
 
-                tvActivityHeader.setBackground(getResources().getDrawable(R.drawable.bg_rounded_corners_bordered_white_pale_grey));
-                tvTopTenHeader.setBackground(getResources().getDrawable(R.drawable.bg_rounded_corners_pale_grey));
+                tvActivityHeader.setBackground(getResources().getDrawable(R.drawable.bg_rounded_corners_pale_grey));
+                tvTopTenHeader.setBackground(getResources().getDrawable(R.drawable.bg_rounded_corners_bordered_white_pale_grey));
             }
         });
     }

@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- list header -->
+            <!-- top tabs -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_tiny"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_rounded_corners_pale_grey"
+                    android:background="@drawable/bg_rounded_corners_bordered_white_pale_grey"
                     android:drawableStart="@drawable/ic_bell"
                     android:drawablePadding="@dimen/margin_tiny"
                     android:gravity="center"
@@ -70,14 +70,13 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_tiny"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_rounded_corners_bordered_white_pale_grey"
+                    android:background="@drawable/bg_rounded_corners_pale_grey"
                     android:drawableStart="@drawable/ic_user2"
                     android:drawablePadding="@dimen/margin_tiny"
                     android:gravity="center"
                     android:padding="@dimen/margin_xTiny"
                     android:text="@string/top_ten"
                     android:textSize="@dimen/text_size_small" />
-
 
             </LinearLayout>
 
