@@ -9,8 +9,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
 import java.util.Random;
 
 import androidx.core.app.NotificationCompat;
@@ -28,15 +31,16 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        //FirebaseMessaging.getInstance().setAutoInitEnabled(true);
-        try {
-            GawlaDataBse.getGawlaDatabase(this).notificationDao().updateStatusNotification(true);
-            new Intent("main_page");
-            new Intent("notification_page");
-            showNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
-        } catch (Exception e) {
-            new Intent("main_page");
-        }
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+
+        // * will send notification automatic when app close
+
+        //notification when app open
+        showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+
+        // have a new notification
+        SharedPrefManager.getInstance(getApplicationContext()).setNewNotfication(true);
+        GawlaDataBse.getGawlaDatabase(this).notificationDao().updateStatusNotification(true);
     }
 
     private void showNotification(String title, String body) {
@@ -73,19 +77,19 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
                 notificationManager.notify(new Random().nextInt(), builder.build());
 
             }
-        }catch (Exception e){ }
+        } catch (Exception e) {
+        }
 
     }
 
-
     private PendingIntent getNotificationData(String title, String body) {
-            Bundle bundle = new Bundle();
+        Bundle bundle = new Bundle();
 
-            bundle.putString("title", title);
-            bundle.putString("body", body);
+        bundle.putString("title", title);
+        bundle.putString("body", body);
 
-            Intent intent = new Intent(this, NotificationActivity.class);
-            intent.putExtras(bundle);
+        Intent intent = new Intent(this, NotificationActivity.class);
+        intent.putExtras(bundle);
         return PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
@@ -95,11 +99,11 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
             int user_id = SharedPrefManager.getInstance(this).getUser().getUser_id();
             String apiToken = SharedPrefManager.getInstance(this).getUser().getApi_token();
 
-            if (!String.valueOf(user_id).isEmpty() && !apiToken.isEmpty()){
+            if (!String.valueOf(user_id).isEmpty() && !apiToken.isEmpty()) {
                 new UpdateFirebaseToken(this);
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
-
 
 }

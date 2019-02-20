@@ -13,6 +13,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -34,7 +35,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -46,7 +50,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import it_geeks.info.gawla_app.Controllers.Adapters.ChatAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Card;
+import it_geeks.info.gawla_app.Repositry.Models.ChatModel;
+import it_geeks.info.gawla_app.Repositry.SocketConnection.SocketConnection;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
@@ -85,6 +92,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     int userId;
     private List<ProductSubImage> subImageList = new ArrayList<>();
     private List<Card> cardList = new ArrayList<>();
+    private List<ChatModel> chatList = new ArrayList<>();
+    RecyclerView chatRecycler;
 
     View salonMainContainer;
 
@@ -99,6 +108,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private Round round;
     ImageView out_round;
     private BottomSheetDialog mBottomSheetDialogActivateCard;
+    private BottomSheetDialog mBottomSheetDialogActivateChat;
     private BottomSheetDialog mBottomSheetDialogProductDetails;
 
     private PointF staringPoint = new PointF();
@@ -115,7 +125,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private CardView loadingCard;
 
-    private Socket socket;
+    private Socket mSocket;
 
     public String timeState = "";
 
@@ -137,6 +147,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         getRoundData(savedInstanceState);
 
+        initSocket();
         initSalonActivityIntent();
 
         initRoundViews_setData();
@@ -148,6 +159,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         initBottomSheetProductDetails();
 
         initBottomSheetActivateCards();
+
+        initBottomSheetActivateChat();
 
         initDivs();
 
@@ -161,26 +174,19 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     public void initSocket() {
-        try {
-            // http://dev.itgeeks.info:8888
-            socket = IO.socket("http://134.209.0.250:8888");
-
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        socket.connect();
+        mSocket = new SocketConnection().getSocket();
+        mSocket.connect();
 
         try {
             JSONObject o = new JSONObject();
             o.put("room", salon_id);
-            socket.emit("joinRoom", o);
+            mSocket.emit("joinRoom", o);
         } catch (JSONException e) {
         }
 
-        socket.emit("user_join", userName);
+        mSocket.emit("user_join", userName);
 
-        socket.on("new_member", new Emitter.Listener() {
+        mSocket.on("new_member", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 displayRoundActivity(args[0].toString());
@@ -539,6 +545,18 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 userOutRound();
             }
         });
+
+        // button chat room
+        findViewById(R.id.btn_chat_room).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mBottomSheetDialogActivateChat.isShowing()) { // close sheet
+                    mBottomSheetDialogActivateChat.dismiss();
+                } else {
+                    mBottomSheetDialogActivateChat.show();
+                }
+            }
+        });
     }
 
     private void userOutRound() {
@@ -726,7 +744,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
                             tvRoundActivity.setText(mainObject.get("message").getAsString());
-                            socket.emit("addOffer", userName);
+                            mSocket.emit("addOffer", userName);
                         }
 
                         @Override
@@ -878,6 +896,77 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         mBottomSheetDialogActivateCard.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
     }
+
+
+    private void initBottomSheetActivateChat() {
+        mBottomSheetDialogActivateChat = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
+        final View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_active_chat, null);
+       // sheetView.setVerticalScrollbarPosition(1);
+
+        //        //init bottom sheet views
+        if (chatList != null) {
+            chatRecycler = sheetView.findViewById(R.id.chat_list);
+            chatRecycler.setHasFixedSize(true);
+            chatRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
+            chatRecycler.setAdapter(new ChatAdapter(SalonActivity.this, chatList));
+        }
+
+        //close bottom sheet
+        sheetView.findViewById(R.id.close_bottom_sheet_activate_chat).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mBottomSheetDialogActivateChat.isShowing()) {
+                    mBottomSheetDialogActivateChat.dismiss();
+                } else {
+                    mBottomSheetDialogActivateChat.show();
+                }
+            }
+        });
+
+        sheetView.findViewById(R.id.chat_send_message).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText etChatMessage = sheetView.findViewById(R.id.et_chat_message);
+                if (etChatMessage.getText().toString().isEmpty()){
+                    etChatMessage.setError("Input Empty");
+                }else {
+                    JSONObject chatData = new JSONObject();
+                    final String message = etChatMessage.getText().toString();
+                    try {
+                        chatData.put("user_id", SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id());
+                        chatData.put("user_name",SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
+                        chatData.put("message",message);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    mSocket.emit("newMessage",chatData);
+                    etChatMessage.setText("");
+                }
+            }
+        });
+
+        mSocket.on("message", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                Toast.makeText(SalonActivity.this, "recived", Toast.LENGTH_SHORT).show();
+
+                JsonObject data = new JsonObject().get(args.toString()).getAsJsonObject();
+
+                chatList.add(new ChatModel(data.get("user_id").getAsInt(), data.get("user_name").getAsString(), data.get("message").getAsString(), "09:00"));
+                chatRecycler.scrollToPosition(chatList.size()-1);
+                ChatAdapter adapter = new ChatAdapter(SalonActivity.this, chatList);
+                adapter.notifyDataSetChanged();
+                chatRecycler.setAdapter(adapter);
+            }
+        });
+
+        mBottomSheetDialogActivateChat.setContentView(sheetView);
+        Common.Instance(SalonActivity.this).setBottomSheetHeight(sheetView);
+        mBottomSheetDialogActivateChat.getWindow().findViewById(R.id.design_bottom_sheet)
+                .setBackgroundResource(android.R.color.transparent);
+    }
+
 
     // product details
     private void initBottomSheetProductDetails() {
@@ -1122,10 +1211,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         super.onDestroy();
         unregisterReceiver(connectionChangeReceiver);
 
-        if (socket != null) {
-            if (socket.connected()) {
-                socket.emit("leave", userName);
-                socket.disconnect();
+        if (mSocket != null) {
+            if (mSocket.connected()) {
+                mSocket.emit("leave", userName);
+                mSocket.disconnect();
             }
         }
 

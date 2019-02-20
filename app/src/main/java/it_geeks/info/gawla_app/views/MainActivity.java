@@ -4,16 +4,20 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
@@ -45,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
         Common.Instance(this).changeStatusBarColor("#f4f7fa", this);
         setContentView(R.layout.activity_main);
 
+        //Notification Update Status When App Open
+        updataNotificationStatus();
+
         // Firebase Receive messaging notification
         FirebaseMessagingInitialize();
 
@@ -62,6 +69,16 @@ public class MainActivity extends AppCompatActivity {
         initNavigation();
 
         setupTrans();
+    }
+
+    private void updataNotificationStatus() {
+        Log.w("Mo7",FirebaseInstanceId.getInstance().getToken());
+        boolean notificationStatus = SharedPrefManager.getInstance(this).getNewNotification();
+        if (notificationStatus){
+            GawlaDataBse.getGawlaDatabase(this).notificationDao().updateStatusNotification(true);
+        }else{
+            GawlaDataBse.getGawlaDatabase(this).notificationDao().updateStatusNotification(false);
+        }
     }
 
     // Firebase initialize
