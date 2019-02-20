@@ -27,8 +27,6 @@ import it_geeks.info.gawla_app.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = "MO7";
-
     public static Activity mainInstance;
 
     private BottomNavigationView navigation;

@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".views.WinnerActivity"></activity>
         <activity
             android:name=".views.splashActivities.SplashActivity"
             android:launchMode="singleTask"
@@ -64,7 +64,7 @@
         <activity android:name=".views.menuOptions.LanguageActivity" />
         <activity android:name=".views.accountOptions.BuyingProcessesActivity" />
         <activity android:name=".views.accountOptions.AccountDetailsActivity" />
-        <activity android:name=".views.SalonActivitiesActivity"/>
+        <activity android:name=".views.SalonActivitiesActivity" />
         <activity android:name=".views.menuOptions.WebPageActivity" />
         <activity android:name=".views.CardActivity" />
         <activity
@@ -80,7 +80,6 @@
         </receiver>
 
         <service android:name=".Repositry.Services.UploadImageService" /> <!-- Firebase Services -->
-
         <service android:name=".Repositry.Services.fcm.NotificationFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

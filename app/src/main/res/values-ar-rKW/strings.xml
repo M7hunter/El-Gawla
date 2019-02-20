@@ -196,5 +196,6 @@
     <string name="card_price">سعر الكارت</string>
     <string name="updated">تم التحديث</string>
     <string name="salon_activity">نشاط الصالة</string>
+    <string name="top_ten">أعلى عشرة</string>
 
 </resources>

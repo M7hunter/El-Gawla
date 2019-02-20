@@ -199,5 +199,7 @@
     <string name="salon_activity">salon activity</string>
     <string name="image_updared">Image updated successfully</string>
     <string name="updating_image">Updating User Image</string>
+    <string name="winner">winner</string>
+    <string name="top_ten">top ten</string>
 
 </resources>
