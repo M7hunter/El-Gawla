@@ -199,5 +199,10 @@
     <string name="top_ten">أعلى عشرة</string>
     <string name="chat_room">غرفة المحادثة</string>
     <string name="write_message">أرسال رسالة</string>
+    <string name="forget_password_check_maill">تم ارسال بريد لأسترداد كلمة السر</string>
+    <string name="updating_image">جاري رفع صورة المستخدم</string>
+    <string name="winner">الفائز</string>
+    <string name="image_updared">تم رفع الصورة</string>
+    <string name="empty_hint">حقل فارغ</string>
 
 </resources>

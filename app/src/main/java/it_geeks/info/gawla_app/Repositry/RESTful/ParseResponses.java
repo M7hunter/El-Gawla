@@ -3,6 +3,8 @@ package it_geeks.info.gawla_app.Repositry.RESTful;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,13 +41,11 @@ public class ParseResponses {
             String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
             String product_product_description = roundObj.get("product_description").getAsString();
             String product_image = roundObj.get("product_image").getAsString();
-            String round_start_time = roundObj.get("round_start_time").getAsString();
-            String round_end_time = roundObj.get("round_end_time").getAsString();
-            String first_join_time = roundObj.get("first_join_time").getAsString();
-            String second_join_time = roundObj.get("second_join_time").getAsString();
             String round_date = roundObj.get("round_date").getAsString();
-            String round_time = roundObj.get("round_time").getAsString();
-            String rest_time = roundObj.get("rest_time").getAsString();
+
+            JsonObject salon_status = roundObj.get("salon_status").getAsJsonObject();
+                boolean status = salon_status.get("status").getAsBoolean();
+                String message = salon_status.get("message").getAsString();
 
             rounds.add(
                     new Round(product_id,
@@ -59,13 +59,15 @@ public class ParseResponses {
                             product_image,
                             parseSubImages(roundObj, product_id),
                             parseSalonCards(roundObj, salon_id),
-                            round_start_time,
-                            round_end_time,
-                            first_join_time,
-                            second_join_time,
+                            "",
+                            "",
+                            "",
+                            "",
                             round_date,
-                            round_time,
-                            rest_time));
+                            "",
+                            "",
+                            status,
+                            message));
         }
 
         return rounds;
@@ -83,15 +85,11 @@ public class ParseResponses {
         String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
         String product_product_description = roundObj.get("product_description").getAsString();
         String product_image = roundObj.get("product_image").getAsString();
-        String round_start_time = roundObj.get("round_start_time").getAsString();
-        String round_end_time = roundObj.get("round_end_time").getAsString();
-        String first_join_time = roundObj.get("first_join_time").getAsString();
-        String second_join_time = roundObj.get("second_join_time").getAsString();
-        String round_date = roundObj.get("round_date").getAsString();
-        String round_time = roundObj.get("round_time").getAsString();
-        String rest_time = roundObj.get("rest_time").getAsString();
+        JsonObject salon_status = roundObj.get("salon_status").getAsJsonObject();
+            boolean status = salon_status.get("status").getAsBoolean();
+            String message = salon_status.get("message").getAsString();
 
-        return new Round(product_id,
+       return new Round(product_id,
                 salon_id,
                 product_name,
                 category_name,
@@ -102,13 +100,15 @@ public class ParseResponses {
                 product_image,
                 parseSubImages(roundObj, product_id),
                 parseSalonCards(roundObj, salon_id),
-                round_start_time,
-                round_end_time,
-                first_join_time,
-                second_join_time,
-                round_date,
-                round_time,
-                rest_time);
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                status,
+                message);
     }
 
     private static List<ProductSubImage> parseSubImages(JsonObject roundObj, int product_id) {
@@ -362,7 +362,7 @@ public class ParseResponses {
                     notificationObj.get("type").getAsString(),
                     notificationObj.get("date").getAsString(),
                     notificationObj.get("id").getAsInt(),
-                            false));
+                    false));
         }
         return notificationList;
 
