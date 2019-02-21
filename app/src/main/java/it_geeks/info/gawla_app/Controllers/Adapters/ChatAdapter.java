@@ -1,18 +1,22 @@
 package it_geeks.info.gawla_app.Controllers.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
+
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.ChatModel;
+import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder> {
 
@@ -28,21 +32,27 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder> {
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.item_chat_room,parent,false);
+        View view = layoutInflater.inflate(R.layout.item_chat_room, parent, false);
 
         return new Holder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-    ChatModel chatModel = chatList.get(position);
-    setHandleData(holder,chatModel);
+        ChatModel chatModel = chatList.get(position);
+        setHandleData(holder, chatModel);
     }
 
-    private void setHandleData(Holder holder,ChatModel chatModel) {
+    private void setHandleData(Holder holder, ChatModel chatModel) {
         holder.chatUsername.setText(chatModel.getUsername());
         holder.chatMessage.setText(chatModel.getMessage());
         holder.messageTime.setText(chatModel.getDate());
+        if (chatModel.getId() == SharedPrefManager.getInstance(context).getUser().getUser_id()) {
+            holder.chatUsername.setTextColor(Color.BLACK);
+            holder.chat_card_message.setBackground(context.getResources().getDrawable(R.drawable.shape_chat_message_send));
+            holder.chatMessage.setTextColor(context.getResources().getColor(R.color.ic_launcher_background));
+            holder.messageTime.setTextColor(context.getResources().getColor(R.color.ic_launcher_background));
+        }
     }
 
     @Override
@@ -50,14 +60,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder> {
         return chatList.size();
     }
 
-    class Holder extends RecyclerView.ViewHolder{
-        TextView chatUsername , chatMessage , messageTime ;
+    class Holder extends RecyclerView.ViewHolder {
+        TextView chatUsername, chatMessage, messageTime;
+        LinearLayout chat_card_message;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
             chatUsername = itemView.findViewById(R.id.chat_username);
             chatMessage = itemView.findViewById(R.id.chat_message);
             messageTime = itemView.findViewById(R.id.chat_time);
+            chat_card_message = itemView.findViewById(R.id.chat_card_message);
         }
     }
 }

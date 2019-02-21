@@ -1,37 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:padding="@dimen/text_size_tiny">
 
     <TextView
         android:id="@+id/chat_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLength="30"
+        android:layout_gravity="top"
+        android:layout_marginTop="@dimen/margin_medium"
         android:layout_weight="3"
-        android:layout_marginTop="@dimen/margin_large"
+        android:gravity="center"
+        android:maxLength="30"
         android:text="Mohamed Abdelhady"
-        android:textColor="@color/black"
-        android:layout_gravity="top"
-        android:textSize="@dimen/text_size_small"
-        android:textStyle="bold"/>
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
 
-    <View
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_gravity="top"
-        android:layout_marginTop="@dimen/margin_large"
-        android:background="@drawable/triangle_right" />
 
         <LinearLayout
+            android:id="@+id/chat_card_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_chat_message_send"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@drawable/shape_chat_message_recive">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -41,10 +38,11 @@
                     android:id="@+id/chat_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Advertising_space_for_special_tours"
                     android:padding="@dimen/margin_small"
-                    android:textSize="@dimen/text_size_small"
-                    android:textColor="@color/ic_launcher_background"/>
+                    android:text="@string/Advertising_space_for_special_tours"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 
@@ -54,10 +52,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="منذ 15 دقيقة"
-                android:textSize="@dimen/text_size_small"
+                android:layout_marginEnd="5dp"
                 android:padding="5dp"
-                android:textColor="@color/ic_launcher_background"/>
+                android:text="منذ 15 دقيقة"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_small" />
 
         </LinearLayout>
 

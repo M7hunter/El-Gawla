@@ -8,6 +8,7 @@ import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -106,7 +107,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     FrameLayout overlayLayout;
     ProgressBar joinProgress, joinConfirmationProgress;
     private Round round;
-    ImageView out_round;
+    TextView out_round;
     private BottomSheetDialog mBottomSheetDialogActivateCard;
     private BottomSheetDialog mBottomSheetDialogActivateChat;
     private BottomSheetDialog mBottomSheetDialogProductDetails;
@@ -148,6 +149,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         getRoundData(savedInstanceState);
 
         initSocket();
+
         initSalonActivityIntent();
 
         initRoundViews_setData();
@@ -188,24 +190,41 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         mSocket.on("new_member", new Emitter.Listener() {
             @Override
-            public void call(Object... args) {
-                displayRoundActivity(args[0].toString());
+            public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        displayRoundActivity(args[0].toString());
+                    }
+                });
             }
         }).on("member_add_offer", new Emitter.Listener() {
             @Override
-            public void call(Object... args) {
-                displayRoundActivity(args[0].toString());
-            }
+            public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        displayRoundActivity(args[0].toString());
+                    }
+                });            }
         }).on("member_leave", new Emitter.Listener() {
             @Override
-            public void call(Object... args) {
-                displayRoundActivity(args[0].toString());
-            }
+            public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        displayRoundActivity(args[0].toString());
+                    }
+                });            }
         }).on("winner", new Emitter.Listener() {
             @Override
-            public void call(Object... args) {
-                displayRoundActivity(args[0].toString());
-            }
+            public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        displayRoundActivity(args[0].toString());
+                    }
+                });            }
         });
 
     }
@@ -215,8 +234,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             tvRoundActivity.setText(notificationMsg);
         } catch (ArrayIndexOutOfBoundsException e) {
             Toast.makeText(SalonActivity.this, "index!", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(SalonActivity.this, "!!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -325,7 +342,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private void checkOnTime() {
         if (!timeState.equals("open_hall_status") && !timeState.equals("free_join_status") && !timeState.equals("pay_join_status") && !timeState.equals("close_hall_status")) {
 
-            initSocket();
+           // initSocket();
 
             switch (timeState) {
                 case "first_rest_status":  // on first rest display top ten
@@ -947,16 +964,28 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         mSocket.on("message", new Emitter.Listener() {
             @Override
-            public void call(Object... args) {
-                Toast.makeText(SalonActivity.this, "recived", Toast.LENGTH_SHORT).show();
+            public void call(final Object... args) {
 
-                JsonObject data = new JsonObject().get(args.toString()).getAsJsonObject();
+                SalonActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONObject data = (JSONObject) args[0];
+                        int user_id;
+                        String user_name;
+                        String message;
+                        try {
+                            user_id = data.getInt("user_id");
+                            user_name = data.getString("user_name");
+                            message = data.getString("message");
+                            addMessageToChat(user_id,user_name,message);
+                        } catch (JSONException e) {
+                            Log.e("", e.getMessage());
+                            return;
+                        }
+                    }
+                });
 
-                chatList.add(new ChatModel(data.get("user_id").getAsInt(), data.get("user_name").getAsString(), data.get("message").getAsString(), "09:00"));
-                chatRecycler.scrollToPosition(chatList.size()-1);
-                ChatAdapter adapter = new ChatAdapter(SalonActivity.this, chatList);
-                adapter.notifyDataSetChanged();
-                chatRecycler.setAdapter(adapter);
+
             }
         });
 
@@ -964,6 +993,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         Common.Instance(SalonActivity.this).setBottomSheetHeight(sheetView);
         mBottomSheetDialogActivateChat.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
+    }
+
+    private void addMessageToChat(int user_id,String user_name, String message) {
+        chatList.add(new ChatModel(user_id, user_name, message, "09:00"));
+        chatRecycler.scrollToPosition(chatList.size()-1);
+        ChatAdapter adapter = new ChatAdapter(SalonActivity.this, chatList);
+        adapter.notifyDataSetChanged();
+        chatRecycler.setAdapter(adapter);
     }
 
 

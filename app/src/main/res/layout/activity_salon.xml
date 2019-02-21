@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/salon_main_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/paleGrey"
     tools:context=".views.SalonActivity">
 
@@ -37,8 +37,10 @@
                     android:layout_width="@dimen/icon_back"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
                     android:layout_centerVertical="true"
                     android:padding="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_medium"
                     android:src="@drawable/ic_arrow_left_only" />
 
             </RelativeLayout>
@@ -680,7 +682,7 @@
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_medium"
                     android:background="@drawable/bg_rounded_corners_white"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:cardCornerRadius="@dimen/margin_small">
                     <!-- card main layout -->
 
@@ -723,9 +725,33 @@
                 <include
                     layout="@layout/use_salon_card"
                     android:visibility="gone" />
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_medium"
+    android:layout_marginStart="@dimen/margin_medium"
+    android:layout_marginEnd="@dimen/margin_medium">
 
+                <TextView
+                    android:id="@+id/out_round"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Leave This Round"
+                    android:background="@drawable/edittext_shape"
+                    android:padding="@dimen/margin_tiny"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/btn_chat_room"
+                    android:layout_width="@dimen/margin_xxxlarge"
+                    android:layout_height="@dimen/margin_xxxlarge"
+                    android:padding="@dimen/margin_tiny"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:src="@drawable/chat_icon"
+                    android:visibility="visible"/>
             </LinearLayout>
 
+        </LinearLayout>
             <!-- join btn -->
             <Button
                 android:id="@+id/btn_join_round"
@@ -752,6 +778,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/margin_tiny"
                 android:visibility="gone" />
+
 
         </RelativeLayout>
 
@@ -789,37 +816,10 @@
 
     </RelativeLayout>
 
-    <!-- Out Leave Round -->
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/out_round"
-            android:layout_width="@dimen/margin_xxxxlarge"
-            android:layout_height="@dimen/margin_xxxxlarge"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="0dp"
-            android:padding="@dimen/margin_medium"
-            android:src="@drawable/out_round"
-            android:visibility="gone" />
-    </RelativeLayout>
 
 
     <include layout="@layout/loading_card_layout" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/btn_chat_room"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/chat_room"
-            android:layout_margin="@dimen/margin_medium"
-            android:layout_alignParentBottom="true"/>
-    </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
