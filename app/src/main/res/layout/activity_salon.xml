@@ -525,16 +525,16 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_tiny"
                         android:background="@drawable/bg_circle_white_bordered_blue"
-                        android:drawableStart="@drawable/ic_details"
+                        android:drawableStart="@drawable/ic_top"
                         android:drawablePadding="@dimen/margin_tiny"
                         android:gravity="center"
                         android:paddingStart="@dimen/margin_small"
                         android:paddingTop="@dimen/margin_xTiny"
                         android:paddingEnd="@dimen/margin_small"
                         android:paddingBottom="@dimen/margin_xTiny"
-                        android:visibility="gone"
                         android:text="@string/top_ten"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small"
+                        android:visibility="gone" />
 
                     <!-- salon details tab -->
                     <TextView

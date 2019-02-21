@@ -104,8 +104,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     public Button btnJoinRound, btnAddOffer;
     EditText etAddOffer;
-    public CardView more, notificationCard, useRoundCard, activityContainer, chatContainer;
-    LinearLayout addOfferLayout, roundTimeCard, detailsContainer, topTenContainer;
+    public CardView more, notificationCard, useRoundCard, activityContainer, chatContainer, topTenContainer;
+    LinearLayout addOfferLayout, roundTimeCard, detailsContainer;
     ProgressBar joinProgress, joinConfirmationProgress;
     private Round round;
     TextView btn_leave_round;
@@ -133,8 +133,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
 
     public ProductSubImage productSubImage = new ProductSubImage();
-
-    private Intent salonActivityIntent;
 
     private AlertDialog joinAlert;
     private Button btnJoinConfirmation, btnUseGoldenCard;
@@ -369,9 +367,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void getTopTen() {
+        displayLoading();
         RetrofitClient.getInstance(this).executeConnectionToServer(this, "getTopTen", null, new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
+                Toast.makeText(SalonActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+
                 topTenList.addAll(ParseResponses.parseTopTen(mainObject));
                 initTopTenRecycler();
             }
@@ -383,12 +384,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
             @Override
             public void handleEmptyResponse() {
-
+                hideLoading();
             }
 
             @Override
             public void handleConnectionErrors(String errorMessage) {
-
+                hideLoading();
             }
         });
     }
@@ -475,25 +476,30 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         chatRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
         chatRecycler.setAdapter(new ChatAdapter(SalonActivity.this, chatList));
 
+        final EditText etChatMessage = findViewById(R.id.et_chat_message);
+
         findViewById(R.id.chat_send_message).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText etChatMessage = findViewById(R.id.et_chat_message);
-                if (etChatMessage.getText().toString().isEmpty()) {
-                    etChatMessage.setError("Input Empty");
-                } else {
-                    JSONObject chatData = new JSONObject();
-                    final String message = etChatMessage.getText().toString();
-                    try {
-                        chatData.put("user_id", SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id());
-                        chatData.put("user_name", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
-                        chatData.put("message", message);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                if (joinStatus == 2) {
+                    if (etChatMessage.getText().toString().isEmpty()) {
+                        etChatMessage.setError("Input Empty");
+                    } else {
+                        JSONObject chatData = new JSONObject();
+                        final String message = etChatMessage.getText().toString();
+                        try {
+                            chatData.put("user_id", SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id());
+                            chatData.put("user_name", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
+                            chatData.put("message", message);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                    mSocket.emit("newMessage", chatData);
-                    etChatMessage.setText("");
+                        mSocket.emit("newMessage", chatData);
+                        etChatMessage.setText("");
+                    }
+                } else {
+                    Toast.makeText(SalonActivity.this, "you must join to be able to chat in this salon", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -505,11 +511,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 SalonActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        JSONObject data = (JSONObject) args[0];
+                        JSONObject main = (JSONObject) args[0];
                         int user_id;
                         String user_name;
                         String message;
                         try {
+                            JSONObject data = main.getJSONObject("message");
                             user_id = data.getInt("user_id");
                             user_name = data.getString("user_name");
                             message = data.getString("message");
@@ -521,8 +528,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         }
                     }
                 });
-
-
             }
         });
     }
@@ -544,13 +549,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 } else {
                     mBottomSheetDialogProductDetails.show();
                 }
-            }
-        });
-
-        notificationCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(salonActivityIntent);
             }
         });
 
