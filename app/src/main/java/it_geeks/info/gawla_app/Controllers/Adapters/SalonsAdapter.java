@@ -59,7 +59,12 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
 
             viewHolder.tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
             viewHolder.tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
-            viewHolder.tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getRound_start_time()));
+            viewHolder.tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getMessage()));
+            //Round Status On/Off
+            if (round.isStatus())
+                viewHolder.roundStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.round_on));
+            else
+                viewHolder.roundStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.round_off));
 
             if (round.getSalon_cards() != null) {
                 viewHolder.cardsRecycler.setAdapter(new SalonCardsAdapter(context, round.getSalon_cards()));
@@ -97,6 +102,8 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         i.putExtra("rest_time", round.getRest_time());
                         i.putExtra("product_images", (Serializable) round.getProduct_images());
                         i.putExtra("salon_cards", (Serializable) round.getSalon_cards());
+                        i.putExtra("round_status", (Serializable) round.isStatus());
+                        i.putExtra("round_message", (Serializable) round.getMessage());
 
                         // start with transition
                         Pair[] pairs = new Pair[2];
@@ -111,7 +118,8 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         }
                     }
                 });
-            }catch (Exception e){}
+            } catch (Exception e) {
+            }
 
 
 //            Common.Instance(context).setAnimation(viewHolder.itemView);
@@ -131,7 +139,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvProductName, tvProductCategory, tvStartTime, btnJoinRound;
-        ImageView imgProductImage;
+        ImageView imgProductImage, roundStatus;
         RecyclerView cardsRecycler;
 
         private ViewHolder(@NonNull View itemView) {
@@ -143,6 +151,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
             tvStartTime = itemView.findViewById(R.id.round_start_time);
             btnJoinRound = itemView.findViewById(R.id.round_btn_join);
             cardsRecycler = itemView.findViewById(R.id.salon_cards_recycler);
+            roundStatus = itemView.findViewById(R.id.round_status);
             cardsRecycler.setHasFixedSize(true);
             cardsRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         }

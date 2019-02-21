@@ -35,6 +35,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -86,7 +87,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     ImageView icon;
     public TextView header, text, tvSalonTime;
 
-    private String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time, first_join_time, second_join_time, round_date, round_time, rest_time;
+    private String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time, first_join_time, second_join_time, round_date, round_time, rest_time,round_message;
+    boolean round_status;
     int product_id, salon_id;
     String apiToken;
     String userName;
@@ -427,6 +429,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 round_date = extras.getString("round_date");
                 round_time = extras.getString("round_time");
                 rest_time = extras.getString("rest_time");
+                round_status = extras.getBoolean("round_status");
+                round_message = extras.getString("round_message");
                 subImageList = (List<ProductSubImage>) extras.getSerializable("product_images");
                 cardList = (List<Card>) extras.getSerializable("salon_cards");
 
@@ -449,7 +453,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         second_join_time,
                         round_date,
                         round_time,
-                        rest_time);
+                        rest_time,
+                        round_status,
+                        round_message
+                        );
             }
 
         } else { // get data from saved state
@@ -468,6 +475,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             round_date = (String) savedInstanceState.getSerializable("round_date");
             round_time = (String) savedInstanceState.getSerializable("round_time");
             rest_time = (String) savedInstanceState.getSerializable("rest_time");
+            round_status = (boolean) savedInstanceState.getSerializable("round_status");
+            round_message = (String) savedInstanceState.getSerializable("round_message");
             subImageList = (List<ProductSubImage>) savedInstanceState.getSerializable("product_images");
             cardList = (List<Card>) savedInstanceState.getSerializable("salon_cards");
 
@@ -488,7 +497,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     second_join_time,
                     round_date,
                     round_time,
-                    rest_time);
+                    rest_time,
+                    round_status,
+                    round_message);
         }
     }
 
@@ -913,7 +924,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         mBottomSheetDialogActivateCard.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
     }
-    
+
     private void initBottomSheetActivateChat() {
         mBottomSheetDialogActivateChat = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
         final View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_active_chat, null);

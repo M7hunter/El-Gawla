@@ -52,7 +52,7 @@ public class RoundsPagerAdapter extends PagerAdapter {
 
         // define views
         TextView tvProductName, tvProductCategory, tvStartTime, btnJoinRound;
-        ImageView imgProductImage;
+        ImageView imgProductImage,roundStatus;
 
         // init views
         imgProductImage = view.findViewById(R.id.my_round_product_image);
@@ -60,6 +60,7 @@ public class RoundsPagerAdapter extends PagerAdapter {
         tvProductCategory = view.findViewById(R.id.my_round_product_category);
         tvStartTime = view.findViewById(R.id.my_round_start_time);
         btnJoinRound = view.findViewById(R.id.my_round_btn_enter);
+        roundStatus = view.findViewById(R.id.my_round_status);
         RecyclerView cardsRecycler = view.findViewById(R.id.my_round_cards_recycler); // nested recycler
         cardsRecycler.setHasFixedSize(true);
         cardsRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
@@ -68,9 +69,15 @@ public class RoundsPagerAdapter extends PagerAdapter {
         Picasso.with(context).load(round.getProduct_image()).placeholder(R.drawable.placeholder).into(imgProductImage);
         tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
         tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
-        tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getRound_start_time()));
+        tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getMessage()));
         cardsRecycler.setAdapter(new SalonCardsAdapter(context, round.getSalon_cards()));
         Common.Instance(context).changeDrawableViewColor(tvProductCategory, round.getCategory_color());
+
+        //Round Status On/Off
+        if (round.isStatus())
+            roundStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.round_on));
+        else
+            roundStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.round_off));
 
         // open round page
         btnJoinRound.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +103,8 @@ public class RoundsPagerAdapter extends PagerAdapter {
                 i.putExtra("rest_time", round.getRest_time());
                 i.putExtra("product_images", (Serializable) round.getProduct_images());
                 i.putExtra("salon_cards", (Serializable) round.getSalon_cards());
-
+                i.putExtra("round_status", (Serializable) round.isStatus());
+                i.putExtra("round_message", (Serializable) round.getMessage());
                 context.startActivity(i);
             }
         });

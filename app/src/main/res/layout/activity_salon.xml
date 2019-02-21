@@ -739,7 +739,7 @@
                     android:text="Leave This Round"
                     android:background="@drawable/edittext_shape"
                     android:padding="@dimen/margin_tiny"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/btn_chat_room"

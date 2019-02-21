@@ -67,11 +67,17 @@ public class Round {
     @ColumnInfo
     private String rest_time;
 
+    @ColumnInfo
+    private boolean status;
+
+    @ColumnInfo
+    private String message;
+
     // constructors
     public Round() {
     }
 
-    public Round(int product_id, int salon_id, String product_name, String category_name, String category_color, String country_name, String product_commercial_price, String product_product_description, String product_image, List<ProductSubImage> product_images, List<Card> salon_cards, String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time) {
+    public Round(int product_id, int salon_id, String product_name, String category_name, String category_color, String country_name, String product_commercial_price, String product_product_description, String product_image, List<ProductSubImage> product_images, List<Card> salon_cards, String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time,boolean status , String message) {
         this.product_id = product_id;
         this.salon_id = salon_id;
         this.product_name = product_name;
@@ -90,6 +96,24 @@ public class Round {
         this.round_date = round_date;
         this.round_time = round_time;
         this.rest_time = rest_time;
+        this.status = status;
+        this.message = message;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     // getters & setters

@@ -97,6 +97,7 @@ public class Request {
 
     public Request(String api_token) { // all countries
         this.api_token = api_token;
+        this.email = api_token; // for email in forget password
     }
 
     public Request(int user_id, String api_token, String image) { // User Profile Image Upload
