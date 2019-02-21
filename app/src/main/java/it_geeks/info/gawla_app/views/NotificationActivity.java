@@ -42,8 +42,6 @@ public class NotificationActivity extends AppCompatActivity {
         initViews();
 
         getData();
-
-        initNotiRecycler();
     }
 
     private void getData() {
@@ -59,8 +57,8 @@ public class NotificationActivity extends AppCompatActivity {
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-
                         NotificationList = ParseResponses.parseNotifications(mainObject);
+
                         GawlaDataBse.getGawlaDatabase(NotificationActivity.this).notificationDao().removeNotifications();
                         GawlaDataBse.getGawlaDatabase(NotificationActivity.this).notificationDao().insertNotification(NotificationList);
                         GawlaDataBse.getGawlaDatabase(NotificationActivity.this).notificationDao().updateStatusNotification(false);

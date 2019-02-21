@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Notification Update Status When App Open
-        updataNotificationStatus();
+        updateNotificationStatus();
 
         // Firebase Receive messaging notification
         FirebaseMessagingInitialize();
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         setupTrans();
     }
 
-    private void updataNotificationStatus() {
+    private void updateNotificationStatus() {
         Log.w("Mo7",FirebaseInstanceId.getInstance().getToken());
         boolean notificationStatus = SharedPrefManager.getInstance(this).getNewNotification();
         if (notificationStatus){

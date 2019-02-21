@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
@@ -58,12 +59,16 @@ public class Common {
 
     // change app lang
     public void setLang(String lang) {
-        Lang = lang;
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        Configuration configuration = context.getResources().getConfiguration();
-        configuration.setLocale(new Locale(Lang));
-        context.getResources().updateConfiguration(configuration, displayMetrics);
 
+        new WebView(context).destroy();
+
+        Lang = lang;
+        Locale locale = new Locale(Lang);
+        Configuration configuration = context.getResources().getConfiguration();
+        configuration.setLocale(locale);
+        Locale.setDefault(locale);
+
+        context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
         SharedPrefManager.getInstance(context).setLang(Lang);
     }
 
