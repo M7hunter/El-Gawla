@@ -18,8 +18,6 @@ import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
 
 public class LanguageActivity extends AppCompatActivity {
 
-    LinearLayout mainLanguageActivity;
-
     RecyclerView langRecycler;
     List<String> langList = new ArrayList<>();
 
@@ -43,12 +41,6 @@ public class LanguageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 onBackPressed();
             }
-        });
-
-        // Swipe Page Back
-        mainLanguageActivity = findViewById(R.id.mainLanguageActivity);
-        mainLanguageActivity.setOnTouchListener(new OnSwipeTouchListener(LanguageActivity.this){
-            public void onSwipeRight() { finish(); }
         });
     }
 

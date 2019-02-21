@@ -896,8 +896,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         mBottomSheetDialogActivateCard.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
     }
-
-
+    
     private void initBottomSheetActivateChat() {
         mBottomSheetDialogActivateChat = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
         final View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_active_chat, null);
