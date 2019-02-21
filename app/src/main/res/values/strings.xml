@@ -203,5 +203,6 @@
     <string name="write_message">Send Message</string>
     <string name="winner">winner</string>
     <string name="top_ten">top ten</string>
+    <string name="product_details">product details</string>
 
 </resources>

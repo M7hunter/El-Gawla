@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/join_confirmation_layout"
+    android:id="@+id/join_alert_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_medium"
     android:background="@drawable/bg_rounded_corners_white"
-    android:visibility="gone"
     app:cardCornerRadius="@dimen/margin_small">
     <!-- card main layout -->
     <LinearLayout
@@ -24,28 +22,29 @@
 
             <!-- icon -->
             <ImageView
-                android:id="@+id/join_confirmation_icon"
+                android:id="@+id/join_alert_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="70dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/q_mark_in_circle"
-                tools:ignore="MissingConstraints" />
+                android:src="@drawable/q_mark_in_circle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ProgressBar
-                android:id="@+id/join_confirmation_progress"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:id="@+id/join_alert_progress"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/join_confirmation_icon"
-                app:layout_constraintEnd_toEndOf="@id/join_confirmation_icon"
-                app:layout_constraintStart_toStartOf="@id/join_confirmation_icon"
-                app:layout_constraintTop_toTopOf="@id/join_confirmation_icon" />
+                app:layout_constraintBottom_toBottomOf="@id/join_alert_icon"
+                app:layout_constraintEnd_toEndOf="@id/join_alert_icon"
+                app:layout_constraintStart_toStartOf="@id/join_alert_icon"
+                app:layout_constraintTop_toTopOf="@id/join_alert_icon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- title -->
         <TextView
-            android:id="@+id/join_confirmation_header"
+            android:id="@+id/join_alert_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -59,7 +58,7 @@
 
         <!-- text -->
         <TextView
-            android:id="@+id/join_confirmation_text"
+            android:id="@+id/join_alert_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xxlarge"
@@ -69,6 +68,21 @@
             android:text="@string/Attention_Details"
             android:textColor="@color/blueGrey"
             android:textSize="@dimen/text_size_medium" />
+
+        <!-- join btn -->
+        <Button
+            android:id="@+id/btn_join_alert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:background="@drawable/joined_play_shape"
+            android:padding="@dimen/margin_small"
+            android:text="@string/join_round"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
+            android:visibility="visible" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

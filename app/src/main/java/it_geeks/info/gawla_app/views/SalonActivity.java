@@ -11,13 +11,12 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -35,11 +34,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URISyntaxException;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -48,7 +43,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import it_geeks.info.gawla_app.Controllers.Adapters.ChatAdapter;
@@ -83,8 +77,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     public TextView tvRoundActivity;
 
     //Attention Join Screen
-    ImageView icon;
-    public TextView header, text, tvSalonTime;
+    ImageView joinIcon;
+    public TextView joinHeader, joinText, tvSalonTime;
 
     private String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time, first_join_time, second_join_time, round_date, round_time, rest_time;
     int product_id, salon_id;
@@ -102,9 +96,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     public Button btnJoinRound, btnAddOffer;
     EditText etAddOffer;
-    CardView more, notificationCard, confirmationLayout, useRoundCard;
+    CardView more, notificationCard, useRoundCard;
     LinearLayout addOfferLayout, roundTimeCard;
-    FrameLayout overlayLayout;
     ProgressBar joinProgress, joinConfirmationProgress;
     private Round round;
     TextView out_round;
@@ -136,6 +129,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private Intent salonActivityIntent;
 
+    private View timeContainer, detailsContainer;
+
+    private AlertDialog joinAlert;
+    private Button btnJoinConfirmation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,6 +145,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         initViews();
 
         getRoundData(savedInstanceState);
+
+        initJoinConfirmationDialog();
 
         initSocket();
 
@@ -167,6 +167,152 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         initDivs();
 
         handleEvents();
+    }
+
+    public void initViews() {
+        loadingCard = findViewById(R.id.loading_card);
+        more = findViewById(R.id.more);
+        btnJoinRound = findViewById(R.id.btn_join_round);
+        etAddOffer = findViewById(R.id.add_offer_et);
+        useRoundCard = findViewById(R.id.use_round_card);
+        notificationCard = findViewById(R.id.round_notification_card);
+        btnAddOffer = findViewById(R.id.add_offer_btn);
+        addOfferLayout = findViewById(R.id.add_offer_layout);
+        roundTimeCard = findViewById(R.id.roundTimeCard);
+        joinProgress = findViewById(R.id.join_progress);
+        apiToken = Common.Instance(SalonActivity.this).removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
+        userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
+
+        timeContainer = findViewById(R.id.time_container);
+        detailsContainer = findViewById(R.id.details_container);
+
+        //Notification icon
+        imgNotification = findViewById(R.id.Notification);
+
+        // notification status LiveData
+        NotificationStatus.notificationStatus(this, imgNotification);
+
+        // notification onClick
+        imgNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SalonActivity.this, NotificationActivity.class));
+            }
+        });
+
+        // back
+        findViewById(R.id.salon_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        // Leave Round
+        out_round = findViewById(R.id.out_round);
+        out_round.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userOutRound();
+            }
+        });
+
+        // button chat room
+        findViewById(R.id.btn_chat_room).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mBottomSheetDialogActivateChat.isShowing()) { // close sheet
+                    mBottomSheetDialogActivateChat.dismiss();
+                } else {
+                    mBottomSheetDialogActivateChat.show();
+                }
+            }
+        });
+    }
+
+    private void getRoundData(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+
+            if (extras != null) { // get data from previous page
+                product_id = extras.getInt("product_id");
+                salon_id = extras.getInt("salon_id");
+                product_name = extras.getString("product_name");
+                product_category = extras.getString("category_name");
+                category_color = extras.getString("category_color");
+                product_price = extras.getString("product_commercial_price");
+                product_description = extras.getString("product_product_description");
+                product_image = extras.getString("product_image");
+                round_start_time = extras.getString("round_start_time");
+                round_end_time = extras.getString("round_end_time");
+                first_join_time = extras.getString("first_join_time");
+                second_join_time = extras.getString("second_join_time");
+                round_date = extras.getString("round_date");
+                round_time = extras.getString("round_time");
+                rest_time = extras.getString("rest_time");
+                subImageList = (List<ProductSubImage>) extras.getSerializable("product_images");
+                cardList = (List<Card>) extras.getSerializable("salon_cards");
+
+                getRemainingTimeOfRound();
+
+                round = new Round(product_id,
+                        salon_id,
+                        product_name,
+                        product_category,
+                        category_color,
+                        extras.getString("country_name"),
+                        product_price,
+                        product_description,
+                        product_image,
+                        subImageList,
+                        cardList,
+                        round_start_time,
+                        round_end_time,
+                        first_join_time,
+                        second_join_time,
+                        round_date,
+                        round_time,
+                        rest_time);
+            }
+
+        } else { // get data from saved state
+            product_id = savedInstanceState.getInt("product_id");
+            salon_id = savedInstanceState.getInt("salon_id");
+            product_name = (String) savedInstanceState.getSerializable("product_name");
+            product_category = (String) savedInstanceState.getSerializable("category_name");
+            category_color = (String) savedInstanceState.getSerializable("category_color");
+            product_price = (String) savedInstanceState.getSerializable("product_commercial_price");
+            product_description = (String) savedInstanceState.getSerializable("product_product_description");
+            product_image = (String) savedInstanceState.getSerializable("product_image");
+            round_start_time = (String) savedInstanceState.getSerializable("round_start_time");
+            round_end_time = (String) savedInstanceState.getSerializable("round_end_time");
+            first_join_time = (String) savedInstanceState.getSerializable("first_join_time");
+            second_join_time = (String) savedInstanceState.getSerializable("second_join_time");
+            round_date = (String) savedInstanceState.getSerializable("round_date");
+            round_time = (String) savedInstanceState.getSerializable("round_time");
+            rest_time = (String) savedInstanceState.getSerializable("rest_time");
+            subImageList = (List<ProductSubImage>) savedInstanceState.getSerializable("product_images");
+            cardList = (List<Card>) savedInstanceState.getSerializable("salon_cards");
+
+            round = new Round(product_id,
+                    salon_id,
+                    product_name,
+                    product_category,
+                    category_color,
+                    (String) savedInstanceState.getSerializable("country_name"),
+                    product_price,
+                    product_description,
+                    product_image,
+                    subImageList,
+                    cardList,
+                    round_start_time,
+                    round_end_time,
+                    first_join_time,
+                    second_join_time,
+                    round_date,
+                    round_time,
+                    rest_time);
+        }
     }
 
     private void initSalonActivityIntent() {
@@ -206,7 +352,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     public void run() {
                         displayRoundActivity(args[0].toString());
                     }
-                });            }
+                });
+            }
         }).on("member_leave", new Emitter.Listener() {
             @Override
             public void call(final Object... args) {
@@ -215,7 +362,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     public void run() {
                         displayRoundActivity(args[0].toString());
                     }
-                });            }
+                });
+            }
         }).on("winner", new Emitter.Listener() {
             @Override
             public void call(final Object... args) {
@@ -224,7 +372,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     public void run() {
                         displayRoundActivity(args[0].toString());
                     }
-                });            }
+                });
+            }
         });
 
     }
@@ -317,7 +466,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         }
     }
 
-    //Round Start
     private void startTimeDown(RoundRealTimeModel roundRealTimeModel) {
         this.roundRealTimeModel = roundRealTimeModel;
         if (roundRealTimeModel.isUserJoin()) {
@@ -342,7 +490,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private void checkOnTime() {
         if (!timeState.equals("open_hall_status") && !timeState.equals("free_join_status") && !timeState.equals("pay_join_status") && !timeState.equals("close_hall_status")) {
 
-           // initSocket();
+            // initSocket();
 
             switch (timeState) {
                 case "first_rest_status":  // on first rest display top ten
@@ -407,91 +555,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         });
     }
 
-    private void getRoundData(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
-
-            if (extras != null) { // get data from previous page
-                product_id = extras.getInt("product_id");
-                salon_id = extras.getInt("salon_id");
-                product_name = extras.getString("product_name");
-                product_category = extras.getString("category_name");
-                category_color = extras.getString("category_color");
-                product_price = extras.getString("product_commercial_price");
-                product_description = extras.getString("product_product_description");
-                product_image = extras.getString("product_image");
-                round_start_time = extras.getString("round_start_time");
-                round_end_time = extras.getString("round_end_time");
-                first_join_time = extras.getString("first_join_time");
-                second_join_time = extras.getString("second_join_time");
-                round_date = extras.getString("round_date");
-                round_time = extras.getString("round_time");
-                rest_time = extras.getString("rest_time");
-                subImageList = (List<ProductSubImage>) extras.getSerializable("product_images");
-                cardList = (List<Card>) extras.getSerializable("salon_cards");
-
-                getRemainingTimeOfRound();
-
-                round = new Round(product_id,
-                        salon_id,
-                        product_name,
-                        product_category,
-                        category_color,
-                        extras.getString("country_name"),
-                        product_price,
-                        product_description,
-                        product_image,
-                        subImageList,
-                        cardList,
-                        round_start_time,
-                        round_end_time,
-                        first_join_time,
-                        second_join_time,
-                        round_date,
-                        round_time,
-                        rest_time);
-            }
-
-        } else { // get data from saved state
-            product_id = savedInstanceState.getInt("product_id");
-            salon_id = savedInstanceState.getInt("salon_id");
-            product_name = (String) savedInstanceState.getSerializable("product_name");
-            product_category = (String) savedInstanceState.getSerializable("category_name");
-            category_color = (String) savedInstanceState.getSerializable("category_color");
-            product_price = (String) savedInstanceState.getSerializable("product_commercial_price");
-            product_description = (String) savedInstanceState.getSerializable("product_product_description");
-            product_image = (String) savedInstanceState.getSerializable("product_image");
-            round_start_time = (String) savedInstanceState.getSerializable("round_start_time");
-            round_end_time = (String) savedInstanceState.getSerializable("round_end_time");
-            first_join_time = (String) savedInstanceState.getSerializable("first_join_time");
-            second_join_time = (String) savedInstanceState.getSerializable("second_join_time");
-            round_date = (String) savedInstanceState.getSerializable("round_date");
-            round_time = (String) savedInstanceState.getSerializable("round_time");
-            rest_time = (String) savedInstanceState.getSerializable("rest_time");
-            subImageList = (List<ProductSubImage>) savedInstanceState.getSerializable("product_images");
-            cardList = (List<Card>) savedInstanceState.getSerializable("salon_cards");
-
-            round = new Round(product_id,
-                    salon_id,
-                    product_name,
-                    product_category,
-                    category_color,
-                    (String) savedInstanceState.getSerializable("country_name"),
-                    product_price,
-                    product_description,
-                    product_image,
-                    subImageList,
-                    cardList,
-                    round_start_time,
-                    round_end_time,
-                    first_join_time,
-                    second_join_time,
-                    round_date,
-                    round_time,
-                    rest_time);
-        }
-    }
-
     private void initRoundViews_setData() {
         TextView tvProductName, tvProductPrice, salonId;
         ImageView imProductImage;
@@ -509,71 +572,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         salonId.setText(String.valueOf(round.getSalon_id()));
 
         Picasso.with(SalonActivity.this).load(round.getProduct_image()).placeholder(R.drawable.placeholder).into(imProductImage);
-    }
-
-    public void initViews() {
-        loadingCard = findViewById(R.id.loading_card);
-        overlayLayout = findViewById(R.id.overlay_layout);
-        more = findViewById(R.id.more);
-        btnJoinRound = findViewById(R.id.btn_join_round);
-        etAddOffer = findViewById(R.id.add_offer_et);
-        confirmationLayout = findViewById(R.id.join_confirmation_layout);
-        useRoundCard = findViewById(R.id.use_round_card);
-        notificationCard = findViewById(R.id.round_notification_card);
-        btnAddOffer = findViewById(R.id.add_offer_btn);
-        addOfferLayout = findViewById(R.id.add_offer_layout);
-        roundTimeCard = findViewById(R.id.roundTimeCard);
-        joinProgress = findViewById(R.id.join_progress);
-        joinConfirmationProgress = findViewById(R.id.join_confirmation_progress);
-        apiToken = Common.Instance(SalonActivity.this).removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
-        userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
-
-        icon = findViewById(R.id.join_confirmation_icon);
-        header = findViewById(R.id.join_confirmation_header);
-        text = findViewById(R.id.join_confirmation_text);
-
-        //Notification icon
-        imgNotification = findViewById(R.id.Notification);
-
-        // notification status LiveData
-        NotificationStatus.notificationStatus(this, imgNotification);
-
-        // notofocation onClick
-        imgNotification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(SalonActivity.this, NotificationActivity.class));
-            }
-        });
-
-        // back
-        findViewById(R.id.salon_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
-        // Leave Round
-        out_round = findViewById(R.id.out_round);
-        out_round.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userOutRound();
-            }
-        });
-
-        // button chat room
-        findViewById(R.id.btn_chat_room).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mBottomSheetDialogActivateChat.isShowing()) { // close sheet
-                    mBottomSheetDialogActivateChat.dismiss();
-                } else {
-                    mBottomSheetDialogActivateChat.show();
-                }
-            }
-        });
     }
 
     private void userOutRound() {
@@ -595,7 +593,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     roundStartToEnd.stop(); // stop Time Down
                     stopSalonNotification();
                     getRemainingTimeOfRound();
-                    attentionScreen();
+                    initialConfirmationScreen();
                 }
 
                 @Override
@@ -625,21 +623,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         btnJoinRound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (joinStatus) {
-                    case 0:
-                        displayConfirmationLayout();
-                        break;
-                    case 1:
-                        addUserToSalon();
-                        break;
-                    case 2:
-                        hideConfirmationLayout();
-                        tvRoundActivity.setText("You are joined .");
-                        out_round.setVisibility(View.VISIBLE);
-                        break;
-                    default:
-                        break;
-                }
+                displayConfirmationLayout();
             }
         });
 
@@ -658,15 +642,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         notificationCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                salonActivityIntent.putExtra("request_type", "top_ten"); // <- for test
                 startActivity(salonActivityIntent);
             }
         });
 
         // cancel confirmation
-        overlayLayout.setOnClickListener(new View.OnClickListener() {
+        joinAlert.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
-            public void onClick(View v) {
+            public void onDismiss(DialogInterface dialog) {
                 if (joinStatus == 2) {
                     hideConfirmationLayout();
                     out_round.setVisibility(View.VISIBLE);
@@ -688,6 +671,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 }
             }
         });
+    }
+
+    private void UIOnRestTime() {
+        timeContainer.setScaleY(.5f); // collapse time container
     }
 
     private void addUserToSalon() {
@@ -791,18 +778,40 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         etAddOffer.setEnabled(true);
     }
 
-    // join events
-    private void displayConfirmationLayout() {
-        joinStatus = 1;
-        roundStartToEnd.setJoinStatus(joinStatus);
+    private void initJoinConfirmationDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.CustomAlertDialogStyle);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.join_round_confirmation_layout, null);
 
-        // hide background views
-        more.setVisibility(View.GONE);
-        notificationCard.setVisibility(View.GONE);
+        joinIcon = dialogView.findViewById(R.id.join_alert_icon);
+        joinHeader = dialogView.findViewById(R.id.join_alert_header);
+        joinText = dialogView.findViewById(R.id.join_alert_text);
+        joinConfirmationProgress = dialogView.findViewById(R.id.join_alert_progress);
+        btnJoinConfirmation = dialogView.findViewById(R.id.btn_join_alert);
 
-        // display confirmation layout
-        confirmationLayout.setVisibility(View.VISIBLE);
-        overlayLayout.setVisibility(View.VISIBLE);
+        //
+        btnJoinConfirmation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (joinStatus) {
+                    case 0:
+                        displayConfirmationLayout();
+                        break;
+                    case 1:
+                        addUserToSalon();
+                        break;
+                    case 2:
+                        hideConfirmationLayout();
+                        tvRoundActivity.setText("You are joined .");
+                        out_round.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
+        dialogBuilder.setView(dialogView);
+        joinAlert = dialogBuilder.create();
     }
 
     private void changeConfirmationState() {
@@ -811,36 +820,50 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         congratulationScreen();
     }
 
-    private void attentionScreen() { // Attention Screen  to Join Round
-        icon.setImageDrawable(getResources().getDrawable(R.drawable.q_mark_in_circle));
-        header.setText(getString(R.string.Attention));
-        header.setTextColor(getResources().getColor(R.color.midBlue));
-        text.setText(getString(R.string.Attention_Details));
-        btnJoinRound.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        btnJoinRound.setText(getString(R.string.join_round));
+    private void displayConfirmationLayout() {
+        joinStatus = 1;
+        roundStartToEnd.setJoinStatus(joinStatus);
+
+        // display confirmation layout
+        joinAlert.show();
+        btnJoinRound.setVisibility(View.GONE);
+    }
+
+    private void initialConfirmationScreen() { // Attention Screen  to Join Round
+        joinIcon.setImageDrawable(getResources().getDrawable(R.drawable.q_mark_in_circle));
+        joinHeader.setText(getString(R.string.Attention));
+        joinHeader.setTextColor(getResources().getColor(R.color.midBlue));
+        joinText.setText(getString(R.string.Attention_Details));
+        btnJoinConfirmation.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        btnJoinConfirmation.setText(getString(R.string.join_round));
     }
 
     private void congratulationScreen() { // Congratulation Screen to Join Round
-        icon.setImageDrawable(getResources().getDrawable(R.drawable.joinedrounddone));
-        header.setText(getString(R.string.Congratulations_Attention));
-        header.setTextColor(getResources().getColor(R.color.greenBlue));
-        text.setText(getString(R.string.Congratulations_Attention_Details));
-        btnJoinRound.setBackgroundColor(getResources().getColor(R.color.greenBlue));
-        btnJoinRound.setText(getString(R.string.start_play));
+        joinIcon.setImageDrawable(getResources().getDrawable(R.drawable.joinedrounddone));
+        joinHeader.setText(getString(R.string.Congratulations_Attention));
+        joinHeader.setTextColor(getResources().getColor(R.color.greenBlue));
+        joinText.setText(getString(R.string.Congratulations_Attention_Details));
+        btnJoinConfirmation.setBackgroundColor(getResources().getColor(R.color.greenBlue));
+        btnJoinConfirmation.setText(getString(R.string.start_play));
+    }
+
+    public void cancelConfirmation() {
+        joinStatus = 0;
+
+        // hide confirmation layout
+        btnJoinRound.setVisibility(View.VISIBLE);
+        joinAlert.dismiss();
     }
 
     public void hideConfirmationLayout() {
-        // display background views
-        more.setVisibility(View.VISIBLE);
-        notificationCard.setVisibility(View.VISIBLE);
-
         // hide confirmation layout
-        confirmationLayout.setVisibility(View.GONE);
         btnJoinRound.setVisibility(View.GONE);
-        overlayLayout.setVisibility(View.GONE);
         addOfferLayout.setVisibility(View.GONE);
         useRoundCard.setVisibility(View.GONE);
+        joinAlert.dismiss();
+    }
 
+    public void checkOnTime2() {
         if (roundRealTimeModel.isOpen_hall_status() || roundRealTimeModel.isClose_hall_status()) {
             notificationCard.setVisibility(View.GONE);
         }
@@ -858,20 +881,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         if (roundRealTimeModel.isPay_join_status() && !roundRealTimeModel.isUserJoin()) {
             useRoundCard.setVisibility(View.VISIBLE);
         }
-
-
-    }
-
-    public void cancelConfirmation() {
-        joinStatus = 0;
-
-        // display background views
-        more.setVisibility(View.VISIBLE);
-        notificationCard.setVisibility(View.VISIBLE);
-
-        // hide confirmation layout
-        confirmationLayout.setVisibility(View.GONE);
-        overlayLayout.setVisibility(View.GONE);
     }
 
     // cards bag
@@ -913,11 +922,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         mBottomSheetDialogActivateCard.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
     }
-    
+
     private void initBottomSheetActivateChat() {
         mBottomSheetDialogActivateChat = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
-        final View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_active_chat, null);
-       // sheetView.setVerticalScrollbarPosition(1);
+        final View sheetView = getLayoutInflater().inflate(R.layout.layout_chat, null);
+        // sheetView.setVerticalScrollbarPosition(1);
 
         //        //init bottom sheet views
         if (chatList != null) {
@@ -943,20 +952,20 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void onClick(View v) {
                 EditText etChatMessage = sheetView.findViewById(R.id.et_chat_message);
-                if (etChatMessage.getText().toString().isEmpty()){
+                if (etChatMessage.getText().toString().isEmpty()) {
                     etChatMessage.setError("Input Empty");
-                }else {
+                } else {
                     JSONObject chatData = new JSONObject();
                     final String message = etChatMessage.getText().toString();
                     try {
                         chatData.put("user_id", SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id());
-                        chatData.put("user_name",SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
-                        chatData.put("message",message);
+                        chatData.put("user_name", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
+                        chatData.put("message", message);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
-                    mSocket.emit("newMessage",chatData);
+                    mSocket.emit("newMessage", chatData);
                     etChatMessage.setText("");
                 }
             }
@@ -977,7 +986,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             user_id = data.getInt("user_id");
                             user_name = data.getString("user_name");
                             message = data.getString("message");
-                            addMessageToChat(user_id,user_name,message);
+                            addMessageToChat(user_id, user_name, message);
                         } catch (JSONException e) {
                             Log.e("", e.getMessage());
                             return;
@@ -995,14 +1004,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 .setBackgroundResource(android.R.color.transparent);
     }
 
-    private void addMessageToChat(int user_id,String user_name, String message) {
+    private void addMessageToChat(int user_id, String user_name, String message) {
         chatList.add(new ChatModel(user_id, user_name, message, "09:00"));
-        chatRecycler.scrollToPosition(chatList.size()-1);
+        chatRecycler.scrollToPosition(chatList.size() - 1);
         ChatAdapter adapter = new ChatAdapter(SalonActivity.this, chatList);
         adapter.notifyDataSetChanged();
         chatRecycler.setAdapter(adapter);
     }
-
 
     // product details
     private void initBottomSheetProductDetails() {

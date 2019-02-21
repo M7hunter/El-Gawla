@@ -61,7 +61,7 @@ public class RoundStartToEnd {
     public void start() {
         int milli = 1000;
         Log.e("Mo7",open_hall_status +" "+ free_join_status +" "+ pay_join_status +" "+ first_round_status +" "+ first_rest_status +" "+ second_round_status +" "+ second_rest_status +" "+ close_hall_status);
-        ((SalonActivity) context).hideConfirmationLayout();
+        ((SalonActivity) context).checkOnTime2();
        if (round_status.trim().equals("open")){
            if (open_hall_status){
                open_hall_value(open_hall_value * milli);
