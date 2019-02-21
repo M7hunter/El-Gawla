@@ -204,5 +204,6 @@
     <string name="winner">winner</string>
     <string name="top_ten">top ten</string>
     <string name="product_details">product details</string>
+    <string name="leave">leave</string>
 
 </resources>

@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-    <androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/use_round_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:background="@drawable/bg_rounded_corners_white"
+    android:id="@+id/use_round_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin_medium"
+    android:layout_marginEnd="@dimen/margin_medium"
+    android:layout_marginBottom="@dimen/margin_medium"
+    android:background="@drawable/bg_rounded_corners_white"
     app:cardCornerRadius="@dimen/margin_tiny">
 
     <LinearLayout
@@ -19,7 +17,7 @@
         android:paddingTop="10dp">
 
         <View
-            android:id="@+id/bottom_card_icon2"
+            android:id="@+id/v_golden_card"
             android:layout_width="35dp"
             android:layout_height="47dp"
             android:layout_gravity="center"
@@ -28,7 +26,7 @@
 
         <!-- status -->
         <TextView
-            android:id="@+id/bottom_card_status"
+            android:id="@+id/tv_golden_card_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -38,7 +36,7 @@
             android:textSize="@dimen/text_size_large" />
 
         <Button
-            android:id="@+id/bottom_card_btn"
+            android:id="@+id/btn_use_golden_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_small"
@@ -49,4 +47,4 @@
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />
     </LinearLayout>
-    </androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView>

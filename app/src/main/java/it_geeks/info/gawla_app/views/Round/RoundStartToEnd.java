@@ -62,6 +62,7 @@ public class RoundStartToEnd {
         int milli = 1000;
         Log.e("Mo7",open_hall_status +" "+ free_join_status +" "+ pay_join_status +" "+ first_round_status +" "+ first_rest_status +" "+ second_round_status +" "+ second_rest_status +" "+ close_hall_status);
         ((SalonActivity) context).checkOnTime2();
+        ((SalonActivity) context).notificationCard.setVisibility(View.VISIBLE);
        if (round_status.trim().equals("open")){
            if (open_hall_status){
                open_hall_value(open_hall_value * milli);
@@ -131,7 +132,6 @@ public class RoundStartToEnd {
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
         } else {
             ((SalonActivity) context).tvRoundActivity.setText("round stared");
-            ((SalonActivity) context).cancelConfirmation();
         }
         DoCountDown(value);
     }

@@ -20,6 +20,9 @@ public class Round {
     private int salon_id;
 
     @ColumnInfo
+    private int round_id;
+
+    @ColumnInfo
     private String product_name;
 
     @ColumnInfo
@@ -71,9 +74,10 @@ public class Round {
     public Round() {
     }
 
-    public Round(int product_id, int salon_id, String product_name, String category_name, String category_color, String country_name, String product_commercial_price, String product_product_description, String product_image, List<ProductSubImage> product_images, List<Card> salon_cards, String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time) {
+    public Round(int product_id, int salon_id, int round_id, String product_name, String category_name, String category_color, String country_name, String product_commercial_price, String product_product_description, String product_image, List<ProductSubImage> product_images, List<Card> salon_cards, String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time) {
         this.product_id = product_id;
         this.salon_id = salon_id;
+        this.round_id = round_id;
         this.product_name = product_name;
         this.category_name = category_name;
         this.category_color = category_color;
@@ -83,6 +87,25 @@ public class Round {
         this.product_image = product_image;
         this.product_images = product_images;
         this.salon_cards = salon_cards;
+        this.round_start_time = round_start_time;
+        this.round_end_time = round_end_time;
+        this.first_join_time = first_join_time;
+        this.second_join_time = second_join_time;
+        this.round_date = round_date;
+        this.round_time = round_time;
+        this.rest_time = rest_time;
+    }
+
+    public Round(int product_id, int salon_id, String product_name, String category_name, String category_color, String country_name, String product_commercial_price, String product_product_description, String product_image, List<ProductSubImage> parseSubImages, List<Card> parseSalonCards, String round_start_time, String round_end_time, String first_join_time, String second_join_time, String round_date, String round_time, String rest_time) {
+        this.product_id = product_id;
+        this.salon_id = salon_id;
+        this.product_name = product_name;
+        this.category_name = category_name;
+        this.category_color = category_color;
+        this.country_name = country_name;
+        this.product_commercial_price = product_commercial_price;
+        this.product_product_description = product_product_description;
+        this.product_image = product_image;
         this.round_start_time = round_start_time;
         this.round_end_time = round_end_time;
         this.first_join_time = first_join_time;
@@ -107,6 +130,14 @@ public class Round {
 
     public void setSalon_id(int salon_id) {
         this.salon_id = salon_id;
+    }
+
+    public int getRound_id() {
+        return round_id;
+    }
+
+    public void setRound_id(int round_id) {
+        this.round_id = round_id;
     }
 
     public String getProduct_name() {

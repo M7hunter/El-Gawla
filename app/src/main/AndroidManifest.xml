@@ -63,7 +63,6 @@
         <activity android:name=".views.menuOptions.LanguageActivity" />
         <activity android:name=".views.accountOptions.BuyingProcessesActivity" />
         <activity android:name=".views.accountOptions.AccountDetailsActivity" />
-        <activity android:name=".views.SalonActivitiesActivity" />
         <activity android:name=".views.menuOptions.WebPageActivity" />
         <activity android:name=".views.CardActivity" />
         <activity

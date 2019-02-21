@@ -2,6 +2,8 @@ package it_geeks.info.gawla_app.Repositry.Models;
 
 public class Request {
 
+    private int round_id;
+
     private  int card_id;
 
     private String email;
@@ -97,6 +99,7 @@ public class Request {
 
     public Request(String api_token) { // all countries
         this.api_token = api_token;
+        this.email = api_token;
     }
 
     public Request(int user_id, String api_token, String image) { // User Profile Image Upload
@@ -144,4 +147,11 @@ public class Request {
         this.firebase_token = firebase_token;
     }
 
+    public Request(int userId, String apiToken, int card_id, int salonId, int round_id) {
+        this.user_id = userId;
+        this.api_token = apiToken;
+        this.card_id = card_id;
+        this.salon_id = salonId;
+        this.round_id = round_id;
+    }
 }

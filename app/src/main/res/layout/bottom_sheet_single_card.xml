@@ -102,6 +102,7 @@
 
                     <!-- label -->
                     <TextView
+                        android:id="@+id/tv_price_label_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -126,6 +127,7 @@
 
                 <!-- confirm -->
                 <TextView
+                    android:id="@+id/tv_buy_card_main_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

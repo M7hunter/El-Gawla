@@ -92,14 +92,14 @@ public class RetrofitClient {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
                 if (response.isSuccessful()) { // code == 200
-                    try {
+//                    try {
                     JsonObject mainObj = response.body().getAsJsonObject();
 
                     HandleResponses.handleTrueResponse(mainObj);
 
-                    } catch (NullPointerException e) { // errors of response body 'maybe response body has changed'
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+//                    } catch (NullPointerException e) { // errors of response body 'maybe response body has changed'
+//                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
                 } else { // code != 200
                     try {
                         JsonObject errorObj = new JsonParser().parse(response.errorBody().string()).getAsJsonObject();
