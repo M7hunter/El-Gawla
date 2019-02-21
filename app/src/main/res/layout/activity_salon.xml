@@ -748,7 +748,7 @@
                     android:padding="@dimen/margin_tiny"
                     android:layout_margin="@dimen/margin_tiny"
                     android:src="@drawable/chat_icon"
-                    android:visibility="gone"/>
+                    android:visibility="visible"/>
             </LinearLayout>
 
         </LinearLayout>
