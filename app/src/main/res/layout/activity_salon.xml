@@ -933,6 +933,7 @@
                 android:id="@+id/join_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_tiny"
                 android:visibility="gone" />
 
