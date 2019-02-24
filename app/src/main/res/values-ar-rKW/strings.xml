@@ -130,7 +130,7 @@
     <string name="edit">تعديل</string>
     <string name="disconnect">الغاء الاتصال</string>
     <string name="connect_with">"متصل بأستخدام "</string>
-    <string name="use">أستخدام</string>
+    <string name="use">إستخدام</string>
     <string name="goldenCard">هاذا الكارت يستخدم لدخول الجوله .</string>
     <string name="privacy_text">إنشاء حساب بائع لدولة مختارة:
  حسب التعليمات الواردة في الموقع، يتعين عليك إنشاء
@@ -199,10 +199,12 @@
     <string name="top_ten">أعلى عشرة</string>
     <string name="chat_room">غرفة المحادثة</string>
     <string name="write_message">أرسال رسالة</string>
+    <string name="product_details">تفاصيل المنتج</string>
     <string name="forget_password_check_maill">تم ارسال بريد لأسترداد كلمة السر</string>
     <string name="updating_image">جاري رفع صورة المستخدم</string>
     <string name="winner">الفائز</string>
     <string name="image_updared">تم رفع الصورة</string>
     <string name="empty_hint">حقل فارغ</string>
+    <string name="leave">مغادرة</string>
 
 </resources>

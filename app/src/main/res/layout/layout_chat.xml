@@ -47,57 +47,6 @@
             android:layout_height="1dp"
             android:background="@color/browser_actions_divider_color" />
 
-        <!-- cards recycler -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chat_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/browser_actions_divider_color" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_small"
-            android:background="@drawable/edittext_shape_add"
-            android:gravity="bottom"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/et_chat_message"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="@string/write_message"
-                android:maxLines="2"
-                android:padding="8dp" />
-
-            <ImageView
-                android:id="@+id/chat_send_message"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:padding="8dp"
-                android:src="@drawable/ic_send_message" />
-        </LinearLayout>
-
     </LinearLayout>
-
-    <!-- close btn -->
-    <ImageView
-        android:id="@+id/close_bottom_sheet_activate_chat"
-        android:layout_width="@dimen/image_cards_round_updates"
-        android:layout_height="@dimen/image_cards_round_updates"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/margin_xxxlarge"
-        android:background="@drawable/bg_circle_blue_270"
-        android:padding="@dimen/margin_large"
-        android:src="@drawable/ic_close"
-        android:tint="@android:color/white" />
 
 </RelativeLayout>

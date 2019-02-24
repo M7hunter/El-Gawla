@@ -66,6 +66,12 @@ public class Card implements Serializable {
         this.card_cost = card_cost;
     }
 
+    @Ignore
+    public Card(int card_id, int count) {
+        this.card_id = card_id;
+        this.count = count;
+    }
+
     public int getId() {
         return id;
     }

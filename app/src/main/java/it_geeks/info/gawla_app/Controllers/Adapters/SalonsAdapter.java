@@ -86,6 +86,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         // send round's data to round page
                         i.putExtra("product_id", round.getProduct_id());
                         i.putExtra("salon_id", round.getSalon_id());
+                        i.putExtra("round_id", round.getRound_id());
                         i.putExtra("product_name", round.getProduct_name());
                         i.putExtra("category_name", round.getCategory_name());
                         i.putExtra("category_color", round.getCategory_color());
@@ -102,8 +103,8 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         i.putExtra("rest_time", round.getRest_time());
                         i.putExtra("product_images", (Serializable) round.getProduct_images());
                         i.putExtra("salon_cards", (Serializable) round.getSalon_cards());
-                        i.putExtra("round_status", (Serializable) round.isStatus());
-                        i.putExtra("round_message", (Serializable) round.getMessage());
+                        i.putExtra("round_status", round.isStatus());
+                        i.putExtra("round_message", round.getMessage());
 
                         // start with transition
                         Pair[] pairs = new Pair[2];
@@ -120,7 +121,6 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                 });
             } catch (Exception e) {
             }
-
 
 //            Common.Instance(context).setAnimation(viewHolder.itemView);
         }

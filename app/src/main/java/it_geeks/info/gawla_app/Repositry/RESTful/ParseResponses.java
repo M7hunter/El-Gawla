@@ -3,8 +3,6 @@ package it_geeks.info.gawla_app.Repositry.RESTful;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +32,7 @@ public class ParseResponses {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
             int product_id = roundObj.get("product_id").getAsInt();
             int salon_id = roundObj.get("salon_id").getAsInt();
+            int round_id = roundObj.get("round_id").getAsInt();
             String product_name = roundObj.get("product_name").getAsString();
             String category_name = roundObj.get("category_name").getAsString();
             String category_color = roundObj.get("category_color").getAsString();
@@ -50,6 +49,7 @@ public class ParseResponses {
             rounds.add(
                     new Round(product_id,
                             salon_id,
+                            round_id,
                             product_name,
                             category_name,
                             category_color,
@@ -78,6 +78,7 @@ public class ParseResponses {
 
         int product_id = roundObj.get("product_id").getAsInt();
         int salon_id = roundObj.get("salon_id").getAsInt();
+        int round_id = roundObj.get("round_id").getAsInt();
         String product_name = roundObj.get("product_name").getAsString();
         String category_name = roundObj.get("category_name").getAsString();
         String category_color = roundObj.get("category_color").getAsString();
@@ -85,12 +86,14 @@ public class ParseResponses {
         String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
         String product_product_description = roundObj.get("product_description").getAsString();
         String product_image = roundObj.get("product_image").getAsString();
+        String round_date = roundObj.get("round_date").getAsString();
         JsonObject salon_status = roundObj.get("salon_status").getAsJsonObject();
             boolean status = salon_status.get("status").getAsBoolean();
             String message = salon_status.get("message").getAsString();
 
-       return new Round(product_id,
+        return new Round(product_id,
                 salon_id,
+                round_id,
                 product_name,
                 category_name,
                 category_color,
@@ -104,6 +107,7 @@ public class ParseResponses {
                 "",
                 "",
                 "",
+                round_date,
                 "",
                 "",
                 "",
