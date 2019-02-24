@@ -57,7 +57,7 @@ dependencies {
 
     // socket io
     implementation 'io.socket:socket.io-client:1.0.0'
-    //lottie
+    // lottie
     implementation 'com.airbnb.android:lottie:3.0.0-beta2'
 }
 apply plugin: 'com.google.gms.google-services'
