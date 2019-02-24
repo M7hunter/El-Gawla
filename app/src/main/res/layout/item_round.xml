@@ -100,6 +100,12 @@
                     android:orientation="horizontal">
 
                     <!-- time label -->
+                    <ImageView
+                        android:id="@+id/round_status"
+                        android:layout_width="@dimen/margin_medium"
+                        android:layout_height="@dimen/margin_medium"
+                        android:layout_margin="@dimen/margin_tiny"
+                        android:background="@drawable/round_off" />
 
                     <TextView
                         android:id="@+id/round_start_time"
@@ -112,12 +118,7 @@
                         android:textSize="@dimen/text_size_large"
                         android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/round_status"
-                        android:layout_width="@dimen/margin_medium"
-                        android:layout_height="@dimen/margin_medium"
-                        android:layout_margin="@dimen/margin_tiny"
-                        android:background="@drawable/round_off" />
+
 
 
 
