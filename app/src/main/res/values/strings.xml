@@ -208,5 +208,23 @@
 
     <string name="product_details">product details</string>
     <string name="leave">leave</string>
+    <string name="more_gawla_main_page">Learn more about the tour</string>
+    <string name="ads">Advertising space for special tours</string>
+    <string name="you_are_joined">You are joined</string>
+    <string name="leave_salon">Are you sure to leave this Salon ?</string>
+    <string name="logout_me">Logout Me</string>
+    <string name="open_hall">Time To Free Join</string>
+    <string name="wait_round_to_start">wait round to start</string>
+    <string name="free_join">Free Join</string>
+    <string name="you_can_join">You Can Join Now</string>
+    <string name="card_join_time">Card Join Time</string>
+    <string name="can_use_golden_card">You can use golden card to join now</string>
+    <string name="second_round_time">Second Round time</string>
+    <string name="second_rest_time">Second Rest time</string>
+    <string name="rest_time">Rest Time</string>
+    <string name="round_closed">Round Closed</string>
+    <string name="first_round_time">First Round Time</string>
+    <string name="round_started_add_offer">round stared add offers to win</string>
+    <string name="round_started">round stared</string>
 
 </resources>

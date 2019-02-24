@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 
+import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.RoundRealTimeModel;
 import it_geeks.info.gawla_app.Repositry.Models.RoundStartToEndModel;
 import it_geeks.info.gawla_app.views.SalonActivity;
@@ -60,8 +61,7 @@ public class RoundStartToEnd {
 
     public void start() {
         int milli = 1000;
-        Log.e("Mo7",open_hall_status +" "+ free_join_status +" "+ pay_join_status +" "+ first_round_status +" "+ first_rest_status +" "+ second_round_status +" "+ second_rest_status +" "+ close_hall_status);
-        ((SalonActivity) context).checkOnTime2();
+        ((SalonActivity) context).checkOnTime();
         ((SalonActivity) context).notificationCard.setVisibility(View.VISIBLE);
        if (round_status.trim().equals("open")){
            if (open_hall_status){
@@ -94,18 +94,18 @@ public class RoundStartToEnd {
 
     // before round start and open join
     private void open_hall_value(long value) {
-        ((SalonActivity)context).tvSalonTime.setText("Time to To Free Join");
-        ((SalonActivity) context).tvRoundActivity.setText("wait round to start");
+        ((SalonActivity)context).tvSalonTime.setText(context.getResources().getString(R.string.open_hall));
+        ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.wait_round_to_start));
         DoCountDown(value);
     }
 
     // join Round Opened
     private void free_join_status(long value) {
-        ((SalonActivity)context).tvSalonTime.setText("Free Join");
+        ((SalonActivity)context).tvSalonTime.setText(context.getResources().getString(R.string.free_join));
         if (joinStatus == 2) {
-            ((SalonActivity) context).tvRoundActivity.setText(" You are joined");
+            ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.you_are_joined));
         } else {
-            ((SalonActivity) context).tvRoundActivity.setText("You can Join Now");
+            ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.you_can_join));
             ((SalonActivity) context).btnJoinRound.setVisibility(View.VISIBLE);
         }
         DoCountDown(value);
@@ -113,12 +113,12 @@ public class RoundStartToEnd {
 
     // join closed , use Golden Card
     private void pay_join_value(long value) {
-        ((SalonActivity)context).tvSalonTime.setText("Card Join Time");
+        ((SalonActivity)context).tvSalonTime.setText(context.getResources().getString(R.string.card_join_time));
         if (joinStatus == 2) {
-            ((SalonActivity) context).tvRoundActivity.setText("You are joined");
+            ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.you_are_joined));
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
         } else {
-            ((SalonActivity) context).tvRoundActivity.setText("You can use golden card to join now");
+            ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.can_use_golden_card));
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
         }
         DoCountDown(value);
@@ -126,38 +126,40 @@ public class RoundStartToEnd {
 
     // add deal to product ( Round Time )
     private void first_round_value(long value) {
-        ((SalonActivity)context).tvSalonTime.setText("First Round Time");
+        ((SalonActivity)context).tvSalonTime.setText(context.getResources().getString(R.string.first_round_time));
+        ((SalonActivity)context).useRoundCard.setVisibility(View.GONE);
         if (joinStatus == 2) {
-            ((SalonActivity) context).tvRoundActivity.setText("round stared add offers to win");
+            ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.round_started_add_offer));
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
         } else {
-            ((SalonActivity) context).tvRoundActivity.setText("round stared");
+            ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.round_started));
         }
         DoCountDown(value);
     }
 
     //Rest show the winner
     private void first_rest_value(long value) {
-        ((SalonActivity)context).tvSalonTime.setText("Rest Time");
-        ((SalonActivity) context).tvRoundActivity.setText("rest time");
+        ((SalonActivity)context).tvSalonTime.setText(context.getResources().getString(R.string.rest_time));
+        ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.rest_time));
         DoCountDown(value);
     }
     // Second Round when user restart the round
     private void seconed_round_value(long value) {
-        ((SalonActivity)context).tvSalonTime.setText("Second Round time");
-        ((SalonActivity) context).tvRoundActivity.setText("Second Round time");
+        ((SalonActivity)context).tvSalonTime.setText(context.getResources().getString(R.string.second_round_time));
+        ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.second_round_time));
         DoCountDown(value);
     }
     // second Rest
     private void seconed_rest_value(long value) {
-        ((SalonActivity)context).tvSalonTime.setText("Second Rest time");
-        ((SalonActivity) context).tvRoundActivity.setText("Second rest time");
+        ((SalonActivity)context).tvSalonTime.setText(context.getResources().getString(R.string.second_rest_time));
+        ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.second_rest_time));
         DoCountDown(value);
     }
 
     private void close_hall_value() {
-        ((SalonActivity)context).tvSalonTime.setText("Round Closed");
-        ((SalonActivity) context).tvRoundActivity.setText("Round Closed");
+        ((SalonActivity)context).tvSalonTime.setText(context.getResources().getString(R.string.round_closed));
+        ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.round_closed));
+        ((SalonActivity) context).notificationCard.setVisibility(View.GONE);
     }
 
             ///////////////////////////////////////////////////////

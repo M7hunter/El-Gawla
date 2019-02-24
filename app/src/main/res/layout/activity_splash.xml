@@ -18,20 +18,19 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="194dp"
-                android:layout_height="69.4pt"
+                android:layout_width="@dimen/image_height_round"
+                android:layout_height="60.4pt"
                 android:layout_gravity="center"
-                android:layout_marginTop="70dp"
                 app:srcCompat="@drawable/gawlalogo"
                 tools:layout_editor_absoluteX="118dp"
                 tools:layout_editor_absoluteY="95dp" />
 
             <TextView
-                android:layout_width="367dp"
+                android:layout_width="@dimen/image_width_round"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:padding="20dp"
+                android:padding="10dp"
                 android:text="@string/tit1e"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_large"

@@ -60,7 +60,11 @@ public class Common {
     // change app lang
     public void setLang(String lang) {
 
-        new WebView(context).destroy();
+        try {
+            new WebView(context).destroy();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Lang = lang;
         Locale locale = new Locale(Lang);

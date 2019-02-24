@@ -64,7 +64,7 @@ public class NotificationActivity extends AppCompatActivity {
                         GawlaDataBse.getGawlaDatabase(NotificationActivity.this).notificationDao().updateStatusNotification(false);
                         initNotiRecycler();
                         notificationLoading.setVisibility(View.GONE);
-                        if (NotificationList.size() == 0) {
+                        if (NotificationList.size() < 1) {
                             notificationLoading.setVisibility(View.VISIBLE);
                             notificationLoading.setText("no notifications");
                         }
