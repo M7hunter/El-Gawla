@@ -90,7 +90,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     int product_id, salon_id;
     String apiToken;
     String userName;
-    int userId;
+    public int userId;
     private List<ProductSubImage> subImageList = new ArrayList<>();
     public List<Card> cardList = new ArrayList<>();
     private List<ChatModel> chatList = new ArrayList<>();
@@ -1021,6 +1021,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             , userOffer), new HandleResponses() {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
+                            //Save user Offer
+                            SharedPrefManager.getInstance(SalonActivity.this).saveUserOffer(String.valueOf(salon_id + "" + userId), userOffer);
                             tvRoundActivity.setText(mainObject.get("message").getAsString());
                             mSocket.emit("addOffer", userName);
                         }
@@ -1144,6 +1146,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         if (roundRealTimeModel.isFirst_round_status() && roundRealTimeModel.isUserJoin() || roundRealTimeModel.isSeconed_round_status() && roundRealTimeModel.isUserJoin()) {
             addOfferLayout.setVisibility(View.VISIBLE);
+            //get user Offer
+            etAddOffer.setText(String.valueOf(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(salon_id + "" + userId)));
         } else {
             addOfferLayout.setVisibility(View.GONE);
         }
@@ -1159,20 +1163,26 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         }
 
         if (roundRealTimeModel.isFirst_rest_status()) {
+            // clear user offer
+            SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon_id + "" + userId);
             // on first rest display top ten
             tvTopTenTab.setVisibility(View.VISIBLE);
             selectTopTenTab();
             getTopTen();
 
-        }else if (roundRealTimeModel.isSeconed_rest_status()){
+        } else if (roundRealTimeModel.isSeconed_rest_status()) {
+            // clear user offer
+            SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon_id + "" + userId);
             // on second rest display winner
-                    tvTopTenTab.setVisibility(View.VISIBLE);
-                    selectTopTenTab();
-                    getTopTen();
-                    getWinner();
-        } else if (roundRealTimeModel.isClose_hall_status()) {
+            tvTopTenTab.setVisibility(View.VISIBLE);
+            selectTopTenTab();
+            getTopTen();
             getWinner();
-        }else {
+        } else if (roundRealTimeModel.isClose_hall_status()) {
+            // clear user offer
+            SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon_id + "" + userId);
+            getWinner();
+        } else {
             tvTopTenTab.setVisibility(View.GONE);
         }
     }
