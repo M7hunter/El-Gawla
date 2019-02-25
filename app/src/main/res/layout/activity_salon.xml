@@ -748,7 +748,7 @@
                                 android:src="@drawable/ic_account" />
 
                             <!-- notification text -->
-                            <TextView
+                             <TextView
                                 android:id="@+id/round_notification_text"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
