@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.Repositry.Models.Data;
 import it_geeks.info.gawla_app.Repositry.Models.Notifications;
@@ -44,6 +45,7 @@ import it_geeks.info.gawla_app.views.NotificationActivity;
 
 public class MainFragment extends Fragment {
 
+    private SwipeRefreshLayout refreshLayout;
     private RecyclerView recentSalonsRecycler;
     private RecyclerView winnersNewsRecycler;
     private SalonsAdapter recentSalonsPagedAdapter;
@@ -80,7 +82,9 @@ public class MainFragment extends Fragment {
     }
 
     private void initViews(View view) {
+        refreshLayout = view.findViewById(R.id.main_layout_refresh);
         recentSalonsRecycler = view.findViewById(R.id.recent_salons_recycler);
+        winnersNewsRecycler = view.findViewById(R.id.winners_news_recycler);
         recentSalonsProgress = view.findViewById(R.id.recent_salons_progress);
         winnersNewsProgress = view.findViewById(R.id.winners_news_progress);
         winnersHeader = view.findViewById(R.id.winners_header);
@@ -108,7 +112,15 @@ public class MainFragment extends Fragment {
         tvEmptyHint.setText(transHolder.salons_empty_hint);
     }
 
-    private void handleEvents(View view) {
+    private void handleEvents(final View view) {
+        // refresh page
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                checkConnection(view);
+            }
+        });
+
         // open all salons page
         btnRecentSalonsSeeAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,20 +163,20 @@ public class MainFragment extends Fragment {
             noConnectionLayout.setVisibility(View.VISIBLE);
             recentSalonsProgress.setVisibility(View.GONE);
             winnersNewsProgress.setVisibility(View.GONE);
+            refreshLayout.setRefreshing(false);
         }
     }
 
     private void getFirstSalonsFromServer(final View view) {
         RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-                new Data("getAllSalons", page), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
+                new Data("getAllSalons", 1), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
+                        roundList.clear();
                         roundList.addAll(ParseResponses.parseRounds(mainObject));
                         initSalonsRecycler();
 
                         last_page = mainObject.get("last_page").getAsInt();
-
-                        page = page + 1;
                     }
 
                     @Override
@@ -176,6 +188,7 @@ public class MainFragment extends Fragment {
                     public void handleEmptyResponse() {
                         initSalonsEmptyView(view, roundList);
                         recentSalonsProgress.setVisibility(View.GONE);
+                        refreshLayout.setRefreshing(false);
                     }
 
                     @Override
@@ -183,6 +196,7 @@ public class MainFragment extends Fragment {
                         initSalonsEmptyView(view, roundList);
                         recentSalonsProgress.setVisibility(View.GONE);
                         Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+                        refreshLayout.setRefreshing(false);
                     }
                 });
     }
@@ -294,7 +308,6 @@ public class MainFragment extends Fragment {
 //    }
 //
 //    private void initWinnersRecycler(View view) {
-//        winnersNewsRecycler = view.findViewById(R.id.winners_news_recycler);
 //        winnersNewsRecycler.setHasFixedSize(true);
 //        winnersNewsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VISIBLE, false));
 //        winnersNewsAdapter = new WinnersNewsAdapter(getActivity(), winnerNewsList);
@@ -309,7 +322,7 @@ public class MainFragment extends Fragment {
         if (winnerNewsList == null || winnerNewsList.size() == 0) {
             winnersHeader.setVisibility(View.GONE);
             winnersNewsProgress.setVisibility(View.GONE);
-//            winnersNewsRecycler.setVisibility(View.GONE);
+            winnersNewsRecycler.setVisibility(View.GONE);
         }
     }
 }

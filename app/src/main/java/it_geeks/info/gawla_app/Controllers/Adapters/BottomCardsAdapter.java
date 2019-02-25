@@ -31,14 +31,16 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
 
     private Context context;
     private List<Card> cardList;
-    private List<Card> countList;
+    private List<Card> userCards;
     private int salonId;
+    private int round_id;
 
-    public BottomCardsAdapter(Context context, List<Card> cardList, List<Card> countList, int salon_id) {
+    public BottomCardsAdapter(Context context, List<Card> cardList, List<Card> userCards, int salon_id, int round_id) {
         this.context = context;
         this.cardList = cardList;
-        this.countList = countList;
+        this.userCards = userCards;
         this.salonId = salon_id;
+        this.round_id = round_id;
     }
 
     @NonNull
@@ -54,19 +56,12 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
         viewHolder.cardDescription.setText(card.getCard_details());
         Common.Instance(context).changeDrawableViewColor(viewHolder.cardIcon, card.getCard_color());
 
-        for (int j = 0; j < countList.size(); j++) {
-            if (card.getCard_id() == countList.get(j).getCard_id()) {
-                card.setCount(countList.get(j).getCount());
-
-            }
-
-            if (card.getCount() > 0) { // use card state
-                viewHolder.btn.setBackgroundColor(context.getResources().getColor(R.color.greenBlue));
-                viewHolder.btn.setText(context.getString(R.string.use));
-            } else { // buy card  state
-                viewHolder.btn.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
-                viewHolder.btn.setText(context.getString(R.string.buy_card));
-            }
+        if (card.getCount() > 0) { // use card state
+            viewHolder.btn.setBackgroundColor(context.getResources().getColor(R.color.greenBlue));
+            viewHolder.btn.setText(context.getString(R.string.use));
+        } else { // buy card  state
+            viewHolder.btn.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+            viewHolder.btn.setText(context.getString(R.string.buy_card));
         }
 
         //open single card sheet
@@ -120,9 +115,8 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
             public void onClick(View v) {
 
                 if (card.getCount() > 0) {
-                    useCard(card);
+                    useCard(card, btnConfirmBuying, pbBuyCard);
                 } else {
-                    hideConfirmationBtn(btnConfirmBuying, pbBuyCard);
                     buyCard(card, btnConfirmBuying, pbBuyCard);
                 }
             }
@@ -149,14 +143,15 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
         return mBottomSheetDialogSingleCard;
     }
 
-    private void useCard(final Card card) {
+    private void useCard(final Card card, final CardView btnConfirmBuying, final ProgressBar pbBuyCard) {
+        hideConfirmationBtn(btnConfirmBuying, pbBuyCard);
         int userId = SharedPrefManager.getInstance(context).getUser().getUser_id();
         String apiToken = SharedPrefManager.getInstance(context).getUser().getApi_token();
-        RetrofitClient.getInstance(context).executeConnectionToServer(context, "useCard", new Request(userId, apiToken, card.getCard_id(), salonId, 1), new HandleResponses() {
+        RetrofitClient.getInstance(context).executeConnectionToServer(context, "useCard", new Request(userId, apiToken, card.getCard_id(), salonId, round_id), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                ((SalonActivity) context).recreate();
+                ((SalonActivity) context).initBottomSheetActivateCards();
             }
 
             @Override
@@ -166,22 +161,20 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
 
             @Override
             public void handleEmptyResponse() {
-
+                displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
             }
 
             @Override
             public void handleConnectionErrors(String errorMessage) {
-
+                displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
             }
         });
     }
 
     private void buyCard(final Card card, final CardView btnConfirmBuying, final ProgressBar pbBuyCard) {
+        hideConfirmationBtn(btnConfirmBuying, pbBuyCard);
         int user_id = SharedPrefManager.getInstance(context).getUser().getUser_id();
         String api_token = SharedPrefManager.getInstance(context).getUser().getApi_token();
-
-        Log.d("M7", "bottom card id : " + card.getCard_id());
-
         RetrofitClient.getInstance(context).executeConnectionToServer(context, "addCardsToUser", new Request(user_id, api_token, card.getCard_id()), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
@@ -202,7 +195,6 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
             @Override
             public void handleConnectionErrors(String errorMessage) {
                 displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
-                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
