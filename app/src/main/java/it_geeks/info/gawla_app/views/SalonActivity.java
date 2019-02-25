@@ -89,7 +89,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     int product_id, salon_id;
     String apiToken;
     String userName;
-    int userId;
+    public int userId;
     private List<ProductSubImage> subImageList = new ArrayList<>();
     public List<Card> cardList = new ArrayList<>();
     private List<ChatModel> chatList = new ArrayList<>();
@@ -846,35 +846,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        checkOnTime();
+
     }
 
-    private void checkOnTime() {
-        if (!timeState.equals("open_hall_status") && !timeState.equals("free_join_status") && !timeState.equals("pay_join_status") && !timeState.equals("close_hall_status")) {
-            switch (timeState) {
-                case "first_rest_status":  // on first rest display top ten
-                    tvTopTenTab.setVisibility(View.VISIBLE);
-                    selectTopTenTab();
-                    getTopTen();
-
-                    break;
-                case "second_rest_status": // on second rest display winner
-                    tvTopTenTab.setVisibility(View.VISIBLE);
-                    selectTopTenTab();
-                    getTopTen();
-
-                    getWinner();
-
-                    break;
-                default:
-                    tvTopTenTab.setVisibility(View.GONE);
-                    break;
-            }
-
-        } else if (timeState.equals("close_hall_status")) {
-            getWinner();
-        }
-    }
 
     private void getWinner() {
         displayLoading();
@@ -938,9 +912,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void userOutRound() {
         AlertDialog.Builder alertOut = new AlertDialog.Builder(SalonActivity.this);
-        alertOut.setMessage("Are you sure to leave this Salon ?.");
-        alertOut.setPositiveButton("Logout Me", outRound);
-        alertOut.setNegativeButton("Cancel", null);
+        alertOut.setMessage(getString(R.string.leave_salon));
+        alertOut.setPositiveButton(getString(R.string.logout_me), outRound);
+        alertOut.setNegativeButton(getString(R.string.cancel), null);
         alertOut.setCancelable(false);
         alertOut.create();
         alertOut.show();
@@ -1051,6 +1025,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             , userOffer), new HandleResponses() {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
+                            //Save user Offer
+                            SharedPrefManager.getInstance(SalonActivity.this).saveUserOffer(String.valueOf(salon_id + "" + userId), userOffer);
                             tvRoundActivity.setText(mainObject.get("message").getAsString());
                             mSocket.emit("addOffer", userName);
                         }
@@ -1105,7 +1081,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         break;
                     case 2:
                         hideConfirmationLayout();
-                        tvRoundActivity.setText("You are joined .");
+                        tvRoundActivity.setText(getString(R.string.you_are_joined));
                         btn_leave_round.setVisibility(View.VISIBLE);
                         break;
                     default:
@@ -1167,13 +1143,17 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         joinAlert.dismiss();
     }
 
-    public void checkOnTime2() {
+    public void checkOnTime() {
         if (roundRealTimeModel.isOpen_hall_status() || roundRealTimeModel.isClose_hall_status()) {
             notificationCard.setVisibility(View.GONE);
         }
 
         if (roundRealTimeModel.isFirst_round_status() && roundRealTimeModel.isUserJoin() || roundRealTimeModel.isSeconed_round_status() && roundRealTimeModel.isUserJoin()) {
             addOfferLayout.setVisibility(View.VISIBLE);
+            //get user Offer
+            etAddOffer.setText(String.valueOf(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(salon_id + "" + userId)));
+        } else {
+            addOfferLayout.setVisibility(View.GONE);
         }
 
         if (roundRealTimeModel.isFree_join_status() && roundRealTimeModel.isUserJoin() || roundRealTimeModel.isPay_join_status() && roundRealTimeModel.isUserJoin()) {
@@ -1185,7 +1165,32 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         if (roundRealTimeModel.isPay_join_status() && !roundRealTimeModel.isUserJoin()) {
             useRoundCard.setVisibility(View.VISIBLE);
         }
+
+        if (roundRealTimeModel.isFirst_rest_status()) {
+            // clear user offer
+            SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon_id + "" + userId);
+            // on first rest display top ten
+            tvTopTenTab.setVisibility(View.VISIBLE);
+            selectTopTenTab();
+            getTopTen();
+
+        } else if (roundRealTimeModel.isSeconed_rest_status()) {
+            // clear user offer
+            SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon_id + "" + userId);
+            // on second rest display winner
+            tvTopTenTab.setVisibility(View.VISIBLE);
+            selectTopTenTab();
+            getTopTen();
+            getWinner();
+        } else if (roundRealTimeModel.isClose_hall_status()) {
+            // clear user offer
+            SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon_id + "" + userId);
+            getWinner();
+        } else {
+            tvTopTenTab.setVisibility(View.GONE);
+        }
     }
+
 
     private void initCardsIcon() {
         RelativeLayout cardsIconContainer = findViewById(R.id.cards_bag_btn_container);

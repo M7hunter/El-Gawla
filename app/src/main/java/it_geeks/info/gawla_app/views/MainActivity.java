@@ -47,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Common.Instance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
+        try {
+            Common.Instance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
+        } catch (Exception e) { e.printStackTrace(); }
+
         super.onCreate(savedInstanceState);
         Common.Instance(this).changeStatusBarColor("#f4f7fa", this);
         setContentView(R.layout.activity_main);
@@ -75,11 +78,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateNotificationStatus() {
-        Log.w("Mo7",FirebaseInstanceId.getInstance().getToken());
         boolean notificationStatus = SharedPrefManager.getInstance(this).getNewNotification();
-        if (notificationStatus){
+        if (notificationStatus) {
             GawlaDataBse.getGawlaDatabase(this).notificationDao().updateStatusNotification(true);
-        }else{
+        } else {
             GawlaDataBse.getGawlaDatabase(this).notificationDao().updateStatusNotification(false);
         }
     }

@@ -59,7 +59,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="تعرف علي المزيد من تطبيق الجولة"
+                            android:text="@string/more_gawla_main_page"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/text_size_large"
                             android:textStyle="bold" />
@@ -69,9 +69,9 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_small"
                             android:gravity="center"
-                            android:text="مساحة اعلانات عن الجولات المميزة"
+                            android:text="@string/ads"
                             android:textColor="@android:color/white"
-                            android:textSize="@dimen/text_size_tiny" />
+                            android:textSize="@dimen/text_size_small" />
 
                     </LinearLayout>
 

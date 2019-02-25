@@ -206,5 +206,22 @@
     <string name="image_updared">تم رفع الصورة</string>
     <string name="empty_hint">حقل فارغ</string>
     <string name="leave">مغادرة</string>
-
+    <string name="more_gawla_main_page">تعرف علي المزيد من تطبيق الجولة</string>
+    <string name="ads">مساحة اعلانات عن الجولات المميزة</string>
+    <string name="you_are_joined">تم إشتراكك</string>
+    <string name="leave_salon">هل تريد حقا مغادرة الصاله ؟</string>
+    <string name="logout_me">أخرجني</string>
+    <string name="open_hall">الوقت حتي الانضمام المجاني</string>
+    <string name="wait_round_to_start">انتظر حتي تبداء الجولة</string>
+    <string name="free_join">دخول مجاني</string>
+    <string name="you_can_join">يمكنك الاشتراك الان</string>
+    <string name="card_join_time">وقت الدخول بالكارت</string>
+    <string name="can_use_golden_card">يمكنك ا</string>
+    <string name="round_closed">الجولة مغلقة</string>
+    <string name="round_started">الجولة بداءت</string>
+    <string name="round_started_add_offer">الجولة بداءت اضف عرضك للفوز</string>
+    <string name="second_rest_time">الوقت المستقطع الثاني</string>
+    <string name="second_round_time">الجولة الثانية</string>
+    <string name="rest_time">وقت مستقطع</string>
+    <string name="first_round_time">الجولة الاولي</string>
 </resources>

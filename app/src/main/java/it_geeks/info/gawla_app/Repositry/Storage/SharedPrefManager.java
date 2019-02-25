@@ -204,4 +204,23 @@ public class SharedPrefManager {
         context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE).edit().clear().apply();
     }
 
+    // Save User Offer
+    public void saveUserOffer(String USER_OFFER_KEY ,int offerValue) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(USER_OFFER_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+
+        editor.putInt("user_offer", offerValue);
+        editor.apply();
+    }
+
+    public int getUserOffer(String USER_OFFER_KEY) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(USER_OFFER_KEY, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("user_offer",0);
+    }
+
+    public void clearUserOffer(String USER_OFFER_KEY) {
+        context.getSharedPreferences(USER_OFFER_KEY, Context.MODE_PRIVATE).edit().clear().apply();
+    }
+
 }
