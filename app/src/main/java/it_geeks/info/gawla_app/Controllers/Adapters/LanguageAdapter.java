@@ -90,7 +90,9 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
                 .setPositiveButton(context.getResources().getString(R.string.continue_), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         Common.Instance(context).setLang(sLang(lang));
+
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {

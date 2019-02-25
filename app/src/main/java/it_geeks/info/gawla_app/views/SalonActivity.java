@@ -28,7 +28,6 @@ import android.widget.VideoView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
@@ -95,7 +94,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     public List<Card> cardList = new ArrayList<>();
     private List<ChatModel> chatList = new ArrayList<>();
     private List<Activity> activityList = new ArrayList<>();
-    private List<Card> countList = new ArrayList<>();
+    private List<Card> userCards = new ArrayList<>();
     private List<TopTen> topTenList = new ArrayList<>();
     RecyclerView chatRecycler, activityRecycler;
 
@@ -375,6 +374,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 Toast.makeText(SalonActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
 
                 topTenList.addAll(ParseResponses.parseTopTen(mainObject));
+
                 initTopTenRecycler();
             }
 
@@ -446,7 +446,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void getSalonActivityData() {
         displayLoading();
-        RetrofitClient.getInstance(this).executeConnectionToServer(this, "getSalonActivity", new Request(userId, apiToken, salon_id), new HandleResponses() {
+        RetrofitClient.getInstance(this).executeConnectionToServer(this, "getAllActivity", new Request(userId, apiToken, salon_id), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 activityList.addAll(ParseResponses.parseSalonActivity(mainObject));
@@ -697,7 +697,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        displayRoundActivity(args[0].toString());
+                        if (args[0] != null)
+                            displayRoundActivity(args[0].toString());
                     }
                 });
             }
@@ -707,7 +708,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        displayRoundActivity(args[0].toString());
+                        if (args[0] != null)
+                            displayRoundActivity(args[0].toString());
                     }
                 });
             }
@@ -717,7 +719,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        displayRoundActivity(args[0].toString());
+                        if (args[0] != null)
+                            displayRoundActivity(args[0].toString());
                     }
                 });
             }
@@ -727,7 +730,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        displayRoundActivity(args[0].toString());
+                        if (args[0] != null)
+                            displayRoundActivity(args[0].toString());
                     }
                 });
             }
@@ -743,13 +747,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         }
     }
 
-    private void displayLoading() {
+    public void displayLoading() {
         loadingCard.setVisibility(View.VISIBLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    private void hideLoading() {
+    public void hideLoading() {
         loadingCard.setVisibility(View.GONE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
@@ -1190,8 +1194,58 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
     }
 
+    private void getUserCardsForSalon() {
+        int userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
+        String apiToken = SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token();
+        RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this, "getUserCardsBySalonId", new Request(userId, apiToken, salon_id), new HandleResponses() {
+            @Override
+            public void handleTrueResponse(JsonObject mainObject) {
+                userCards.clear();
+                userCards.addAll(ParseResponses.parseUserCardsBySalon(mainObject));
+
+                int allCardsCount = 0;
+                for (Card userCard : userCards) {
+                    if (cardList != null) {
+                        for (Card salonCard : cardList) {
+                            if (userCard.getCard_id() == salonCard.getCard_id()) {
+                                salonCard.setCount(userCard.getCount());
+                            }
+                        }
+                    }
+
+                    allCardsCount = allCardsCount + userCard.getCount();
+                }
+
+                if (userCards.size() > 0) {
+                    tvCardsCount.setBackground(getResources().getDrawable(R.drawable.bg_circle_green));
+                    tvCardsCount.setText(String.valueOf(allCardsCount));
+
+                } else {
+                    tvCardsCount.setBackground(getResources().getDrawable(R.drawable.bg_circle_red));
+                    tvCardsCount.setText("0");
+                }
+
+            }
+
+            @Override
+            public void handleFalseResponse(JsonObject errorObject) {
+
+            }
+
+            @Override
+            public void handleEmptyResponse() {
+
+            }
+
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
+
+            }
+        });
+    }
+
     public void initBottomSheetActivateCards() {
-        getUserCardsCount();
+        getUserCardsForSalon();
 
         mBottomSheetDialogActivateCard = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
         View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_active_cards, null);
@@ -1201,7 +1255,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             RecyclerView cardsRecycler = sheetView.findViewById(R.id.salon_cards_bottom_recycler);
             cardsRecycler.setHasFixedSize(true);
             cardsRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
-            cardsRecycler.setAdapter(new BottomCardsAdapter(SalonActivity.this, cardList, countList, salon_id));
+            cardsRecycler.setAdapter(new BottomCardsAdapter(SalonActivity.this, cardList, userCards, salon_id, round.getRound_id()));
         }
 
         //close bottom sheet
@@ -1222,59 +1276,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         Common.Instance(SalonActivity.this).setBottomSheetHeight(sheetView);
         mBottomSheetDialogActivateCard.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
-    }
-
-    private void getUserCardsCount() {
-        RetrofitClient.getInstance(this).executeConnectionToServer(this, "getCardByUserID", new Request(userId, apiToken), new HandleResponses() {
-            @Override
-            public void handleTrueResponse(JsonObject mainObject) {
-                countList.clear();
-                JsonArray cardsArray = mainObject.get("cards").getAsJsonArray();
-                for (int i = 0; i < cardsArray.size(); i++) {
-                    JsonObject cardObj = cardsArray.get(i).getAsJsonObject();
-                    int cardId = cardObj.get("card_id").getAsInt();
-                    int cardCount = cardObj.get("count").getAsInt();
-
-                    if (cardList != null) {
-                        for (int j = 0; j < cardList.size(); j++) {
-                            if (cardId == cardList.get(j).getCard_id()) {
-                                countList.add(new Card(cardId, cardCount));
-                                cardList.get(j).setCount(cardCount);
-                            }
-                        }
-                    }
-                }
-
-                if (countList.size() > 0) {
-                    tvCardsCount.setBackground(getResources().getDrawable(R.drawable.bg_circle_green));
-                    int allCards = 0;
-                    for (int i = 0; i < countList.size(); i++) {
-                        allCards = allCards + countList.get(i).getCount();
-                    }
-
-                    tvCardsCount.setText(String.valueOf(allCards));
-
-                } else {
-                    tvCardsCount.setBackground(getResources().getDrawable(R.drawable.bg_circle_red));
-                    tvCardsCount.setText("0");
-                }
-            }
-
-            @Override
-            public void handleFalseResponse(JsonObject errorObject) {
-
-            }
-
-            @Override
-            public void handleEmptyResponse() {
-
-            }
-
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-
-            }
-        });
     }
 
     private void addMessageToChat(int user_id, String user_name, String message) {

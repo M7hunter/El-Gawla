@@ -57,7 +57,6 @@ public class Request {
     public Request(String email, String password) { // login Request
         this.email = email;
         this.password = password;
-
     }
 
     public Request(int user_id, String api_token, String join_time, String left_time, int salon_id) { // join salon

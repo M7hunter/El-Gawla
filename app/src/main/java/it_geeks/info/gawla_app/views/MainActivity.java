@@ -2,6 +2,7 @@ package it_geeks.info.gawla_app.views;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.Locale;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -20,6 +23,7 @@ import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.general.ContextWrapper;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.NavigationFragments.AccountFragment;
 import it_geeks.info.gawla_app.views.NavigationFragments.CardsFragment;

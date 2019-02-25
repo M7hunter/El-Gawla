@@ -43,8 +43,8 @@ public class ParseResponses {
             String round_date = roundObj.get("round_date").getAsString();
 
             JsonObject salon_status = roundObj.get("salon_status").getAsJsonObject();
-                boolean status = salon_status.get("status").getAsBoolean();
-                String message = salon_status.get("message").getAsString();
+            boolean status = salon_status.get("status").getAsBoolean();
+            String message = salon_status.get("message").getAsString();
 
             rounds.add(
                     new Round(product_id,
@@ -88,8 +88,8 @@ public class ParseResponses {
         String product_image = roundObj.get("product_image").getAsString();
         String round_date = roundObj.get("round_date").getAsString();
         JsonObject salon_status = roundObj.get("salon_status").getAsJsonObject();
-            boolean status = salon_status.get("status").getAsBoolean();
-            String message = salon_status.get("message").getAsString();
+        boolean status = salon_status.get("status").getAsBoolean();
+        String message = salon_status.get("message").getAsString();
 
         return new Round(product_id,
                 salon_id,
@@ -281,30 +281,46 @@ public class ParseResponses {
         return cardsList;
     }
 
+
+    public static List<Card> parseUserCardsBySalon(JsonObject object) {
+        JsonArray cardsArray = object.get("cards").getAsJsonArray();
+
+        List<Card> cards = new ArrayList<>();
+        for (int i = 0; i < cardsArray.size(); i++) {
+            JsonObject cardObj = cardsArray.get(i).getAsJsonObject();
+            int cardId = cardObj.get("card_id").getAsInt();
+            int count = cardObj.get("count").getAsInt();
+
+            cards.add(new Card(cardId, count));
+        }
+
+        return cards;
+    }
+
     public static List<Activity> parseSalonActivity(JsonObject object) {
         JsonArray dataArray = object.get("salon_activity").getAsJsonArray();
 
-        List<Activity> activityListList = new ArrayList<>();
+        List<Activity> activityList = new ArrayList<>();
 
         for (int i = 0; i < dataArray.size(); i++) {
-            JsonObject cardObj = dataArray.get(i).getAsJsonObject();
-            String card_id = cardObj.get("body").getAsString();
-            String card_name = cardObj.get("time").getAsString();
+            JsonObject activityObj = dataArray.get(i).getAsJsonObject();
+            String activity_text = activityObj.get("activity").getAsString();
+            String activity_time = activityObj.get("time").getAsString();
 
-            activityListList.add(
-                    new Activity(card_id, card_name));
+            activityList.add(
+                    new Activity(activity_text, activity_time));
         }
 
-        return activityListList;
+        return activityList;
     }
 
     public static List<TopTen> parseTopTen(JsonObject object) {
-        JsonArray dataObj = object.get("top").getAsJsonArray();
+        JsonArray dataArray = object.get("top").getAsJsonArray();
 
         List<TopTen> topTenList = new ArrayList<>();
 
-        for (int i = 0; i < dataObj.size(); i++) {
-            JsonObject userObj = dataObj.get(i).getAsJsonObject();
+        for (int i = 0; i < dataArray.size(); i++) {
+            JsonObject userObj = dataArray.get(i).getAsJsonObject();
             int userId = userObj.get("id").getAsInt();
             String userName = userObj.get("user").getAsString();
             String userOffer = userObj.get("offer").getAsString();
