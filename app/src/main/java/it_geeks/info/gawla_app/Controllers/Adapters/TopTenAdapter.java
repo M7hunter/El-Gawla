@@ -3,6 +3,7 @@ package it_geeks.info.gawla_app.Controllers.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class TopTenAdapter extends RecyclerView.Adapter<TopTenAdapter.ViewHolder
     private List<TopTen> topTenList;
 
     public TopTenAdapter(List<TopTen> topTens) {
-    this.topTenList = topTens;
+        this.topTenList = topTens;
     }
 
     @NonNull
@@ -31,7 +32,7 @@ public class TopTenAdapter extends RecyclerView.Adapter<TopTenAdapter.ViewHolder
         TopTen topTen = topTenList.get(position);
 
         // bind
-        holder.tvUserName.setText(topTen.getName() + " : " + topTen.getOffer());
+        holder.tvUserName.setText((position + 1) + " -  " + topTen.getName() + "  :    " + topTen.getOffer());
     }
 
     @Override
@@ -42,11 +43,14 @@ public class TopTenAdapter extends RecyclerView.Adapter<TopTenAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvUserName, tvUserOffer;
+        ImageView iv_activity_image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvUserName = itemView.findViewById(R.id.tv_activity_body);
+            iv_activity_image = itemView.findViewById(R.id.iv_activity_image);
+            iv_activity_image.setVisibility(View.GONE);
             tvUserOffer = itemView.findViewById(R.id.tv_activity_time);
             tvUserOffer.setVisibility(View.GONE);
         }

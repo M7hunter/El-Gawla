@@ -368,14 +368,15 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void getTopTen() {
         displayLoading();
-        RetrofitClient.getInstance(this).executeConnectionToServer(this, "getTopTen", null, new HandleResponses() {
+        RetrofitClient.getInstance(this).executeConnectionToServer(this, "getTopTen", new Request(userId, apiToken, salon_id), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
-                Toast.makeText(SalonActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-
-                topTenList.addAll(ParseResponses.parseTopTen(mainObject));
-
-                initTopTenRecycler();
+                //  Toast.makeText(SalonActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                try {
+                    initTopTenRecycler(ParseResponses.parseTopTen(mainObject));
+                } catch (Exception e) {
+                    Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -395,10 +396,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         });
     }
 
-    private void initTopTenRecycler() {
+    private void initTopTenRecycler(List<TopTen> topTens) {
         topTenRecycler.setHasFixedSize(true);
         topTenRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        topTenRecycler.setAdapter(new TopTenAdapter(topTenList));
+        topTenRecycler.setAdapter(new TopTenAdapter(topTens));
     }
 
     private void selectDetailsTab() {
@@ -697,8 +698,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (args[0] != null)
+                        try {
                             displayRoundActivity(args[0].toString());
+                        } catch (Exception e) {
+                            Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
@@ -708,8 +712,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (args[0] != null)
+                        try {
                             displayRoundActivity(args[0].toString());
+                        } catch (Exception e) {
+                            Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
@@ -719,9 +726,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (args[0] != null)
+                        try {
                             displayRoundActivity(args[0].toString());
-                    }
+                        } catch (Exception e) {
+                            Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }                    }
                 });
             }
         }).on("winner", new Emitter.Listener() {
@@ -730,9 +739,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (args[0] != null)
+                        try {
                             displayRoundActivity(args[0].toString());
-                    }
+                        } catch (Exception e) {
+                            Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }                    }
                 });
             }
         });
@@ -1171,6 +1182,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon_id + "" + userId);
             // on first rest display top ten
             tvTopTenTab.setVisibility(View.VISIBLE);
+            topTenRecycler.setVisibility(View.VISIBLE);
             selectTopTenTab();
             getTopTen();
 
@@ -1179,14 +1191,15 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon_id + "" + userId);
             // on second rest display winner
             tvTopTenTab.setVisibility(View.VISIBLE);
+            topTenRecycler.setVisibility(View.VISIBLE);
             selectTopTenTab();
             getTopTen();
-            getWinner();
         } else if (roundRealTimeModel.isClose_hall_status()) {
             // clear user offer
             SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon_id + "" + userId);
             getWinner();
         } else {
+            topTenRecycler.setVisibility(View.GONE);
             tvTopTenTab.setVisibility(View.GONE);
         }
     }
