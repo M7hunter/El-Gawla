@@ -324,9 +324,8 @@ public class ParseResponses {
             int userId = userObj.get("id").getAsInt();
             String userName = userObj.get("user").getAsString();
             String userOffer = userObj.get("offer").getAsString();
-
-            topTenList.add(
-                    new TopTen(userId, userName, userOffer));
+            if (userId != 0)
+            topTenList.add(new TopTen(userId, userName, userOffer));
         }
 
         return topTenList;
