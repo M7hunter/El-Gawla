@@ -306,9 +306,10 @@ public class ParseResponses {
             JsonObject activityObj = dataArray.get(i).getAsJsonObject();
             String activity_text = activityObj.get("activity").getAsString();
             String activity_time = activityObj.get("time").getAsString();
+            if (activity_time != null || !activity_text.equals("") || activity_time != null){
+                activityList.add(new Activity(activity_text, activity_time));
+            }
 
-            activityList.add(
-                    new Activity(activity_text, activity_time));
         }
 
         return activityList;
@@ -325,7 +326,7 @@ public class ParseResponses {
             String userName = userObj.get("user").getAsString();
             String userOffer = userObj.get("offer").getAsString();
             if (userId != 0)
-            topTenList.add(new TopTen(userId, userName, userOffer));
+                topTenList.add(new TopTen(userId, userName, userOffer));
         }
 
         return topTenList;

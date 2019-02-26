@@ -148,6 +148,7 @@ public class RoundStartToEnd {
     private void seconed_round_value(long value) {
         ((SalonActivity)context).tvSalonTime.setText(context.getResources().getString(R.string.second_round_time));
         ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.second_round_time));
+        ((SalonActivity) context).selectDetailsTab();
         DoCountDown(value);
     }
     // second Rest

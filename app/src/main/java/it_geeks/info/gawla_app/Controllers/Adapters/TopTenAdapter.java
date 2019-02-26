@@ -32,7 +32,8 @@ public class TopTenAdapter extends RecyclerView.Adapter<TopTenAdapter.ViewHolder
         TopTen topTen = topTenList.get(position);
 
         // bind
-        holder.tvUserName.setText((position + 1) + " -  " + topTen.getName() + "  :    " + topTen.getOffer());
+        if(position+1 == 1) holder.tvUserName.setText((position + 1) + " -  " + topTen.getName() + "  :    " + topTen.getOffer() + "  ( WINNER )");
+        else holder.tvUserName.setText((position + 1) + " -  " + topTen.getName() + "  :    " + topTen.getOffer());
     }
 
     @Override
