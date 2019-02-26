@@ -32,6 +32,7 @@
                 android:id="@+id/tv_activity_body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:textColor="@color/battleshipGrey"
                 android:textSize="@dimen/text_size_medium" />
 

@@ -402,7 +402,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         topTenRecycler.setAdapter(new TopTenAdapter(topTens));
     }
 
-    private void selectDetailsTab() {
+    public void selectDetailsTab() {
         detailsContainer.setVisibility(View.VISIBLE);
         activityContainer.setVisibility(View.GONE);
         chatContainer.setVisibility(View.GONE);
@@ -484,7 +484,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void onClick(View v) {
                 if (joinStatus == 2) {
-                    if (etChatMessage.getText().toString().isEmpty()) {
+                    if (etChatMessage.getText().toString().trim().isEmpty()) {
                         etChatMessage.setError("Input Empty");
                     } else {
                         JSONObject chatData = new JSONObject();
@@ -686,11 +686,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         try {
             JSONObject o = new JSONObject();
             o.put("room", salon_id);
+            o.put("user", userName);
             mSocket.emit("joinRoom", o);
         } catch (JSONException e) {
         }
-
-        mSocket.emit("user_join", userName);
 
         mSocket.on("new_member", new Emitter.Listener() {
             @Override
@@ -730,7 +729,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             displayRoundActivity(args[0].toString());
                         } catch (Exception e) {
                             Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }                    }
+                        }
+                    }
                 });
             }
         }).on("winner", new Emitter.Listener() {
@@ -743,7 +743,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             displayRoundActivity(args[0].toString());
                         } catch (Exception e) {
                             Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }                    }
+                        }
+                    }
                 });
             }
         });
@@ -871,14 +872,15 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     String message = mainObject.get("message").getAsString();
                     String offer = mainObject.get("offer").getAsString();
 
-                    if (userId == mainObject.get("user_id").getAsInt()) { // winner ?
+                    if (userId == mainObject.get("user_id").getAsInt() && roundRealTimeModel.isUserJoin()) { // winner ?
                         Intent i = new Intent(SalonActivity.this, WinnerActivity.class);
                         i.putExtra("winner_name", winnerName);
                         i.putExtra("offer", offer);
                         startActivity(i);
-
-                    } else { // !winner
-                        displayRoundActivity(winnerName + " " + message + offer + " good luck next time!");
+                    } else if (userId != mainObject.get("user_id").getAsInt() && roundRealTimeModel.isUserJoin()){ // !winner
+                        new AlertDialog.Builder(SalonActivity.this).setMessage(winnerName + " " + message + offer + "\n good luck next time!").create().show();
+                    }else {
+                        displayRoundActivity(winnerName + " " + message + offer );
                     }
                 } catch (NullPointerException e) {
                     e.printStackTrace();
@@ -1176,7 +1178,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         if (roundRealTimeModel.isPay_join_status() && !roundRealTimeModel.isUserJoin()) {
             useRoundCard.setVisibility(View.VISIBLE);
         }
-
+        if (roundRealTimeModel.isFirst_round_status() || roundRealTimeModel.isSeconed_round_status()) {
+            topTenRecycler.setVisibility(View.GONE);
+            tvTopTenTab.setVisibility(View.GONE);
+        }
         if (roundRealTimeModel.isFirst_rest_status()) {
             // clear user offer
             SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon_id + "" + userId);
@@ -1184,24 +1189,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             tvTopTenTab.setVisibility(View.VISIBLE);
             topTenRecycler.setVisibility(View.VISIBLE);
             selectTopTenTab();
-            getTopTen();
-
-        } else if (roundRealTimeModel.isSeconed_rest_status()) {
-            // clear user offer
-            SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon_id + "" + userId);
-            // on second rest display winner
-            tvTopTenTab.setVisibility(View.VISIBLE);
+        }else if (roundRealTimeModel.isClose_hall_status() || roundRealTimeModel.getRound_status().equals("close")) {
             topTenRecycler.setVisibility(View.VISIBLE);
+            tvTopTenTab.setVisibility(View.VISIBLE);
             selectTopTenTab();
-            getTopTen();
-        } else if (roundRealTimeModel.isClose_hall_status()) {
-            // clear user offer
-            SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon_id + "" + userId);
             getWinner();
-        } else {
-            topTenRecycler.setVisibility(View.GONE);
-            tvTopTenTab.setVisibility(View.GONE);
         }
+
     }
 
 
