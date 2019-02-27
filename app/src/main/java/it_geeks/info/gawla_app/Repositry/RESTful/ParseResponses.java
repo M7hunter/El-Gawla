@@ -296,24 +296,24 @@ public class ParseResponses {
 
         return cards;
     }
-
-    public static List<Activity> parseSalonActivity(JsonObject object) {
-        JsonArray dataArray = object.get("salon_activity").getAsJsonArray();
-
-        List<Activity> activityList = new ArrayList<>();
-
-        for (int i = 0; i < dataArray.size(); i++) {
-            JsonObject activityObj = dataArray.get(i).getAsJsonObject();
-            String activity_text = activityObj.get("activity").getAsString();
-            String activity_time = activityObj.get("time").getAsString();
-            if (activity_time != null || !activity_text.equals("") || activity_time != null){
-                activityList.add(new Activity(activity_text, activity_time));
-            }
-
-        }
-
-        return activityList;
-    }
+//TODO Delete Later
+//    public static List<Activity> parseSalonActivity(JsonObject object) {
+//        JsonArray dataArray = object.get("salon_activity").getAsJsonArray();
+//
+//        List<Activity> activityList = new ArrayList<>();
+//
+//        for (int i = 0; i < dataArray.size(); i++) {
+//            JsonObject activityObj = dataArray.get(i).getAsJsonObject();
+//            String activity_text = activityObj.get("activity").getAsString();
+//            String activity_time = activityObj.get("time").getAsString();
+//            if (activity_time != null || !activity_text.equals("") || activity_time != null){
+//                activityList.add(new Activity(activity_text, activity_time));
+//            }
+//
+//        }
+//
+//        return activityList;
+//    }
 
     public static List<TopTen> parseTopTen(JsonObject object) {
         JsonArray dataArray = object.get("top").getAsJsonArray();

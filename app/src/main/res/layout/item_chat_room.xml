@@ -13,11 +13,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
         android:layout_weight="3"
         android:gravity="center"
+        android:textColor="@color/browser_actions_text_color"
         android:maxLength="30"
         android:text="Mohamed Abdelhady"
-        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/text_size_medium"
         android:textStyle="bold" />
 
@@ -40,9 +41,8 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/margin_small"
                     android:text="@string/Advertising_space_for_special_tours"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/browser_actions_text_color"
+                    android:textSize="@dimen/text_size_medium"/>
 
             </LinearLayout>
 
@@ -55,7 +55,7 @@
                 android:layout_marginEnd="5dp"
                 android:padding="5dp"
                 android:text="منذ 15 دقيقة"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/browser_actions_text_color"
                 android:textSize="@dimen/text_size_small" />
 
         </LinearLayout>

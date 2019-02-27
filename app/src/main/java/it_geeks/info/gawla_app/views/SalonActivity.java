@@ -28,9 +28,11 @@ import android.widget.VideoView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -140,6 +142,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private TextView tvProductDetailsTab, tvSalonActivityTab, tvChatTab, tvTopTenTab, tvChatEmptyHint, tvCardsCount, tvGoldenCardText;
     private View vGoldenCard;
+    TextView txEmptyPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,7 +158,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         initJoinConfirmationDialog();
 
-        initSocket();
+        connectSocket();
 
         initRoundViews_setData();
 
@@ -175,9 +178,19 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void initActivityRecycler() {
-        activityRecycler.setHasFixedSize(true);
-        activityRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        activityRecycler.setAdapter(new ActivityAdapter(activityList));
+        if (activityList.size() == 0) {
+            txEmptyPage.setText(getString(R.string.activiy_empty));
+            txEmptyPage.setVisibility(View.VISIBLE);
+            activityRecycler.setVisibility(View.GONE);
+        } else {
+            txEmptyPage.setVisibility(View.GONE);
+            activityRecycler.setVisibility(View.VISIBLE);
+            activityRecycler.setHasFixedSize(true);
+            activityRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+            activityRecycler.setAdapter(new ActivityAdapter(activityList));
+            activityRecycler.scrollToPosition(activityList.size() - 1);
+        }
+
     }
 
     public void initViews() {
@@ -208,6 +221,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         activityContainer = findViewById(R.id.activity_container);
         activityRecycler = findViewById(R.id.salon_activity_recycler);
         chatContainer = findViewById(R.id.chat_container);
+
+        txEmptyPage = findViewById(R.id.txt_page_empty);
 
         apiToken = Common.Instance(SalonActivity.this).removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
         userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
@@ -352,20 +367,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         });
     }
 
-    private void selectTopTenTab() {
-        detailsContainer.setVisibility(View.GONE);
-        activityContainer.setVisibility(View.GONE);
-        chatContainer.setVisibility(View.GONE);
-        topTenContainer.setVisibility(View.VISIBLE);
-
-        getTopTen();
-
-        tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white));
-        tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white));
-        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white));
-        tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white_bordered_blue));
-    }
-
     private void getTopTen() {
         displayLoading();
         RetrofitClient.getInstance(this).executeConnectionToServer(this, "getTopTen", new Request(userId, apiToken, salon_id), new HandleResponses() {
@@ -397,9 +398,39 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void initTopTenRecycler(List<TopTen> topTens) {
-        topTenRecycler.setHasFixedSize(true);
-        topTenRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        topTenRecycler.setAdapter(new TopTenAdapter(topTens));
+
+        if (topTens.size() == 0) {
+            txEmptyPage.setVisibility(View.VISIBLE);
+            txEmptyPage.setText(getString(R.string.top_ten_empty));
+            topTenRecycler.setVisibility(View.GONE);
+        } else {
+            txEmptyPage.setVisibility(View.GONE);
+            topTenRecycler.setVisibility(View.VISIBLE);
+            topTenRecycler.setHasFixedSize(true);
+            topTenRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+            topTenRecycler.setAdapter(new TopTenAdapter(topTens));
+        }
+
+    }
+
+    private void selectTopTenTab() {
+        detailsContainer.setVisibility(View.GONE);
+        activityContainer.setVisibility(View.GONE);
+        chatContainer.setVisibility(View.GONE);
+        topTenContainer.setVisibility(View.VISIBLE);
+
+        getTopTen();
+
+        tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white));
+        tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white));
+        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white));
+        tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white_bordered_blue));
+        // text color
+        tvProductDetailsTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tvSalonActivityTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tvChatTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tvTopTenTab.setTextColor(getResources().getColor(R.color.ic_launcher_background));
+
     }
 
     public void selectDetailsTab() {
@@ -412,6 +443,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white));
         tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white));
         tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white));
+
+        // text color
+        tvProductDetailsTab.setTextColor(getResources().getColor(R.color.ic_launcher_background));
+        tvSalonActivityTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tvChatTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tvTopTenTab.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
     private void selectActivityTab() {
@@ -425,6 +462,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white_bordered_blue));
         tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white));
         tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white));
+
+        // text color
+        tvProductDetailsTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tvSalonActivityTab.setTextColor(getResources().getColor(R.color.ic_launcher_background));
+        tvChatTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tvTopTenTab.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
     private void selectChatTab() {
@@ -443,33 +486,41 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white));
         tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white_bordered_blue));
         tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_circle_white));
+
+        // text color
+        tvProductDetailsTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tvSalonActivityTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tvChatTab.setTextColor(getResources().getColor(R.color.ic_launcher_background));
+        tvTopTenTab.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
     private void getSalonActivityData() {
-        displayLoading();
-        RetrofitClient.getInstance(this).executeConnectionToServer(this, "getAllActivity", new Request(userId, apiToken, salon_id), new HandleResponses() {
-            @Override
-            public void handleTrueResponse(JsonObject mainObject) {
-                activityList.addAll(ParseResponses.parseSalonActivity(mainObject));
 
-                initActivityRecycler();
-            }
+        //TODO Will Delete Later
+        //        displayLoading();
+        //        RetrofitClient.getInstance(this).executeConnectionToServer(this, "getAllActivity", new Request(userId, apiToken, salon_id), new HandleResponses() {
+        //            @Override
+        //            public void handleTrueResponse(JsonObject mainObject) {
+        //                activityList.addAll(ParseResponses.parseSalonActivity(mainObject));
+        //                initActivityRecycler();
+        //            }
+        //
+        //            @Override
+        //            public void handleFalseResponse(JsonObject errorObject) {
+        //
+        //            }
+        //
+        //            @Override
+        //            public void handleEmptyResponse() {
+        //                hideLoading();
+        //            }
+        //
+        //            @Override
+        //            public void handleConnectionErrors(String errorMessage) {
+        //                hideLoading();
+        //            }
+        //        });
 
-            @Override
-            public void handleFalseResponse(JsonObject errorObject) {
-
-            }
-
-            @Override
-            public void handleEmptyResponse() {
-                hideLoading();
-            }
-
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                hideLoading();
-            }
-        });
     }
 
     private void initChat() {
@@ -483,7 +534,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         findViewById(R.id.chat_send_message).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (joinStatus == 2) {
+                if (joinStatus == 2 && !roundRealTimeModel.getRound_status().equals("close")) {
                     if (etChatMessage.getText().toString().trim().isEmpty()) {
                         etChatMessage.setError("Input Empty");
                     } else {
@@ -500,8 +551,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         mSocket.emit("newMessage", chatData);
                         etChatMessage.setText("");
                     }
-                } else {
-                    Toast.makeText(SalonActivity.this, "you must join to be able to chat in this salon", Toast.LENGTH_SHORT).show();
+                } else if (roundRealTimeModel.getRound_status().equals("close")) {
+                    Toast.makeText(SalonActivity.this, "Round Closed", Toast.LENGTH_SHORT).show();
+                } else if (joinStatus != 2) {
+                    Toast.makeText(SalonActivity.this, "You Are Not Join", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -679,10 +732,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         }
     }
 
-    public void initSocket() {
+    public void connectSocket() {
+
         mSocket = new SocketConnection().getSocket();
         mSocket.connect();
 
+    }
+
+    private void intiSocket() {
         try {
             JSONObject o = new JSONObject();
             o.put("room", salon_id);
@@ -748,6 +805,29 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 });
             }
         });
+
+        mSocket.emit("allActivity", salon_id);
+        mSocket.on("activity", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONArray main = (JSONArray) args[0];
+                            for (int i = 0; i < main.length(); i++) {
+                                JSONObject jsonObject = main.getJSONObject(i);
+                                activityList.add(new Activity(jsonObject.get("activity").toString(), jsonObject.get("created_at").toString()));
+                            }
+                            initActivityRecycler();
+                        } catch (Exception e) {
+                            Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+
 
     }
 
@@ -868,19 +948,23 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 try {
-                    String winnerName = mainObject.get("user_name").getAsString();
-                    String message = mainObject.get("message").getAsString();
-                    String offer = mainObject.get("offer").getAsString();
+                    if (!mainObject.get("winner").getAsString().equals("")) {
 
-                    if (userId == mainObject.get("user_id").getAsInt() && roundRealTimeModel.isUserJoin()) { // winner ?
-                        Intent i = new Intent(SalonActivity.this, WinnerActivity.class);
-                        i.putExtra("winner_name", winnerName);
-                        i.putExtra("offer", offer);
-                        startActivity(i);
-                    } else if (userId != mainObject.get("user_id").getAsInt() && roundRealTimeModel.isUserJoin()){ // !winner
-                        new AlertDialog.Builder(SalonActivity.this).setMessage(winnerName + " " + message + offer + "\n good luck next time!").create().show();
-                    }else {
-                        displayRoundActivity(winnerName + " " + message + offer );
+                        String winnerName = mainObject.get("user_name").getAsString();
+                        String message = mainObject.get("message").getAsString();
+                        String offer = mainObject.get("offer").getAsString();
+
+                        if (userId == mainObject.get("user_id").getAsInt() && roundRealTimeModel.isUserJoin()) { // winner ?
+                            Intent i = new Intent(SalonActivity.this, WinnerActivity.class);
+                            i.putExtra("winner_name", winnerName);
+                            i.putExtra("offer", offer);
+                            startActivity(i);
+                        } else if (userId != mainObject.get("user_id").getAsInt() && roundRealTimeModel.isUserJoin()) { // !winner
+                            new AlertDialog.Builder(SalonActivity.this).setMessage(winnerName + " " + message + offer + "\n good luck next time!").create().show();
+                            displayRoundActivity(winnerName + " " + message + offer);
+                        } else {
+                            displayRoundActivity(winnerName + " " + message + offer);
+                        }
                     }
                 } catch (NullPointerException e) {
                     e.printStackTrace();
@@ -1157,17 +1241,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     public void checkOnTime() {
-        if (roundRealTimeModel.isOpen_hall_status() || roundRealTimeModel.isClose_hall_status()) {
-            notificationCard.setVisibility(View.GONE);
-        }
 
-        if (roundRealTimeModel.isFirst_round_status() && roundRealTimeModel.isUserJoin() || roundRealTimeModel.isSeconed_round_status() && roundRealTimeModel.isUserJoin()) {
-            addOfferLayout.setVisibility(View.VISIBLE);
-            //get user Offer
-            etAddOffer.setText(String.valueOf(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(salon_id + "" + userId)));
-        } else {
-            addOfferLayout.setVisibility(View.GONE);
-        }
+        if (roundRealTimeModel.getRound_status().equals("open")) intiSocket();
 
         if (roundRealTimeModel.isFree_join_status() && roundRealTimeModel.isUserJoin() || roundRealTimeModel.isPay_join_status() && roundRealTimeModel.isUserJoin()) {
             btn_leave_round.setVisibility(View.VISIBLE);
@@ -1178,10 +1253,20 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         if (roundRealTimeModel.isPay_join_status() && !roundRealTimeModel.isUserJoin()) {
             useRoundCard.setVisibility(View.VISIBLE);
         }
+
+        if (roundRealTimeModel.isFirst_round_status() && roundRealTimeModel.isUserJoin() || roundRealTimeModel.isSeconed_round_status() && roundRealTimeModel.isUserJoin()) {
+            addOfferLayout.setVisibility(View.VISIBLE);
+            //get user Offer
+            etAddOffer.setText(String.valueOf(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(salon_id + "" + userId)));
+        } else {
+            addOfferLayout.setVisibility(View.GONE);
+        }
+
         if (roundRealTimeModel.isFirst_round_status() || roundRealTimeModel.isSeconed_round_status()) {
             topTenRecycler.setVisibility(View.GONE);
             tvTopTenTab.setVisibility(View.GONE);
         }
+
         if (roundRealTimeModel.isFirst_rest_status()) {
             // clear user offer
             SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon_id + "" + userId);
@@ -1189,11 +1274,17 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             tvTopTenTab.setVisibility(View.VISIBLE);
             topTenRecycler.setVisibility(View.VISIBLE);
             selectTopTenTab();
-        }else if (roundRealTimeModel.isClose_hall_status() || roundRealTimeModel.getRound_status().equals("close")) {
+        } else if (roundRealTimeModel.isClose_hall_status() || roundRealTimeModel.getRound_status().equals("close")) {
             topTenRecycler.setVisibility(View.VISIBLE);
             tvTopTenTab.setVisibility(View.VISIBLE);
             selectTopTenTab();
             getWinner();
+            // diconnect socket
+            if (mSocket != null) {
+                if (mSocket.connected()) {
+                    mSocket.disconnect();
+                }
+            }
         }
 
     }
