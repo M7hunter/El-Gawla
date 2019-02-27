@@ -8,7 +8,6 @@ import android.view.View;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.RoundRealTimeModel;
 import it_geeks.info.gawla_app.Repositry.Models.RoundStartToEndModel;
-import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.SalonActivity;
 
 public class RoundStartToEnd {
