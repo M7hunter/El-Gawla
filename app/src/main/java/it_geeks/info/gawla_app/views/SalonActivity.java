@@ -186,7 +186,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             txEmptyPage.setVisibility(View.GONE);
             activityRecycler.setVisibility(View.VISIBLE);
             activityRecycler.setHasFixedSize(true);
-            activityRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+            activityRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, true));
             activityRecycler.setAdapter(new ActivityAdapter(activityList));
             activityRecycler.scrollToPosition(activityList.size() - 1);
         }
@@ -285,6 +285,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void onClick(View v) {
                 userOutRound();
+            }
+        });
+
+        // open activity
+        findViewById(R.id.activity_page).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectActivityTab();
             }
         });
     }
@@ -398,7 +406,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void initTopTenRecycler(List<TopTen> topTens) {
-
         if (topTens.size() == 0) {
             txEmptyPage.setVisibility(View.VISIBLE);
             txEmptyPage.setText(getString(R.string.top_ten_empty));
@@ -570,12 +577,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         int user_id;
                         String user_name;
                         String message;
+                        String date;
                         try {
                             JSONObject data = main.getJSONObject("message");
                             user_id = data.getInt("user_id");
                             user_name = data.getString("user_name");
                             message = data.getString("message");
-                            addMessageToChat(user_id, user_name, message);
+                            date = data.getString("date");
+                            addMessageToChat(user_id, user_name, message,date);
                             tvChatEmptyHint.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             Log.e("", e.getMessage());
@@ -755,7 +764,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     @Override
                     public void run() {
                         try {
-                            displayRoundActivity(args[0].toString());
+                            JSONObject main = (JSONObject) args[0];
+                            displayRoundActivity(main.get("data").toString());
+                            activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
+                            initActivityRecycler();
                         } catch (Exception e) {
                             Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -769,7 +781,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     @Override
                     public void run() {
                         try {
-                            displayRoundActivity(args[0].toString());
+                            JSONObject main = (JSONObject) args[0];
+                            displayRoundActivity(main.get("data").toString());
+                            activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
+                            initActivityRecycler();
                         } catch (Exception e) {
                             Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -783,7 +798,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     @Override
                     public void run() {
                         try {
-                            displayRoundActivity(args[0].toString());
+                            JSONObject main = (JSONObject) args[0];
+                            displayRoundActivity(main.get("data").toString());
+                            activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
+                            initActivityRecycler();
                         } catch (Exception e) {
                             Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -797,7 +815,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     @Override
                     public void run() {
                         try {
-                            displayRoundActivity(args[0].toString());
+                            JSONObject main = (JSONObject) args[0];
+                            displayRoundActivity(main.get("data").toString());
+                            activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
+                            initActivityRecycler();
                         } catch (Exception e) {
                             Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -1275,6 +1296,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             topTenRecycler.setVisibility(View.VISIBLE);
             selectTopTenTab();
         } else if (roundRealTimeModel.isClose_hall_status() || roundRealTimeModel.getRound_status().equals("close")) {
+            chatContainer.setVisibility(View.GONE);
+            tvChatTab.setVisibility(View.GONE);
             topTenRecycler.setVisibility(View.VISIBLE);
             tvTopTenTab.setVisibility(View.VISIBLE);
             selectTopTenTab();
@@ -1286,6 +1309,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 }
             }
         }
+
 
     }
 
@@ -1381,8 +1405,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 .setBackgroundResource(android.R.color.transparent);
     }
 
-    private void addMessageToChat(int user_id, String user_name, String message) {
-        chatList.add(new ChatModel(user_id, user_name, message, "09:00"));
+    private void addMessageToChat(int user_id, String user_name, String message,String date) {
+        chatList.add(new ChatModel(user_id, user_name, message, date));
         chatRecycler.scrollToPosition(chatList.size() - 1);
         ChatAdapter adapter = new ChatAdapter(SalonActivity.this, chatList);
         adapter.notifyDataSetChanged();

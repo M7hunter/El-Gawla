@@ -258,7 +258,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     }
 
     private void disconnect() {
-        try { //TODO Here Error in Line 165
+        try {
             SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearUser();
             SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearProvider();
             FirebaseAuth.getInstance().signOut();
