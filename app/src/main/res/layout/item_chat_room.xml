@@ -16,6 +16,7 @@
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_weight="3"
         android:gravity="center"
+        android:maxLines="2"
         android:textColor="@color/browser_actions_text_color"
         android:maxLength="30"
         android:text="Mohamed Abdelhady"

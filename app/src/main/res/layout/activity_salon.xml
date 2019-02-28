@@ -740,6 +740,7 @@
 
                         <!-- round's notification bar -->
                         <LinearLayout
+                            android:id="@+id/activity_page"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_small"
