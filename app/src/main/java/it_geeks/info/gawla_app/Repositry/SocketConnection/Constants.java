@@ -1,7 +1,5 @@
 package it_geeks.info.gawla_app.Repositry.SocketConnection;
 
-import io.socket.client.IO;
-
 public class Constants {
 
     // http://dev.itgeeks.info:8888

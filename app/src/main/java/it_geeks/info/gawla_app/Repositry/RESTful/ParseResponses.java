@@ -138,9 +138,9 @@ public class ParseResponses {
             int card_id = cardObj.get("id").getAsInt();
             String card_name = cardObj.get("name").getAsString();
             String card_details = cardObj.get("details").getAsString();
-            String card_type = cardObj.get("type").getAsString();
             String card_color = cardObj.get("color").getAsString();
             String card_cost = cardObj.get("cost").getAsString();
+            String card_type = cardObj.get("type").getAsString();
 
             salon_cardsList.add(new Card(card_id, salon_id, card_name, card_details, card_type, card_color, card_cost));
         }
@@ -281,7 +281,6 @@ public class ParseResponses {
         return cardsList;
     }
 
-
     public static List<Card> parseUserCardsBySalon(JsonObject object) {
         JsonArray cardsArray = object.get("cards").getAsJsonArray();
 
@@ -290,12 +289,14 @@ public class ParseResponses {
             JsonObject cardObj = cardsArray.get(i).getAsJsonObject();
             int cardId = cardObj.get("card_id").getAsInt();
             int count = cardObj.get("count").getAsInt();
+            String type = cardObj.get("card_type").getAsString();
 
-            cards.add(new Card(cardId, count));
+            cards.add(new Card(cardId, count, type));
         }
 
         return cards;
     }
+
 //TODO Delete Later
 //    public static List<Activity> parseSalonActivity(JsonObject object) {
 //        JsonArray dataArray = object.get("salon_activity").getAsJsonArray();
@@ -344,7 +345,6 @@ public class ParseResponses {
                 error = errors.get(i).getAsString();
             }
         } catch (NullPointerException e) {
-
         }
         return error;
     }

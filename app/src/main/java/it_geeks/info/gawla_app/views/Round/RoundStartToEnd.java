@@ -60,28 +60,28 @@ public class RoundStartToEnd {
     }
 
     public void start() {
-        int milli = 1000;
+        int oneSecond = 1000;
         ((SalonActivity) context).checkOnTime();
         ((SalonActivity) context).notificationCard.setVisibility(View.VISIBLE);
        if (round_status.trim().equals("open")){
            if (open_hall_status){
-               open_hall_value(open_hall_value * milli);
+               open_hall_value(open_hall_value * oneSecond);
            }else if (free_join_status){
-               free_join_status(free_join_value * milli);
+               free_join_status(free_join_value * oneSecond);
            }else if (pay_join_status){
-               pay_join_value(pay_join_value * milli);
+               pay_join_value(pay_join_value * oneSecond);
            }else if (first_round_status){
                ((SalonActivity) context).timeState = "first_round_status";
-               first_round_value(first_round_value * milli);
+               first_round_value(first_round_value * oneSecond);
            }else if (first_rest_status){
                ((SalonActivity) context).timeState = "first_rest_status";
-               first_rest_value(first_rest_value * milli);
+               first_rest_value(first_rest_value * oneSecond);
            }else if (second_round_status){
                ((SalonActivity) context).timeState = "second_round_status";
-               seconed_round_value(seconed_round_value * milli);
+               seconed_round_value(seconed_round_value * oneSecond);
            }else if (second_rest_status){
                ((SalonActivity) context).timeState = "second_rest_status";
-               seconed_rest_value(seconed_rest_value * milli);
+               seconed_rest_value(seconed_rest_value * oneSecond);
            }else if (close_hall_status){
                ((SalonActivity) context).timeState = "close_hall_status";
                close_hall_value();
