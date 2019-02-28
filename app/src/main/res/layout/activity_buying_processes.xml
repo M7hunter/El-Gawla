@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainBuyingProcesses"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -22,7 +21,6 @@
             android:id="@+id/buying_processes_back"
             android:layout_width="@dimen/icon_back"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:padding="@dimen/margin_small"
@@ -120,6 +118,16 @@
         android:layout_above="@id/btn_renew"
         android:layout_below="@id/separator"
         android:layout_gravity="center" />
+
+    <!-- empty view -->
+    <TextView
+        android:id="@+id/buying_processes_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/buying_processes_empty_hint"
+        android:textSize="@dimen/text_size_medium"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_renew"

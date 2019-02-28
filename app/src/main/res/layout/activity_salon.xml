@@ -26,7 +26,6 @@
                 android:id="@+id/salon_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
                 android:layoutDirection="ltr">
 
                 <include layout="@layout/main_header_layout" />
@@ -505,13 +504,22 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-
-                <!-- scroll main layout -->
+            <!-- taps layout -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:background="@drawable/bg_rounded_corners_white"
+                app:cardCornerRadius="@dimen/margin_small"
+                app:cardPreventCornerOverlap="true">
+                <!-- card main layout -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:layout_margin="@dimen/margin_small"
                     android:orientation="horizontal">
 
                     <!-- top ten tab -->
@@ -520,8 +528,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:autoMirrored="true"
+                        android:background="@drawable/bg_rectangle_blue"
                         android:gravity="center"
-                        android:background="@drawable/bg_circle_white"
                         android:paddingTop="@dimen/margin_small"
                         android:paddingBottom="@dimen/margin_small"
                         android:text="@string/top_ten"
@@ -535,14 +544,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/ic_launcher_background"
-                        android:background="@drawable/bg_circle_white_bordered_blue"
+                        android:autoMirrored="true"
+                        android:background="@drawable/bg_rectangle_blue"
                         android:gravity="center"
                         android:paddingTop="@dimen/margin_small"
                         android:paddingBottom="@dimen/margin_small"
                         android:text="@string/product_details"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textColor="@color/ic_launcher_background"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold" />
 
                     <!-- salon activity tab -->
                     <TextView
@@ -550,13 +560,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_circle_white"
+                        android:autoMirrored="true"
+                        android:background="@drawable/bg_rectangle_white"
                         android:gravity="center"
                         android:paddingTop="@dimen/margin_small"
                         android:paddingBottom="@dimen/margin_small"
                         android:text="@string/salon_activity"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold" />
 
                     <!-- salon chat tab -->
                     <TextView
@@ -564,23 +575,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_circle_white"
+                        android:autoMirrored="true"
+                        android:background="@drawable/bg_rectangle_white"
                         android:gravity="center"
                         android:paddingTop="@dimen/margin_small"
                         android:paddingBottom="@dimen/margin_small"
                         android:text="@string/chat_room"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
-
+            </androidx.cardview.widget.CardView>
 
             <!-- layout on tab -->
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <!-- 0 tap : details container -->
+                <!-- 0 tap : top ten container -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/top_ten_container"
                     android:layout_width="match_parent"
@@ -590,24 +602,23 @@
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_medium"
                     android:background="@drawable/bg_rounded_corners_white"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:cardCornerRadius="@dimen/margin_small">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/top_ten_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_tiny"
-                        android:visibility="gone"/>
+                        android:layout_margin="@dimen/margin_tiny" />
 
-                        <TextView
-                            android:id="@+id/txt_page_empty"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/Advertising_space_for_special_tours"
-                            android:padding="@dimen/margin_large"
-                            android:visibility="gone"/>
+                    <TextView
+                        android:id="@+id/txt_page_empty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/margin_large"
+                        android:text="@string/Advertising_space_for_special_tours"
+                        android:visibility="gone" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -744,7 +755,7 @@
                                 android:src="@drawable/ic_account" />
 
                             <!-- notification text -->
-                             <TextView
+                            <TextView
                                 android:id="@+id/round_notification_text"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -801,6 +812,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+                        <!-- list container -->
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -816,6 +828,7 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
+                        <!-- chat empty view -->
                         <TextView
                             android:id="@+id/tv_chat_empty_hint"
                             android:layout_width="wrap_content"
@@ -825,19 +838,22 @@
                             android:text="you can chat salon members here"
                             android:visibility="gone" />
 
+                        <!-- separator -->
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="@color/browser_actions_divider_color" />
 
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_small"
+                            android:layout_margin="@dimen/margin_xTiny"
                             android:background="@drawable/edittext_shape_add"
                             android:gravity="bottom"
                             android:orientation="horizontal">
 
+                            <!-- new message -->
                             <EditText
                                 android:id="@+id/et_chat_message"
                                 android:layout_width="0dp"
@@ -845,9 +861,12 @@
                                 android:layout_weight="1"
                                 android:background="@null"
                                 android:hint="@string/write_message"
-                                android:maxLines="2"
-                                android:padding="8dp" />
+                                android:inputType="textShortMessage"
+                                android:maxLength="250"
+                                android:maxLines="1"
+                                android:padding="@dimen/margin_tiny" />
 
+                            <!-- btn to send new message -->
                             <ImageView
                                 android:id="@+id/chat_send_message"
                                 android:layout_width="40dp"

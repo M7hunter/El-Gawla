@@ -67,9 +67,10 @@ public class Card implements Serializable {
     }
 
     @Ignore
-    public Card(int card_id, int count) {
+    public Card(int card_id, int count, String card_type) {
         this.card_id = card_id;
         this.count = count;
+        this.card_type = card_type;
     }
 
     public int getId() {
