@@ -176,7 +176,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void initActivityRecycler() {
         if (activityList.size() == 0) {
-//            txEmptyPage.setText(getString(R.string.activiy_empty));
+            txEmptyPage.setText(getString(R.string.activity_empty_hint));
             txEmptyPage.setVisibility(View.VISIBLE);
             activityRecycler.setVisibility(View.GONE);
         } else {
@@ -252,7 +252,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 selectChatTab();
             }
         });
-
 
         //Notification icon
         imgNotification = findViewById(R.id.Notification);
@@ -491,7 +490,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 try {
                     initTopTenRecycler(ParseResponses.parseTopTen(mainObject));
                 } catch (Exception e) {
-                    Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("getTopTen: ", e.getMessage());
                 }
             }
 
@@ -649,27 +648,33 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         findViewById(R.id.chat_send_message).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (joinStatus == 2 && !roundRealTimeModel.getRound_status().equals("close")) {
-                    if (etChatMessage.getText().toString().trim().isEmpty()) {
-                        etChatMessage.setError("Input Empty");
-                    } else {
-                        JSONObject chatData = new JSONObject();
-                        final String message = etChatMessage.getText().toString();
-                        try {
-                            chatData.put("user_id", SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id());
-                            chatData.put("user_name", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
-                            chatData.put("message", message);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                try {
 
-                        mSocket.emit("newMessage", chatData);
-                        etChatMessage.setText("");
+                    if (joinStatus == 2 && !roundRealTimeModel.getRound_status().equals("close")) {
+                        if (etChatMessage.getText().toString().trim().isEmpty()) {
+                            etChatMessage.setError("Input Empty");
+                        } else {
+                            JSONObject chatData = new JSONObject();
+                            final String message = etChatMessage.getText().toString();
+                            try {
+                                chatData.put("user_id", SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id());
+                                chatData.put("user_name", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
+                                chatData.put("message", message);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            mSocket.emit("newMessage", chatData);
+                            etChatMessage.setText("");
+                        }
+                    } else if (roundRealTimeModel.getRound_status().equals("close")) {
+                        Toast.makeText(SalonActivity.this, "Round Closed", Toast.LENGTH_SHORT).show();
+                    } else if (joinStatus != 2) {
+                        Toast.makeText(SalonActivity.this, "You Are Not Join", Toast.LENGTH_SHORT).show();
                     }
-                } else if (roundRealTimeModel.getRound_status().equals("close")) {
-                    Toast.makeText(SalonActivity.this, "Round Closed", Toast.LENGTH_SHORT).show();
-                } else if (joinStatus != 2) {
-                    Toast.makeText(SalonActivity.this, "You Are Not Join", Toast.LENGTH_SHORT).show();
+
+                } catch (NullPointerException e) {
+                    Log.e("chat_send_message: ", e.getMessage());
                 }
             }
         });
@@ -692,11 +697,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             user_name = data.getString("user_name");
                             message = data.getString("message");
                             date = data.getString("date");
-                            addMessageToChat(user_id, user_name, message,date);
+                            addMessageToChat(user_id, user_name, message, date);
                             tvChatEmptyHint.setVisibility(View.GONE);
                         } catch (JSONException e) {
-                            Log.e("", e.getMessage());
-                            return;
+                            Log.e("socket message", e.getMessage());
                         }
                     }
                 });
@@ -764,6 +768,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             o.put("user", userName);
             mSocket.emit("joinRoom", o);
         } catch (JSONException e) {
+            Log.e("socket joinRoom: ", e.getMessage());
         }
 
         mSocket.on("new_member", new Emitter.Listener() {
@@ -778,7 +783,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
-                            Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.e("socket newMember: ", e.getMessage());
                         }
                     }
                 });
@@ -795,7 +800,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
-                            Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.e("socket memberAddOffer: ", e.getMessage());
                         }
                     }
                 });
@@ -812,7 +817,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
-                            Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.e("socket memberLeave: ", e.getMessage());
                         }
                     }
                 });
@@ -829,7 +834,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
-                            Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.e("socket winner: ", e.getMessage());
                         }
                     }
                 });
@@ -851,7 +856,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             }
                             initActivityRecycler();
                         } catch (Exception e) {
-                            Toast.makeText(SalonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.e("socket activity: ", e.getMessage());
                         }
                     }
                 });
@@ -863,7 +868,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         try {
             tvRoundActivity.setText(notificationMsg);
         } catch (ArrayIndexOutOfBoundsException e) {
-            Toast.makeText(SalonActivity.this, "index!", Toast.LENGTH_SHORT).show();
+            Log.e("displayRoundActivity: ", e.getMessage());
         }
     }
 
@@ -963,7 +968,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         try {
             roundStartToEnd.start();
         } catch (NullPointerException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("startTimeDown: ", e.getMessage());
         }
     }
 
@@ -1410,7 +1415,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 .setBackgroundResource(android.R.color.transparent);
     }
 
-    private void addMessageToChat(int user_id, String user_name, String message,String date) {
+    private void addMessageToChat(int user_id, String user_name, String message, String date) {
         chatList.add(new ChatModel(user_id, user_name, message, date));
         chatRecycler.scrollToPosition(chatList.size() - 1);
         ChatAdapter adapter = new ChatAdapter(SalonActivity.this, chatList);

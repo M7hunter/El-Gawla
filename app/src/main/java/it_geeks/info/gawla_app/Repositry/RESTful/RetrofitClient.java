@@ -2,6 +2,7 @@ package it_geeks.info.gawla_app.Repositry.RESTful;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -36,6 +37,7 @@ public class RetrofitClient {
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
 
+    private Call<JsonObject> request;
     private Context context;
 
     private RetrofitClient() {
@@ -73,14 +75,22 @@ public class RetrofitClient {
         return BASE_URL;
     }
 
+    public void cancelRequest() {
+        if (request != null) {
+            if (!request.isCanceled()) {
+                request.cancel();
+            }
+        }
+    }
+
     public void executeConnectionToServer(Context context, String action, Request request, HandleResponses HandleResponses) {
         getInstance(context).getAPI().request(new RequestMainBody(new Data(action), request)).enqueue(createWebserviceCallback(HandleResponses, context));
     }
 
-    public void getSalonsPerPageFromServer(Context context, Data data, Request request, HandleResponses HandleResponses) {
-        getInstance(context).getAPI().request(new RequestMainBody(data, request)).enqueue(createWebserviceCallback(HandleResponses, context));
+    public void getSalonsPerPageFromServer(Context context, Data data, Request req, HandleResponses HandleResponses) {
+        request = getInstance(context).getAPI().request(new RequestMainBody(data, req));
+        request.enqueue(createWebserviceCallback(HandleResponses, context));
     }
-
 
     private APIs getAPI() {
         return retrofit.create(APIs.class);
@@ -93,11 +103,12 @@ public class RetrofitClient {
 
                 if (response.isSuccessful()) { // code == 200
                     try {
-                    JsonObject mainObj = response.body().getAsJsonObject();
+                        JsonObject mainObj = response.body().getAsJsonObject();
 
-                    HandleResponses.handleTrueResponse(mainObj);
+                        HandleResponses.handleTrueResponse(mainObj);
 
                     } catch (NullPointerException e) { // errors of response body 'maybe response body has changed'
+//                    Log.e("onResponse: ", e.getMessage());
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else { // code != 200

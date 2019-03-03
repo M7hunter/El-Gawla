@@ -225,5 +225,5 @@
     <string name="rest_time">وقت مستقطع</string>
     <string name="first_round_time">الجولة الاولي</string>
     <string name="top_ten_empty">لا يوجد احد في قائمة ال 10 الاوائل</string>
-    <string name="activiy_empty">لا يوجد نشاطات في هذه الجولة</string>
+    <string name="activity_empty_hint">لا يوجد نشاطات في هذه الجولة</string>
 </resources>

@@ -17,9 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_gawla_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".views.WinnerActivity"/>
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".views.WinnerActivity" />
         <activity
             android:name=".views.splashActivities.SplashActivity"
             android:screenOrientation="portrait">
@@ -76,6 +76,8 @@
                 <action android:name="android.net.com.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name=".general.NotificationInteractionsReceiver"/>
 
         <service android:name=".Repositry.Services.UploadImageService" /> <!-- Firebase Services -->
         <service android:name=".Repositry.Services.fcm.NotificationFirebaseMessagingService">

@@ -227,7 +227,7 @@
     <string name="round_started_add_offer">round stared add offers to win</string>
     <string name="round_started">round stared</string>
     <string name="top_ten_empty">There is no one in the top 10 list</string>
-    <string name="activiy_empty">There are no activities in this round</string>
+    <string name="activity_empty_hint">There are no activities in this round</string>
     <string name="buying_processes_empty_hint">here is your buying history</string>
 
 </resources>
