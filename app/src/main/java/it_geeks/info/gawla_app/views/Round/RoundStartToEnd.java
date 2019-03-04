@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Repositry.Models.RoundRealTimeModel;
@@ -128,7 +127,7 @@ public class RoundStartToEnd {
     // add deal to product ( Round Time )
     private void first_round_value(long value) {
         ((SalonActivity)context).tvSalonTime.setText(context.getResources().getString(R.string.first_round_time));
-        ((SalonActivity)context).useRoundCard.setVisibility(View.GONE);
+        ((SalonActivity)context).goldenCardLayout.setVisibility(View.GONE);
         if (joinStatus == 2) {
             ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.round_started_add_offer));
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);

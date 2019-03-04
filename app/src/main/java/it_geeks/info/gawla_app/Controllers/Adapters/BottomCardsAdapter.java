@@ -1,7 +1,6 @@
 package it_geeks.info.gawla_app.Controllers.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,14 +30,13 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
 
     private Context context;
     private List<Card> cardList;
-    private List<Card> userCards;
     private int salonId;
     private int round_id;
+    private BottomSheetDialog mBottomSheetDialogSingleCard;
 
     public BottomCardsAdapter(Context context, List<Card> cardList, List<Card> userCards, int salon_id, int round_id) {
         this.context = context;
         this.cardList = cardList;
-        this.userCards = userCards;
         this.salonId = salon_id;
         this.round_id = round_id;
     }
@@ -74,7 +72,6 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
     }
 
     private BottomSheetDialog initBottomSheetSingleCard(final Card card) {
-        final BottomSheetDialog mBottomSheetDialogSingleCard;
         mBottomSheetDialogSingleCard = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
         final View sheetView = ((SalonActivity) context).getLayoutInflater().inflate(R.layout.bottom_sheet_single_card, null);
 
@@ -151,7 +148,9 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                ((SalonActivity) context).initBottomSheetActivateCards();
+                ((SalonActivity) context).mBottomSheetDialogActivateCard.dismiss();
+                mBottomSheetDialogSingleCard.dismiss();
+                ((SalonActivity) context).initBottomSheetCardsBag();
             }
 
             @Override
@@ -179,7 +178,9 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                ((SalonActivity) context).initBottomSheetActivateCards();
+                ((SalonActivity) context).mBottomSheetDialogActivateCard.dismiss();
+                mBottomSheetDialogSingleCard.dismiss();
+                ((SalonActivity) context).initBottomSheetCardsBag();
             }
 
             @Override
