@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -68,7 +69,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
         initViews();
 
-        setUserData();
+        bindUserData();
     }
 
     private void initViews() {
@@ -92,7 +93,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
         btn_update_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updatingStateUI();
                 updateUserOnServer();
             }
         });
@@ -114,11 +114,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
         // Swipe Page Back
         mainAccountDetails = findViewById(R.id.mainAccountDetails);
-        mainAccountDetails.setOnTouchListener(new OnSwipeTouchListener(AccountDetailsActivity.this) {
-            public void onSwipeRight() {
-                finish();
-            }
-        });
     }
 
     private void initCountriesMaterialSpinner() {
@@ -217,7 +212,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void setUserData() {
+    private void bindUserData() {
         User user = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser();
         try {
             Picasso.with(AccountDetailsActivity.this)
@@ -238,52 +233,85 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     private void updateUserOnServer() {
-        final Country country = GawlaDataBse.getGawlaDatabase(AccountDetailsActivity.this).countryDao().getCountryByName(sp_update_country.getText().toString());
-        RetrofitClient.getInstance(AccountDetailsActivity.this)
-                .executeConnectionToServer(AccountDetailsActivity.this,
-                        "updateUserData",
-                        new Request(user_id,
-                                api_token,
-                                et_update_first_name.getText().toString(),
-                                et_update_last_name.getText().toString(),
-                                et_update_telephone.getText().toString(),
-                                sp_update_gender.getText().toString(),
-                                country.getCountry_id()), new HandleResponses() {
-                            @Override
-                            public void handleTrueResponse(JsonObject mainObject) {
+        try {
+            updatingStateUI();
+            final Country country = GawlaDataBse.getGawlaDatabase(AccountDetailsActivity.this).countryDao().getCountryByName(sp_update_country.getText().toString());
+            RetrofitClient.getInstance(AccountDetailsActivity.this)
+                    .executeConnectionToServer(AccountDetailsActivity.this,
+                            "updateUserData",
+                            new Request(user_id,
+                                    api_token,
+                                    et_update_first_name.getText().toString(),
+                                    et_update_last_name.getText().toString(),
+                                    et_update_telephone.getText().toString(),
+                                    sp_update_gender.getText().toString(),
+                                    country.getCountry_id()), new HandleResponses() {
+                                @Override
+                                public void handleTrueResponse(JsonObject mainObject) {
+                                    // Stop NotificationDao to last country
+                                    int LastCountryID = SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id();
+                                    FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + LastCountryID);
 
-                                // Stop NotificationDao to last country
-                                int LastCountryID = SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id();
-                                FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + LastCountryID);
+                                    // save updated data
+                                    SharedPrefManager.getInstance(AccountDetailsActivity.this).saveUser(ParseResponses.parseUser(mainObject));
+                                    SharedPrefManager.getInstance(AccountDetailsActivity.this).setCountry(country);
 
-                                // save updated data
-                                SharedPrefManager.getInstance(AccountDetailsActivity.this).saveUser(ParseResponses.parseUser(mainObject));
-                                SharedPrefManager.getInstance(AccountDetailsActivity.this).setCountry(country);
+                                    // Start NotificationDao To a new Country
+                                    FirebaseMessaging.getInstance().subscribeToTopic("country_" + String.valueOf(SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id()));
 
-                                // Start NotificationDao To a new Country
-                                FirebaseMessaging.getInstance().subscribeToTopic("country_" + String.valueOf(SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id()));
+                                    // notify user
+                                    Toast.makeText(AccountDetailsActivity.this, getString(R.string.updated), Toast.LENGTH_SHORT).show();
+                                    updatedStateUI();
+                                }
 
-                                // notify user
-                                Toast.makeText(AccountDetailsActivity.this, getString(R.string.updated), Toast.LENGTH_SHORT).show();
-                                updatedStateUI();
-                            }
+                                @Override
+                                public void handleFalseResponse(JsonObject mainObject) {
 
-                            @Override
-                            public void handleFalseResponse(JsonObject mainObject) {
+                                }
 
-                            }
+                                @Override
+                                public void handleEmptyResponse() {
+                                    updatedStateUI();
+                                }
 
-                            @Override
-                            public void handleEmptyResponse() {
-                                updatedStateUI();
-                            }
+                                @Override
+                                public void handleConnectionErrors(String errorMessage) {
+                                    Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                                    updatedStateUI();
+                                }
+                            });
+        } catch (NullPointerException e) {
+            Log.e("updateUserOnServer: ", e.getMessage());
+            getCountriesFromSever();
+        }
+    }
 
-                            @Override
-                            public void handleConnectionErrors(String errorMessage) {
-                                Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-                                updatedStateUI();
-                            }
-                        });
+    private void getCountriesFromSever() {
+        final String apiToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
+        RetrofitClient.getInstance(this).executeConnectionToServer(this,
+                "getAllCountries", new Request(apiToken), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        GawlaDataBse.getGawlaDatabase(AccountDetailsActivity.this).countryDao().insertCountryList(ParseResponses.parseCountries(mainObject));
+                        recreate();
+                        updateUserOnServer();
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void displayUploadImageButton() {
