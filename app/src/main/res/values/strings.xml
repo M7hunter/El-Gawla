@@ -229,5 +229,7 @@
     <string name="top_ten_empty">There is no one in the top 10 list</string>
     <string name="activity_empty_hint">There are no activities in this round</string>
     <string name="buying_processes_empty_hint">here is your buying history</string>
+    <string name="chat_empty_hint">you can chat salon members here</string>
+    <string name="not_joined">you are not join</string>
 
 </resources>

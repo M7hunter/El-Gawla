@@ -100,7 +100,6 @@ public class RetrofitClient {
         return new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
                 if (response.isSuccessful()) { // code == 200
                     try {
                         JsonObject mainObj = response.body().getAsJsonObject();
