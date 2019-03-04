@@ -12,7 +12,7 @@ import it_geeks.info.gawla_app.Repositry.Models.ProductSubImage;
 import it_geeks.info.gawla_app.Repositry.Models.Round;
 import it_geeks.info.gawla_app.Repositry.Models.Trans;
 
-@Database(entities = {Round.class, Country.class, Card.class, ProductSubImage.class, Trans.class , Notifications.class}, version = 1, exportSchema = false)
+@Database(entities = {Round.class, Country.class, Card.class, ProductSubImage.class, Trans.class, Notifications.class}, version = 2)
 public abstract class GawlaDataBse extends RoomDatabase {
 
     private static GawlaDataBse INSTANCE;
@@ -35,7 +35,7 @@ public abstract class GawlaDataBse extends RoomDatabase {
 //        }
 //    };
 
-    // singleton initiation
+    // singleton initialization
     public static GawlaDataBse getGawlaDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context, GawlaDataBse.class, DB_NAME)
