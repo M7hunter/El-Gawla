@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     // google login
     public static final String providerGoogle = "google";
     // normal login
-    public static final String providerNormalLogin = "Gawla";
+    public static final String providerNormalLogin = "gawla";
 
     public int REQUEST_GOOGLE = 1000;
     private TextView tvSingIn, tvGooglePlus, tvFacebook;
@@ -281,9 +281,13 @@ public class LoginActivity extends AppCompatActivity {
         try {
             String id = currentUser.getProviderId();
             String name = currentUser.getDisplayName();
-            String email = currentUser.getEmail();
             String image = currentUser.getPhotoUrl().toString();
+            String email;
+            if (currentUser.getEmail() != null) email = currentUser.getEmail();
+            else email = currentUser.getDisplayName() + "@gawla.com";
+            email.replaceAll("\\s+","");
             setLoadingScreen();
+            Log.e("Mo7", id + name + email + image + provider);
             new LoginViewModel(this).socialLogin(id, name, email, image, provider);
         } catch (Exception e) {
         }
