@@ -75,16 +75,9 @@ public class RetrofitClient {
         return BASE_URL;
     }
 
-    public void cancelRequest() {
-        if (request != null) {
-            if (!request.isCanceled()) {
-                request.cancel();
-            }
-        }
-    }
-
-    public void executeConnectionToServer(Context context, String action, Request request, HandleResponses HandleResponses) {
-        getInstance(context).getAPI().request(new RequestMainBody(new Data(action), request)).enqueue(createWebserviceCallback(HandleResponses, context));
+    public void executeConnectionToServer(Context context, String action, Request req, HandleResponses HandleResponses) {
+        request = getInstance(context).getAPI().request(new RequestMainBody(new Data(action), req));
+        request.enqueue(createWebserviceCallback(HandleResponses, context));
     }
 
     public void getSalonsPerPageFromServer(Context context, Data data, Request req, HandleResponses HandleResponses) {
@@ -144,5 +137,13 @@ public class RetrofitClient {
                 HandleResponses.handleConnectionErrors(context.getString(R.string.no_connection));
             }
         };
+    }
+
+    public void cancelRequest() {
+        if (request != null) {
+            if (!request.isCanceled()) {
+                request.cancel();
+            }
+        }
     }
 }

@@ -85,7 +85,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     //Attention Join Screen
     ImageView joinIcon;
     private boolean socketOnStatus = false;
-    private String product_name, product_image, product_category, category_color, product_price, product_description, round_start_time, round_end_time, first_join_time, second_join_time, round_date, round_time, rest_time, round_message;
+    private String  round_date;
 
     public int userId;
     private List<ProductSubImage> subImageList = new ArrayList<>();
@@ -114,7 +114,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private Socket mSocket;
 
-    private int goldenCardCount = 0, stopPosition = 0, screenHeight, screenWidth, product_id, salon_id, joinStatus; // 0 = watcher, 1 = want to join, 2 = joined;
+    private int goldenCardCount = 0, stopPosition = 0, screenHeight, screenWidth, salon_id, joinStatus; // 0 = watcher, 1 = want to join, 2 = joined;
     public String timeState = "";
     private String userName, apiToken;
 
@@ -283,85 +283,59 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             Bundle extras = getIntent().getExtras();
 
             if (extras != null) { // get data from previous page
-                product_id = extras.getInt("product_id");
                 salon_id = extras.getInt("salon_id");
-                product_name = extras.getString("product_name");
-                product_category = extras.getString("category_name");
-                category_color = extras.getString("category_color");
-                product_price = extras.getString("product_commercial_price");
-                product_description = extras.getString("product_product_description");
-                product_image = extras.getString("product_image");
-                round_start_time = extras.getString("round_start_time");
-                round_end_time = extras.getString("round_end_time");
-                first_join_time = extras.getString("first_join_time");
-                second_join_time = extras.getString("second_join_time");
                 round_date = extras.getString("round_date");
-                round_time = extras.getString("round_time");
-                rest_time = extras.getString("rest_time");
                 subImageList = (List<ProductSubImage>) extras.getSerializable("product_images");
                 cardList = (List<Card>) extras.getSerializable("salon_cards");
 
-                round = new Round(product_id,
+                round = new Round(extras.getInt("product_id"),
                         salon_id,
-                        extras.getInt("salon_id"),
-                        product_name,
-                        product_category,
-                        category_color,
+                        extras.getInt("round_id"),
+                        extras.getString("product_name"),
+                        extras.getString("category_name"),
+                        extras.getString("category_color"),
                         extras.getString("country_name"),
-                        product_price,
-                        product_description,
-                        product_image,
+                        extras.getString("product_commercial_price"),
+                        extras.getString("product_product_description"),
+                        extras.getString("product_image"),
                         subImageList,
                         cardList,
-                        round_start_time,
-                        round_end_time,
-                        first_join_time,
-                        second_join_time,
+                        extras.getString("round_start_time"),
+                        extras.getString("round_end_time"),
+                        extras.getString("first_join_time"),
+                        extras.getString("second_join_time"),
                         round_date,
-                        round_time,
-                        rest_time,
+                        extras.getString("round_time"),
+                        extras.getString("rest_time"),
                         extras.getBoolean("round_status"),
                         extras.getString("round_message"));
             }
 
         } else { // get data from saved state
-            product_id = savedInstanceState.getInt("product_id");
             salon_id = savedInstanceState.getInt("salon_id");
-            product_name = (String) savedInstanceState.getSerializable("product_name");
-            product_category = (String) savedInstanceState.getSerializable("category_name");
-            category_color = (String) savedInstanceState.getSerializable("category_color");
-            product_price = (String) savedInstanceState.getSerializable("product_commercial_price");
-            product_description = (String) savedInstanceState.getSerializable("product_product_description");
-            product_image = (String) savedInstanceState.getSerializable("product_image");
-            round_start_time = (String) savedInstanceState.getSerializable("round_start_time");
-            round_end_time = (String) savedInstanceState.getSerializable("round_end_time");
-            first_join_time = (String) savedInstanceState.getSerializable("first_join_time");
-            second_join_time = (String) savedInstanceState.getSerializable("second_join_time");
             round_date = (String) savedInstanceState.getSerializable("round_date");
-            round_time = (String) savedInstanceState.getSerializable("round_time");
-            rest_time = (String) savedInstanceState.getSerializable("rest_time");
             subImageList = (List<ProductSubImage>) savedInstanceState.getSerializable("product_images");
             cardList = (List<Card>) savedInstanceState.getSerializable("salon_cards");
 
-            round = new Round(product_id,
+            round = new Round(savedInstanceState.getInt("product_id"),
                     salon_id,
-                    savedInstanceState.getInt("salon_id"),
-                    product_name,
-                    product_category,
-                    category_color,
+                    savedInstanceState.getInt("round_id"),
+                    (String) savedInstanceState.getSerializable("product_name"),
+                    (String) savedInstanceState.getSerializable("category_name"),
+                    (String) savedInstanceState.getSerializable("category_color"),
                     (String) savedInstanceState.getSerializable("country_name"),
-                    product_price,
-                    product_description,
-                    product_image,
+                    (String) savedInstanceState.getSerializable("product_commercial_price"),
+                    (String) savedInstanceState.getSerializable("product_product_description"),
+                    (String) savedInstanceState.getSerializable("product_image"),
                     subImageList,
                     cardList,
-                    round_start_time,
-                    round_end_time,
-                    first_join_time,
-                    second_join_time,
+                    (String) savedInstanceState.getSerializable("round_start_time"),
+                    (String) savedInstanceState.getSerializable("round_end_time"),
+                    (String) savedInstanceState.getSerializable("first_join_time"),
+                    (String) savedInstanceState.getSerializable("second_join_time"),
                     round_date,
-                    round_time,
-                    rest_time,
+                    (String) savedInstanceState.getSerializable("round_time"),
+                    (String) savedInstanceState.getSerializable("rest_time"),
                     savedInstanceState.getBoolean("round_status"),
                     savedInstanceState.getString("round_message"));
         }
@@ -369,8 +343,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         initBottomSheetProductDetails();
 
         initBottomSheetCardsBag();
-
-
     }
 
     private void calculateGoldenCard() {
@@ -861,7 +833,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void initDivs() {
-        /// for timedown TODO TimeDown View Init
+        /// for time down TODO TimeDown View Init
         for (int i = 1; i <= 12; i++) {
             String divUpID = "div_up" + i;
             int resDivIDUp = getResources().getIdentifier(divUpID, "id", getPackageName());
