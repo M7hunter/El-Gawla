@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app.Controllers.Adapters;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -186,6 +186,7 @@ public class ParseResponses {
         String round_status = roundtime.get("status").getAsString();
         boolean isUserJoin = false;
         isUserJoin = roundObj.get("isUserJoin").getAsBoolean();
+        int last_round_id = roundObj.get("last_round_id").getAsInt();
 
         return new RoundRealTimeModel(
                 open_hall_status,
@@ -205,7 +206,8 @@ public class ParseResponses {
                 close_hall_status,
                 close_hall_value,
                 round_status,
-                isUserJoin);
+                isUserJoin,
+                last_round_id);
     }
 
     public static List<Country> parseCountries(JsonObject object) {

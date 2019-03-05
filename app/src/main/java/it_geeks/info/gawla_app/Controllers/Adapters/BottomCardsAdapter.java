@@ -12,14 +12,19 @@ import android.widget.Toast;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.JsonObject;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import io.socket.client.Socket;
 import it_geeks.info.gawla_app.Repositry.Models.Request;
 import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.Repositry.SocketConnection.SocketConnection;
 import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.R;
@@ -33,8 +38,9 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
     private int salonId;
     private int round_id;
     private BottomSheetDialog mBottomSheetDialogSingleCard;
+    private Socket mSocket;
 
-    public BottomCardsAdapter(Context context, List<Card> cardList, List<Card> userCards, int salon_id, int round_id) {
+    public BottomCardsAdapter(Context context, List<Card> cardList, int salon_id, int round_id) {
         this.context = context;
         this.cardList = cardList;
         this.salonId = salon_id;
@@ -44,6 +50,7 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        connectSocket();
         return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_salon_bottom_card, viewGroup, false));
     }
 
@@ -140,17 +147,33 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
         return mBottomSheetDialogSingleCard;
     }
 
+    public void connectSocket() {
+        mSocket = new SocketConnection().getSocket();
+        mSocket.connect();
+    }
+
     private void useCard(final Card card, final CardView btnConfirmBuying, final ProgressBar pbBuyCard) {
         hideConfirmationBtn(btnConfirmBuying, pbBuyCard);
-        int userId = SharedPrefManager.getInstance(context).getUser().getUser_id();
+        final int userId = SharedPrefManager.getInstance(context).getUser().getUser_id();
+        final String username = SharedPrefManager.getInstance(context).getUser().getName();
         String apiToken = SharedPrefManager.getInstance(context).getUser().getApi_token();
         RetrofitClient.getInstance(context).executeConnectionToServer(context, "useCard", new Request(userId, apiToken, card.getCard_id(), salonId, round_id), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
+
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                 ((SalonActivity) context).mBottomSheetDialogActivateCard.dismiss();
                 mBottomSheetDialogSingleCard.dismiss();
                 ((SalonActivity) context).initBottomSheetCardsBag();
+
+                JSONObject use_card = new JSONObject();
+                try {
+                    use_card.put("user", username);
+                    use_card.put("type", card.getCard_type());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mSocket.emit("use_card", use_card);
             }
 
             @Override
