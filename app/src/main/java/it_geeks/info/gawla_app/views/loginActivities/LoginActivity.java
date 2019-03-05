@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -35,15 +36,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import it_geeks.info.gawla_app.Controllers.ViewModels.LoginViewModel;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.TransHolder;
-import it_geeks.info.gawla_app.views.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
     String TAG = "Mo7";
@@ -56,9 +56,9 @@ public class LoginActivity extends AppCompatActivity {
     private CardView loadingCard;
 
     // facebook
-    public static final String providerFacebook = "Facebook";
+    public static final String providerFacebook = "facebook";
     // google login
-    public static final String providerGoogle = "Google";
+    public static final String providerGoogle = "google";
     // normal login
     public static final String providerNormalLogin = "Gawla";
 
@@ -78,50 +78,42 @@ public class LoginActivity extends AppCompatActivity {
         Common.Instance(this).changeStatusBarColor("#ffffff", this);
         setContentView(R.layout.activity_login);
 
-        boolean status = SharedPrefManager.getInstance(LoginActivity.this).isLoggedIn();
-        String api_token = SharedPrefManager.getInstance(LoginActivity.this).getUser().getApi_token();
-
         initialization();
 
         firebaseInit();
 
         setupTrans();
 
-        if (status && api_token != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-        } else {
-            // login
-            btnLogin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-
-                    if (checkEntries(etEmail.getText().toString(), etPassword.getText().toString())) {
-                        setLoadingScreen();
-                        new LoginViewModel(LoginActivity.this).login(etEmail.getText().toString(), etPassword.getText().toString()); // Login ViewModel
-                    }
+        // login
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (checkEntries(etEmail.getText().toString(), etPassword.getText().toString())) {
+                    setLoadingScreen();
+                    new LoginViewModel(LoginActivity.this).login(etEmail.getText().toString(), etPassword.getText().toString()); // Login ViewModel
                 }
-            });
+            }
+        });
 
-            btnForgetPassword.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(LoginActivity.this, ForgetPasswordActivity.class));
-                }
-            });
+        btnForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ForgetPasswordActivity.class));
+            }
+        });
 
-            btnCreateAccount.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
-                }
-            });
-        }
+        btnCreateAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
+            }
+        });
+
     }
 
     @SuppressLint("WrongViewCast")
     private void initialization() {
-        loadingCard =findViewById(R.id.loading_card);
+        loadingCard = findViewById(R.id.loading_card);
         loginMainScreen = findViewById(R.id.loginMainScreen);
         etEmail = findViewById(R.id.et_Email);
         etPassword = findViewById(R.id.et_Password);
@@ -270,11 +262,11 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                            // Get new Instance ID token
-                            firebaseToken = task.getResult().getToken();
+                        // Get new Instance ID token
+                        firebaseToken = task.getResult().getToken();
                     }
                 });
-        return firebaseToken ;
+        return firebaseToken;
     }   /// firebase token
 
     @Override
@@ -282,10 +274,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         //FirebaseUser currentUser = mAuth.getCurrentUser();
-       // if (currentUser != null) updateUI(currentUser);
+        // if (currentUser != null) updateUI(currentUser);
     }
 
-    private void updateUI(FirebaseUser currentUser,String provider) {
+    private void updateUI(FirebaseUser currentUser, String provider) {
         try {
             String id = currentUser.getProviderId();
             String name = currentUser.getDisplayName();
@@ -293,7 +285,8 @@ public class LoginActivity extends AppCompatActivity {
             String image = currentUser.getPhotoUrl().toString();
             setLoadingScreen();
             new LoginViewModel(this).socialLogin(id, name, email, image, provider);
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
@@ -308,13 +301,13 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user,providerFacebook);
+                            updateUI(user, providerFacebook);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null,providerFacebook);
+                            updateUI(null, providerFacebook);
                         }
                     }
                 });
@@ -332,13 +325,13 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user,providerGoogle);
+                            updateUI(user, providerGoogle);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null,providerGoogle);
+                            updateUI(null, providerGoogle);
                         }
 
                         // ...

@@ -19,20 +19,20 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.general.WrapContentHeightViewPager;
-import it_geeks.info.gawla_app.Repositry.Models.Request;
-import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
-import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Controllers.Adapters.RoundsPagerAdapter;
-import it_geeks.info.gawla_app.Repositry.Models.Round;
+import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 
-import static it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses.parseRounds;
+import static it_geeks.info.gawla_app.repository.RESTful.ParseResponses.parseRounds;
 
 public class MyRoundsFragment extends Fragment {
 

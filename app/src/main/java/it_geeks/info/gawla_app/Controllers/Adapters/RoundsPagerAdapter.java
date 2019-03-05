@@ -19,9 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.views.SalonActivity;
-import it_geeks.info.gawla_app.Repositry.Models.Round;
+import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.R;
 
 public class RoundsPagerAdapter extends PagerAdapter {

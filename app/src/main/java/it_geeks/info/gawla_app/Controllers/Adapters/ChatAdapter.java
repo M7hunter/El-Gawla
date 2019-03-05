@@ -1,7 +1,6 @@
 package it_geeks.info.gawla_app.Controllers.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Repositry.Models.ChatModel;
-import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.repository.Models.ChatModel;
+import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder> {
 

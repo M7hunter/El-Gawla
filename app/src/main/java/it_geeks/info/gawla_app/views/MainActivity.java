@@ -2,28 +2,23 @@ package it_geeks.info.gawla_app.views;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
+import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.ConnectionChangeReceiver;
-import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.general.ContextWrapper;
+import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.NavigationFragments.AccountFragment;
 import it_geeks.info.gawla_app.views.NavigationFragments.CardsFragment;
@@ -31,6 +26,8 @@ import it_geeks.info.gawla_app.views.NavigationFragments.MainFragment;
 import it_geeks.info.gawla_app.views.NavigationFragments.MenuFragment;
 import it_geeks.info.gawla_app.views.NavigationFragments.MyRoundsFragment;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
+import it_geeks.info.gawla_app.views.splashActivities.SplashActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,11 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        try {
-            Common.Instance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
-        } catch (Exception e) { e.printStackTrace(); }
-
+        setLang();
         super.onCreate(savedInstanceState);
+        if (!checkLoginState()){ return; }
         Common.Instance(this).changeStatusBarColor("#f4f7fa", this);
         setContentView(R.layout.activity_main);
 
@@ -75,6 +70,33 @@ public class MainActivity extends AppCompatActivity {
         initNavigation();
 
         setupTrans();
+    }
+
+    private boolean checkLoginState() {
+        if (SharedPrefManager.getInstance(this).getUser().getUser_id() == -111 // id !saved
+                || SharedPrefManager.getInstance(this).getUser().getApi_token() == null // token !saved
+                || !SharedPrefManager.getInstance(this).isLoggedIn()) { // !logged in
+
+            if (SharedPrefManager.getInstance(this).getCountry().getCountry_id() == -111) { // country saved ?
+                startActivity(new Intent(this, SplashActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            } else { // country !saved
+                startActivity(new Intent(this, LoginActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private void setLang() {
+        try {
+            Common.Instance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateNotificationStatus() {
@@ -101,24 +123,6 @@ public class MainActivity extends AppCompatActivity {
     private void stopNotifications() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic("all");
         FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
-    }
-
-    @Override
-    protected void onDestroy() {
-        unregisterReceiver(connectionChangeReceiver);
-        super.onDestroy();
-    }
-
-    @Override
-    public void onBackPressed() {
-        // back from !main page ?
-        if (navigation.getSelectedItemId() == R.id.navigation_hales) {
-            super.onBackPressed();
-
-        } else {
-            displayFragment(new MainFragment());
-            navigation.setSelectedItemId(R.id.navigation_hales);
-        }
     }
 
     public View getSnackBarContainer() {
@@ -188,5 +192,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, fragment).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // back from !main page ?
+        if (navigation.getSelectedItemId() == R.id.navigation_hales) {
+            super.onBackPressed();
+
+        } else {
+            displayFragment(new MainFragment());
+            navigation.setSelectedItemId(R.id.navigation_hales);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            unregisterReceiver(connectionChangeReceiver);
+        } catch (IllegalArgumentException e){e.printStackTrace();}
+        super.onDestroy();
     }
 }

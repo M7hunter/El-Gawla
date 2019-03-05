@@ -10,7 +10,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Repositry.Models.Card;
+import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.general.Common;
 
 public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.ViewHolder> {

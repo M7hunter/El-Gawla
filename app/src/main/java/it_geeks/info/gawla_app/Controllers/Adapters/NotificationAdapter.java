@@ -17,17 +17,17 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Repositry.Models.Notifications;
-import it_geeks.info.gawla_app.Repositry.Models.Request;
-import it_geeks.info.gawla_app.Repositry.Models.Round;
-import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
-import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.repository.Models.Notifications;
+import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.Models.Round;
+import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 import it_geeks.info.gawla_app.views.SalonActivity;
 
-import static it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses.parseRoundByID;
+import static it_geeks.info.gawla_app.repository.RESTful.ParseResponses.parseRoundByID;
 
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.Holder> {

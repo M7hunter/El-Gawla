@@ -21,45 +21,36 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.OnItemClickListener;
-import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.Repositry.Models.Country;
-import it_geeks.info.gawla_app.Repositry.Models.Request;
-import it_geeks.info.gawla_app.Repositry.RESTful.HandleResponses;
-import it_geeks.info.gawla_app.Repositry.RESTful.ParseResponses;
-import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
+import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.repository.Models.Country;
+import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
+import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Controllers.Adapters.CountryAdapter;
-import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
 
 public class SplashActivity extends AppCompatActivity {
 
-    RecyclerView countryRecycler;
-    ProgressBar countriesProgress;
-    TextView tvCountriesHeader;
-    Button btnRetry;
+    private RecyclerView countryRecycler;
+    private ProgressBar countriesProgress;
+    private TextView tvCountriesHeader;
+    private Button btnRetry;
 
-    List<Country> countries = new ArrayList<>();
+    private List<Country> countries = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setAppLang();
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_splash);
 
-        if (SharedPrefManager.getInstance(SplashActivity.this).getCountry().getCountry_id() != -1) {
+        initViews();
 
-            startActivity(new Intent(SplashActivity.this, LoginActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
-        } else {
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            setContentView(R.layout.activity_splash);
-
-            initViews();
-
-            getCountriesFromSever();
-        }
+        getCountriesFromSever();
     }
 
     private void setAppLang() {

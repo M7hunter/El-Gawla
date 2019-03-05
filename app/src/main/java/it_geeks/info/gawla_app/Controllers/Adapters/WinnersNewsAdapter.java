@@ -13,7 +13,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.Repositry.Models.WinnerNews;
+import it_geeks.info.gawla_app.repository.Models.WinnerNews;
 import it_geeks.info.gawla_app.R;
 
 public class WinnersNewsAdapter extends RecyclerView.Adapter<WinnersNewsAdapter.ViewHolder> {

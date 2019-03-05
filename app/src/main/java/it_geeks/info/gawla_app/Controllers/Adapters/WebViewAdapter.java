@@ -12,7 +12,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Repositry.Models.WebPage;
+import it_geeks.info.gawla_app.repository.Models.WebPage;
 import it_geeks.info.gawla_app.views.menuOptions.WebPageActivity;
 
 public class WebViewAdapter extends RecyclerView.Adapter<WebViewAdapter.ViewHolder> {

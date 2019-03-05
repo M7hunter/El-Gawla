@@ -8,10 +8,10 @@ import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
-import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.Repositry.Models.Round;
-import it_geeks.info.gawla_app.Repositry.RecentSalonsCallback;
-import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
+import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.repository.Models.Round;
+import it_geeks.info.gawla_app.repository.RecentSalonsCallback;
+import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 
 public class SalonsViewModel extends AndroidViewModel {
 

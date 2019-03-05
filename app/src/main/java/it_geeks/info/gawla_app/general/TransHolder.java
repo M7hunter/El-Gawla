@@ -3,9 +3,9 @@ package it_geeks.info.gawla_app.general;
 import android.content.Context;
 
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Repositry.Storage.TransDao;
-import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.repository.Storage.TransDao;
+import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
+import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 
 public class TransHolder {
 

@@ -14,17 +14,16 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.Repositry.Models.Card;
+import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.Repositry.Storage.GawlaDataBse;
+import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.views.SalonActivity;
-import it_geeks.info.gawla_app.Repositry.Models.Round;
+import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.R;
 
 public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder> {

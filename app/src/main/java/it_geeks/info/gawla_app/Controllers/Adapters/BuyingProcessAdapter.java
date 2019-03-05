@@ -11,7 +11,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Repositry.Models.BuyingProcess;
+import it_geeks.info.gawla_app.repository.Models.BuyingProcess;
 
 public class BuyingProcessAdapter extends RecyclerView.Adapter<BuyingProcessAdapter.ViewHolder> {
 

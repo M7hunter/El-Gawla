@@ -8,7 +8,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -36,8 +35,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Repositry.Models.SalonDate;
-import it_geeks.info.gawla_app.Repositry.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.repository.Models.SalonDate;
+import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 
 public class Common {
 
@@ -59,7 +58,6 @@ public class Common {
 
     // change app lang
     public void setLang(String lang) {
-
         try {
             new WebView(context).destroy();
         } catch (Exception e) {
@@ -67,8 +65,14 @@ public class Common {
         }
 
         Lang = lang;
-        Locale locale = new Locale(Lang);
         Configuration configuration = context.getResources().getConfiguration();
+        Locale locale;
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+            locale = new Locale(Lang, "kw");
+        } else {
+            locale = new Locale(Lang);
+        }
         configuration.setLocale(locale);
         Locale.setDefault(locale);
 

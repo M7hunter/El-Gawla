@@ -17,18 +17,12 @@
         android:roundIcon="@mipmap/ic_launcher_gawla_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity android:name=".views.WinnerActivity" />
         <activity
             android:name=".views.splashActivities.SplashActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".views.SalonActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -40,8 +34,13 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name=".views.AllSalonsActivity" />
         <activity android:name=".views.NotificationActivity">
             <intent-filter>
                 <action android:name="notification_page" />
@@ -49,6 +48,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".views.AllSalonsActivity" />
+        <activity android:name=".views.CardActivity" />
         <activity android:name=".views.splashActivities.IntroActivity" />
         <activity android:name=".views.loginActivities.SubscribePlanActivity" />
         <activity android:name=".views.loginActivities.PaymentActivity" />
@@ -61,10 +62,9 @@
         <activity android:name=".views.menuOptions.TermsAndConditionsActivity" />
         <activity android:name=".views.menuOptions.CallUsActivity" />
         <activity android:name=".views.menuOptions.LanguageActivity" />
+        <activity android:name=".views.menuOptions.WebPageActivity" />
         <activity android:name=".views.accountOptions.BuyingProcessesActivity" />
         <activity android:name=".views.accountOptions.AccountDetailsActivity" />
-        <activity android:name=".views.menuOptions.WebPageActivity" />
-        <activity android:name=".views.CardActivity" />
         <activity
             android:name=".views.accountOptions.PrivacyDetailsActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -79,8 +79,8 @@
 
         <receiver android:name=".general.NotificationInteractionsReceiver"/>
 
-        <service android:name=".Repositry.Services.UploadImageService" /> <!-- Firebase Services -->
-        <service android:name=".Repositry.Services.fcm.NotificationFirebaseMessagingService">
+        <service android:name=".repository.services.UploadImageService" /> <!-- Firebase Services -->
+        <service android:name=".repository.services.fcm.NotificationFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

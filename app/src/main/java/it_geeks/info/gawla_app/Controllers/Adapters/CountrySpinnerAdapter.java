@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Repositry.Models.Country;
+import it_geeks.info.gawla_app.repository.Models.Country;
 
 public class CountrySpinnerAdapter extends ArrayAdapter<Country> {
 
