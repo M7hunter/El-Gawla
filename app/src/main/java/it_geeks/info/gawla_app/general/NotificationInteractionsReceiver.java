@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import it_geeks.info.gawla_app.Repositry.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.Repositry.Services.UploadImageService;
 import it_geeks.info.gawla_app.views.accountOptions.AccountDetailsActivity;
 
 public class NotificationInteractionsReceiver extends BroadcastReceiver {
@@ -16,12 +17,14 @@ public class NotificationInteractionsReceiver extends BroadcastReceiver {
 
         switch (notifyId) {
             case 1: // cancel notification
-                ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(notifyId);
                 RetrofitClient.getInstance(context).cancelRequest();
+                context.stopService(new Intent(context, UploadImageService.class));
+                ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(notifyId);
 
                 try {
                     AccountDetailsActivity.accountDetailsInstance.updatedStateUI();
                     AccountDetailsActivity.accountDetailsInstance.btn_upload_image.setEnabled(true);
+
                 } catch (NullPointerException e) {
                 }
 

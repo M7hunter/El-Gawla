@@ -122,7 +122,6 @@ public class UploadImageService extends Service {
             channel.setLightColor(Color.BLUE);
             notificationManager.createNotificationChannel(channel);
             notificationBuilder.setChannelId(CHANNEL_ID);
-//            notificationManager.deleteNotificationChannel(CHANNEL_ID);
         }
 
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
