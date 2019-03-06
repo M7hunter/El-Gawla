@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
                 if (checkEntries(etEmail.getText().toString(), etPassword.getText().toString())) {
-                    setLoadingScreen();
+                    displayLoading();
                     new LoginViewModel(LoginActivity.this).login(etEmail.getText().toString(), etPassword.getText().toString()); // Login ViewModel
                 }
             }
@@ -245,51 +245,35 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    public void setLoadingScreen() {
+    public void displayLoading() {
         loadingCard.setVisibility(View.VISIBLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    public void closeLoadingScreen() {
+    public void hideLoading() {
         loadingCard.setVisibility(View.GONE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    public static String FirebaseInstanceTokenID() {
-
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        // Get new Instance ID token
-                        firebaseToken = task.getResult().getToken();
-                    }
-                });
-        return firebaseToken;
-    }   /// firebase token
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        //FirebaseUser currentUser = mAuth.getCurrentUser();
-        // if (currentUser != null) updateUI(currentUser);
-    }
-
     private void updateUI(FirebaseUser currentUser, String provider) {
-        try {
-            String id = currentUser.getProviderId();
-            String name = currentUser.getDisplayName();
-            String image = currentUser.getPhotoUrl().toString();
-            String email;
-            if (currentUser.getEmail() != null) email = currentUser.getEmail();
-            else email = currentUser.getDisplayName() + "@gawla.com";
-            email.replaceAll("\\s+","");
-            setLoadingScreen();
-            Log.e("Mo7", id + name + email + image + provider);
-            new LoginViewModel(this).socialLogin(id, name, email, image, provider);
-        } catch (Exception e) {
+        if (currentUser != null) {
+            try {
+                String id = currentUser.getProviderId();
+                String name = currentUser.getDisplayName();
+                String image = currentUser.getPhotoUrl().toString();
+                String email;
+                if (currentUser.getEmail() != null) email = currentUser.getEmail();
+                else email = currentUser.getPhoneNumber() + "@elgawla.net";
+                email = email.replaceAll("\\s+", "");
+                displayLoading();
+                Log.e("Mo7", id + name + email + image + provider);
+                new LoginViewModel(this).socialLogin(id, name, email, image, provider);
+            } catch (Exception e) {
+                Log.e("login updateUI: ", e.getMessage());
+            }
+        } else {
+            Log.e("login updateUI: ", "currentUser = null");
         }
     }
 
@@ -304,13 +288,11 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user, providerFacebook);
+                            updateUI(mAuth.getCurrentUser(), providerFacebook);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                             updateUI(null, providerFacebook);
                         }
                     }

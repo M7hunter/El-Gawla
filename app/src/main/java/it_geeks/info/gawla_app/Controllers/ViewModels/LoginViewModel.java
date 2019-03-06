@@ -38,24 +38,24 @@ public class LoginViewModel {
                 new UpdateFirebaseToken(context);
 
                 //hide progress
-                ((LoginActivity) context).closeLoadingScreen();
+                ((LoginActivity) context).hideLoading();
             }
 
             @Override
             public void handleFalseResponse(JsonObject mainObject) {
-                ((LoginActivity) context).closeLoadingScreen();
+                ((LoginActivity) context).hideLoading();
                 FirebaseAuth.getInstance().signOut();
             }
 
             @Override
             public void handleEmptyResponse() {
-                ((LoginActivity) context).closeLoadingScreen();
+                ((LoginActivity) context).hideLoading();
                 FirebaseAuth.getInstance().signOut();
             }
 
             @Override
             public void handleConnectionErrors(String errorMessage) {
-                ((LoginActivity) context).closeLoadingScreen();
+                ((LoginActivity) context).hideLoading();
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
             }
@@ -82,25 +82,25 @@ public class LoginViewModel {
                         cacheUserData(mainObject, provider);
                         ((LoginActivity) context).startActivity(new Intent(context, MainActivity.class));
                         ((LoginActivity) context).finish();
-                        ((LoginActivity) context).closeLoadingScreen();
+                        ((LoginActivity) context).hideLoading();
                         new UpdateFirebaseToken(context);
                     }
 
                     @Override
                     public void handleFalseResponse(JsonObject mainObject) {
-                        ((LoginActivity) context).closeLoadingScreen();
+                        ((LoginActivity) context).hideLoading();
                         FirebaseAuth.getInstance().signOut();
                     }
 
                     @Override
                     public void handleEmptyResponse() {
-                        ((LoginActivity) context).closeLoadingScreen();
+                        ((LoginActivity) context).hideLoading();
                         FirebaseAuth.getInstance().signOut();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        ((LoginActivity) context).closeLoadingScreen();
+                        ((LoginActivity) context).hideLoading();
                         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
                         FirebaseAuth.getInstance().signOut();
                     }

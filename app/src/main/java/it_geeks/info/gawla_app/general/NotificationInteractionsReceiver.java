@@ -17,7 +17,7 @@ public class NotificationInteractionsReceiver extends BroadcastReceiver {
 
         switch (notifyId) {
             case 1: // cancel notification
-                RetrofitClient.getInstance(context).cancelRequest();
+                RetrofitClient.getInstance(context).cancelCall();
                 context.stopService(new Intent(context, UploadImageService.class));
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(notifyId);
 

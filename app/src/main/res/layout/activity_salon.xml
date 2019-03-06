@@ -35,9 +35,7 @@
                     android:id="@+id/salon_back"
                     android:layout_width="@dimen/icon_back"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginTop="@dimen/margin_medium"
                     android:padding="@dimen/margin_small"
                     android:src="@drawable/ic_arrow_left_only" />
 
@@ -583,7 +581,7 @@
                         android:text="@string/chat_room"
                         android:textSize="@dimen/text_size_small"
                         android:textStyle="bold"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -964,16 +962,16 @@
                 android:visibility="gone" />
 
             <include
-                layout="@layout/use_salon_card"
+                layout="@layout/golden_card_layout"
                 android:visibility="gone" />
 
+            <!-- leave btn -->
             <Button
                 android:id="@+id/btn_leave_round"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:background="@drawable/edittext_shape"
                 android:padding="@dimen/margin_tiny"
                 android:text="@string/leave"
                 android:visibility="gone"

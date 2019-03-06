@@ -2,6 +2,7 @@ package it_geeks.info.gawla_app.repository.RESTful;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -36,7 +37,7 @@ public class RetrofitClient {
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
 
-    private Call<JsonObject> request;
+    private Call<JsonObject> call;
     private Context context;
 
     private RetrofitClient() {
@@ -75,13 +76,13 @@ public class RetrofitClient {
     }
 
     public void executeConnectionToServer(Context context, String action, Request req, HandleResponses HandleResponses) {
-        request = getInstance(context).getAPI().request(new RequestMainBody(new Data(action), req));
-        request.enqueue(createWebserviceCallback(HandleResponses, context));
+        call = getInstance(context).getAPI().request(new RequestMainBody(new Data(action), req));
+        call.enqueue(createWebserviceCallback(HandleResponses, context));
     }
 
     public void getSalonsPerPageFromServer(Context context, Data data, Request req, HandleResponses HandleResponses) {
-        request = getInstance(context).getAPI().request(new RequestMainBody(data, req));
-        request.enqueue(createWebserviceCallback(HandleResponses, context));
+        call = getInstance(context).getAPI().request(new RequestMainBody(data, req));
+        call.enqueue(createWebserviceCallback(HandleResponses, context));
     }
 
     private APIs getAPI() {
@@ -96,28 +97,34 @@ public class RetrofitClient {
                     try {
                         JsonObject mainObj = response.body().getAsJsonObject();
 
+                        // dynamic with each call
                         HandleResponses.handleTrueResponse(mainObj);
 
                     } catch (NullPointerException e) { // errors of response body 'maybe response body has changed';
-//                    Log.e("onResponse: ", e.getMessage());
+                        Log.e("onResponse: ", e.getMessage());
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 } else { // code != 200
                     try {
                         JsonObject errorObj = new JsonParser().parse(response.errorBody().string()).getAsJsonObject();
+                        String serverError = parseServerErrors(errorObj);
 
-                        Toast.makeText(context, parseServerErrors(errorObj), Toast.LENGTH_SHORT).show();
+                        Log.d("!successful: ", serverError);
+                        // notify user
+                        Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
+
+                        // dynamic with each call
                         HandleResponses.handleFalseResponse(errorObj);
 
                         // TODO: check codes instead of strings
-                        if (parseServerErrors(errorObj).contains("not logged in") || parseServerErrors(errorObj).contains("api token")) {
+                        if (serverError.contains("not logged in") || serverError.contains("api token")) {
                             context.startActivity(new Intent(context, LoginActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
 
                             SharedPrefManager.getInstance(context).clearUser();
                         }
 
-                    } catch (IOException e) { // errors of error body
+                    } catch (IOException e) {
                         e.printStackTrace();
                     } catch (JsonSyntaxException e) {
                         e.printStackTrace();
@@ -128,20 +135,23 @@ public class RetrofitClient {
                     }
                 }
 
+                // dynamic with each call
                 HandleResponses.handleEmptyResponse();
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
+                Log.d("onFailure: ", t.getMessage());
+                // dynamic with each call
                 HandleResponses.handleConnectionErrors(context.getString(R.string.no_connection));
             }
         };
     }
 
-    public void cancelRequest() {
-        if (request != null) {
-            if (!request.isCanceled()) {
-                request.cancel();
+    public void cancelCall() {
+        if (call != null) {
+            if (!call.isCanceled()) {
+                call.cancel();
             }
         }
     }

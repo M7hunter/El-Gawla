@@ -75,9 +75,9 @@ import it_geeks.info.gawla_app.views.Round.RoundStartToEnd;
 public class SalonActivity extends AppCompatActivity implements View.OnTouchListener {
 
     // widgets
-    public VideoView vpProductMainVideo;
     private AlertDialog joinAlert;
     private ProgressBar joinProgress, joinConfirmationProgress;
+    public VideoView vpProductMainVideo;
     public ImageView imProductMainImage;
     private ImageView btnPlayPause, imgNotification, joinIcon;
     public CardView more, notificationCard, goldenCardLayout, activityContainer, chatContainer, topTenContainer;
@@ -119,8 +119,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private List<Integer> drawablesUp = new ArrayList<>();
     private List<Integer> drawablesDown = new ArrayList<>();
 
+    private List<Card> cardList = new ArrayList<>();
     private List<ProductSubImage> subImageList = new ArrayList<>();
-    public List<Card> cardList = new ArrayList<>();
     private List<ChatModel> chatList = new ArrayList<>();
     private List<Activity> activityList = new ArrayList<>();
     private List<Card> userCards = new ArrayList<>();
@@ -145,7 +145,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         screenDimensions();
 
-        initCardsIcon();
+        initCardsBagIcon();
 
         initDivs();
 
@@ -291,6 +291,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         if (card.getCard_type().equals(goldenCard.getCard_type())) {
                             goldenCardCount = card.getCount();
                             goldenCard.setCount(card.getCount());
+                            break;
                         }
                 }
 
@@ -327,6 +328,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         });
     }
 
+    public void displayGoldenLayout() {
+        goldenCardLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void hideGoldenLayout() {
+        goldenCardLayout.setVisibility(View.GONE);
+    }
+
     private void buyGoldenCard() {
         if (goldenCard != null)
             RetrofitClient.getInstance(this).executeConnectionToServer(this, "addCardsToUser", new Request(userId, apiToken, goldenCard.getCard_id()), new HandleResponses() {
@@ -334,7 +343,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 public void handleTrueResponse(JsonObject mainObject) {
                     Toast.makeText(SalonActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                     initBottomSheetCardsBag();
-                    calculateGoldenCard();
                 }
 
                 @Override
@@ -348,20 +356,20 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                 @Override
                 public void handleConnectionErrors(String errorMessage) {
+                    Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 }
             });
     }
 
     private void useGoldenCard() {
         if (goldenCard != null)
+            hideGoldenLayout();
             RetrofitClient.getInstance(this).executeConnectionToServer(this, "useGoldenCard", new Request(userId, apiToken, goldenCard.getCard_id(), salon_id, round_id), new HandleResponses() {
                 @Override
                 public void handleTrueResponse(JsonObject mainObject) {
                     Toast.makeText(SalonActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                     roundRealTimeModel.setUserJoin(true);
                     initBottomSheetCardsBag();
-                    checkOnTime();
-                    calculateGoldenCard();
                 }
 
                 @Override
@@ -376,7 +384,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                 @Override
                 public void handleConnectionErrors(String errorMessage) {
-
+                    displayGoldenLayout();
+                    Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 }
             });
     }
@@ -407,6 +416,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void handleConnectionErrors(String errorMessage) {
                 hideLoading();
+                Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -902,7 +912,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void handleConnectionErrors(String errorMessage) {
                 hideLoading();
-                Snackbar.make(findViewById(R.id.salon_main_layout), R.string.connection_error, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
+                Snackbar.make(findViewById(R.id.salon_main_layout), errorMessage, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         getRemainingTimeOfRound();
@@ -952,13 +962,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         if (roundRealTimeModel.isPay_join_status() && !roundRealTimeModel.isUserJoin()) { // display golden card layout
             if (goldenCard != null) {
-                goldenCardLayout.setVisibility(View.VISIBLE);
+                displayGoldenLayout();
             } else {
                 Log.d("Golden_card:", "id: null");
             }
 
         } else { // hide golden card layout
-            goldenCardLayout.setVisibility(View.GONE);
+            hideGoldenLayout();
         }
 
         if (roundRealTimeModel.isFirst_round_status() && roundRealTimeModel.isUserJoin() || roundRealTimeModel.isSeconed_round_status() && roundRealTimeModel.isUserJoin()) { // display add offer layout
@@ -1294,15 +1304,15 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         joinAlert.dismiss();
     }
 
-    private void initCardsIcon() {
-        RelativeLayout cardsIconContainer = findViewById(R.id.cards_bag_btn_container);
-        cardsIconContainer.setOnTouchListener(this);
+    private void initCardsBagIcon() {
+        RelativeLayout cardsBagIconContainer = findViewById(R.id.cards_bag_btn_container);
+        cardsBagIconContainer.setOnTouchListener(this);
 
         gestureDetector = new GestureDetector(this, new SingleTapConfirm());
     }
 
     public void initBottomSheetCardsBag() {
-        getUserCardsForSalonFromServer();
+        getUserCardsForSalonFromServer(); // <--
 
         mBottomSheetDialogActivateCard = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
         View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_active_cards, null);
@@ -1313,6 +1323,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             cardsRecycler.setHasFixedSize(true);
             cardsRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
             cardsRecycler.setAdapter(new BottomCardsAdapter(SalonActivity.this, cardList, salon_id, round_id));
+
         }
 
         //close bottom sheet

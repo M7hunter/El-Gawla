@@ -127,7 +127,7 @@ public class RoundStartToEnd {
     // add deal to product ( Round Time )
     private void first_round_value(long value) {
         ((SalonActivity)context).tvSalonTime.setText(context.getResources().getString(R.string.first_round_time));
-        ((SalonActivity)context).goldenCardLayout.setVisibility(View.GONE);
+        ((SalonActivity)context).hideGoldenLayout();
         if (joinStatus == 2) {
             ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.round_started_add_offer));
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
