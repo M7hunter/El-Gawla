@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -165,11 +166,17 @@ public class MenuFragment extends Fragment {
                 alertOut.setPositiveButton(getString(R.string.sign_out), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        FirebaseAuth.getInstance().signOut();
                         SharedPrefManager.getInstance(getActivity()).clearUser();
                         startActivity(new Intent(getActivity(), LoginActivity.class));
                         SharedPrefManager.getInstance(getActivity()).clearProvider();
+                        LoginManager.getInstance().logOut();
+                        if (mGoogleApiClient.isConnected()) {
+                            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                            mGoogleApiClient.disconnect();
+                            mGoogleApiClient.connect();
+                        }
                         getActivity().finish();
+
                     }
                 });
                 alertOut.show();

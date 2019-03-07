@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "129212834621-ia209hub7m0493g0ajmm0hq9up2u4mjr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "it_geeks.info.gawla_app",
+            "certificate_hash": "f2b3ec82a95e8b84de6951407f9c56eee83a7922"
+          }
+        },
+        {
           "client_id": "129212834621-ntpf3okjbutvp5um90dl651bdoe812ll.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -42,6 +50,13 @@
             {
               "client_id": "129212834621-ntpf3okjbutvp5um90dl651bdoe812ll.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "129212834621-t9lir1bjdnu1oi0gijik6672125buvgs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ItGeeks.Gawlaaa"
+              }
             }
           ]
         },
