@@ -33,9 +33,10 @@ public class UpdateFirebaseToken {
                 String apiToken = SharedPrefManager.getInstance(context).getUser().getApi_token();
 
                 if (!String.valueOf(user_id).isEmpty() && !apiToken.isEmpty()) {
-                    RetrofitClient.getInstance(context).executeConnectionToServer(context, "setUserFirebaseToken", new Request(user_id, apiToken, FirebaseInstanceId.getInstance().getInstanceId().toString(), 0), new HandleResponses() {
+                    RetrofitClient.getInstance(context).executeConnectionToServer(context, "setUserFirebaseToken", new Request(user_id, apiToken, FirebaseInstanceId.getInstance().getToken(), 0), new HandleResponses() {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
+
                         }
 
                         @Override

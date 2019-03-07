@@ -550,18 +550,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                                 e.printStackTrace();
                             }
 
-//                            Socket ssocket;
-//                            try {
-//                                ssocket = IO.socket("http://192.168.1.8:8888");
-//                            } catch (URISyntaxException e) {
-//                                throw new RuntimeException(e);
-//                            }
-//
-//                            ssocket.connect();
-//
-//                            Emitter chat = ssocket.io().off("/chat");
-//
-//                            chat.emit("newMessage", chatData);
                             mSocket.emit("newMessage", chatData);
                             etChatMessage.setText("");
                         }
@@ -719,18 +707,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     public void connectSocket() {
         mSocket = new SocketConnection().getSocket();
         mSocket.connect();
-    }
-
-    private JSONObject objToEmit(String action) {
-        JSONObject o = new JSONObject();
-        try {
-            o.put(action, salon_id);
-            o.put("lang", SharedPrefManager.getInstance(SalonActivity.this).getSavedLang());
-        } catch (JSONException e) {
-            Log.e("objToEmit: ", e.getMessage());
-        }
-
-        return o;
     }
 
     private void intiSocket() {

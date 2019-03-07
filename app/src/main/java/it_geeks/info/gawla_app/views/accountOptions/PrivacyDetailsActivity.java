@@ -14,6 +14,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -257,10 +259,15 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
 
     private void disconnect() {
         try {
-            SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearUser();
-            SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearProvider();
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(PrivacyDetailsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            SharedPrefManager.getInstance(this).clearUser();
+            startActivity(new Intent(this, LoginActivity.class));
+            SharedPrefManager.getInstance(this).clearProvider();
+            LoginManager.getInstance().logOut();
+            if (mGoogleApiClient.isConnected()) {
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                mGoogleApiClient.disconnect();
+                mGoogleApiClient.connect();
+            }
             finish();
         } catch (Exception e) {
             Log.e("Mo7", e.getMessage() + " ");

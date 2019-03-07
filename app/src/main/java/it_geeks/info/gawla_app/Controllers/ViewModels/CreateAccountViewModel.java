@@ -33,56 +33,6 @@ public class CreateAccountViewModel {
         this.context = context;
     }
 
-    public void connectToServer(final User user, final int countryId) {
-        ((CreateAccountActivity) context).setLoadingScreen();
-        RetrofitClient.getInstance(context).executeConnectionToServer(context,
-                RequestsActions.register.toString(), new Request(user.getName(), user.getEmail(), countryId, user.getPassword()), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        ((CreateAccountActivity) context).closeLoadingScreen();
-
-                        // notify user
-                        Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-
-                        // save user data locally
-                        cacheUserData(mainObject, LoginActivity.providerNormalLogin);
-
-                        new UpdateFirebaseToken(context);
-
-                        // goto next page
-                        context.startActivity(new Intent(context, SubscribePlanActivity.class)
-                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-                    }
-
-                    @Override
-                    public void handleFalseResponse(JsonObject mainObject) {
-                        FirebaseAuth.getInstance().signOut();
-                        ((CreateAccountActivity) context).closeLoadingScreen();
-                    }
-
-                    @Override
-                    public void handleEmptyResponse() {
-                        ((CreateAccountActivity) context).closeLoadingScreen();
-                        FirebaseAuth.getInstance().signOut();
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        ((CreateAccountActivity) context).closeLoadingScreen();
-                        FirebaseAuth.getInstance().signOut();
-
-                        // notify user
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
-
-                        // try one more time
-                        if (errorMessage.contains("timeout") && ((CreateAccountActivity) context).reconnect < 1) {
-                            ((CreateAccountActivity) context).reconnect++;
-                            connectToServer(user, countryId);
-                        }
-                    }
-                });
-    }
-
     public void socialLogin(String id, final String name, final String email, final String image, final String provider) {
         int countryId = SharedPrefManager.getInstance(context).getCountry().getCountry_id();
         RetrofitClient.getInstance(context).executeConnectionToServer(context,
