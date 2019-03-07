@@ -64,7 +64,7 @@ public class RoundsPagerAdapter extends PagerAdapter {
         cardsRecycler.setHasFixedSize(true);
         cardsRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
 
-        // set data
+        // bind
         Picasso.with(context).load(round.getProduct_image()).placeholder(R.drawable.placeholder).into(imgProductImage);
         tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
         tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
@@ -72,13 +72,13 @@ public class RoundsPagerAdapter extends PagerAdapter {
         cardsRecycler.setAdapter(new SalonCardsAdapter(context, round.getSalon_cards()));
         Common.Instance(context).changeDrawableViewColor(tvProductCategory, round.getCategory_color());
 
-        //Round Status On/Off
+        // salon Status On/Off
         if (round.isStatus())
             roundStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.round_on));
         else
             roundStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.round_off));
 
-        // open round page
+        // open salon page
         btnJoinRound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,17 +94,12 @@ public class RoundsPagerAdapter extends PagerAdapter {
                 i.putExtra("product_commercial_price", round.getProduct_commercial_price());
                 i.putExtra("product_product_description", round.getProduct_product_description());
                 i.putExtra("product_image", round.getProduct_image());
-                i.putExtra("round_start_time", round.getRound_start_time());
-                i.putExtra("round_end_time", round.getRound_end_time());
-                i.putExtra("first_join_time", round.getFirst_join_time());
-                i.putExtra("second_join_time", round.getSecond_join_time());
                 i.putExtra("round_date", round.getRound_date());
-                i.putExtra("round_time", round.getRound_time());
-                i.putExtra("rest_time", round.getRest_time());
                 i.putExtra("product_images", (Serializable) round.getProduct_images());
                 i.putExtra("salon_cards", (Serializable) round.getSalon_cards());
                 i.putExtra("round_status", round.isStatus());
                 i.putExtra("round_message", round.getMessage());
+
                 context.startActivity(i);
             }
         });

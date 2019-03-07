@@ -6,14 +6,12 @@
     android:orientation="vertical"
     tools:context=".views.menuOptions.WebPageActivity">
 
-    <!-- header -->
+    <!-- title bar -->
     <RelativeLayout
         android:id="@+id/wep_page_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layoutDirection="ltr">
-
-        <include layout="@layout/main_header_layout" />
 
         <!-- back -->
         <ImageView
@@ -21,9 +19,20 @@
             android:layout_width="@dimen/icon_back"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:padding="@dimen/margin_small"
             android:src="@drawable/ic_arrow_left_only" />
+
+        <!-- title -->
+        <TextView
+            android:id="@+id/tv_wep_page_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/privacy_policy"
+            android:textColor="@color/battleshipGrey"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

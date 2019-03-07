@@ -12,7 +12,7 @@ import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.repository.Models.Trans;
 
-@Database(entities = {Round.class, Country.class, Card.class, ProductSubImage.class, Trans.class, Notifications.class}, version = 2)
+@Database(entities = {Round.class, Country.class, Card.class, ProductSubImage.class, Trans.class, Notifications.class}, version = 3, exportSchema = false)
 public abstract class GawlaDataBse extends RoomDatabase {
 
     private static GawlaDataBse INSTANCE;
@@ -22,8 +22,16 @@ public abstract class GawlaDataBse extends RoomDatabase {
 //    private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
 //        @Override
 //        public void migrate(SupportSQLiteDatabase database) {
-//            database.execSQL("ALTER TABLE Card "
-//                    + " ADD COLUMN card_category TEXT");
+//            database.execSQL("CREATE TABLE Round2" +
+//                    " (product_id INTEGER not Null, salon_id INTEGER not Null, round_id INTEGER not Null, product_name TEXT, category_name TEXT, category_color TEXT, country_name TEXT, product_commercial_price TEXT, product_product_description TEXT, product_image TEXT, round_date TEXT, status INTEGER not Null, message TEXT," +
+//                    " PRIMARY KEY(product_id))");
+//
+//            database.execSQL("INSERT INTO Round2 (product_id, salon_id, round_id, product_name, category_name, category_color, country_name, product_commercial_price, product_product_description, product_image, round_date, status, message)" +
+//                    " SELECT product_id, salon_id, round_id, product_name, category_name, category_color, country_name, product_commercial_price, product_product_description, product_image, round_date, status, message" +
+//                    " FROM Round");
+//
+//            database.execSQL("DROP TABLE Round");
+//            database.execSQL("ALTER TABLE Round2 RENAME TO Round");
 //        }
 //    };
 //
@@ -41,7 +49,7 @@ public abstract class GawlaDataBse extends RoomDatabase {
             INSTANCE = Room.databaseBuilder(context, GawlaDataBse.class, DB_NAME)
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration() // resolve this before release -> use migration <-
-//                    .addMigrations(MIGRATION_2_3, MIGRATION_3_4)
+//                    .addMigrations(MIGRATION_2_3)
                     .build();
         }
         return INSTANCE;

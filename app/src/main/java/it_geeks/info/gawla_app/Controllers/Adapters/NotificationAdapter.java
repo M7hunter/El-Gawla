@@ -81,13 +81,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                         i.putExtra("product_commercial_price", round.getProduct_commercial_price());
                                         i.putExtra("product_product_description", round.getProduct_product_description());
                                         i.putExtra("product_image", round.getProduct_image());
-                                        i.putExtra("round_start_time", round.getRound_start_time());
-                                        i.putExtra("round_end_time", round.getRound_end_time());
-                                        i.putExtra("first_join_time", round.getFirst_join_time());
-                                        i.putExtra("second_join_time", round.getSecond_join_time());
                                         i.putExtra("round_date", round.getRound_date());
-                                        i.putExtra("round_time", round.getRound_time());
-                                        i.putExtra("rest_time", round.getRest_time());
                                         i.putExtra("product_images", (Serializable) round.getProduct_images());
                                         i.putExtra("salon_cards", (Serializable) round.getSalon_cards());
 

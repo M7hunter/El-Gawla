@@ -50,7 +50,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final String lang = langList.get(i);
 
-        // set start up ui
+        // set updateCountDown up ui
         viewHolder.langLabel.setText(lang);
 
         if (sLang(lang).equals(SharedPrefManager.getInstance(context).getSavedLang())) {

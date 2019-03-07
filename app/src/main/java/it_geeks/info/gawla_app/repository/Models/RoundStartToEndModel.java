@@ -1,22 +1,21 @@
 package it_geeks.info.gawla_app.repository.Models;
 
 import android.widget.ImageView;
+
 import java.util.List;
 
 public class RoundStartToEndModel {
-    private List<ImageView> upDivsList ;
-    private List<ImageView> downDivsList ;
-    private List<Integer> drawablesUp ;
-    private List<Integer> drawablesDown ;
+
+    private List<ImageView> upDivsList;
+    private List<ImageView> downDivsList;
+    private List<Integer> drawablesUp;
+    private List<Integer> drawablesDown;
 
     public RoundStartToEndModel(List<ImageView> upDivsList, List<ImageView> downDivsList, List<Integer> drawablesUp, List<Integer> drawablesDown) {
         this.upDivsList = upDivsList;
         this.downDivsList = downDivsList;
         this.drawablesUp = drawablesUp;
         this.drawablesDown = drawablesDown;
-    }
-
-    public RoundStartToEndModel() {
     }
 
     public List<ImageView> getUpDivsList() {

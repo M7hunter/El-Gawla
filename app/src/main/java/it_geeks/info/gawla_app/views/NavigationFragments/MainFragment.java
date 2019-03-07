@@ -58,7 +58,7 @@ public class MainFragment extends Fragment {
 
     private TextView btnRecentSalonsSeeAll, btnWinnersSeeAll; // <- trans & more
     private TextView recentSalonsLabel, winnersLabel, tvEmptyHint; // <- trans
-    ImageView imgNotification;
+    private ImageView imgNotification;
 
     private int page = 1;
     private int last_page = 1;
@@ -240,30 +240,6 @@ public class MainFragment extends Fragment {
         recentSalonsRecycler.scrollToPosition(recentSalonsPagedAdapter.getItemCount() - 11);
 
         addScrollListener();
-
-//        recentSalonsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                recentSalonsProgress.setVisibility(View.GONE);
-//            }
-//        });
-
-
-//        SalonsViewModel salonsViewModel = ViewModelProviders.of(this).get(SalonsViewModel.class);
-//        salonsViewModel.init();
-//
-//        salonsViewModel.getRoundsList().observe(this, new Observer<PagedList<Round>>() {
-//            @Override
-//            public void onChanged(@Nullable PagedList<Round> rounds) {
-//                recentSalonsProgress.setVisibility(View.GONE);
-//                if (rounds != null) {
-//                    recentSalonsPagedAdapter.submitList(rounds);
-//
-//                    initSalonsEmptyView(view, rounds);
-//                }
-//            }
-//        });
     }
 
     private void addScrollListener() {
@@ -314,7 +290,7 @@ public class MainFragment extends Fragment {
 //        Common.Instance(getContext()).hideProgress(winnersNewsRecycler, winnersNewsProgress);
 //    }
 
-    public void initWinnersEmptyView() {
+    private void initWinnersEmptyView() {
         // no data ? hide header
         if (winnerNewsList == null || winnerNewsList.size() == 0) {
             winnersHeader.setVisibility(View.GONE);

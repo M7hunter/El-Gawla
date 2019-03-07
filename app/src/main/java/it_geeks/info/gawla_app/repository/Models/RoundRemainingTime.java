@@ -1,15 +1,12 @@
 package it_geeks.info.gawla_app.repository.Models;
 
-public class RoundRealTimeModel {
+public class RoundRemainingTime {
 
-    boolean open_hall_status, free_join_status, pay_join_status, first_round_status, first_rest_status, seconed_round_status, seconed_rest_status, close_hall_status, isUserJoin;
-    int open_hall_value, free_join_value, pay_join_value, first_round_value, first_rest_value, seconed_round_value, seconed_rest_value, close_hall_value, last_round_id;
-    String round_status;
+    private  String round_status;
+    private int open_hall_value, free_join_value, pay_join_value, first_round_value, first_rest_value, second_round_value, second_rest_value, close_hall_value, last_round_id;
+    private boolean open_hall_status, free_join_status, pay_join_status, first_round_status, first_rest_status, second_round_status, second_rest_status, close_hall_status, isUserJoin;
 
-    public RoundRealTimeModel() {
-    }
-
-    public RoundRealTimeModel(boolean open_hall_status, int open_hall_value, boolean free_join_status, int free_join_value, boolean pay_join_status, int pay_join_value, boolean first_round_status, int first_round_value, boolean first_rest_status, int first_rest_value, boolean seconed_round_status, int seconed_round_value, boolean seconed_rest_status, int seconed_rest_value, boolean close_hall_status, int close_hall_value, String round_status, boolean isUserJoin,int last_round_id) {
+    public RoundRemainingTime(boolean open_hall_status, int open_hall_value, boolean free_join_status, int free_join_value, boolean pay_join_status, int pay_join_value, boolean first_round_status, int first_round_value, boolean first_rest_status, int first_rest_value, boolean second_round_status, int second_round_value, boolean second_rest_status, int second_rest_value, boolean close_hall_status, int close_hall_value, String round_status, boolean isUserJoin, int last_round_id) {
         this.open_hall_status = open_hall_status;
         this.open_hall_value = open_hall_value;
         this.free_join_status = free_join_status;
@@ -20,10 +17,10 @@ public class RoundRealTimeModel {
         this.first_round_value = first_round_value;
         this.first_rest_status = first_rest_status;
         this.first_rest_value = first_rest_value;
-        this.seconed_round_status = seconed_round_status;
-        this.seconed_round_value = seconed_round_value;
-        this.seconed_rest_status = seconed_rest_status;
-        this.seconed_rest_value = seconed_rest_value;
+        this.second_round_status = second_round_status;
+        this.second_round_value = second_round_value;
+        this.second_rest_status = second_rest_status;
+        this.second_rest_value = second_rest_value;
         this.close_hall_status = close_hall_status;
         this.close_hall_value = close_hall_value;
         this.round_status = round_status;
@@ -135,36 +132,36 @@ public class RoundRealTimeModel {
         this.first_rest_value = first_rest_value;
     }
 
-    public boolean isSeconed_round_status() {
-        return seconed_round_status;
+    public boolean isSecond_round_status() {
+        return second_round_status;
     }
 
-    public void setSeconed_round_status(boolean seconed_round_status) {
-        this.seconed_round_status = seconed_round_status;
+    public void setSecond_round_status(boolean second_round_status) {
+        this.second_round_status = second_round_status;
     }
 
-    public int getSeconed_round_value() {
-        return seconed_round_value;
+    public int getSecond_round_value() {
+        return second_round_value;
     }
 
-    public void setSeconed_round_value(int seconed_round_value) {
-        this.seconed_round_value = seconed_round_value;
+    public void setSecond_round_value(int second_round_value) {
+        this.second_round_value = second_round_value;
     }
 
-    public boolean isSeconed_rest_status() {
-        return seconed_rest_status;
+    public boolean isSecond_rest_status() {
+        return second_rest_status;
     }
 
-    public void setSeconed_rest_status(boolean seconed_rest_status) {
-        this.seconed_rest_status = seconed_rest_status;
+    public void setSecond_rest_status(boolean second_rest_status) {
+        this.second_rest_status = second_rest_status;
     }
 
-    public int getSeconed_rest_value() {
-        return seconed_rest_value;
+    public int getSecond_rest_value() {
+        return second_rest_value;
     }
 
-    public void setSeconed_rest_value(int seconed_rest_value) {
-        this.seconed_rest_value = seconed_rest_value;
+    public void setSecond_rest_value(int second_rest_value) {
+        this.second_rest_value = second_rest_value;
     }
 
     public boolean isClose_hall_status() {

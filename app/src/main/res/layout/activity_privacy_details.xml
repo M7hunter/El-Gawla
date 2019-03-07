@@ -12,14 +12,13 @@
         android:id="@+id/privacy_details_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_tiny">
+        android:layoutDirection="ltr">
 
         <!-- back -->
         <ImageView
             android:id="@+id/privacy_details_back"
             android:layout_width="@dimen/icon_back"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:padding="@dimen/margin_small"
             android:src="@drawable/ic_arrow_left_only" />

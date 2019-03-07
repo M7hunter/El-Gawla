@@ -54,6 +54,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         .placeholder(context.getResources().getDrawable(R.drawable.placeholder))
                         .into(viewHolder.imgProductImage);
             } catch (Exception e) {
+                e.printStackTrace();
             }
 
             viewHolder.tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
@@ -93,19 +94,13 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         i.putExtra("product_commercial_price", round.getProduct_commercial_price());
                         i.putExtra("product_product_description", round.getProduct_product_description());
                         i.putExtra("product_image", round.getProduct_image());
-                        i.putExtra("round_start_time", round.getRound_start_time());
-                        i.putExtra("round_end_time", round.getRound_end_time());
-                        i.putExtra("first_join_time", round.getFirst_join_time());
-                        i.putExtra("second_join_time", round.getSecond_join_time());
                         i.putExtra("round_date", round.getRound_date());
-                        i.putExtra("round_time", round.getRound_time());
-                        i.putExtra("rest_time", round.getRest_time());
-                        i.putExtra("product_images", (Serializable) round.getProduct_images());
-                        i.putExtra("salon_cards", (Serializable) round.getSalon_cards());
                         i.putExtra("round_status", round.isStatus());
                         i.putExtra("round_message", round.getMessage());
+                        i.putExtra("product_images", (Serializable) round.getProduct_images());
+                        i.putExtra("salon_cards", (Serializable) round.getSalon_cards());
 
-                        // start with transition
+                        // updateCountDown with transition
                         Pair[] pairs = new Pair[2];
                         pairs[0] = new Pair<View, String>(viewHolder.imgProductImage, "transProductImage");
                         pairs[1] = new Pair<View, String>(viewHolder.tvProductName, "transProductName");
@@ -119,6 +114,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                     }
                 });
             } catch (Exception e) {
+                e.printStackTrace();
             }
 
 //            Common.Instance(context).setAnimation(viewHolder.itemView);

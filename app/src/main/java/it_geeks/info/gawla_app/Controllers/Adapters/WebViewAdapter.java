@@ -43,6 +43,7 @@ public class WebViewAdapter extends RecyclerView.Adapter<WebViewAdapter.ViewHold
             public void onClick(View v) {
                 Intent i = new Intent(context, WebPageActivity.class);
                 i.putExtra("web_page_url", webPage.getPage_link());
+                i.putExtra("web_page_title", webPage.getPage_title());
 
                 context.startActivity(i);
             }

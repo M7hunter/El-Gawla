@@ -41,7 +41,7 @@ public class MyRoundsFragment extends Fragment {
 
     private ProgressBar myRoundProgress;
 
-    ImageView imgNotification;
+    private ImageView imgNotification;
 
     private ImageView arrowRight, arrowLeft;
     private TextView tvMyRoundsHeader, tvMyRoundsEmptyHint; // <- trans
@@ -89,7 +89,7 @@ public class MyRoundsFragment extends Fragment {
         // notification status LiveData
         NotificationStatus.notificationStatus(getContext(),imgNotification);
 
-        // notofocation onClick
+        // notification onClick
         imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,7 +104,7 @@ public class MyRoundsFragment extends Fragment {
         if (Common.Instance(getActivity()).isConnected()) {
             noConnectionLayout.setVisibility(View.GONE);
 
-            getData(view);
+            getUsrRoundsFromServer(view);
 
         } else {
             noConnectionLayout.setVisibility(View.VISIBLE);
@@ -114,7 +114,7 @@ public class MyRoundsFragment extends Fragment {
         }
     }
 
-    private void getData(final View view) {
+    private void getUsrRoundsFromServer(final View view) {
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
         String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 

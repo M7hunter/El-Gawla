@@ -36,6 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import it_geeks.info.gawla_app.Controllers.Adapters.ActivityAdapter;
@@ -54,6 +56,7 @@ import it_geeks.info.gawla_app.repository.Models.Activity;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.ChatModel;
 import it_geeks.info.gawla_app.repository.Models.TopTen;
+import it_geeks.info.gawla_app.repository.SocketConnection.Constants;
 import it_geeks.info.gawla_app.repository.SocketConnection.SocketConnection;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.ConnectionChangeReceiver;
@@ -62,7 +65,7 @@ import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.repository.Models.RoundRealTimeModel;
+import it_geeks.info.gawla_app.repository.Models.RoundRemainingTime;
 import it_geeks.info.gawla_app.repository.Models.RoundStartToEndModel;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
@@ -70,7 +73,7 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Controllers.Adapters.BottomCardsAdapter;
 import it_geeks.info.gawla_app.Controllers.Adapters.ProductSubImagesAdapter;
 import it_geeks.info.gawla_app.general.NotificationStatus;
-import it_geeks.info.gawla_app.views.Round.RoundStartToEnd;
+import it_geeks.info.gawla_app.views.Round.RoundCountDownController;
 
 public class SalonActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -100,7 +103,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private Socket mSocket;
     private ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
 
-    public String timeState = "";
     private String userName, apiToken, round_date;
     private int goldenCardCount = 0, stopPosition = 0, screenHeight, screenWidth, salon_id, round_id, joinStatus; // 0 = watcher, 1 = want to join, 2 = joined
     public int userId;
@@ -110,8 +112,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private PointF pointerPoint = new PointF();
     private GestureDetector gestureDetector;
 
-    private RoundStartToEnd roundStartToEnd;
-    private RoundRealTimeModel roundRealTimeModel;
+    private RoundCountDownController roundCountDownController;
+    private RoundRemainingTime roundRemainingTime;
 
     // lists
     private List<ImageView> upDivsList = new ArrayList<>();
@@ -132,6 +134,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         userName = SharedPrefManager.getInstance(SalonActivity.this).getUser().getName();
+
+        roundCountDownController = new RoundCountDownController(SalonActivity.this, new RoundStartToEndModel(upDivsList, downDivsList, drawablesUp, drawablesDown));
 
         initViews();
 
@@ -166,7 +170,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             activityRecycler.setAdapter(new ActivityAdapter(activityList));
             activityRecycler.scrollToPosition(activityList.size() - 1);
         }
-
     }
 
     public void initViews() {
@@ -233,13 +236,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         extras.getString("product_image"),
                         subImageList,
                         cardList,
-                        extras.getString("round_start_time"),
-                        extras.getString("round_end_time"),
-                        extras.getString("first_join_time"),
-                        extras.getString("second_join_time"),
                         round_date,
-                        extras.getString("round_time"),
-                        extras.getString("rest_time"),
                         extras.getBoolean("round_status"),
                         extras.getString("round_message"));
             }
@@ -263,27 +260,20 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     (String) savedInstanceState.getSerializable("product_image"),
                     subImageList,
                     cardList,
-                    (String) savedInstanceState.getSerializable("round_start_time"),
-                    (String) savedInstanceState.getSerializable("round_end_time"),
-                    (String) savedInstanceState.getSerializable("first_join_time"),
-                    (String) savedInstanceState.getSerializable("second_join_time"),
                     round_date,
-                    (String) savedInstanceState.getSerializable("round_time"),
-                    (String) savedInstanceState.getSerializable("rest_time"),
                     savedInstanceState.getBoolean("round_status"),
                     savedInstanceState.getString("round_message"));
         }
 
-        initBottomSheetProductDetails();
-
         initBottomSheetCardsBag();
+
+        initBottomSheetProductDetails();
     }
 
     private void calculateGoldenCard() {
         for (int i = 0; i < cardList.size(); i++) {
             if (cardList.get(i).getCard_type().equals("gold")) {
                 goldenCard = cardList.get(i);
-                Log.d("Golden_card", "id: " + cardList.get(i).getCard_id());
 
                 goldenCardCount = 0;
                 for (Card card : userCards) {
@@ -337,7 +327,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void buyGoldenCard() {
-        if (goldenCard != null)
+        if (goldenCard != null) {
+            displayLoading();
             RetrofitClient.getInstance(this).executeConnectionToServer(this, "addCardsToUser", new Request(userId, apiToken, goldenCard.getCard_id()), new HandleResponses() {
                 @Override
                 public void handleTrueResponse(JsonObject mainObject) {
@@ -356,20 +347,25 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                 @Override
                 public void handleConnectionErrors(String errorMessage) {
+                    hideLoading();
                     Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 }
             });
+        }
     }
 
     private void useGoldenCard() {
-        if (goldenCard != null)
+        if (goldenCard != null) {
+            displayLoading();
             hideGoldenLayout();
             RetrofitClient.getInstance(this).executeConnectionToServer(this, "useGoldenCard", new Request(userId, apiToken, goldenCard.getCard_id(), salon_id, round_id), new HandleResponses() {
                 @Override
                 public void handleTrueResponse(JsonObject mainObject) {
                     Toast.makeText(SalonActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                    roundRealTimeModel.setUserJoin(true);
+                    roundRemainingTime.setUserJoin(true);
+                    goldenCard.setCount(goldenCardCount - 1);
                     initBottomSheetCardsBag();
+                    startSalonNotification();
                 }
 
                 @Override
@@ -385,9 +381,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 @Override
                 public void handleConnectionErrors(String errorMessage) {
                     displayGoldenLayout();
+                    hideLoading();
                     Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 }
             });
+        }
     }
 
     private void getTopTen() {
@@ -538,7 +536,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             public void onClick(View v) {
                 try {
 
-                    if (joinStatus == 2 && !roundRealTimeModel.getRound_status().equals("close")) {
+                    if (joinStatus == 2 && !roundRemainingTime.getRound_status().equals("close")) {
                         if (etChatMessage.getText().toString().trim().isEmpty()) {
                             etChatMessage.setError("Input Empty");
                         } else {
@@ -552,6 +550,18 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                                 e.printStackTrace();
                             }
 
+//                            Socket ssocket;
+//                            try {
+//                                ssocket = IO.socket("http://192.168.1.8:8888");
+//                            } catch (URISyntaxException e) {
+//                                throw new RuntimeException(e);
+//                            }
+//
+//                            ssocket.connect();
+//
+//                            Emitter chat = ssocket.io().off("/chat");
+//
+//                            chat.emit("newMessage", chatData);
                             mSocket.emit("newMessage", chatData);
                             etChatMessage.setText("");
                         }
@@ -622,7 +632,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     hideConfirmationLayout();
                     btn_leave_round.setVisibility(View.VISIBLE);
                     notificationCard.setVisibility(View.VISIBLE);
-                } else if (roundRealTimeModel.isUserJoin()) {
+                } else if (roundRemainingTime.isUserJoin()) {
                     btn_leave_round.setVisibility(View.VISIBLE);
                 } else {
                     cancelConfirmation();
@@ -634,7 +644,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         btnAddOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (roundRealTimeModel.isUserJoin()) {
+                if (roundRemainingTime.isUserJoin()) {
                     etAddOffer.setEnabled(false);
                     sendOfferToServer();
                 }
@@ -711,6 +721,18 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         mSocket.connect();
     }
 
+    private JSONObject objToEmit(String action) {
+        JSONObject o = new JSONObject();
+        try {
+            o.put(action, salon_id);
+            o.put("lang", SharedPrefManager.getInstance(SalonActivity.this).getSavedLang());
+        } catch (JSONException e) {
+            Log.e("objToEmit: ", e.getMessage());
+        }
+
+        return o;
+    }
+
     private void intiSocket() {
         try {
             JSONObject o = new JSONObject();
@@ -729,7 +751,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     public void run() {
                         try {
                             JSONObject main = (JSONObject) args[0];
-                            displayRoundActivity(main.get("data").toString());
+                            displayRoundLastActivity(main.get("data").toString());
                             activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
@@ -746,7 +768,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     public void run() {
                         try {
                             JSONObject main = (JSONObject) args[0];
-                            displayRoundActivity(main.get("data").toString());
+                            displayRoundLastActivity(main.get("data").toString());
                             activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
@@ -763,7 +785,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     public void run() {
                         try {
                             JSONObject main = (JSONObject) args[0];
-                            displayRoundActivity(main.get("data").toString());
+                            displayRoundLastActivity(main.get("data").toString());
                             activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
@@ -780,7 +802,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     public void run() {
                         try {
                             JSONObject main = (JSONObject) args[0];
-                            displayRoundActivity(main.get("data").toString());
+                            displayRoundLastActivity(main.get("data").toString());
                             activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
@@ -821,7 +843,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     public void run() {
                         try {
                             JSONObject main = (JSONObject) args[0];
-                            displayRoundActivity(main.get("data").toString());
+                            displayRoundLastActivity(main.get("data").toString());
                             activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
@@ -833,11 +855,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         });
     }
 
-    private void displayRoundActivity(String notificationMsg) {
+    private void displayRoundLastActivity(String notificationMsg) {
         try {
             tvRoundActivity.setText(notificationMsg);
         } catch (ArrayIndexOutOfBoundsException e) {
-            Log.e("displayRoundActivity: ", e.getMessage());
+            Log.e("RoundLastActivity: ", e.getMessage());
         }
     }
 
@@ -884,19 +906,19 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     public void getRemainingTimeOfRound() {
-        Log.d("request_time: ", "" + System.currentTimeMillis() / 1000);
         displayLoading();
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this, "getSalonWithRealTime", new Request(userId, apiToken, salon_id), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
-                boolean isToday = mainObject.get("isToday").getAsBoolean();
-                if (isToday) {
-                    startTimeDown(ParseResponses.parseRoundRealTime(mainObject));
-                } else {
+                if (mainObject.get("isToday").getAsBoolean()) { // today ?
+                    initCountDown(ParseResponses.parseRoundRealTime(mainObject));
+
+                } else { // !today
                     tvSalonTime.setText(getResources().getString(R.string.round_date) + "\n" + round_date);
                     tvSalonTime.setTextSize(20);
                 }
-                round_id = roundRealTimeModel.getLast_round_id();
+
+                round_id = roundRemainingTime.getLast_round_id();
             }
 
             @Override
@@ -923,27 +945,25 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     //Round Start
-    private void startTimeDown(RoundRealTimeModel roundRealTimeModel) {
-        this.roundRealTimeModel = roundRealTimeModel;
-        if (roundRealTimeModel.isUserJoin()) {
+    private void initCountDown(RoundRemainingTime roundRemainingTime) {
+        this.roundRemainingTime = roundRemainingTime;
+        if (roundRemainingTime.isUserJoin()) {
             joinStatus = 2;
         } else {
             joinStatus = 0;
         }
 
-        RoundStartToEndModel roundStartToEndModel = new RoundStartToEndModel(upDivsList, downDivsList, drawablesUp, drawablesDown);
-        roundStartToEnd = new RoundStartToEnd(SalonActivity.this, roundStartToEndModel);
-        roundStartToEnd.setJoinStatus(joinStatus);  // User Status From Server to time
-        roundStartToEnd.setTime(roundRealTimeModel);// set round time
+        roundCountDownController.setJoinStatus(joinStatus);  // User Status From Server
+        roundCountDownController.setRoundRemainingTime(roundRemainingTime);// set round remaining time
         try {
-            roundStartToEnd.start();
+            roundCountDownController.updateCountDown();
         } catch (NullPointerException e) {
-            Log.e("startTimeDown: ", e.getMessage());
+            Log.e("initCountDown: ", e.getMessage());
         }
     }
 
     public void checkOnTime() {
-        if (roundRealTimeModel.getRound_status().equals("open") && !roundRealTimeModel.isOpen_hall_status()) {
+        if (roundRemainingTime.getRound_status().equals("open") && !roundRemainingTime.isOpen_hall_status()) {
             if (!socketOnStatus) {
                 intiSocket();
                 socketOnStatus = true;
@@ -954,13 +974,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             chatContainer.setVisibility(View.GONE);
         }
 
-        if (roundRealTimeModel.isFree_join_status() && roundRealTimeModel.isUserJoin() || roundRealTimeModel.isPay_join_status() && roundRealTimeModel.isUserJoin()) { // display leave salon btn
+        if (roundRemainingTime.isFree_join_status() && roundRemainingTime.isUserJoin() || roundRemainingTime.isPay_join_status() && roundRemainingTime.isUserJoin()) { // display leave salon btn
             btn_leave_round.setVisibility(View.VISIBLE);
         } else { // hide leave salon btn
             btn_leave_round.setVisibility(View.GONE);
         }
 
-        if (roundRealTimeModel.isPay_join_status() && !roundRealTimeModel.isUserJoin()) { // display golden card layout
+        if (roundRemainingTime.isPay_join_status() && !roundRemainingTime.isUserJoin()) { // display golden card layout
             if (goldenCard != null) {
                 displayGoldenLayout();
             } else {
@@ -971,7 +991,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             hideGoldenLayout();
         }
 
-        if (roundRealTimeModel.isFirst_round_status() && roundRealTimeModel.isUserJoin() || roundRealTimeModel.isSeconed_round_status() && roundRealTimeModel.isUserJoin()) { // display add offer layout
+        if (roundRemainingTime.isFirst_round_status() && roundRemainingTime.isUserJoin() || roundRemainingTime.isSecond_round_status() && roundRemainingTime.isUserJoin()) { // display add offer layout
             addOfferLayout.setVisibility(View.VISIBLE);
             // get user last Offer
             etAddOffer.setText(String.valueOf(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(salon_id + "" + userId)));
@@ -979,12 +999,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             addOfferLayout.setVisibility(View.GONE);
         }
 
-        if (roundRealTimeModel.isFirst_round_status() || roundRealTimeModel.isSeconed_round_status()) { // hide top ten views
+        if (roundRemainingTime.isFirst_round_status() || roundRemainingTime.isSecond_round_status()) { // hide top ten views
             topTenRecycler.setVisibility(View.GONE);
             tvTopTenTab.setVisibility(View.GONE);
         }
 
-        if (roundRealTimeModel.isFirst_rest_status()) {
+        if (roundRemainingTime.isFirst_rest_status()) {
             // clear user offer
             SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon_id + "" + userId);
             // display top ten
@@ -993,7 +1013,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             selectTopTenTab();
         }
 
-        if (roundRealTimeModel.isClose_hall_status() || roundRealTimeModel.getRound_status().equals("close")) {
+        if (roundRemainingTime.isClose_hall_status() || roundRemainingTime.getRound_status().equals("close")) {
             chatContainer.setVisibility(View.GONE);
             tvChatTab.setVisibility(View.GONE);
             topTenRecycler.setVisibility(View.VISIBLE);
@@ -1021,14 +1041,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     String message = mainObject.get("message").getAsString();
                     String offer = mainObject.get("offer").getAsString();
 
-                    if (userId == mainObject.get("user_id").getAsInt() && roundRealTimeModel.isUserJoin()) { // winner ?
+                    if (userId == mainObject.get("user_id").getAsInt() && roundRemainingTime.isUserJoin()) { // winner ?
                         Intent i = new Intent(SalonActivity.this, WinnerActivity.class);
                         i.putExtra("winner_name", winnerName);
                         i.putExtra("offer", offer);
                         startActivity(i);
 
                     } else { // !winner
-                        displayRoundActivity(winnerName + " " + message + offer);
+                        displayRoundLastActivity(winnerName + " " + message + offer);
                     }
 
                 } catch (NullPointerException e) {
@@ -1078,7 +1098,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         alertOut.setPositiveButton(getString(R.string.logout_me), outRound);
         alertOut.setNegativeButton(getString(R.string.cancel), null);
         alertOut.setCancelable(false);
-        alertOut.create();
         alertOut.show();
     } // check if user keep wanting out
 
@@ -1088,7 +1107,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this, "setRoundLeave", new Request(userId, apiToken, salon_id), new HandleResponses() {
                 @Override
                 public void handleTrueResponse(JsonObject mainObject) {
-                    roundStartToEnd.stop(); // stop Time Down
+                    roundCountDownController.stopCountDown();
                     stopSalonNotification();
                     getRemainingTimeOfRound();
                     initialConfirmationScreen();
@@ -1153,12 +1172,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 });
     }
 
-    // start NotificationDao To This Salon
+    // updateCountDown NotificationDao To This Salon
     public void startSalonNotification() {
         FirebaseMessaging.getInstance().subscribeToTopic("salon_" + salon_id);
     }
 
-    // stop NotificationDao To This Salon
+    // stopCountDown NotificationDao To This Salon
     public void stopSalonNotification() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic("salon_" + salon_id);
     }
@@ -1257,13 +1276,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void changeConfirmationState() {
         joinStatus = 2;
-        roundStartToEnd.setJoinStatus(joinStatus);
+        roundCountDownController.setJoinStatus(joinStatus);
         congratulationScreen();
     }
 
     private void displayConfirmationLayout() {
         joinStatus = 1;
-        roundStartToEnd.setJoinStatus(joinStatus);
+        roundCountDownController.setJoinStatus(joinStatus);
 
         // display confirmation layout
         joinAlert.show();
@@ -1312,7 +1331,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     public void initBottomSheetCardsBag() {
-        getUserCardsForSalonFromServer(); // <--
 
         mBottomSheetDialogActivateCard = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
         View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_active_cards, null);
@@ -1322,8 +1340,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             RecyclerView cardsRecycler = sheetView.findViewById(R.id.salon_cards_bottom_recycler);
             cardsRecycler.setHasFixedSize(true);
             cardsRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
-            cardsRecycler.setAdapter(new BottomCardsAdapter(SalonActivity.this, cardList, salon_id, round_id));
-
+            getUserCardsForSalonFromServer(cardsRecycler); // <--
         }
 
         //close bottom sheet
@@ -1346,8 +1363,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 .setBackgroundResource(android.R.color.transparent);
     }
 
-    private void getUserCardsForSalonFromServer() {
-        Log.d("request_time2: ", "" + System.currentTimeMillis() / 1000);
+    private void getUserCardsForSalonFromServer(final RecyclerView cardsRecycler) {
         displayLoading();
         int userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
         String apiToken = SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token();
@@ -1371,6 +1387,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 }
 
                 calculateGoldenCard();
+
+                cardsRecycler.setAdapter(new BottomCardsAdapter(SalonActivity.this, cardList, salon_id, round_id));
 
                 getRemainingTimeOfRound();
 
@@ -1637,19 +1655,19 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         try {
-            roundStartToEnd.stop(); // stop Time Down
+            roundCountDownController.stopCountDown();
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         Intent i = new Intent();
         setResult(RESULT_OK, i);
+        super.onBackPressed();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         unregisterReceiver(connectionChangeReceiver);
 
         if (mSocket != null) {
@@ -1660,8 +1678,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         }
 
         try {
-            roundStartToEnd.stop(); // stop Time Down
+            roundCountDownController.stopCountDown();
         } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        super.onDestroy();
     }
 }

@@ -14,7 +14,7 @@ import it_geeks.info.gawla_app.repository.Models.TopTen;
 import it_geeks.info.gawla_app.repository.Models.Trans;
 import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
 import it_geeks.info.gawla_app.repository.Models.Round;
-import it_geeks.info.gawla_app.repository.Models.RoundRealTimeModel;
+import it_geeks.info.gawla_app.repository.Models.RoundRemainingTime;
 import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.repository.Models.WebPage;
 
@@ -31,42 +31,24 @@ public class ParseResponses {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
             int product_id = roundObj.get("product_id").getAsInt();
             int salon_id = roundObj.get("salon_id").getAsInt();
-            int round_id = roundObj.get("round_id").getAsInt();
-            String product_name = roundObj.get("product_name").getAsString();
-            String category_name = roundObj.get("category_name").getAsString();
-            String category_color = roundObj.get("category_color").getAsString();
-            String country_name = roundObj.get("country_name").getAsString();
-            String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
-            String product_product_description = roundObj.get("product_description").getAsString();
-            String product_image = roundObj.get("product_image").getAsString();
-            String round_date = roundObj.get("round_date").getAsString();
-
-            JsonObject salon_status = roundObj.get("salon_status").getAsJsonObject();
-            boolean status = salon_status.get("status").getAsBoolean();
-            String message = salon_status.get("message").getAsString();
+            JsonObject salon_statusObj = roundObj.get("salon_status").getAsJsonObject();
 
             rounds.add(
                     new Round(product_id,
                             salon_id,
-                            round_id,
-                            product_name,
-                            category_name,
-                            category_color,
-                            country_name,
-                            product_commercial_price,
-                            product_product_description,
-                            product_image,
+                            roundObj.get("round_id").getAsInt(),
+                            roundObj.get("product_name").getAsString(),
+                            roundObj.get("category_name").getAsString(),
+                            roundObj.get("category_color").getAsString(),
+                            roundObj.get("country_name").getAsString(),
+                            roundObj.get("product_commercial_price").getAsString(),
+                            roundObj.get("product_description").getAsString(),
+                            roundObj.get("product_image").getAsString(),
                             parseSubImages(roundObj, product_id),
                             parseSalonCards(roundObj, salon_id),
-                            "",
-                            "",
-                            "",
-                            "",
-                            round_date,
-                            "",
-                            "",
-                            status,
-                            message));
+                            roundObj.get("round_date").getAsString(),
+                            salon_statusObj.get("status").getAsBoolean(),
+                            salon_statusObj.get("message").getAsString()));
         }
 
         return rounds;
@@ -77,41 +59,23 @@ public class ParseResponses {
 
         int product_id = roundObj.get("product_id").getAsInt();
         int salon_id = roundObj.get("salon_id").getAsInt();
-        int round_id = roundObj.get("round_id").getAsInt();
-        String product_name = roundObj.get("product_name").getAsString();
-        String category_name = roundObj.get("category_name").getAsString();
-        String category_color = roundObj.get("category_color").getAsString();
-        String country_name = roundObj.get("country_name").getAsString();
-        String product_commercial_price = roundObj.get("product_commercial_price").getAsString();
-        String product_product_description = roundObj.get("product_description").getAsString();
-        String product_image = roundObj.get("product_image").getAsString();
-        String round_date = roundObj.get("round_date").getAsString();
-        JsonObject salon_status = roundObj.get("salon_status").getAsJsonObject();
-        boolean status = salon_status.get("status").getAsBoolean();
-        String message = salon_status.get("message").getAsString();
+        JsonObject salon_statusObj = roundObj.get("salon_status").getAsJsonObject();
 
         return new Round(product_id,
                 salon_id,
-                round_id,
-                product_name,
-                category_name,
-                category_color,
-                country_name,
-                product_commercial_price,
-                product_product_description,
-                product_image,
+                roundObj.get("round_id").getAsInt(),
+                roundObj.get("product_name").getAsString(),
+                roundObj.get("category_name").getAsString(),
+                roundObj.get("category_color").getAsString(),
+                roundObj.get("country_name").getAsString(),
+                roundObj.get("product_commercial_price").getAsString(),
+                roundObj.get("product_description").getAsString(),
+                roundObj.get("product_image").getAsString(),
                 parseSubImages(roundObj, product_id),
                 parseSalonCards(roundObj, salon_id),
-                "",
-                "",
-                "",
-                "",
-                round_date,
-                "",
-                "",
-                "",
-                status,
-                message);
+                roundObj.get("round_date").getAsString(),
+                salon_statusObj.get("status").getAsBoolean(),
+                salon_statusObj.get("message").getAsString());
     }
 
     private static List<ProductSubImage> parseSubImages(JsonObject roundObj, int product_id) {
@@ -147,47 +111,46 @@ public class ParseResponses {
         return salon_cardsList;
     }
 
-    public static RoundRealTimeModel parseRoundRealTime(JsonObject roundObj) {
-        JsonObject roundtime = roundObj.get("hall").getAsJsonObject();
+    public static RoundRemainingTime parseRoundRealTime(JsonObject roundObj) {
+        JsonObject roundTime = roundObj.get("hall").getAsJsonObject();
 
-        JsonObject open_hall = roundtime.get("open_hall").getAsJsonObject();
+        JsonObject open_hall = roundTime.get("open_hall").getAsJsonObject();
         boolean open_hall_status = open_hall.get("status").getAsBoolean();
         int open_hall_value = open_hall.get("value").getAsInt();
 
-        JsonObject free_join = roundtime.get("free_join").getAsJsonObject();
+        JsonObject free_join = roundTime.get("free_join").getAsJsonObject();
         boolean free_join_status = free_join.get("status").getAsBoolean();
         int free_join_value = free_join.get("value").getAsInt();
 
-        JsonObject pay_join = roundtime.get("pay_join").getAsJsonObject();
+        JsonObject pay_join = roundTime.get("pay_join").getAsJsonObject();
         boolean pay_join_status = pay_join.get("status").getAsBoolean();
         int pay_join_value = pay_join.get("value").getAsInt();
 
-        JsonObject first_round = roundtime.get("first_round").getAsJsonObject();
+        JsonObject first_round = roundTime.get("first_round").getAsJsonObject();
         boolean first_round_status = first_round.get("status").getAsBoolean();
         int first_round_value = first_round.get("value").getAsInt();
 
-        JsonObject first_rest = roundtime.get("first_rest").getAsJsonObject();
+        JsonObject first_rest = roundTime.get("first_rest").getAsJsonObject();
         boolean first_rest_status = first_rest.get("status").getAsBoolean();
         int first_rest_value = first_rest.get("value").getAsInt();
 
-        JsonObject seconed_round = roundtime.get("seconed_round").getAsJsonObject();
-        boolean seconed_round_status = seconed_round.get("status").getAsBoolean();
-        int seconed_round_value = seconed_round.get("value").getAsInt();
+        JsonObject second_round = roundTime.get("seconed_round").getAsJsonObject();
+        boolean second_round_status = second_round.get("status").getAsBoolean();
+        int second_round_value = second_round.get("value").getAsInt();
 
-        JsonObject seconed_rest = roundtime.get("seconed_rest").getAsJsonObject();
-        boolean seconed_rest_status = seconed_rest.get("status").getAsBoolean();
-        int seconed_rest_value = seconed_rest.get("value").getAsInt();
+        JsonObject second_rest = roundTime.get("seconed_rest").getAsJsonObject();
+        boolean second_rest_status = second_rest.get("status").getAsBoolean();
+        int second_rest_value = second_rest.get("value").getAsInt();
 
-        JsonObject close_hall = roundtime.get("close_hall").getAsJsonObject();
+        JsonObject close_hall = roundTime.get("close_hall").getAsJsonObject();
         boolean close_hall_status = close_hall.get("status").getAsBoolean();
         int close_hall_value = close_hall.get("value").getAsInt();
 
-        String round_status = roundtime.get("status").getAsString();
-        boolean isUserJoin = false;
-        isUserJoin = roundObj.get("isUserJoin").getAsBoolean();
+        String round_status = roundTime.get("status").getAsString();
+        boolean isUserJoin = roundObj.get("isUserJoin").getAsBoolean();
         int last_round_id = roundObj.get("last_round_id").getAsInt();
 
-        return new RoundRealTimeModel(
+        return new RoundRemainingTime(
                 open_hall_status,
                 open_hall_value,
                 free_join_status,
@@ -198,10 +161,10 @@ public class ParseResponses {
                 first_round_value,
                 first_rest_status,
                 first_rest_value,
-                seconed_round_status,
-                seconed_round_value,
-                seconed_rest_status,
-                seconed_rest_value,
+                second_round_status,
+                second_round_value,
+                second_rest_status,
+                second_rest_value,
                 close_hall_status,
                 close_hall_value,
                 round_status,
@@ -298,25 +261,6 @@ public class ParseResponses {
         return cards;
     }
 
-//TODO Delete Later
-//    public static List<Activity> parseSalonActivity(JsonObject object) {
-//        JsonArray dataArray = object.get("salon_activity").getAsJsonArray();
-//
-//        List<Activity> activityList = new ArrayList<>();
-//
-//        for (int i = 0; i < dataArray.size(); i++) {
-//            JsonObject activityObj = dataArray.get(i).getAsJsonObject();
-//            String activity_text = activityObj.get("activity").getAsString();
-//            String activity_time = activityObj.get("time").getAsString();
-//            if (activity_time != null || !activity_text.equals("") || activity_time != null){
-//                activityList.add(new Activity(activity_text, activity_time));
-//            }
-//
-//        }
-//
-//        return activityList;
-//    }
-
     public static List<TopTen> parseTopTen(JsonObject object) {
         JsonArray dataArray = object.get("top").getAsJsonArray();
 
@@ -388,5 +332,4 @@ public class ParseResponses {
         return notificationList;
 
     }
-
 }

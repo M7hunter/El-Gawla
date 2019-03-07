@@ -147,7 +147,7 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
         return mBottomSheetDialogSingleCard;
     }
 
-    public void connectSocket() {
+    private void connectSocket() {
         mSocket = new SocketConnection().getSocket();
         mSocket.connect();
     }
@@ -160,11 +160,10 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
         RetrofitClient.getInstance(context).executeConnectionToServer(context, "useCard", new Request(userId, apiToken, card.getCard_id(), salonId, round_id), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
-
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                 ((SalonActivity) context).mBottomSheetDialogActivateCard.dismiss();
                 mBottomSheetDialogSingleCard.dismiss();
-                ((SalonActivity) context).initBottomSheetCardsBag();
+                ((SalonActivity) context).initBottomSheetCardsBag(); // refresh the cards list
 
                 JSONObject use_card = new JSONObject();
                 try {
@@ -203,7 +202,7 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                 ((SalonActivity) context).mBottomSheetDialogActivateCard.dismiss();
                 mBottomSheetDialogSingleCard.dismiss();
-                ((SalonActivity) context).initBottomSheetCardsBag();
+                ((SalonActivity) context).initBottomSheetCardsBag(); // refresh the cards list
             }
 
             @Override

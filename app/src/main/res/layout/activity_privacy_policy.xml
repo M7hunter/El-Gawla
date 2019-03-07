@@ -17,7 +17,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny">
+            android:layoutDirection="ltr">
 
             <!-- back -->
             <ImageView
@@ -26,9 +26,7 @@
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:padding="@dimen/margin_small"
-                android:layout_alignParentLeft="true"
                 android:src="@drawable/ic_arrow_left_only" />
-
 
             <!-- title -->
             <TextView

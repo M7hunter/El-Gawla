@@ -4,24 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.views.NotificationActivity;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
 public class WebPageActivity extends AppCompatActivity {
 
     private WebView webView;
     private CardView loadingCard;
+    private TextView tvTitle;
 
-    private String url;
+    private String url, title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +30,8 @@ public class WebPageActivity extends AppCompatActivity {
         getData(savedInstanceState);
 
         initViews();
+
+        bind();
 
         displayLoading();
 
@@ -45,15 +45,22 @@ public class WebPageActivity extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 url = extras.getString("web_page_url");
+                title = extras.getString("web_page_title");
             }
         } else {
             url = savedInstanceState.getString("web_page_url");
+            title = savedInstanceState.getString("web_page_title");
         }
     }
 
     private void initViews() {
         webView = findViewById(R.id.web_view);
         loadingCard = findViewById(R.id.loading_card);
+        tvTitle = findViewById(R.id.tv_wep_page_title);
+    }
+
+    private void bind() {
+        tvTitle.setText(title);
     }
 
     private void handleEvents() {
@@ -62,14 +69,6 @@ public class WebPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-            }
-        });
-
-        // goto notification page
-        findViewById(R.id.Notification).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(WebPageActivity.this, NotificationActivity.class));
             }
         });
     }
