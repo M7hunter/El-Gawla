@@ -42,16 +42,14 @@ public class CardsFragment extends Fragment {
 
     private ProgressBar cardsProgress;
 
-    private View view = null;
-
-    ImageView imgNotification;
+    private ImageView imgNotification;
 
     private TextView tvCardsStoreHeader, tvCardsStoreEmptyHint; // <- trans
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_cards, container, false);
+        View view = inflater.inflate(R.layout.fragment_cards, container, false);
 
         initViews(view);
 
@@ -59,9 +57,7 @@ public class CardsFragment extends Fragment {
 
         handleEvents();
 
-        getCardsFromServer(view);
-
-//        checkConnection(view);
+        checkConnection(view);
 
         return view;
     }
@@ -90,7 +86,7 @@ public class CardsFragment extends Fragment {
         // notification status LiveData
         NotificationStatus.notificationStatus(getContext(),imgNotification);
 
-        // notofocation onClick
+        // notification
         imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +101,7 @@ public class CardsFragment extends Fragment {
         if (Common.Instance(getActivity()).isConnected()) {
             noConnectionLayout.setVisibility(View.GONE);
 
+            getCardsFromServer(view);
 
         } else {
             noConnectionLayout.setVisibility(View.VISIBLE);

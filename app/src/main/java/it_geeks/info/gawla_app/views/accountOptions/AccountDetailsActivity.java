@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +42,6 @@ import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 public class AccountDetailsActivity extends AppCompatActivity {
 
     public static AccountDetailsActivity accountDetailsInstance;
-    ScrollView mainAccountDetails;
     private EditText et_update_first_name, et_update_last_name, et_update_telephone, sp_update_gender, sp_update_country;
     private ImageView img_update_image, btn_choose_image;
     public ImageView btn_upload_image;
@@ -53,8 +51,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
     private int user_id;
     private String api_token;
     public String encodedImage;
-
-    private Uri imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,9 +106,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        // Swipe Page Back
-        mainAccountDetails = findViewById(R.id.mainAccountDetails);
     }
 
     private void initCountriesMaterialSpinner() {
@@ -155,15 +148,14 @@ public class AccountDetailsActivity extends AppCompatActivity {
         sp_update_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_up), null);
 
         Context wrapper = new ContextThemeWrapper(this, R.style.PopupMenuTheme);
-        PopupMenu countryMenu = new PopupMenu(wrapper, sp_update_country);
+        PopupMenu countryPopup = new PopupMenu(wrapper, sp_update_country);
 
         List<String> countries = GawlaDataBse.getGawlaDatabase(this).countryDao().getCountriesNames();
-
         for (String country : countries) {
-            countryMenu.getMenu().add(country);
+            countryPopup.getMenu().add(country);
         }
 
-        countryMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        countryPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 sp_update_country.setText(item.getTitle());
@@ -171,7 +163,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
             }
         });
 
-        countryMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+        countryPopup.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
                 sp_update_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_down), null);
@@ -179,8 +171,9 @@ public class AccountDetailsActivity extends AppCompatActivity {
         });
 
         try {
-            countryMenu.show();
+            countryPopup.show();
         } catch (RuntimeException e) {
+            e.printStackTrace();
         }
     }
 
@@ -188,9 +181,10 @@ public class AccountDetailsActivity extends AppCompatActivity {
         sp_update_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_up), null);
 
         Context wrapper = new ContextThemeWrapper(this, R.style.PopupMenuTheme);
-        PopupMenu genderMenu = new PopupMenu(wrapper, sp_update_gender);
-        genderMenu.getMenuInflater().inflate(R.menu.gender_menu, genderMenu.getMenu());
-        genderMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        PopupMenu genderPopup = new PopupMenu(wrapper, sp_update_gender);
+        genderPopup.getMenuInflater().inflate(R.menu.gender_menu, genderPopup.getMenu());
+
+        genderPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 sp_update_gender.setText(item.getTitle());
@@ -198,7 +192,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
             }
         });
 
-        genderMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+        genderPopup.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
                 sp_update_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_down), null);
@@ -206,8 +200,9 @@ public class AccountDetailsActivity extends AppCompatActivity {
         });
 
         try {
-            genderMenu.show();
+            genderPopup.show();
         } catch (RuntimeException e) {
+            e.printStackTrace();
         }
     }
 
@@ -219,6 +214,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
                     .placeholder(AccountDetailsActivity.this.getResources().getDrawable(R.drawable.placeholder))
                     .into(img_update_image);
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         et_update_first_name.setText(user.getFirstName());
@@ -364,7 +360,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
     private void getImageUri(Intent data) {
 
-        imagePath = data.getData();
+        Uri imagePath = data.getData();
 
         try {
             // display image before uploading
@@ -393,7 +389,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
             });
 
         } catch (Exception e) {
-            Toast.makeText(AccountDetailsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(AccountDetailsActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

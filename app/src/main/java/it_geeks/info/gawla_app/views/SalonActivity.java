@@ -1566,6 +1566,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             case MotionEvent.ACTION_UP:
                 // checks
                 handleWithScreenBorders(view);
+                view.performClick();
 
                 break;
             default:
