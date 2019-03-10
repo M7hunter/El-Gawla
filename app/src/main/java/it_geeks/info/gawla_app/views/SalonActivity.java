@@ -1303,7 +1303,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     public void initBottomSheetCardsBag() {
-
         mBottomSheetDialogActivateCard = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
         View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_active_cards, null);
 
@@ -1346,16 +1345,17 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 userCards.addAll(ParseResponses.parseUserCardsBySalon(mainObject));
 
                 int allUserCardsCount = 0;
-                for (Card userCard : userCards) {
-                    if (cardList != null) {
+                if (cardList != null) {
+                    for (Card userCard : userCards) {
                         for (Card salonCard : cardList) {
-                            if (userCard.getCard_id() == salonCard.getCard_id()) {
+                            if (userCard.getCard_type().equals(salonCard.getCard_type())) {
                                 salonCard.setCount(userCard.getCount());
+                                break;
                             }
                         }
-                    }
 
-                    allUserCardsCount = allUserCardsCount + userCard.getCount();
+                        allUserCardsCount = allUserCardsCount + userCard.getCount();
+                    }
                 }
 
                 calculateGoldenCard();
@@ -1366,12 +1366,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                 if (userCards.size() > 0) {
                     tvCardsCount.setBackground(getResources().getDrawable(R.drawable.bg_circle_green));
-                    tvCardsCount.setText(String.valueOf(allUserCardsCount));
-
                 } else {
                     tvCardsCount.setBackground(getResources().getDrawable(R.drawable.bg_circle_red));
-                    tvCardsCount.setText("0");
                 }
+                tvCardsCount.setText(String.valueOf(allUserCardsCount));
             }
 
             @Override
