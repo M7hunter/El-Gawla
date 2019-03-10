@@ -1,6 +1,7 @@
 package it_geeks.info.gawla_app.views;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import androidx.cardview.widget.CardView;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Controllers.Adapters.NotificationAdapter;
 import it_geeks.info.gawla_app.repository.Models.Notifications;
@@ -28,6 +30,7 @@ import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 
 public class NotificationActivity extends AppCompatActivity {
 
+    private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerNotificationList;
     private List<Notifications> NotificationList = new ArrayList<>();
 
@@ -42,6 +45,24 @@ public class NotificationActivity extends AppCompatActivity {
         initViews();
 
         getData();
+
+        handleEvent();
+    }
+
+    private void handleEvent() {
+        // refresh page
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initNotiRecycler();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.setRefreshing(false);
+                    }
+                },2000);
+            }
+        });
     }
 
     private void getData() {
@@ -91,6 +112,9 @@ public class NotificationActivity extends AppCompatActivity {
     private void initViews() {
         loadingCard = findViewById(R.id.loading_card);
         notificationLoading = findViewById(R.id.notification_loading);
+
+        //refresh
+        refreshLayout = findViewById(R.id.notification_swipe_refresh);
 
         // back
         findViewById(R.id.notification_back).setOnClickListener(new View.OnClickListener() {

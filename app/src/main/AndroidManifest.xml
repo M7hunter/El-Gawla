@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_gawla_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        android:usesCleartextTraffic="true"> <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
 
         <activity
             android:name=".views.MainActivity"
