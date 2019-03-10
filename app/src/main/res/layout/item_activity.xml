@@ -51,8 +51,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="@dimen/margin_xxxlarge"
-        android:layout_marginEnd="@dimen/margin_xxlarge"
+        android:layout_marginStart="@dimen/margin_xxx_large"
+        android:layout_marginEnd="@dimen/margin_xx_large"
         android:background="@color/paleGrey" />
 
 </LinearLayout>

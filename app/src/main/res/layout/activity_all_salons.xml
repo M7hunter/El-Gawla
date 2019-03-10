@@ -77,7 +77,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/margin_xxlarge">
+                    android:layout_marginTop="@dimen/margin_xx_large">
 
                     <!-- salons recycler -->
                     <androidx.recyclerview.widget.RecyclerView
@@ -129,10 +129,10 @@
         android:src="@drawable/ic_filter"
         app:backgroundTint="@color/colorPrimary" />
 
-    <include layout="@layout/no_connection_layout" />
+    <include layout="@layout/layout_no_connection" />
 
     <include layout="@layout/bottom_sheet_filter_by" />
 
-    <include layout="@layout/loading_card_layout" />
+    <include layout="@layout/layout_loading_card" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -20,7 +20,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <include layout="@layout/main_header_layout" />
+            <include layout="@layout/layout_main_header" />
 
             <!-- 1st card -->
             <androidx.cardview.widget.CardView
@@ -170,7 +170,7 @@
                     </LinearLayout>
 
                     <!-- no connection view -->
-                    <include layout="@layout/no_connection_layout" />
+                    <include layout="@layout/layout_no_connection" />
 
                 </RelativeLayout>
 

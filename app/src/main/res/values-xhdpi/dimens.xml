@@ -5,13 +5,14 @@
     <dimen name="margin_tiny">3dp</dimen>
     <dimen name="margin_tiny_minus">-3dp</dimen>
     <dimen name="margin_small">7dp</dimen>
+    <dimen name="margin_x_small">5dp</dimen>
     <dimen name="margin_small_minus">-7dp</dimen>
     <dimen name="margin_medium">12dp</dimen>
     <dimen name="margin_large">17dp</dimen>
     <dimen name="margin_xlarge">22dp</dimen>
-    <dimen name="margin_xxlarge">32dp</dimen>
-    <dimen name="margin_xxxlarge">45dp</dimen>
-    <dimen name="margin_xxxxlarge">52dp</dimen>
+    <dimen name="margin_xx_large">32dp</dimen>
+    <dimen name="margin_xxx_large">45dp</dimen>
+    <dimen name="margin_xxxx_large">52dp</dimen>
 
     <!-- text sizes -->
     <dimen name="text_size_tiny">8sp</dimen>
@@ -19,7 +20,7 @@
     <dimen name="text_size_medium">14sp</dimen>
     <dimen name="text_size_large">17sp</dimen>
     <dimen name="text_size_xlarge">20sp</dimen>
-    <dimen name="text_size_xxlarge">23sp</dimen>
+    <dimen name="text_size_xx_large">23sp</dimen>
     <dimen name="num_tick">40sp</dimen>
 
     <!-- icons & images -->
@@ -34,6 +35,7 @@
     <dimen name="image_news">70dp</dimen>
     <dimen name="image_account">100dp</dimen>
     <dimen name="image_cards_round_updates">60dp</dimen>
+    <dimen name="winner_image_height">320dp</dimen> <!-- <<<< -->
 
     <!-- mix -->
     <dimen name="my_rounds_view_pager_height">500dp</dimen>

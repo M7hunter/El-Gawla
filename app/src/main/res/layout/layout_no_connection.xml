@@ -11,8 +11,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/margin_xxlarge"
-        android:layout_marginEnd="@dimen/margin_xxlarge"
+        android:layout_marginStart="@dimen/margin_xx_large"
+        android:layout_marginEnd="@dimen/margin_xx_large"
         android:layout_weight="1"
         android:src="@drawable/no_connection" />
 

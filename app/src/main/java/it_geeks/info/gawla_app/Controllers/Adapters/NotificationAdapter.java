@@ -108,7 +108,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 } else {
                     try {
                         LayoutInflater layoutInflater = LayoutInflater.from(context);
-                        View vv = layoutInflater.inflate(R.layout.message_notification, null);
+                        View vv = layoutInflater.inflate(R.layout.layout_message_notification, null);
                         TextView messageTitle = vv.findViewById(R.id.message_title);
                         TextView messageBody = vv.findViewById(R.id.message_body);
                         messageTitle.setText(notification.getTitle());

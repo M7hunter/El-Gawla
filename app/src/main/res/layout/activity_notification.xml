@@ -89,6 +89,6 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/loading_card_layout" />
+    <include layout="@layout/layout_loading_card" />
 
 </RelativeLayout>

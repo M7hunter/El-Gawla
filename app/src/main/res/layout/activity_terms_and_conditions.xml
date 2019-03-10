@@ -55,14 +55,14 @@
             android:textColor="@color/midBlue"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
-            android:layout_marginTop="@dimen/margin_xxlarge"/>
+            android:layout_marginTop="@dimen/margin_xx_large"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_xxlarge"
+            android:layout_marginBottom="@dimen/margin_xx_large"
             android:text="@string/terms_text"
             android:textColor="@color/blueGrey"
             android:gravity="start"

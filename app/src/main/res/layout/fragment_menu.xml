@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <include layout="@layout/main_header_layout" />
+                <include layout="@layout/layout_main_header" />
 
                 <!-- country -->
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -142,8 +142,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginStart="@dimen/margin_xxlarge"
-                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginStart="@dimen/margin_xx_large"
+                android:layout_marginEnd="@dimen/margin_xx_large"
                 android:background="@color/paleGrey2" />
 
             <!-- 3rd option -->
@@ -185,8 +185,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginStart="@dimen/margin_xxlarge"
-                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginStart="@dimen/margin_xx_large"
+                android:layout_marginEnd="@dimen/margin_xx_large"
                 android:background="@color/paleGrey2" />
 
             <!-- 4th option -->

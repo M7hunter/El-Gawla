@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cards_bag_btn_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="left"
+    android:background="@drawable/bg_circle_bordered_transparent"
+    android:padding="@dimen/margin_small">
+
+    <!-- icon -->
+    <ImageView
+        android:layout_width="@dimen/image_cards_round_updates"
+        android:layout_height="@dimen/image_cards_round_updates"
+        android:background="@drawable/bg_circle_blue_270"
+        android:padding="@dimen/margin_large"
+        android:src="@drawable/ic_cards"
+        android:tint="@android:color/white" />
+
+    <!-- cards notification -->
+    <TextView
+        android:id="@+id/tv_cards_count"
+        android:layout_width="@dimen/margin_xlarge"
+        android:layout_height="@dimen/margin_xlarge"
+        android:background="@drawable/bg_circle_red"
+        android:fontFamily="monospace"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
+
+</RelativeLayout>

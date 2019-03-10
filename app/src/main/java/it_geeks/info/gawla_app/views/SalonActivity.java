@@ -36,7 +36,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +45,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import it_geeks.info.gawla_app.Controllers.Adapters.ActivityAdapter;
@@ -56,7 +54,6 @@ import it_geeks.info.gawla_app.repository.Models.Activity;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.ChatModel;
 import it_geeks.info.gawla_app.repository.Models.TopTen;
-import it_geeks.info.gawla_app.repository.SocketConnection.Constants;
 import it_geeks.info.gawla_app.repository.SocketConnection.SocketConnection;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.ConnectionChangeReceiver;
@@ -132,9 +129,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salon);
 
-        registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         userName = SharedPrefManager.getInstance(SalonActivity.this).getUser().getName();
-
+        registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         roundCountDownController = new RoundCountDownController(SalonActivity.this, new RoundStartToEndModel(upDivsList, downDivsList, drawablesUp, drawablesDown));
 
         initViews();
@@ -441,9 +437,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         topTenContainer.setVisibility(View.VISIBLE);
 
         // bgs
-        tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white));
-        tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white));
-        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white));
+        tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
+        tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
+        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
         tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_blue));
 
         // text color
@@ -460,9 +456,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         topTenContainer.setVisibility(View.GONE);
 
         tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_blue));
-        tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white));
-        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white));
-        tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white));
+        tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
+        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
+        tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
 
         // text color
         tvProductDetailsTab.setTextColor(Color.WHITE);
@@ -478,10 +474,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         topTenContainer.setVisibility(View.GONE);
 
         // bgs
-        tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white));
+        tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
         tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_blue));
-        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white));
-        tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white));
+        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
+        tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
 
         // text color
         tvProductDetailsTab.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -511,10 +507,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         }
 
         // bgs
-        tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white));
-        tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white));
+        tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
+        tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
         tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_blue));
-        tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white));
+        tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
 
         // text color
         tvProductDetailsTab.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -1216,7 +1212,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void initJoinConfirmationDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.CustomAlertDialogStyle);
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.join_round_confirmation_layout, null);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.layout_join_round_confirmation, null);
 
         joinIcon = dialogView.findViewById(R.id.join_alert_icon);
         joinHeader = dialogView.findViewById(R.id.join_alert_header);

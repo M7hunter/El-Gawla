@@ -22,8 +22,8 @@
                 android:layout_height="@dimen/image_width_round"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginBottom="@dimen/margin_large"
-                android:layout_marginStart="@dimen/margin_xxlarge"
-                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginStart="@dimen/margin_xx_large"
+                android:layout_marginEnd="@dimen/margin_xx_large"
                 app:srcCompat="@drawable/onbord1" />
 
             <TextView
@@ -40,8 +40,8 @@
                 android:id="@+id/slide_Desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xxxxlarge"
-                android:layout_marginEnd="@dimen/margin_xxxxlarge"
+                android:layout_marginStart="@dimen/margin_xxxx_large"
+                android:layout_marginEnd="@dimen/margin_xxxx_large"
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:gravity="center"

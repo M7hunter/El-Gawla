@@ -73,7 +73,7 @@
             android:text="@string/about_gawla_text"
             android:textColor="@color/blueGrey"
             android:gravity="start"
-            android:layout_marginBottom="@dimen/margin_xxlarge"
+            android:layout_marginBottom="@dimen/margin_xx_large"
             android:textSize="@dimen/text_size_medium" />
 
     </LinearLayout>

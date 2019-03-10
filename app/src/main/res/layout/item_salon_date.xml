@@ -26,7 +26,7 @@
             android:fontFamily="monospace"
             android:text="29"
             android:textColor="@color/niceBlue"
-            android:textSize="@dimen/text_size_xxlarge"
+            android:textSize="@dimen/text_size_xx_large"
             android:textStyle="bold" />
 
         <!-- month -->

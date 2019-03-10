@@ -9,9 +9,9 @@
     <dimen name="margin_medium">15dp</dimen>
     <dimen name="margin_large">20dp</dimen>
     <dimen name="margin_xlarge">25dp</dimen>
-    <dimen name="margin_xxlarge">35dp</dimen>
-    <dimen name="margin_xxxlarge">50dp</dimen>
-    <dimen name="margin_xxxxlarge">60dp</dimen>
+    <dimen name="margin_xx_large">35dp</dimen>
+    <dimen name="margin_xxx_large">50dp</dimen>
+    <dimen name="margin_xxxx_large">60dp</dimen>
 
     <!-- text sizes -->
     <dimen name="text_size_tiny">10sp</dimen>
@@ -19,7 +19,7 @@
     <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_large">19sp</dimen>
     <dimen name="text_size_xlarge">22sp</dimen>
-    <dimen name="text_size_xxlarge">26sp</dimen>
+    <dimen name="text_size_xx_large">26sp</dimen>
     <dimen name="num_tick" >42sp</dimen>
 
     <!-- icons & images -->

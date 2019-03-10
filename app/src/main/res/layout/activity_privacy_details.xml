@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/privacy_details_header"
-        android:layout_marginTop="@dimen/margin_xxlarge">
+        android:layout_marginTop="@dimen/margin_xx_large">
         <!-- scroll main layout -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginEnd="@dimen/margin_xx_large"
                 android:text="@string/edit"
                 android:textColor="@color/azureTwo"
                 android:textSize="@dimen/text_size_medium" />
@@ -66,8 +66,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xxlarge"
-                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginStart="@dimen/margin_xx_large"
+                android:layout_marginEnd="@dimen/margin_xx_large"
                 android:layout_weight="1"
                 android:textColorHint="@color/paleGrey2"
                 app:errorEnabled="true">
@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginEnd="@dimen/margin_xx_large"
                 android:text="@string/edit"
                 android:textColor="@color/azureTwo"
                 android:textSize="@dimen/text_size_medium" />
@@ -106,8 +106,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xxlarge"
-                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginStart="@dimen/margin_xx_large"
+                android:layout_marginEnd="@dimen/margin_xx_large"
                 android:layout_weight="1"
                 android:textColorHint="@color/paleGrey2"
                 app:errorEnabled="true">
@@ -133,9 +133,9 @@
                 android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginStart="@dimen/margin_xxlarge"
+                android:layout_marginStart="@dimen/margin_xx_large"
                 android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_xxlarge"
+                android:layout_marginEnd="@dimen/margin_xx_large"
                 android:layout_marginBottom="@dimen/margin_large"
                 android:layout_weight="1"
                 android:background="@color/paleGreyTwo" />
@@ -150,7 +150,7 @@
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_xxlarge"
+                    android:layout_marginStart="@dimen/margin_xx_large"
                     android:padding="@dimen/com_facebook_likeboxcountview_text_padding"
                     android:text="@string/connect_with"
                     android:textColor="@color/blueGrey"
@@ -196,7 +196,7 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_xxlarge"
+                    android:layout_marginEnd="@dimen/margin_xx_large"
                     android:text="@string/disconnect"
                     android:textColor="@color/azureTwo"
                     android:textSize="@dimen/text_size_medium" />
