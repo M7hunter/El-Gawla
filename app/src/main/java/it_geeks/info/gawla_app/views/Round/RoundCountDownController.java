@@ -2,6 +2,7 @@ package it_geeks.info.gawla_app.views.Round;
 
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -68,9 +69,11 @@ public class RoundCountDownController {
             } else if (roundRemainingTime.isClose_hall_status()) {
                 close_hall_value();
             }
+
         } else {
             ((SalonActivity) context).tvRoundActivity.setText(roundRemainingTime.getRound_status());
         }
+
     }
 
     // join Round Opened
@@ -152,9 +155,11 @@ public class RoundCountDownController {
 
     private void setTimeDown(long millisUntilFinished) {
 
-        long second = millisUntilFinished % 60;
-        long minute = (millisUntilFinished / 60) % 60;
         long hour = (millisUntilFinished / (60 * 60)) % 24;
+        long minute = (millisUntilFinished / 60) % 60;
+        long second = millisUntilFinished % 60;
+
+
 
         if (mSecond[0] != second) {
             GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "second");
@@ -173,5 +178,14 @@ public class RoundCountDownController {
             gawlaTimeDownHour.NumberTick(hour);
         }
         mHour[0] = hour;
+
+        if (hour == 0 && minute == 0 && second == 1){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setTimeDown(0); // zero time
+                }
+            },1000);
+        }
     }
 }

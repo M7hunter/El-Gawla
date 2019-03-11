@@ -1212,7 +1212,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void initJoinConfirmationDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.CustomAlertDialogStyle);
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.layout_join_round_confirmation, null);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.layout_salon_join_round_confirmation, null);
 
         joinIcon = dialogView.findViewById(R.id.join_alert_icon);
         joinHeader = dialogView.findViewById(R.id.join_alert_header);

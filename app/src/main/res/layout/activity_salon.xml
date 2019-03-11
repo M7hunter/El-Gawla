@@ -451,7 +451,7 @@
                 android:visibility="gone" />
 
             <include
-                layout="@layout/layout_golden_card"
+                layout="@layout/layout_salon_golden_card"
                 android:visibility="gone" />
 
             <!-- leave btn -->
