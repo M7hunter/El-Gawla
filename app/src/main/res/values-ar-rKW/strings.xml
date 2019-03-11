@@ -99,7 +99,7 @@
     <string name="Attention_Details">هل تريد حقاً الانضمام الي الصالة  لديك فرصه واحده للمشاركة كل يوم ؟</string>
     <string name="Congratulations_Attention">تهانيناً انت الان عضو بالصالة</string>
     <string name="Congratulations_Attention_Details">اضف افضل عرض لربح الجوالات و قم بمتابعة شنطة الكروت و استخدم الكروت لديك</string>
-    <string name="enter">دخول</string>
+    <string name="show">عرض</string>
     <string name="language">اللغة</string>
     <string name="Invalid_email_password">بيانات الدخول غير صحيحة</string>
     <string name="emptyMail">بريد الكتروني فارغ</string>
@@ -229,5 +229,5 @@
     <string name="enter_valid_email">" أدخل ايميل صالح"</string>
     <string name="buying_processes_empty_hint">هنا يوجد مشترياتك السابقة</string>
     <string name="chat_empty_hint">يمكنك محادثة اعضاء الصالة هنا</string>
-    <string name="not_joined">انت ليست منضم</string>
+    <string name="not_joined">انت لست منضم</string>
 </resources>

@@ -29,7 +29,6 @@ import static it_geeks.info.gawla_app.repository.RESTful.ParseResponses.parseSer
 
 public class RetrofitClient {
 
-    // locale : http://192.168.1.2/elgawla/public/api/v1/en/
     // it geeks server : https://dev.itgeeks.info/api/v1/en/
     // gawla server : http://elgawla.net/dev/public/api/v1/en/
     // gawla server ip : http://134.209.0.250/dev/public/api/v1/en/
@@ -49,10 +48,8 @@ public class RetrofitClient {
     }
 
     public static synchronized RetrofitClient getInstance(Context context) {
-        if (mInstance == null) { // on creation
-            mInstance = new RetrofitClient();
-
-        } else if (!mInstance.selectBaseUrl().equals(SharedPrefManager.getInstance(context).getSavedLang())) { // on lang changed
+        // on creation || on lang changed
+        if (mInstance == null || !mInstance.selectBaseUrl().equals(SharedPrefManager.getInstance(context).getSavedLang())) {
             mInstance = new RetrofitClient();
         }
         return mInstance;
@@ -103,18 +100,13 @@ public class RetrofitClient {
                     } catch (NullPointerException e) { // errors of response body 'maybe response body has changed';
                         Log.e("onResponse: ", e.getMessage());
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    } catch (UnsupportedOperationException e) {
+                        Log.e("onResponse: ", e.getMessage());
                     }
                 } else { // code != 200
                     try {
                         JsonObject errorObj = new JsonParser().parse(response.errorBody().string()).getAsJsonObject();
                         String serverError = parseServerErrors(errorObj);
-
-                        Log.d("!successful: ", serverError);
-                        // notify user
-                        Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
-
-                        // dynamic with each call
-                        HandleResponses.handleFalseResponse(errorObj);
 
                         // TODO: check codes instead of strings
                         if (serverError.contains("not logged in") || serverError.contains("api token")) {
@@ -123,6 +115,13 @@ public class RetrofitClient {
 
                             SharedPrefManager.getInstance(context).clearUser();
                         }
+
+                        // notify user
+                        Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
+
+                        Log.d("!successful: ", serverError);
+                        // dynamic with each call
+                        HandleResponses.handleFalseResponse(errorObj);
 
                     } catch (IOException e) {
                         e.printStackTrace();

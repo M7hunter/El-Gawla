@@ -60,6 +60,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
             viewHolder.tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
             viewHolder.tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
             viewHolder.tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getMessage()));
+
             //Round Status On/Off
             if (round.isStatus())
                 viewHolder.roundStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.round_on));

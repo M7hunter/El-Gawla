@@ -98,7 +98,7 @@
     <string name="Congratulations_Attention">Congratulations, you are now a member of the lounge</string>
     <string name="Congratulations_Attention_Details">Add the best offer to win the mobile and follow the card card and use your cards</string>
     <string name="tit1">"جوله هي تطبيق تفاعلي يمكنك من شراء المنتجات بناء علي افضل عرض تقدمة لسعر المنتج , انضم الان "</string>
-    <string name="enter">enter</string>
+    <string name="show">show</string>
     <string name="app_settings">app settings</string>
     <string name="language">language</string>
     <string name="sign_out">sign out</string>
@@ -192,7 +192,7 @@
     <string name="delete_account_hint">Delete this account ?</string>
     <string name="empty_hint"> this field can\'t be empty</string>
     <string name="name_length_hint">name should be more than 5 chars</string>
-    <string name="sign_out_hint">Sign out ?</string>
+    <string name="sign_out_hint">Are you sure ?</string>
     <string name="card_price_category">card price for this category</string>
     <string name="card_price_by_category">card price by category</string>
     <string name="card_price">card price</string>
@@ -230,6 +230,6 @@
     <string name="activity_empty_hint">There are no activities in this round</string>
     <string name="buying_processes_empty_hint">here is your buying history</string>
     <string name="chat_empty_hint">you can chat salon members here</string>
-    <string name="not_joined">you are not join</string>
+    <string name="not_joined">you are not joined</string>
 
 </resources>

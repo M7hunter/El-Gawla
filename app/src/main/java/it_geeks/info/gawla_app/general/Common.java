@@ -68,7 +68,7 @@ public class Common {
         Configuration configuration = context.getResources().getConfiguration();
         Locale locale;
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M || Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1 ) {
             locale = new Locale(Lang, "kw");
         } else {
             locale = new Locale(Lang);

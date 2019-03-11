@@ -390,7 +390,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 try {
-                    // Toast.makeText(SalonActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                     initTopTenRecycler(ParseResponses.parseTopTen(mainObject));
                 } catch (Exception e) {
                     Log.e("getTopTen: ", e.getMessage());
@@ -966,7 +965,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         if (roundRemainingTime.isFirst_round_status() && roundRemainingTime.isUserJoin() || roundRemainingTime.isSecond_round_status() && roundRemainingTime.isUserJoin()) { // display add offer layout
             addOfferLayout.setVisibility(View.VISIBLE);
             // get user last Offer
-            etAddOffer.setText(String.valueOf(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(salon_id + "" + userId)));
+            displayUserOffer();
         } else { // hide add offer layout
             addOfferLayout.setVisibility(View.GONE);
         }
@@ -1000,6 +999,15 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     mSocket.disconnect();
                 }
             }
+        }
+    }
+
+    private void displayUserOffer() {
+        int offer = SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(salon_id + "" + userId);
+        if (offer > 0) {
+            etAddOffer.setText(String.valueOf(offer));
+        } else {
+            etAddOffer.setText("");
         }
     }
 

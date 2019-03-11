@@ -72,6 +72,7 @@ public class RoundCountDownController {
 
         } else {
             ((SalonActivity) context).tvRoundActivity.setText(roundRemainingTime.getRound_status());
+            ((SalonActivity) context).tvSalonTime.setText(context.getResources().getString(R.string.round_closed));
         }
 
     }

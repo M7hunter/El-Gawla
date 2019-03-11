@@ -105,7 +105,8 @@
                         android:layout_width="@dimen/margin_medium"
                         android:layout_height="@dimen/margin_medium"
                         android:layout_margin="@dimen/margin_tiny"
-                        android:background="@drawable/round_off" />
+                        android:background="@drawable/round_off"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/round_start_time"
@@ -117,10 +118,6 @@
                         android:textColor="@color/midBlue2"
                         android:textSize="@dimen/text_size_large"
                         android:textStyle="bold" />
-
-
-
-
 
                 </LinearLayout>
 
@@ -157,7 +154,7 @@
                 android:layout_marginTop="@dimen/margin_tiny"
                 android:gravity="center"
                 android:padding="@dimen/margin_medium"
-                android:text="@string/enter"
+                android:text="@string/show"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />

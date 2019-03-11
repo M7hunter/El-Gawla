@@ -17,17 +17,17 @@
         android:orientation="vertical">
 
         <!-- header -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:text="@string/card_price_by_category"
-            android:textAllCaps="true"
-            android:textColor="@color/battleshipGrey"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginStart="@dimen/margin_small"-->
+            <!--android:layout_marginTop="@dimen/margin_large"-->
+            <!--android:layout_marginBottom="@dimen/margin_medium"-->
+            <!--android:text="@string/card_price_by_category"-->
+            <!--android:textAllCaps="true"-->
+            <!--android:textColor="@color/battleshipGrey"-->
+            <!--android:textSize="@dimen/text_size_medium"-->
+            <!--android:textStyle="bold" />-->
 
         <!-- categories recycler -->
         <androidx.recyclerview.widget.RecyclerView
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xx_large"
-            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_xx_large"
             android:layout_marginRight="@dimen/margin_xx_large"
             android:layout_marginBottom="@dimen/margin_large"
             android:foreground="?android:attr/selectableItemBackgroundBorderless"
