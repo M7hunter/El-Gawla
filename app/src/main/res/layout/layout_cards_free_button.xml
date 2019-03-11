@@ -16,7 +16,7 @@
         android:src="@drawable/ic_cards"
         android:tint="@android:color/white" />
 
-    <!-- cards notification -->
+    <!-- cards count -->
     <TextView
         android:id="@+id/tv_cards_count"
         android:layout_width="@dimen/margin_xlarge"

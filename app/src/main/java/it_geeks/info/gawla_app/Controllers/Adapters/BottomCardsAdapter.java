@@ -58,15 +58,18 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         final Card card = cardList.get(i);
 
-        viewHolder.cardDescription.setText(card.getCard_details());
+        viewHolder.tvCardDescription.setText(card.getCard_details());
+        viewHolder.tvCardCount.setText(String.valueOf(card.getCount()));
         Common.Instance(context).changeDrawableViewColor(viewHolder.cardIcon, card.getCard_color());
 
         if (card.getCount() > 0) { // use card state
             viewHolder.btn.setBackgroundColor(context.getResources().getColor(R.color.greenBlue));
             viewHolder.btn.setText(context.getString(R.string.use));
+            viewHolder.tvCardCount.setBackground(context.getResources().getDrawable(R.drawable.bg_circle_green));
         } else { // buy card  state
             viewHolder.btn.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
             viewHolder.btn.setText(context.getString(R.string.buy_card));
+            viewHolder.tvCardCount.setBackground(context.getResources().getDrawable(R.drawable.bg_circle_red));
         }
 
         //open single card sheet
@@ -239,14 +242,15 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView cardDescription;
+        TextView tvCardDescription, tvCardCount;
         View cardIcon;
         Button btn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            cardDescription = itemView.findViewById(R.id.bottom_card_status);
+            tvCardDescription = itemView.findViewById(R.id.bottom_card_status);
+            tvCardCount = itemView.findViewById(R.id.tv_cards_count_cards_bag);
             cardIcon = itemView.findViewById(R.id.bottom_card_icon);
             btn = itemView.findViewById(R.id.bottom_card_btn);
         }

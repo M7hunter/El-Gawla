@@ -33,7 +33,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/salon_cards_bottom_recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small" />
 
     </LinearLayout>
 

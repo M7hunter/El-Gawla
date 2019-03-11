@@ -9,465 +9,456 @@
     tools:context=".views.SalonActivity">
 
     <!-- main layout -->
-    <ScrollView
-        android:id="@+id/scrollView3"
+    <!--<ScrollView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+    <!-- scroll main layout -->
+    <LinearLayout
+        android:id="@+id/salon_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <!-- scroll main layout -->
-        <LinearLayout
-            android:id="@+id/salon_container"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <!-- header -->
+        <RelativeLayout
+            android:id="@+id/salon_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="visible">
+            android:layoutDirection="ltr">
 
-            <!-- header -->
-            <RelativeLayout
-                android:id="@+id/salon_header"
-                android:layout_width="match_parent"
+            <include layout="@layout/layout_main_header" />
+
+            <!-- back -->
+            <ImageView
+                android:id="@+id/salon_back"
+                android:layout_width="@dimen/icon_back"
                 android:layout_height="wrap_content"
-                android:layoutDirection="ltr">
+                android:layout_centerVertical="true"
+                android:padding="@dimen/margin_small"
+                android:src="@drawable/ic_arrow_left_only" />
 
-                <include layout="@layout/layout_main_header" />
+        </RelativeLayout>
 
-                <!-- back -->
-                <ImageView
-                    android:id="@+id/salon_back"
-                    android:layout_width="@dimen/icon_back"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:padding="@dimen/margin_small"
-                    android:src="@drawable/ic_arrow_left_only" />
+        <!-- salon number container -->
+        <LinearLayout
+            android:id="@+id/salon_number_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
-            </RelativeLayout>
-
-            <!-- salon number container -->
-            <LinearLayout
-                android:id="@+id/salon_number_container"
+            <!-- salon number label -->
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:text="@string/hale_number"
+                android:textColor="@color/battleshipGrey"
+                android:textSize="@dimen/text_size_large" />
 
-                <!-- salon number label -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hale_number"
-                    android:textColor="@color/battleshipGrey"
-                    android:textSize="@dimen/text_size_large" />
+            <!-- salon number -->
+            <TextView
+                android:id="@+id/salon_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_tiny"
+                android:textColor="@color/midBlue"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
 
-                <!-- salon number -->
-                <TextView
-                    android:id="@+id/salon_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:textColor="@color/midBlue"
-                    android:textSize="@dimen/text_size_large"
-                    android:textStyle="bold" />
+        </LinearLayout>
 
-            </LinearLayout>
+        <!-- time container -->
+        <include layout="@layout/layout_salon_countdown" />
 
-            <!-- time container -->
-            <include layout="@layout/layout_salon_countdown" />
+        <!-- taps layout -->
+        <include layout="@layout/layout_salon_taps" />
 
-            <!-- taps layout -->
-            <include layout="@layout/layout_salon_taps" />
+        <!-- layout on tab -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-            <!-- layout on tab -->
-            <FrameLayout
+            <!-- 0 tap : top ten container -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/top_ten_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:background="@drawable/bg_rounded_corners_white"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/margin_small">
 
-                <!-- 0 tap : top ten container -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/top_ten_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_tiny" />
+
+                <TextView
+                    android:id="@+id/tv_top_ten_empty_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_large"
+                    android:text="@string/top_ten_empty"
+                    android:visibility="visible" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- 1st tap : details container -->
+            <LinearLayout
+                android:id="@+id/details_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_small"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <!-- product container -->
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/top_ten_container"
+                    android:id="@+id/cv_more"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_medium"
                     android:background="@drawable/bg_rounded_corners_white"
-                    android:visibility="gone"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="@dimen/margin_small">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/top_ten_recycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_tiny" />
-
-                    <TextView
-                        android:id="@+id/tv_top_ten_empty_hint"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="@dimen/margin_large"
-                        android:text="@string/top_ten_empty"
-                        android:visibility="visible" />
-
-                </androidx.cardview.widget.CardView>
-
-                <!-- 1st tap : details container -->
-                <LinearLayout
-                    android:id="@+id/details_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:orientation="vertical"
-                    android:visibility="visible">
-
-                    <!-- product container -->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cv_more"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:layout_marginBottom="@dimen/margin_medium"
-                        android:background="@drawable/bg_rounded_corners_white"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="@dimen/margin_small">
-                        <!-- card main layout -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <!-- product image -->
-                                <ImageView
-                                    android:id="@+id/salon_round_product_image"
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center"
-                                    android:layout_margin="@dimen/margin_tiny"
-                                    android:layout_weight="1"
-                                    android:src="@drawable/macbook"
-                                    android:transitionName="transProductImage" />
-
-                                <!-- details container -->
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/margin_small"
-                                    android:layout_weight="2"
-                                    android:orientation="vertical">
-
-                                    <!-- product name -->
-                                    <TextView
-                                        android:id="@+id/salon_round_product_name"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_margin="@dimen/margin_tiny"
-                                        android:gravity="center"
-                                        android:textColor="@color/duskBlue"
-                                        android:textSize="@dimen/text_size_medium"
-                                        android:textStyle="bold"
-                                        android:transitionName="transProductName" />
-
-                                    <!-- price container -->
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
-
-                                        <!-- price label -->
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="@string/Prod_price"
-                                            android:textSize="@dimen/text_size_medium" />
-
-                                        <!-- price -->
-                                        <TextView
-                                            android:id="@+id/salon_round_product_price"
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_weight="1"
-                                            android:gravity="center"
-                                            android:textColor="@color/azureTwo"
-                                            android:textSize="@dimen/text_size_medium"
-                                            android:textStyle="bold" />
-
-                                    </LinearLayout>
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                            <!-- read more as btn -->
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:layout_margin="@dimen/margin_tiny"
-                                android:text="@string/read_more"
-                                android:textColor="@color/blueGrey" />
-
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- notification container -->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/round_notification_card"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:layout_marginBottom="@dimen/margin_medium"
-                        android:background="@drawable/bg_rounded_corners_white"
-                        android:visibility="visible"
-                        app:cardCornerRadius="@dimen/margin_small">
-                        <!-- card main layout -->
-
-                        <!-- round's notification bar -->
-                        <LinearLayout
-                            android:id="@+id/activity_page"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_small"
-                            android:gravity="center">
-
-                            <!-- notification icon -->
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:id="@+id/round_notification_icon"
-                                android:layout_width="@dimen/icon_notification"
-                                android:layout_height="@dimen/icon_notification"
-                                android:layout_margin="@dimen/margin_small"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/ic_account" />
-
-                            <!-- notification text -->
-                            <TextView
-                                android:id="@+id/round_notification_text"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/margin_small"
-                                android:layout_weight="1"
-                                android:drawableEnd="@drawable/ic_arrow"
-                                android:gravity="start"
-                                android:maxLines="2"
-                                android:text="@string/joine_Round"
-                                android:textColor="@color/blueGrey" />
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                </LinearLayout>
-
-                <!-- 2nd tap : activity container -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/activity_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_medium"
-                    android:background="@drawable/bg_rounded_corners_white"
-                    android:visibility="gone"
-                    app:cardCornerRadius="@dimen/margin_small">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/salon_activity_recycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_tiny" />
-
-                    <TextView
-                        android:id="@+id/tv_activity_empty_hint"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="@dimen/margin_large"
-                        android:text="@string/activity_empty_hint"
-                        android:visibility="gone" />
-
-                </androidx.cardview.widget.CardView>
-
-                <!-- 3rd tap : chat container -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/chat_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_medium"
-                    android:background="@drawable/bg_rounded_corners_white"
-                    android:visibility="gone"
-                    app:cardCornerRadius="@dimen/margin_small">
-
+                    <!-- card main layout -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <!-- list container -->
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <!-- chat recycler -->
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/chat_list"
-                                android:layout_width="match_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"
-                                app:layout_constraintHeight_max="0dp"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <!-- chat empty view -->
-                        <TextView
-                            android:id="@+id/tv_chat_empty_hint"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_xx_large"
-                            android:text="@string/chat_empty_hint"
-                            android:visibility="gone" />
-
-                        <!-- separator -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/browser_actions_divider_color" />
-
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_xTiny"
-                            android:background="@drawable/edittext_shape_add"
-                            android:gravity="bottom"
                             android:orientation="horizontal">
 
-                            <!-- new message -->
-                            <EditText
-                                android:id="@+id/et_chat_message"
+                            <!-- product image -->
+                            <ImageView
+                                android:id="@+id/salon_round_product_image"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/margin_tiny"
+                                android:layout_weight="1"
+                                android:src="@drawable/macbook"
+                                android:transitionName="transProductImage" />
+
+                            <!-- details container -->
+                            <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@null"
-                                android:hint="@string/write_message"
-                                android:inputType="textShortMessage"
-                                android:maxLength="250"
-                                android:maxLines="1"
-                                android:padding="@dimen/margin_tiny" />
+                                android:layout_margin="@dimen/margin_small"
+                                android:layout_weight="2"
+                                android:orientation="vertical">
 
-                            <!-- btn to send new message -->
-                            <ImageView
-                                android:id="@+id/chat_send_message"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_gravity="center"
-                                android:padding="8dp"
-                                android:src="@drawable/ic_send_message" />
+                                <!-- product name -->
+                                <TextView
+                                    android:id="@+id/salon_round_product_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/margin_tiny"
+                                    android:gravity="center"
+                                    android:textColor="@color/duskBlue"
+                                    android:textSize="@dimen/text_size_medium"
+                                    android:textStyle="bold"
+                                    android:transitionName="transProductName" />
+
+                                <!-- price container -->
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <!-- price label -->
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/Prod_price"
+                                        android:textSize="@dimen/text_size_medium" />
+
+                                    <!-- price -->
+                                    <TextView
+                                        android:id="@+id/salon_round_product_price"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:textColor="@color/azureTwo"
+                                        android:textSize="@dimen/text_size_medium"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
 
                         </LinearLayout>
+
+                        <!-- read more as btn -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_margin="@dimen/margin_tiny"
+                            android:text="@string/read_more"
+                            android:textColor="@color/blueGrey" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- notification container -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/round_notification_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:background="@drawable/bg_rounded_corners_white"
+                    android:visibility="visible"
+                    app:cardCornerRadius="@dimen/margin_small">
+                    <!-- card main layout -->
+
+                    <!-- round's notification bar -->
+                    <LinearLayout
+                        android:id="@+id/activity_page"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:gravity="center">
+
+                        <!-- notification icon -->
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/round_notification_icon"
+                            android:layout_width="@dimen/icon_notification"
+                            android:layout_height="@dimen/icon_notification"
+                            android:layout_margin="@dimen/margin_small"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_account" />
+
+                        <!-- notification text -->
+                        <TextView
+                            android:id="@+id/round_notification_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/margin_small"
+                            android:layout_weight="1"
+                            android:drawableEnd="@drawable/ic_arrow"
+                            android:gravity="start"
+                            android:maxLines="2"
+                            android:text="@string/joine_Round"
+                            android:textColor="@color/blueGrey" />
 
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 
-            </FrameLayout>
-
-            <!-- add offer btn & et -->
-            <LinearLayout
-                android:id="@+id/add_offer_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_tiny"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <!-- add offer et -->
-                <EditText
-                    android:id="@+id/add_offer_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_weight="1"
-                    android:background="@drawable/edittext_shape_add"
-                    android:gravity="center"
-                    android:hint="@string/rOffer"
-                    android:inputType="number"
-                    android:paddingTop="@dimen/margin_small"
-                    android:paddingBottom="@dimen/margin_small"
-                    android:textColor="@color/battleshipGrey"
-                    android:textColorHint="@color/editText_hint" />
-
-                <!-- add offer btn -->
-                <Button
-                    android:id="@+id/add_offer_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_weight="1"
-                    android:background="@drawable/login_shape"
-                    android:paddingTop="@dimen/margin_small"
-                    android:paddingBottom="@dimen/margin_small"
-                    android:text="@string/add_deal"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_large"
-                    android:textStyle="bold" />
-
             </LinearLayout>
 
-            <!-- join btn -->
-            <Button
-                android:id="@+id/btn_join_round"
+            <!-- 2nd tap : activity container -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/activity_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:background="@drawable/bg_rounded_corners_white"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/margin_small">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/salon_activity_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin_tiny" />
+
+                <TextView
+                    android:id="@+id/tv_activity_empty_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_large"
+                    android:text="@string/activity_empty_hint"
+                    android:visibility="gone" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- 3rd tap : chat container -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/chat_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:background="@drawable/bg_rounded_corners_white"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/margin_small">
+                <!-- card main layout -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <!-- chat recycler -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/chat_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        app:layout_constraintHeight_max="0dp"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!-- chat empty view -->
+                    <TextView
+                        android:id="@+id/tv_chat_empty_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/margin_xx_large"
+                        android:text="@string/chat_empty_hint"
+                        android:visibility="gone" />
+
+                    <!-- separator -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/browser_actions_divider_color" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_xTiny"
+                        android:background="@drawable/edittext_shape_add"
+                        android:gravity="bottom"
+                        android:orientation="horizontal">
+
+                        <!-- new message -->
+                        <EditText
+                            android:id="@+id/et_chat_message"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:hint="@string/write_message"
+                            android:inputType="textShortMessage"
+                            android:maxLength="250"
+                            android:maxLines="1"
+                            android:padding="@dimen/margin_tiny" />
+
+                        <!-- btn send message -->
+                        <ImageView
+                            android:id="@+id/chat_send_message"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:padding="@dimen/margin_x_small"
+                            android:src="@drawable/ic_send_message" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </FrameLayout>
+
+        <!-- add offer btn & et -->
+        <LinearLayout
+            android:id="@+id/add_offer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <!-- add offer et -->
+            <EditText
+                android:id="@+id/add_offer_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_tiny"
-                android:background="@drawable/joined_play_shape"
-                android:padding="@dimen/margin_small"
-                android:text="@string/join_round"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_shape_add"
+                android:gravity="center"
+                android:hint="@string/rOffer"
+                android:inputType="number"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
+                android:textColor="@color/battleshipGrey"
+                android:textColorHint="@color/editText_hint" />
 
-            <!-- joined progress -->
-            <ProgressBar
-                android:id="@+id/join_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:visibility="gone" />
-
-            <include
-                layout="@layout/layout_salon_golden_card"
-                android:visibility="gone" />
-
-            <!-- leave btn -->
+            <!-- add offer btn -->
             <Button
-                android:id="@+id/btn_leave_round"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
+                android:id="@+id/add_offer_btn"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:padding="@dimen/margin_tiny"
-                android:text="@string/leave"
-                android:visibility="gone"
-                app:icon="@drawable/ic_exit" />
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_weight="1"
+                android:background="@drawable/login_shape"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_small"
+                android:text="@string/add_deal"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
 
         </LinearLayout>
-    </ScrollView>
+
+        <!-- join btn -->
+        <Button
+            android:id="@+id/btn_join_round"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:background="@drawable/joined_play_shape"
+            android:padding="@dimen/margin_small"
+            android:text="@string/join_round"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <!-- joined progress -->
+        <ProgressBar
+            android:id="@+id/join_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:visibility="gone" />
+
+        <include
+            layout="@layout/layout_salon_golden_card"
+            android:visibility="gone" />
+
+        <!-- leave btn -->
+        <Button
+            android:id="@+id/btn_leave_round"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:padding="@dimen/margin_tiny"
+            android:text="@string/leave"
+            android:visibility="gone"
+            app:icon="@drawable/ic_exit" />
+
+    </LinearLayout>
+    <!--</ScrollView>-->
 
     <!-- cards bag btn container -->
     <include layout="@layout/layout_cards_free_button" />

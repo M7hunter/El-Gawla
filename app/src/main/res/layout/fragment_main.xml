@@ -101,7 +101,8 @@
                     android:layout_weight="1"
                     android:gravity="start"
                     android:text="@string/recent_salons"
-                    android:textSize="@dimen/text_size_large" />
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
 
                 <!-- btn see all -->
                 <TextView
@@ -140,7 +141,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:layout_margin="@dimen/margin_large"/>
+                        android:layout_margin="@dimen/margin_large" />
 
                     <!-- empty view -->
                     <LinearLayout
@@ -191,7 +192,8 @@
                     android:layout_weight="1"
                     android:gravity="start"
                     android:text="@string/winners_of_hale_news"
-                    android:textSize="@dimen/text_size_large" />
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
 
                 <!-- btn see all -->
                 <TextView

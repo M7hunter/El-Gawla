@@ -164,7 +164,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             activityRecycler.setHasFixedSize(true);
             activityRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, true));
             activityRecycler.setAdapter(new ActivityAdapter(activityList));
-            activityRecycler.scrollToPosition(activityList.size() - 1);
+            activityRecycler.smoothScrollToPosition(activityList.size() - 1);
         }
     }
 
@@ -1304,7 +1304,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     public void initBottomSheetCardsBag() {
         mBottomSheetDialogActivateCard = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
-        View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_active_cards, null);
+        View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_cards_bag, null);
 
         //init bottom sheet views
         if (cardList != null) {

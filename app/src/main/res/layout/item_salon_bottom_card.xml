@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/margin_small"
+    android:layout_marginBottom="@dimen/margin_tiny"
     android:background="@drawable/bg_rounded_corners_pale_grey">
 
     <!-- status & btn -->
@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_small"
-        android:layout_weight="2"
+        android:layout_weight="2.2"
         android:orientation="vertical">
 
         <!-- status -->
@@ -27,8 +27,8 @@
             android:id="@+id/bottom_card_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_large"
             android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_large"
             android:background="@drawable/bg_rounded_corners_red_270"
             android:text="@string/buy_card"
             android:textColor="@android:color/white"
@@ -37,21 +37,35 @@
 
     </LinearLayout>
 
-    <!-- card icon -->
-    <FrameLayout
+    <!-- card container -->
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="@dimen/card_background_height"
         android:layout_margin="@dimen/margin_small"
         android:layout_weight="1"
         android:background="@drawable/bg_circle_white">
+
         <!-- card icon -->
         <View
             android:id="@+id/bottom_card_icon"
             android:layout_width="@dimen/card_width"
             android:layout_height="@dimen/card_height"
-            android:layout_gravity="center"
-            android:background="@drawable/dynamic_card"
-            android:padding="@dimen/margin_large" />
-    </FrameLayout>
+            android:layout_centerInParent="true"
+            android:background="@drawable/dynamic_card" />
+
+        <!-- cards count -->
+        <TextView
+            android:id="@+id/tv_cards_count_cards_bag"
+            android:layout_width="@dimen/margin_xlarge"
+            android:layout_height="@dimen/margin_xlarge"
+            android:background="@drawable/bg_circle_red"
+            android:fontFamily="monospace"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
 
 </LinearLayout>
