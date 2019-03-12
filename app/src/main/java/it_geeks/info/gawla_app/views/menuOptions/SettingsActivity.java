@@ -18,8 +18,7 @@ import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    TextView tvLang, tvCountry, tvCurrency;
-    ScrollView mainSettingsActivity;
+    TextView tvLang, tvCurrency;
 
     SwitchMaterial notificationSwitch;
 
@@ -34,7 +33,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void initViews() {
         tvLang = findViewById(R.id.app_settings_language);
-        tvCountry = findViewById(R.id.app_settings_country);
         tvCurrency = findViewById(R.id.app_settings_currency);
         notificationSwitch = findViewById(R.id.notification_switch);
 
@@ -55,7 +53,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         tvLang.setText(displayLanguage());
-        tvCountry.setText(SharedPrefManager.getInstance(SettingsActivity.this).getCountry().getCountry_title());
 
         // open languages page
         findViewById(R.id.settings_lang_option).setOnClickListener(new View.OnClickListener() {
@@ -71,12 +68,6 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 onBackPressed();
             }
-        });
-
-        // Swipe Page Back
-        mainSettingsActivity = findViewById(R.id.mainSettingsActivity);
-        mainSettingsActivity.setOnTouchListener(new OnSwipeTouchListener(SettingsActivity.this){
-            public void onSwipeRight() { finish(); }
         });
     }
 

@@ -49,7 +49,7 @@ public class RetrofitClient {
 
     public static synchronized RetrofitClient getInstance(Context context) {
         // on creation || on lang changed
-        if (mInstance == null || !mInstance.selectBaseUrl().equals(SharedPrefManager.getInstance(context).getSavedLang())) {
+        if (mInstance == null || SharedPrefManager.getInstance(context).isLangChanged()) {
             mInstance = new RetrofitClient();
         }
         return mInstance;

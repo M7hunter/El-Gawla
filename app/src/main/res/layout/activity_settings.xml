@@ -143,57 +143,6 @@
             android:layout_height="1dp"
             android:background="@color/paleGrey2" />
 
-        <!-- 2nd option -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:paddingStart="@dimen/margin_small"
-            android:paddingTop="@dimen/margin_small"
-            android:paddingEnd="@dimen/margin_small"
-            android:paddingBottom="@dimen/margin_small">
-
-            <!-- label -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/card_icon_1st"
-                android:text="@string/country"
-                android:textColor="@android:color/tertiary_text_dark"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/app_settings_country"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:layout_toStartOf="@id/nd2_option_icon"
-                android:text="@string/country"
-                android:textColor="@color/darkSkyBlue"
-                android:textSize="@dimen/text_size_large" />
-
-            <!-- icon -->
-            <ImageView
-                android:id="@+id/nd2_option_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_arrow" />
-
-        </RelativeLayout>
-
-        <!-- top border -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/paleGrey2" />
-
         <!-- 3rd option -->
         <RelativeLayout
             android:layout_width="match_parent"

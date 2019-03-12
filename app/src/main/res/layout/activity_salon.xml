@@ -410,7 +410,7 @@
                 android:background="@drawable/login_shape"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
-                android:text="@string/add_deal"
+                android:text="@string/add_offer"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />

@@ -2,6 +2,7 @@ package it_geeks.info.gawla_app.repository.Storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.Locale;
 
@@ -41,7 +42,7 @@ public class SharedPrefManager {
 
         editor.clear();
 
-        editor.putBoolean("notification_enabled",  state);
+        editor.putBoolean("notification_enabled", state);
         editor.apply();
     }
 
@@ -58,7 +59,15 @@ public class SharedPrefManager {
         editor.clear();
 
         editor.putString("lang", lang);
+        editor.putBoolean("langChanged", true);
         editor.apply();
+    }
+
+    public boolean isLangChanged() {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_LANG, MODE_PRIVATE);
+        boolean changed = sharedPreferences.getBoolean("langChanged", false);
+        sharedPreferences.edit().putBoolean("langChanged", false).apply();
+        return changed;
     }
 
     public String getSavedLang() {
@@ -129,13 +138,13 @@ public class SharedPrefManager {
         editor.clear();
 
         if (country != null) {
-        editor.putInt("country_id", country.getCountry_id());
-        editor.putString("country_title", country.getCountry_title());
-        editor.putString("count_code", country.getCount_code());
-        editor.putString("country_timezone", country.getCountry_timezone());
-        editor.putString("tel", country.getTel());
-        editor.putString("image", country.getImage());
-        editor.apply();
+            editor.putInt("country_id", country.getCountry_id());
+            editor.putString("country_title", country.getCountry_title());
+            editor.putString("count_code", country.getCount_code());
+            editor.putString("country_timezone", country.getCountry_timezone());
+            editor.putString("tel", country.getTel());
+            editor.putString("image", country.getImage());
+            editor.apply();
         }
     }
 
@@ -177,11 +186,11 @@ public class SharedPrefManager {
 
     public String getProvider() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_PROVIDER, Context.MODE_PRIVATE);
-        return sharedPreferences.getString("provider",null);
+        return sharedPreferences.getString("provider", null);
     }
 
     public void clearProvider() {
-       context.getSharedPreferences(SHARED_PREF_USER_PROVIDER, Context.MODE_PRIVATE).edit().clear().apply();
+        context.getSharedPreferences(SHARED_PREF_USER_PROVIDER, Context.MODE_PRIVATE).edit().clear().apply();
     }
 
     // New Notifications status
@@ -189,14 +198,14 @@ public class SharedPrefManager {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
-        
+
         editor.putBoolean("new_notification", newNotfication);
         editor.apply();
     }
 
     public boolean getNewNotification() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean("new_notification",true);
+        return sharedPreferences.getBoolean("new_notification", true);
     }
 
     public void clearNewNotification() {
@@ -204,7 +213,7 @@ public class SharedPrefManager {
     }
 
     // Save User Offer
-    public void saveUserOffer(String USER_OFFER_KEY ,int offerValue) {
+    public void saveUserOffer(String USER_OFFER_KEY, int offerValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(USER_OFFER_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
@@ -215,7 +224,7 @@ public class SharedPrefManager {
 
     public int getUserOffer(String USER_OFFER_KEY) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(USER_OFFER_KEY, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt("user_offer",0);
+        return sharedPreferences.getInt("user_offer", 0);
     }
 
     public void clearUserOffer(String USER_OFFER_KEY) {

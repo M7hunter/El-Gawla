@@ -1317,9 +1317,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         //init bottom sheet views
         if (cardList != null) {
             RecyclerView cardsRecycler = sheetView.findViewById(R.id.salon_cards_bottom_recycler);
+            if (cardsRecycler.getLayoutManager() == null) {
+                cardsRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
+            }
             cardsRecycler.setHasFixedSize(true);
-            cardsRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
-            getUserCardsForSalonFromServer(cardsRecycler); // <--
+            getUserCardsForSalonFromServer(cardsRecycler); // <-- refresh user cards list
         }
 
         //close bottom sheet

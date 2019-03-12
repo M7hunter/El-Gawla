@@ -166,6 +166,7 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                 ((SalonActivity) context).mBottomSheetDialogActivateCard.dismiss();
                 mBottomSheetDialogSingleCard.dismiss();
+                card.setCount(card.getCount() - 1);
                 ((SalonActivity) context).initBottomSheetCardsBag(); // refresh the cards list
 
                 JSONObject use_card = new JSONObject();
