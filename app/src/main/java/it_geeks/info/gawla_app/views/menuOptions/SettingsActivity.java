@@ -20,7 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     TextView tvLang, tvCurrency;
 
-    public static SwitchMaterial notificationSwitch;
+    SwitchMaterial notificationSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

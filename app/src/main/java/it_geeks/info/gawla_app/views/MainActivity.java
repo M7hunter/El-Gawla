@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
     // Firebase initialize
     private void FirebaseMessagingInitialize() {
         boolean notificationStatus = SharedPrefManager.getInstance(this).getNotificationState();
-        if (notificationStatus || SettingsActivity.notificationSwitch.isChecked()) startNotifications();
+        if (notificationStatus) startNotifications();
         else stopNotifications();
     }
 
