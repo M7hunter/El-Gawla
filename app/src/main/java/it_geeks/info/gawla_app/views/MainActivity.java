@@ -29,6 +29,7 @@ import it_geeks.info.gawla_app.views.NavigationFragments.MenuFragment;
 import it_geeks.info.gawla_app.views.NavigationFragments.MyRoundsFragment;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
+import it_geeks.info.gawla_app.views.menuOptions.SettingsActivity;
 import it_geeks.info.gawla_app.views.splashActivities.SplashActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
     // Firebase initialize
     private void FirebaseMessagingInitialize() {
         boolean notificationStatus = SharedPrefManager.getInstance(this).getNotificationState();
-        if (notificationStatus) startNotifications();
+        if (notificationStatus || SettingsActivity.notificationSwitch.isChecked()) startNotifications();
         else stopNotifications();
     }
 

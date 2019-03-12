@@ -64,7 +64,7 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
 
         if (card.getCount() > 0) { // use card state
             viewHolder.btn.setBackgroundColor(context.getResources().getColor(R.color.greenBlue));
-            viewHolder.btn.setText(context.getString(R.string.use));
+            viewHolder.btn.setText(context.getString(R.string.use_card));
             viewHolder.tvCardCount.setBackground(context.getResources().getDrawable(R.drawable.bg_circle_green));
         } else { // buy card  state
             viewHolder.btn.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
@@ -109,7 +109,7 @@ public class BottomCardsAdapter extends RecyclerView.Adapter<BottomCardsAdapter.
             cardCost.setVisibility(View.GONE);
             tvCostLabel.setVisibility(View.GONE);
 
-            tvBuyMainText.setText(context.getString(R.string.use));
+            tvBuyMainText.setText(context.getString(R.string.use_card));
 
         } else { // use card state
             btnConfirmBuying.setCardBackgroundColor(context.getResources().getColor(R.color.colorPrimary));

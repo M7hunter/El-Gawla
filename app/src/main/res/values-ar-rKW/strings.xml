@@ -35,7 +35,7 @@
     <string name="already_have_account">لدي حساب بالفعل</string>
     <string name="pay_later">دفع لاحقاً</string>
     <string name="activate_card">تفعيل الكارت</string>
-    <string name="buy_card">شراء الكارت</string>
+    <string name="buy_card_to_join"> شراء الكارت للإنضمام</string>
     <string name="cards_store">متجر الكروت</string>
     <string name="menu_fragment_hint">جوله هي تطبيق تفاعلي يمكنك من شراء المنتجات بناء علي افضل عرض تقدمة لسعر المنتج , انضم الان حقيبة الكروت</string>
     <string name="more_about_gawla">المزيد عن الجولة</string>
@@ -129,7 +129,7 @@
     <string name="edit">تعديل</string>
     <string name="disconnect">الغاء الاتصال</string>
     <string name="connect_with">"متصل بأستخدام "</string>
-    <string name="use">إستخدام</string>
+    <string name="use_card_to_join">إسنحدام الكارت للإنضمام</string>
     <string name="goldenCard">هاذا الكارت يستخدم لدخول الجوله .</string>
     <string name="privacy_text">إنشاء حساب بائع لدولة مختارة:
  حسب التعليمات الواردة في الموقع، يتعين عليك إنشاء
@@ -229,4 +229,7 @@
     <string name="buying_processes_empty_hint">هنا يوجد مشترياتك السابقة</string>
     <string name="chat_empty_hint">يمكنك محادثة اعضاء الصالة هنا</string>
     <string name="not_joined">انت لست منضم</string>
+    <string name="use_card">إستخدام الكارت</string>
+    <string name="buy_card">شراء الكارت</string>
+    <string name="have_no_rounds">ليس لديك جولات</string>
 </resources>

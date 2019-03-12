@@ -104,7 +104,7 @@
                         android:paddingTop="@dimen/margin_small"
                         android:paddingEnd="@dimen/margin_xxx_large"
                         android:paddingBottom="@dimen/margin_small"
-                        android:text="@string/buy_card"
+                        android:text="@string/buy_card_to_join"
                         android:textSize="@dimen/text_size_medium"
                         android:textStyle="bold" />
 

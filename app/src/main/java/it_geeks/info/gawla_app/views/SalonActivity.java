@@ -80,14 +80,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     public VideoView vpProductMainVideo;
     public ImageView imProductMainImage;
     private ImageView btnPlayPause, imgNotification, joinIcon;
-    public CardView more, notificationCard, goldenCardLayout, activityContainer, chatContainer, topTenContainer;
+    public CardView more, notificationCard, activityContainer, chatContainer, topTenContainer;
     private CardView loadingCard;
     public Button btnJoinRound, btnAddOffer;
     private Button btnJoinConfirmation, btnUseGoldenCard;
     public TextView joinHeader, joinText, tvSalonTime, tvRoundActivity;
-    private TextView tvProductDetailsTab, tvSalonActivityTab, tvChatTab, tvTopTenTab, tvChatEmptyHint, tvCardsCount, tvGoldenCardText, tvActivityEmptyHint, tvTopTenEmptyHint, btn_leave_round;
+    private TextView tvProductDetailsTab, tvSalonActivityTab, tvChatTab, tvTopTenTab, tvChatEmptyHint, tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btn_leave_round;
     private EditText etAddOffer;
-    private View vGoldenCard, salonMainContainer;
+    private View  salonMainContainer;
     private LinearLayout addOfferLayout, detailsContainer;
     private RecyclerView chatRecycler, activityRecycler, topTenRecycler;
 
@@ -178,7 +178,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         more = findViewById(R.id.cv_more);
         notificationCard = findViewById(R.id.round_notification_card);
         addOfferLayout = findViewById(R.id.add_offer_layout);
-        goldenCardLayout = findViewById(R.id.golden_card_layout);
         topTenContainer = findViewById(R.id.top_ten_container);
         detailsContainer = findViewById(R.id.details_container);
         activityContainer = findViewById(R.id.activity_container);
@@ -192,7 +191,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         etAddOffer = findViewById(R.id.add_offer_et);
 
         tvCardsCount = findViewById(R.id.tv_cards_count);
-        tvGoldenCardText = findViewById(R.id.tv_golden_card_text);
         tvChatEmptyHint = findViewById(R.id.tv_chat_empty_hint);
         tvTopTenEmptyHint = findViewById(R.id.tv_top_ten_empty_hint);
         tvActivityEmptyHint = findViewById(R.id.tv_activity_empty_hint);
@@ -201,7 +199,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         tvSalonActivityTab = findViewById(R.id.tv_salon_activity);
         tvChatTab = findViewById(R.id.tv_salon_chat);
 
-        vGoldenCard = findViewById(R.id.v_golden_card);
 
         imgNotification = findViewById(R.id.Notification);
 
@@ -289,17 +286,16 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void initGoldenCardView() {
         if (goldenCard != null) {
-            Common.Instance(this).changeDrawableViewColor(vGoldenCard, goldenCard.getCard_color());
-            tvGoldenCardText.setText(goldenCard.getCard_details());
+            btnUseGoldenCard.setBackgroundColor(Color.parseColor(goldenCard.getCard_color()));
         }
 
         if (goldenCardCount > 0) {
-            btnUseGoldenCard.setText(R.string.use);
-            btnUseGoldenCard.setBackgroundColor(getResources().getColor(R.color.greenBlue));
+            btnUseGoldenCard.setText(R.string.use_card_to_join);
+         //   btnUseGoldenCard.setBackgroundColor(getResources().getColor(R.color.greenBlue));
 
         } else {
-            btnUseGoldenCard.setText(R.string.buy_card);
-            btnUseGoldenCard.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            btnUseGoldenCard.setText(R.string.buy_card_to_join);
+          //  btnUseGoldenCard.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
 
         btnUseGoldenCard.setOnClickListener(new View.OnClickListener() {
@@ -315,11 +311,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     public void displayGoldenLayout() {
-        goldenCardLayout.setVisibility(View.VISIBLE);
+        btnUseGoldenCard.setVisibility(View.VISIBLE);
     }
 
     public void hideGoldenLayout() {
-        goldenCardLayout.setVisibility(View.GONE);
+        btnUseGoldenCard.setVisibility(View.GONE);
     }
 
     private void buyGoldenCard() {
@@ -1299,7 +1295,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         // hide confirmation layout
         btnJoinRound.setVisibility(View.GONE);
         addOfferLayout.setVisibility(View.GONE);
-        goldenCardLayout.setVisibility(View.GONE);
+        btnUseGoldenCard.setVisibility(View.GONE);
         joinAlert.dismiss();
     }
 

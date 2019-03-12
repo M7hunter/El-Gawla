@@ -21,7 +21,7 @@
     <string name="full_name">"full name"</string>
     <string name="pay_later">"later"</string>
     <string name="activate_card">activate card</string>
-    <string name="buy_card">buy card</string>
+    <string name="buy_card_to_join">buy card to join</string>
     <string name="account_details">account details</string>
     <string name="buying_processes">buying processes</string>
     <string name="privacy_policy">privacy policy</string>
@@ -145,7 +145,7 @@
     <string name="empty_message">Message Empty</string>
     <string name="sending_message">Sending ...</string>
     <string name="rOffer">The Offer</string>
-    <string name="use">Use</string>
+    <string name="use_card_to_join">Use card to join</string>
     <string name="goldenCard">This Card use for join Round .</string>
     <string name="privacy_text">Create a reseller account for a selected country: As instructed in the site, you must create
              If you are an individual, you must be a resident of that selected country. In the case of companies, the company must have the ability to do business in the selected country
@@ -230,5 +230,8 @@
     <string name="buying_processes_empty_hint">here is your buying history</string>
     <string name="chat_empty_hint">you can chat salon members here</string>
     <string name="not_joined">you are not joined</string>
+    <string name="use_card">use card</string>
+    <string name="buy_card">buy card</string>
+    <string name="have_no_rounds">you have no rounds</string>
 
 </resources>
