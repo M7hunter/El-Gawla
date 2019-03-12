@@ -21,7 +21,7 @@ public class SettingsActivity extends AppCompatActivity {
     TextView tvLang, tvCountry, tvCurrency;
     ScrollView mainSettingsActivity;
 
-    SwitchMaterial notificationSwitch;
+    public static SwitchMaterial notificationSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

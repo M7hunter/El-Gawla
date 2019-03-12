@@ -216,7 +216,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         Toast.makeText(PrivacyDetailsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-
+                        disconnect();
                         SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearUser();
 
                         startActivity(new Intent(PrivacyDetailsActivity.this, LoginActivity.class)

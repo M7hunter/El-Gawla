@@ -30,7 +30,7 @@
             android:layout_marginStart="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_large"
             android:background="@drawable/bg_rounded_corners_red_270"
-            android:text="@string/buy_card"
+            android:text="@string/buy_card_to_join"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />
