@@ -19,13 +19,10 @@
     <color name="btn_facebook_end">#3b5998</color>
     <color name="paleGrey">#f4f7fa</color>
     <color name="editText_hint">#9498b9</color>
-    <color name="btn_login_end">#3e69d2</color>
-    <color name="btn_login_start">#2196ee</color>
     <color name="create_account_text">#2267c6</color>
     <color name="bg_mumbership_nurmal_start">#70c7ff</color>
     <color name="bg_mumbership_nurmal_end">#46a2e7</color>
     <color name="bg_mumbership_vip_start">#ffdb76</color>
-    <color name="bg_mumbership_vip_end">#eab422</color>
     <color name="muddyBrown">#86620d</color>
     <color name="babyBlue">#a0d5ff</color>
     <color name="dots">#19326d</color>

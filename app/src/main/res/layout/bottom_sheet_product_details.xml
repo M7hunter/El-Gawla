@@ -42,7 +42,7 @@
                 android:layout_height="@dimen/icon_notification"
                 android:layout_margin="@dimen/margin_large"
                 android:padding="@dimen/margin_medium"
-                app:icon="@drawable/out"
+                app:icon="@drawable/x"
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
                 app:iconSize="20dp" />

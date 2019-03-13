@@ -171,7 +171,7 @@ public class Common {
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) view.getParent()).getLayoutParams();
         CoordinatorLayout.Behavior behavior = params.getBehavior();
 
-        if (behavior != null && behavior instanceof BottomSheetBehavior) {
+        if (behavior instanceof BottomSheetBehavior) {
             final BottomSheetBehavior bottomSheetBehavior = (BottomSheetBehavior) behavior;
 
             view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

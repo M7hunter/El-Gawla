@@ -11,20 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.gson.JsonObject;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.repository.Models.Request;
-import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
-import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
-import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
@@ -50,7 +42,6 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final String lang = langList.get(i);
 
-        // set updateCountDown up ui
         viewHolder.langLabel.setText(lang);
 
         if (sLang(lang).equals(SharedPrefManager.getInstance(context).getSavedLang())) {
@@ -61,13 +52,11 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                context.startActivity(new Intent(context, MainActivity.class)
-//                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                 restartDialog(lang);
             }
         });
 
+        //TODO: another sprint
 //        viewHolder.btnDownloadLang.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -105,39 +94,40 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
     private void RestartTheApp() {
         AlarmManager alm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(context, MainActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         alm.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT));
 
         System.exit(0);
     }
 
-    private void downloadLangFromServer(String lang) {
-        RetrofitClient.getInstance(context).executeConnectionToServer(context, "getLang",
-                new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(),
-                        SharedPrefManager.getInstance(context).getUser().getApi_token(),
-                        sLang(lang)), // <- new lang
-                new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        GawlaDataBse.getGawlaDatabase(context).transDao().insertTranses(ParseResponses.parseLanguages(mainObject));
-                    }
-
-                    @Override
-                    public void handleFalseResponse(JsonObject mainObject) {
-
-                    }
-
-                    @Override
-                    public void handleEmptyResponse() {
-
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+    //TODO: another sprint
+//    private void downloadLangFromServer(String lang) {
+//        RetrofitClient.getInstance(context).executeConnectionToServer(context, "getLang",
+//                new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(),
+//                        SharedPrefManager.getInstance(context).getUser().getApi_token(),
+//                        sLang(lang)), // <- new lang
+//                new HandleResponses() {
+//                    @Override
+//                    public void handleTrueResponse(JsonObject mainObject) {
+//                        GawlaDataBse.getGawlaDatabase(context).transDao().insertTranses(ParseResponses.parseLanguages(mainObject));
+//                    }
+//
+//                    @Override
+//                    public void handleFalseResponse(JsonObject mainObject) {
+//
+//                    }
+//
+//                    @Override
+//                    public void handleEmptyResponse() {
+//
+//                    }
+//
+//                    @Override
+//                    public void handleConnectionErrors(String errorMessage) {
+//                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 
     private String sLang(String lang) {
         switch (lang) {

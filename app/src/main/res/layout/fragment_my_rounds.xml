@@ -6,7 +6,7 @@
     android:background="@color/paleGrey"
     tools:context=".views.NavigationFragments.MyRoundsFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -45,34 +45,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true" />
 
-                <!-- data -->
-                <it_geeks.info.gawla_app.general.WrapContentHeightViewPager
-                    android:id="@+id/rounds_pager"
-                    android:layout_width="match_parent"
+                <!-- list -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/my_rounds_recycler"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:layout_marginEnd="@dimen/margin_tiny" />
-
-                <!-- left arrow button -->
-                <ImageView
-                    android:id="@+id/my_rounds_left_arrow"
-                    android:layout_width="@dimen/margin_xx_large"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_arrow_left_grey" />
-
-                <!-- right arrow button -->
-                <ImageView
-                    android:id="@+id/my_rounds_right_arrow"
-                    android:layout_width="@dimen/margin_xx_large"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_arrow_right_grey" />
+                    android:layout_centerInParent="true" />
 
                 <!-- empty view -->
                 <LinearLayout
@@ -110,6 +88,6 @@
             </RelativeLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

@@ -49,7 +49,7 @@
                     android:layout_marginTop="@dimen/margin_xx_large"
                     android:layout_marginEnd="@dimen/margin_xxxx_large"
                     android:layout_marginBottom="@dimen/margin_xx_large"
-                    android:background="@drawable/single_card"
+                    android:background="@drawable/dynamic_card"
                     android:padding="@dimen/margin_large" />
             </FrameLayout>
 
@@ -91,7 +91,7 @@
                     android:id="@+id/payment_confirm_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/login_shape"
+                    android:background="@drawable/bg_gradient_blue_angled_270"
                     android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:gravity="center"
                     android:orientation="vertical">

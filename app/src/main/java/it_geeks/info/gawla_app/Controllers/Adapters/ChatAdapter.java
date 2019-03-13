@@ -47,7 +47,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder> {
         holder.messageTime.setText(chatModel.getDate());
         if (chatModel.getId() == SharedPrefManager.getInstance(context).getUser().getUser_id()) {
             holder.chatUsername.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-            holder.chat_card_message.setBackground(context.getResources().getDrawable(R.drawable.shape_chat_message_send));
+            holder.chat_card_message.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_blue));
             holder.chatMessage.setTextColor(context.getResources().getColor(R.color.ic_launcher_background));
             holder.messageTime.setTextColor(context.getResources().getColor(R.color.ic_launcher_background));
         }

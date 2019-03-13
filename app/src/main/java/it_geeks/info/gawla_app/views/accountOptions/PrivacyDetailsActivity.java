@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +19,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AlertDialog;
@@ -33,16 +31,15 @@ import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 
 public class PrivacyDetailsActivity extends AppCompatActivity {
+
     TextView socialUsername, socialProvider, socialOut;
     Button btnEditEmail, btnEditPassword, btnDeleteAccount;
     ImageView providerImage;
     LinearLayout socialDiv;
     private GoogleApiClient mGoogleApiClient;
-    ScrollView mainPrivacyDetailsActivity;
 
     String Provider;
 
@@ -51,9 +48,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
 
     private EditText etEmail, etPass;
     private TextInputLayout tlEmail, tlPass;
-    private ProgressBar pbEditPass, loading;
+    private View loadingCard;
 
-    private boolean editEmail = false;
     private boolean editPass = false;
 
     @Override
@@ -90,20 +86,23 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         btnEditEmail = findViewById(R.id.btn_edit_email);
         btnEditPassword = findViewById(R.id.btn_edit_password);
         btnDeleteAccount = findViewById(R.id.btn_delete_account);
-        loading = findViewById(R.id.privacy_details_loading);
-        mainPrivacyDetailsActivity = findViewById(R.id.privacy_details_Page);
+        loadingCard = findViewById(R.id.loading_card);
 
         etEmail.setText(SharedPrefManager.getInstance(this).getUser().getEmail());
         socialUsername.setText(SharedPrefManager.getInstance(this).getUser().getName());
 
         initProvider();
+    }
 
-        // Swipe Page Back
-        mainPrivacyDetailsActivity.setOnTouchListener(new OnSwipeTouchListener(PrivacyDetailsActivity.this) {
-            public void onSwipeRight() {
-                finish();
-            }
-        });
+    public void displayLoading() {
+        loadingCard.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    public void hideLoading() {
+        loadingCard.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     private void handleEvents() {
@@ -304,7 +303,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                         etEmail.setText(user.getEmail());
                         SharedPrefManager.getInstance(PrivacyDetailsActivity.this).saveUser(user);
                         Toast.makeText(PrivacyDetailsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                        loading.setVisibility(View.GONE);
+
                     }
 
                     @Override
@@ -314,18 +313,18 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
 
                     @Override
                     public void handleEmptyResponse() {
-                        loading.setVisibility(View.GONE);
+                        hideLoading();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
+                        hideLoading();
                         Snackbar.make(findViewById(R.id.privacy_details_Page), R.string.connection_error, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 updateEmail();
                             }
                         }).show();
-                        loading.setVisibility(View.GONE);
                     }
                 }
         );
@@ -351,7 +350,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                             updateEmail();
                             btnEditEmail.setText(getString(R.string.edit));
                             etEmail.setEnabled(false);
-                            loading.setVisibility(View.VISIBLE);
+                            displayLoading();
                         }
                     }
                     break;

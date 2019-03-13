@@ -26,6 +26,7 @@ public class NotificationInteractionsReceiver extends BroadcastReceiver {
                     AccountDetailsActivity.accountDetailsInstance.btn_upload_image.setEnabled(true);
 
                 } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
 
                 break;

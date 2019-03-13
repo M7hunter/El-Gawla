@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_small"
@@ -89,37 +88,18 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_alarm" />
 
-                <LinearLayout
-
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/round_start_time"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_xTiny"
                     android:layout_marginBottom="@dimen/margin_xTiny"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <!-- time label -->
-                    <ImageView
-                        android:id="@+id/round_status"
-                        android:layout_width="@dimen/margin_medium"
-                        android:layout_height="@dimen/margin_medium"
-                        android:layout_margin="@dimen/margin_tiny"
-                        android:background="@drawable/round_off"
-                        android:visibility="gone"/>
-
-                    <TextView
-                        android:id="@+id/round_start_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:lines="2"
-                        android:textColor="@color/midBlue2"
-                        android:textSize="@dimen/text_size_large"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
+                    android:lines="2"
+                    android:textColor="@color/midBlue2"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
 
                 <!-- separator -->
                 <View
@@ -149,9 +129,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_tiny"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_tiny"
-                android:layout_marginTop="@dimen/margin_tiny"
                 android:gravity="center"
                 android:padding="@dimen/margin_medium"
                 android:text="@string/show"

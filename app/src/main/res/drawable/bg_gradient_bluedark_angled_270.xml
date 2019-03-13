@@ -2,7 +2,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <gradient
         android:angle="270"
-        android:endColor="@color/colorOrange"
-        android:startColor="@color/bg_mumbership_vip_start" />
-    <corners android:radius="10dp" />
+        android:endColor="@color/BlueDark"
+        android:startColor="@color/bg_Splash_Start" />
 </shape>
