@@ -34,10 +34,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     private Context context;
     private List<Notifications> notificationList;
+    private BottomSheetDialog bottomSheet;
+    private TextView messageTitle;
+    private TextView messageBody;
 
     public NotificationAdapter(Context context, List<Notifications> notificationList) {
         this.context = context;
         this.notificationList = notificationList;
+        initBottomSheet();
     }
 
     @NonNull
@@ -107,20 +111,27 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                 } else {
                     try {
-                        LayoutInflater layoutInflater = LayoutInflater.from(context);
-                        View vv = layoutInflater.inflate(R.layout.layout_message_notification, null);
-                        TextView messageTitle = vv.findViewById(R.id.message_title);
-                        TextView messageBody = vv.findViewById(R.id.message_body);
-                        messageTitle.setText(notification.getTitle());
-                        messageBody.setText(notification.getBody());
-                        BottomSheetDialog Dialog = new BottomSheetDialog(context);
-                        Dialog.setContentView(vv);
-                        Dialog.show();
+                       updateBottomSheet(notification);
                     } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
         });
+    }
+
+    private void initBottomSheet() {
+        View v = LayoutInflater.from(context).inflate(R.layout.layout_message_notification, null);
+        messageTitle = v.findViewById(R.id.message_title);
+        messageBody = v.findViewById(R.id.message_body);
+        bottomSheet = new BottomSheetDialog(context);
+        bottomSheet.setContentView(v);
+    }
+
+    private void updateBottomSheet(Notifications notification) {
+        messageTitle.setText(notification.getTitle());
+        messageBody.setText(notification.getBody());
+        bottomSheet.show();
     }
 
     @Override

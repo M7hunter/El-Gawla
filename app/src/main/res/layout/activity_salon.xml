@@ -149,7 +149,7 @@
                                 android:layout_gravity="center"
                                 android:layout_margin="@dimen/margin_tiny"
                                 android:layout_weight="1"
-                                android:src="@drawable/macbook"
+                                android:src="@drawable/flodillus"
                                 android:transitionName="transProductImage" />
 
                             <!-- details container -->
@@ -339,7 +339,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_xTiny"
-                        android:background="@drawable/edittext_shape_add"
+                        android:background="@drawable/bg_rounded_corners_bordered_white_pale_grey"
                         android:gravity="bottom"
                         android:orientation="horizontal">
 
@@ -391,7 +391,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:layout_weight="1"
-                android:background="@drawable/edittext_shape_add"
+                android:background="@drawable/bg_rounded_corners_bordered_white_pale_grey"
                 android:gravity="center"
                 android:hint="@string/rOffer"
                 android:inputType="number"
@@ -407,7 +407,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_weight="1"
-                android:background="@drawable/login_shape"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
                 android:text="@string/add_offer"
@@ -465,7 +464,8 @@
             android:padding="@dimen/margin_tiny"
             android:text="@string/leave"
             android:visibility="gone"
-            app:icon="@drawable/ic_exit" />
+            app:icon="@drawable/ic_exit"
+            app:rippleColor="@color/darkPaleRed" />
 
     </LinearLayout>
     <!--</ScrollView>-->

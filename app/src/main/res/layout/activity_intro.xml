@@ -4,7 +4,7 @@
     android:id="@+id/te"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_splash"
+    android:background="@drawable/bg_gradient_bluedark_angled_270"
     android:layoutDirection="rtl"
     tools:context=".views.splashActivities.IntroActivity">
 
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_above="@id/intro_bottom_bar"
-        android:background="@drawable/bg_splash" />
+        android:background="@drawable/bg_gradient_bluedark_angled_270" />
 
     <!-- bottom bar -->
     <LinearLayout

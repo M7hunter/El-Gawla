@@ -184,6 +184,7 @@ public class CardActivity extends AppCompatActivity {
                 .setBackgroundResource(android.R.color.transparent);
     }
 
+    //TODO: next sprint
 //    private void initCategoryRecycler(RecyclerView categoryRecycler) {
 //        List<Category> categories = new ArrayList<>();
 //        for (int i = 0; i < 5; i++) {

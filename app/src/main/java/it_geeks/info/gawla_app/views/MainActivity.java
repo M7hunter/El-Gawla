@@ -5,13 +5,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.annotation.NonNull;
@@ -29,7 +27,6 @@ import it_geeks.info.gawla_app.views.NavigationFragments.MenuFragment;
 import it_geeks.info.gawla_app.views.NavigationFragments.MyRoundsFragment;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
-import it_geeks.info.gawla_app.views.menuOptions.SettingsActivity;
 import it_geeks.info.gawla_app.views.splashActivities.SplashActivity;
 
 public class MainActivity extends AppCompatActivity {

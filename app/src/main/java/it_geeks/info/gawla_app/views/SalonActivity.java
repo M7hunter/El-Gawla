@@ -67,7 +67,7 @@ import it_geeks.info.gawla_app.repository.Models.RoundStartToEndModel;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.Controllers.Adapters.BottomCardsAdapter;
+import it_geeks.info.gawla_app.Controllers.Adapters.SalonCardsAdapter;
 import it_geeks.info.gawla_app.Controllers.Adapters.ProductSubImagesAdapter;
 import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.views.Round.RoundCountDownController;
@@ -1075,7 +1075,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         alertOut.setNegativeButton(getString(R.string.cancel), null);
         alertOut.setCancelable(false);
         alertOut.show();
-    } // check if user keep wanting out
+    } // check if user keep wanting x
 
     private DialogInterface.OnClickListener outRound = new DialogInterface.OnClickListener() {
         @Override
@@ -1366,7 +1366,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                 calculateGoldenCard();
 
-                cardsRecycler.setAdapter(new BottomCardsAdapter(SalonActivity.this, cardList, salon_id, round_id));
+                cardsRecycler.setAdapter(new SalonCardsAdapter(SalonActivity.this, cardList, salon_id, round_id));
 
                 getRemainingTimeOfRound();
 
@@ -1583,22 +1583,22 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void handleWithScreenBorders(View view) {
-        // if out of the left border || in the left half of screen
+        // if x of the left border || in the left half of screen
         if (view.getX() < 0 || (view.getX() + (view.getWidth() / 2)) < (screenWidth / 2)) {
             view.animate().translationX(0).setDuration(250).start();
         }
 
-        // if out of the right border || in the right half of screen
+        // if x of the right border || in the right half of screen
         if ((view.getX() + view.getWidth()) > screenWidth || (view.getX() + (view.getWidth() / 2)) > (screenWidth / 2)) {
             view.animate().translationX(screenWidth - view.getWidth()).setDuration(250).start();
         }
 
-        // if out of the up border
+        // if x of the up border
         if (view.getY() < 0) {
             view.animate().translationY(0).setDuration(200).start();
         }
 
-        // if out of the bottom border
+        // if x of the bottom border
         if (view.getY() > (screenHeight - (view.getHeight() / 2))) {
             view.animate().translationY(screenHeight - view.getHeight()).setDuration(200).start();
         }

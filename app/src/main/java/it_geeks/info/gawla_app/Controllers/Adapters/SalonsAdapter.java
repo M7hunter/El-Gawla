@@ -61,17 +61,11 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
             viewHolder.tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
             viewHolder.tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getMessage()));
 
-            //Round Status On/Off
-            if (round.isStatus())
-                viewHolder.roundStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.round_on));
-            else
-                viewHolder.roundStatus.setImageDrawable(context.getResources().getDrawable(R.drawable.round_off));
-
             if (round.getSalon_cards() != null) {
-                viewHolder.cardsRecycler.setAdapter(new SalonCardsAdapter(context, round.getSalon_cards()));
+                viewHolder.cardsRecycler.setAdapter(new SalonCardsIconAdapter(context, round.getSalon_cards()));
             } else {
                 List<Card> cards = GawlaDataBse.getGawlaDatabase(context).cardDao().getCardsById(round.getSalon_id());
-                viewHolder.cardsRecycler.setAdapter(new SalonCardsAdapter(context, cards));
+                viewHolder.cardsRecycler.setAdapter(new SalonCardsIconAdapter(context, cards));
                 round.setSalon_cards(cards);
                 round.setProduct_images(GawlaDataBse.getGawlaDatabase(context).productImageDao().getSubImagesById(round.getProduct_id()));
             }
@@ -135,7 +129,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvProductName, tvProductCategory, tvStartTime, btnJoinRound;
-        ImageView imgProductImage, roundStatus;
+        ImageView imgProductImage;
         RecyclerView cardsRecycler;
 
         private ViewHolder(@NonNull View itemView) {
@@ -147,7 +141,6 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
             tvStartTime = itemView.findViewById(R.id.round_start_time);
             btnJoinRound = itemView.findViewById(R.id.round_btn_join);
             cardsRecycler = itemView.findViewById(R.id.salon_cards_recycler);
-            roundStatus = itemView.findViewById(R.id.round_status);
             cardsRecycler.setHasFixedSize(true);
             cardsRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         }

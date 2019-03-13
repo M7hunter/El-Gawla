@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -14,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.general.OnSwipeTouchListener;
 
 public class SettingsActivity extends AppCompatActivity {
 

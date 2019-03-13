@@ -16,6 +16,6 @@
         android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/margin_xlarge"
         android:layout_marginBottom="@dimen/margin_medium"
-        android:background="@drawable/single_card"
+        android:background="@drawable/dynamic_card"
         android:padding="@dimen/margin_large" />
 </FrameLayout>
