@@ -111,65 +111,38 @@ public class ParseResponses {
         return salon_cardsList;
     }
 
-    public static RoundRemainingTime parseRoundRealTime(JsonObject roundObj) {
+    public static RoundRemainingTime parseRoundRemainingTime(JsonObject roundObj) {
         JsonObject roundTime = roundObj.get("hall").getAsJsonObject();
 
         JsonObject open_hall = roundTime.get("open_hall").getAsJsonObject();
-        boolean open_hall_status = open_hall.get("status").getAsBoolean();
-        int open_hall_value = open_hall.get("value").getAsInt();
-
         JsonObject free_join = roundTime.get("free_join").getAsJsonObject();
-        boolean free_join_status = free_join.get("status").getAsBoolean();
-        int free_join_value = free_join.get("value").getAsInt();
-
         JsonObject pay_join = roundTime.get("pay_join").getAsJsonObject();
-        boolean pay_join_status = pay_join.get("status").getAsBoolean();
-        int pay_join_value = pay_join.get("value").getAsInt();
-
         JsonObject first_round = roundTime.get("first_round").getAsJsonObject();
-        boolean first_round_status = first_round.get("status").getAsBoolean();
-        int first_round_value = first_round.get("value").getAsInt();
-
         JsonObject first_rest = roundTime.get("first_rest").getAsJsonObject();
-        boolean first_rest_status = first_rest.get("status").getAsBoolean();
-        int first_rest_value = first_rest.get("value").getAsInt();
-
         JsonObject second_round = roundTime.get("seconed_round").getAsJsonObject();
-        boolean second_round_status = second_round.get("status").getAsBoolean();
-        int second_round_value = second_round.get("value").getAsInt();
-
         JsonObject second_rest = roundTime.get("seconed_rest").getAsJsonObject();
-        boolean second_rest_status = second_rest.get("status").getAsBoolean();
-        int second_rest_value = second_rest.get("value").getAsInt();
-
         JsonObject close_hall = roundTime.get("close_hall").getAsJsonObject();
-        boolean close_hall_status = close_hall.get("status").getAsBoolean();
-        int close_hall_value = close_hall.get("value").getAsInt();
-
-        String round_status = roundTime.get("status").getAsString();
-        boolean isUserJoin = roundObj.get("isUserJoin").getAsBoolean();
-        int last_round_id = roundObj.get("last_round_id").getAsInt();
 
         return new RoundRemainingTime(
-                open_hall_status,
-                open_hall_value,
-                free_join_status,
-                free_join_value,
-                pay_join_status,
-                pay_join_value,
-                first_round_status,
-                first_round_value,
-                first_rest_status,
-                first_rest_value,
-                second_round_status,
-                second_round_value,
-                second_rest_status,
-                second_rest_value,
-                close_hall_status,
-                close_hall_value,
-                round_status,
-                isUserJoin,
-                last_round_id);
+                open_hall.get("status").getAsBoolean(),
+                open_hall.get("value").getAsInt(),
+                free_join.get("status").getAsBoolean(),
+                free_join.get("value").getAsInt(),
+                pay_join.get("status").getAsBoolean(),
+                pay_join.get("value").getAsInt(),
+                first_round.get("status").getAsBoolean(),
+                first_round.get("value").getAsInt(),
+                first_rest.get("status").getAsBoolean(),
+                first_rest.get("value").getAsInt(),
+                second_round.get("status").getAsBoolean(),
+                second_round.get("value").getAsInt(),
+                second_rest.get("status").getAsBoolean(),
+                second_rest.get("value").getAsInt(),
+                close_hall.get("status").getAsBoolean(),
+                close_hall.get("value").getAsInt(),
+                roundTime.get("status").getAsString(),
+                roundObj.get("isUserJoin").getAsBoolean(),
+                roundObj.get("last_round_id").getAsInt());
     }
 
     public static List<Country> parseCountries(JsonObject object) {
@@ -290,7 +263,9 @@ public class ParseResponses {
                 error = errors.get(i).getAsString();
             }
         } catch (NullPointerException e) {
+            e.printStackTrace();
         }
+
         return error;
     }
 

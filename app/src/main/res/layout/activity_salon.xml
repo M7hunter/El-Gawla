@@ -8,11 +8,6 @@
     android:background="@color/paleGrey"
     tools:context=".views.SalonActivity">
 
-    <!-- main layout -->
-    <!--<ScrollView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content">-->
-    <!-- scroll main layout -->
     <LinearLayout
         android:id="@+id/salon_container"
         android:layout_width="match_parent"
@@ -78,6 +73,10 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_tiny"
             android:layout_weight="1">
 
             <!-- 0 tap : top ten container -->
@@ -85,10 +84,7 @@
                 android:id="@+id/top_ten_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_margin="@dimen/margin_tiny"
                 android:background="@drawable/bg_rounded_corners_white"
                 android:visibility="gone"
                 app:cardCornerRadius="@dimen/margin_small">
@@ -115,7 +111,6 @@
                 android:id="@+id/details_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/margin_small"
                 android:orientation="vertical"
                 android:visibility="visible">
 
@@ -124,9 +119,7 @@
                     android:id="@+id/cv_more"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:layout_margin="@dimen/margin_tiny"
                     android:background="@drawable/bg_rounded_corners_white"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="@dimen/margin_small">
@@ -218,9 +211,7 @@
                     android:id="@+id/round_notification_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:layout_margin="@dimen/margin_tiny"
                     android:background="@drawable/bg_rounded_corners_white"
                     android:visibility="visible"
                     app:cardCornerRadius="@dimen/margin_small">
@@ -251,9 +242,11 @@
                             android:layout_marginEnd="@dimen/margin_small"
                             android:layout_weight="1"
                             android:drawableEnd="@drawable/ic_arrow"
+                            android:drawablePadding="@dimen/margin_xTiny"
+                            android:ellipsize="end"
                             android:gravity="start"
                             android:maxLines="2"
-                            android:text="@string/joine_Round"
+                            android:text="@string/join_round"
                             android:textColor="@color/blueGrey" />
 
                     </LinearLayout>
@@ -267,10 +260,7 @@
                 android:id="@+id/activity_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_margin="@dimen/margin_tiny"
                 android:background="@drawable/bg_rounded_corners_white"
                 android:visibility="gone"
                 app:cardCornerRadius="@dimen/margin_small">
@@ -297,10 +287,7 @@
                 android:id="@+id/chat_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_margin="@dimen/margin_tiny"
                 android:background="@drawable/bg_rounded_corners_white"
                 android:visibility="gone"
                 app:cardCornerRadius="@dimen/margin_small">
@@ -465,10 +452,10 @@
             android:text="@string/leave"
             android:visibility="gone"
             app:icon="@drawable/ic_exit"
+            app:iconTint="@color/darkPaleRed"
             app:rippleColor="@color/darkPaleRed" />
 
     </LinearLayout>
-    <!--</ScrollView>-->
 
     <!-- cards bag btn container -->
     <include layout="@layout/layout_cards_free_button" />

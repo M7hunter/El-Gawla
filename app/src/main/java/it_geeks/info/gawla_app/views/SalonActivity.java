@@ -878,7 +878,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 if (mainObject.get("isToday").getAsBoolean()) { // today ?
-                    initCountDown(ParseResponses.parseRoundRealTime(mainObject));
+                    initCountDown(ParseResponses.parseRoundRemainingTime(mainObject));
 
                 } else { // !today
                     tvSalonTime.setText(getResources().getString(R.string.round_date) + "\n" + round_date);
