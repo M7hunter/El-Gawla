@@ -1,93 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
     tools:context=".views.NavigationFragments.MyRoundsFragment">
 
-    <androidx.core.widget.NestedScrollView
+    <!-- collapsing header -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-        <!-- scroll main layout -->
-        <LinearLayout
+        app:elevation="0dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|enterAlways">
 
-            <!-- logo & bell container -->
-            <include layout="@layout/layout_main_header" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                android:orientation="vertical">
 
-            <!-- title -->
-            <TextView
-                android:id="@+id/tv_my_rounds_header"
+                <!-- logo & bell container -->
+                <include layout="@layout/layout_main_header" />
+
+                <!-- title -->
+                <TextView
+                    android:id="@+id/tv_my_rounds_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/joined_salons"
+                    android:textAllCaps="true"
+                    android:textColor="@color/midBlue"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- main content -->
+        <!-- scroll main layout -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <!-- list -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_rounds_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:gravity="center"
-                android:text="@string/joined_salons"
-                android:textAllCaps="true"
-                android:textColor="@color/midBlue"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
+                android:layout_centerInParent="true" />
 
-            <!-- data & empty view container -->
-            <RelativeLayout
+            <ProgressBar
+                android:id="@+id/my_rounds_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <!-- empty view -->
+            <LinearLayout
+                android:id="@+id/my_rounds_empty_view"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                <ProgressBar
-                    android:id="@+id/my_rounds_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true" />
-
-                <!-- list -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/my_rounds_recycler"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true" />
-
-                <!-- empty view -->
-                <LinearLayout
-                    android:id="@+id/my_rounds_empty_view"
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_xx_large"
+                    android:layout_marginEnd="@dimen/margin_xx_large"
+                    android:layout_weight="1"
+                    android:src="@drawable/empty_view_my_rounds" />
+
+                <TextView
+                    android:id="@+id/tv_my_rounds_empty_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:text="@string/have_no_rounds"
+                    android:textColor="@color/blueGrey"
+                    android:textSize="@dimen/text_size_medium" />
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="@dimen/margin_xx_large"
-                        android:layout_marginEnd="@dimen/margin_xx_large"
-                        android:layout_weight="1"
-                        android:src="@drawable/empty_view_my_rounds" />
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tv_my_rounds_empty_hint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:gravity="center"
-                        android:text="@string/have_no_rounds"
-                        android:textColor="@color/blueGrey"
-                        android:textSize="@dimen/text_size_medium" />
+            <!-- no connection view -->
+            <include layout="@layout/layout_no_connection" />
 
-                </LinearLayout>
+        </RelativeLayout>
 
-                <!-- no connection view -->
-                <include layout="@layout/layout_no_connection" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

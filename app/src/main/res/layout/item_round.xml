@@ -63,8 +63,7 @@
                 android:text="@string/no_content"
                 android:textColor="@color/BlueDark"
                 android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold"
-                android:transitionName="transProductName" />
+                android:textStyle="bold" />
 
             <!-- separator -->
             <View
