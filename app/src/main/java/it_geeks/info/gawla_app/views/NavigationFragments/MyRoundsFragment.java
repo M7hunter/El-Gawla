@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.repository.Models.Data;
+import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
@@ -44,10 +46,19 @@ public class MyRoundsFragment extends Fragment {
     private ImageView imgNotification;
 
     private TextView tvMyRoundsHeader, tvMyRoundsEmptyHint; // <- trans
+    private SalonsAdapter mySalonsAdapter;
+
+    private int userId;
+    private String apiToken;
+    private boolean firstRequest = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_rounds, container, false);
+
+        userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
+        apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
+
 
         initViews(view);
 
@@ -58,6 +69,38 @@ public class MyRoundsFragment extends Fragment {
         checkConnection(view);
 
         return view;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (!firstRequest)
+            updateRoundsList();
+    }
+
+    private void updateRoundsList() {
+        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
+                new Data("getSalonByUserID"), new Request(userId, apiToken), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        mySalonsAdapter.updateRoundsList(ParseResponses.parseRounds(mainObject));
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void initViews(View view) {
@@ -83,7 +126,7 @@ public class MyRoundsFragment extends Fragment {
 
     private void handleEvents() {
         // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(),imgNotification);
+        NotificationStatus.notificationStatus(getContext(), imgNotification);
 
         // notification onClick
         imgNotification.setOnClickListener(new View.OnClickListener() {
@@ -109,9 +152,6 @@ public class MyRoundsFragment extends Fragment {
     }
 
     private void getUsrRoundsFromServer() {
-        int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
-        String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
-
         RetrofitClient.getInstance(getActivity()).executeConnectionToServer(MainActivity.mainInstance,
                 "getSalonByUserID", new Request(userId, apiToken), new HandleResponses() {
                     @Override
@@ -127,6 +167,7 @@ public class MyRoundsFragment extends Fragment {
                     @Override
                     public void handleEmptyResponse() {
                         initMyRoundsRecycler();
+                        firstRequest = false;
                     }
 
                     @Override
@@ -146,7 +187,8 @@ public class MyRoundsFragment extends Fragment {
 
             myRoundsRecycler.setHasFixedSize(true);
             myRoundsRecycler.setLayoutManager(new LinearLayoutManager(MainActivity.mainInstance, RecyclerView.VERTICAL, false));
-            myRoundsRecycler.setAdapter(new SalonsAdapter(getActivity(), roundsList));
+            mySalonsAdapter = new SalonsAdapter(getActivity(), roundsList);
+            myRoundsRecycler.setAdapter(mySalonsAdapter);
 
         } else {
             emptyViewLayout.setVisibility(View.VISIBLE);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +14,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import it_geeks.info.gawla_app.general.RoundDiffCallback;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
@@ -72,53 +74,36 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
 
             Common.Instance(context).changeDrawableViewColor(viewHolder.tvProductCategory, round.getCategory_color());
 
-            try {
-                // open round page
-                viewHolder.btnJoinRound.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+            // open round page
+            viewHolder.btnJoinRound.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+
                         Intent i = new Intent(context, SalonActivity.class);
                         // send round's data to round page
-                        i.putExtra("product_id", round.getProduct_id());
-                        i.putExtra("salon_id", round.getSalon_id());
-                        i.putExtra("round_id", round.getRound_id());
-                        i.putExtra("product_name", round.getProduct_name());
-                        i.putExtra("category_name", round.getCategory_name());
-                        i.putExtra("category_color", round.getCategory_color());
-                        i.putExtra("country_name", round.getCountry_name());
-                        i.putExtra("product_commercial_price", round.getProduct_commercial_price());
-                        i.putExtra("product_product_description", round.getProduct_product_description());
-                        i.putExtra("product_image", round.getProduct_image());
-                        i.putExtra("round_date", round.getRound_date());
-                        i.putExtra("round_status", round.isStatus());
-                        i.putExtra("round_message", round.getMessage());
-                        i.putExtra("product_images", (Serializable) round.getProduct_images());
-                        i.putExtra("salon_cards", (Serializable) round.getSalon_cards());
-
-                        // updateCountDown with transition
-                        Pair[] pairs = new Pair[2];
-                        pairs[0] = new Pair<View, String>(viewHolder.imgProductImage, "transProductImage");
-                        pairs[1] = new Pair<View, String>(viewHolder.tvProductName, "transProductName");
+                        i.putExtra("round", round);
 
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), pairs);
+                            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), new Pair<View, String>(viewHolder.imgProductImage, "transProductImage"));
                             context.startActivity(i, options.toBundle());
                         } else {
                             context.startActivity(i);
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                }
+            });
 
-//            Common.Instance(context).setAnimation(viewHolder.itemView);
+        } else {
+            Log.d("test_placeholder: ", "salon == null");
         }
     }
 
-    @Override
-    public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
-        ((ViewHolder) holder).clearAnimation();
+    public void updateRoundsList(List<Round> newList) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new RoundDiffCallback(rounds, newList));
+        diffResult.dispatchUpdatesTo(this);
     }
 
     @Override
@@ -143,10 +128,6 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
             cardsRecycler = itemView.findViewById(R.id.salon_cards_recycler);
             cardsRecycler.setHasFixedSize(true);
             cardsRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
-        }
-
-        private void clearAnimation() {
-            itemView.clearAnimation();
         }
     }
 }

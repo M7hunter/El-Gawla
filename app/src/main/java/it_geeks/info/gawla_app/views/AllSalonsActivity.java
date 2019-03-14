@@ -290,10 +290,10 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initSalonsRecycler() {
-        RecyclerView dateSalonsRecycler = findViewById(R.id.date_salons_recycler);
-        dateSalonsRecycler.setHasFixedSize(true);
-        dateSalonsRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
-        dateSalonsRecycler.setAdapter(new SalonsAdapter(AllSalonsActivity.this, roundsList));
+            RecyclerView dateSalonsRecycler = findViewById(R.id.date_salons_recycler);
+            dateSalonsRecycler.setHasFixedSize(true);
+            dateSalonsRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
+            dateSalonsRecycler.setAdapter(new SalonsAdapter(AllSalonsActivity.this, roundsList));
     }
 
     private void initSalonsEmptyView() {

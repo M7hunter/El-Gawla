@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app.repository.Models;
 
+import java.io.Serializable;
 import java.util.List;
 
 import androidx.room.ColumnInfo;
@@ -8,7 +9,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Round {
+public class Round implements Serializable {
 
     @PrimaryKey
     @ColumnInfo

@@ -162,8 +162,7 @@
                                     android:gravity="center"
                                     android:textColor="@color/duskBlue"
                                     android:textSize="@dimen/text_size_medium"
-                                    android:textStyle="bold"
-                                    android:transitionName="transProductName" />
+                                    android:textStyle="bold" />
 
                                 <!-- price container -->
                                 <LinearLayout

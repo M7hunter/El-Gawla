@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
+import it_geeks.info.gawla_app.general.OnItemClickListener;
 import it_geeks.info.gawla_app.repository.Models.Data;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Controllers.Adapters.WinnersNewsAdapter;
@@ -43,8 +44,7 @@ import it_geeks.info.gawla_app.views.NotificationActivity;
 public class MainFragment extends Fragment {
 
     private SwipeRefreshLayout refreshLayout;
-    private RecyclerView recentSalonsRecycler;
-    private RecyclerView winnersNewsRecycler;
+    private RecyclerView recentSalonsRecycler, winnersNewsRecycler;
     private SalonsAdapter recentSalonsPagedAdapter;
     private WinnersNewsAdapter winnersNewsAdapter;
     private LinearLayoutManager layoutManager;
@@ -52,33 +52,66 @@ public class MainFragment extends Fragment {
     private List<Round> roundList = new ArrayList<>();
     private List<WinnerNews> winnerNewsList = new ArrayList<>();
 
-    private ProgressBar recentSalonsProgress;
-    private ProgressBar winnersNewsProgress;
+    private ProgressBar recentSalonsProgress, winnersNewsProgress;
     private LinearLayout winnersHeader;
 
     private TextView btnRecentSalonsSeeAll, btnWinnersSeeAll; // <- trans & more
     private TextView recentSalonsLabel, winnersLabel, tvEmptyHint; // <- trans
     private ImageView imgNotification;
 
-    private int page = 1;
-    private int last_page = 1;
+    private int page = 1, last_page = 1;
+
+    private View view;
+
+    private boolean firstRequest = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        initViews(view);
+        initViews();
 
         setupTrans();
 
-        handleEvents(view);
+        handleEvents();
 
-        checkConnection(view);
+        checkConnection();
 
         return view;
     }
 
-    private void initViews(View view) {
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (!firstRequest)
+            updateRoundsList();
+    }
+
+    private void updateRoundsList() {
+        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
+                new Data("getAllSalons", page), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        recentSalonsPagedAdapter.updateRoundsList(ParseResponses.parseRounds(mainObject));
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void initViews() {
         refreshLayout = view.findViewById(R.id.main_layout_refresh);
         recentSalonsRecycler = view.findViewById(R.id.recent_salons_recycler);
         winnersNewsRecycler = view.findViewById(R.id.winners_news_recycler);
@@ -109,12 +142,12 @@ public class MainFragment extends Fragment {
         tvEmptyHint.setText(transHolder.salons_empty_hint);
     }
 
-    private void handleEvents(final View view) {
+    private void handleEvents() {
         // refresh page
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                checkConnection(view);
+                checkConnection();
             }
         });
 
@@ -148,13 +181,13 @@ public class MainFragment extends Fragment {
         initWinnersEmptyView();
     }
 
-    private void checkConnection(View view) {
+    private void checkConnection() {
         LinearLayout noConnectionLayout = view.findViewById(R.id.no_connection);
 
         if (Common.Instance(getActivity()).isConnected()) {
             noConnectionLayout.setVisibility(View.GONE);
 
-            getFirstSalonsFromServer(view);
+            getFirstSalonsFromServer();
 
         } else {
             noConnectionLayout.setVisibility(View.VISIBLE);
@@ -164,9 +197,9 @@ public class MainFragment extends Fragment {
         }
     }
 
-    private void getFirstSalonsFromServer(final View view) {
+    private void getFirstSalonsFromServer() {
         RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-                new Data("getAllSalons", 1), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
+                new Data("getAllSalons", page), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         roundList.clear();
@@ -183,14 +216,15 @@ public class MainFragment extends Fragment {
 
                     @Override
                     public void handleEmptyResponse() {
-                        initSalonsEmptyView(view, roundList);
+                        initSalonsEmptyView(roundList);
                         recentSalonsProgress.setVisibility(View.GONE);
                         refreshLayout.setRefreshing(false);
+                        firstRequest = false;
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        initSalonsEmptyView(view, roundList);
+                        initSalonsEmptyView(roundList);
                         recentSalonsProgress.setVisibility(View.GONE);
                         Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
                         refreshLayout.setRefreshing(false);
@@ -237,9 +271,10 @@ public class MainFragment extends Fragment {
         recentSalonsRecycler.setAdapter(recentSalonsPagedAdapter);
 
         Common.Instance(getContext()).hideProgress(recentSalonsRecycler, recentSalonsProgress);
-        recentSalonsRecycler.scrollToPosition(recentSalonsPagedAdapter.getItemCount() - 11);
 
-        addScrollListener();
+        if (page < last_page) {
+            addScrollListener();
+        }
     }
 
     private void addScrollListener() {
@@ -247,21 +282,19 @@ public class MainFragment extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (page < last_page) {
-                    if (layoutManager.findLastCompletelyVisibleItemPosition() == recentSalonsPagedAdapter.getItemCount() - 1) {
-                        getNextSalonsFromServer();
-                        Toast.makeText(getContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();
 
-                        recentSalonsRecycler.removeOnScrollListener(this);
-                    }
-                } else {
+                if (layoutManager.findLastCompletelyVisibleItemPosition() == recentSalonsPagedAdapter.getItemCount() - 1) {
+                    getNextSalonsFromServer();
+                    Toast.makeText(getContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();
+
                     recentSalonsRecycler.removeOnScrollListener(this);
                 }
+
             }
         });
     }
 
-    private void initSalonsEmptyView(View view, List<Round> roundList) {
+    private void initSalonsEmptyView(List<Round> roundList) {
         LinearLayout emptyViewLayout = view.findViewById(R.id.recent_salons_empty_view);
 
         recentSalonsProgress.setVisibility(View.GONE);
@@ -292,10 +325,10 @@ public class MainFragment extends Fragment {
 
     private void initWinnersEmptyView() {
         // no data ? hide header
-        if (winnerNewsList == null || winnerNewsList.size() == 0) {
-            winnersHeader.setVisibility(View.GONE);
-            winnersNewsProgress.setVisibility(View.GONE);
-            winnersNewsRecycler.setVisibility(View.GONE);
-        }
+//        if (winnerNewsList == null || winnerNewsList.size() == 0) {
+        winnersHeader.setVisibility(View.GONE);
+        winnersNewsProgress.setVisibility(View.GONE);
+        winnersNewsRecycler.setVisibility(View.GONE);
+//        }
     }
 }
