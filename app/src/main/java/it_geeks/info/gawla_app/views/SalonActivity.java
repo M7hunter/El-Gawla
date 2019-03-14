@@ -547,8 +547,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             mSocket.emit("newMessage", chatData);
                             etChatMessage.setText("");
                         }
-                    } else if (joinStatus != 2) {
-                        Toast.makeText(SalonActivity.this, getString(R.string.not_joined), Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (roundRemainingTime.getRound_status().equals("close")) {
+                            Toast.makeText(SalonActivity.this, getString(R.string.round_closed), Toast.LENGTH_SHORT).show();
+                        }else if (joinStatus != 2){
+                            Toast.makeText(SalonActivity.this, getString(R.string.not_joined), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                 } catch (NullPointerException e) {
@@ -949,10 +953,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 intiSocket();
                 socketOnStatus = true;
             }
-            tvChatTab.setVisibility(View.VISIBLE);
+           // tvChatTab.setVisibility(View.VISIBLE);
         } else {
-            tvChatTab.setVisibility(View.GONE);
-            chatContainer.setVisibility(View.GONE);
+           // tvChatTab.setVisibility(View.GONE);
+           // chatContainer.setVisibility(View.GONE);
         }
 
         if (roundRemainingTime.isFree_join_status() && roundRemainingTime.isUserJoin() || roundRemainingTime.isPay_join_status() && roundRemainingTime.isUserJoin()) { // display leave salon btn
@@ -995,8 +999,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         }
 
         if (roundRemainingTime.isClose_hall_status() || roundRemainingTime.getRound_status().equals("close")) {
-            chatContainer.setVisibility(View.GONE);
-            tvChatTab.setVisibility(View.GONE);
+            // chatContainer.setVisibility(View.GONE);
+            // tvChatTab.setVisibility(View.GONE);
             topTenRecycler.setVisibility(View.VISIBLE);
             tvTopTenTab.setVisibility(View.VISIBLE);
 
