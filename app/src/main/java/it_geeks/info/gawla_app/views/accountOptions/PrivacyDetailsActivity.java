@@ -288,7 +288,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                 break;
             default:
                 socialProvider.setText(LoginActivity.providerNormalLogin);
-                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.gawla_logo_blue));
+                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_gawla_logo_two));
                 break;
         }
     }
