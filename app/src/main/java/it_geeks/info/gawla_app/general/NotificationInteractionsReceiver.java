@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.crashlytics.android.Crashlytics;
+
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.services.UploadImageService;
 import it_geeks.info.gawla_app.views.accountOptions.AccountDetailsActivity;
@@ -27,6 +29,7 @@ public class NotificationInteractionsReceiver extends BroadcastReceiver {
 
                 } catch (NullPointerException e) {
                     e.printStackTrace();
+                    Crashlytics.logException(e);
                 }
 
                 break;

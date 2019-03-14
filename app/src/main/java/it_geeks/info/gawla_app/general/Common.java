@@ -19,6 +19,7 @@ import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.text.ParseException;
@@ -62,6 +63,7 @@ public class Common {
             new WebView(context).destroy();
         } catch (Exception e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
         Lang = lang;
@@ -127,6 +129,7 @@ public class Common {
             date = sdf.parse(time);
         } catch (ParseException e) {
             Log.d("mo7", "formatTimeToMillis: " + e.getMessage());
+            Crashlytics.logException(e);
         }
 
         return date.getTime();
@@ -138,6 +141,7 @@ public class Common {
         try {
             cal.setTime(sdf.parse(date));
         } catch (Exception e) {
+            Crashlytics.logException(e);
         }
 
         return cal;
@@ -148,6 +152,7 @@ public class Common {
         try {
             cal.setTime(sdf.parse(date));
         } catch (Exception e) {
+            Crashlytics.logException(e);
         }
 
         return cal;

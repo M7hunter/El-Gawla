@@ -78,7 +78,7 @@
             android:text="@string/chat_room"
             android:textSize="@dimen/text_size_small"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
     </LinearLayout>
 

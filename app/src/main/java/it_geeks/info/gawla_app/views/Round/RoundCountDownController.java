@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
+import com.crashlytics.android.Crashlytics;
+
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.RoundRemainingTime;
 import it_geeks.info.gawla_app.repository.Models.RoundStartToEndModel;
@@ -151,6 +153,7 @@ public class RoundCountDownController {
             }.start();
         } catch (Exception e) {
             Log.e("startCountDown: ", e.getMessage());
+            Crashlytics.logException(e);
         }
     }
 

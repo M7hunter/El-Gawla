@@ -16,7 +16,7 @@ import it_geeks.info.gawla_app.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    TextView tvLang, tvCurrency;
+    TextView tvLang;
 
     SwitchMaterial notificationSwitch;
 
@@ -31,7 +31,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void initViews() {
         tvLang = findViewById(R.id.app_settings_language);
-        tvCurrency = findViewById(R.id.app_settings_currency);
         notificationSwitch = findViewById(R.id.notification_switch);
 
         if (SharedPrefManager.getInstance(SettingsActivity.this).getNotificationState()) {
