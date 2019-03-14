@@ -508,8 +508,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     } else {
                         if (roundRemainingTime.getRound_status().equals("close")) {
                             Toast.makeText(SalonActivity.this, getString(R.string.round_closed), Toast.LENGTH_SHORT).show();
+                            tvChatEmptyHint.setText(R.string.chat_room_closed);
                         }else if (joinStatus != 2){
                             Toast.makeText(SalonActivity.this, getString(R.string.not_joined), Toast.LENGTH_SHORT).show();
+                            tvChatEmptyHint.setText(getString(R.string.not_joined));
                         }
                     }
 

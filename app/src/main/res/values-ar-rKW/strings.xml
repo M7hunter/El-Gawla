@@ -127,7 +127,7 @@
     <string name="telephone_number">رقم الهاتف</string>
     <string name="account_info">بيانات الحساب</string>
     <string name="edit">تعديل</string>
-    <string name="disconnect">الغاء الاتصال</string>
+    <string name="disconnect">هل انت متأكد ؟</string>
     <string name="connect_with">"متصل بأستخدام "</string>
     <string name="use_card_to_join">إسنحدام الكارت للإنضمام</string>
     <string name="goldenCard">هاذا الكارت يستخدم لدخول الجوله .</string>
@@ -187,8 +187,8 @@
     <string name="day">يوم</string>
     <string name="loading">تحميل ...</string>
     <string name="restart_hint">إعادة تشغيل البرنامج و تغيير اللغة ؟</string>
-    <string name="delete_account_hint">حذف هذا الحساب ؟</string>
-    <string name="sign_out_hint">تسجيل خروج ؟</string>
+    <string name="delete_account_hint">هل انت متأكد ؟</string>
+    <string name="sign_out_hint">هل انت متأكد ؟</string>
     <string name="card_price_category">سعر الكارت لهذه الفئة</string>
     <string name="name_length_hint">يجب ان يزيد الاسم عن خمسة احرف</string>
     <string name="card_price_by_category">سعر الكارت حسب الفئة</string>
@@ -232,4 +232,5 @@
     <string name="use_card">إستخدام الكارت</string>
     <string name="buy_card">شراء الكارت</string>
     <string name="have_no_rounds">ليس لديك جولات</string>
+    <string name="chat_room_closed">تم إغلاق غرفة المحادثة</string>
 </resources>

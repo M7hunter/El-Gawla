@@ -233,5 +233,6 @@
     <string name="use_card">Use card</string>
     <string name="buy_card">Buy card</string>
     <string name="have_no_rounds">you have no rounds</string>
+    <string name="chat_room_closed">Chat room closed</string>
 
 </resources>
