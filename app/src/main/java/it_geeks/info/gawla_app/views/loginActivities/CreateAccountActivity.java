@@ -13,6 +13,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -325,7 +326,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             new CreateAccountViewModel(this).socialLogin(id, name, email, image, provider);
         } catch (ApiException e) {
             Log.w("Mo7", "signInResult:failed code=" + e.getStatusCode());
-
+            Crashlytics.logException(e);
         }
     }
     // fb login
@@ -382,8 +383,10 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             new CreateAccountViewModel(this).socialLogin(id, name, email, image, provider);
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         } catch (JSONException e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
     }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -100,8 +101,10 @@ public class RetrofitClient {
                     } catch (NullPointerException e) { // errors of response body 'maybe response body has changed';
                         Log.e("onResponse: ", e.getMessage());
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Crashlytics.logException(e);
                     } catch (UnsupportedOperationException e) {
                         Log.e("onResponse: ", e.getMessage());
+                        Crashlytics.logException(e);
                     }
                 } else { // code != 200
                     try {
@@ -125,12 +128,16 @@ public class RetrofitClient {
 
                     } catch (IOException e) {
                         e.printStackTrace();
+                        Crashlytics.logException(e);
                     } catch (JsonSyntaxException e) {
                         e.printStackTrace();
+                        Crashlytics.logException(e);
                     } catch (RuntimeException e) {
                         e.printStackTrace();
+                        Crashlytics.logException(e);
                     } catch (Exception e) {
                         e.printStackTrace();
+                        Crashlytics.logException(e);
                     }
                 }
 

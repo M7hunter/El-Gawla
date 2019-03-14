@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -75,6 +76,7 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
                 ((MainActivity) context).recreate();
             } catch (Exception e) {
                 e.printStackTrace();
+                Crashlytics.logException(e);
             }
         }
     }

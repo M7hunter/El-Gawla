@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -389,6 +390,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     initTopTenRecycler(ParseResponses.parseTopTen(mainObject));
                 } catch (Exception e) {
                     Log.e("getTopTen: ", e.getMessage());
+                    Crashlytics.logException(e);
                 }
             }
 
@@ -539,6 +541,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                                 chatData.put("message", message);
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                Crashlytics.logException(e);
                             }
 
                             mSocket.emit("newMessage", chatData);
@@ -550,6 +553,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                 } catch (NullPointerException e) {
                     Log.e("chat_send_message: ", e.getMessage());
+                    Crashlytics.logException(e);
                 }
             }
         });
@@ -576,6 +580,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             tvChatEmptyHint.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             Log.e("socket message", e.getMessage());
+                            Crashlytics.logException(e);
                         }
                     }
                 });
@@ -708,6 +713,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             mSocket.emit("joinRoom", o);
         } catch (JSONException e) {
             Log.e("socket joinRoom: ", e.getMessage());
+            Crashlytics.logException(e);
         }
 
         mSocket.on("new_member", new Emitter.Listener() {
@@ -723,6 +729,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket newMember: ", e.getMessage());
+                            Crashlytics.logException(e);
                         }
                     }
                 });
@@ -740,6 +747,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket memberAddOffer: ", e.getMessage());
+                            Crashlytics.logException(e);
                         }
                     }
                 });
@@ -757,6 +765,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket memberLeave: ", e.getMessage());
+                            Crashlytics.logException(e);
                         }
                     }
                 });
@@ -774,6 +783,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket winner: ", e.getMessage());
+                            Crashlytics.logException(e);
                         }
                     }
                 });
@@ -796,6 +806,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket activity: ", e.getMessage());
+                            Crashlytics.logException(e);
                         }
                     }
                 });
@@ -815,6 +826,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket memberUseCard: ", e.getMessage());
+                            Crashlytics.logException(e);
                         }
                     }
                 });
@@ -827,6 +839,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             tvRoundActivity.setText(notificationMsg);
         } catch (ArrayIndexOutOfBoundsException e) {
             Log.e("RoundLastActivity: ", e.getMessage());
+            Crashlytics.logException(e);
         }
     }
 
@@ -926,6 +939,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             roundCountDownController.updateCountDown();
         } catch (NullPointerException e) {
             Log.e("initCountDown: ", e.getMessage());
+            Crashlytics.logException(e);
         }
     }
 
@@ -1029,6 +1043,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                 } catch (NullPointerException e) {
                     e.printStackTrace();
+                    Crashlytics.logException(e);
                 }
             }
 
@@ -1210,6 +1225,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         } catch (NumberFormatException e) {
             joinProgress.setVisibility(View.GONE);
             addOfferLayout.setVisibility(View.VISIBLE);
+            Crashlytics.logException(e);
         }
         etAddOffer.setEnabled(true);
     }
@@ -1636,6 +1652,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             roundCountDownController.stopCountDown();
         } catch (Exception e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
         Intent i = new Intent();
@@ -1658,6 +1675,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             roundCountDownController.stopCountDown();
         } catch (Exception e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
         super.onDestroy();

@@ -1,5 +1,6 @@
 package it_geeks.info.gawla_app.repository.RESTful;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -264,6 +265,7 @@ public class ParseResponses {
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
         return error;

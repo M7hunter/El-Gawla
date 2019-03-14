@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+//crashlytics
+ apply plugin: 'io.fabric'
+
 
 android {
     compileSdkVersion 28
@@ -56,11 +59,14 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.google.firebase:firebase-messaging:17.4.0'
     implementation 'com.google.firebase:firebase-auth:16.1.0'
+    //crashlytics
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
     // socket io
     implementation 'io.socket:socket.io-client:1.0.0'
     // lottie
     implementation 'com.airbnb.android:lottie:3.0.0-beta2'
+
 
 }
 apply plugin: 'com.google.gms.google-services'
