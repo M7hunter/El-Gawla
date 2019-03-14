@@ -95,16 +95,8 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-<<<<<<< HEAD
                 }
             });
-=======
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-                Crashlytics.logException(e);
-            }
->>>>>>> 2110dd68c44308791bdc4fa7f7588e2505fcf954
 
         } else {
             Log.d("test_placeholder: ", "salon == null");

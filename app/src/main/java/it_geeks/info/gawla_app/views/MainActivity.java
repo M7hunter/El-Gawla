@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Fabric.with(this, new Crashlytics());
         setLang();
         super.onCreate(savedInstanceState);
 
@@ -54,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         Common.Instance(this).changeStatusBarColor("#f4f7fa", this);
-        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
+
 
         //Notification Update Status When App Open
         updateNotificationStatus();
