@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
@@ -174,6 +175,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
             countryPopup.show();
         } catch (RuntimeException e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
     }
 
@@ -203,6 +205,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
             genderPopup.show();
         } catch (RuntimeException e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
     }
 
@@ -215,6 +218,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
                     .into(img_update_image);
         } catch (Exception e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
         et_update_first_name.setText(user.getFirstName());
@@ -278,6 +282,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             Log.e("updateUserOnServer: ", e.getMessage());
             getCountriesFromSever();
+            Crashlytics.logException(e);
         }
     }
 
@@ -390,6 +395,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Toast.makeText(AccountDetailsActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            Crashlytics.logException(e);
         }
     }
 

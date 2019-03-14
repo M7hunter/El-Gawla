@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.JsonObject;
 
@@ -158,6 +159,7 @@ public class AllSalonsActivity extends AppCompatActivity {
                             roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(dateList.get(0).getDate());
                         } catch (IndexOutOfBoundsException e) {
                             e.printStackTrace();
+                            Crashlytics.logException(e);
                         }
 
                         initSalonsRecycler();
@@ -253,6 +255,7 @@ public class AllSalonsActivity extends AppCompatActivity {
                             roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
                         } catch (IndexOutOfBoundsException e) {
                             e.printStackTrace();
+                            Crashlytics.logException(e);
                         }
 
                         initSalonsRecycler();

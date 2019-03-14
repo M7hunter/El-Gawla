@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.JsonObject;
 
 import androidx.annotation.Nullable;
@@ -97,6 +98,7 @@ public class UploadImageService extends Service {
                                     activity.updatedStateUI();
                                     activity.btn_upload_image.setEnabled(true);
                                 } catch (NullPointerException e) {
+                                    Crashlytics.logException(e);
                                 }
                             }
                         });

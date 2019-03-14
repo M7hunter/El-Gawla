@@ -7,6 +7,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.crashlytics.android.Crashlytics;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,6 +168,7 @@ public class GawlaTimeDown implements Animation.AnimationListener {
 
         } catch (Exception e) {
             Log.e("Mo7", e.getMessage());
+            Crashlytics.logException(e);
         }
     }
 

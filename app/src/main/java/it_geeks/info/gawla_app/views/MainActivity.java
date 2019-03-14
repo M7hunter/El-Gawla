@@ -7,7 +7,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -15,6 +17,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import io.fabric.sdk.android.Fabric;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.ConnectionChangeReceiver;
@@ -47,8 +50,11 @@ public class MainActivity extends AppCompatActivity {
         setLang();
         super.onCreate(savedInstanceState);
 
-        if (!checkLoginState()){ return; }
+        if (!checkLoginState()) {
+            return;
+        }
         Common.Instance(this).changeStatusBarColor("#f4f7fa", this);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
         //Notification Update Status When App Open
@@ -97,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
             Common.Instance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
         } catch (Exception e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
     }
 
@@ -169,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
                         menuItem.setTitle(transHolder.menu);
                         // change status bar color
                         Common.Instance(MainActivity.this).changeStatusBarColor("#f4f7fa", MainActivity.this);
+//                        Crashlytics.getInstance().crash(); // Force a crash
                         break;
                 }
 
@@ -211,7 +219,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         try {
             unregisterReceiver(connectionChangeReceiver);
-        } catch (IllegalArgumentException e){e.printStackTrace();}
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+        }
         super.onDestroy();
     }
 }

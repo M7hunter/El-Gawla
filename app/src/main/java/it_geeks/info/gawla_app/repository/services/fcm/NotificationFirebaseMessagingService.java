@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -78,6 +79,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
 
             }
         } catch (Exception e) {
+            Crashlytics.logException(e);
         }
 
     }
@@ -103,6 +105,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
                 new UpdateFirebaseToken(this);
             }
         } catch (Exception e) {
+            Crashlytics.logException(e);
         }
     }
 

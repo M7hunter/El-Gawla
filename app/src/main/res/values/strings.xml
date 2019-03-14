@@ -223,7 +223,7 @@
     <string name="rest_time">Rest Time</string>
     <string name="round_closed">Round Closed</string>
     <string name="first_round_time">First Round Time</string>
-    <string name="round_started_add_offer">round stared add offers to win</string>
+    <string name="round_started_add_offer">Round stared add offers to win</string>
     <string name="round_started">Round stared</string>
     <string name="top_ten_empty">There is no one in the top 10 list</string>
     <string name="activity_empty_hint">There are no activities in this round</string>

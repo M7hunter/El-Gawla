@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -57,6 +58,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         .into(viewHolder.imgProductImage);
             } catch (Exception e) {
                 e.printStackTrace();
+                Crashlytics.logException(e);
             }
 
             viewHolder.tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
@@ -93,8 +95,16 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+<<<<<<< HEAD
                 }
             });
+=======
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                Crashlytics.logException(e);
+            }
+>>>>>>> 2110dd68c44308791bdc4fa7f7588e2505fcf954
 
         } else {
             Log.d("test_placeholder: ", "salon == null");

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -270,6 +271,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
             finish();
         } catch (Exception e) {
             Log.e("Mo7", e.getMessage() + " ");
+            Crashlytics.logException(e);
         }
     }
 
@@ -286,7 +288,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                 break;
             default:
                 socialProvider.setText(LoginActivity.providerNormalLogin);
-                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.gawla_logo_blue));
+                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_gawla_logo_two));
                 break;
         }
     }

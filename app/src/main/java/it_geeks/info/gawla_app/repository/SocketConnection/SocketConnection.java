@@ -1,5 +1,7 @@
 package it_geeks.info.gawla_app.repository.SocketConnection;
 
+import com.crashlytics.android.Crashlytics;
+
 import java.net.URISyntaxException;
 
 import io.socket.client.IO;
@@ -14,6 +16,7 @@ public class SocketConnection {
         try {
             mSocket = IO.socket(GAWLA_SERVER_URL);
         } catch (URISyntaxException e) {
+            Crashlytics.logException(e);
             throw new RuntimeException(e);
         }
     }
