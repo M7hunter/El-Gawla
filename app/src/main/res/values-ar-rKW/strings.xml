@@ -231,5 +231,6 @@
     <string name="not_joined">انت لست منضم</string>
     <string name="use_card">إستخدام الكارت</string>
     <string name="buy_card">شراء الكارت</string>
-    <string name="have_no_rounds">ليس لديك جولات</string>
+    <string name="rounds_empty_hint">لا تدع الفرصة تفوتك .. اشترك الآن</string>
+    <string name="no_notifications">لا يوجد إشعارات</string>
 </resources>

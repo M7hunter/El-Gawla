@@ -232,6 +232,7 @@
     <string name="not_joined">You are not joined</string>
     <string name="use_card">Use card</string>
     <string name="buy_card">Buy card</string>
-    <string name="have_no_rounds">you have no rounds</string>
+    <string name="rounds_empty_hint">don\'te miss your the chance .. join now</string>
+    <string name="no_notifications">no notifications</string>
 
 </resources>

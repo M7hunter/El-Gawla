@@ -3,6 +3,7 @@ package it_geeks.info.gawla_app.general;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
@@ -16,11 +17,13 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -70,16 +73,43 @@ public class Common {
         Configuration configuration = context.getResources().getConfiguration();
         Locale locale;
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M || Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1 ) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             locale = new Locale(Lang, "kw");
         } else {
             locale = new Locale(Lang);
         }
+
         configuration.setLocale(locale);
         Locale.setDefault(locale);
 
         context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
         SharedPrefManager.getInstance(context).setLang(Lang);
+    }
+
+    public void loadImage(String imageUrl, ImageView imageView) {
+        Picasso.with(context)
+                .load(imageUrl)
+                .resize(600, 600)
+                .onlyScaleDown()
+                .placeholder(R.drawable.placeholder)
+                .into(imageView);
+    }
+
+    public void loadLandscapeImage(String imageUrl, ImageView imageView) {
+        Picasso.with(context)
+                .load(imageUrl)
+                .resize(900, 600)
+                .onlyScaleDown()
+                .placeholder(R.drawable.placeholder)
+                .into(imageView);
+    }
+
+    public void loadFittedImage(String imageUrl, ImageView imageView) {
+        Picasso.with(context)
+                .load(imageUrl)
+                .fit()
+                .placeholder(R.drawable.placeholder)
+                .into(imageView);
     }
 
     // remove unneeded quotes

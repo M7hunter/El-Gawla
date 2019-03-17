@@ -84,14 +84,14 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                RestartTheApp();
+                                restartTheApp();
                             }
-                        }, 500);
+                        }, 400);
                     }
                 }).show();
     }
 
-    private void RestartTheApp() {
+    private void restartTheApp() {
         AlarmManager alm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent(context, MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

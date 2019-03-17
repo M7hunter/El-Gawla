@@ -19,7 +19,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_tiny"
-            android:text="@string/dont_have_red_card"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="@string/no_content"
             android:textColor="@color/battleshipGrey"
             android:textSize="@dimen/text_size_large" />
 
@@ -30,7 +32,7 @@
             android:layout_marginStart="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_large"
             android:background="@drawable/bg_rounded_corners_red_270"
-            android:text="@string/buy_card_to_join"
+            android:text="@string/buy_card"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />

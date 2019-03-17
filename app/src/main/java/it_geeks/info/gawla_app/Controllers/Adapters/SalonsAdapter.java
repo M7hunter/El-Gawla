@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -13,8 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
-import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -52,10 +53,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
         // bind
         if (round != null) {
             try {
-                Picasso.with(context)
-                        .load(round.getProduct_image())
-                        .placeholder(context.getResources().getDrawable(R.drawable.placeholder))
-                        .into(viewHolder.imgProductImage);
+                Common.Instance(context).loadImage(round.getProduct_image(), viewHolder.imgProductImage);
             } catch (Exception e) {
                 e.printStackTrace();
                 Crashlytics.logException(e);
@@ -81,10 +79,11 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                 @Override
                 public void onClick(View view) {
                     try {
-
                         Intent i = new Intent(context, SalonActivity.class);
                         // send round's data to round page
                         i.putExtra("round", round);
+                        i.putExtra("product_image", prepareImageToPass(viewHolder.imgProductImage));
+
 
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), new Pair<View, String>(viewHolder.imgProductImage, "transProductImage"));
@@ -94,6 +93,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
+                        Crashlytics.logException(e);
                     }
                 }
             });
@@ -101,6 +101,15 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
         } else {
             Log.d("test_placeholder: ", "salon == null");
         }
+    }
+
+    private byte[] prepareImageToPass(ImageView imgProductImage) {
+        imgProductImage.buildDrawingCache();
+
+        Bitmap bitmap = imgProductImage.getDrawingCache();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        return outputStream.toByteArray();
     }
 
     public void updateRoundsList(List<Round> newList) {

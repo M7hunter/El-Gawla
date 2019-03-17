@@ -24,7 +24,7 @@ public class NotificationInteractionsReceiver extends BroadcastReceiver {
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(notifyId);
 
                 try {
-                    AccountDetailsActivity.accountDetailsInstance.updatedStateUI();
+                    AccountDetailsActivity.accountDetailsInstance.setUpdatedStateOnUI();
                     AccountDetailsActivity.accountDetailsInstance.btn_upload_image.setEnabled(true);
 
                 } catch (NullPointerException e) {

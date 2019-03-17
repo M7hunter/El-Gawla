@@ -6,41 +6,46 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Notifications {
-    @PrimaryKey(autoGenerate = true)
-    private int notificationID;
-    @ColumnInfo
-    private String title;
-    @ColumnInfo
-    private String body;
-    @ColumnInfo
-    private String type;
-    @ColumnInfo
-    private String date;
+public class Notification {
+
+    @PrimaryKey
     @ColumnInfo
     private int id;
+
+    @ColumnInfo
+    private String title;
+
+    @ColumnInfo
+    private String body;
+
+    @ColumnInfo
+    private String type;
+
+    @ColumnInfo
+    private String date;
+
     @ColumnInfo
     private boolean status;
 
-    public Notifications() {
+    public Notification() {
     }
 
     @Ignore
-    public Notifications(String title, String body, String type, String date, int id, boolean status) {
+    public Notification(int id, String title, String body, String type, String date, boolean status) {
+        this.id = id;
         this.title = title;
         this.body = body;
         this.type = type;
         this.date = date;
-        this.id = id;
         this.status = status;
     }
 
-    public int getNotificationID() {
-        return notificationID;
+    public int getId() {
+        return id;
     }
 
-    public void setNotificationID(int notificationID) {
-        this.notificationID = notificationID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -73,14 +78,6 @@ public class Notifications {
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public boolean isStatus() {

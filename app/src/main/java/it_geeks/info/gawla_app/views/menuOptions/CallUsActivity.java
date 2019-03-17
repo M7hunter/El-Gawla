@@ -1,19 +1,19 @@
 package it_geeks.info.gawla_app.views.menuOptions;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Request;
@@ -22,27 +22,23 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 
 public class CallUsActivity extends AppCompatActivity {
 
-    EditText usernameCallUS, emailCallUS, messageCallUS;
-    Button btnSendCallUs;
-    Snackbar snackbarMessage;
-    TextInputLayout tlName, tlEmail, tlText;
+    private EditText usernameCallUS, emailCallUS, messageCallUS;
+    private Button btnSendCallUs;
+    private TextInputLayout tlName, tlEmail, tlText;
+    private View loadingCard;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        changeStatusBarColor("#ffffff");
+        Common.Instance(this).changeStatusBarColor("#ffffff", this);
         setContentView(R.layout.activity_call_us);
 
-        findViewById(R.id.call_us_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
         initViews();
-        getDefaultData();
-        setData();
+
+        bindViews();
+
+        handleEvents();
     }
 
     private void initViews() {
@@ -54,41 +50,65 @@ public class CallUsActivity extends AppCompatActivity {
         tlName = findViewById(R.id.tl_call_us_name);
         tlEmail = findViewById(R.id.tl_call_us_email);
         tlText = findViewById(R.id.tl_text);
+
+        loadingCard = findViewById(R.id.loading_card);
     }
 
-    private void getDefaultData() {
+    private void bindViews() {
         usernameCallUS.setText(SharedPrefManager.getInstance(CallUsActivity.this).getUser().getName());
         emailCallUS.setText(SharedPrefManager.getInstance(CallUsActivity.this).getUser().getEmail());
     }
 
-    private void setData() {
+    private void handleEvents() {
+        // back
+        findViewById(R.id.call_us_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        // send
         btnSendCallUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (!usernameCallUS.getText().toString().trim().isEmpty()) {
-                    if (!emailCallUS.getText().toString().trim().isEmpty()) {
-                        if (!messageCallUS.getText().toString().trim().isEmpty()) {
-                            handleData();
-                        } else {
-                            messageCallUS.setFocusable(true);
-                            tlText.setError(getString(R.string.empty_message));
-                        }
-                    } else {
-                        emailCallUS.setFocusable(true);
-                        tlEmail.setError(getString(R.string.emptyMail));
-                    }
-                } else {
-                    usernameCallUS.setFocusable(true);
-                    tlName.setError(getString(R.string.empty_name));
-
-                }
+                checkEntries();
             }
         });
     }
 
-    private void handleData() {
-        snackbarMessage.make(findViewById(R.id.CallUsParentLayout), getString(R.string.sending_message), Snackbar.LENGTH_INDEFINITE).show();
+    private void checkEntries() {
+        if (!usernameCallUS.getText().toString().trim().isEmpty()) { // !empty
+            if (!emailCallUS.getText().toString().trim().isEmpty()) { // !empty
+                if (!messageCallUS.getText().toString().trim().isEmpty()) { // !empty
+                    sendMessage();
+                } else { // empty ?
+                    messageCallUS.setFocusable(true);
+                    tlText.setError(getString(R.string.empty_message));
+                }
+            } else { // empty ?
+                emailCallUS.setFocusable(true);
+                tlEmail.setError(getString(R.string.emptyMail));
+            }
+        } else { // empty ?
+            usernameCallUS.setFocusable(true);
+            tlName.setError(getString(R.string.empty_name));
+        }
+    }
 
+    private void displayLoading() {
+        loadingCard.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    private void hideLoading() {
+        loadingCard.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    private void sendMessage() {
+        displayLoading();
         int userID = SharedPrefManager.getInstance(CallUsActivity.this).getUser().getUser_id();
         String apiToken = SharedPrefManager.getInstance(CallUsActivity.this).getUser().getApi_token();
         String username = usernameCallUS.getText().toString();
@@ -99,9 +119,11 @@ public class CallUsActivity extends AppCompatActivity {
                 "setUserContactMessage", new Request(userID, apiToken, username, email, message), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        String message = mainObject.get("message").getAsString();
-                        snackbarMessage.make(findViewById(R.id.CallUsParentLayout), message, Snackbar.LENGTH_SHORT).show();
+                        Toast.makeText(CallUsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                         messageCallUS.setText("");
+                        tlText.setError(null);
+                        tlName.setError(null);
+                        tlEmail.setError(null);
                     }
 
                     @Override
@@ -111,23 +133,15 @@ public class CallUsActivity extends AppCompatActivity {
 
                     @Override
                     public void handleEmptyResponse() {
-
+                        hideLoading();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        snackbarMessage.make(findViewById(R.id.CallUsParentLayout), R.string.no_connection, Snackbar.LENGTH_SHORT).show();
+                        hideLoading();
+                        Toast.makeText(CallUsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    // to change status bar color
-    public void changeStatusBarColor(String color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.parseColor(color));
-        }
     }
 }
 

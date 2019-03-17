@@ -1,147 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:orientation="vertical"
-    android:id="@+id/mainCallUsActivity"
     tools:context=".views.menuOptions.CallUsActivity">
-    <!-- scroll main layout -->
-    <LinearLayout
-        android:id="@+id/CallUsParentLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
-        <!-- title bar -->
-        <RelativeLayout
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- scroll main layout -->
+        <LinearLayout
+            android:id="@+id/CallUsParentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny">
+            android:orientation="vertical">
 
-            <!-- back -->
-            <ImageView
-                android:id="@+id/call_us_back"
-                android:layout_width="@dimen/icon_back"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/margin_small"
-                android:layout_alignParentLeft="true"
-                android:src="@drawable/ic_arrow_left_only" />
-
-            <!-- title -->
-            <TextView
+            <!-- title bar -->
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="@string/call_us"
-                android:textColor="@color/battleshipGrey"
+                android:layout_marginTop="@dimen/margin_tiny"
+                android:layoutDirection="ltr">
+
+                <!-- title -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="@string/call_us"
+                    android:textColor="@color/battleshipGrey"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
+
+                <!-- back -->
+                <ImageView
+                    android:id="@+id/call_us_back"
+                    android:layout_width="@dimen/icon_back"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/margin_small"
+                    android:src="@drawable/ic_arrow_left_only" />
+
+            </RelativeLayout>
+
+            <!-- name -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_call_us_name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xlarge"
+                android:layout_marginTop="@dimen/margin_xlarge"
+                android:layout_marginRight="@dimen/margin_xlarge"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:textColorHint="@color/paleGrey2"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/usernameCallUs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="auto"
+                    android:hint="@string/full_name"
+                    android:inputType="textPersonName"
+                    android:paddingStart="@dimen/margin_xlarge"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingEnd="@dimen/margin_xlarge"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- email -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_call_us_email"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xlarge"
+                android:layout_marginRight="@dimen/margin_xlarge"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:textColorHint="@color/paleGrey2"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailCallUs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="auto"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="@dimen/margin_xlarge"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingEnd="@dimen/margin_xlarge"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- text -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_text"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/margin_xlarge"
+                android:layout_marginRight="@dimen/margin_xlarge"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_weight="1"
+                android:textColorHint="@color/paleGrey2"
+                app:errorEnabled="true">
+
+                <EditText
+                    android:id="@+id/messageCallUs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:gravity="top|start"
+                    android:hint="@string/text"
+                    android:inputType="text|textAutoComplete|textMultiLine"
+                    android:lines="6"
+                    android:paddingStart="@dimen/margin_xlarge"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingEnd="@dimen/margin_xlarge"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- sending btn -->
+            <Button
+                android:id="@+id/btnSendCallUs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_xlarge"
+                android:layout_marginEnd="@dimen/margin_xlarge"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:padding="@dimen/margin_medium"
+                android:text="@string/send"
+                android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
-        </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 
-        <!-- name -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tl_call_us_name"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xlarge"
-            android:layout_marginTop="@dimen/margin_xlarge"
-            android:layout_marginRight="@dimen/margin_xlarge"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:textColorHint="@color/paleGrey2"
-            app:errorEnabled="true">
+    <include layout="@layout/layout_loading_card" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/usernameCallUs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="auto"
-                android:hint="@string/full_name"
-                android:inputType="textPersonName"
-                android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_small"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- email -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tl_call_us_email"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xlarge"
-            android:layout_marginRight="@dimen/margin_xlarge"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:textColorHint="@color/paleGrey2"
-            app:errorEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/emailCallUs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="auto"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_small"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- text -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tl_text"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/margin_xlarge"
-            android:layout_marginRight="@dimen/margin_xlarge"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:layout_weight="1"
-            android:textColorHint="@color/paleGrey2"
-            app:errorEnabled="true">
-
-            <EditText
-                android:id="@+id/messageCallUs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="true"
-                android:gravity="top|start"
-                android:hint="@string/text"
-                android:inputType="text|textAutoComplete|textMultiLine"
-                android:lines="6"
-                android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_small"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/btnSendCallUs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xlarge"
-            android:layout_marginEnd="@dimen/margin_xlarge"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:padding="@dimen/margin_medium"
-            android:text="@string/send"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-</ScrollView>
+</RelativeLayout>
