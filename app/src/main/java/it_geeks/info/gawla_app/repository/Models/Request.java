@@ -101,11 +101,12 @@ public class Request {
         this.email = api_token;
     }
 
-    public Request(int user_id, String api_token, String image) { // User Profile Image Upload
+    public Request(int user_id, String api_token, String string) { // User Profile Image Upload
         this.user_id = user_id;
         this.api_token = api_token;
-        this.password = image;
-        this.image = image;
+        this.password = string;
+        this.image = string;
+        this.firebase_token = string;
     }
 
     public Request(int user_id, String api_token, String firstName, String lastName, String phone, String gender, int country_id) { // User Profile update
@@ -137,13 +138,6 @@ public class Request {
         this.email = text;
         this.user_id = user_id;
         this.api_token = api_token;
-    }
-
-
-    public Request(int user_id, String api_token ,String firebase_token,int x) { // /Update Firebase Token
-        this.user_id = user_id;
-        this.api_token = api_token;
-        this.firebase_token = firebase_token;
     }
 
     public Request(int userId, String apiToken, int card_id, int salonId, int round_id) {

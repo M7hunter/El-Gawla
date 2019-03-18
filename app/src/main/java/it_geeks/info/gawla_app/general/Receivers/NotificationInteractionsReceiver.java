@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.general;
+package it_geeks.info.gawla_app.general.Receivers;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -8,7 +8,7 @@ import android.content.Intent;
 import com.crashlytics.android.Crashlytics;
 
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.repository.services.UploadImageService;
+import it_geeks.info.gawla_app.general.services.UploadImageService;
 import it_geeks.info.gawla_app.views.accountOptions.AccountDetailsActivity;
 
 public class NotificationInteractionsReceiver extends BroadcastReceiver {

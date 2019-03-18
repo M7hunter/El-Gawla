@@ -343,13 +343,15 @@
                             android:padding="@dimen/margin_tiny" />
 
                         <!-- btn send message -->
-                        <ImageView
-                            android:id="@+id/chat_send_message"
-                            android:layout_width="wrap_content"
+                        <Button
+                            android:id="@+id/btn_send_chat_message"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="@dimen/icon_back"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:padding="@dimen/margin_x_small"
-                            android:src="@drawable/ic_send_message" />
+                            app:icon="@drawable/ic_send_message"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp" />
 
                     </LinearLayout>
 

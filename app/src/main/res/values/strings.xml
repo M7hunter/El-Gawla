@@ -196,7 +196,7 @@
     <string name="card_price_by_category">Card price by category</string>
     <string name="card_price">Card price</string>
     <string name="salon_activity">Salon activity</string>
-    <string name="image_updared">Image updated successfully</string>
+    <string name="image_updated">Image updated successfully</string>
     <string name="updating_image">Updating User Image</string>
     <string name="chat_room">Chat Room</string>
     <string name="write_message">Send Message</string>
@@ -232,7 +232,7 @@
     <string name="not_joined">You are not joined</string>
     <string name="use_card">Use card</string>
     <string name="buy_card">Buy card</string>
-    <string name="rounds_empty_hint">don\'te miss your the chance .. join now</string>
+    <string name="rounds_empty_hint">don\'t miss your chance .. join now</string>
     <string name="no_notifications">no notifications</string>
 
 </resources>

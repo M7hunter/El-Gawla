@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import io.fabric.sdk.android.Fabric;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.ConnectionChangeReceiver;
+import it_geeks.info.gawla_app.general.Receivers.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.NavigationFragments.AccountFragment;
@@ -109,8 +109,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateNotificationStatus() {
-        boolean notificationStatus = SharedPrefManager.getInstance(this).getNewNotification();
-        if (notificationStatus) {
+        if (SharedPrefManager.getInstance(this).getNewNotification()) {
             GawlaDataBse.getGawlaDatabase(this).notificationDao().updateStatusNotification(true);
         } else {
             GawlaDataBse.getGawlaDatabase(this).notificationDao().updateStatusNotification(false);
@@ -119,8 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Firebase initialize
     private void FirebaseMessagingInitialize() {
-        boolean notificationStatus = SharedPrefManager.getInstance(this).getNotificationState();
-        if (notificationStatus) startNotifications();
+        if (SharedPrefManager.getInstance(this).isNotificationEnabled()) startNotifications();
         else stopNotifications();
     }
 

@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.views.Round;
+package it_geeks.info.gawla_app.views.CountDown;
 
 import android.content.Context;
 import android.os.CountDownTimer;
@@ -46,34 +46,34 @@ public class RoundCountDownController {
 
         ((SalonActivity) context).checkOnTime();
         ((SalonActivity) context).notificationCard.setVisibility(View.VISIBLE);
-        if (roundRemainingTime.getRound_status().trim().equals("open")) {
-            if (roundRemainingTime.isOpen_hall_status()) {
+        if (roundRemainingTime.getRound_state().trim().equals("open")) {
+            if (roundRemainingTime.isOpen_hall_state()) {
                 onRest(roundRemainingTime.getOpen_hall_value() * oneSecond, context.getResources().getString(R.string.open_hall));
 
-            } else if (roundRemainingTime.isFree_join_status()) {
+            } else if (roundRemainingTime.isFree_join_state()) {
                 free_join_status(roundRemainingTime.getFree_join_value() * oneSecond);
 
-            } else if (roundRemainingTime.isPay_join_status()) {
+            } else if (roundRemainingTime.isPay_join_state()) {
                 pay_join_value(roundRemainingTime.getPay_join_value() * oneSecond);
 
-            } else if (roundRemainingTime.isFirst_round_status()) {
+            } else if (roundRemainingTime.isFirst_round_state()) {
                 first_round_value(roundRemainingTime.getFirst_round_value() * oneSecond);
 
-            } else if (roundRemainingTime.isFirst_rest_status()) {
+            } else if (roundRemainingTime.isFirst_rest_state()) {
                 onRest(roundRemainingTime.getFirst_rest_value() * oneSecond, context.getResources().getString(R.string.rest_time));
 
-            } else if (roundRemainingTime.isSecond_round_status()) {
+            } else if (roundRemainingTime.isSecond_round_state()) {
                 second_round_value(roundRemainingTime.getSecond_round_value() * oneSecond);
 
-            } else if (roundRemainingTime.isSecond_rest_status()) {
+            } else if (roundRemainingTime.isSecond_rest_state()) {
                 onRest(roundRemainingTime.getSecond_rest_value() * oneSecond, context.getResources().getString(R.string.second_rest_time));
 
-            } else if (roundRemainingTime.isClose_hall_status()) {
+            } else if (roundRemainingTime.isClose_hall_state()) {
                 close_hall_value();
             }
 
         } else {
-            ((SalonActivity) context).tvRoundActivity.setText(roundRemainingTime.getRound_status());
+            ((SalonActivity) context).tvRoundActivity.setText(roundRemainingTime.getRound_state());
             ((SalonActivity) context).tvSalonTime.setText(context.getResources().getString(R.string.round_closed));
         }
 
@@ -166,20 +166,20 @@ public class RoundCountDownController {
 
 
         if (mSecond[0] != second) {
-            GawlaTimeDown gawlaTimeDownSecond = new GawlaTimeDown(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "second");
-            gawlaTimeDownSecond.NumberTick(second);
+            CountDownAnimator countDownAnimatorSecond = new CountDownAnimator(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "second");
+            countDownAnimatorSecond.NumberTick(second);
         }
         mSecond[0] = second;
 
         if (mMinute[0] != minute) {
-            GawlaTimeDown gawlaTimeDownMinute = new GawlaTimeDown(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "minute");
-            gawlaTimeDownMinute.NumberTick(minute);
+            CountDownAnimator countDownAnimatorMinute = new CountDownAnimator(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "minute");
+            countDownAnimatorMinute.NumberTick(minute);
         }
         mMinute[0] = minute;
 
         if (mHour[0] != hour) {
-            GawlaTimeDown gawlaTimeDownHour = new GawlaTimeDown(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "hour");
-            gawlaTimeDownHour.NumberTick(hour);
+            CountDownAnimator countDownAnimatorHour = new CountDownAnimator(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "hour");
+            countDownAnimatorHour.NumberTick(hour);
         }
         mHour[0] = hour;
 

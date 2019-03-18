@@ -31,7 +31,7 @@ import androidx.appcompat.view.ContextThemeWrapper;
 import it_geeks.info.gawla_app.repository.Models.Country;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.repository.services.UploadImageService;
+import it_geeks.info.gawla_app.general.services.UploadImageService;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.User;

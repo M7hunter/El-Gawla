@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.general;
+package it_geeks.info.gawla_app.general.Interfaces;
 
 import android.view.View;
 

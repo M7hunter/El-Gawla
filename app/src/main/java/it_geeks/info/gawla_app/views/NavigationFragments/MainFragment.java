@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
-import it_geeks.info.gawla_app.general.OnItemClickListener;
 import it_geeks.info.gawla_app.repository.Models.Data;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.Controllers.Adapters.WinnersNewsAdapter;
@@ -113,6 +112,7 @@ public class MainFragment extends Fragment {
 
     private void initViews() {
         refreshLayout = view.findViewById(R.id.main_layout_refresh);
+        refreshLayout.setColorSchemeResources(R.color.paleRed, R.color.colorOrange, R.color.niceBlue, R.color.azure);
         recentSalonsRecycler = view.findViewById(R.id.recent_salons_recycler);
         winnersNewsRecycler = view.findViewById(R.id.winners_news_recycler);
         recentSalonsProgress = view.findViewById(R.id.recent_salons_progress);
@@ -128,7 +128,6 @@ public class MainFragment extends Fragment {
         btnWinnersSeeAll = view.findViewById(R.id.winners_news_see_all_btn);
         winnersLabel = view.findViewById(R.id.winners_news_header_label);
         tvEmptyHint = view.findViewById(R.id.recent_salons_empty_hint);
-
     }
 
     private void setupTrans() {

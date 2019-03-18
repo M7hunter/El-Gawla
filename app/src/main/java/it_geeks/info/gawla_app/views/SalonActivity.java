@@ -59,7 +59,7 @@ import it_geeks.info.gawla_app.repository.Models.ChatModel;
 import it_geeks.info.gawla_app.repository.Models.TopTen;
 import it_geeks.info.gawla_app.repository.SocketConnection.SocketConnection;
 import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.ConnectionChangeReceiver;
+import it_geeks.info.gawla_app.general.Receivers.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
 import it_geeks.info.gawla_app.repository.Models.Request;
@@ -73,7 +73,7 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Controllers.Adapters.SalonCardsAdapter;
 import it_geeks.info.gawla_app.Controllers.Adapters.ProductSubImagesAdapter;
 import it_geeks.info.gawla_app.general.NotificationStatus;
-import it_geeks.info.gawla_app.views.Round.RoundCountDownController;
+import it_geeks.info.gawla_app.views.CountDown.RoundCountDownController;
 
 public class SalonActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -86,10 +86,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     public CardView more, notificationCard, activityContainer, chatContainer, topTenContainer;
     private CardView loadingCard;
     public Button btnJoinRound, btnAddOffer;
-    private Button btnJoinConfirmation, btnUseGoldenCard;
+    private Button btnJoinConfirmation, btnUseGoldenCard, btnSendMsg;
     public TextView joinHeader, joinText, tvSalonTime, tvRoundActivity;
     private TextView tvProductDetailsTab, tvSalonActivityTab, tvChatTab, tvTopTenTab, tvChatEmptyHint, tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btn_leave_round;
-    private EditText etAddOffer;
+    private EditText etAddOffer, etChatMessage;
     private View salonMainContainer;
     private LinearLayout addOfferLayout, detailsContainer;
     private RecyclerView chatRecycler, activityRecycler, topTenRecycler;
@@ -191,6 +191,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         btnUseGoldenCard = findViewById(R.id.btn_use_golden_card);
         btn_leave_round = findViewById(R.id.btn_leave_round);
 
+        etChatMessage = findViewById(R.id.et_chat_message);
+        btnSendMsg = findViewById(R.id.btn_send_chat_message);
+
         etAddOffer = findViewById(R.id.add_offer_et);
 
         tvCardsCount = findViewById(R.id.tv_cards_count);
@@ -201,7 +204,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         tvProductDetailsTab = findViewById(R.id.tv_product_details);
         tvSalonActivityTab = findViewById(R.id.tv_salon_activity);
         tvChatTab = findViewById(R.id.tv_salon_chat);
-
 
         imgNotification = findViewById(R.id.Notification);
 
@@ -490,14 +492,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         chatRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
         chatRecycler.setAdapter(new ChatAdapter(SalonActivity.this, chatList));
 
-        final EditText etChatMessage = findViewById(R.id.et_chat_message);
-
-        findViewById(R.id.chat_send_message).setOnClickListener(new View.OnClickListener() {
+        btnSendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
 
-                    if (joinStatus == 2 && !roundRemainingTime.getRound_status().equals("close")) {
+                    if (joinStatus == 2 && !roundRemainingTime.getRound_state().equals("close")) {
                         if (etChatMessage.getText().toString().trim().isEmpty()) {
                             etChatMessage.setError("Input Empty");
                         } else {
@@ -516,7 +516,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             etChatMessage.setText("");
                         }
                     } else {
-                        if (roundRemainingTime.getRound_status().equals("close")) {
+                        if (roundRemainingTime.getRound_state().equals("close")) {
                             Toast.makeText(SalonActivity.this, getString(R.string.round_closed), Toast.LENGTH_SHORT).show();
                         } else if (joinStatus != 2) {
                             Toast.makeText(SalonActivity.this, getString(R.string.not_joined), Toast.LENGTH_SHORT).show();
@@ -696,9 +696,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     public void run() {
                         try {
                             JSONObject main = (JSONObject) args[0];
-                            displayRoundLatestActivity(main.get("data").toString());
-                            activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
+                            displaySalonLatestActivity(main.get("data").toString());
                             initActivityRecycler();
+                            activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
                         } catch (Exception e) {
                             Log.e("socket newMember: ", e.getMessage());
                             Crashlytics.logException(e);
@@ -714,7 +714,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     public void run() {
                         try {
                             JSONObject main = (JSONObject) args[0];
-                            displayRoundLatestActivity(main.get("data").toString());
+                            displaySalonLatestActivity(main.get("data").toString());
                             activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
@@ -732,7 +732,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     public void run() {
                         try {
                             JSONObject main = (JSONObject) args[0];
-                            displayRoundLatestActivity(main.get("data").toString());
+                            displaySalonLatestActivity(main.get("data").toString());
                             activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
@@ -750,7 +750,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     public void run() {
                         try {
                             JSONObject main = (JSONObject) args[0];
-                            displayRoundLatestActivity(main.get("data").toString());
+                            displaySalonLatestActivity(main.get("data").toString());
                             activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
@@ -793,7 +793,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     public void run() {
                         try {
                             JSONObject main = (JSONObject) args[0];
-                            displayRoundLatestActivity(main.get("data").toString());
+                            displaySalonLatestActivity(main.get("data").toString());
                             activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
@@ -806,7 +806,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         });
     }
 
-    private void displayRoundLatestActivity(String notificationMsg) {
+    private void displaySalonLatestActivity(String notificationMsg) {
         try {
             tvRoundActivity.setText(notificationMsg);
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -863,7 +863,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 if (mainObject.get("isToday").getAsBoolean()) { // today ?
-                    initCountDown(ParseResponses.parseRoundRemainingTime(mainObject));
+                    roundRemainingTime = ParseResponses.parseRoundRemainingTime(mainObject);
+                    initCountDown();
 
                 } else { // !today
                     tvSalonTime.setText(getResources().getString(R.string.round_date) + "\n" + round.getRound_id());
@@ -896,9 +897,17 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (roundRemainingTime != null && !roundRemainingTime.isClose_hall_state())
+            getRemainingTimeOfRound();
+    }
+
     //Round Start
-    private void initCountDown(RoundRemainingTime roundRemainingTime) {
-        this.roundRemainingTime = roundRemainingTime;
+    private void initCountDown() {
+        roundCountDownController.setRoundRemainingTime(roundRemainingTime);// set round remaining time
         if (roundRemainingTime.isUserJoin()) {
             joinStatus = 2;
         } else {
@@ -906,7 +915,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         }
 
         roundCountDownController.setJoinStatus(joinStatus);  // User Status From Server
-        roundCountDownController.setRoundRemainingTime(roundRemainingTime);// set round remaining time
         try {
             roundCountDownController.updateCountDown();
         } catch (NullPointerException e) {
@@ -915,25 +923,45 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         }
     }
 
+    private void enableChat() {
+        etChatMessage.setEnabled(true);
+        btnSendMsg.setEnabled(true);
+    }
+
+    private void disableChat() {
+        etChatMessage.setEnabled(false);
+        btnSendMsg.setEnabled(false);
+    }
+
     public void checkOnTime() {
-        if (roundRemainingTime.getRound_status().equals("open") && !roundRemainingTime.isOpen_hall_status()) {
+        if (roundRemainingTime.isUserJoin()) { // user is member
+            enableChat();
+
+            if ((roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state())) { // join time
+                btn_leave_round.setVisibility(View.VISIBLE);
+            } else { // !join time
+                btn_leave_round.setVisibility(View.GONE); // hide leave salon btn
+            }
+
+
+            if (roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state()) {
+                addOfferLayout.setVisibility(View.VISIBLE); // display add offer layout
+                displayUserOffer(); // get user last Offer
+            } else {
+                addOfferLayout.setVisibility(View.GONE); // hide add offer layout
+            }
+        } else { // !member
+            disableChat();
+        }
+
+        if (roundRemainingTime.getRound_state().equals("open") && !roundRemainingTime.isOpen_hall_state()) {
             if (!socketOnStatus) {
                 intiSocket();
                 socketOnStatus = true;
             }
-            // tvChatTab.setVisibility(View.VISIBLE);
-        } else {
-            // tvChatTab.setVisibility(View.GONE);
-            // chatContainer.setVisibility(View.GONE);
         }
 
-        if (roundRemainingTime.isFree_join_status() && roundRemainingTime.isUserJoin() || roundRemainingTime.isPay_join_status() && roundRemainingTime.isUserJoin()) { // display leave salon btn
-            btn_leave_round.setVisibility(View.VISIBLE);
-        } else { // hide leave salon btn
-            btn_leave_round.setVisibility(View.GONE);
-        }
-
-        if (roundRemainingTime.isPay_join_status() && !roundRemainingTime.isUserJoin()) { // display golden card layout
+        if (roundRemainingTime.isPay_join_state() && !roundRemainingTime.isUserJoin()) { // display golden card layout
             if (goldenCard != null) {
                 displayGoldenLayout();
             } else {
@@ -944,20 +972,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             hideGoldenLayout();
         }
 
-        if (roundRemainingTime.isFirst_round_status() && roundRemainingTime.isUserJoin() || roundRemainingTime.isSecond_round_status() && roundRemainingTime.isUserJoin()) { // display add offer layout
-            addOfferLayout.setVisibility(View.VISIBLE);
-            // get user last Offer
-            displayUserOffer();
-        } else { // hide add offer layout
-            addOfferLayout.setVisibility(View.GONE);
-        }
-
-        if (roundRemainingTime.isFirst_round_status() || roundRemainingTime.isSecond_round_status()) { // hide top ten views
+        if (roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state()) { // hide top ten views
             topTenRecycler.setVisibility(View.GONE);
             tvTopTenTab.setVisibility(View.GONE);
         }
 
-        if (roundRemainingTime.isFirst_rest_status()) {
+        if (roundRemainingTime.isFirst_rest_state()) {
             // clear user offer
             SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(round.getSalon_id() + "" + userId);
             // display top ten
@@ -966,9 +986,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             selectTopTenTab();
         }
 
-        if (roundRemainingTime.isClose_hall_status() || roundRemainingTime.getRound_status().equals("close")) {
-            // chatContainer.setVisibility(View.GONE);
-            // tvChatTab.setVisibility(View.GONE);
+        if (roundRemainingTime.isClose_hall_state() || roundRemainingTime.getRound_state().equals("close")) {
             topTenRecycler.setVisibility(View.VISIBLE);
             tvTopTenTab.setVisibility(View.VISIBLE);
 
@@ -976,11 +994,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             getWinner();
 
             // disconnect socket
-            if (mSocket != null) {
-                if (mSocket.connected()) {
-                    mSocket.disconnect();
-                }
-            }
+            if (mSocket != null && mSocket.connected())
+                mSocket.disconnect();
         }
     }
 
@@ -1010,7 +1025,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         startActivity(i);
 
                     } else { // !winner
-                        displayRoundLatestActivity(winnerName + " " + message + offer);
+                        displaySalonLatestActivity(winnerName + " " + message + offer);
                     }
 
                 } catch (NullPointerException e) {
@@ -1091,7 +1106,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     Snackbar.make(findViewById(R.id.salon_main_layout), R.string.connection_error, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            stopSalonNotification();
                             getRemainingTimeOfRound();
+                            initialConfirmationScreen();
                         }
                     }).show();
                 }
@@ -1448,7 +1465,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         tvProductPrice.setText(round.getProduct_commercial_price());
         tvProductDescription.setText(round.getProduct_product_description());
 
-       imProductMainImage.setImageBitmap(bitmapProductImage);
+        imProductMainImage.setImageBitmap(bitmapProductImage);
 
         SubImage.setImageUrl(round.getProduct_image());
     }

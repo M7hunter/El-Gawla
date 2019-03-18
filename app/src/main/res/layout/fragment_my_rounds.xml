@@ -76,25 +76,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/margin_medium"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="visible"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_weight="2"
+                android:scaleType="fitCenter"
                 android:layout_marginStart="@dimen/margin_xx_large"
                 android:layout_marginEnd="@dimen/margin_xx_large"
-                android:layout_weight="1"
                 android:src="@drawable/empty_view_my_rounds" />
 
             <TextView
                 android:id="@+id/tv_my_rounds_empty_hint"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_margin="@dimen/margin_medium"
-                android:gravity="center"
+                android:gravity="center|top"
                 android:text="@string/rounds_empty_hint"
                 android:textColor="@color/blueGrey"
                 android:textSize="@dimen/text_size_medium" />

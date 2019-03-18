@@ -33,14 +33,16 @@ public class SettingsActivity extends AppCompatActivity {
         tvLang = findViewById(R.id.app_settings_language);
         notificationSwitch = findViewById(R.id.notification_switch);
 
-        if (SharedPrefManager.getInstance(SettingsActivity.this).getNotificationState()) {
+        if (SharedPrefManager.getInstance(SettingsActivity.this).isNotificationEnabled()) {
             notificationSwitch.setChecked(true);
+        } else {
+            notificationSwitch.setChecked(false);
         }
 
         notificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SharedPrefManager.getInstance(SettingsActivity.this).setNotificationState(isChecked);
+                SharedPrefManager.getInstance(SettingsActivity.this).setNotificationEnabled(isChecked);
                 if (isChecked){
                     startNotifications();
                 }else {

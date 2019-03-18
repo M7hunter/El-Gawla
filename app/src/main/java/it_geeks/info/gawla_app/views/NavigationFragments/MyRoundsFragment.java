@@ -59,7 +59,6 @@ public class MyRoundsFragment extends Fragment {
         userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
         apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
-
         initViews(view);
 
         setupTrans();
@@ -121,7 +120,7 @@ public class MyRoundsFragment extends Fragment {
         transHolder.getMyRoundsFragmentTranses(getContext());
 
         tvMyRoundsHeader.setText(transHolder.joined_salons);
-        tvMyRoundsEmptyHint.setText(transHolder.my_rounds_empty_hint);
+        tvMyRoundsEmptyHint.setText(transHolder.rounds_empty_hint);
     }
 
     private void handleEvents() {

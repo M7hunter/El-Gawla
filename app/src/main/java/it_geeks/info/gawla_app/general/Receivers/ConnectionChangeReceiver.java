@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.general;
+package it_geeks.info.gawla_app.general.Receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -43,9 +43,9 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
     public void initSnackBar(Context context) {
         if (snackbar == null) {
             if (context.getClass().equals(MainActivity.class)) {
-                snackbar = Snackbar.make(((MainActivity) context).getSnackBarContainer(), "NO CONNECTION", Snackbar.LENGTH_INDEFINITE);
+                snackbar = Snackbar.make(((MainActivity) context).getSnackBarContainer(), context.getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
             } else if (context.getClass().equals(SalonActivity.class)) {
-                snackbar = Snackbar.make(((SalonActivity) context).getSnackBarContainer(), "NO CONNECTION", Snackbar.LENGTH_INDEFINITE);
+                snackbar = Snackbar.make(((SalonActivity) context).getSnackBarContainer(), context.getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
             }
 
             View snackBarView = snackbar.getView();

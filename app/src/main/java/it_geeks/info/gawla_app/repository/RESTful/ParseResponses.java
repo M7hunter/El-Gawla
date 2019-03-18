@@ -256,7 +256,7 @@ public class ParseResponses {
         return null;
     }
 
-    public static String parseServerErrors(JsonObject object) {
+    static String parseServerErrors(JsonObject object) {
         String error = "no errors";
         try {
             JsonArray errors = object.get("errors").getAsJsonArray();

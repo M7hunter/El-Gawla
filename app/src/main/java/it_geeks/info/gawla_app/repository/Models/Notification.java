@@ -8,7 +8,9 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Notification {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private int notification_id;
+
     @ColumnInfo
     private int id;
 
@@ -38,6 +40,14 @@ public class Notification {
         this.type = type;
         this.date = date;
         this.status = status;
+    }
+
+    public int getNotification_id() {
+        return notification_id;
+    }
+
+    public void setNotification_id(int notification_id) {
+        this.notification_id = notification_id;
     }
 
     public int getId() {

@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.views.Round;
+package it_geeks.info.gawla_app.views.CountDown;
 
 import android.content.Context;
 import android.util.Log;
@@ -14,7 +14,7 @@ import java.util.List;
 
 import it_geeks.info.gawla_app.R;
 
-public class GawlaTimeDown implements Animation.AnimationListener {
+public class CountDownAnimator implements Animation.AnimationListener {
 
     private List<ImageView> upDivsList = new ArrayList<>();
     private List<ImageView> downDivsList = new ArrayList<>();
@@ -28,38 +28,38 @@ public class GawlaTimeDown implements Animation.AnimationListener {
     private int currentNumberTens;
     private int currentNumber;
 
-    public static boolean statusTime;
-    Context context;
+    private Context context;
 
-    public GawlaTimeDown(Context context, List<ImageView> upDivsList, List<ImageView> downDivsList, List<Integer> drawablesUp, List<Integer> drawablesDown, String typeOnTime) {
+    CountDownAnimator(Context context, List<ImageView> upDivsList, List<ImageView> downDivsList, List<Integer> drawablesUp, List<Integer> drawablesDown, String typeOnTime) {
         this.context = context;
+        this.drawablesUp.addAll(drawablesUp);
+        this.drawablesDown.addAll(drawablesDown);
 
-        if (typeOnTime == "second") {
-            for (int i = 0; i < 4; i++) {
-                this.upDivsList.add(upDivsList.get(i));
-                this.downDivsList.add(downDivsList.get(i));
-            }
-        } else if (typeOnTime == "minute") {
-            for (int i = 4; i < 8; i++) {
-                this.upDivsList.add(upDivsList.get(i));
-                this.downDivsList.add(downDivsList.get(i));
-            }
-        } else if (typeOnTime == "hour") {
-            for (int i = 8; i < 12; i++) {
-                this.upDivsList.add(upDivsList.get(i));
-                this.downDivsList.add(downDivsList.get(i));
-            }
-        }
-        for (int i = 0; i < 12; i++) {
-            this.drawablesUp.add(drawablesUp.get(i));
-            this.drawablesDown.add(drawablesDown.get(i));
+        switch (typeOnTime) {
+            case "second":
+                for (int i = 0; i < 4; i++) {
+                    this.upDivsList.add(upDivsList.get(i));
+                    this.downDivsList.add(downDivsList.get(i));
+                }
+                break;
+            case "minute":
+                for (int i = 4; i < 8; i++) {
+                    this.upDivsList.add(upDivsList.get(i));
+                    this.downDivsList.add(downDivsList.get(i));
+                }
+                break;
+            case "hour":
+                for (int i = 8; i < 12; i++) {
+                    this.upDivsList.add(upDivsList.get(i));
+                    this.downDivsList.add(downDivsList.get(i));
+                }
+                break;
         }
     }
 
     // tick number
-    public void NumberTick(long millisUntilFinished) {
+    void NumberTick(long millisUntilFinished) {
         try {
-
             int num = (int) millisUntilFinished;
             int firstDigit = 0, secondDigit = 0;
             if (String.valueOf(num).length() == 2) {
@@ -73,9 +73,8 @@ public class GawlaTimeDown implements Animation.AnimationListener {
                 currentNumberTens = 0;
             }
 
-
             if (num < 10) {
-                anmi(num);
+                anim(num);
                 upDivsList.get(0).setImageResource(drawablesUp.get(firstDigit));
                 downDivsList.get(1).setImageResource(drawablesDown.get(firstDigit));
 
@@ -84,19 +83,19 @@ public class GawlaTimeDown implements Animation.AnimationListener {
                 upDivsList.get(3).setImageResource(drawablesUp.get(0));
                 downDivsList.get(3).setImageResource(drawablesDown.get(0));
                 if (num == 9) {
-                    tensanmi();
+                    tensAnim();
                 }
             }
 
             if (num >= 10 && num < 20) {
-                anmi(num);
+                anim(num);
                 upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
                 downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
 
                 upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
                 downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
                 if (num == 19) {
-                    tensanmi();
+                    tensAnim();
                 } else {
                     upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
                     downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
@@ -104,14 +103,14 @@ public class GawlaTimeDown implements Animation.AnimationListener {
             }
 
             if (num >= 20 && num < 30) {
-                anmi(num);
+                anim(num);
                 upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
                 downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
 
                 upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
                 downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
                 if (num == 29) {
-                    tensanmi();
+                    tensAnim();
                 } else {
                     upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
                     downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
@@ -119,14 +118,14 @@ public class GawlaTimeDown implements Animation.AnimationListener {
             }
 
             if (num >= 30 && num < 40) {
-                anmi(num);
+                anim(num);
                 upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
                 downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
 
                 upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
                 downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
                 if (num == 39) {
-                    tensanmi();
+                    tensAnim();
                 } else {
                     upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
                     downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
@@ -134,14 +133,14 @@ public class GawlaTimeDown implements Animation.AnimationListener {
             }
 
             if (num >= 40 && num < 50) {
-                anmi(num);
+                anim(num);
                 upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
                 downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
 
                 upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
                 downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
                 if (num == 49) {
-                    tensanmi();
+                    tensAnim();
                 } else {
                     upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
                     downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
@@ -149,7 +148,7 @@ public class GawlaTimeDown implements Animation.AnimationListener {
             }
 
             if (num >= 50 && num < 60) {
-                anmi(num);
+                anim(num);
                 upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
                 downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
 
@@ -158,7 +157,7 @@ public class GawlaTimeDown implements Animation.AnimationListener {
                 if (num == 59) {
                     upDivsList.get(3).setImageResource(drawablesUp.get(currentNumberTens));
                     downDivsList.get(2).setImageResource(drawablesDown.get(currentNumberTens));
-                    tensanmi();
+                    tensAnim();
                 } else {
                     upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
                     downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
@@ -172,9 +171,8 @@ public class GawlaTimeDown implements Animation.AnimationListener {
         }
     }
 
-    // anmie for basice number
-    private void anmi(int n) {
-
+    // anim for basic number
+    private void anim(int n) {
         if (n < 60) {
             animation1 = AnimationUtils.loadAnimation(context, R.anim.flip_point_to_middle);
             animation1.setAnimationListener(this);
@@ -182,11 +180,10 @@ public class GawlaTimeDown implements Animation.AnimationListener {
             upDivsList.get(1).startAnimation(animation1);
 
         }
-
     }
 
-    // anmie for tens number
-    private void tensanmi() {
+    // anim for tens number
+    private void tensAnim() {
         animation3 = AnimationUtils.loadAnimation(context, R.anim.flip_point_to_middle);
         animation3.setAnimationListener(this);
         upDivsList.get(3).setVisibility(View.VISIBLE);

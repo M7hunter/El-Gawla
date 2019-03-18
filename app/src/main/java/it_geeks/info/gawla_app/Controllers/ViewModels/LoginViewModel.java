@@ -7,13 +7,13 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonObject;
 
+import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.RequestsActions;
-import it_geeks.info.gawla_app.repository.services.fcm.UpdateFirebaseToken;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
@@ -35,7 +35,7 @@ public class LoginViewModel {
 
                 ((LoginActivity) context).startActivity(new Intent(context, MainActivity.class));
                 ((LoginActivity) context).finish();
-                new UpdateFirebaseToken(context);
+                Common.Instance(context).updateFirebaseToken();
 
                 //hide progress
                 ((LoginActivity) context).hideLoading();
@@ -83,7 +83,9 @@ public class LoginViewModel {
                         ((LoginActivity) context).startActivity(new Intent(context, MainActivity.class));
                         ((LoginActivity) context).finish();
                         ((LoginActivity) context).hideLoading();
-                        new UpdateFirebaseToken(context);
+//                        new UpdateFirebaseToken(context);
+
+                        Common.Instance(context).updateFirebaseToken();
                     }
 
                     @Override

@@ -3,22 +3,20 @@ package it_geeks.info.gawla_app.Controllers.ViewModels;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonObject;
 
+import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.RequestsActions;
-import it_geeks.info.gawla_app.repository.services.fcm.UpdateFirebaseToken;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.loginActivities.CreateAccountActivity;
-import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
-import it_geeks.info.gawla_app.views.loginActivities.SubscribePlanActivity;
 
 public class CreateAccountViewModel {
     private Context context;
@@ -40,7 +38,7 @@ public class CreateAccountViewModel {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         cacheUserData(mainObject, provider);
-                        new UpdateFirebaseToken(context);
+                        Common.Instance(context).updateFirebaseToken();
                         context.startActivity(new Intent(context, MainActivity.class));
                         ((CreateAccountActivity) context).finish();
                     }
@@ -59,7 +57,6 @@ public class CreateAccountViewModel {
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        Log.e("Mo7", errorMessage);
                         ((CreateAccountActivity) context).closeLoadingScreen();
                         FirebaseAuth.getInstance().signOut();
                     }

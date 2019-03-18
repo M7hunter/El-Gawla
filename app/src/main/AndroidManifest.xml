@@ -72,17 +72,17 @@
             android:windowSoftInputMode="adjustPan" />
 
         <receiver
-            android:name=".general.ConnectionChangeReceiver"
+            android:name=".general.Receivers.ConnectionChangeReceiver"
             android:label="NetworkConnection">
             <intent-filter>
                 <action android:name="android.net.com.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".general.NotificationInteractionsReceiver" />
+        <receiver android:name=".general.Receivers.NotificationInteractionsReceiver" />
 
-        <service android:name=".repository.services.UploadImageService" /> <!-- Firebase Services -->
-        <service android:name=".repository.services.fcm.NotificationFirebaseMessagingService">
+        <service android:name=".general.services.UploadImageService" /> <!-- Firebase Services -->
+        <service android:name=".general.services.NotificationFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -90,7 +90,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@mipmap/ic_launcher_gawla" />
+            android:resource="@drawable/ic_gawla_logo_two" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorPrimary" />

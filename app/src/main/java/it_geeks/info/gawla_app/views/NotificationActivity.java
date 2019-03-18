@@ -46,9 +46,30 @@ public class NotificationActivity extends AppCompatActivity {
 
         initViews();
 
-        getNotificationListFromServer();
-
         handleEvent();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getNotificationListFromServer();
+    }
+
+    private void initViews() {
+        loadingCard = findViewById(R.id.loading_card);
+        notificationLoading = findViewById(R.id.notification_loading);
+
+        //refresh
+        refreshLayout = findViewById(R.id.notification_swipe_refresh);
+
+        // back
+        findViewById(R.id.notification_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void handleEvent() {
@@ -72,6 +93,8 @@ public class NotificationActivity extends AppCompatActivity {
                 new Request(SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
+
+                        notificationDao.removeNotifications(notificationDao.getAllNotification());
                         notificationDao.insertNotification(ParseResponses.parseNotifications(mainObject));
 
                         notificationList = notificationDao.getAllNotification();
@@ -103,22 +126,6 @@ public class NotificationActivity extends AppCompatActivity {
                 });
     }
 
-    private void initViews() {
-        loadingCard = findViewById(R.id.loading_card);
-        notificationLoading = findViewById(R.id.notification_loading);
-
-        //refresh
-        refreshLayout = findViewById(R.id.notification_swipe_refresh);
-
-        // back
-        findViewById(R.id.notification_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-    }
-
     public void displayLoading() {
         loadingCard.setVisibility(View.VISIBLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -131,7 +138,7 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void initNotifyRecycler() {
-        SharedPrefManager.getInstance(this).setNewNotfication(false);
+        SharedPrefManager.getInstance(this).setNewNotification(false);
 
         RecyclerView notificationRecycler = findViewById(R.id.notification_recycler);
         notificationRecycler.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
