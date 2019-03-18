@@ -1,7 +1,6 @@
 package it_geeks.info.gawla_app.views;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -14,37 +13,40 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Controllers.Adapters.NotificationAdapter;
-import it_geeks.info.gawla_app.repository.Models.Notifications;
+import it_geeks.info.gawla_app.repository.Models.Notification;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
+import it_geeks.info.gawla_app.repository.Storage.NotificationDao;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 
 public class NotificationActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout refreshLayout;
-    private RecyclerView recyclerNotificationList;
-    private List<Notifications> NotificationList = new ArrayList<>();
+    private List<Notification> notificationList = new ArrayList<>();
 
-    public TextView notificationLoading;
+    private TextView notificationLoading;
     private CardView loadingCard;
+
+    private NotificationDao notificationDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 
+        notificationDao = GawlaDataBse.getGawlaDatabase(this).notificationDao();
+
         initViews();
 
-        getData();
+        getNotificationListFromServer();
 
         handleEvent();
     }
@@ -54,40 +56,33 @@ public class NotificationActivity extends AppCompatActivity {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                initNotiRecycler();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshLayout.setRefreshing(false);
-                    }
-                },2000);
+                getNotificationListFromServer();
+                refreshLayout.setRefreshing(false);
             }
         });
     }
 
-    private void getData() {
+    private void getNotificationListFromServer() {
+        notificationLoading.setText(getString(R.string.loading));
         notificationLoading.setVisibility(View.VISIBLE);
 
         RetrofitClient.getInstance(NotificationActivity.this).executeConnectionToServer(
                 NotificationActivity.this,
                 "getAllUserNotification",
-                new Request(
-                        SharedPrefManager.getInstance(this).getUser().getUser_id(),
-                        SharedPrefManager.getInstance(this).getUser().getApi_token()
-                ),
-                new HandleResponses() {
+                new Request(SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        NotificationList = ParseResponses.parseNotifications(mainObject);
+                        notificationDao.insertNotification(ParseResponses.parseNotifications(mainObject));
 
-                        GawlaDataBse.getGawlaDatabase(NotificationActivity.this).notificationDao().removeNotifications();
-                        GawlaDataBse.getGawlaDatabase(NotificationActivity.this).notificationDao().insertNotification(NotificationList);
-                        GawlaDataBse.getGawlaDatabase(NotificationActivity.this).notificationDao().updateStatusNotification(false);
-                        initNotiRecycler();
-                        notificationLoading.setVisibility(View.GONE);
-                        if (NotificationList.size() < 1) {
+                        notificationList = notificationDao.getAllNotification();
+                        notificationDao.updateStatusNotification(false);
+
+                        if (notificationList.size() > 0) {
+                            notificationLoading.setVisibility(View.GONE);
+                            initNotifyRecycler();
+                        } else {
                             notificationLoading.setVisibility(View.VISIBLE);
-                            notificationLoading.setText("no notifications");
+                            notificationLoading.setText(getString(R.string.no_notifications));
                         }
                     }
 
@@ -98,12 +93,11 @@ public class NotificationActivity extends AppCompatActivity {
 
                     @Override
                     public void handleEmptyResponse() {
-                        notificationLoading.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        notificationLoading.setVisibility(View.GONE);
+                        notificationLoading.setText(errorMessage);
                         Toast.makeText(NotificationActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -136,16 +130,11 @@ public class NotificationActivity extends AppCompatActivity {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    private void initNotiRecycler() {
+    private void initNotifyRecycler() {
         SharedPrefManager.getInstance(this).setNewNotfication(false);
-        GawlaDataBse.getGawlaDatabase(NotificationActivity.this).notificationDao().selectAllNotification().observe(NotificationActivity.this, new Observer<List<Notifications>>() {
-            @Override
-            public void onChanged(List<Notifications> notifications) {
-                NotificationList = notifications;
-                recyclerNotificationList = findViewById(R.id.notification_list);
-                recyclerNotificationList.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
-                recyclerNotificationList.setAdapter(new NotificationAdapter(NotificationActivity.this, NotificationList));
-            }
-        });
+
+        RecyclerView notificationRecycler = findViewById(R.id.notification_recycler);
+        notificationRecycler.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
+        notificationRecycler.setAdapter(new NotificationAdapter(NotificationActivity.this, notificationList));
     }
 }

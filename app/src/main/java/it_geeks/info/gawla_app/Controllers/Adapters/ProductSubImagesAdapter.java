@@ -8,13 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
 import it_geeks.info.gawla_app.views.SalonActivity;
 
@@ -38,7 +37,7 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
     public void onBindViewHolder(@NonNull final Holder holder, int i) {
         final ProductSubImage subImage = imagesList.get(i);
 
-        Picasso.with(context).load(subImage.getImageUrl()).placeholder(R.drawable.placeholder).into(holder.productSubImage);
+        Common.Instance(context).loadImage(subImage.getImageUrl(), holder.productSubImage);
 
         // check if video
         if (subImage.getImageUrl().endsWith(".mp4") || subImage.getImageUrl().endsWith(".3gp")) {
@@ -49,15 +48,13 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // swap images
-                Drawable drawable = ((SalonActivity) context).imProductMainImage.getDrawable();
-                ((SalonActivity) context).imProductMainImage.setImageDrawable(holder.productSubImage.getDrawable());
-                holder.productSubImage.setImageDrawable(drawable);
-
-                // swap links
+                // swap links & images
                 String oldUrl = subImage.getImageUrl();
-                subImage.setImageUrl(((SalonActivity) context).productSubImage.getImageUrl());
-                ((SalonActivity) context).switchImageVideo(oldUrl);
+                subImage.setImageUrl(((SalonActivity) context).SubImage.getImageUrl());
+
+                Drawable drawable = ((SalonActivity) context).imProductMainImage.getDrawable();
+                ((SalonActivity) context).switchImageVideo(oldUrl, holder.productSubImage.getDrawable());
+                holder.productSubImage.setImageDrawable(drawable);
             }
         });
     }

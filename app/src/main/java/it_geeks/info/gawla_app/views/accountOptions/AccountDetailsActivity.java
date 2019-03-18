@@ -233,7 +233,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
     private void updateUserOnServer() {
         try {
-            updatingStateUI();
+            setUpdatingStateOnUI();
             final Country country = GawlaDataBse.getGawlaDatabase(AccountDetailsActivity.this).countryDao().getCountryByName(sp_update_country.getText().toString());
             RetrofitClient.getInstance(AccountDetailsActivity.this)
                     .executeConnectionToServer(AccountDetailsActivity.this,
@@ -260,7 +260,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
                                     // notify user
                                     Toast.makeText(AccountDetailsActivity.this, getString(R.string.updated), Toast.LENGTH_SHORT).show();
-                                    updatedStateUI();
+                                    setUpdatedStateOnUI();
                                 }
 
                                 @Override
@@ -270,13 +270,13 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
                                 @Override
                                 public void handleEmptyResponse() {
-                                    updatedStateUI();
+                                    setUpdatedStateOnUI();
                                 }
 
                                 @Override
                                 public void handleConnectionErrors(String errorMessage) {
                                     Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-                                    updatedStateUI();
+                                    setUpdatedStateOnUI();
                                 }
                             });
         } catch (NullPointerException e) {
@@ -324,7 +324,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         btn_upload_image.setEnabled(false);
     }
 
-    public void updatingStateUI() {
+    public void setUpdatingStateOnUI() {
         progressBarUpdateProfile.setVisibility(View.VISIBLE);
         btn_update_profile.setVisibility(View.INVISIBLE);
 
@@ -335,7 +335,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         sp_update_gender.setEnabled(false);
     }
 
-    public void updatedStateUI() {
+    public void setUpdatedStateOnUI() {
         progressBarUpdateProfile.setVisibility(View.GONE);
         btn_update_profile.setVisibility(View.VISIBLE);
 
@@ -370,11 +370,11 @@ public class AccountDetailsActivity extends AppCompatActivity {
         try {
             // display image before uploading
             Picasso.with(AccountDetailsActivity.this).load(imagePath).into(img_update_image);
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(AccountDetailsActivity.this.getContentResolver(), imagePath);
 
             // transform image to bytes || string
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(AccountDetailsActivity.this.getContentResolver(), imagePath);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
             byte[] imageAsByte = outputStream.toByteArray();
             encodedImage = Base64.encodeToString(imageAsByte, Base64.DEFAULT);
 
@@ -384,11 +384,11 @@ public class AccountDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (Common.Instance(AccountDetailsActivity.this).isConnected()) {
-                        uploadImage();
-                        updatingStateUI();
+                        startUploadImageService();
+                        setUpdatingStateOnUI();
                         btn_upload_image.setEnabled(false);
                     } else {
-                        Toast.makeText(AccountDetailsActivity.this, "check your connection", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AccountDetailsActivity.this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -399,7 +399,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void uploadImage() {
+    private void startUploadImageService() {
         // upload image in a service
         startService(new Intent(getApplicationContext(), UploadImageService.class));
     }

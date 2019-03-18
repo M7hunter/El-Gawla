@@ -10,7 +10,7 @@ import java.util.List;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.Category;
 import it_geeks.info.gawla_app.repository.Models.Country;
-import it_geeks.info.gawla_app.repository.Models.Notifications;
+import it_geeks.info.gawla_app.repository.Models.Notification;
 import it_geeks.info.gawla_app.repository.Models.TopTen;
 import it_geeks.info.gawla_app.repository.Models.Trans;
 import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
@@ -289,24 +289,23 @@ public class ParseResponses {
         return webPageList;
     }
 
-    // parse Notifications
-    public static List<Notifications> parseNotifications(JsonObject object) {
-
-        List<Notifications> notificationList = new ArrayList<>();
+    public static List<Notification> parseNotifications(JsonObject object) {
         JsonArray notificationsArr = object.get("notifications").getAsJsonArray();
+        List<Notification> notificationList = new ArrayList<>();
 
         for (int i = 0; i < notificationsArr.size(); i++) {
             JsonObject notificationObj = notificationsArr.get(i).getAsJsonObject();
 
-            notificationList.add(new Notifications(
-                    notificationObj.get("title").getAsString(),
-                    notificationObj.get("body").getAsString(),
-                    notificationObj.get("type").getAsString(),
-                    notificationObj.get("date").getAsString(),
-                    notificationObj.get("id").getAsInt(),
-                    false));
+            notificationList.add(
+                    new Notification(
+                            notificationObj.get("id").getAsInt(),
+                            notificationObj.get("title").getAsString(),
+                            notificationObj.get("body").getAsString(),
+                            notificationObj.get("type").getAsString(),
+                            notificationObj.get("date").getAsString(),
+                            false));
         }
-        return notificationList;
 
+        return notificationList;
     }
 }

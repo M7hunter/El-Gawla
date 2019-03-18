@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
@@ -54,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         if (!checkLoginState()) {
             return;
         }
+
         Common.Instance(this).changeStatusBarColor("#f4f7fa", this);
         setContentView(R.layout.activity_main);
 

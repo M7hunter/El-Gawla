@@ -7,12 +7,12 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.Country;
-import it_geeks.info.gawla_app.repository.Models.Notifications;
+import it_geeks.info.gawla_app.repository.Models.Notification;
 import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.repository.Models.Trans;
 
-@Database(entities = {Round.class, Country.class, Card.class, ProductSubImage.class, Trans.class, Notifications.class}, version = 3, exportSchema = false)
+@Database(entities = {Round.class, Country.class, Card.class, ProductSubImage.class, Trans.class, Notification.class}, version = 1, exportSchema = false)
 public abstract class GawlaDataBse extends RoomDatabase {
 
     private static GawlaDataBse INSTANCE;

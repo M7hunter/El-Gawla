@@ -193,7 +193,7 @@ public class SharedPrefManager {
         context.getSharedPreferences(SHARED_PREF_USER_PROVIDER, Context.MODE_PRIVATE).edit().clear().apply();
     }
 
-    // New Notifications status
+    // New Notification status
     public void setNewNotfication(Boolean newNotfication) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

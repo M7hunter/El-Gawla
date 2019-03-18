@@ -165,7 +165,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                ((SalonActivity) context).mBottomSheetDialogActivateCard.dismiss();
+                ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
                 mBottomSheetDialogSingleCard.dismiss();
                 card.setCount(card.getCount() - 1);
                 ((SalonActivity) context).initBottomSheetCardsBag(); // refresh the cards list
@@ -206,7 +206,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                ((SalonActivity) context).mBottomSheetDialogActivateCard.dismiss();
+                ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
                 mBottomSheetDialogSingleCard.dismiss();
                 ((SalonActivity) context).initBottomSheetCardsBag(); // refresh the cards list
             }

@@ -50,8 +50,7 @@ public class UploadImageService extends Service {
         int user_id = SharedPrefManager.getInstance(this).getUser().getUser_id();
         String api_token = SharedPrefManager.getInstance(this).getUser().getApi_token();
 
-        if (activity != null)
-            if (activity.encodedImage != null) {
+            if (activity != null && activity.encodedImage != null) {
 
                 if (SharedPrefManager.getInstance(this).getNotificationState()) {
                     displayNotification();
@@ -72,7 +71,7 @@ public class UploadImageService extends Service {
                                 }
 
                                 if (activity != null) {
-                                    activity.updatedStateUI();
+                                    activity.setUpdatedStateOnUI();
                                     activity.hideUploadImageButton();
                                 }
                             }
@@ -95,7 +94,7 @@ public class UploadImageService extends Service {
                                 }
 
                                 try {
-                                    activity.updatedStateUI();
+                                    activity.setUpdatedStateOnUI();
                                     activity.btn_upload_image.setEnabled(true);
                                 } catch (NullPointerException e) {
                                     Crashlytics.logException(e);
@@ -106,7 +105,7 @@ public class UploadImageService extends Service {
     }
 
     public void displayNotification() {
-        PendingIntent cancelIntent = cancelIntent();
+        PendingIntent cancelIntent = getCancelIntent();
 
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
@@ -138,7 +137,7 @@ public class UploadImageService extends Service {
         stopSelf();
     }
 
-    private PendingIntent cancelIntent() {
+    private PendingIntent getCancelIntent() {
         Intent i = new Intent(this, NotificationInteractionsReceiver.class);
         i.putExtra("notify_id", NOTIFICATION_ID);
         return PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
