@@ -140,7 +140,6 @@ public class ParseResponses {
                 second_rest.get("status").getAsBoolean(),
                 second_rest.get("value").getAsInt(),
                 close_hall.get("status").getAsBoolean(),
-                close_hall.get("value").getAsInt(),
                 roundTime.get("status").getAsString(),
                 roundObj.get("isUserJoin").getAsBoolean(),
                 roundObj.get("last_round_id").getAsInt());

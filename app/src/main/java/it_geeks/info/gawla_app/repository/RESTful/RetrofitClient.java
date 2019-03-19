@@ -98,9 +98,8 @@ public class RetrofitClient {
                         // dynamic with each call
                         HandleResponses.handleTrueResponse(mainObj);
 
-                    } catch (NullPointerException e) { // errors of response body 'maybe response body has changed';
+                    } catch (NullPointerException e) { // errors of response body 'maybe response body has been changed'
                         Log.e("onResponse: ", e.getMessage());
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                         Crashlytics.logException(e);
                     } catch (UnsupportedOperationException e) {
                         Log.e("onResponse: ", e.getMessage());
@@ -112,11 +111,33 @@ public class RetrofitClient {
                         String serverError = parseServerErrors(errorObj);
 
                         // TODO: check codes instead of strings
-                        if (serverError.contains("not logged in") || serverError.contains("api token")) {
-                            context.startActivity(new Intent(context, LoginActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+//                        case success = 200
+//                        case validationErrors = 402
+//                        case somethingWrong = 100
+//                        case invalidApiToken = 111
+//                        case invalidAccessToken = 401
+//                        case notAuthorized = 402
+//                        case notFound = 404
+//                        case authFailed = 103
+//                        case emailNotExist = 104
+//                        case accountAlreadyVerified = 106
+//                        case tokenNotFound = 115
+//                        case accountNotConfirmed = 116
+//                        case wrongPhoneVerifyNum = 405
+//                        case wrongForgetPassVerifyNum = 406
+//                        case waitBeforeResend = 410
+//                        case doNotHavePermission = 412
+//                        case internalServerError = 500
+//                        case unKnown = 1
 
-                            SharedPrefManager.getInstance(context).clearUser();
+                        Log.d("response code: ", response.code() + "");
+                        switch (response.code()) {
+                            case 103:
+                                context.startActivity(new Intent(context, LoginActivity.class)
+                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+
+                                SharedPrefManager.getInstance(context).clearUser();
+                                break;
                         }
 
                         // notify user

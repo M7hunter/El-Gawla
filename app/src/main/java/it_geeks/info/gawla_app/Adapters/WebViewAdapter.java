@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.Controllers.Adapters;
+package it_geeks.info.gawla_app.Adapters;
 
 import android.content.Context;
 import android.content.Intent;

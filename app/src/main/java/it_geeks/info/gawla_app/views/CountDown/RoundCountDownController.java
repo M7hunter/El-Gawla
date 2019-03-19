@@ -3,37 +3,35 @@ package it_geeks.info.gawla_app.views.CountDown;
 import android.content.Context;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.RoundRemainingTime;
-import it_geeks.info.gawla_app.repository.Models.RoundStartToEndModel;
+import it_geeks.info.gawla_app.repository.Models.HalvesModel;
 import it_geeks.info.gawla_app.views.SalonActivity;
 
 public class RoundCountDownController {
 
     private RoundRemainingTime roundRemainingTime;
-    private RoundStartToEndModel roundStartToEndModel;
+    private HalvesModel halvesModel;
 
     private CountDownTimer countDownTimer;
     private Context context;
-    private int joinStatus;
     private long[] mSecond = {0}, mMinute = {0}, mHour = {0};
 
-    public RoundCountDownController(Context context, RoundStartToEndModel roundStartToEndModel) {
+    public RoundCountDownController(Context context, View parent) {
         this.context = context;
-        this.roundStartToEndModel = roundStartToEndModel;
+        this.halvesModel = new HalvesModel(context, parent);
     }
 
     public void setRoundRemainingTime(RoundRemainingTime roundRemainingTime) {
         this.roundRemainingTime = roundRemainingTime;
     }
 
-    public void setJoinStatus(int joinStatus) {
-        this.joinStatus = joinStatus;
+    public void setUserJoin(boolean state) {
+        roundRemainingTime.setUserJoin(state);
     }
 
     public void stopCountDown() {
@@ -45,7 +43,6 @@ public class RoundCountDownController {
         int oneSecond = 1000;
 
         ((SalonActivity) context).checkOnTime();
-        ((SalonActivity) context).notificationCard.setVisibility(View.VISIBLE);
         if (roundRemainingTime.getRound_state().trim().equals("open")) {
             if (roundRemainingTime.isOpen_hall_state()) {
                 onRest(roundRemainingTime.getOpen_hall_value() * oneSecond, context.getResources().getString(R.string.open_hall));
@@ -76,14 +73,13 @@ public class RoundCountDownController {
             ((SalonActivity) context).tvRoundActivity.setText(roundRemainingTime.getRound_state());
             ((SalonActivity) context).tvSalonTime.setText(context.getResources().getString(R.string.round_closed));
         }
-
     }
 
     // join Round Opened
     private void free_join_status(long value) {
         startCountDown(value);
         ((SalonActivity) context).tvSalonTime.setText(context.getResources().getString(R.string.free_join));
-        if (joinStatus == 2) {
+        if (roundRemainingTime.isUserJoin()) {
             ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.you_are_joined));
         } else {
             ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.you_can_join));
@@ -95,12 +91,11 @@ public class RoundCountDownController {
     private void pay_join_value(long value) {
         startCountDown(value);
         ((SalonActivity) context).tvSalonTime.setText(context.getResources().getString(R.string.card_join_time));
-        if (joinStatus == 2) {
+        ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
+        if (roundRemainingTime.isUserJoin()) {
             ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.you_are_joined));
-            ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
         } else {
             ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.can_use_golden_card));
-            ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
         }
     }
 
@@ -109,7 +104,7 @@ public class RoundCountDownController {
         startCountDown(value);
         ((SalonActivity) context).tvSalonTime.setText(context.getResources().getString(R.string.first_round_time));
         ((SalonActivity) context).hideGoldenLayout();
-        if (joinStatus == 2) {
+        if (roundRemainingTime.isUserJoin()) {
             ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.round_started_add_offer));
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
         } else {
@@ -152,33 +147,30 @@ public class RoundCountDownController {
 
             }.start();
         } catch (Exception e) {
-            Log.e("startCountDown: ", e.getMessage());
+            e.printStackTrace();
             Crashlytics.logException(e);
         }
     }
 
     private void setTimeDown(long millisUntilFinished) {
-
         long hour = (millisUntilFinished / (60 * 60)) % 24;
         long minute = (millisUntilFinished / 60) % 60;
         long second = millisUntilFinished % 60;
 
-
-
         if (mSecond[0] != second) {
-            CountDownAnimator countDownAnimatorSecond = new CountDownAnimator(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "second");
+            CountDownAnimator countDownAnimatorSecond = new CountDownAnimator(context, halvesModel.getUpperHalvesIdsList(), halvesModel.getLowerHalvesIdsList(), halvesModel.getUpperHalvesDrawablesList(), halvesModel.getLowerHalvesDrawablesList(), "second");
             countDownAnimatorSecond.NumberTick(second);
         }
         mSecond[0] = second;
 
         if (mMinute[0] != minute) {
-            CountDownAnimator countDownAnimatorMinute = new CountDownAnimator(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "minute");
+            CountDownAnimator countDownAnimatorMinute = new CountDownAnimator(context, halvesModel.getUpperHalvesIdsList(), halvesModel.getLowerHalvesIdsList(), halvesModel.getUpperHalvesDrawablesList(), halvesModel.getLowerHalvesDrawablesList(), "minute");
             countDownAnimatorMinute.NumberTick(minute);
         }
         mMinute[0] = minute;
 
         if (mHour[0] != hour) {
-            CountDownAnimator countDownAnimatorHour = new CountDownAnimator(context, roundStartToEndModel.getUpDivsList(), roundStartToEndModel.getDownDivsList(), roundStartToEndModel.getDrawablesUp(), roundStartToEndModel.getDrawablesDown(), "hour");
+            CountDownAnimator countDownAnimatorHour = new CountDownAnimator(context, halvesModel.getUpperHalvesIdsList(), halvesModel.getLowerHalvesIdsList(), halvesModel.getUpperHalvesDrawablesList(), halvesModel.getLowerHalvesDrawablesList(), "hour");
             countDownAnimatorHour.NumberTick(hour);
         }
         mHour[0] = hour;

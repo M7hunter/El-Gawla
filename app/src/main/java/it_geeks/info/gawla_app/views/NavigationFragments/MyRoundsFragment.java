@@ -19,7 +19,7 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
+import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Models.Data;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;

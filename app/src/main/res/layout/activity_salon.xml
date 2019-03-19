@@ -102,7 +102,7 @@
                     android:gravity="center"
                     android:padding="@dimen/margin_large"
                     android:text="@string/top_ten_empty"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
             </androidx.cardview.widget.CardView>
 
@@ -218,7 +218,7 @@
 
                     <!-- round's notification bar -->
                     <LinearLayout
-                        android:id="@+id/activity_page"
+                        android:id="@+id/round_latest_activity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_small"
@@ -336,10 +336,11 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="@string/write_message"
+                            android:hint="@string/chat_message_hint"
                             android:inputType="textShortMessage"
                             android:maxLength="250"
                             android:maxLines="1"
+                            android:enabled="false"
                             android:padding="@dimen/margin_tiny" />
 
                         <!-- btn send message -->
@@ -349,6 +350,7 @@
                             android:layout_width="@dimen/icon_back"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
+                            android:enabled="false"
                             app:icon="@drawable/ic_send_message"
                             app:iconGravity="textStart"
                             app:iconPadding="0dp" />

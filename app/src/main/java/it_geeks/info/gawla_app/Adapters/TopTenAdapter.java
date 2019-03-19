@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.Controllers.Adapters;
+package it_geeks.info.gawla_app.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;

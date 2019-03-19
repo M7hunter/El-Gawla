@@ -28,7 +28,7 @@ import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.Controllers.Adapters.CountryAdapter;
+import it_geeks.info.gawla_app.Adapters.CountryAdapter;
 import it_geeks.info.gawla_app.R;
 
 public class SplashActivity extends AppCompatActivity {

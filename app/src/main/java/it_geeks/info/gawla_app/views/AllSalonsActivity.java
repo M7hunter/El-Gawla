@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.Controllers.Adapters.CategoryAdapter;
+import it_geeks.info.gawla_app.Adapters.CategoryAdapter;
 import it_geeks.info.gawla_app.repository.Storage.CardDao;
 import it_geeks.info.gawla_app.repository.Storage.ProductImageDao;
 import it_geeks.info.gawla_app.repository.Storage.RoundDao;
@@ -41,8 +41,8 @@ import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.Controllers.Adapters.DateAdapter;
-import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
+import it_geeks.info.gawla_app.Adapters.DateAdapter;
+import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 
 public class AllSalonsActivity extends AppCompatActivity {
 

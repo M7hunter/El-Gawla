@@ -72,7 +72,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/margin_xxx_large"
         android:background="@drawable/bg_circle_blue_270"
-        android:elevation="10dp"
+        android:elevation="@dimen/margin_small"
         android:padding="@dimen/margin_large"
         app:cornerRadius="200dp"
         app:icon="@drawable/ic_close"

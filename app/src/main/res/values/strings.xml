@@ -172,7 +172,6 @@
     <string name="no_connection">No connection</string>
     <string name="retry">Retry</string>
     <string name="category">"Category "</string>
-    <string name="connection_error">Error connecting</string>
     <string name="filter_by">Filter by</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
@@ -190,7 +189,7 @@
     <string name="restart_hint">Restart the app and change language ?</string>
     <string name="delete_account_hint">Delete this account ?</string>
     <string name="empty_hint"> This field can\'t be empty</string>
-    <string name="name_length_hint">Name should be more than 5 chars</string>
+    <string name="name_length_hint">should be more than 5 chars</string>
     <string name="sign_out_hint">Are you sure ?</string>
     <string name="card_price_category">Card price for this category</string>
     <string name="card_price_by_category">Card price by category</string>
@@ -199,7 +198,7 @@
     <string name="image_updated">Image updated successfully</string>
     <string name="updating_image">Updating User Image</string>
     <string name="chat_room">Chat Room</string>
-    <string name="write_message">Send Message</string>
+    <string name="chat_message_hint">type your message here</string>
     <string name="winner">Winner</string>
     <string name="top_ten">Top ten</string>
 

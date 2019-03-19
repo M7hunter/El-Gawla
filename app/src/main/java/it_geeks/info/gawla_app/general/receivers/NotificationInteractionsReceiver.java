@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.general.Receivers;
+package it_geeks.info.gawla_app.general.receivers;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;

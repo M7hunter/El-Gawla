@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.Controllers.Adapters;
+package it_geeks.info.gawla_app.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -59,7 +59,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         final Card card = cardList.get(i);
 
-        viewHolder.tvCardDescription.setText(card.getCard_details());
+        viewHolder.tvCardTitle.setText(card.getCard_name());
         viewHolder.tvCardCount.setText(String.valueOf(card.getCount()));
         Common.Instance(context).changeDrawableViewColor(viewHolder.cardIcon, card.getCard_color());
 
@@ -245,14 +245,14 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvCardDescription, tvCardCount;
+        TextView tvCardTitle, tvCardCount;
         View cardIcon;
         Button btn;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvCardDescription = itemView.findViewById(R.id.bottom_card_status);
+            tvCardTitle = itemView.findViewById(R.id.bottom_card_title);
             tvCardCount = itemView.findViewById(R.id.tv_cards_count_cards_bag);
             cardIcon = itemView.findViewById(R.id.bottom_card_icon);
             btn = itemView.findViewById(R.id.bottom_card_btn);

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.Controllers.Adapters.LanguageAdapter;
+import it_geeks.info.gawla_app.Adapters.LanguageAdapter;
 
 public class LanguageActivity extends AppCompatActivity {
 

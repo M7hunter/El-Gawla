@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-import it_geeks.info.gawla_app.Controllers.Adapters.SliderAdapter;
+import it_geeks.info.gawla_app.Adapters.SliderAdapter;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
 

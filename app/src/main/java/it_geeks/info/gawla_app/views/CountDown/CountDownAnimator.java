@@ -30,12 +30,12 @@ public class CountDownAnimator implements Animation.AnimationListener {
 
     private Context context;
 
-    CountDownAnimator(Context context, List<ImageView> upDivsList, List<ImageView> downDivsList, List<Integer> drawablesUp, List<Integer> drawablesDown, String typeOnTime) {
+    CountDownAnimator(Context context, List<ImageView> upDivsList, List<ImageView> downDivsList, List<Integer> drawablesUp, List<Integer> drawablesDown, String countType) {
         this.context = context;
         this.drawablesUp.addAll(drawablesUp);
         this.drawablesDown.addAll(drawablesDown);
 
-        switch (typeOnTime) {
+        switch (countType) {
             case "second":
                 for (int i = 0; i < 4; i++) {
                     this.upDivsList.add(upDivsList.get(i));
@@ -164,7 +164,6 @@ public class CountDownAnimator implements Animation.AnimationListener {
                 }
             }
 
-
         } catch (Exception e) {
             Log.e("Mo7", e.getMessage());
             Crashlytics.logException(e);
@@ -178,7 +177,6 @@ public class CountDownAnimator implements Animation.AnimationListener {
             animation1.setAnimationListener(this);
             upDivsList.get(1).setVisibility(View.VISIBLE);
             upDivsList.get(1).startAnimation(animation1);
-
         }
     }
 
@@ -222,7 +220,6 @@ public class CountDownAnimator implements Animation.AnimationListener {
             upDivsList.get(3).setImageResource(drawablesUp.get(currentNumberTens));
             downDivsList.get(2).setImageResource(drawablesDown.get(currentNumberTens));
         }
-
     }
 
     @Override

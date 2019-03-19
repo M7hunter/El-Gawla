@@ -13,11 +13,10 @@ import java.util.Random;
 
 import androidx.core.app.NotificationCompat;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.general.Receivers.NotificationInteractionsReceiver;
+import it_geeks.info.gawla_app.general.receivers.NotificationInteractionsReceiver;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 
 public class NotificationBuilder {
-
 
     private static final String REMOTE_NOTIFICATION_CHANNEL_ID = "GAWLA_CHANNEL_ID";
     private static final String REMOTE_NOTIFICATION_CHANNEL_NAME = "GAWLA_CHANNEL_NAME";
@@ -37,8 +36,20 @@ public class NotificationBuilder {
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
+    private void createChannel(NotificationCompat.Builder builder, String channelId, String channelName, int importance, String channelDesc) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
+            notificationChannel.setDescription(channelDesc);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.BLUE);
+
+            notificationManager.createNotificationChannel(notificationChannel);
+            builder.setChannelId(channelId);
+        }
+    }
+
     public void displayUploadingImage() {
-        PendingIntent cancelIntent = initCancelIntent();
+        PendingIntent cancelIntent = initCancelUploadingImageIntent();
 
         notificationBuilder = new NotificationCompat.Builder(context, UPLOAD_IMAGE_CHANNEL_ID);
         notificationBuilder.setContentTitle(context.getString(R.string.updating_image))
@@ -54,12 +65,6 @@ public class NotificationBuilder {
         notificationManager.notify(UPLOAD_IMAGE_NOTIFICATION_ID, notificationBuilder.build());
     }
 
-    private PendingIntent initCancelIntent() {
-        Intent i = new Intent(context, NotificationInteractionsReceiver.class);
-        i.putExtra("notify_id", UPLOAD_IMAGE_NOTIFICATION_ID);
-        return PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
-    }
-
     public void displayMessage(String message) {
         notificationBuilder = new NotificationCompat.Builder(context, UPLOAD_IMAGE_CHANNEL_ID);
         notificationBuilder.setContentText(message)
@@ -68,20 +73,8 @@ public class NotificationBuilder {
         notificationManager.notify(UPLOAD_IMAGE_NOTIFICATION_ID, notificationBuilder.build());
     }
 
-    private void createChannel(NotificationCompat.Builder builder, String channelId, String channelName, int importance, String channelDesc) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
-            notificationChannel.setDescription(channelDesc);
-            notificationChannel.enableLights(true);
-            notificationChannel.setLightColor(Color.BLUE);
-
-            notificationManager.createNotificationChannel(notificationChannel);
-            builder.setChannelId(channelId);
-        }
-    }
-
     public void displayRemoteMessage(String title, String body) {
-        PendingIntent pendingIntent = getNotificationData(title, body);
+        PendingIntent pendingIntent = initRemoteMessageIntent(title, body);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, REMOTE_NOTIFICATION_CHANNEL_ID);
         builder.setAutoCancel(true)
@@ -100,7 +93,13 @@ public class NotificationBuilder {
         notificationManager.notify(new Random().nextInt(), builder.build());
     }
 
-    private PendingIntent getNotificationData(String title, String body) {
+    private PendingIntent initCancelUploadingImageIntent() {
+        Intent i = new Intent(context, NotificationInteractionsReceiver.class);
+        i.putExtra("notify_id", UPLOAD_IMAGE_NOTIFICATION_ID);
+        return PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
+    }
+
+    private PendingIntent initRemoteMessageIntent(String title, String body) {
         Bundle bundle = new Bundle();
 
         bundle.putString("title", title);

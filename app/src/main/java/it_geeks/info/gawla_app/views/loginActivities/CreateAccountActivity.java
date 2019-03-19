@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,15 +29,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -52,7 +45,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import it_geeks.info.gawla_app.Controllers.ViewModels.CreateAccountViewModel;
+import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RequestsActions;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
@@ -62,14 +55,13 @@ import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.general.TransHolder;
+import it_geeks.info.gawla_app.views.MainActivity;
 
 import static it_geeks.info.gawla_app.views.loginActivities.LoginActivity.GOOGLE_REQUEST;
 import static it_geeks.info.gawla_app.views.loginActivities.LoginActivity.providerFacebook;
 import static it_geeks.info.gawla_app.views.loginActivities.LoginActivity.providerGoogle;
 
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
-    String TAG = "Mo7";
-
     EditText etName, etEmail, etPass;
     ScrollView createAccountMainScreen;
     public int reconnect = 0;
@@ -145,7 +137,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         btnCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setLoadingScreen();
                 registerNewUser();
             }
         });
@@ -160,12 +151,15 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     // loading screen
-    public void setLoadingScreen() {
+    public void displayLoading() {
         loadingCard.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    public void closeLoadingScreen() {
+    public void hideLoading() {
         loadingCard.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
 
@@ -185,53 +179,54 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         if (name.isEmpty()) {
             tl_create_name.setError(getString(R.string.empty_hint));
             etName.requestFocus();
-            closeLoadingScreen();
             return false;
         } else tl_create_name.setErrorEnabled(false);
         // check validation
         if (name.length() < 6) {
             tl_create_name.setError(getString(R.string.name_length_hint));
             etName.requestFocus();
-            closeLoadingScreen();
             return false;
         } else tl_create_name.setErrorEnabled(false);
 
         if (email.isEmpty()) {
             tl_create_email.setError(getString(R.string.empty_hint));
             etEmail.requestFocus();
-            closeLoadingScreen();
             return false;
         } else tl_create_email.setErrorEnabled(false);
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             tl_create_email.setError(getString(R.string.enter_valid_email));
             etEmail.requestFocus();
-            closeLoadingScreen();
             return false;
         } else tl_create_email.setErrorEnabled(false);
         if (pass.isEmpty()) {
             tl_create_pass.setError(getString(R.string.empty_hint));
             etPass.requestFocus();
-            closeLoadingScreen();
             return false;
-        } else tl_create_pass.setErrorEnabled(false);
+        } else {
+            if (pass.length() < 6) {
+                tl_create_pass.setError(getResources().getString(R.string.name_length_hint));
+                etPass.requestFocus();
+                return false;
+            }
+
+            tl_create_pass.setErrorEnabled(false);
+        }
 
         return true;
     }
 
     private void connectToServer(final User user, final int countryId) {
-        setLoadingScreen();
+        displayLoading();
         RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer(CreateAccountActivity.this,
                 RequestsActions.register.toString(), new Request(user.getName(), user.getEmail(), countryId, user.getPassword()), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        closeLoadingScreen();
-
                         // notify user
                         Toast.makeText(CreateAccountActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
 
                         // save user data locally
-                        new CreateAccountViewModel(CreateAccountActivity.this).cacheUserData(mainObject, getResources().getString(R.string.app_name));
+                        cacheUserData(mainObject, getResources().getString(R.string.app_name));
 
                         // goto next page
                         startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
@@ -245,12 +240,12 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
                     @Override
                     public void handleEmptyResponse() {
-                        closeLoadingScreen();
+                        hideLoading();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        closeLoadingScreen();
+                        hideLoading();
 
                         // notify user
                         Toast.makeText(CreateAccountActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
@@ -263,17 +258,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                     }
                 });
 
-    }
-
-    public void displayLoading() {
-        loadingCard.setVisibility(View.VISIBLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-    }
-
-    public void hideLoading() {
-        loadingCard.setVisibility(View.GONE);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     private void firebaseInit(){
@@ -323,7 +307,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
             Log.e("Mo7", id + name + email + image + provider);
             displayLoading();
-            new CreateAccountViewModel(this).socialLogin(id, name, email, image, provider);
+            socialLogin(id, name, email, image, provider);
         } catch (ApiException e) {
             Log.w("Mo7", "signInResult:failed code=" + e.getStatusCode());
             Crashlytics.logException(e);
@@ -369,7 +353,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
     // fb login
     private void getData(final JSONObject object) {
-
         try{
             URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/"+object.getString("id")+"/picture?type=normal");
             String id = object.optString("id");
@@ -380,7 +363,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
             Log.e("Mo7", id + name + email + image + provider);
             displayLoading();
-            new CreateAccountViewModel(this).socialLogin(id, name, email, image, provider);
+            socialLogin(id, name, email, image, provider);
         } catch (MalformedURLException e) {
             e.printStackTrace();
             Crashlytics.logException(e);
@@ -408,5 +391,41 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         Toast.makeText(this, connectionResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
     }
 
+    public void socialLogin(String id, final String name, final String email, final String image, final String provider) {
+        int countryId = SharedPrefManager.getInstance(CreateAccountActivity.this).getCountry().getCountry_id();
+        RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer(CreateAccountActivity.this,
+                RequestsActions.loginOrRegisterWithSocial.toString(), new Request(provider, id, name, email, image, countryId), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        cacheUserData(mainObject, provider);
+                        Common.Instance(CreateAccountActivity.this).updateFirebaseToken();
+                        CreateAccountActivity.this.startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));
+                        finish();
+                    }
 
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+                        hideLoading();
+                        FirebaseAuth.getInstance().signOut();
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+                        hideLoading();
+                        FirebaseAuth.getInstance().signOut();
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        hideLoading();
+                        FirebaseAuth.getInstance().signOut();
+                    }
+                });
+    }
+
+    public void cacheUserData(JsonObject mainObject, String provider) {
+        User user = ParseResponses.parseUser(mainObject);
+        SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(user);
+        SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(provider); // Provider
+    }
 }

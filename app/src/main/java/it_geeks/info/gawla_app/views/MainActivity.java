@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import io.fabric.sdk.android.Fabric;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.Receivers.ConnectionChangeReceiver;
+import it_geeks.info.gawla_app.general.receivers.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.NavigationFragments.AccountFragment;
