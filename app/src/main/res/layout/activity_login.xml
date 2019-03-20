@@ -8,7 +8,6 @@
     tools:context=".views.loginActivities.LoginActivity">
 
     <ScrollView
-        android:id="@+id/loginMainScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!-- scroll main layout -->

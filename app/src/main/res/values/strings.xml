@@ -233,5 +233,8 @@
     <string name="buy_card">Buy card</string>
     <string name="rounds_empty_hint">don\'t miss your chance .. join now</string>
     <string name="no_notifications">no notifications</string>
+    <string name="canceled">canceled</string>
+    <string name="no_joined_salons">no joined salons</string>
+    <string name="chat_is_closed">chat room is closed</string>
 
 </resources>

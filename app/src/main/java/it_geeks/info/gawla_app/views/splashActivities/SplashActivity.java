@@ -81,7 +81,7 @@ public class SplashActivity extends AppCompatActivity {
 
                         displayCountriesList();
 
-                        GawlaDataBse.getGawlaDatabase(SplashActivity.this).countryDao().insertCountryList(countries);
+                        GawlaDataBse.getInstance(SplashActivity.this).countryDao().insertCountryList(countries);
                     }
 
                     @Override
@@ -105,7 +105,6 @@ public class SplashActivity extends AppCompatActivity {
                         Toast.makeText(SplashActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
     public void retry() {

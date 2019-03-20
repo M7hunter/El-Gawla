@@ -46,12 +46,17 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         this.cardList = cardList;
         this.salonId = salon_id;
         this.round_id = round_id;
+        connectSocket();
+    }
+
+    private void connectSocket() {
+        mSocket = new SocketConnection().getSocket();
+        mSocket.connect();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        connectSocket();
         return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_salon_bottom_card, viewGroup, false));
     }
 
@@ -151,11 +156,6 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         return mBottomSheetDialogSingleCard;
     }
 
-    private void connectSocket() {
-        mSocket = new SocketConnection().getSocket();
-        mSocket.connect();
-    }
-
     private void useCard(final Card card, final CardView btnConfirmBuying, final ProgressBar pbBuyCard) {
         hideConfirmationBtn(btnConfirmBuying, pbBuyCard);
         final int userId = SharedPrefManager.getInstance(context).getUser().getUser_id();
@@ -194,6 +194,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
             @Override
             public void handleConnectionErrors(String errorMessage) {
                 displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -224,6 +225,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
             @Override
             public void handleConnectionErrors(String errorMessage) {
                 displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }

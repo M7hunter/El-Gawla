@@ -147,4 +147,11 @@ public class Request {
         this.salon_id = salonId;
         this.round_id = round_id;
     }
+
+    public Request(int in1, int in2, String str1, String  str2) {
+        this.user_id = in1;
+        this.country_id = in2;
+        this.api_token = str1;
+        this.image = str2;
+    }
 }

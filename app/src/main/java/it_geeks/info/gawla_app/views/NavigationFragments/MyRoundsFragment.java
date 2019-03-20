@@ -70,7 +70,6 @@ public class MyRoundsFragment extends Fragment {
         return view;
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -181,6 +180,7 @@ public class MyRoundsFragment extends Fragment {
         myRoundProgress.setVisibility(View.GONE);
 
         if (roundsList.size() > 0) {
+            tvMyRoundsHeader.setText(getString(R.string.joined_salons));
             emptyViewLayout.setVisibility(View.INVISIBLE);
             myRoundsRecycler.setVisibility(View.VISIBLE);
 
@@ -190,6 +190,7 @@ public class MyRoundsFragment extends Fragment {
             myRoundsRecycler.setAdapter(mySalonsAdapter);
 
         } else {
+            tvMyRoundsHeader.setText(getString(R.string.no_joined_salons));
             emptyViewLayout.setVisibility(View.VISIBLE);
             myRoundsRecycler.setVisibility(View.INVISIBLE);
         }

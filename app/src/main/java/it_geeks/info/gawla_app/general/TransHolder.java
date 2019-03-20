@@ -69,7 +69,7 @@ public class TransHolder {
     public String sign_out;
 
     public TransHolder(Context context) {
-        transDao = GawlaDataBse.getGawlaDatabase(context).transDao();
+        transDao = GawlaDataBse.getInstance(context).transDao();
         lang = getLang(context);
     }
 

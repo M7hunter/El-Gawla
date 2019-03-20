@@ -1,8 +1,6 @@
 package it_geeks.info.gawla_app.views.menuOptions;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -26,7 +24,6 @@ public class CallUsActivity extends AppCompatActivity {
     private Button btnSendCallUs;
     private TextInputLayout tlName, tlEmail, tlText;
     private View loadingCard;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,15 +112,16 @@ public class CallUsActivity extends AppCompatActivity {
         String email = emailCallUS.getText().toString();
         String message = messageCallUS.getText().toString();
 
+        tlText.setError(null);
+        tlName.setError(null);
+        tlEmail.setError(null);
+
         RetrofitClient.getInstance(CallUsActivity.this).executeConnectionToServer(CallUsActivity.this,
                 "setUserContactMessage", new Request(userID, apiToken, username, email, message), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         Toast.makeText(CallUsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                         messageCallUS.setText("");
-                        tlText.setError(null);
-                        tlName.setError(null);
-                        tlEmail.setError(null);
                     }
 
                     @Override

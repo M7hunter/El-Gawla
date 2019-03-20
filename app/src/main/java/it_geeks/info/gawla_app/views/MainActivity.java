@@ -110,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateNotificationStatus() {
         if (SharedPrefManager.getInstance(this).getNewNotification()) {
-            GawlaDataBse.getGawlaDatabase(this).notificationDao().updateStatusNotification(true);
+            GawlaDataBse.getInstance(this).notificationDao().updateStatusNotification(true);
         } else {
-            GawlaDataBse.getGawlaDatabase(this).notificationDao().updateStatusNotification(false);
+            GawlaDataBse.getInstance(this).notificationDao().updateStatusNotification(false);
         }
     }
 

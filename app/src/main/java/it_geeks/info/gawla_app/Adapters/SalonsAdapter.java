@@ -66,10 +66,10 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
             if (round.getSalon_cards() != null) {
                 viewHolder.cardsRecycler.setAdapter(new SalonCardsIconAdapter(context, round.getSalon_cards()));
             } else {
-                List<Card> cards = GawlaDataBse.getGawlaDatabase(context).cardDao().getCardsById(round.getSalon_id());
+                List<Card> cards = GawlaDataBse.getInstance(context).cardDao().getCardsById(round.getSalon_id());
                 viewHolder.cardsRecycler.setAdapter(new SalonCardsIconAdapter(context, cards));
                 round.setSalon_cards(cards);
-                round.setProduct_images(GawlaDataBse.getGawlaDatabase(context).productImageDao().getSubImagesById(round.getProduct_id()));
+                round.setProduct_images(GawlaDataBse.getInstance(context).productImageDao().getSubImagesById(round.getProduct_id()));
             }
 
             Common.Instance(context).changeDrawableViewColor(viewHolder.tvProductCategory, round.getCategory_color());

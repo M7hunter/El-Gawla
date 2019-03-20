@@ -63,10 +63,10 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 //                downloadLangFromServer();
 
         // test
-//                GawlaDataBse.getGawlaDatabase(context).transDao().insertTrans(new Trans("see_all", "test ar", "ar"));
-//                GawlaDataBse.getGawlaDatabase(context).transDao().insertTrans(new Trans("see_all", "test en", "en"));
-//                GawlaDataBse.getGawlaDatabase(context).transDao().insertTrans(new Trans("recent_salons", "recent salons ar", "ar"));
-//                GawlaDataBse.getGawlaDatabase(context).transDao().insertTrans(new Trans("recent_salons", "recent salons en", "en"));
+//                GawlaDataBse.getInstance(context).transDao().insertTrans(new Trans("see_all", "test ar", "ar"));
+//                GawlaDataBse.getInstance(context).transDao().insertTrans(new Trans("see_all", "test en", "en"));
+//                GawlaDataBse.getInstance(context).transDao().insertTrans(new Trans("recent_salons", "recent salons ar", "ar"));
+//                GawlaDataBse.getInstance(context).transDao().insertTrans(new Trans("recent_salons", "recent salons en", "en"));
 //            }
 //        });
     }
@@ -109,7 +109,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 //                new HandleResponses() {
 //                    @Override
 //                    public void handleTrueResponse(JsonObject mainObject) {
-//                        GawlaDataBse.getGawlaDatabase(context).transDao().insertTranses(ParseResponses.parseLanguages(mainObject));
+//                        GawlaDataBse.getInstance(context).transDao().insertTranses(ParseResponses.parseLanguages(mainObject));
 //                    }
 //
 //                    @Override

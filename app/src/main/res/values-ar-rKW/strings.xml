@@ -232,4 +232,7 @@
     <string name="buy_card">شراء الكارت</string>
     <string name="rounds_empty_hint">لا تدع الفرصة تفوتك .. اشترك الآن</string>
     <string name="no_notifications">لا يوجد إشعارات</string>
+    <string name="canceled">تم الالغاء</string>
+    <string name="no_joined_salons">ليست لديك صالات</string>
+    <string name="chat_is_closed">غرفة المحادثة مغلقة</string>
 </resources>

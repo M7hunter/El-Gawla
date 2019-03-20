@@ -15,19 +15,19 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
         // auto
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
 
         // notification when app open
         if (remoteMessage.getNotification() != null)
-            showNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+            displayNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
 
         // have a new notification
         SharedPrefManager.getInstance(getApplicationContext()).setNewNotification(true);
-        GawlaDataBse.getGawlaDatabase(this).notificationDao().updateStatusNotification(true);
+        GawlaDataBse.getInstance(this).notificationDao().updateStatusNotification(true);
     }
 
-    private void showNotification(String title, String body) {
+    private void displayNotification(String title, String body) {
         try {
             if (!title.isEmpty() && !body.isEmpty()) {
                new NotificationBuilder(this).displayRemoteMessage(title, body);

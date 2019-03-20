@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import androidx.fragment.app.Fragment;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
@@ -43,13 +44,12 @@ public class AccountFragment extends Fragment {
 
         setupTrans();
 
-        handleEvents(view);
-
         setData();
+
+        handleEvents(view);
 
         return view;
     }
-
 
     @Override
     public void onResume() {
@@ -108,7 +108,6 @@ public class AccountFragment extends Fragment {
         // notification status LiveData
         NotificationStatus.notificationStatus(getContext(),imgNotification);
 
-        // notofocation onClick
         imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

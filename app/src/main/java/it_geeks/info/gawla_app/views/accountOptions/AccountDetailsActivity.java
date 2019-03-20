@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -66,6 +64,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
         initViews();
 
         bindUserData();
+
+        handleEvents();
     }
 
     private void initViews() {
@@ -82,10 +82,15 @@ public class AccountDetailsActivity extends AppCompatActivity {
         btn_update_profile = findViewById(R.id.btn_update_profile);
         progressBarUpdateProfile = findViewById(R.id.progress_update_profile);
 
+        et_update_first_name.requestFocus();
+
         initCountriesMaterialSpinner();
 
         initGenderMaterialSpinner();
+    }
 
+    private void handleEvents() {
+        // save
         btn_update_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +98,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
             }
         });
 
+        // change image
         btn_choose_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,7 +157,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         Context wrapper = new ContextThemeWrapper(this, R.style.PopupMenuTheme);
         PopupMenu countryPopup = new PopupMenu(wrapper, sp_update_country);
 
-        List<String> countries = GawlaDataBse.getGawlaDatabase(this).countryDao().getCountriesNames();
+        List<String> countries = GawlaDataBse.getInstance(this).countryDao().getCountriesNames();
         for (String country : countries) {
             countryPopup.getMenu().add(country);
         }
@@ -175,8 +181,36 @@ public class AccountDetailsActivity extends AppCompatActivity {
             countryPopup.show();
         } catch (RuntimeException e) {
             e.printStackTrace();
+            getCountriesFromSever();
             Crashlytics.logException(e);
         }
+    }
+
+    private void getCountriesFromSever() {
+        final String apiToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
+        RetrofitClient.getInstance(this).executeConnectionToServer(this,
+                "getAllCountries", new Request(apiToken), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        GawlaDataBse.getInstance(AccountDetailsActivity.this).countryDao().insertCountryList(ParseResponses.parseCountries(mainObject));
+                        countryPopupMenu();
+                    }
+
+                    @Override
+                    public void handleFalseResponse(JsonObject mainObject) {
+
+                    }
+
+                    @Override
+                    public void handleEmptyResponse() {
+
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void genderPopupMenu() {
@@ -211,21 +245,13 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
     private void bindUserData() {
         User user = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser();
-        try {
-            Picasso.with(AccountDetailsActivity.this)
-                    .load(user.getImage())
-                    .placeholder(AccountDetailsActivity.this.getResources().getDrawable(R.drawable.placeholder))
-                    .into(img_update_image);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        }
 
+        Common.Instance(this).loadFittedImage(user.getImage(), img_update_image);
         et_update_first_name.setText(user.getFirstName());
         et_update_last_name.setText(user.getLastName());
         et_update_telephone.setText(user.getPhone());
         sp_update_gender.setText(user.getGender());
-        sp_update_country.setText(GawlaDataBse.getGawlaDatabase(AccountDetailsActivity.this).countryDao().getCountryNameByID(user.getCountry_id()));
+        sp_update_country.setText(GawlaDataBse.getInstance(AccountDetailsActivity.this).countryDao().getCountryNameByID(user.getCountry_id()));
 
         if (sp_update_country.getText().toString().isEmpty())
             sp_update_country.setText(SharedPrefManager.getInstance(this).getCountry().getCountry_title());
@@ -234,7 +260,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
     private void updateUserOnServer() {
         try {
             setUpdatingStateOnUI();
-            final Country country = GawlaDataBse.getGawlaDatabase(AccountDetailsActivity.this).countryDao().getCountryByName(sp_update_country.getText().toString());
+            final Country country = GawlaDataBse.getInstance(AccountDetailsActivity.this).countryDao().getCountryByName(sp_update_country.getText().toString());
             RetrofitClient.getInstance(AccountDetailsActivity.this)
                     .executeConnectionToServer(AccountDetailsActivity.this,
                             "updateUserData",
@@ -247,20 +273,18 @@ public class AccountDetailsActivity extends AppCompatActivity {
                                     country.getCountry_id()), new HandleResponses() {
                                 @Override
                                 public void handleTrueResponse(JsonObject mainObject) {
-                                    // Stop NotificationDao to last country
-                                    int LastCountryID = SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id();
-                                    FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + LastCountryID);
+                                    // unsubscribe from previous country remote notification
+                                    FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id());
 
-                                    // save updated data
+                                    // save updated data locally
                                     SharedPrefManager.getInstance(AccountDetailsActivity.this).saveUser(ParseResponses.parseUser(mainObject));
                                     SharedPrefManager.getInstance(AccountDetailsActivity.this).setCountry(country);
 
-                                    // Start NotificationDao To a new Country
+                                    // subscribe to currant country remote notification
                                     FirebaseMessaging.getInstance().subscribeToTopic("country_" + String.valueOf(SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id()));
 
                                     // notify user
                                     Toast.makeText(AccountDetailsActivity.this, getString(R.string.updated), Toast.LENGTH_SHORT).show();
-                                    setUpdatedStateOnUI();
                                 }
 
                                 @Override
@@ -275,43 +299,14 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
                                 @Override
                                 public void handleConnectionErrors(String errorMessage) {
-                                    Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                                     setUpdatedStateOnUI();
+                                    Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                                 }
                             });
         } catch (NullPointerException e) {
-            Log.e("updateUserOnServer: ", e.getMessage());
-            getCountriesFromSever();
+            e.printStackTrace();
             Crashlytics.logException(e);
         }
-    }
-
-    private void getCountriesFromSever() {
-        final String apiToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
-        RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                "getAllCountries", new Request(apiToken), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        GawlaDataBse.getGawlaDatabase(AccountDetailsActivity.this).countryDao().insertCountryList(ParseResponses.parseCountries(mainObject));
-                        recreate();
-                        updateUserOnServer();
-                    }
-
-                    @Override
-                    public void handleFalseResponse(JsonObject mainObject) {
-
-                    }
-
-                    @Override
-                    public void handleEmptyResponse() {
-
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     private void displayUploadImageButton() {
@@ -356,6 +351,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        RetrofitClient.getInstance(this).cancelCall();
         if (requestCode == 1 && resultCode == RESULT_OK) {
             if (data != null) {
                 getImageUri(data);
@@ -369,12 +365,23 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
         try {
             // display image before uploading
-            Picasso.with(AccountDetailsActivity.this).load(imagePath).into(img_update_image);
+            try {
+                Picasso.with(this)
+                        .load(imagePath)
+                        .resize(800, 800)
+                        .onlyScaleDown()
+                        .placeholder(R.drawable.placeholder)
+                        .into(img_update_image);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Crashlytics.logException(e);
+            }
 
             // transform image to bytes || string
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(AccountDetailsActivity.this.getContentResolver(), imagePath);
+            img_update_image.buildDrawingCache();
+            Bitmap bitmap = img_update_image.getDrawingCache();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
             byte[] imageAsByte = outputStream.toByteArray();
             encodedImage = Base64.encodeToString(imageAsByte, Base64.DEFAULT);
 

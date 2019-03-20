@@ -40,6 +40,6 @@ public class RoundDiffCallback extends DiffUtil.Callback{
         @Override
         public Object getChangePayload(int oldItemPosition, int newItemPosition) {
             //you can return particular field for changed item.
-            return super.getChangePayload(oldItemPosition, newItemPosition);
+            return newRoundsList.get(newItemPosition).getMessage();
         }
     }

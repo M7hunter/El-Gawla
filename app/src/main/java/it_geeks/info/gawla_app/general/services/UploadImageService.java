@@ -45,7 +45,7 @@ public class UploadImageService extends Service {
             }
 
             RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                    "updateUserData", new Request(user_id, api_token, activity.encodedImage), new HandleResponses() {
+                    "updateUserData", new Request(user_id, SharedPrefManager.getInstance(this).getCountry().getCountry_id(), api_token, activity.encodedImage), new HandleResponses() {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
                             // save updated user data
@@ -56,7 +56,6 @@ public class UploadImageService extends Service {
 
                             if (SharedPrefManager.getInstance(UploadImageService.this).isNotificationEnabled()) {
                                 notificationBuilder.displayMessage(getString(R.string.image_updated));
-                                stopSelf();
                             }
 
                             if (activity != null) {
@@ -72,13 +71,13 @@ public class UploadImageService extends Service {
 
                         @Override
                         public void handleEmptyResponse() {
+                            stopSelf();
                         }
 
                         @Override
                         public void handleConnectionErrors(String errorMessage) {
                             if (SharedPrefManager.getInstance(UploadImageService.this).isNotificationEnabled()) {
                                 notificationBuilder.displayMessage(errorMessage);
-                                stopSelf();
                             } else {
                                 Toast.makeText(UploadImageService.this, errorMessage, Toast.LENGTH_SHORT).show();
                             }
@@ -89,6 +88,7 @@ public class UploadImageService extends Service {
                             } catch (NullPointerException e) {
                                 Crashlytics.logException(e);
                             }
+                            stopSelf();
                         }
                     });
         }

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +28,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
-
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,35 +52,23 @@ import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.repository.RequestsActions;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
 
-
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private Button btnForgetPassword, btnCreateAccount, btnLogin;
+    private TextView tvSingIn, tvGooglePlus, tvFacebook;
     private EditText etEmail, etPassword;
-    ScrollView loginMainScreen;
-    TextInputLayout tlEmail, tlPass;
-
+    private TextInputLayout tlEmail, tlPass;
     private CardView loadingCard;
 
-    // fb login
+    GoogleSignInClient mGoogleSignInClient;
     CallbackManager callbackManager;
     LoginButton btn_fb_login;
-    public static final String providerFacebook = "facebook";
-
-    // google login
-    public static final String providerGoogle = "google";
-    GoogleSignInClient mGoogleSignInClient;
+    public static final String providerFacebook = "facebook", providerGoogle = "google", providerNormalLogin = "gawla";
     public static int GOOGLE_REQUEST = 1000;
-
-    // normal login
-    public static final String providerNormalLogin = "gawla";
-
-    private TextView tvSingIn, tvGooglePlus, tvFacebook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,36 +85,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         handleEvents();
     }
 
-    private void handleEvents() {
-        // login
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                if (checkEntries(etEmail.getText().toString(), etPassword.getText().toString())) {
-                    displayLoading();
-                    login(etEmail.getText().toString(), etPassword.getText().toString()); // Login ViewModel
-                }
-            }
-        });
-
-        btnForgetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, ForgetPasswordActivity.class));
-            }
-        });
-
-        btnCreateAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
-            }
-        });
-    }
-
     private void initViews() {
         loadingCard = findViewById(R.id.loading_card);
-        loginMainScreen = findViewById(R.id.loginMainScreen);
         etEmail = findViewById(R.id.et_Email);
         etPassword = findViewById(R.id.et_Password);
 
@@ -155,6 +113,50 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLogin.setText(transHolder.sign_in);
         btnForgetPassword.setText(transHolder.forget_pass);
         btnCreateAccount.setText(transHolder.create_account);
+    }
+
+    private void handleEvents() {
+        // login
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (checkEntries(etEmail.getText().toString(), etPassword.getText().toString())) {
+                    displayLoading();
+                    login(etEmail.getText().toString(), etPassword.getText().toString()); // Login ViewModel
+                }
+            }
+        });
+
+        btnForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ForgetPasswordActivity.class));
+            }
+        });
+
+        // goto sign up
+        btnCreateAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
+            }
+        });
+
+        // use google
+        findViewById(R.id.btn_google_sign_in).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signIn();
+            }
+        });
+
+        // use facebook
+        findViewById(R.id.btn_facebook_sign_in).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_fb_login.performClick();
+            }
+        });
     }
 
     private boolean checkEntries(String email, String pass) {
@@ -208,23 +210,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-
-        findViewById(R.id.btn_google_sign_in).setOnClickListener(this);
-        findViewById(R.id.btn_facebook_sign_in).setOnClickListener(this);
-
-    }
-
-    // google login
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_google_sign_in:
-                signIn();
-                break;
-            case R.id.btn_facebook_sign_in:
-                btn_fb_login.performClick();
-                break;
-        }
     }
 
     // google login
@@ -240,14 +225,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String id = account.getId();
             String name = account.getDisplayName();
             String email = account.getEmail();
-            String image = account.getPhotoUrl().toString();
-            String provider = providerGoogle;
+            String image = "https://itgeeks.com/images/logo.png";
+            if (account.getPhotoUrl() != null) {
+                image = account.getPhotoUrl().toString();
+            }
 
-            Log.e("Mo7", id + name + email + image + provider);
             displayLoading();
-            socialLogin(id, name, email, image, provider);
+            socialLogin(id, name, email, image, providerGoogle);
         } catch (ApiException e) {
-            Log.w("Mo7", "signInResult:failed code=" + e.getStatusCode());
+            Log.w("signIn:failed code", "" + e.getStatusCode());
+            Crashlytics.logException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
             Crashlytics.logException(e);
         }
     }
@@ -258,8 +247,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btn_fb_login.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                String accesstoken = loginResult.getAccessToken().getToken();
-
                 GraphRequest mGraphRequest = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
@@ -271,49 +258,46 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 parameters.putString("fields", "id,name,email,gender, birthday");
                 mGraphRequest.setParameters(parameters);
                 mGraphRequest.executeAsync();
-
             }
 
             @Override
             public void onCancel() {
-                Toast.makeText(LoginActivity.this, "canceled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException exception) {
-                Toast.makeText(LoginActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
             }
         });
 
         if (AccessToken.getCurrentAccessToken() != null) {
             LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         }
-
     }
 
     // fb login
     private void getData(final JSONObject object) {
-
         try {
             URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/" + object.getString("id") + "/picture?type=normal");
             String id = object.optString("id");
             String name = object.optString("name");
             String email = object.optString("email");
             String image = Profile_Picture.toString();
-            String provider = providerFacebook;
 
-            Log.e("Mo7", id + name + email + image + provider);
             displayLoading();
-            socialLogin(id, name, email, image, provider);
+            socialLogin(id, name, email, image, providerFacebook);
         } catch (MalformedURLException e) {
             e.printStackTrace();
             Crashlytics.logException(e);
         } catch (JSONException e) {
             e.printStackTrace();
             Crashlytics.logException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -336,21 +320,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void socialLogin(String id, final String name, final String email, final String image, final String provider) {
         int countryId = SharedPrefManager.getInstance(LoginActivity.this).getCountry().getCountry_id();
         RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer(LoginActivity.this,
-                RequestsActions.loginOrRegisterWithSocial.toString(), new Request(provider, id, name, email, image, countryId), new HandleResponses() {
+                "loginOrRegisterWithSocial", new Request(provider, id, name, email, image, countryId), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        cacheUserData(mainObject, provider);
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
-                        hideLoading();
+
+                        cacheUserData(mainObject, provider);
                         Common.Instance(LoginActivity.this).updateFirebaseToken();
 
-                        Common.Instance(LoginActivity.this).updateFirebaseToken();
+                        finish();
                     }
 
                     @Override
                     public void handleFalseResponse(JsonObject mainObject) {
-                        hideLoading();
                         FirebaseAuth.getInstance().signOut();
                     }
 
@@ -363,29 +345,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         hideLoading();
-                        Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                         FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     public void login(String email, String pass) {
-        RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer(LoginActivity.this, RequestsActions.login.toString(), new Request(email, pass), new HandleResponses() {
+        RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer(LoginActivity.this, "login", new Request(email, pass), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
-                cacheUserData(mainObject, LoginActivity.providerNormalLogin); // with normal provider
-
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                finish();
+
+                cacheUserData(mainObject, LoginActivity.providerNormalLogin); // with normal provider
                 Common.Instance(LoginActivity.this).updateFirebaseToken();
 
-                //hide progress
-                hideLoading();
+                finish();
             }
 
             @Override
             public void handleFalseResponse(JsonObject mainObject) {
-                hideLoading();
                 FirebaseAuth.getInstance().signOut();
             }
 
@@ -399,6 +378,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void handleConnectionErrors(String errorMessage) {
                 hideLoading();
                 FirebaseAuth.getInstance().signOut();
+                Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -410,7 +390,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // save || update country
         SharedPrefManager.getInstance(LoginActivity.this)
-                .setCountry(GawlaDataBse.getGawlaDatabase(LoginActivity.this).countryDao().getCountryByID(user.getCountry_id()));
+                .setCountry(GawlaDataBse.getInstance(LoginActivity.this).countryDao().getCountryByID(user.getCountry_id()));
     }
 }
-

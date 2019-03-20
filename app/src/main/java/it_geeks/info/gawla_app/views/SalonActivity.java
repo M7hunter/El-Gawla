@@ -431,9 +431,10 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         tvChatTab.setTextColor(getResources().getColor(R.color.colorPrimary));
         tvTopTenTab.setTextColor(getResources().getColor(R.color.colorPrimary));
 
-        if (activityList.size() != 0) {
+        if (activityList.size() > 0) {
             tvActivityEmptyHint.setVisibility(View.GONE);
             activityRecycler.setVisibility(View.VISIBLE);
+            activityRecycler.scrollToPosition(activityList.size() - 1);
         } else {
             tvActivityEmptyHint.setVisibility(View.VISIBLE);
             activityRecycler.setVisibility(View.GONE);
@@ -447,6 +448,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             activityRecycler.setHasFixedSize(true);
             activityRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, true));
             activityRecycler.setAdapter(new ActivityAdapter(activityList));
+            activityRecycler.scrollToPosition(activityList.size() - 1);
 
         } else {
             tvTopTenEmptyHint.setVisibility(View.VISIBLE);
@@ -866,9 +868,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             getRemainingTimeOfRound();
     }
 
-    //Round Start
     private void initCountDown() {
-        roundCountDownController.setRoundRemainingTime(roundRemainingTime);// set round remaining time
+        roundCountDownController.setRoundRemainingTime(roundRemainingTime); // set round remaining time
         if (roundRemainingTime.isUserJoin()) {
             joinState = 2;
         } else {
@@ -884,11 +885,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void enableChat() {
+        tvChatEmptyHint.setText(getString(R.string.chat_empty_hint));
         etChatMessage.setEnabled(true);
         btnSendMsg.setEnabled(true);
     }
 
     private void disableChat() {
+        tvChatEmptyHint.setText(getString(R.string.chat_is_closed));
         etChatMessage.setEnabled(false);
         btnSendMsg.setEnabled(false);
     }
@@ -897,14 +900,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         if (roundRemainingTime.isUserJoin()) { // user is member
             enableChat();
 
-            if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state()) { // join time
-                btnLeaveRound.setVisibility(View.VISIBLE);
+            if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state()) { // on join time
+                btnLeaveRound.setVisibility(View.VISIBLE); // display leave salon btn
             } else { // !join time
                 btnLeaveRound.setVisibility(View.GONE); // hide leave salon btn
             }
 
 
-            if (roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state()) {
+            if (roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state()) { // on round time
                 addOfferLayout.setVisibility(View.VISIBLE); // display add offer layout
                 displayUserOffer(); // get user last Offer
             } else {
@@ -1070,6 +1073,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         joinConfirmationProgress.setVisibility(View.GONE);
+                        Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -1165,6 +1169,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             addOfferLayout.setVisibility(View.VISIBLE);
                             joinProgress.setVisibility(View.GONE);
                             etAddOffer.setEnabled(true);
+                            Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                         }
                     });
         } catch (NumberFormatException e) {

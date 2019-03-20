@@ -42,7 +42,7 @@ public class NotificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 
-        notificationDao = GawlaDataBse.getGawlaDatabase(this).notificationDao();
+        notificationDao = GawlaDataBse.getInstance(this).notificationDao();
 
         initViews();
 

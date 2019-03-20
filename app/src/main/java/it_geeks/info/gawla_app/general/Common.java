@@ -66,7 +66,6 @@ public class Common {
             new WebView(context).destroy();
         } catch (Exception e) {
             e.printStackTrace();
-            Crashlytics.logException(e);
         }
 
         Lang = lang;
@@ -87,29 +86,44 @@ public class Common {
     }
 
     public void loadImage(String imageUrl, ImageView imageView) {
-        Picasso.with(context)
-                .load(imageUrl)
-                .resize(800, 800)
-                .onlyScaleDown()
-                .placeholder(R.drawable.placeholder)
-                .into(imageView);
+        try {
+            Picasso.with(context)
+                    .load(imageUrl)
+                    .resize(800, 800)
+                    .onlyScaleDown()
+                    .placeholder(R.drawable.placeholder)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+        }
     }
 
     public void loadLandscapeImage(String imageUrl, ImageView imageView) {
-        Picasso.with(context)
-                .load(imageUrl)
-                .resize(900, 600)
-                .onlyScaleDown()
-                .placeholder(R.drawable.placeholder)
-                .into(imageView);
+        try {
+            Picasso.with(context)
+                    .load(imageUrl)
+                    .resize(900, 600)
+                    .onlyScaleDown()
+                    .placeholder(R.drawable.placeholder)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+        }
     }
 
     public void loadFittedImage(String imageUrl, ImageView imageView) {
-        Picasso.with(context)
-                .load(imageUrl)
-                .fit()
-                .placeholder(R.drawable.placeholder)
-                .into(imageView);
+        try {
+            Picasso.with(context)
+                    .load(imageUrl)
+                    .fit()
+                    .placeholder(R.drawable.placeholder)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+        }
     }
 
     // remove unneeded quotes
@@ -160,35 +174,6 @@ public class Common {
                     view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     int height = view.getMeasuredHeight();
                     bottomSheetBehavior.setPeekHeight(height);
-                }
-            });
-        }
-    }
-
-    public void updateFirebaseToken() {
-        int user_id = SharedPrefManager.getInstance(context).getUser().getUser_id();
-        String apiToken = SharedPrefManager.getInstance(context).getUser().getApi_token();
-
-        if (!String.valueOf(user_id).isEmpty() && !apiToken.isEmpty()) {
-            // update token
-            RetrofitClient.getInstance(context).executeConnectionToServer(context, "setUserFirebaseToken", new Request(user_id, apiToken, FirebaseInstanceId.getInstance().getToken()), new HandleResponses() {
-                @Override
-                public void handleTrueResponse(JsonObject mainObject) {
-
-                }
-
-                @Override
-                public void handleFalseResponse(JsonObject errorObject) {
-
-                }
-
-                @Override
-                public void handleEmptyResponse() {
-
-                }
-
-                @Override
-                public void handleConnectionErrors(String errorMessage) {
                 }
             });
         }
@@ -245,5 +230,34 @@ public class Common {
     public void setAnimation(View viewToAnimate) {
         Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
         viewToAnimate.startAnimation(animation);
+    }
+
+    public void updateFirebaseToken() {
+        int user_id = SharedPrefManager.getInstance(context).getUser().getUser_id();
+        String apiToken = SharedPrefManager.getInstance(context).getUser().getApi_token();
+
+        if (!String.valueOf(user_id).isEmpty() && !apiToken.isEmpty()) {
+            // update token
+            RetrofitClient.getInstance(context).executeConnectionToServer(context, "setUserFirebaseToken", new Request(user_id, apiToken, FirebaseInstanceId.getInstance().getToken()), new HandleResponses() {
+                @Override
+                public void handleTrueResponse(JsonObject mainObject) {
+
+                }
+
+                @Override
+                public void handleFalseResponse(JsonObject errorObject) {
+
+                }
+
+                @Override
+                public void handleEmptyResponse() {
+
+                }
+
+                @Override
+                public void handleConnectionErrors(String errorMessage) {
+                }
+            });
+        }
     }
 }
