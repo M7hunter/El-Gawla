@@ -21,8 +21,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.repository.Models.Data;
-import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
@@ -180,7 +178,7 @@ public class MyRoundsFragment extends Fragment {
         myRoundProgress.setVisibility(View.GONE);
 
         if (roundsList.size() > 0) {
-            tvMyRoundsHeader.setText(getString(R.string.joined_salons));
+            tvMyRoundsHeader.setText(MainActivity.mainInstance.getString(R.string.joined_salons));
             emptyViewLayout.setVisibility(View.INVISIBLE);
             myRoundsRecycler.setVisibility(View.VISIBLE);
 

@@ -146,6 +146,18 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         handleEvents();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (roundRemainingTime != null)
+            if (roundRemainingTime.getRound_state().equals("open") || roundRemainingTime.isOpen_hall_state() || roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isFirst_rest_state()) {
+                connectSocket();
+            } else {
+                disconnectSocket();
+            }
+    }
+
     public void initViews() {
         activityRecycler = findViewById(R.id.salon_activity_recycler);
         topTenRecycler = findViewById(R.id.top_ten_recycler);
@@ -333,8 +345,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void getTopTen() {
-        displayLoading();
-        RetrofitClient.getInstance(this).executeConnectionToServer(this, "getTopTen", new Request(userId, apiToken, round.getSalon_id()), new HandleResponses() {
+        RetrofitClient.getInstance(this).executeConnectionToServer(this, "getTopTen", new Request(userId, apiToken, round.getSalon_id(), round.getRound_id()), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 try {
@@ -352,12 +363,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
             @Override
             public void handleEmptyResponse() {
-                hideLoading();
+
             }
 
             @Override
             public void handleConnectionErrors(String errorMessage) {
-                hideLoading();
                 Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
@@ -436,6 +446,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         if (activityList.size() > 0) {
             tvActivityEmptyHint.setVisibility(View.GONE);
             activityRecycler.setVisibility(View.VISIBLE);
+            activityRecycler.scrollToPosition(0);
         } else {
             tvActivityEmptyHint.setVisibility(View.VISIBLE);
             activityRecycler.setVisibility(View.GONE);
@@ -652,6 +663,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             mSocket.connect();
             initSocket();
         }
+    }
+
+    public void disconnectSocket() {
+        if (mSocket != null && mSocket.connected())
+            mSocket.connect();
     }
 
     private void initSocket() {
@@ -942,7 +958,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             tvTopTenTab.setVisibility(View.GONE);
         }
 
-        if (roundRemainingTime.isFirst_rest_state()) {
+        if (roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_rest_state()) {
             // clear user offer
             SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(round.getSalon_id() + "" + userId);
             // display top ten
@@ -957,11 +973,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
             selectTopTenTab();
             getWinner();
+            disconnectSocket();
             disableChat();
-
-            // disconnect socket
-            if (mSocket != null && mSocket.connected())
-                mSocket.disconnect();
         }
     }
 
@@ -976,7 +989,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void getWinner() {
         displayLoading();
-        RetrofitClient.getInstance(this).executeConnectionToServer(this, "getWinner", new Request(userId, apiToken, round.getSalon_id()), new HandleResponses() {
+        RetrofitClient.getInstance(this).executeConnectionToServer(this, "getWinner", new Request(userId, apiToken, round.getSalon_id(), round.getRound_id()), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 try {
@@ -1296,7 +1309,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             public void onClick(View view) {
                 if (mBottomSheetDialogCardsBag.isShowing()) {
                     mBottomSheetDialogCardsBag.dismiss();
-
                 } else {
                     mBottomSheetDialogCardsBag.show();
                 }
@@ -1336,7 +1348,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
                 calculateGoldenCard();
 
-                cardsRecycler.setAdapter(new SalonCardsAdapter(SalonActivity.this, round.getSalon_cards(), round.getSalon_id(), round.getRound_id()));
+                // update cards adapter
+                if (cardsRecycler.getAdapter() == null) {
+                    cardsRecycler.setAdapter(new SalonCardsAdapter(SalonActivity.this, round.getSalon_cards(), round.getSalon_id(), round.getRound_id()));
+                } else {
+                    cardsRecycler.getAdapter().notifyDataSetChanged();
+                }
 
                 getRemainingTimeOfRound();
 
@@ -1345,6 +1362,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 } else {
                     tvCardsCount.setBackground(getResources().getDrawable(R.drawable.bg_circle_red));
                 }
+
                 tvCardsCount.setText(String.valueOf(allUserCardsCount));
             }
 

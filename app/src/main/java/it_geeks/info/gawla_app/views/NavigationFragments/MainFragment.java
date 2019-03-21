@@ -24,11 +24,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.repository.Models.Data;
 import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.Adapters.WinnersNewsAdapter;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.Round;
-import it_geeks.info.gawla_app.repository.Models.WinnerNews;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
@@ -45,11 +43,11 @@ public class MainFragment extends Fragment {
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recentSalonsRecycler, winnersNewsRecycler;
     private SalonsAdapter recentSalonsPagedAdapter;
-    private WinnersNewsAdapter winnersNewsAdapter;
+    //    private WinnersNewsAdapter winnersNewsAdapter;
     private LinearLayoutManager layoutManager;
 
     private List<Round> roundList = new ArrayList<>();
-    private List<WinnerNews> winnerNewsList = new ArrayList<>();
+//    private List<WinnerNews> winnerNewsList = new ArrayList<>();
 
     private ProgressBar recentSalonsProgress, winnersNewsProgress;
     private LinearLayout winnersHeader;
@@ -58,7 +56,7 @@ public class MainFragment extends Fragment {
     private TextView recentSalonsLabel, winnersLabel, tvEmptyHint; // <- trans
     private ImageView imgNotification;
 
-    private int page = 1, last_page = 1;
+    private int page = 2, last_page = 1;
 
     private View view;
 
@@ -198,7 +196,7 @@ public class MainFragment extends Fragment {
 
     private void getFirstSalonsFromServer() {
         RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-                new Data("getAllSalons", page), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
+                new Data("getAllSalons", 1), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         roundList.clear();
@@ -244,8 +242,10 @@ public class MainFragment extends Fragment {
 
                         recentSalonsRecycler.smoothScrollToPosition(nextFirstPosition);
 
-                        addScrollListener();
                         page = page + 1;
+
+                        if (page > last_page)
+                            addScrollListener();
                     }
 
                     @Override

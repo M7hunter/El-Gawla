@@ -84,7 +84,7 @@ public class CardsFragment extends Fragment {
 
     private void handleEvents() {
         // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(),imgNotification);
+        NotificationStatus.notificationStatus(getContext(), imgNotification);
 
         // notification
         imgNotification.setOnClickListener(new View.OnClickListener() {
