@@ -204,7 +204,7 @@ public class MenuFragment extends Fragment {
         });
 
         // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(),imgNotification);
+        NotificationStatus.notificationStatus(getContext(), imgNotification);
 
         // notofocation onClick
         imgNotification.setOnClickListener(new View.OnClickListener() {

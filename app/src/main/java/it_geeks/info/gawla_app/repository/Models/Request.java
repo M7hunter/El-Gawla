@@ -67,11 +67,12 @@ public class Request {
         this.salon_id = salon_id;
     }
 
-    public Request(int user_id, String api_token, int salon_id, int offer) { // add offer
-        this.user_id = user_id;
-        this.api_token = api_token;
-        this.salon_id = salon_id;
-        this.offer = offer;
+    public Request(int in1, String str, int in2, int in3) {
+        this.user_id = in1;
+        this.api_token = str;
+        this.salon_id = in2;
+        this.offer = in3;
+        this.round_id = in3;
     }
 
     public Request(String name, String email, int country_id, String pass) { // register Request
@@ -107,6 +108,7 @@ public class Request {
         this.password = string;
         this.image = string;
         this.firebase_token = string;
+        this.membership = string;
     }
 
     public Request(int user_id, String api_token, String firstName, String lastName, String phone, String gender, int country_id) { // User Profile update

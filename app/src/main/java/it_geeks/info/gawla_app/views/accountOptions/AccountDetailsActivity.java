@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
@@ -249,7 +250,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
         Log.d("image_url:", user.getImage());
         Picasso.with(this).load(user.getImage()).placeholder(R.drawable.placeholder).into(ivUserImage);
-//        Common.Instance(this).loadFittedImage(user.getImage(), ivUserImage);
         et_update_first_name.setText(user.getFirstName());
         et_update_last_name.setText(user.getLastName());
         et_update_telephone.setText(user.getPhone());
@@ -378,10 +378,10 @@ public class AccountDetailsActivity extends AppCompatActivity {
             }
 
             // transform image to bytes || string
-            ivUserImage.buildDrawingCache();
-            Bitmap bitmap = ivUserImage.getDrawingCache();
+//            ivUserImage.buildDrawingCache();
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(AccountDetailsActivity.this.getContentResolver(), imagePath);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 50, outputStream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
             byte[] imageAsByte = outputStream.toByteArray();
             encodedImage = Base64.encodeToString(imageAsByte, Base64.DEFAULT);
 

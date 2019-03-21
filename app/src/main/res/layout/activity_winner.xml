@@ -1,89 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.WinnerActivity">
 
-    <!-- background animation -->
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animation_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/fireworks" />
+        android:layout_height="wrap_content">
 
-    <!-- back btn -->
-    <ImageView
-        android:id="@+id/winner_back"
-        android:layout_width="@dimen/icon_back"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:foreground="?android:attr/selectableItemBackgroundBorderless"
-        android:padding="@dimen/margin_small"
-        android:src="@drawable/ic_close"
-        android:tint="@android:color/holo_red_dark" />
+        <!-- background animation -->
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/fireworks" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <!-- logo -->
+        <!-- back btn -->
         <ImageView
-            android:layout_width="@dimen/logo_width"
-            android:layout_height="@dimen/logo_height"
-            android:layout_margin="@dimen/margin_small"
-            android:src="@drawable/gawla_logo_blue" />
-
-        <!-- user image -->
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_winner_image"
-            android:layout_width="@dimen/image_account"
-            android:layout_height="@dimen/image_account"
-            android:layout_margin="@dimen/margin_tiny"
-            android:background="@drawable/bg_circle_bordered_pale_grey2"
-            app:civ_border_color="@color/blueyGrey"
-            app:civ_border_width="1dp" />
-
-        <!-- winner name -->
-        <TextView
-            android:id="@+id/tv_winner_name"
-            android:layout_width="wrap_content"
+            android:id="@+id/winner_back"
+            android:layout_width="@dimen/icon_back"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_small"
-            android:text="mahmoud hawas"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
+            android:layout_alignParentLeft="true"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/margin_small"
+            android:src="@drawable/ic_close"
+            android:tint="@android:color/holo_red_dark" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/winner_image_height"
-            android:layout_margin="@dimen/margin_small"
-            android:src="@drawable/winner_image" />
-
-        <Button
-            android:id="@+id/btn_winner"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:paddingStart="@dimen/margin_xlarge"
-            android:paddingEnd="@dimen/margin_xlarge"
-            android:text="@string/winner"
-            android:textSize="@dimen/text_size_medium" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <!-- logo -->
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="@dimen/logo_width"
+                android:layout_height="@dimen/logo_height"
+                android:layout_margin="@dimen/margin_small"
+                android:src="@drawable/gawla_logo_blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/image_height_round"
-        android:layout_alignParentBottom="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/colors" />
+            <!-- user image -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_winner_image"
+                android:layout_width="@dimen/image_account"
+                android:layout_height="@dimen/image_account"
+                android:layout_margin="@dimen/margin_tiny"
+                android:background="@drawable/bg_circle_bordered_pale_grey2"
+                app:civ_border_color="@color/blueyGrey"
+                app:civ_border_width="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
-</RelativeLayout>
+            <!-- winner name -->
+            <TextView
+                android:id="@+id/tv_winner_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:text="mahmoud hawas"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_winner_image" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_height="@dimen/winner_image_height"
+                android:src="@drawable/winner_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_winner_name" />
+
+            <Button
+                android:id="@+id/btn_winner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/margin_xx_large"
+                android:paddingEnd="@dimen/margin_xx_large"
+                android:text="@string/winner"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/image_height_round"
+                android:scaleType="fitXY"
+                android:src="@drawable/colors"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btn_winner" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+</ScrollView>
