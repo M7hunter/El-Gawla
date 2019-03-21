@@ -41,7 +41,11 @@ import it_geeks.info.gawla_app.views.menuOptions.SettingsActivity;
 import it_geeks.info.gawla_app.views.menuOptions.TermsAndConditionsActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 import it_geeks.info.gawla_app.views.splashActivities.IntroActivity;
-
+import zendesk.core.AnonymousIdentity;
+import zendesk.core.Identity;
+import zendesk.core.Zendesk;
+import zendesk.support.Support;
+import zendesk.support.request.RequestActivity;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MenuFragment extends Fragment {
@@ -72,6 +76,15 @@ public class MenuFragment extends Fragment {
     }
 
     private void initViews(View view) {
+
+        //Customers Service
+        Zendesk.INSTANCE.init(getApplicationContext(), "https://itgeeks.zendesk.com",
+                "6d1749c16b1fa13aaf7a96a39614131f8eba1e5d27ed37bb",
+                "mobile_sdk_client_e65a598574b57edaf2e8");
+        Identity identity = new AnonymousIdentity();
+        Zendesk.INSTANCE.setIdentity(identity);
+        Support.INSTANCE.init(Zendesk.INSTANCE);
+
         ImageView imCountryIcon = view.findViewById(R.id.menu_country_icon);
         webViewsRecycler = view.findViewById(R.id.web_views_recycler);
 
@@ -142,6 +155,14 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), CallUsActivity.class));
+            }
+        });
+
+        // Customers Service
+        view.findViewById(R.id.customers_service).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestActivity.builder().show(getContext());
             }
         });
 
