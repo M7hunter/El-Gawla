@@ -140,7 +140,6 @@ public class ParseResponses {
                 second_rest.get("status").getAsBoolean(),
                 second_rest.get("value").getAsInt(),
                 close_hall.get("status").getAsBoolean(),
-                close_hall.get("value").getAsInt(),
                 roundTime.get("status").getAsString(),
                 roundObj.get("isUserJoin").getAsBoolean(),
                 roundObj.get("last_round_id").getAsInt());
@@ -256,7 +255,7 @@ public class ParseResponses {
         return null;
     }
 
-    public static String parseServerErrors(JsonObject object) {
+    static String parseServerErrors(JsonObject object) {
         String error = "no errors";
         try {
             JsonArray errors = object.get("errors").getAsJsonArray();

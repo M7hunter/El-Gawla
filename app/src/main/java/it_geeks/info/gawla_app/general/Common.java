@@ -3,7 +3,6 @@ package it_geeks.info.gawla_app.general;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
@@ -23,23 +22,24 @@ import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.general.Interfaces.ConnectionInterface;
+import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.SalonDate;
+import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 
 public class Common {
@@ -66,7 +66,6 @@ public class Common {
             new WebView(context).destroy();
         } catch (Exception e) {
             e.printStackTrace();
-            Crashlytics.logException(e);
         }
 
         Lang = lang;
@@ -87,29 +86,47 @@ public class Common {
     }
 
     public void loadImage(String imageUrl, ImageView imageView) {
-        Picasso.with(context)
-                .load(imageUrl)
-                .resize(600, 600)
-                .onlyScaleDown()
-                .placeholder(R.drawable.placeholder)
-                .into(imageView);
+        try {
+            Picasso.with(context)
+                    .load(imageUrl)
+                    .resize(800, 800)
+                    .onlyScaleDown()
+                    .centerInside()
+                    .placeholder(R.drawable.placeholder)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+        }
     }
 
     public void loadLandscapeImage(String imageUrl, ImageView imageView) {
-        Picasso.with(context)
-                .load(imageUrl)
-                .resize(900, 600)
-                .onlyScaleDown()
-                .placeholder(R.drawable.placeholder)
-                .into(imageView);
+        try {
+            Picasso.with(context)
+                    .load(imageUrl)
+                    .resize(900, 600)
+                    .onlyScaleDown()
+                    .centerInside()
+                    .placeholder(R.drawable.placeholder)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+        }
     }
 
     public void loadFittedImage(String imageUrl, ImageView imageView) {
-        Picasso.with(context)
-                .load(imageUrl)
-                .fit()
-                .placeholder(R.drawable.placeholder)
-                .into(imageView);
+        try {
+            Picasso.with(context)
+                    .load(imageUrl)
+                    .fit()
+                    .centerInside()
+                    .placeholder(R.drawable.placeholder)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+        }
     }
 
     // remove unneeded quotes
@@ -146,62 +163,7 @@ public class Common {
         return time;
     }
 
-    public Calendar formatMillisToTime(long millis) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(millis);
-        return calendar;
-    }
-
-    public long formatTimeToMillis(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
-        Date date = null;
-        try {
-            date = sdf.parse(time);
-        } catch (ParseException e) {
-            Log.d("mo7", "formatTimeToMillis: " + e.getMessage());
-            Crashlytics.logException(e);
-        }
-
-        return date.getTime();
-    }
-
-    public Calendar formatDateStringToCalendar(String date) {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
-        try {
-            cal.setTime(sdf.parse(date));
-        } catch (Exception e) {
-            Crashlytics.logException(e);
-        }
-
-        return cal;
-    }
-    public Calendar formatDateStringToCalendar_D_M_Y(String date) {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd:mm:yyyy", Locale.ENGLISH);
-        try {
-            cal.setTime(sdf.parse(date));
-        } catch (Exception e) {
-            Crashlytics.logException(e);
-        }
-
-        return cal;
-    }
-
-    public Calendar getCurrentTimeWithTimeZone() {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"), Locale.ENGLISH);
-        return calendar;
-    }
-
-    // get formatted time & date
-    public Date getCurrentTimeFormatted() {
-        Date currentTime = Calendar.getInstance().getTime(); // formatted 'ddd MMM dd HH:mm:ss GMT yyyy'
-        Log.d("M7", "current Time: " + currentTime);
-
-        return currentTime;
-    }
-
-    // make bottom sheet height 'wrap content'
+    // set bottom sheet height 'wrap content'
     public void setBottomSheetHeight(final View view) {
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) view.getParent()).getLayoutParams();
         CoordinatorLayout.Behavior behavior = params.getBehavior();
@@ -271,5 +233,34 @@ public class Common {
     public void setAnimation(View viewToAnimate) {
         Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
         viewToAnimate.startAnimation(animation);
+    }
+
+    public void updateFirebaseToken() {
+        int user_id = SharedPrefManager.getInstance(context).getUser().getUser_id();
+        String apiToken = SharedPrefManager.getInstance(context).getUser().getApi_token();
+
+        if (!String.valueOf(user_id).isEmpty() && !apiToken.isEmpty()) {
+            // update token
+            RetrofitClient.getInstance(context).executeConnectionToServer(context, "setUserFirebaseToken", new Request(user_id, apiToken, FirebaseInstanceId.getInstance().getToken()), new HandleResponses() {
+                @Override
+                public void handleTrueResponse(JsonObject mainObject) {
+
+                }
+
+                @Override
+                public void handleFalseResponse(JsonObject errorObject) {
+
+                }
+
+                @Override
+                public void handleEmptyResponse() {
+
+                }
+
+                @Override
+                public void handleConnectionErrors(String errorMessage) {
+                }
+            });
+        }
     }
 }

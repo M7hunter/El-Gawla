@@ -26,7 +26,6 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     private Button btnSend;
     private EditText etEmail;
     private TextInputLayout tlEmail;
-
     private ProgressBar pbForgetPass;
 
     @Override
@@ -77,10 +76,10 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     }
 
     private void sendEmail(String email) {
-        RetrofitClient.getInstance(ForgetPasswordActivity.this).executeConnectionToServer(ForgetPasswordActivity.this, "forgotPassword", new Request(etEmail.getText().toString()), new HandleResponses() {
+        RetrofitClient.getInstance(ForgetPasswordActivity.this).executeConnectionToServer(ForgetPasswordActivity.this, "forgotPassword", new Request(email), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
-                Toast.makeText(ForgetPasswordActivity.this,mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForgetPasswordActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -95,8 +94,8 @@ public class ForgetPasswordActivity extends AppCompatActivity {
 
             @Override
             public void handleConnectionErrors(String errorMessage) {
-                Toast.makeText(ForgetPasswordActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                 displaySendBtn();
+                Toast.makeText(ForgetPasswordActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }

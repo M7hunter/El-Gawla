@@ -19,7 +19,7 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
+import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Models.Data;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
@@ -59,7 +59,6 @@ public class MyRoundsFragment extends Fragment {
         userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
         apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
-
         initViews(view);
 
         setupTrans();
@@ -71,37 +70,36 @@ public class MyRoundsFragment extends Fragment {
         return view;
     }
 
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        if (!firstRequest)
+//            updateRoundsList();
+//    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (!firstRequest)
-            updateRoundsList();
-    }
-
-    private void updateRoundsList() {
-        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-                new Data("getSalonByUserID"), new Request(userId, apiToken), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        mySalonsAdapter.updateRoundsList(ParseResponses.parseRounds(mainObject));
-                    }
-
-                    @Override
-                    public void handleFalseResponse(JsonObject mainObject) {
-                    }
-
-                    @Override
-                    public void handleEmptyResponse() {
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+//    private void updateRoundsList() {
+//        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
+//                new Data("getSalonByUserID"), new Request(userId, apiToken), new HandleResponses() {
+//                    @Override
+//                    public void handleTrueResponse(JsonObject mainObject) {
+//                        mySalonsAdapter.updateRoundsList(ParseResponses.parseRounds(mainObject));
+//                    }
+//
+//                    @Override
+//                    public void handleFalseResponse(JsonObject mainObject) {
+//                    }
+//
+//                    @Override
+//                    public void handleEmptyResponse() {
+//                    }
+//
+//                    @Override
+//                    public void handleConnectionErrors(String errorMessage) {
+//                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 
     private void initViews(View view) {
         myRoundProgress = view.findViewById(R.id.my_rounds_progress);
@@ -121,7 +119,7 @@ public class MyRoundsFragment extends Fragment {
         transHolder.getMyRoundsFragmentTranses(getContext());
 
         tvMyRoundsHeader.setText(transHolder.joined_salons);
-        tvMyRoundsEmptyHint.setText(transHolder.my_rounds_empty_hint);
+        tvMyRoundsEmptyHint.setText(transHolder.rounds_empty_hint);
     }
 
     private void handleEvents() {
@@ -182,6 +180,7 @@ public class MyRoundsFragment extends Fragment {
         myRoundProgress.setVisibility(View.GONE);
 
         if (roundsList.size() > 0) {
+            tvMyRoundsHeader.setText(getString(R.string.joined_salons));
             emptyViewLayout.setVisibility(View.INVISIBLE);
             myRoundsRecycler.setVisibility(View.VISIBLE);
 
@@ -191,6 +190,7 @@ public class MyRoundsFragment extends Fragment {
             myRoundsRecycler.setAdapter(mySalonsAdapter);
 
         } else {
+            tvMyRoundsHeader.setText(getString(R.string.no_joined_salons));
             emptyViewLayout.setVisibility(View.VISIBLE);
             myRoundsRecycler.setVisibility(View.INVISIBLE);
         }

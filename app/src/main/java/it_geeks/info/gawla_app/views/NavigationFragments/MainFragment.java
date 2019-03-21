@@ -21,11 +21,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
-import it_geeks.info.gawla_app.general.OnItemClickListener;
+import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.repository.Models.Data;
 import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.Controllers.Adapters.WinnersNewsAdapter;
+import it_geeks.info.gawla_app.Adapters.WinnersNewsAdapter;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.Round;
@@ -80,39 +79,40 @@ public class MainFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        if (!firstRequest)
+//            updateRoundsList();
+//    }
 
-        if (!firstRequest)
-            updateRoundsList();
-    }
-
-    private void updateRoundsList() {
-        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-                new Data("getAllSalons", page), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        recentSalonsPagedAdapter.updateRoundsList(ParseResponses.parseRounds(mainObject));
-                    }
-
-                    @Override
-                    public void handleFalseResponse(JsonObject mainObject) {
-                    }
-
-                    @Override
-                    public void handleEmptyResponse() {
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+//    private void updateRoundsList() {
+//        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
+//                new Data("getAllSalons", page), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
+//                    @Override
+//                    public void handleTrueResponse(JsonObject mainObject) {
+//                        recentSalonsPagedAdapter.updateRoundsList(ParseResponses.parseRounds(mainObject));
+//                    }
+//
+//                    @Override
+//                    public void handleFalseResponse(JsonObject mainObject) {
+//                    }
+//
+//                    @Override
+//                    public void handleEmptyResponse() {
+//                    }
+//
+//                    @Override
+//                    public void handleConnectionErrors(String errorMessage) {
+//                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 
     private void initViews() {
         refreshLayout = view.findViewById(R.id.main_layout_refresh);
+        refreshLayout.setColorSchemeResources(R.color.paleRed, R.color.colorOrange, R.color.niceBlue, R.color.azure);
         recentSalonsRecycler = view.findViewById(R.id.recent_salons_recycler);
         winnersNewsRecycler = view.findViewById(R.id.winners_news_recycler);
         recentSalonsProgress = view.findViewById(R.id.recent_salons_progress);
@@ -128,7 +128,6 @@ public class MainFragment extends Fragment {
         btnWinnersSeeAll = view.findViewById(R.id.winners_news_see_all_btn);
         winnersLabel = view.findViewById(R.id.winners_news_header_label);
         tvEmptyHint = view.findViewById(R.id.recent_salons_empty_hint);
-
     }
 
     private void setupTrans() {

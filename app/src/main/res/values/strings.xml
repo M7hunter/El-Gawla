@@ -172,7 +172,6 @@
     <string name="no_connection">No connection</string>
     <string name="retry">Retry</string>
     <string name="category">"Category "</string>
-    <string name="connection_error">Error connecting</string>
     <string name="filter_by">Filter by</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
@@ -190,16 +189,16 @@
     <string name="restart_hint">Restart the app and change language ?</string>
     <string name="delete_account_hint">Delete this account ?</string>
     <string name="empty_hint"> This field can\'t be empty</string>
-    <string name="name_length_hint">Name should be more than 5 chars</string>
+    <string name="name_length_hint">should be more than 5 chars</string>
     <string name="sign_out_hint">Are you sure ?</string>
     <string name="card_price_category">Card price for this category</string>
     <string name="card_price_by_category">Card price by category</string>
     <string name="card_price">Card price</string>
     <string name="salon_activity">Salon activity</string>
-    <string name="image_updared">Image updated successfully</string>
+    <string name="image_updated">Image updated successfully</string>
     <string name="updating_image">Updating User Image</string>
     <string name="chat_room">Chat Room</string>
-    <string name="write_message">Send Message</string>
+    <string name="chat_message_hint">type your message here</string>
     <string name="winner">Winner</string>
     <string name="top_ten">Top ten</string>
 
@@ -232,7 +231,10 @@
     <string name="not_joined">You are not joined</string>
     <string name="use_card">Use card</string>
     <string name="buy_card">Buy card</string>
-    <string name="rounds_empty_hint">don\'te miss your the chance .. join now</string>
+    <string name="rounds_empty_hint">don\'t miss your chance .. join now</string>
     <string name="no_notifications">no notifications</string>
+    <string name="canceled">canceled</string>
+    <string name="no_joined_salons">no joined salons</string>
+    <string name="chat_is_closed">chat room is closed</string>
 
 </resources>

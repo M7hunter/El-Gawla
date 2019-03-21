@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.Controllers.Adapters.CardListAdapter;
+import it_geeks.info.gawla_app.Adapters.CardListAdapter;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.Request;
@@ -102,14 +102,13 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void handleEvents() {
-
-        //Notification icon
+        // bell
         imgNotification = findViewById(R.id.Notification);
 
         // notification status LiveData
         NotificationStatus.notificationStatus(this,imgNotification);
 
-        // notofocation onClick
+        // goto notification page
         imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,6 +124,7 @@ public class CardActivity extends AppCompatActivity {
             }
         });
 
+        // buy card
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

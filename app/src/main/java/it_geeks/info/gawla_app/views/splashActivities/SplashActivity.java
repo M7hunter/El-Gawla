@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.OnItemClickListener;
+import it_geeks.info.gawla_app.general.Interfaces.OnItemClickListener;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.Country;
 import it_geeks.info.gawla_app.repository.Models.Request;
@@ -28,7 +28,7 @@ import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.Controllers.Adapters.CountryAdapter;
+import it_geeks.info.gawla_app.Adapters.CountryAdapter;
 import it_geeks.info.gawla_app.R;
 
 public class SplashActivity extends AppCompatActivity {
@@ -81,7 +81,7 @@ public class SplashActivity extends AppCompatActivity {
 
                         displayCountriesList();
 
-                        GawlaDataBse.getGawlaDatabase(SplashActivity.this).countryDao().insertCountryList(countries);
+                        GawlaDataBse.getInstance(SplashActivity.this).countryDao().insertCountryList(countries);
                     }
 
                     @Override
@@ -105,7 +105,6 @@ public class SplashActivity extends AppCompatActivity {
                         Toast.makeText(SplashActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
     public void retry() {

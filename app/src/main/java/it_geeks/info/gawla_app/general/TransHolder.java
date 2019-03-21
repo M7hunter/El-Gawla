@@ -47,7 +47,7 @@ public class TransHolder {
 
     // my rounds fragment keys
     public String joined_salons;
-    public String my_rounds_empty_hint;
+    public String rounds_empty_hint;
 
     // cards fragment keys
     public String cards_store;
@@ -69,7 +69,7 @@ public class TransHolder {
     public String sign_out;
 
     public TransHolder(Context context) {
-        transDao = GawlaDataBse.getGawlaDatabase(context).transDao();
+        transDao = GawlaDataBse.getInstance(context).transDao();
         lang = getLang(context);
     }
 
@@ -228,9 +228,9 @@ public class TransHolder {
             joined_salons = context.getResources().getString(R.string.joined_salons);
         }
 
-        my_rounds_empty_hint = transDao.getTransByKeyAndLang("my_rounds_empty_hint", lang);
-        if (my_rounds_empty_hint == null || my_rounds_empty_hint.isEmpty()) {
-            my_rounds_empty_hint = context.getResources().getString(R.string.joined_salons_empty_hint);
+        rounds_empty_hint = transDao.getTransByKeyAndLang("rounds_empty_hint", lang);
+        if (rounds_empty_hint == null || rounds_empty_hint.isEmpty()) {
+            rounds_empty_hint = context.getResources().getString(R.string.rounds_empty_hint);
         }
     }
 

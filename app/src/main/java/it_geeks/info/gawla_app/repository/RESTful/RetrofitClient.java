@@ -39,6 +39,7 @@ public class RetrofitClient {
 
     private Call<JsonObject> call;
     private Context context;
+    private int reconnect = 0;
 
     private RetrofitClient() {
         this.retrofit = new Retrofit.Builder()
@@ -91,54 +92,77 @@ public class RetrofitClient {
         return new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) { // code == 200
-                    try {
-                        JsonObject mainObj = response.body().getAsJsonObject();
+                // TODO: check codes instead of strings
+//                        case success 200:
+//                        case validationErrors 402:
+//                        case somethingWrong 100:
+//                        case invalidApiToken 111:
+//                        case invalidAccessToken 401:
+//                        case notAuthorized 402:
+//                        case notFound 404:
+//                        case authFailed 203:
+//                        case emailNotExist 104:
+//                        case accountAlreadyVerified 106:
+//                        case tokenNotFound 115:
+//                        case accountNotConfirmed 116:
+//                        case wrongPhoneVerifyNum 405:
+//                        case wrongForgetPassVerifyNum 406:
+//                        case waitBeforeResend 410:
+//                        case doNotHavePermission 412:
+//                        case internalServerError 500:
+//                        case unKnown 1:
+                try {
+                    Log.d("response_code:", response.code() + "");
+                    switch (response.code()) {
+                        case 200:
+                            try {
+                                JsonObject mainObj = response.body().getAsJsonObject();
 
-                        // dynamic with each call
-                        HandleResponses.handleTrueResponse(mainObj);
+                                // dynamic with each call
+                                HandleResponses.handleTrueResponse(mainObj);
 
-                    } catch (NullPointerException e) { // errors of response body 'maybe response body has changed';
-                        Log.e("onResponse: ", e.getMessage());
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        Crashlytics.logException(e);
-                    } catch (UnsupportedOperationException e) {
-                        Log.e("onResponse: ", e.getMessage());
-                        Crashlytics.logException(e);
-                    }
-                } else { // code != 200
-                    try {
-                        JsonObject errorObj = new JsonParser().parse(response.errorBody().string()).getAsJsonObject();
-                        String serverError = parseServerErrors(errorObj);
+                            } catch (NullPointerException e) { // errors of response body 'maybe response body has been changed'
+                                Log.e("onResponse: ", e.getMessage());
+                                Crashlytics.logException(e);
+                            } catch (UnsupportedOperationException e) {
+                                Log.e("onResponse: ", e.getMessage());
+                                Crashlytics.logException(e);
+                            }
 
-                        // TODO: check codes instead of strings
-                        if (serverError.contains("not logged in") || serverError.contains("api token")) {
+                            break;
+                        case 203:
                             context.startActivity(new Intent(context, LoginActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
 
                             SharedPrefManager.getInstance(context).clearUser();
-                        }
+
+                            break;
+                    }
+
+                    if (!response.isSuccessful()) { // code != 200
+                        JsonObject errorObj = new JsonParser().parse(response.errorBody().string()).getAsJsonObject();
+                        String serverError = parseServerErrors(errorObj);
 
                         // notify user
                         Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
-
                         Log.d("!successful: ", serverError);
+
                         // dynamic with each call
                         HandleResponses.handleFalseResponse(errorObj);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Crashlytics.logException(e);
-                    } catch (JsonSyntaxException e) {
-                        e.printStackTrace();
-                        Crashlytics.logException(e);
-                    } catch (RuntimeException e) {
-                        e.printStackTrace();
-                        Crashlytics.logException(e);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Crashlytics.logException(e);
                     }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Crashlytics.logException(e);
+                } catch (JsonSyntaxException e) {
+                    e.printStackTrace();
+                    Crashlytics.logException(e);
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                    Crashlytics.logException(e);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Crashlytics.logException(e);
                 }
 
                 // dynamic with each call
@@ -150,6 +174,12 @@ public class RetrofitClient {
                 Log.d("onFailure: ", t.getMessage());
                 // dynamic with each call
                 HandleResponses.handleConnectionErrors(context.getString(R.string.no_connection));
+
+                // try one more time
+                if (t.getMessage().contains("timeout") && reconnect < 1) {
+                    reconnect++;
+                    call.enqueue(this);
+                }
             }
         };
     }

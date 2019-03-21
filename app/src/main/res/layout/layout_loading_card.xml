@@ -8,7 +8,7 @@
     android:layout_gravity="center"
     android:visibility="gone"
     app:cardCornerRadius="@dimen/margin_small"
-    app:cardElevation="@dimen/margin_tiny">
+    app:cardElevation="@dimen/margin_medium">
 
     <ProgressBar
         android:layout_width="wrap_content"

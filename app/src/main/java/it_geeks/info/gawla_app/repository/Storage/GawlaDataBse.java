@@ -44,7 +44,7 @@ public abstract class GawlaDataBse extends RoomDatabase {
 //    };
 
     // singleton initialization
-    public static GawlaDataBse getGawlaDatabase(Context context) {
+    public static GawlaDataBse getInstance(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context, GawlaDataBse.class, DB_NAME)
                     .allowMainThreadQueries()

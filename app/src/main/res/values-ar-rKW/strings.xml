@@ -129,7 +129,7 @@
     <string name="edit">تعديل</string>
     <string name="disconnect">الغاء الاتصال</string>
     <string name="connect_with">"متصل بأستخدام "</string>
-    <string name="use_card_to_join">إسنحدام الكارت للإنضمام</string>
+    <string name="use_card_to_join">إستخدام الكارت للإنضمام</string>
     <string name="goldenCard">هاذا الكارت يستخدم لدخول الجوله .</string>
     <string name="privacy_text">إنشاء حساب بائع لدولة مختارة:
  حسب التعليمات الواردة في الموقع، يتعين عليك إنشاء
@@ -174,7 +174,6 @@
     <string name="sending_message">جاري الارسال ...</string>
     <string name="category">الفئة</string>
     <string name="rOffer">العرض</string>
-    <string name="connection_error">حدث خطأ أثناء الاتصال .</string>
     <string name="sign_out">تسجيل خروج</string>
     <string name="filter_by">فرز حسب</string>
     <string name="male">ذكر</string>
@@ -190,19 +189,19 @@
     <string name="delete_account_hint">حذف هذا الحساب ؟</string>
     <string name="sign_out_hint">تسجيل خروج ؟</string>
     <string name="card_price_category">سعر الكارت لهذه الفئة</string>
-    <string name="name_length_hint">يجب ان يزيد الاسم عن خمسة احرف</string>
+    <string name="name_length_hint">يجب ان يزيد عن خمسة احرف</string>
     <string name="card_price_by_category">سعر الكارت حسب الفئة</string>
     <string name="card_price">سعر الكارت</string>
     <string name="updated">تم التحديث</string>
     <string name="salon_activity">نشاط الصالة</string>
     <string name="top_ten">أعلى عشرة</string>
     <string name="chat_room">غرفة المحادثة</string>
-    <string name="write_message">أرسال رسالة</string>
+    <string name="chat_message_hint">أكتب رسالتك هنا</string>
     <string name="product_details">تفاصيل المنتج</string>
     <string name="forget_password_check_maill">تم ارسال بريد لأسترداد كلمة السر</string>
     <string name="updating_image">جاري رفع صورة المستخدم</string>
     <string name="winner">الفائز</string>
-    <string name="image_updared">تم رفع الصورة</string>
+    <string name="image_updated">تم رفع الصورة</string>
     <string name="empty_hint">حقل فارغ</string>
     <string name="leave">مغادرة</string>
     <string name="more_gawla_main_page">تعرف علي المزيد من تطبيق الجولة</string>
@@ -233,4 +232,7 @@
     <string name="buy_card">شراء الكارت</string>
     <string name="rounds_empty_hint">لا تدع الفرصة تفوتك .. اشترك الآن</string>
     <string name="no_notifications">لا يوجد إشعارات</string>
+    <string name="canceled">تم الالغاء</string>
+    <string name="no_joined_salons">ليست لديك صالات</string>
+    <string name="chat_is_closed">غرفة المحادثة مغلقة</string>
 </resources>

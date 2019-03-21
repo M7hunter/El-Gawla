@@ -79,33 +79,6 @@
             android:layout_marginBottom="@dimen/margin_tiny"
             android:layout_weight="1">
 
-            <!-- 0 tap : top ten container -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/top_ten_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_tiny"
-                android:background="@drawable/bg_rounded_corners_white"
-                android:visibility="gone"
-                app:cardCornerRadius="@dimen/margin_small">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/top_ten_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny" />
-
-                <TextView
-                    android:id="@+id/tv_top_ten_empty_hint"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="@dimen/margin_large"
-                    android:text="@string/top_ten_empty"
-                    android:visibility="visible" />
-
-            </androidx.cardview.widget.CardView>
-
             <!-- 1st tap : details container -->
             <LinearLayout
                 android:id="@+id/details_container"
@@ -218,7 +191,7 @@
 
                     <!-- round's notification bar -->
                     <LinearLayout
-                        android:id="@+id/activity_page"
+                        android:id="@+id/round_latest_activity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_small"
@@ -231,7 +204,7 @@
                             android:layout_height="@dimen/icon_notification"
                             android:layout_margin="@dimen/margin_small"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_account" />
+                            android:src="@drawable/notification" />
 
                         <!-- notification text -->
                         <TextView
@@ -336,24 +309,55 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="@string/write_message"
+                            android:hint="@string/chat_message_hint"
                             android:inputType="textShortMessage"
                             android:maxLength="250"
                             android:maxLines="1"
+                            android:enabled="false"
                             android:padding="@dimen/margin_tiny" />
 
                         <!-- btn send message -->
-                        <ImageView
-                            android:id="@+id/chat_send_message"
-                            android:layout_width="wrap_content"
+                        <Button
+                            android:id="@+id/btn_send_chat_message"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="@dimen/icon_back"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:padding="@dimen/margin_x_small"
-                            android:src="@drawable/ic_send_message" />
+                            android:enabled="false"
+                            app:icon="@drawable/ic_send_message"
+                            app:iconGravity="textStart"
+                            app:iconPadding="0dp" />
 
                     </LinearLayout>
 
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 4th tap : top ten container -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/top_ten_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_tiny"
+                android:background="@drawable/bg_rounded_corners_white"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/margin_small">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/top_ten_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_tiny" />
+
+                <TextView
+                    android:id="@+id/tv_top_ten_empty_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_large"
+                    android:text="@string/top_ten_empty"
+                    android:visibility="gone" />
+
             </androidx.cardview.widget.CardView>
 
         </FrameLayout>

@@ -23,14 +23,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.Controllers.Adapters.CategoryAdapter;
+import it_geeks.info.gawla_app.Adapters.CategoryAdapter;
 import it_geeks.info.gawla_app.repository.Storage.CardDao;
 import it_geeks.info.gawla_app.repository.Storage.ProductImageDao;
 import it_geeks.info.gawla_app.repository.Storage.RoundDao;
 import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.ConnectionInterface;
+import it_geeks.info.gawla_app.general.Interfaces.ConnectionInterface;
 import it_geeks.info.gawla_app.general.NotificationStatus;
-import it_geeks.info.gawla_app.general.OnItemClickListener;
+import it_geeks.info.gawla_app.general.Interfaces.OnItemClickListener;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Category;
@@ -41,8 +41,8 @@ import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.Controllers.Adapters.DateAdapter;
-import it_geeks.info.gawla_app.Controllers.Adapters.SalonsAdapter;
+import it_geeks.info.gawla_app.Adapters.DateAdapter;
+import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 
 public class AllSalonsActivity extends AppCompatActivity {
 
@@ -156,7 +156,7 @@ public class AllSalonsActivity extends AppCompatActivity {
                         initDatesAdapter();
 
                         try {
-                            roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(dateList.get(0).getDate());
+                            roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(dateList.get(0).getDate());
                         } catch (IndexOutOfBoundsException e) {
                             e.printStackTrace();
                             Crashlytics.logException(e);
@@ -184,13 +184,13 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void updateDatabaseList(List<Round> rounds) {
-        RoundDao roundDao = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao();
+        RoundDao roundDao = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao();
         roundDao.removeRounds(roundDao.getRounds());
         roundDao.insertRoundList(rounds);
 
-        ProductImageDao productImageDao = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).productImageDao();
+        ProductImageDao productImageDao = GawlaDataBse.getInstance(AllSalonsActivity.this).productImageDao();
         productImageDao.removeSubImages(productImageDao.getSubImages());
-        CardDao cardDao = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).cardDao();
+        CardDao cardDao = GawlaDataBse.getInstance(AllSalonsActivity.this).cardDao();
         cardDao.removeCards(cardDao.getCards());
 
         for (int i = 0; i < rounds.size(); i++) {
@@ -200,7 +200,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void transAndSortDates() {
-        List<String> dates = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsDates();
+        List<String> dates = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsDates();
 
         dateList.clear();
 
@@ -224,7 +224,7 @@ public class AllSalonsActivity extends AppCompatActivity {
         int dayWeek = cal.get(Calendar.DAY_OF_WEEK); // day in month to day in week
         String dayOfWeek = new DateFormatSymbols(new Locale(SharedPrefManager.getInstance(AllSalonsActivity.this).getSavedLang())).getWeekdays()[dayWeek]; // day in week from num to nam
 
-        return new SalonDate(date, day, monthName, dayOfWeek, GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getDatesCount(date) + getResources().getString(R.string.salons));
+        return new SalonDate(date, day, monthName, dayOfWeek, GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getDatesCount(date) + getResources().getString(R.string.salons));
     }
 
     private void initDatesAdapter() {
@@ -232,7 +232,7 @@ public class AllSalonsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                 SalonDate salonDate = dateList.get(position);
-                roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByDate(salonDate.getDate());
+                roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(salonDate.getDate());
 
                 initSalonsRecycler();
 
@@ -252,7 +252,7 @@ public class AllSalonsActivity extends AppCompatActivity {
                         initCategoriesAdapter();
 
                         try {
-                            roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
+                            roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
                         } catch (IndexOutOfBoundsException e) {
                             e.printStackTrace();
                             Crashlytics.logException(e);
@@ -283,7 +283,7 @@ public class AllSalonsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                 Category category = categoryList.get(position);
-                roundsList = GawlaDataBse.getGawlaDatabase(AllSalonsActivity.this).roundDao().getRoundsByCategory(category.getCategoryName());
+                roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(category.getCategoryName());
 
                 initSalonsRecycler();
 

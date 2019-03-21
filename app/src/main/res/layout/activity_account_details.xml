@@ -78,7 +78,7 @@
 
             <!-- image -->
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/img_update_Image"
+                android:id="@+id/iv_user_Image"
                 android:layout_width="@dimen/image_account"
                 android:layout_height="@dimen/image_account"
                 android:layout_centerInParent="true"
@@ -101,8 +101,8 @@
                 android:src="@drawable/ic_check"
                 android:visibility="visible"
                 app:cornerRadius="4dp"
-                app:layout_constraintEnd_toStartOf="@id/img_update_Image"
-                app:layout_constraintStart_toStartOf="@id/img_update_Image"
+                app:layout_constraintEnd_toStartOf="@id/iv_user_Image"
+                app:layout_constraintStart_toStartOf="@id/iv_user_Image"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="@dimen/margin_small"/>
 
@@ -116,8 +116,8 @@
                 android:padding="@dimen/margin_small"
                 android:src="@drawable/ic_edit"
                 android:visibility="visible"
-                app:layout_constraintEnd_toStartOf="@id/img_update_Image"
-                app:layout_constraintStart_toStartOf="@id/img_update_Image"
+                app:layout_constraintEnd_toStartOf="@id/iv_user_Image"
+                app:layout_constraintStart_toStartOf="@id/iv_user_Image"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="@dimen/margin_small"/>
 

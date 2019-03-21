@@ -2,7 +2,6 @@ package it_geeks.info.gawla_app.repository.Storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.util.Locale;
 
@@ -36,19 +35,38 @@ public class SharedPrefManager {
     }
 
     //--------------- notification -------------//
-    public void setNotificationState(boolean state) { // enabled, disabled
+    public void setNotificationEnabled(boolean enabled) { // enabled, disabled
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NOTIFICATION, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.clear();
 
-        editor.putBoolean("notification_enabled", state);
+        editor.putBoolean("notification_enabled", enabled);
         editor.apply();
     }
 
-    public boolean getNotificationState() {
+    public boolean isNotificationEnabled() {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NOTIFICATION, MODE_PRIVATE);
-        return sharedPreferences.getBoolean("notification_enabled", false);
+        return sharedPreferences.getBoolean("notification_enabled", true);
+    }
+
+    // New Notification status
+    public void setNewNotification(Boolean newNotification) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+
+        editor.putBoolean("new_notification", newNotification);
+        editor.apply();
+    }
+
+    public boolean getNewNotification() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("new_notification", true);
+    }
+
+    public void clearNewNotification() {
+        context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE).edit().clear().apply();
     }
 
     //--------------- lang -------------//
@@ -193,25 +211,6 @@ public class SharedPrefManager {
         context.getSharedPreferences(SHARED_PREF_USER_PROVIDER, Context.MODE_PRIVATE).edit().clear().apply();
     }
 
-    // New Notification status
-    public void setNewNotfication(Boolean newNotfication) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-
-        editor.putBoolean("new_notification", newNotfication);
-        editor.apply();
-    }
-
-    public boolean getNewNotification() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean("new_notification", true);
-    }
-
-    public void clearNewNotification() {
-        context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE).edit().clear().apply();
-    }
-
     // Save User Offer
     public void saveUserOffer(String USER_OFFER_KEY, int offerValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(USER_OFFER_KEY, Context.MODE_PRIVATE);
@@ -230,5 +229,4 @@ public class SharedPrefManager {
     public void clearUserOffer(String USER_OFFER_KEY) {
         context.getSharedPreferences(USER_OFFER_KEY, Context.MODE_PRIVATE).edit().clear().apply();
     }
-
 }

@@ -8,7 +8,6 @@
     tools:context=".views.loginActivities.LoginActivity">
 
     <ScrollView
-        android:id="@+id/loginMainScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!-- scroll main layout -->
@@ -104,11 +103,10 @@
                 android:id="@+id/tl_email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_xx_large"
                 android:layout_marginEnd="@dimen/margin_xx_large"
                 android:layout_marginBottom="@dimen/margin_small"
-                android:layout_weight="1"
                 android:focusable="true"
                 android:textColorHint="@color/paleGrey2"
                 app:errorEnabled="true">
@@ -131,12 +129,10 @@
                 android:id="@+id/tl_pass"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_xx_large"
                 android:layout_marginEnd="@dimen/margin_xx_large"
                 android:layout_marginBottom="@dimen/margin_small"
-                android:layout_weight="1"
-                android:focusable="true"
                 android:textColorHint="@color/paleGrey2"
                 app:errorEnabled="true">
 
