@@ -21,6 +21,10 @@ android {
     }
 }
 
+repositories {
+    maven { url 'https://zendesk.jfrog.io/zendesk/repo' } // helpdesk
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     // noinspection GradleCompatible
@@ -65,4 +69,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.2.0'
     // crashlytics
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+
+    // helpdest Test
+    implementation group: 'com.zendesk', name: 'support', version: '2.3.0'
 }

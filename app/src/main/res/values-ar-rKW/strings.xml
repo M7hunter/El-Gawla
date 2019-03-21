@@ -235,4 +235,5 @@
     <string name="canceled">تم الالغاء</string>
     <string name="no_joined_salons">ليست لديك صالات</string>
     <string name="chat_is_closed">غرفة المحادثة مغلقة</string>
+    <string name="customers_service">مكالمة خدمة العملاء</string>
 </resources>
