@@ -70,36 +70,36 @@ public class MyRoundsFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        if (!firstRequest)
+//            updateRoundsList();
+//    }
 
-        if (!firstRequest)
-            updateRoundsList();
-    }
-
-    private void updateRoundsList() {
-        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-                new Data("getSalonByUserID"), new Request(userId, apiToken), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        mySalonsAdapter.updateRoundsList(ParseResponses.parseRounds(mainObject));
-                    }
-
-                    @Override
-                    public void handleFalseResponse(JsonObject mainObject) {
-                    }
-
-                    @Override
-                    public void handleEmptyResponse() {
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+//    private void updateRoundsList() {
+//        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
+//                new Data("getSalonByUserID"), new Request(userId, apiToken), new HandleResponses() {
+//                    @Override
+//                    public void handleTrueResponse(JsonObject mainObject) {
+//                        mySalonsAdapter.updateRoundsList(ParseResponses.parseRounds(mainObject));
+//                    }
+//
+//                    @Override
+//                    public void handleFalseResponse(JsonObject mainObject) {
+//                    }
+//
+//                    @Override
+//                    public void handleEmptyResponse() {
+//                    }
+//
+//                    @Override
+//                    public void handleConnectionErrors(String errorMessage) {
+//                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 
     private void initViews(View view) {
         myRoundProgress = view.findViewById(R.id.my_rounds_progress);

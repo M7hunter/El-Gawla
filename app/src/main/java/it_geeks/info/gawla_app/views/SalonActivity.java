@@ -115,6 +115,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private RoundCountDownController roundCountDownController;
     private RoundRemainingTime roundRemainingTime;
 
+    private ActivityAdapter activityAdapter;
+
     // lists
     private List<ChatModel> chatList = new ArrayList<>();
     private List<Activity> activityList = new ArrayList<>();
@@ -434,7 +436,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         if (activityList.size() > 0) {
             tvActivityEmptyHint.setVisibility(View.GONE);
             activityRecycler.setVisibility(View.VISIBLE);
-            activityRecycler.scrollToPosition(activityList.size() - 1);
         } else {
             tvActivityEmptyHint.setVisibility(View.VISIBLE);
             activityRecycler.setVisibility(View.GONE);
@@ -446,14 +447,26 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             tvTopTenEmptyHint.setVisibility(View.GONE);
             activityRecycler.setVisibility(View.VISIBLE);
             activityRecycler.setHasFixedSize(true);
-            activityRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, true));
-            activityRecycler.setAdapter(new ActivityAdapter(activityList));
-            activityRecycler.scrollToPosition(activityList.size() - 1);
+            activityRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+            activityAdapter = new ActivityAdapter(activityList);
+            activityRecycler.setAdapter(activityAdapter);
 
         } else {
             tvTopTenEmptyHint.setVisibility(View.VISIBLE);
             activityRecycler.setVisibility(View.GONE);
         }
+    }
+
+    private void updateActivityList(Activity activity) {
+        activityList.add(0, activity);
+
+        if (activityAdapter != null) {
+            activityAdapter.notifyItemInserted(0);
+        } else {
+            initActivityRecycler();
+        }
+
+        activityRecycler.scrollToPosition(0);
     }
 
     private void selectChatTab() {
@@ -652,6 +665,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             Crashlytics.logException(e);
         }
 
+        mSocket.emit("allActivity", round.getSalon_id()); // what action triggers this emit ?!
+
         mSocket.on("new_member", new Emitter.Listener() {
             @Override
             public void call(final Object... args) {
@@ -661,7 +676,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         try {
                             JSONObject main = (JSONObject) args[0];
                             displaySalonLatestActivity(main.get("data").toString());
-                            activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
+                            updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket newMember: ", e.getMessage());
@@ -679,7 +694,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         try {
                             JSONObject main = (JSONObject) args[0];
                             displaySalonLatestActivity(main.get("data").toString());
-                            activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
+                            updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket memberAddOffer: ", e.getMessage());
@@ -697,7 +712,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         try {
                             JSONObject main = (JSONObject) args[0];
                             displaySalonLatestActivity(main.get("data").toString());
-                            activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
+                            updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket memberLeave: ", e.getMessage());
@@ -715,7 +730,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         try {
                             JSONObject main = (JSONObject) args[0];
                             displaySalonLatestActivity(main.get("data").toString());
-                            activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
+                            updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket winner: ", e.getMessage());
@@ -734,7 +749,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                             JSONArray main = (JSONArray) args[0];
                             for (int i = 0; i < main.length(); i++) {
                                 JSONObject jsonObject = main.getJSONObject(i);
-                                activityList.add(new Activity(jsonObject.get("activity").toString(), jsonObject.get("created_at").toString()));
+                                updateActivityList(new Activity(jsonObject.get("activity").toString(), jsonObject.get("created_at").toString()));
                             }
                             initActivityRecycler();
                         } catch (Exception e) {
@@ -753,7 +768,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         try {
                             JSONObject main = (JSONObject) args[0];
                             displaySalonLatestActivity(main.get("data").toString());
-                            activityList.add(new Activity(main.get("data").toString(), main.get("date").toString()));
+                            updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
                             initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket memberUseCard: ", e.getMessage());
@@ -789,8 +804,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 });
             }
         });
-
-        mSocket.emit("allActivity", round.getSalon_id()); // what action triggers this emit ?!
     }
 
     private void displaySalonLatestActivity(String notificationMsg) {
@@ -860,14 +873,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (roundRemainingTime != null && !roundRemainingTime.isClose_hall_state() && !roundRemainingTime.isSecond_rest_state())
-            getRemainingTimeOfRound();
-    }
-
     private void initCountDown() {
         roundCountDownController.setRoundRemainingTime(roundRemainingTime); // set round remaining time
         if (roundRemainingTime.isUserJoin()) {
@@ -897,6 +902,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     public void checkOnTime() {
+        Log.d("isClose_hall_state:", roundRemainingTime.isClose_hall_state() + "");
         if (roundRemainingTime.isUserJoin()) { // user is member
             enableChat();
 
@@ -905,7 +911,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             } else { // !join time
                 btnLeaveRound.setVisibility(View.GONE); // hide leave salon btn
             }
-
 
             if (roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state()) { // on round time
                 addOfferLayout.setVisibility(View.VISIBLE); // display add offer layout
@@ -952,6 +957,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
             selectTopTenTab();
             getWinner();
+            disableChat();
 
             // disconnect socket
             if (mSocket != null && mSocket.connected())

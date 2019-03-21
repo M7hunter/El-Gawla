@@ -13,7 +13,6 @@ import com.squareup.picasso.Picasso;
 import androidx.fragment.app.Fragment;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
@@ -29,7 +28,7 @@ public class AccountFragment extends Fragment {
     private CircleImageView userImage;
     private String name, image;
 
-    ImageView imgNotification;
+    ImageView ivNotificationBell;
 
     private TextView tvAccountDetails, tvBuyingProcesses, tvPrivacyDetails; // <- trans
 
@@ -38,13 +37,11 @@ public class AccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
-        getData();
-
         initViews(view);
 
-        setupTrans();
+        getData();
 
-        setData();
+        setupTrans();
 
         handleEvents(view);
 
@@ -54,7 +51,6 @@ public class AccountFragment extends Fragment {
     @Override
     public void onResume() {
         getData();
-        setData();
         super.onResume();
     }
 
@@ -63,7 +59,7 @@ public class AccountFragment extends Fragment {
         userImage = view.findViewById(R.id.user_image);
 
         //Notification icon
-        imgNotification = view.findViewById(R.id.Notification);
+        ivNotificationBell = view.findViewById(R.id.Notification);
 
         // translatable views
         tvAccountDetails = view.findViewById(R.id.tv_account_details);
@@ -106,9 +102,9 @@ public class AccountFragment extends Fragment {
         });
 
         // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(),imgNotification);
+        NotificationStatus.notificationStatus(getContext(), ivNotificationBell);
 
-        imgNotification.setOnClickListener(new View.OnClickListener() {
+        ivNotificationBell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), NotificationActivity.class));
@@ -119,6 +115,8 @@ public class AccountFragment extends Fragment {
     private void getData() {  /// get data from sharedPreference
         name = SharedPrefManager.getInstance(getContext()).getUser().getName();
         image = SharedPrefManager.getInstance(getContext()).getUser().getImage();
+
+        setData();
     }
 
     private void setData() { // set data to views

@@ -91,6 +91,7 @@ public class Common {
                     .load(imageUrl)
                     .resize(800, 800)
                     .onlyScaleDown()
+                    .centerInside()
                     .placeholder(R.drawable.placeholder)
                     .into(imageView);
         } catch (Exception e) {
@@ -105,6 +106,7 @@ public class Common {
                     .load(imageUrl)
                     .resize(900, 600)
                     .onlyScaleDown()
+                    .centerInside()
                     .placeholder(R.drawable.placeholder)
                     .into(imageView);
         } catch (Exception e) {
@@ -118,6 +120,7 @@ public class Common {
             Picasso.with(context)
                     .load(imageUrl)
                     .fit()
+                    .centerInside()
                     .placeholder(R.drawable.placeholder)
                     .into(imageView);
         } catch (Exception e) {

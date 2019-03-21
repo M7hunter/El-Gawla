@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -42,7 +43,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
     public static AccountDetailsActivity accountDetailsInstance;
     private EditText et_update_first_name, et_update_last_name, et_update_telephone, sp_update_gender, sp_update_country;
-    private ImageView img_update_image, btn_choose_image;
+    private ImageView ivUserImage, btn_choose_image;
     public ImageView btn_upload_image;
     private TextView btn_update_profile;
     private ProgressBar progressBarUpdateProfile;
@@ -74,7 +75,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         et_update_telephone = findViewById(R.id.et_update_telephone);
         sp_update_country = findViewById(R.id.my_sp_country);
         sp_update_gender = findViewById(R.id.my_sp_gender);
-        img_update_image = findViewById(R.id.img_update_Image);
+        ivUserImage = findViewById(R.id.iv_user_Image);
 
         btn_choose_image = findViewById(R.id.btn_choose_image);
         btn_upload_image = findViewById(R.id.btn_upload_image);
@@ -246,7 +247,9 @@ public class AccountDetailsActivity extends AppCompatActivity {
     private void bindUserData() {
         User user = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser();
 
-        Common.Instance(this).loadFittedImage(user.getImage(), img_update_image);
+        Log.d("image_url:", user.getImage());
+        Picasso.with(this).load(user.getImage()).placeholder(R.drawable.placeholder).into(ivUserImage);
+//        Common.Instance(this).loadFittedImage(user.getImage(), ivUserImage);
         et_update_first_name.setText(user.getFirstName());
         et_update_last_name.setText(user.getLastName());
         et_update_telephone.setText(user.getPhone());
@@ -368,20 +371,17 @@ public class AccountDetailsActivity extends AppCompatActivity {
             try {
                 Picasso.with(this)
                         .load(imagePath)
-                        .resize(800, 800)
-                        .onlyScaleDown()
-                        .placeholder(R.drawable.placeholder)
-                        .into(img_update_image);
+                        .into(ivUserImage);
             } catch (Exception e) {
                 e.printStackTrace();
                 Crashlytics.logException(e);
             }
 
             // transform image to bytes || string
-            img_update_image.buildDrawingCache();
-            Bitmap bitmap = img_update_image.getDrawingCache();
+            ivUserImage.buildDrawingCache();
+            Bitmap bitmap = ivUserImage.getDrawingCache();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 50, outputStream);
             byte[] imageAsByte = outputStream.toByteArray();
             encodedImage = Base64.encodeToString(imageAsByte, Base64.DEFAULT);
 

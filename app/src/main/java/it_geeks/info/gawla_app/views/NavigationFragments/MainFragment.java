@@ -79,36 +79,36 @@ public class MainFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        if (!firstRequest)
+//            updateRoundsList();
+//    }
 
-        if (!firstRequest)
-            updateRoundsList();
-    }
-
-    private void updateRoundsList() {
-        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-                new Data("getAllSalons", page), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        recentSalonsPagedAdapter.updateRoundsList(ParseResponses.parseRounds(mainObject));
-                    }
-
-                    @Override
-                    public void handleFalseResponse(JsonObject mainObject) {
-                    }
-
-                    @Override
-                    public void handleEmptyResponse() {
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+//    private void updateRoundsList() {
+//        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
+//                new Data("getAllSalons", page), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
+//                    @Override
+//                    public void handleTrueResponse(JsonObject mainObject) {
+//                        recentSalonsPagedAdapter.updateRoundsList(ParseResponses.parseRounds(mainObject));
+//                    }
+//
+//                    @Override
+//                    public void handleFalseResponse(JsonObject mainObject) {
+//                    }
+//
+//                    @Override
+//                    public void handleEmptyResponse() {
+//                    }
+//
+//                    @Override
+//                    public void handleConnectionErrors(String errorMessage) {
+//                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 
     private void initViews() {
         refreshLayout = view.findViewById(R.id.main_layout_refresh);
