@@ -51,7 +51,7 @@
         <activity android:name=".views.AllSalonsActivity" />
         <activity android:name=".views.CardActivity" />
         <activity android:name=".views.splashActivities.IntroActivity" />
-        <activity android:name=".views.loginActivities.SubscribePlanActivity" />
+        <activity android:name=".views.loginActivities.MembershipActivity" />
         <activity android:name=".views.loginActivities.PaymentActivity" />
         <activity android:name=".views.loginActivities.ForgetPasswordActivity" />
         <activity android:name=".views.loginActivities.CreateAccountActivity" />
@@ -90,6 +90,9 @@
         </service>
 
         <!-- firebase -->
+        <!--<meta-data-->
+            <!--android:name="com.google.firebase.messaging.default_notification_channel_id"-->
+            <!--android:value="@string/default_notification_channel_id"/>-->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_gawla_logo_two" />

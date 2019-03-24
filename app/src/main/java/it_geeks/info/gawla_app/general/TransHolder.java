@@ -59,7 +59,6 @@ public class TransHolder {
     public String privacy_details;
 
     // menu fragment keys
-    public String menu_fragment_hint;
     public String app_settings;
     public String more_about_gawla;
     public String privacy_policy;
@@ -264,11 +263,6 @@ public class TransHolder {
     }
 
     public void getMenuFragmentTranses(Context context) {
-        menu_fragment_hint = transDao.getTransByKeyAndLang("menu_fragment_hint", lang);
-        if (menu_fragment_hint == null || menu_fragment_hint.isEmpty()) {
-            menu_fragment_hint = context.getResources().getString(R.string.menu_fragment_hint);
-        }
-
         app_settings = transDao.getTransByKeyAndLang("app_settings", lang);
         if (app_settings == null || app_settings.isEmpty()) {
             app_settings = context.getResources().getString(R.string.app_settings);

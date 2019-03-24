@@ -6,6 +6,7 @@ import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.general.Common;
 
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -105,6 +106,14 @@ public class WebPageActivity extends AppCompatActivity {
                 super.onPageCommitVisible(view, url);
 
                 hideLoading();
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1)
+                    hideLoading();
             }
         });
 

@@ -18,23 +18,23 @@ import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.R;
 
-public class SubscribePlanActivity extends AppCompatActivity {
+public class MembershipActivity extends AppCompatActivity {
 
     private CardView loadingCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.Instance(this).changeStatusBarColor("#ffffff",this);
-        setContentView(R.layout.activity_subscribe_plan);
+        Common.Instance(this).changeStatusBarColor("#ffffff", this);
+        setContentView(R.layout.activity_membership);
 
         loadingCard = findViewById(R.id.loading_card);
 
         findViewById(R.id.btn_pay_later).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SubscribePlanActivity.this,MainActivity.class)
-                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
+                startActivity(new Intent(MembershipActivity.this, MainActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
 
@@ -70,9 +70,9 @@ public class SubscribePlanActivity extends AppCompatActivity {
                 new Request(SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token(), membership), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Toast.makeText(SubscribePlanActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(SubscribePlanActivity.this,MainActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK));
+                        Toast.makeText(MembershipActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MembershipActivity.this, MainActivity.class)
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                     }
 
                     @Override
@@ -88,7 +88,7 @@ public class SubscribePlanActivity extends AppCompatActivity {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         hideLoading();
-                        Toast.makeText(SubscribePlanActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MembershipActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

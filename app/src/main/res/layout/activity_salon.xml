@@ -309,11 +309,11 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
+                            android:enabled="false"
                             android:hint="@string/chat_message_hint"
                             android:inputType="textShortMessage"
                             android:maxLength="250"
                             android:maxLines="1"
-                            android:enabled="false"
                             android:padding="@dimen/margin_tiny" />
 
                         <!-- btn send message -->
@@ -349,6 +349,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_tiny" />
 
+                <!-- top ten empty hint -->
                 <TextView
                     android:id="@+id/tv_top_ten_empty_hint"
                     android:layout_width="match_parent"
@@ -357,6 +358,13 @@
                     android:padding="@dimen/margin_large"
                     android:text="@string/top_ten_empty"
                     android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/pb_top_ten"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_small" />
 
             </androidx.cardview.widget.CardView>
 

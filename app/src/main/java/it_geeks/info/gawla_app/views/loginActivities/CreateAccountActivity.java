@@ -236,7 +236,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
                         cacheUserData(mainObject, getResources().getString(R.string.app_name));
 
                         // goto next page
-                        startActivity(new Intent(CreateAccountActivity.this, SubscribePlanActivity.class)
+                        startActivity(new Intent(CreateAccountActivity.this, MembershipActivity.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                     }
 

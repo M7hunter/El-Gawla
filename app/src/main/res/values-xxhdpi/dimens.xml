@@ -39,7 +39,8 @@
     <dimen name="winner_image_height">320dp</dimen>
 
     <!-- mix -->
-    <dimen name="my_rounds_view_pager_height">550dp</dimen>
+    <dimen name="my_rounds_empty_view_height">550dp</dimen>
+    <dimen name="my_rounds_empty_view_min_height">450dp</dimen>
     <dimen name="card_background_height">100dp</dimen>
     <dimen name="card_height">60dp</dimen>
     <dimen name="card_width">40dp</dimen>

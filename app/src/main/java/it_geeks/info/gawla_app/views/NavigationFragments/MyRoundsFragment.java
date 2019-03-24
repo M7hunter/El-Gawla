@@ -48,7 +48,6 @@ public class MyRoundsFragment extends Fragment {
 
     private int userId;
     private String apiToken;
-    private boolean firstRequest = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,37 +66,6 @@ public class MyRoundsFragment extends Fragment {
 
         return view;
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//
-//        if (!firstRequest)
-//            updateRoundsList();
-//    }
-
-//    private void updateRoundsList() {
-//        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-//                new Data("getSalonByUserID"), new Request(userId, apiToken), new HandleResponses() {
-//                    @Override
-//                    public void handleTrueResponse(JsonObject mainObject) {
-//                        mySalonsAdapter.updateRoundsList(ParseResponses.parseRounds(mainObject));
-//                    }
-//
-//                    @Override
-//                    public void handleFalseResponse(JsonObject mainObject) {
-//                    }
-//
-//                    @Override
-//                    public void handleEmptyResponse() {
-//                    }
-//
-//                    @Override
-//                    public void handleConnectionErrors(String errorMessage) {
-//                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
 
     private void initViews(View view) {
         myRoundProgress = view.findViewById(R.id.my_rounds_progress);
@@ -163,7 +131,6 @@ public class MyRoundsFragment extends Fragment {
                     @Override
                     public void handleEmptyResponse() {
                         initMyRoundsRecycler();
-                        firstRequest = false;
                     }
 
                     @Override
@@ -188,7 +155,7 @@ public class MyRoundsFragment extends Fragment {
             myRoundsRecycler.setAdapter(mySalonsAdapter);
 
         } else {
-            tvMyRoundsHeader.setText(getString(R.string.no_joined_salons));
+            tvMyRoundsHeader.setText(MainActivity.mainInstance.getString(R.string.no_joined_salons));
             emptyViewLayout.setVisibility(View.VISIBLE);
             myRoundsRecycler.setVisibility(View.INVISIBLE);
         }

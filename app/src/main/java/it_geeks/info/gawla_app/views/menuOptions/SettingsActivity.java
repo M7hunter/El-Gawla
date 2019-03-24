@@ -70,14 +70,16 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-    private void stopNotifications() {
-        FirebaseMessaging.getInstance().unsubscribeFromTopic("all");
-        FirebaseMessaging.getInstance().unsubscribeFromTopic("country_"+String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
-    }
-
     private void startNotifications() {
         FirebaseMessaging.getInstance().subscribeToTopic("all");
-        FirebaseMessaging.getInstance().subscribeToTopic("country_"+String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
+        FirebaseMessaging.getInstance().subscribeToTopic("country_" + String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
+        FirebaseMessaging.getInstance().subscribeToTopic("salon_" + SharedPrefManager.getInstance(this).getSubscribedSalonId());
+    }
+
+    private void stopNotifications() {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("all");
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("salon_" + SharedPrefManager.getInstance(this).getSubscribedSalonId());
     }
 
     private String displayLanguage() {

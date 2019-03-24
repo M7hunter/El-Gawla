@@ -115,7 +115,7 @@
         android:id="@+id/buying_processes_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/btn_renew"
+        android:layout_above="@id/btn_renew_membership"
         android:layout_below="@id/separator"
         android:layout_gravity="center" />
 
@@ -130,7 +130,7 @@
         android:visibility="gone" />
 
     <Button
-        android:id="@+id/btn_renew"
+        android:id="@+id/btn_renew_membership"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
