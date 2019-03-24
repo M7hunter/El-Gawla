@@ -411,23 +411,15 @@
 
         </LinearLayout>
 
-        <!-- end time container -->
-        <LinearLayout
+        <!-- end time -->
+        <TextView
+            android:id="@+id/salon_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:layout_margin="@dimen/margin_small"
-            android:orientation="horizontal">
-
-            <!-- end time -->
-            <TextView
-                android:id="@+id/salon_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
-
-        </LinearLayout>
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

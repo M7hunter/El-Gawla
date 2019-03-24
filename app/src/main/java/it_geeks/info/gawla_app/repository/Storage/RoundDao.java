@@ -2,7 +2,6 @@ package it_geeks.info.gawla_app.repository.Storage;
 
 import java.util.List;
 
-import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -21,9 +20,6 @@ public interface RoundDao {
 
     @Delete
     void removeRounds(List<Round> rounds);
-
-    @Query("SELECT * FROM Round")
-    DataSource.Factory<Integer, Round> getRoundsPaged();
 
     @Query("SELECT * FROM Round")
     List<Round> getRounds(); // TODO: change returned value to 'LiveData<List<Round>>'

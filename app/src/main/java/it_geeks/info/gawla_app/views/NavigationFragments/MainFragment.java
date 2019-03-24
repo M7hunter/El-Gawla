@@ -43,7 +43,7 @@ public class MainFragment extends Fragment {
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recentSalonsRecycler, winnersNewsRecycler;
     private SalonsAdapter recentSalonsPagedAdapter;
-    //    private WinnersNewsAdapter winnersNewsAdapter;
+//    private WinnersNewsAdapter winnersNewsAdapter;
     private LinearLayoutManager layoutManager;
 
     private List<Round> roundList = new ArrayList<>();
@@ -60,8 +60,6 @@ public class MainFragment extends Fragment {
 
     private View view;
 
-    private boolean firstRequest = true;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, container, false);
@@ -76,37 +74,6 @@ public class MainFragment extends Fragment {
 
         return view;
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//
-//        if (!firstRequest)
-//            updateRoundsList();
-//    }
-
-//    private void updateRoundsList() {
-//        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-//                new Data("getAllSalons", page), new Request(SharedPrefManager.getInstance(getContext()).getUser().getUser_id(), SharedPrefManager.getInstance(getContext()).getUser().getApi_token()), new HandleResponses() {
-//                    @Override
-//                    public void handleTrueResponse(JsonObject mainObject) {
-//                        recentSalonsPagedAdapter.updateRoundsList(ParseResponses.parseRounds(mainObject));
-//                    }
-//
-//                    @Override
-//                    public void handleFalseResponse(JsonObject mainObject) {
-//                    }
-//
-//                    @Override
-//                    public void handleEmptyResponse() {
-//                    }
-//
-//                    @Override
-//                    public void handleConnectionErrors(String errorMessage) {
-//                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
 
     private void initViews() {
         refreshLayout = view.findViewById(R.id.main_layout_refresh);
@@ -216,7 +183,6 @@ public class MainFragment extends Fragment {
                         initSalonsEmptyView(roundList);
                         recentSalonsProgress.setVisibility(View.GONE);
                         refreshLayout.setRefreshing(false);
-                        firstRequest = false;
                     }
 
                     @Override

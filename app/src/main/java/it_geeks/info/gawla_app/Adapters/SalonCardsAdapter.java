@@ -83,20 +83,25 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
             @Override
             public void onClick(View v) {
                 if (card.getCount() > 0) {
-                    useCard(card, viewHolder.btn, viewHolder.pb);
+                    if (card.getCard_type().equals("gold")) {
+                        useCard("useGoldenCard", card, viewHolder.btn, viewHolder.pb);
+                    } else {
+                        useCard("useCard", card, viewHolder.btn, viewHolder.pb);
+                    }
+
                 } else {
-                    buyCard(card, viewHolder.btn, viewHolder.pb);
+                    buyCard("addCardsToUser", card, viewHolder.btn, viewHolder.pb);
                 }
             }
         });
     }
 
-    private void useCard(final Card card, final Button btnConfirmBuying, final ProgressBar pbBuyCard) {
+    private void useCard(String action, final Card card, final Button btnConfirmBuying, final ProgressBar pbBuyCard) {
         hideConfirmationBtn(btnConfirmBuying, pbBuyCard);
         final int userId = SharedPrefManager.getInstance(context).getUser().getUser_id();
         final String username = SharedPrefManager.getInstance(context).getUser().getName();
         String apiToken = SharedPrefManager.getInstance(context).getUser().getApi_token();
-        RetrofitClient.getInstance(context).executeConnectionToServer(context, "useCard", new Request(userId, apiToken, card.getCard_id(), salonId, round_id), new HandleResponses() {
+        RetrofitClient.getInstance(context).executeConnectionToServer(context, action, new Request(userId, apiToken, card.getCard_id(), salonId, round_id), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
@@ -134,11 +139,11 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         });
     }
 
-    private void buyCard(final Card card, final Button btnConfirmBuying, final ProgressBar pbBuyCard) {
+    private void buyCard(String action, final Card card, final Button btnConfirmBuying, final ProgressBar pbBuyCard) {
         hideConfirmationBtn(btnConfirmBuying, pbBuyCard);
         int user_id = SharedPrefManager.getInstance(context).getUser().getUser_id();
         String api_token = SharedPrefManager.getInstance(context).getUser().getApi_token();
-        RetrofitClient.getInstance(context).executeConnectionToServer(context, "addCardsToUser", new Request(user_id, api_token, card.getCard_id()), new HandleResponses() {
+        RetrofitClient.getInstance(context).executeConnectionToServer(context, action, new Request(user_id, api_token, card.getCard_id()), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();

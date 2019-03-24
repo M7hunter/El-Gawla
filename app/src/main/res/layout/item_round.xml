@@ -124,7 +124,7 @@
                 android:background="@color/paleGrey" />
 
             <Button
-                android:id="@+id/round_btn_join"
+                android:id="@+id/btn_enter_round"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"

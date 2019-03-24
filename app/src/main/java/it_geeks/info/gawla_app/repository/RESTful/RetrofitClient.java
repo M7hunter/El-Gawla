@@ -6,6 +6,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -26,6 +29,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static it_geeks.info.gawla_app.repository.RESTful.ParseResponses.parseServerErrors;
 
 public class RetrofitClient {
@@ -133,8 +137,16 @@ public class RetrofitClient {
                         case 203:
                             context.startActivity(new Intent(context, LoginActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
                             SharedPrefManager.getInstance(context).clearUser();
+                            SharedPrefManager.getInstance(context).clearProvider();
+                            LoginManager.getInstance().logOut();
+
+                            GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext()).addApi(Auth.GOOGLE_SIGN_IN_API).build();
+                            if (mGoogleApiClient.isConnected()) {
+                                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                                mGoogleApiClient.disconnect();
+                                mGoogleApiClient.connect();
+                            }
 
                             break;
                     }
@@ -171,7 +183,8 @@ public class RetrofitClient {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
-                Log.d("onFailure: ", t.getMessage());
+                if (t.getMessage() != null && !t.getMessage().isEmpty())
+                    Log.d("onFailure: ", t.getMessage());
                 // dynamic with each call
                 HandleResponses.handleConnectionErrors(context.getString(R.string.no_connection));
 

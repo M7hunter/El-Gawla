@@ -38,7 +38,7 @@ public class Request {
 
     private String offer_time;
 
-    private int offer;
+    private String offer;
 
     private String provider;
 
@@ -71,7 +71,6 @@ public class Request {
         this.user_id = in1;
         this.api_token = str;
         this.salon_id = in2;
-        this.offer = in3;
         this.round_id = in3;
     }
 
@@ -153,7 +152,9 @@ public class Request {
     public Request(int in1, int in2, String str1, String  str2) {
         this.user_id = in1;
         this.country_id = in2;
+        this.salon_id = in2;
         this.api_token = str1;
         this.image = str2;
+        this.offer = str2;
     }
 }

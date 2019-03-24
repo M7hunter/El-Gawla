@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
@@ -48,7 +49,7 @@ public class MenuFragment extends Fragment {
 
     private GoogleApiClient mGoogleApiClient;
 
-    private TextView tvMenuFragmentHint, tvAppSettings, tvMoreAboutGawla, tvPrivacyPolicy, tvTermsAndCo, tvCallUs, tvHowGawlaWorks, tvSignOut; // <- trans
+    private TextView tvAppSettings, tvMoreAboutGawla, tvPrivacyPolicy, tvTermsAndCo, tvCallUs, tvHowGawlaWorks, tvSignOut; // <- trans
     private RecyclerView webViewsRecycler;
     ImageView imgNotification;
     private List<WebPage> webPageList = new ArrayList<>();
@@ -78,7 +79,6 @@ public class MenuFragment extends Fragment {
         //Notification icon
         imgNotification = view.findViewById(R.id.Notification);
 
-        tvMenuFragmentHint = view.findViewById(R.id.tv_menu_fragment_hint);
         tvAppSettings = view.findViewById(R.id.tv_app_settings);
         tvMoreAboutGawla = view.findViewById(R.id.tv_more_about_gawla);
         tvPrivacyPolicy = view.findViewById(R.id.tv_privacy_policy);
@@ -87,14 +87,13 @@ public class MenuFragment extends Fragment {
         tvHowGawlaWorks = view.findViewById(R.id.tv_how_gawla_works);
         tvSignOut = view.findViewById(R.id.tv_sign_out);
 
-        Picasso.with(getContext()).load(SharedPrefManager.getInstance(getContext()).getCountry().getImage()).into(imCountryIcon);
+        Picasso.with(getContext()).load(SharedPrefManager.getInstance(getContext()).getCountry().getImage()).fit().into(imCountryIcon);
     }
 
     private void setupTrans() {
         TransHolder transHolder = new TransHolder(getContext());
         transHolder.getMenuFragmentTranses(getContext());
 
-        tvMenuFragmentHint.setText(transHolder.menu_fragment_hint);
         tvAppSettings.setText(transHolder.app_settings);
         tvMoreAboutGawla.setText(transHolder.more_about_gawla);
         tvPrivacyPolicy.setText(transHolder.privacy_policy);
@@ -166,7 +165,6 @@ public class MenuFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         SharedPrefManager.getInstance(getActivity()).clearUser();
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
                         SharedPrefManager.getInstance(getActivity()).clearProvider();
                         LoginManager.getInstance().logOut();
                         if (mGoogleApiClient.isConnected()) {
@@ -174,8 +172,10 @@ public class MenuFragment extends Fragment {
                             mGoogleApiClient.disconnect();
                             mGoogleApiClient.connect();
                         }
-                        getActivity().finish();
 
+                        disableNotification();
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        MainActivity.mainInstance.finish();
                     }
                 });
                 alertOut.show();
@@ -185,13 +185,18 @@ public class MenuFragment extends Fragment {
         // notification status LiveData
         NotificationStatus.notificationStatus(getContext(), imgNotification);
 
-        // notofocation onClick
+        // notification onClick
         imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), NotificationActivity.class));
             }
         });
+    }
+
+    private void disableNotification() {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("salon_" + SharedPrefManager.getInstance(MainActivity.mainInstance).getSubscribedSalonId());
+        SharedPrefManager.getInstance(MainActivity.mainInstance).clearSubscribedSalonId();
     }
 
     private void getWebPagesFromServer() {
@@ -202,7 +207,6 @@ public class MenuFragment extends Fragment {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 webPageList = ParseResponses.parseWebPages(mainObject);
-
                 initWebViewRecycler();
             }
 

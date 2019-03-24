@@ -14,7 +14,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -30,25 +29,10 @@
                     android:id="@+id/menu_country_icon"
                     android:layout_width="@dimen/icon_notification"
                     android:layout_height="@dimen/icon_notification"
-                    android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/margin_large"
-                    android:src="@drawable/flag_egypt" />
+                    android:layout_marginTop="@dimen/margin_medium" />
 
             </RelativeLayout>
-
-            <!-- title -->
-            <TextView
-                android:id="@+id/tv_menu_fragment_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:gravity="center"
-                android:padding="@dimen/margin_small"
-                android:text="@string/menu_fragment_hint"
-                android:textColor="@color/blueGrey"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
 
             <!-- top border -->
             <View
@@ -328,7 +312,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/web_views_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <!-- top border -->
             <View

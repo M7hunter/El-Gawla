@@ -75,7 +75,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
             Common.Instance(context).changeDrawableViewColor(viewHolder.tvProductCategory, round.getCategory_color());
 
             // open round page
-            viewHolder.btnJoinRound.setOnClickListener(new View.OnClickListener() {
+            viewHolder.btnEnterRound.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     try {
@@ -83,7 +83,6 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         // send round's data to round page
                         i.putExtra("round", round);
                         i.putExtra("product_image", prepareImageToPass(viewHolder.imgProductImage));
-
 
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), new Pair<View, String>(viewHolder.imgProductImage, "transProductImage"));
@@ -108,7 +107,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
 
         Bitmap bitmap = imgProductImage.getDrawingCache();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
         return outputStream.toByteArray();
     }
 
@@ -124,7 +123,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvProductName, tvProductCategory, tvStartTime, btnJoinRound;
+        TextView tvProductName, tvProductCategory, tvStartTime, btnEnterRound;
         ImageView imgProductImage;
         RecyclerView cardsRecycler;
 
@@ -135,7 +134,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
             tvProductName = itemView.findViewById(R.id.round_product_name);
             tvProductCategory = itemView.findViewById(R.id.round_product_category);
             tvStartTime = itemView.findViewById(R.id.round_start_time);
-            btnJoinRound = itemView.findViewById(R.id.round_btn_join);
+            btnEnterRound = itemView.findViewById(R.id.btn_enter_round);
             cardsRecycler = itemView.findViewById(R.id.salon_cards_recycler);
             cardsRecycler.setHasFixedSize(true);
             cardsRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));

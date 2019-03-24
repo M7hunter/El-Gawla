@@ -22,6 +22,7 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_USER_PROVIDER = "user_socialMedia_Provider";
     private static final String SHARED_PREF_NOTIFICATION = "notification_shared_pref";
     private static final String SHARED_PREF_NEW_NOTIFICATION = "new_notification";
+    private static final String SHARED_PREF_SUBSCRIBED_SALON = "subscribed_salon";
 
     private SharedPrefManager(Context context) {
         this.context = context;
@@ -212,21 +213,39 @@ public class SharedPrefManager {
     }
 
     // Save User Offer
-    public void saveUserOffer(String USER_OFFER_KEY, int offerValue) {
+    public void saveUserOffer(String USER_OFFER_KEY, String offerValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(USER_OFFER_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
 
-        editor.putInt("user_offer", offerValue);
+        editor.putString("user_offer", offerValue);
         editor.apply();
     }
 
-    public int getUserOffer(String USER_OFFER_KEY) {
+    public String getUserOffer(String USER_OFFER_KEY) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(USER_OFFER_KEY, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt("user_offer", 0);
+        return sharedPreferences.getString("user_offer", "");
     }
 
     public void clearUserOffer(String USER_OFFER_KEY) {
         context.getSharedPreferences(USER_OFFER_KEY, Context.MODE_PRIVATE).edit().clear().apply();
+    }
+
+    public void saveSubscribedSalonId(int salonId) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_SUBSCRIBED_SALON, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+
+        editor.putInt("subscribed_salon", salonId);
+        editor.apply();
+    }
+
+    public int getSubscribedSalonId() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_SUBSCRIBED_SALON, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("subscribed_salon", -111);
+    }
+
+    public void clearSubscribedSalonId() {
+        context.getSharedPreferences(SHARED_PREF_SUBSCRIBED_SALON, Context.MODE_PRIVATE).edit().clear().apply();
     }
 }

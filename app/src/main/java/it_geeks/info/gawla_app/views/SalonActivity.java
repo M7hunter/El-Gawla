@@ -78,7 +78,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     // widgets
     private AlertDialog joinAlert;
-    private ProgressBar joinProgress, joinConfirmationProgress;
+    private ProgressBar joinProgress, joinConfirmationProgress, pbTopTen;
     public VideoView vpProductMainVideo;
     public ImageView imProductMainImage;
     private ImageView btnPlayPause, imgNotification, joinIcon;
@@ -164,6 +164,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
         loadingCard = findViewById(R.id.loading_card);
         joinProgress = findViewById(R.id.join_progress);
+        pbTopTen = findViewById(R.id.pb_top_ten);
 
         more = findViewById(R.id.cv_more);
         notificationCard = findViewById(R.id.round_notification_card);
@@ -374,16 +375,18 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void initTopTenRecycler(List<TopTen> topTens) {
-        if (topTens.size() == 0) {
-            tvTopTenEmptyHint.setVisibility(View.VISIBLE);
-            tvTopTenEmptyHint.setText(getString(R.string.top_ten_empty));
-            topTenRecycler.setVisibility(View.GONE);
-        } else {
+        if (topTens.size() > 0) {
             tvTopTenEmptyHint.setVisibility(View.GONE);
             topTenRecycler.setVisibility(View.VISIBLE);
             topTenRecycler.setHasFixedSize(true);
             topTenRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
             topTenRecycler.setAdapter(new TopTenAdapter(topTens));
+            Common.Instance(this).hideProgress(topTenRecycler, pbTopTen);
+        } else {
+            tvTopTenEmptyHint.setVisibility(View.VISIBLE);
+            tvTopTenEmptyHint.setText(getString(R.string.top_ten_empty));
+            topTenRecycler.setVisibility(View.GONE);
+            pbTopTen.setVisibility(View.GONE);
         }
     }
 
@@ -455,7 +458,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void initActivityRecycler() {
         if (activityList.size() > 0) {
-            tvTopTenEmptyHint.setVisibility(View.GONE);
+            tvActivityEmptyHint.setVisibility(View.GONE);
             activityRecycler.setVisibility(View.VISIBLE);
             activityRecycler.setHasFixedSize(true);
             activityRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -463,7 +466,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             activityRecycler.setAdapter(activityAdapter);
 
         } else {
-            tvTopTenEmptyHint.setVisibility(View.VISIBLE);
+            tvActivityEmptyHint.setVisibility(View.VISIBLE);
             activityRecycler.setVisibility(View.GONE);
         }
     }
@@ -856,14 +859,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             public void handleTrueResponse(JsonObject mainObject) {
                 if (mainObject.get("isToday").getAsBoolean()) { // today ?
                     roundRemainingTime = ParseResponses.parseRoundRemainingTime(mainObject);
+                    round.setRound_id(roundRemainingTime.getLast_round_id());
                     initCountDown();
 
                 } else { // !today
                     tvSalonTime.setText(getResources().getString(R.string.round_date) + "\n" + round.getRound_id());
                     tvSalonTime.setTextSize(20);
                 }
-
-                round.setRound_id(roundRemainingTime.getLast_round_id());
             }
 
             @Override
@@ -979,12 +981,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void displayUserOffer() {
-        int offer = SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId);
-        if (offer > 0) {
-            etAddOffer.setText(String.valueOf(offer));
-        } else {
-            etAddOffer.setText("");
-        }
+        String offer = SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId);
+        etAddOffer.setText(String.valueOf(offer));
     }
 
     private void getWinner() {
@@ -1035,11 +1033,11 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         ImageView imProductImage;
         // init views
         tvSalonTime = findViewById(R.id.salon_time);
+        tvRoundActivity = findViewById(R.id.round_notification_text);
         tvProductName = findViewById(R.id.salon_round_product_name);
         tvProductPrice = findViewById(R.id.salon_round_product_price);
         imProductImage = findViewById(R.id.salon_round_product_image);
         tvSalonId = findViewById(R.id.salon_number);
-        tvRoundActivity = findViewById(R.id.round_notification_text);
 
         // set data
         tvProductName.setText(round.getProduct_name());
@@ -1134,10 +1132,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     public void subscribeUserToSalonNotification() {
         FirebaseMessaging.getInstance().subscribeToTopic("salon_" + round.getSalon_id());
+        SharedPrefManager.getInstance(this).saveSubscribedSalonId(round.getSalon_id());
     }
 
     public void unSubscribeUserFromSalonNotification() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic("salon_" + round.getSalon_id());
+        SharedPrefManager.getInstance(this).clearSubscribedSalonId();
     }
 
     private void sendOfferToServer() {
@@ -1145,9 +1145,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         addOfferLayout.setVisibility(View.GONE);
         joinProgress.setVisibility(View.VISIBLE);
         try {
-            final int userOffer = Integer.parseInt(etAddOffer.getText().toString());
+            final String userOffer = etAddOffer.getText().toString();
 
-            if (String.valueOf(userOffer).isEmpty() || userOffer == 0) {
+            if (String.valueOf(userOffer).isEmpty() || userOffer.equals("0")) {
                 joinProgress.setVisibility(View.GONE);
                 addOfferLayout.setVisibility(View.VISIBLE);
                 etAddOffer.setEnabled(true);
@@ -1160,8 +1160,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
                     "setUserOffer",
                     new Request(SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
-                            , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
                             , round.getSalon_id()
+                            , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
                             , userOffer), new HandleResponses() {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
@@ -1441,7 +1441,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         btnPlayPause = parent.findViewById(R.id.btn_play_pause);
 
         // set data
-        tvCategoryLabel.setText(getResources().getString(R.string.category) + " : ");
+        tvCategoryLabel.setText(getResources().getString(R.string.category) + ":");
         tvProductName.setText(round.getProduct_name());
         tvProductCategory.setText(round.getCategory_name());
         tvProductPrice.setText(round.getProduct_commercial_price());
