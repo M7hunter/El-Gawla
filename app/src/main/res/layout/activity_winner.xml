@@ -15,6 +15,7 @@
             android:id="@+id/animation_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_large"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/fireworks" />
@@ -78,8 +79,8 @@
             <ImageView
                 android:id="@+id/imageView6"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
                 android:layout_height="@dimen/winner_image_height"
+                android:layout_marginTop="@dimen/margin_small"
                 android:src="@drawable/winner_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -21,7 +21,6 @@
             android:name=".views.MainActivity"
             android:clearTaskOnLaunch="true">
             <intent-filter>
-                <action android:name="main_page" />
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -90,9 +89,9 @@
         </service>
 
         <!-- firebase -->
-        <!--<meta-data-->
-            <!--android:name="com.google.firebase.messaging.default_notification_channel_id"-->
-            <!--android:value="@string/default_notification_channel_id"/>-->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_remote_notification_channel_id"/>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_gawla_logo_two" />

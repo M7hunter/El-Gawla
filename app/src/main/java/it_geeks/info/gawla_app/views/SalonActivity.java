@@ -151,7 +151,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         super.onResume();
 
         if (roundRemainingTime != null)
-            if (roundRemainingTime.getRound_state().equals("open") || roundRemainingTime.isOpen_hall_state() || roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isFirst_rest_state()) {
+            if (roundRemainingTime.getRound_state().equals("open") || roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isFirst_rest_state()) {
                 connectSocket();
             } else {
                 disconnectSocket();
@@ -940,7 +940,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             disableChat();
         }
 
-        if (roundRemainingTime.getRound_state().equals("open") || roundRemainingTime.isOpen_hall_state() || roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isFirst_rest_state()) {
+        if (roundRemainingTime.getRound_state().equals("open") || roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isFirst_rest_state()) {
             connectSocket();
         }
 
@@ -1121,9 +1121,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 Snackbar.make(findViewById(R.id.salon_main_layout), R.string.error_occurred, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        unSubscribeUserFromSalonNotification();
-                        getRemainingTimeOfRound();
-                        initSubscribeConfirmationViews();
+                        unSubscribeUserFromSalonOnServer();
                     }
                 }).show();
             }
@@ -1131,7 +1129,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     public void subscribeUserToSalonNotification() {
-        FirebaseMessaging.getInstance().subscribeToTopic("salon_" + round.getSalon_id());
+        if (SharedPrefManager.getInstance(this).isNotificationEnabled()) {
+            FirebaseMessaging.getInstance().subscribeToTopic("salon_" + round.getSalon_id());
+        }
         SharedPrefManager.getInstance(this).saveSubscribedSalonId(round.getSalon_id());
     }
 

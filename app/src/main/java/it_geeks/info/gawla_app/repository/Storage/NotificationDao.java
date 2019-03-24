@@ -9,7 +9,6 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import androidx.room.Update;
 import it_geeks.info.gawla_app.repository.Models.Notification;
 
 @Dao

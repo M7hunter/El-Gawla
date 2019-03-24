@@ -236,6 +236,7 @@
     <string name="canceled">canceled</string>
     <string name="no_joined_salons">no joined salons</string>
     <string name="chat_is_closed">chat room is closed</string>
-    <string name="customers_service">Customers Service</string>
+    <string name="customers_service">Customer Service</string>
+    <string name="default_remote_notification_channel_id" translatable="false">remote notification</string>
 
 </resources>

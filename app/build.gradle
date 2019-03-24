@@ -19,10 +19,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    configurations {
+        all {
+            exclude group: 'org.json', module: 'json'
+        }
+    }
 }
 
 repositories {
-    maven { url 'https://zendesk.jfrog.io/zendesk/repo' } // helpdesk
+    maven { url 'https://zendesk.jfrog.io/zendesk/repo' } // help desk
 }
 
 dependencies {
@@ -70,6 +76,6 @@ dependencies {
     // crashlytics
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
-    // helpdest Test
+    // help dest Test
     implementation group: 'com.zendesk', name: 'support', version: '2.3.0'
 }
