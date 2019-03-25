@@ -24,7 +24,7 @@
                 android:id="@+id/round_product_image"
                 android:layout_width="@dimen/image_width_round"
                 android:layout_height="@dimen/image_height_round"
-                android:scaleType="fitCenter"
+                android:scaleType="fitXY"
                 android:transitionName="transProductImage" />
 
             <!-- category -->
@@ -58,7 +58,8 @@
                 android:id="@+id/round_product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_small"
                 android:maxLines="1"
                 android:text="@string/no_content"
                 android:textColor="@color/BlueDark"

@@ -165,7 +165,7 @@ public class CountDownAnimator implements Animation.AnimationListener {
             }
 
         } catch (Exception e) {
-            Log.e("Mo7", e.getMessage());
+            e.printStackTrace();
             Crashlytics.logException(e);
         }
     }

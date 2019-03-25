@@ -62,7 +62,7 @@
                 <VideoView
                     android:id="@+id/player"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="230dp"
                     android:layout_centerHorizontal="true"
                     android:visibility="invisible" />
 
@@ -81,8 +81,9 @@
             <ImageView
                 android:id="@+id/product_details_main_image"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:padding="@dimen/margin_small" />
+                android:layout_height="230dp"
+                android:padding="@dimen/margin_small"
+                android:scaleType="fitXY" />
 
         </RelativeLayout>
 

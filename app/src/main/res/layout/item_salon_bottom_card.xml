@@ -38,6 +38,7 @@
                 android:layout_marginEnd="@dimen/margin_large"
                 android:background="@drawable/bg_rounded_corners_red_270"
                 android:text="@string/buy_card"
+                android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"

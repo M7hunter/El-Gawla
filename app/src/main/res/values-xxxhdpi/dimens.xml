@@ -29,7 +29,7 @@
     <dimen name="icon_back">55dp</dimen>
     <dimen name="image_width_main_fragment">210dp</dimen>
     <dimen name="image_width_round">320dp</dimen>
-    <dimen name="image_height_round">185dp</dimen>
+    <dimen name="image_height_round">250dp</dimen>
     <dimen name="image_height_product">220dp</dimen>
     <dimen name="image_news">120dp</dimen>
     <dimen name="image_account">130dp</dimen>

@@ -151,7 +151,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         super.onResume();
 
         if (roundRemainingTime != null)
-            if (roundRemainingTime.getRound_state().equals("open") || roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isFirst_rest_state()) {
+            if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isFirst_rest_state()) {
                 connectSocket();
             } else {
                 disconnectSocket();
@@ -540,7 +540,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                         }
                     } else {
                         if (roundRemainingTime.getRound_state().equals("close")) {
-                            Toast.makeText(SalonActivity.this, getString(R.string.round_closed), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SalonActivity.this, getString(R.string.closed), Toast.LENGTH_SHORT).show();
                         } else if (joinState != 2) {
                             Toast.makeText(SalonActivity.this, getString(R.string.not_joined), Toast.LENGTH_SHORT).show();
                         }
@@ -658,19 +658,26 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         });
     }
 
-    public void connectSocket() {
-        if (mSocket == null)
+    private void connectSocket() {
+        if (mSocket == null) {
             mSocket = new SocketConnection().getSocket();
-
-        if (!mSocket.connected()) {
             mSocket.connect();
-            initSocket();
         }
+
+        initSocket();
     }
 
-    public void disconnectSocket() {
+    private void disconnectSocket() {
         if (mSocket != null && mSocket.connected())
-            mSocket.connect();
+            mSocket.disconnect();
+    }
+
+    public Socket getSocket() {
+        if (mSocket == null) {
+            connectSocket();
+        }
+
+        return mSocket;
     }
 
     private void initSocket() {
@@ -834,13 +841,13 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         }
     }
 
-    public void displayLoading() {
+    private void displayLoading() {
         loadingCard.setVisibility(View.VISIBLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
-    public void hideLoading() {
+    private void hideLoading() {
         loadingCard.setVisibility(View.GONE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
@@ -920,7 +927,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     public void checkOnTime() {
-        Log.d("isClose_hall_state:", roundRemainingTime.isClose_hall_state() + "");
         if (roundRemainingTime.isUserJoin()) { // user is member
             enableChat();
 
@@ -940,11 +946,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             disableChat();
         }
 
-        if (roundRemainingTime.getRound_state().equals("open") || roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isFirst_rest_state()) {
+        if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isFirst_rest_state()) {
             connectSocket();
         }
 
         if (roundRemainingTime.isPay_join_state() && !roundRemainingTime.isUserJoin()) { // display golden card layout
+            btnJoinRound.setVisibility(View.GONE);
             if (goldenCard != null) {
                 displayGoldenLayout();
             } else {
@@ -1128,14 +1135,14 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         });
     }
 
-    public void subscribeUserToSalonNotification() {
+    private void subscribeUserToSalonNotification() {
         if (SharedPrefManager.getInstance(this).isNotificationEnabled()) {
             FirebaseMessaging.getInstance().subscribeToTopic("salon_" + round.getSalon_id());
         }
         SharedPrefManager.getInstance(this).saveSubscribedSalonId(round.getSalon_id());
     }
 
-    public void unSubscribeUserFromSalonNotification() {
+    private void unSubscribeUserFromSalonNotification() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic("salon_" + round.getSalon_id());
         SharedPrefManager.getInstance(this).clearSubscribedSalonId();
     }
@@ -1265,7 +1272,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         btnJoinConfirmation.setText(getString(R.string.start_play));
     }
 
-    public void cancelConfirmation() {
+    private void cancelConfirmation() {
         joinState = 0;
 
         // hide confirmation layout
@@ -1273,7 +1280,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         joinAlert.dismiss();
     }
 
-    public void hideConfirmationLayout() {
+    private void hideConfirmationLayout() {
         // hide confirmation layout
         btnJoinRound.setVisibility(View.GONE);
         addOfferLayout.setVisibility(View.GONE);
@@ -1293,7 +1300,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         mBottomSheetDialogCardsBag = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
         View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_cards_bag, null);
 
-        //init bottom sheet views
+        // init bottom sheet views
         if (round != null && round.getSalon_cards() != null) {
             RecyclerView cardsRecycler = sheetView.findViewById(R.id.salon_cards_bottom_recycler);
             if (cardsRecycler.getLayoutManager() == null) {
@@ -1303,7 +1310,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             getUserCardsForSalonFromServer(cardsRecycler); // <-- refresh user cards list
         }
 
-        //close bottom sheet
+        // close bottom sheet
         sheetView.findViewById(R.id.close_bottom_sheet_activate_cards).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1578,12 +1585,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             view.animate().translationX(screenWidth - view.getWidth()).setDuration(250).start();
         }
 
-        // if x of the up border
+        // if y of the up border
         if (view.getY() < 0) {
             view.animate().translationY(0).setDuration(200).start();
         }
 
-        // if x of the bottom border
+        // if y of the bottom border
         if (view.getY() > (screenHeight - (view.getHeight() / 2))) {
             view.animate().translationY(screenHeight - view.getHeight()).setDuration(200).start();
         }

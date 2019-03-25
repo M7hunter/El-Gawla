@@ -70,8 +70,8 @@ public class RoundCountDownController {
             }
 
         } else {
-            ((SalonActivity) context).tvRoundActivity.setText(roundRemainingTime.getRound_state());
-            ((SalonActivity) context).tvSalonTime.setText(context.getResources().getString(R.string.round_closed));
+            ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.closed));
+            ((SalonActivity) context).tvSalonTime.setText(context.getResources().getString(R.string.closed));
         }
     }
 
@@ -128,8 +128,8 @@ public class RoundCountDownController {
     }
 
     private void close_hall_value() {
-        ((SalonActivity) context).tvSalonTime.setText(context.getResources().getString(R.string.round_closed));
-        ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.round_closed));
+        ((SalonActivity) context).tvSalonTime.setText(context.getResources().getString(R.string.closed));
+        ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.closed));
     }
 
     private void startCountDown(long value) {

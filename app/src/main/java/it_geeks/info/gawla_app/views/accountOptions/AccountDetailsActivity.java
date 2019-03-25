@@ -60,6 +60,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account_details);
         accountDetailsInstance = this;
 
+        getCountriesFromSever();
+
         user_id = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getUser_id();
         api_token = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getApi_token();
 
@@ -183,7 +185,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
             countryPopup.show();
         } catch (RuntimeException e) {
             e.printStackTrace();
-            getCountriesFromSever();
             Crashlytics.logException(e);
         }
     }
@@ -195,7 +196,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         GawlaDataBse.getInstance(AccountDetailsActivity.this).countryDao().insertCountryList(ParseResponses.parseCountries(mainObject));
-                        countryPopupMenu();
                     }
 
                     @Override

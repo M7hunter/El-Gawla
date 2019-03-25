@@ -19,11 +19,9 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import io.socket.client.Socket;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.repository.SocketConnection.SocketConnection;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.R;
@@ -35,23 +33,12 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
     private Context context;
     private List<Card> cardList;
     private int salonId, round_id;
-    private Socket mSocket;
 
     public SalonCardsAdapter(Context context, List<Card> cardList, int salon_id, int round_id) {
         this.context = context;
         this.cardList = cardList;
         this.salonId = salon_id;
         this.round_id = round_id;
-        connectSocket();
-    }
-
-    private void connectSocket() {
-        if (mSocket == null) {
-            mSocket = new SocketConnection().getSocket();
-        }
-        if (!mSocket.connected()) {
-            mSocket.connect();
-        }
     }
 
     @NonNull
@@ -113,12 +100,11 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                 try {
                     use_card.put("user", username);
                     use_card.put("type", card.getCard_type());
+                    ((SalonActivity) context).getSocket().emit("use_card", use_card);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Crashlytics.logException(e);
                 }
-
-                mSocket.emit("use_card", use_card);
             }
 
             @Override
