@@ -2,12 +2,18 @@ package it_geeks.info.gawla_app.views.NavigationFragments;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
+import android.graphics.PointF;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.view.MotionEvent;
 
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
@@ -33,6 +39,7 @@ import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.SalonActivity;
 import it_geeks.info.gawla_app.views.menuOptions.CallUsActivity;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
@@ -47,9 +54,10 @@ import zendesk.core.Identity;
 import zendesk.core.Zendesk;
 import zendesk.support.Support;
 import zendesk.support.request.RequestActivity;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class MenuFragment extends Fragment {
+public class MenuFragment extends Fragment implements View.OnTouchListener {
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -57,6 +65,12 @@ public class MenuFragment extends Fragment {
     private RecyclerView webViewsRecycler;
     ImageView imgNotification;
     private List<WebPage> webPageList = new ArrayList<>();
+
+    private PointF staringPoint = new PointF();
+    private PointF pointerPoint = new PointF();
+    private GestureDetector gestureDetector;
+
+    private int screenHeight, screenWidth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,6 +82,10 @@ public class MenuFragment extends Fragment {
         initViews(view);
 
         setupTrans();
+
+        screenDimensions();
+
+        initCustomerServiceIcon(view);
 
         handleEvents(view);
 
@@ -102,6 +120,19 @@ public class MenuFragment extends Fragment {
 
         Picasso.with(getContext()).load(SharedPrefManager.getInstance(getContext()).getCountry().getImage()).fit().into(imCountryIcon);
     }
+
+    private void initCustomerServiceIcon(View view) {
+        RelativeLayout customerServiceIconContainer = view.findViewById(R.id.customers_service_btn_container);
+        customerServiceIconContainer.setOnTouchListener(this);
+
+        gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapUp(MotionEvent event) {
+                return true;
+            }
+        });
+    }
+
 
     private void setupTrans() {
         TransHolder transHolder = new TransHolder(getContext());
@@ -154,14 +185,6 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), CallUsActivity.class));
-            }
-        });
-
-        // Customers Service
-        view.findViewById(R.id.customers_service).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RequestActivity.builder().show(getContext());
             }
         });
 
@@ -253,4 +276,73 @@ public class MenuFragment extends Fragment {
         webViewsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         webViewsRecycler.setAdapter(new WebViewAdapter(getContext(), webPageList));
     }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+
+        // just clicked
+        if (gestureDetector.onTouchEvent(motionEvent)) {
+            // Customers Service
+            RequestActivity.builder().show(getContext());
+        }
+
+        // moved
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+                // move smoothly
+                view.setX((int) (staringPoint.x + motionEvent.getX() - pointerPoint.x));
+                view.setY((int) (staringPoint.y + motionEvent.getY() - pointerPoint.y));
+                staringPoint.set(view.getX(), view.getY());
+
+                break;
+            case MotionEvent.ACTION_DOWN:
+                // reinitialize points
+                pointerPoint.set(motionEvent.getX(), motionEvent.getY());
+                staringPoint.set(view.getX(), view.getY());
+
+                break;
+            case MotionEvent.ACTION_UP:
+                // checks
+                handleWithScreenBorders(view);
+                view.performClick();
+
+                break;
+            default:
+                break;
+        }
+
+        return true;
+    }
+
+    private void handleWithScreenBorders(View view) {
+        // if x of the left border || in the left half of screen
+        if (view.getX() < 0 || (view.getX() + (view.getWidth() / 2)) < (screenWidth / 2)) {
+            view.animate().translationX(0).setDuration(250).start();
+        }
+
+        // if x of the right border || in the right half of screen
+        if ((view.getX() + view.getWidth()) > screenWidth || (view.getX() + (view.getWidth() / 2)) > (screenWidth / 2)) {
+            view.animate().translationX(screenWidth - view.getWidth()).setDuration(250).start();
+        }
+
+        // if y of the up border
+        if (view.getY() < 0) {
+            view.animate().translationY(0).setDuration(200).start();
+        }
+
+        // if y of the bottom border
+        if (view.getY() >= (screenHeight - (view.getHeight()) * 2)) {
+            view.animate().translationY(screenHeight - (view.getHeight() * 2)).setDuration(200).start();
+        }
+    }
+
+    private void screenDimensions() {
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        screenWidth = size.x;
+        screenHeight = size.y;
+    }
+
+
 }

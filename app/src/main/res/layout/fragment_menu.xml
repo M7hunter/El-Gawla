@@ -308,7 +308,7 @@
                 android:background="@color/paleGrey2" />
 
 
-            <!-- top border -->
+             <!--top border -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -413,5 +413,7 @@
 
         </LinearLayout>
     </ScrollView>
+    <!-- customer service btn container -->
+    <include layout="@layout/layout_customer_service_btn" />
 
 </FrameLayout>
