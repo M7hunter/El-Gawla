@@ -3,6 +3,7 @@ package it_geeks.info.gawla_app.views.loginActivities;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -31,6 +32,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         Common.Instance(this).changeStatusBarColor("#ffffff", this);
         setContentView(R.layout.activity_forget_password);
 
