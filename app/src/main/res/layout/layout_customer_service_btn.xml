@@ -1,29 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!-- icon -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/customers_service_btn_container"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/image_cards_round_updates"
+    android:layout_height="@dimen/image_cards_round_updates"
     android:layout_gravity="left"
-    android:background="@drawable/bg_circle_bordered_transparent"
-    android:padding="@dimen/margin_small">
+    android:background="@drawable/bg_circle_blue_270"
+    android:gravity="center"
+    android:layout_margin="1dp"
+    android:tint="@android:color/white">
 
-    <!-- icon -->
-    <LinearLayout
-        android:layout_width="@dimen/image_cards_round_updates"
-        android:layout_height="@dimen/image_cards_round_updates"
-        android:background="@drawable/bg_circle_blue_270"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:tint="@android:color/white">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/zs_color_white"
-            android:textSize="@dimen/text_size_x_small"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:text="Customer Service"/>
-    </LinearLayout>
-
-
-
-</RelativeLayout>
+        android:text="@string/Help"
+        android:textColor="@color/zs_color_white"
+        android:textSize="@dimen/text_size_small"
+        android:textStyle="bold" />
+</LinearLayout>

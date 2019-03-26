@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/margin_medium"
-    android:layout_marginTop="@dimen/margin_small"
+    android:layout_marginTop="@dimen/margin_tiny"
     android:layout_marginEnd="@dimen/margin_medium"
     android:layout_marginBottom="@dimen/margin_small"
     android:background="@drawable/bg_rounded_corners_white"
@@ -413,12 +413,13 @@
 
         <!-- end time -->
         <TextView
-            android:id="@+id/salon_time"
+            android:id="@+id/salon_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_margin="@dimen/margin_small"
-            android:textSize="@dimen/text_size_medium"
+            android:gravity="center"
+            android:textColor="@color/midBlue"
+            android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />
 
     </LinearLayout>

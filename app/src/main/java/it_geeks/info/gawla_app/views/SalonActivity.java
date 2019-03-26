@@ -24,7 +24,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -73,9 +72,15 @@ import it_geeks.info.gawla_app.Adapters.SalonCardsAdapter;
 import it_geeks.info.gawla_app.Adapters.ProductSubImagesAdapter;
 import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.views.CountDown.RoundCountDownController;
+import zendesk.core.AnonymousIdentity;
+import zendesk.core.Identity;
+import zendesk.core.Zendesk;
+import zendesk.support.Support;
+import zendesk.support.request.RequestActivity;
 
-public class SalonActivity extends AppCompatActivity implements View.OnTouchListener {
+public class SalonActivity extends AppCompatActivity {
 
+    private static final String TAG = "salon_connection_order";
     // widgets
     private AlertDialog joinAlert;
     private ProgressBar joinProgress, joinConfirmationProgress, pbTopTen;
@@ -86,7 +91,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private CardView loadingCard;
     public Button btnJoinRound, btnAddOffer;
     private Button btnJoinConfirmation, btnUseGoldenCard, btnSendMsg;
-    public TextView joinHeader, joinText, tvSalonTime, tvRoundActivity;
+    public TextView joinHeader, joinText, tvSalonMessage, tvRoundActivity;
     private TextView tvProductDetailsTab, tvSalonActivityTab, tvChatTab, tvTopTenTab, tvChatEmptyHint, tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound;
     private EditText etAddOffer, etChatMessage;
     private View salonMainContainer;
@@ -109,18 +114,17 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     private PointF staringPoint = new PointF();
     private PointF pointerPoint = new PointF();
     private GestureDetector gestureDetector;
-
     private Bitmap bitmapProductImage;
 
     private RoundCountDownController roundCountDownController;
     private RoundRemainingTime roundRemainingTime;
-
     private ActivityAdapter activityAdapter;
 
     // lists
     private List<ChatModel> chatList = new ArrayList<>();
     private List<Activity> activityList = new ArrayList<>();
     private List<Card> userCards = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +138,8 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         initViews();
 
         getRoundData(savedInstanceState);
+
+        initHelp();
 
         initJoinConfirmationDialog();
 
@@ -151,7 +157,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         super.onResume();
 
         if (roundRemainingTime != null)
-            if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isFirst_rest_state()) {
+            if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_round_state()) {
                 connectSocket();
             } else {
                 disconnectSocket();
@@ -200,6 +206,16 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         NotificationStatus.notificationStatus(this, imgNotification);
     }
 
+    private void initHelp() {
+        //Customers Service
+        Zendesk.INSTANCE.init(getApplicationContext(), "https://itgeeks.zendesk.com",
+                "6d1749c16b1fa13aaf7a96a39614131f8eba1e5d27ed37bb",
+                "mobile_sdk_client_e65a598574b57edaf2e8");
+        Identity identity = new AnonymousIdentity();
+        Zendesk.INSTANCE.setIdentity(identity);
+        Support.INSTANCE.init(Zendesk.INSTANCE);
+    }
+
     private void getRoundData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -220,9 +236,9 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             }
         }
 
-        initBottomSheetCardsBag();
-
         if (round != null) {
+            getRemainingTimeOfRound();
+            initBottomSheetCardsBag();
             initBottomSheetProductDetails();
             initRoundViews_setData();
         }
@@ -346,6 +362,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void getTopTen() {
+        Log.d(TAG, "getTopTen: doing");
         RetrofitClient.getInstance(this).executeConnectionToServer(this, "getTopTen", new Request(userId, apiToken, round.getSalon_id(), round.getRound_id()), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
@@ -364,7 +381,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
             @Override
             public void handleEmptyResponse() {
-
+                Log.d(TAG, "getTopTen: done");
             }
 
             @Override
@@ -587,7 +604,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mBottomSheetDialogProductDetails.isShowing()) { // close sheet
+                if (mBottomSheetDialogProductDetails != null && mBottomSheetDialogProductDetails.isShowing()) { // close sheet
                     mBottomSheetDialogProductDetails.dismiss();
                 } else {
                     mBottomSheetDialogProductDetails.show();
@@ -656,15 +673,22 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                 onBackPressed();
             }
         });
+
+        // help
+        findViewById(R.id.salon_help).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestActivity.builder().show(SalonActivity.this);
+            }
+        });
     }
 
     private void connectSocket() {
         if (mSocket == null) {
             mSocket = new SocketConnection().getSocket();
             mSocket.connect();
+            initSocket();
         }
-
-        initSocket();
     }
 
     private void disconnectSocket() {
@@ -673,10 +697,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     public Socket getSocket() {
-        if (mSocket == null) {
-            connectSocket();
-        }
-
+        connectSocket();
         return mSocket;
     }
 
@@ -861,6 +882,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     public void getRemainingTimeOfRound() {
         displayLoading();
+        Log.d(TAG, "getRemainingTimeOfRound: doing");
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this, "getSalonWithRealTime", new Request(userId, apiToken, round.getSalon_id()), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
@@ -870,8 +892,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     initCountDown();
 
                 } else { // !today
-                    tvSalonTime.setText(getResources().getString(R.string.round_date) + "\n" + round.getRound_id());
-                    tvSalonTime.setTextSize(20);
+                    tvSalonMessage.setText(round.getMessage());
                 }
             }
 
@@ -883,6 +904,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void handleEmptyResponse() {
                 hideLoading();
+                Log.d(TAG, "getRemainingTimeOfRound: done");
             }
 
             @Override
@@ -994,6 +1016,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void getWinner() {
         displayLoading();
+        Log.d(TAG, "getWinner: doing");
         RetrofitClient.getInstance(this).executeConnectionToServer(this, "getWinner", new Request(userId, apiToken, round.getSalon_id(), round.getRound_id()), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
@@ -1026,6 +1049,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void handleEmptyResponse() {
                 hideLoading();
+                Log.d(TAG, "getWinner: done");
             }
 
             @Override
@@ -1039,7 +1063,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         TextView tvProductName, tvProductPrice, tvSalonId;
         ImageView imProductImage;
         // init views
-        tvSalonTime = findViewById(R.id.salon_time);
+        tvSalonMessage = findViewById(R.id.salon_message);
         tvRoundActivity = findViewById(R.id.round_notification_text);
         tvProductName = findViewById(R.id.salon_round_product_name);
         tvProductPrice = findViewById(R.id.salon_round_product_price);
@@ -1070,7 +1094,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
 
     private void subscribeUserToSalonOnServer() {
         joinConfirmationProgress.setVisibility(View.VISIBLE);
-
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
                 "setUserSalon",
                 new Request(SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
@@ -1289,13 +1312,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         joinAlert.dismiss();
     }
 
-    private void initCardsBagIcon() {
-        RelativeLayout cardsBagIconContainer = findViewById(R.id.cards_bag_btn_container);
-        cardsBagIconContainer.setOnTouchListener(this);
-
-        gestureDetector = new GestureDetector(this, new SingleTapConfirm());
-    }
-
     public void initBottomSheetCardsBag() {
         mBottomSheetDialogCardsBag = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
         View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_cards_bag, null);
@@ -1333,6 +1349,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         displayLoading();
         int userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
         String apiToken = SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token();
+        Log.d(TAG, "getUserCardsForSalonFromServer: doing");
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this, "getUserCardsBySalonId", new Request(userId, apiToken, round.getSalon_id()), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
@@ -1362,8 +1379,6 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
                     cardsRecycler.getAdapter().notifyDataSetChanged();
                 }
 
-                getRemainingTimeOfRound();
-
                 if (userCards.size() > 0) {
                     tvCardsCount.setBackground(getResources().getDrawable(R.drawable.bg_circle_green));
                 } else {
@@ -1381,6 +1396,7 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
             @Override
             public void handleEmptyResponse() {
                 hideLoading();
+                Log.d(TAG, "getUserCardsForSalonFromServer: done");
             }
 
             @Override
@@ -1538,40 +1554,50 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         handler.postDelayed(runnable, 1500);
     }
 
-    // freedom
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        // just clicked
-        if (gestureDetector.onTouchEvent(motionEvent)) {
-            cardIconClicked();
-        }
+    private void initCardsBagIcon() {
+        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                return true;
+            }
+        });
 
-        // moved
-        switch (motionEvent.getAction()) {
-            case MotionEvent.ACTION_MOVE:
-                // move smoothly
-                view.setX((int) (staringPoint.x + motionEvent.getX() - pointerPoint.x));
-                view.setY((int) (staringPoint.y + motionEvent.getY() - pointerPoint.y));
-                staringPoint.set(view.getX(), view.getY());
+        findViewById(R.id.cards_bag_btn_container).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                // just clicked
+                if (gestureDetector.onTouchEvent(motionEvent)) {
+                    cardIconClicked();
+                }
 
-                break;
-            case MotionEvent.ACTION_DOWN:
-                // reinitialize points
-                pointerPoint.set(motionEvent.getX(), motionEvent.getY());
-                staringPoint.set(view.getX(), view.getY());
+                // moved
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        // move smoothly
+                        view.setX((int) (staringPoint.x + motionEvent.getX() - pointerPoint.x));
+                        view.setY((int) (staringPoint.y + motionEvent.getY() - pointerPoint.y));
+                        staringPoint.set(view.getX(), view.getY());
 
-                break;
-            case MotionEvent.ACTION_UP:
-                // checks
-                handleWithScreenBorders(view);
-                view.performClick();
+                        break;
+                    case MotionEvent.ACTION_DOWN:
+                        // reinitialize points
+                        pointerPoint.set(motionEvent.getX(), motionEvent.getY());
+                        staringPoint.set(view.getX(), view.getY());
 
-                break;
-            default:
-                break;
-        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        // checks
+                        handleWithScreenBorders(view);
+                        view.performClick();
 
-        return true;
+                        break;
+                    default:
+                        break;
+                }
+
+                return true;
+            }
+        });
     }
 
     private void handleWithScreenBorders(View view) {
@@ -1613,22 +1639,12 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
         }
     }
 
-    // help to separate click from touch
-    private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent event) {
-            return true;
-        }
-    }
-
     @Override
     public void onBackPressed() {
         try {
             roundCountDownController.stopCountDown();
         } catch (Exception e) {
             e.printStackTrace();
-            Crashlytics.logException(e);
         }
 
         Intent i = new Intent();
@@ -1640,18 +1656,15 @@ public class SalonActivity extends AppCompatActivity implements View.OnTouchList
     protected void onDestroy() {
         unregisterReceiver(connectionChangeReceiver);
 
-        if (mSocket != null) {
-            if (mSocket.connected()) {
-                mSocket.emit("leave", userName);
-                mSocket.disconnect();
-            }
+        if (mSocket != null && mSocket.connected()) {
+            mSocket.emit("leave", userName);
+            mSocket.disconnect();
         }
 
         try {
             roundCountDownController.stopCountDown();
         } catch (Exception e) {
             e.printStackTrace();
-            Crashlytics.logException(e);
         }
 
         super.onDestroy();

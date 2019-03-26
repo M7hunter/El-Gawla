@@ -6,7 +6,7 @@
     android:background="@color/paleGrey"
     tools:context=".views.NavigationFragments.MenuFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none">
@@ -305,58 +305,10 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/paleGrey2" />
-
-
-             <!--top border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/margin_large"
-                android:background="@color/paleGrey2" />
-
-            <!-- 6th option -->
-            <RelativeLayout
-                android:id="@+id/customers_service"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:paddingStart="@dimen/margin_small"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small">
-
-                <!-- label -->
-                <TextView
-                    android:id="@+id/tv_customers_service"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:text="@string/customers_service"
-                    android:textColor="@color/darkSkyBlue"
-                    android:textSize="@dimen/text_size_large" />
-
-                <!-- icon -->
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:src="@drawable/ic_arrow" />
-
-            </RelativeLayout>
-
-            <!-- bottom border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
                 android:layout_marginBottom="@dimen/margin_large"
                 android:background="@color/paleGrey2" />
 
-            <!-- webViews recycler -->
+            <!-- web views recycler -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/web_views_recycler"
                 android:layout_width="match_parent"
@@ -368,7 +320,6 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/margin_large"
                 android:background="@color/paleGrey2" />
-
 
             <!-- 8th option -->
             <RelativeLayout
@@ -412,7 +363,8 @@
                 android:background="@color/paleGrey2" />
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
+
     <!-- customer service btn container -->
     <include layout="@layout/layout_customer_service_btn" />
 

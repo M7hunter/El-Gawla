@@ -211,7 +211,7 @@
     <string name="you_are_joined">You are joined</string>
     <string name="leave_salon">Are you sure to leave this Salon ?</string>
     <string name="logout_me">Logout Me</string>
-    <string name="open_hall">Time To Free Join</string>
+    <string name="before_free_join">Wait The Room To Start</string>
     <string name="wait_round_to_start">Wait round to start</string>
     <string name="free_join">Free Join</string>
     <string name="you_can_join">You Can Join Now</string>
@@ -236,7 +236,7 @@
     <string name="canceled">canceled</string>
     <string name="no_joined_salons">no joined salons</string>
     <string name="chat_is_closed">chat room is closed</string>
-    <string name="customers_service">Customer Service</string>
+    <string name="Help">Help?</string>
     <string name="default_remote_notification_channel_id" translatable="false">remote notification</string>
 
 </resources>

@@ -77,7 +77,7 @@ public class MainFragment extends Fragment {
 
     private void initViews() {
         refreshLayout = view.findViewById(R.id.main_layout_refresh);
-        refreshLayout.setColorSchemeResources(R.color.paleRed, R.color.colorOrange, R.color.niceBlue, R.color.azure);
+        refreshLayout.setColorSchemeResources(R.color.paleRed, R.color.colorYellow, R.color.niceBlue, R.color.azure);
         recentSalonsRecycler = view.findViewById(R.id.recent_salons_recycler);
         winnersNewsRecycler = view.findViewById(R.id.winners_news_recycler);
         recentSalonsProgress = view.findViewById(R.id.recent_salons_progress);

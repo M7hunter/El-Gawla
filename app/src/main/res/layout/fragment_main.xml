@@ -7,22 +7,21 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     tools:context=".views.NavigationFragments.MainFragment">
-
+    <!-- main layout -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none">
-        <!-- main layout -->
+        <!-- scroll main layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
             android:gravity="center"
             android:orientation="vertical">
 
             <include layout="@layout/layout_main_header" />
 
-            <!-- 1st card -->
+            <!-- Ads card -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/salons_top_card"
                 android:layout_width="match_parent"
@@ -76,14 +75,24 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
+
+            <!-- orange area 'with no need' -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_xxx_large"
+                android:layout_marginEnd="@dimen/margin_xxx_large"
+                android:background="@drawable/bg_rounded_bottom_corners_orange" />
 
             <!-- recent salons header -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium">
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_x_small">
 
                 <!-- header -->
                 <TextView
@@ -109,72 +118,69 @@
 
             </LinearLayout>
 
-            <androidx.core.widget.NestedScrollView
+            <!-- recent salons container -->
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <!-- recent salons container -->
-                <RelativeLayout
+                <!-- recent salons recycler -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recent_salons_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="@dimen/margin_tiny"
+                    android:layout_marginEnd="@dimen/margin_tiny" />
+
+                <!-- recent salons progress -->
+                <ProgressBar
+                    android:id="@+id/recent_salons_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="@dimen/margin_large" />
+
+                <!-- empty view -->
+                <LinearLayout
+                    android:id="@+id/recent_salons_empty_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                    <!-- recent salons recycler -->
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recent_salons_recycler"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginStart="@dimen/margin_tiny"
-                        android:layout_marginEnd="@dimen/margin_tiny" />
-
-                    <!-- recent salons progress -->
-                    <ProgressBar
-                        android:id="@+id/recent_salons_progress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_margin="@dimen/margin_large" />
-
-                    <!-- empty view -->
-                    <LinearLayout
-                        android:id="@+id/recent_salons_empty_view"
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_alignParentTop="true"
+                        android:src="@drawable/empty_view_salons" />
+
+                    <TextView
+                        android:id="@+id/recent_salons_empty_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="gone">
+                        android:text="@string/no_salons"
+                        android:textColor="@color/blueGrey"
+                        android:textSize="@dimen/text_size_medium" />
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/empty_view_salons" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/recent_salons_empty_hint"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_medium"
-                            android:gravity="center"
-                            android:text="@string/no_salons"
-                            android:textColor="@color/blueGrey"
-                            android:textSize="@dimen/text_size_medium" />
+                <!-- no connection view -->
+                <include layout="@layout/layout_no_connection" />
 
-                    </LinearLayout>
-
-                    <!-- no connection view -->
-                    <include layout="@layout/layout_no_connection" />
-
-                </RelativeLayout>
-
-            </androidx.core.widget.NestedScrollView>
+            </RelativeLayout>
 
             <!-- winners news header -->
             <LinearLayout
                 android:id="@+id/winners_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium">
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_x_small">
 
                 <!-- header -->
                 <TextView
@@ -224,5 +230,4 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

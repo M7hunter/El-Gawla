@@ -115,13 +115,13 @@ public class AllSalonsActivity extends AppCompatActivity {
             }
         });
 
-        //Notification icon
+        // Notification icon
         imgNotification = findViewById(R.id.all_salon_notification_icon);
 
         // notification status LiveData
         NotificationStatus.notificationStatus(this,imgNotification);
 
-        // notofocation onClick
+        // notification onClick
         imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,7 +208,7 @@ public class AllSalonsActivity extends AppCompatActivity {
             dateList.add(transformDateToNames(date));
         }
 
-        Common.Instance(AllSalonsActivity.this).sortList(dateList);
+//        Common.Instance(AllSalonsActivity.this).sortList(dateList);
     }
 
     public SalonDate transformDateToNames(String date) {

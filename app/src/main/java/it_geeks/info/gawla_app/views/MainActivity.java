@@ -12,11 +12,20 @@ import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import io.fabric.sdk.android.Fabric;
+import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.Models.WebPage;
+import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
+import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.receivers.ConnectionChangeReceiver;
@@ -43,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private View snackContainer;
 
     private TransHolder transHolder;
+
+    public List<WebPage> webPageList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +89,17 @@ public class MainActivity extends AppCompatActivity {
         initNavigation();
 
         setupTrans();
+
+        getWebPagesFromServer();
+    }
+
+    private void setLang() {
+        try {
+            Common.Instance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+        }
     }
 
     private boolean checkLoginState() {
@@ -97,15 +119,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return true;
-    }
-
-    private void setLang() {
-        try {
-            Common.Instance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
-        } catch (Exception e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        }
     }
 
     private void updateNotificationStatus() {
@@ -200,6 +213,33 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, fragment).commit();
+    }
+
+    private void getWebPagesFromServer() {
+        int user_id = SharedPrefManager.getInstance(MainActivity.this).getUser().getUser_id();
+        String api_token = SharedPrefManager.getInstance(MainActivity.this).getUser().getApi_token();
+
+        RetrofitClient.getInstance(MainActivity.this).executeConnectionToServer(MainActivity.this, "getAllPages", new Request(user_id, api_token), new HandleResponses() {
+            @Override
+            public void handleTrueResponse(JsonObject mainObject) {
+                webPageList = ParseResponses.parseWebPages(mainObject);
+            }
+
+            @Override
+            public void handleFalseResponse(JsonObject errorObject) {
+
+            }
+
+            @Override
+            public void handleEmptyResponse() {
+
+            }
+
+            @Override
+            public void handleConnectionErrors(String errorMessage) {
+
+            }
+        });
     }
 
     @Override

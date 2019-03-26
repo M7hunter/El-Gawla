@@ -19,25 +19,15 @@
             android:background="@drawable/bg_rounded_top_corners_white"
             android:orientation="vertical">
 
-            <!-- header -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginBottom="@dimen/margin_medium"
-                android:text="@string/card"
-                android:textAllCaps="true"
-                android:textColor="@color/battleshipGrey"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
-
             <!-- icon container -->
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_xxx_large"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
                 android:background="@drawable/bg_circle_grey">
                 <!-- card icon -->
                 <View
@@ -80,6 +70,7 @@
                 android:id="@+id/btn_confirm_buying_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="visible"
                 android:layout_marginLeft="@dimen/margin_xx_large"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginRight="@dimen/margin_xx_large"
@@ -105,7 +96,6 @@
 
                         <!-- label -->
                         <TextView
-                            android:id="@+id/tv_price_label_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -130,7 +120,6 @@
 
                     <!-- confirm -->
                     <TextView
-                        android:id="@+id/tv_buy_card_main_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.MotionEvent;
 
@@ -39,7 +39,6 @@ import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
-import it_geeks.info.gawla_app.views.SalonActivity;
 import it_geeks.info.gawla_app.views.menuOptions.CallUsActivity;
 import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
 import it_geeks.info.gawla_app.R;
@@ -64,7 +63,6 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
     private TextView tvAppSettings, tvMoreAboutGawla, tvPrivacyPolicy, tvTermsAndCo, tvCallUs, tvHowGawlaWorks, tvSignOut; // <- trans
     private RecyclerView webViewsRecycler;
     ImageView imgNotification;
-    private List<WebPage> webPageList = new ArrayList<>();
 
     private PointF staringPoint = new PointF();
     private PointF pointerPoint = new PointF();
@@ -81,6 +79,8 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
 
         initViews(view);
 
+        initHelp();
+
         setupTrans();
 
         screenDimensions();
@@ -89,21 +89,12 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
 
         handleEvents(view);
 
-        getWebPagesFromServer();
+        initWebViewRecycler();
 
         return view;
     }
 
     private void initViews(View view) {
-
-        //Customers Service
-        Zendesk.INSTANCE.init(getApplicationContext(), "https://itgeeks.zendesk.com",
-                "6d1749c16b1fa13aaf7a96a39614131f8eba1e5d27ed37bb",
-                "mobile_sdk_client_e65a598574b57edaf2e8");
-        Identity identity = new AnonymousIdentity();
-        Zendesk.INSTANCE.setIdentity(identity);
-        Support.INSTANCE.init(Zendesk.INSTANCE);
-
         ImageView imCountryIcon = view.findViewById(R.id.menu_country_icon);
         webViewsRecycler = view.findViewById(R.id.web_views_recycler);
 
@@ -121,8 +112,18 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
         Picasso.with(getContext()).load(SharedPrefManager.getInstance(getContext()).getCountry().getImage()).fit().into(imCountryIcon);
     }
 
+    private void initHelp() {
+        //Customers Service
+        Zendesk.INSTANCE.init(getApplicationContext(), "https://itgeeks.zendesk.com",
+                "6d1749c16b1fa13aaf7a96a39614131f8eba1e5d27ed37bb",
+                "mobile_sdk_client_e65a598574b57edaf2e8");
+        Identity identity = new AnonymousIdentity();
+        Zendesk.INSTANCE.setIdentity(identity);
+        Support.INSTANCE.init(Zendesk.INSTANCE);
+    }
+
     private void initCustomerServiceIcon(View view) {
-        RelativeLayout customerServiceIconContainer = view.findViewById(R.id.customers_service_btn_container);
+        LinearLayout customerServiceIconContainer = view.findViewById(R.id.customers_service_btn_container);
         customerServiceIconContainer.setOnTouchListener(this);
 
         gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
@@ -132,7 +133,6 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
             }
         });
     }
-
 
     private void setupTrans() {
         TransHolder transHolder = new TransHolder(getContext());
@@ -243,38 +243,12 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
         SharedPrefManager.getInstance(MainActivity.mainInstance).clearSubscribedSalonId();
     }
 
-    private void getWebPagesFromServer() {
-        int user_id = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
-        String api_token = SharedPrefManager.getInstance(getContext()).getUser().getApi_token();
-
-        RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(), "getAllPages", new Request(user_id, api_token), new HandleResponses() {
-            @Override
-            public void handleTrueResponse(JsonObject mainObject) {
-                webPageList = ParseResponses.parseWebPages(mainObject);
-                initWebViewRecycler();
-            }
-
-            @Override
-            public void handleFalseResponse(JsonObject errorObject) {
-
-            }
-
-            @Override
-            public void handleEmptyResponse() {
-
-            }
-
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-
-            }
-        });
-    }
-
     private void initWebViewRecycler() {
-        webViewsRecycler.setHasFixedSize(true);
-        webViewsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        webViewsRecycler.setAdapter(new WebViewAdapter(getContext(), webPageList));
+        if (((MainActivity) MainActivity.mainInstance).webPageList.size() > 0) {
+            webViewsRecycler.setHasFixedSize(true);
+            webViewsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+            webViewsRecycler.setAdapter(new WebViewAdapter(getContext(), ((MainActivity) MainActivity.mainInstance).webPageList));
+        }
     }
 
     @Override
@@ -343,6 +317,4 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
         screenWidth = size.x;
         screenHeight = size.y;
     }
-
-
 }

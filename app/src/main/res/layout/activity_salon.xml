@@ -35,33 +35,57 @@
 
         </RelativeLayout>
 
-        <!-- salon number container -->
-        <LinearLayout
-            android:id="@+id/salon_number_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+        <!-- salon id & help -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <!-- salon number label -->
-            <TextView
+            <Button
+                android:id="@+id/salon_help"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/salon_number"
-                android:textColor="@color/battleshipGrey"
-                android:textSize="@dimen/text_size_large" />
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_xTiny"
+                android:padding="0dp"
+                android:text="@string/Help"
+                android:textAllCaps="false"
+                android:textColor="@color/colorOrange"
+                android:textSize="@dimen/text_size_medium"
+                app:rippleColor="@color/paleGrey2" />
 
-            <!-- salon number -->
-            <TextView
-                android:id="@+id/salon_number"
+            <!-- salon number container -->
+            <LinearLayout
+                android:id="@+id/salon_number_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:textColor="@color/midBlue"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <!-- salon number label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/salon_number"
+                    android:textColor="@color/battleshipGrey"
+                    android:textSize="@dimen/text_size_large" />
+
+                <!-- salon number -->
+                <TextView
+                    android:id="@+id/salon_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_tiny"
+                    android:textColor="@color/midBlue"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <!-- time container -->
         <include layout="@layout/layout_salon_countdown" />
@@ -70,305 +94,7 @@
         <include layout="@layout/layout_salon_taps" />
 
         <!-- layout on tab -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:layout_marginBottom="@dimen/margin_tiny"
-            android:layout_weight="1">
-
-            <!-- 1st tap : details container -->
-            <LinearLayout
-                android:id="@+id/details_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="visible">
-
-                <!-- product container -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_more"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:background="@drawable/bg_rounded_corners_white"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="@dimen/margin_small">
-                    <!-- card main layout -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <!-- product image -->
-                        <ImageView
-                            android:id="@+id/salon_round_product_image"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/flodillus"
-                            android:transitionName="transProductImage" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1.4"
-                            android:orientation="vertical">
-
-                            <!-- details container -->
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_small"
-                                android:orientation="vertical">
-
-                                <!-- product name -->
-                                <TextView
-                                    android:id="@+id/salon_round_product_name"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/margin_tiny"
-                                    android:gravity="center"
-                                    android:textColor="@color/duskBlue"
-                                    android:textSize="@dimen/text_size_medium"
-                                    android:textStyle="bold" />
-
-                                <!-- price container -->
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-
-                                    <!-- price label -->
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/Prod_price"
-                                        android:textSize="@dimen/text_size_medium" />
-
-                                    <!-- price -->
-                                    <TextView
-                                        android:id="@+id/salon_round_product_price"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:gravity="center"
-                                        android:textColor="@color/azureTwo"
-                                        android:textSize="@dimen/text_size_medium"
-                                        android:textStyle="bold" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                            <!-- read more as btn -->
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:layout_margin="@dimen/margin_tiny"
-                                android:text="@string/read_more"
-                                android:textColor="@color/blueGrey" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- notification container -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/round_notification_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:background="@drawable/bg_rounded_corners_white"
-                    android:visibility="visible"
-                    app:cardCornerRadius="@dimen/margin_small">
-                    <!-- card main layout -->
-
-                    <!-- round's notification bar -->
-                    <LinearLayout
-                        android:id="@+id/round_latest_activity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_small"
-                        android:gravity="center">
-
-                        <!-- notification icon -->
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/round_notification_icon"
-                            android:layout_width="@dimen/icon_notification"
-                            android:layout_height="@dimen/icon_notification"
-                            android:layout_margin="@dimen/margin_small"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/notification" />
-
-                        <!-- notification text -->
-                        <TextView
-                            android:id="@+id/round_notification_text"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/margin_small"
-                            android:layout_weight="1"
-                            android:drawableEnd="@drawable/ic_arrow"
-                            android:drawablePadding="@dimen/margin_xTiny"
-                            android:ellipsize="end"
-                            android:gravity="start"
-                            android:maxLines="2"
-                            android:text="@string/join_round"
-                            android:textColor="@color/blueGrey" />
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-
-            <!-- 2nd tap : activity container -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/activity_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_tiny"
-                android:background="@drawable/bg_rounded_corners_white"
-                android:visibility="gone"
-                app:cardCornerRadius="@dimen/margin_small">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/salon_activity_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/margin_tiny" />
-
-                <TextView
-                    android:id="@+id/tv_activity_empty_hint"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="@dimen/margin_large"
-                    android:text="@string/activity_empty_hint"
-                    android:visibility="gone" />
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- 3rd tap : chat container -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/chat_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_tiny"
-                android:background="@drawable/bg_rounded_corners_white"
-                android:visibility="gone"
-                app:cardCornerRadius="@dimen/margin_small">
-                <!-- card main layout -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <!-- chat recycler -->
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/chat_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        app:layout_constraintHeight_max="0dp"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <!-- chat empty view -->
-                    <TextView
-                        android:id="@+id/tv_chat_empty_hint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/margin_xx_large"
-                        android:text="@string/chat_empty_hint"
-                        android:visibility="gone" />
-
-                    <!-- separator -->
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/browser_actions_divider_color" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_xTiny"
-                        android:background="@drawable/bg_rounded_corners_bordered_white_pale_grey"
-                        android:gravity="bottom"
-                        android:orientation="horizontal">
-
-                        <!-- new message -->
-                        <EditText
-                            android:id="@+id/et_chat_message"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:enabled="false"
-                            android:hint="@string/chat_message_hint"
-                            android:inputType="textShortMessage"
-                            android:maxLength="250"
-                            android:maxLines="1"
-                            android:padding="@dimen/margin_tiny" />
-
-                        <!-- btn send message -->
-                        <Button
-                            android:id="@+id/btn_send_chat_message"
-                            style="@style/Widget.MaterialComponents.Button.TextButton"
-                            android:layout_width="@dimen/icon_back"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:enabled="false"
-                            app:icon="@drawable/ic_send_message"
-                            app:iconGravity="textStart"
-                            app:iconPadding="0dp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- 4th tap : top ten container -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/top_ten_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_tiny"
-                android:background="@drawable/bg_rounded_corners_white"
-                android:visibility="gone"
-                app:cardCornerRadius="@dimen/margin_small">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/top_ten_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny" />
-
-                <!-- top ten empty hint -->
-                <TextView
-                    android:id="@+id/tv_top_ten_empty_hint"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="@dimen/margin_large"
-                    android:text="@string/top_ten_empty"
-                    android:visibility="gone" />
-
-                <ProgressBar
-                    android:id="@+id/pb_top_ten"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_small" />
-
-            </androidx.cardview.widget.CardView>
-
-        </FrameLayout>
+        <include layout="@layout/layout_salon_on_tap" />
 
         <!-- add offer btn & et -->
         <LinearLayout
@@ -463,13 +189,15 @@
             android:text="@string/leave"
             android:visibility="gone"
             app:icon="@drawable/ic_exit"
-            app:iconTint="@color/darkPaleRed"
             app:rippleColor="@color/darkPaleRed" />
 
     </LinearLayout>
 
     <!-- cards bag btn container -->
     <include layout="@layout/layout_cards_free_button" />
+
+    <!-- cards bag btn container -->
+    <include layout="@layout/bottom_sheet_single_card" />
 
     <!-- loading -->
     <include layout="@layout/layout_loading_card" />
