@@ -188,7 +188,7 @@
     <string name="day">Day</string>
     <string name="restart_hint">Restart the app and change language ?</string>
     <string name="delete_account_hint">Delete this account ?</string>
-    <string name="empty_hint"> This field can\'t be empty</string>
+    <string name="empty_hint">empty field</string>
     <string name="name_length_hint">should be more than 5 chars</string>
     <string name="sign_out_hint">Are you sure ?</string>
     <string name="card_price_category">Card price for this category</string>

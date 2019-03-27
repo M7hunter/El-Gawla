@@ -37,7 +37,7 @@
                 android:layout_marginLeft="@dimen/margin_xx_large"
                 android:layout_marginTop="@dimen/margin_xx_large"
                 android:layout_marginRight="@dimen/margin_xx_large"
-                android:background="@drawable/bg_gradient_gb_btn_angled_270"
+                android:background="@drawable/bg_gradient_gp_btn_angled_270"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:gravity="center"
                 android:padding="@dimen/margin_small"

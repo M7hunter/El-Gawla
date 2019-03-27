@@ -63,7 +63,7 @@
     <string name="Discount_the_tour">حسم الجولة</string>
     <string name="Prod_price">سعر البيع : </string>
     <string name="money">جنية</string>
-    <string name="read_more">اقراء المزيد</string>
+    <string name="read_more">اقرأ المزيد</string>
     <string name="joine_Round">انضم للصالة العضو </string>
     <string name="mumber_joined_round">    15  عضو انضمو للجولة </string>
     <string name="next">التالي</string>
@@ -220,7 +220,7 @@
     <string name="round_started_add_offer">الجولة بداءت اضف عرضك للفوز</string>
     <string name="second_rest_time">الوقت المستقطع الثاني</string>
     <string name="second_round_time">الجولة الثانية</string>
-    <string name="rest_time">وقت مستقطع .. ا انفاسك</string>
+    <string name="rest_time">وقت مستقطع .. التقط انفاسك</string>
     <string name="first_round_time">الجولة الاولي</string>
     <string name="top_ten_empty">لا يوجد أحد في القائمة</string>
     <string name="activity_empty_hint">لا يوجد أنشطة في هذه الجولة</string>

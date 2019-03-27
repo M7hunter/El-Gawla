@@ -76,7 +76,7 @@ public class MainFragment extends Fragment {
     }
 
     private void initViews() {
-        refreshLayout = view.findViewById(R.id.main_layout_refresh);
+        refreshLayout = view.findViewById(R.id.main_refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.paleRed, R.color.colorYellow, R.color.niceBlue, R.color.azure);
         recentSalonsRecycler = view.findViewById(R.id.recent_salons_recycler);
         winnersNewsRecycler = view.findViewById(R.id.winners_news_recycler);
@@ -85,7 +85,7 @@ public class MainFragment extends Fragment {
         winnersHeader = view.findViewById(R.id.winners_header);
 
         //Notification icon
-        imgNotification = view.findViewById(R.id.Notification);
+        imgNotification = view.findViewById(R.id.notification_bell);
 
         // translatable views
         btnRecentSalonsSeeAll = view.findViewById(R.id.recent_salons_see_all_btn);

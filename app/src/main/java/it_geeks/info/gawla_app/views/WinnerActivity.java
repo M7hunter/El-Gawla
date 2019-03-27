@@ -38,6 +38,12 @@ public class WinnerActivity extends AppCompatActivity {
     private void bindData() {
         tvWinnerName.setText(SharedPrefManager.getInstance(this).getUser().getName());
         Picasso.with(this).load(SharedPrefManager.getInstance(this).getUser().getImage()).into(ivWinnerImage);
+        Picasso.with(this)
+                .load(R.drawable.winner_image)
+                .resize(600, 1000)
+                .onlyScaleDown()
+                .centerInside()
+                .into(((ImageView)findViewById(R.id.winner_image)));
     }
 
     private void handleEvents() {

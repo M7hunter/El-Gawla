@@ -103,7 +103,7 @@ public class CardActivity extends AppCompatActivity {
 
     private void handleEvents() {
         // bell
-        imgNotification = findViewById(R.id.Notification);
+        imgNotification = findViewById(R.id.notification_bell);
 
         // notification status LiveData
         NotificationStatus.notificationStatus(this,imgNotification);

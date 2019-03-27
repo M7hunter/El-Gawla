@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -199,7 +201,7 @@ public class SalonActivity extends AppCompatActivity {
         tvSalonActivityTab = findViewById(R.id.tv_salon_activity);
         tvChatTab = findViewById(R.id.tv_salon_chat);
 
-        imgNotification = findViewById(R.id.Notification);
+        imgNotification = findViewById(R.id.notification_bell);
 
         apiToken = Common.Instance(SalonActivity.this).removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
         userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
@@ -325,7 +327,7 @@ public class SalonActivity extends AppCompatActivity {
         }
     }
 
-    private void useGoldenCard() {
+    public void useGoldenCard() {
         if (goldenCard != null) {
             displayLoading();
             hideGoldenLayout();
@@ -537,7 +539,7 @@ public class SalonActivity extends AppCompatActivity {
                 try {
                     if (joinState == 2 && !roundRemainingTime.getRound_state().equals("close")) {
                         if (etChatMessage.getText().toString().trim().isEmpty()) {
-                            etChatMessage.setError("Input Empty");
+                            etChatMessage.setError(getString(R.string.empty_hint));
                         } else {
                             JSONObject chatData = new JSONObject();
                             final String message = etChatMessage.getText().toString();
@@ -550,17 +552,18 @@ public class SalonActivity extends AppCompatActivity {
                                 Crashlytics.logException(e);
                             }
 
-                            if (mSocket != null) {
+                            if (mSocket != null && mSocket.connected()) {
                                 mSocket.emit("newMessage", chatData);
                                 etChatMessage.setText("");
+                            } else {
+                                Toast.makeText(SalonActivity.this, getString(R.string.chat_is_closed), Toast.LENGTH_SHORT).show();
                             }
                         }
-                    } else {
-                        if (roundRemainingTime.getRound_state().equals("close")) {
-                            Toast.makeText(SalonActivity.this, getString(R.string.closed), Toast.LENGTH_SHORT).show();
-                        } else if (joinState != 2) {
-                            Toast.makeText(SalonActivity.this, getString(R.string.not_joined), Toast.LENGTH_SHORT).show();
-                        }
+                    } else if (roundRemainingTime.getRound_state().equals("close")) {
+                        Toast.makeText(SalonActivity.this, getString(R.string.closed), Toast.LENGTH_SHORT).show();
+
+                    } else if (joinState != 2) {
+                        Toast.makeText(SalonActivity.this, getString(R.string.not_joined), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (NullPointerException e) {
@@ -569,6 +572,24 @@ public class SalonActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void addMessageToChat(int user_id, String user_name, String message, String date) {
+        chatList.add(new ChatModel(user_id, user_name, message, date));
+        chatRecycler.setAdapter(new ChatAdapter(SalonActivity.this, chatList));
+        chatRecycler.scrollToPosition(chatList.size() - 1);
+    }
+
+    private void enableChat() {
+        tvChatEmptyHint.setText(getString(R.string.chat_empty_hint));
+        etChatMessage.setEnabled(true);
+        btnSendMsg.setEnabled(true);
+    }
+
+    private void disableChat() {
+        tvChatEmptyHint.setText(getString(R.string.chat_is_closed));
+        etChatMessage.setEnabled(false);
+        btnSendMsg.setEnabled(false);
     }
 
     private void handleEvents() {
@@ -936,43 +957,26 @@ public class SalonActivity extends AppCompatActivity {
         }
     }
 
-    private void enableChat() {
-        tvChatEmptyHint.setText(getString(R.string.chat_empty_hint));
-        etChatMessage.setEnabled(true);
-        btnSendMsg.setEnabled(true);
-    }
-
-    private void disableChat() {
-        tvChatEmptyHint.setText(getString(R.string.chat_is_closed));
-        etChatMessage.setEnabled(false);
-        btnSendMsg.setEnabled(false);
-    }
-
     public void checkOnTime() {
-        if (roundRemainingTime.isUserJoin()) { // user is member
-            enableChat();
+        if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isSecond_rest_state()) {
+            connectSocket();
 
-            if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state()) { // on join time
-                btnLeaveRound.setVisibility(View.VISIBLE); // display leave salon btn
-            } else { // !join time
-                btnLeaveRound.setVisibility(View.GONE); // hide leave salon btn
-            }
-
-            if (roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state()) { // on round time
-                addOfferLayout.setVisibility(View.VISIBLE); // display add offer layout
-                displayUserOffer(); // get user last Offer
+            if (roundRemainingTime.isUserJoin()) {
+                enableChat();
             } else {
-                addOfferLayout.setVisibility(View.GONE); // hide add offer layout
+                disableChat();
             }
-        } else { // !member
+        } else {
             disableChat();
         }
 
-        if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isFirst_rest_state()) {
-            connectSocket();
+        if (roundRemainingTime.isUserJoin() && roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state()) { // on join time
+            btnLeaveRound.setVisibility(View.VISIBLE); // display leave salon btn
+        } else { // !join time
+            btnLeaveRound.setVisibility(View.GONE); // hide leave salon btn
         }
 
-        if (roundRemainingTime.isPay_join_state() && !roundRemainingTime.isUserJoin()) { // display golden card layout
+        if ( !roundRemainingTime.isUserJoin() && roundRemainingTime.isPay_join_state()) { // display golden card layout
             btnJoinRound.setVisibility(View.GONE);
             if (goldenCard != null) {
                 displayGoldenLayout();
@@ -984,9 +988,16 @@ public class SalonActivity extends AppCompatActivity {
             hideGoldenLayout();
         }
 
-        if (roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state()) { // hide top ten views
-            topTenRecycler.setVisibility(View.GONE);
+        if (roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state()) {
+            topTenRecycler.setVisibility(View.GONE);// hide top ten views
             tvTopTenTab.setVisibility(View.GONE);
+
+            if (roundRemainingTime.isUserJoin()) { // member ?
+                addOfferLayout.setVisibility(View.VISIBLE); // display add offer layout
+                displayUserOffer(); // get user last Offer
+            }
+        } else {
+            addOfferLayout.setVisibility(View.GONE); // hide add offer layout
         }
 
         if (roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_rest_state()) {
@@ -1075,7 +1086,7 @@ public class SalonActivity extends AppCompatActivity {
         tvProductPrice.setText(round.getProduct_commercial_price());
         tvSalonId.setText(String.valueOf(round.getSalon_id()));
 
-        imProductImage.setImageBitmap(bitmapProductImage);
+        Picasso.with(this).load(round.getProduct_image()).placeholder(new BitmapDrawable(getResources(), bitmapProductImage)).into(imProductImage);
     }
 
     private void leaveRoundDialog() {
@@ -1402,14 +1413,9 @@ public class SalonActivity extends AppCompatActivity {
             @Override
             public void handleConnectionErrors(String errorMessage) {
                 hideLoading();
+                Log.d(TAG, "getUserCardsForSalonFromServer: failed");
             }
         });
-    }
-
-    private void addMessageToChat(int user_id, String user_name, String message, String date) {
-        chatList.add(new ChatModel(user_id, user_name, message, date));
-        chatRecycler.setAdapter(new ChatAdapter(SalonActivity.this, chatList));
-        chatRecycler.scrollToPosition(chatList.size() - 1);
     }
 
     // product details

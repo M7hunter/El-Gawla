@@ -80,6 +80,7 @@
         app:icon="@drawable/ic_close"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
-        app:iconSize="30dp" />
+        app:iconSize="30dp"
+        app:rippleColor="@color/paleRed" />
 
 </RelativeLayout>

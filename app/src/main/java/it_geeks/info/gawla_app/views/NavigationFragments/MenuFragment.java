@@ -19,22 +19,13 @@ import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Adapters.WebViewAdapter;
-import it_geeks.info.gawla_app.repository.Models.Request;
-import it_geeks.info.gawla_app.repository.Models.WebPage;
-import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
-import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
-import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
@@ -99,7 +90,7 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
         webViewsRecycler = view.findViewById(R.id.web_views_recycler);
 
         //Notification icon
-        imgNotification = view.findViewById(R.id.Notification);
+        imgNotification = view.findViewById(R.id.notification_bell);
 
         tvAppSettings = view.findViewById(R.id.tv_app_settings);
         tvMoreAboutGawla = view.findViewById(R.id.tv_more_about_gawla);

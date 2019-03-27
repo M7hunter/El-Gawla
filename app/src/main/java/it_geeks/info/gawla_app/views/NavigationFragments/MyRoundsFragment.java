@@ -19,6 +19,7 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
@@ -36,44 +37,47 @@ import static it_geeks.info.gawla_app.repository.RESTful.ParseResponses.parseRou
 
 public class MyRoundsFragment extends Fragment {
 
+    private SwipeRefreshLayout refreshLayout;
     private List<Round> roundsList = new ArrayList<>();
     private RecyclerView myRoundsRecycler;
-    private LinearLayout emptyViewLayout;
+    private LinearLayout emptyViewLayout, noConnectionLayout;
     private ProgressBar myRoundProgress;
 
-    private ImageView imgNotification;
+    private ImageView ivNotificationBell;
 
     private TextView tvMyRoundsHeader, tvMyRoundsEmptyHint; // <- trans
-    private SalonsAdapter mySalonsAdapter;
 
     private int userId;
     private String apiToken;
 
+    private View view;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my_rounds, container, false);
+        view = inflater.inflate(R.layout.fragment_my_rounds, container, false);
 
         userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
         apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
-        initViews(view);
+        initViews();
 
         setupTrans();
 
         handleEvents();
 
-        checkConnection(view);
+        checkConnection();
 
         return view;
     }
 
-    private void initViews(View view) {
-        myRoundProgress = view.findViewById(R.id.my_rounds_progress);
+    private void initViews() {
+        refreshLayout = view.findViewById(R.id.my_rounds_refresh_layout);
+        refreshLayout.setColorSchemeResources(R.color.paleRed, R.color.colorYellow, R.color.niceBlue, R.color.azure);
+        myRoundProgress = view.findViewById(R.id.pb_my_rounds);
         myRoundsRecycler = view.findViewById(R.id.my_rounds_recycler);
         emptyViewLayout = view.findViewById(R.id.my_rounds_empty_view);
-
-        //Notification icon
-        imgNotification = view.findViewById(R.id.Notification);
+        ivNotificationBell = view.findViewById(R.id.notification_bell);
+        noConnectionLayout = view.findViewById(R.id.no_connection);
 
         // translatable views
         tvMyRoundsHeader = view.findViewById(R.id.tv_my_rounds_header);
@@ -89,11 +93,18 @@ public class MyRoundsFragment extends Fragment {
     }
 
     private void handleEvents() {
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                checkConnection();
+            }
+        });
+
         // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(), imgNotification);
+        NotificationStatus.notificationStatus(getContext(), ivNotificationBell);
 
         // notification onClick
-        imgNotification.setOnClickListener(new View.OnClickListener() {
+        ivNotificationBell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), NotificationActivity.class));
@@ -101,9 +112,7 @@ public class MyRoundsFragment extends Fragment {
         });
     }
 
-    private void checkConnection(View view) {
-        LinearLayout noConnectionLayout = view.findViewById(R.id.no_connection);
-
+    private void checkConnection() {
         if (Common.Instance(getActivity()).isConnected()) {
             noConnectionLayout.setVisibility(View.GONE);
 
@@ -112,6 +121,7 @@ public class MyRoundsFragment extends Fragment {
         } else {
             noConnectionLayout.setVisibility(View.VISIBLE);
             myRoundProgress.setVisibility(View.GONE);
+            refreshLayout.setRefreshing(false);
         }
     }
 
@@ -120,6 +130,7 @@ public class MyRoundsFragment extends Fragment {
                 "getSalonByUserID", new Request(userId, apiToken), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
+                        roundsList.clear();
                         roundsList.addAll(parseRounds(mainObject));
                     }
 
@@ -131,12 +142,14 @@ public class MyRoundsFragment extends Fragment {
                     @Override
                     public void handleEmptyResponse() {
                         initMyRoundsRecycler();
+                        refreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         initMyRoundsRecycler();
                         Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+                        refreshLayout.setRefreshing(false);
                     }
                 });
     }
@@ -146,18 +159,17 @@ public class MyRoundsFragment extends Fragment {
 
         if (roundsList.size() > 0) {
             tvMyRoundsHeader.setText(MainActivity.mainInstance.getString(R.string.joined_salons));
-            emptyViewLayout.setVisibility(View.INVISIBLE);
+            emptyViewLayout.setVisibility(View.GONE);
             myRoundsRecycler.setVisibility(View.VISIBLE);
 
             myRoundsRecycler.setHasFixedSize(true);
             myRoundsRecycler.setLayoutManager(new LinearLayoutManager(MainActivity.mainInstance, RecyclerView.VERTICAL, false));
-            mySalonsAdapter = new SalonsAdapter(getActivity(), roundsList);
-            myRoundsRecycler.setAdapter(mySalonsAdapter);
+            myRoundsRecycler.setAdapter(new SalonsAdapter(getActivity(), roundsList));
 
         } else {
             tvMyRoundsHeader.setText(MainActivity.mainInstance.getString(R.string.no_joined_salons));
             emptyViewLayout.setVisibility(View.VISIBLE);
-            myRoundsRecycler.setVisibility(View.INVISIBLE);
+            myRoundsRecycler.setVisibility(View.GONE);
         }
     }
 }

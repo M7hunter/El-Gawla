@@ -68,8 +68,7 @@ public class MainActivity extends AppCompatActivity {
         Common.Instance(this).changeStatusBarColor("#f4f7fa", this);
         setContentView(R.layout.activity_main);
 
-
-        //Notification Update Status When App Open
+        // Notification Update Status When App Open
         updateNotificationStatus();
 
         // Firebase Receive messaging notification
@@ -87,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         initNavigation();
+
+        handleEvents();
 
         setupTrans();
 
@@ -188,7 +189,6 @@ public class MainActivity extends AppCompatActivity {
                         menuItem.setTitle(transHolder.menu);
                         // change status bar color
                         Common.Instance(MainActivity.this).changeStatusBarColor("#f4f7fa", MainActivity.this);
-//                        Crashlytics.getInstance().crash(); // Force a crash
                         break;
                 }
 
@@ -198,6 +198,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 return false;
+            }
+        });
+    }
+
+    private void handleEvents() {
+        navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
             }
         });
     }
@@ -244,8 +252,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // back from !main page ?
-        if (navigation.getSelectedItemId() == R.id.navigation_hales) {
+        if (navigation.getSelectedItemId() == R.id.navigation_hales) { // back from main page
             super.onBackPressed();
 
         } else {

@@ -74,9 +74,11 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
             public void onClick(View v) {
                 if (card.getCount() > 0) {
                     if (card.getCard_type().equals("gold")) {
-                        useCard("useGoldenCard", card, viewHolder.btn, viewHolder.pb);
+                        ((SalonActivity) context).useGoldenCard();
+                        ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
+
                     } else {
-                        useCard("useCard", card, viewHolder.btn, viewHolder.pb);
+                        useCard(card, viewHolder.btn, viewHolder.pb);
                     }
                 } else {
                     initBottomSheetSingleCard(card).show();
@@ -136,12 +138,12 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         return mBottomSheetDialogSingleCard;
     }
 
-    private void useCard(String action, final Card card, final View btnConfirmBuying, final ProgressBar pbBuyCard) {
+    private void useCard(final Card card, final View btnConfirmBuying, final ProgressBar pbBuyCard) {
         hideConfirmationBtn(btnConfirmBuying, pbBuyCard);
         final int userId = SharedPrefManager.getInstance(context).getUser().getUser_id();
         final String username = SharedPrefManager.getInstance(context).getUser().getName();
         String apiToken = SharedPrefManager.getInstance(context).getUser().getApi_token();
-        RetrofitClient.getInstance(context).executeConnectionToServer(context, action, new Request(userId, apiToken, card.getCard_id(), salonId, round_id), new HandleResponses() {
+        RetrofitClient.getInstance(context).executeConnectionToServer(context, "useCard", new Request(userId, apiToken, card.getCard_id(), salonId, round_id), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
