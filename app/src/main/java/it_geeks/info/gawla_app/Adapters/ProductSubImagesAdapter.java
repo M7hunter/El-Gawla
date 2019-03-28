@@ -52,7 +52,7 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
                 String oldUrl = subImage.getImageUrl();
                 subImage.setImageUrl(((SalonActivity) context).SubImage.getImageUrl());
 
-                Drawable drawable = ((SalonActivity) context).imProductMainImage.getDrawable();
+                Drawable drawable = ((SalonActivity) context).ivProductMainViewer.getDrawable();
                 ((SalonActivity) context).switchImageVideo(oldUrl, holder.productSubImage.getDrawable());
                 holder.productSubImage.setImageDrawable(drawable);
             }

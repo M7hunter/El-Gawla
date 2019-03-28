@@ -261,6 +261,16 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tv_chat_typing_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_xTiny"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textSize="@dimen/text_size_tiny"
+                android:visibility="gone" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

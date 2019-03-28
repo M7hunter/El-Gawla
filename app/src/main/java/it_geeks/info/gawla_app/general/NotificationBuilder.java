@@ -22,6 +22,9 @@ public class NotificationBuilder {
     private static final String REMOTE_NOTIFICATION_CHANNEL_NAME = "GAWLA_CHANNEL_NAME";
     private static final String REMOTE_NOTIFICATION_CHANNEL_DESC = "GAWLA_CHANNEL_DESC";
     private static final String REMOTE_NOTIFICATION_GROUP_ID = "remote group";
+
+    private static final String LOCALE_NOTIFICATION_CHANNEL_NAME = "Updating User Image";
+    private static final String LOCALE_NOTIFICATION_CHANNEL_DESC = "uploading user account image states";
     private static final String LOCALE_NOTIFICATION_GROUP_ID = "locale group";
 
     private static final String UPLOAD_IMAGE_CHANNEL_ID = "upload image";
@@ -38,6 +41,12 @@ public class NotificationBuilder {
 
     private void createChannel(NotificationCompat.Builder builder, String channelId, String channelName, int importance, String channelDesc) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            for (NotificationChannel channel : notificationManager.getNotificationChannels()) {
+                if (channel.getId().equals(channelId)) {
+                    return;
+                }
+            }
+
             NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
             notificationChannel.setDescription(channelDesc);
             notificationChannel.enableLights(true);
@@ -61,7 +70,7 @@ public class NotificationBuilder {
                 .addAction(new NotificationCompat.Action(0, context.getString(R.string.cancel), cancelIntent))
                 .setProgress(0, 0, true);
 
-        createChannel(notificationBuilder, UPLOAD_IMAGE_CHANNEL_ID, "Updating User Image", 4, "");
+        createChannel(notificationBuilder, UPLOAD_IMAGE_CHANNEL_ID, LOCALE_NOTIFICATION_CHANNEL_NAME, 4, LOCALE_NOTIFICATION_CHANNEL_DESC);
         notificationManager.notify(UPLOAD_IMAGE_NOTIFICATION_ID, notificationBuilder.build());
     }
 

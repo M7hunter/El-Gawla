@@ -1,6 +1,5 @@
 package it_geeks.info.gawla_app.views.NavigationFragments;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.PointF;
@@ -21,11 +20,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Adapters.WebViewAdapter;
+import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.general.Interfaces.AlertButtonsClickListener;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
@@ -192,13 +192,9 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
         view.findViewById(R.id.menu_option_logout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                AlertDialog.Builder alertOut = new AlertDialog.Builder(MainActivity.mainInstance);
-                alertOut.setMessage(getString(R.string.sign_out_hint));
-                alertOut.setNegativeButton(getString(R.string.cancel), null);
-                alertOut.setPositiveButton(getString(R.string.sign_out), new DialogInterface.OnClickListener() {
+                Common.Instance(getContext()).createAlertDialog(getContext(), getString(R.string.sign_out_hint), new AlertButtonsClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onPositiveClick() {
                         SharedPrefManager.getInstance(getActivity()).clearUser();
                         SharedPrefManager.getInstance(getActivity()).clearProvider();
                         LoginManager.getInstance().logOut();
@@ -212,8 +208,12 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
                         startActivity(new Intent(getActivity(), LoginActivity.class));
                         MainActivity.mainInstance.finish();
                     }
+
+                    @Override
+                    public void onNegativeCLick() {
+
+                    }
                 });
-                alertOut.show();
             }
         });
 

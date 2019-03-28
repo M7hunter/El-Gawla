@@ -216,7 +216,7 @@
     <string name="free_join">Free Join</string>
     <string name="you_can_join">You Can Join Now</string>
     <string name="card_join_time">Card Join Time</string>
-    <string name="can_use_golden_card">You can use golden card to join now</string>
+    <string name="can_use_golden_card">You can use golden card to join</string>
     <string name="second_round_time">Second Round time</string>
     <string name="second_rest_time">Second Rest time</string>
     <string name="rest_time">It\'s Rest .. Take Your Breath</string>
@@ -237,6 +237,8 @@
     <string name="no_joined_salons">no joined salons</string>
     <string name="chat_is_closed">chat room is closed</string>
     <string name="Help">Help?</string>
+    <string name="is_typing">%1$s is typing </string>
+    <string name="is_typing_others">"%1$s and others are typing "</string>
     <string name="default_remote_notification_channel_id" translatable="false">remote notification</string>
 
 </resources>

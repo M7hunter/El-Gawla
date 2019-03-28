@@ -1,6 +1,7 @@
 package it_geeks.info.gawla_app.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,15 +150,16 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                 ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
                 card.setCount(card.getCount() - 1);
-                ((SalonActivity) context).initBottomSheetCardsBag(); // refresh the cards list
+                ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the cards list
 
-                JSONObject use_card = new JSONObject();
                 try {
-                    use_card.put("user", username);
-                    use_card.put("type", card.getCard_type());
-                    ((SalonActivity) context).getSocket().emit("use_card", use_card);
+                    JSONObject o = new JSONObject();
+                    o.put("salon_id", salonId);
+                    o.put("user", username);
+                    o.put("type", card.getCard_type());
+                    ((SalonActivity) context).getSocket().emit("use_card", o);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.e("socket use_card: ", e.getMessage());
                     Crashlytics.logException(e);
                 }
             }
@@ -190,7 +192,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                 Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                 mBottomSheetDialogSingleCard.dismiss();
                 ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
-                ((SalonActivity) context).initBottomSheetCardsBag(); // refresh the cards list
+                ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the cards list
             }
 
             @Override

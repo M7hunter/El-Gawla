@@ -3,7 +3,6 @@ package it_geeks.info.gawla_app.Adapters;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -15,9 +14,9 @@ import android.widget.TextView;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.general.Interfaces.AlertButtonsClickListener;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.MainActivity;
@@ -52,7 +51,8 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                restartDialog(lang);
+                if (!sLang(lang).equals(SharedPrefManager.getInstance(context).getSavedLang()))
+                    restartDialog(sLang(lang));
             }
         });
 
@@ -72,23 +72,24 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
     }
 
     private void restartDialog(final String lang) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-        dialogBuilder.setMessage(context.getResources().getString(R.string.restart_hint))
-                .setNegativeButton(context.getResources().getString(R.string.cancel), null)
-                .setPositiveButton(context.getResources().getString(R.string.continue_), new DialogInterface.OnClickListener() {
+        Common.Instance(context).createAlertDialog(context, context.getResources().getString(R.string.restart_hint), new AlertButtonsClickListener() {
+            @Override
+            public void onPositiveClick() {
+                Common.Instance(context).setLang(lang);
+
+                new Handler().postDelayed(new Runnable() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        Common.Instance(context).setLang(sLang(lang));
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                restartTheApp();
-                            }
-                        }, 400);
+                    public void run() {
+                        restartTheApp();
                     }
-                }).show();
+                }, 400);
+            }
+
+            @Override
+            public void onNegativeCLick() {
+
+            }
+        });
     }
 
     private void restartTheApp() {

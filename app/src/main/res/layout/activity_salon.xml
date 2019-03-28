@@ -25,16 +25,17 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layoutDirection="ltr"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_medium">
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layoutDirection="ltr">
 
                 <!-- logo -->
                 <ImageView
+                    android:id="@+id/salon_logo"
                     android:layout_width="@dimen/logo_width"
                     android:layout_height="@dimen/logo_height"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
                     android:src="@drawable/gawla_logo_blue" />
 
                 <!-- bell -->
@@ -48,60 +49,61 @@
                     android:padding="@dimen/margin_tiny"
                     android:src="@drawable/bell" />
 
+                <!-- customer services -->
                 <ImageView
                     android:id="@+id/salon_help"
                     android:layout_width="@dimen/icon_notification"
                     android:layout_height="@dimen/icon_notification"
                     android:layout_below="@id/notification_bell"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="@dimen/margin_tiny"
-                    android:tint="@color/midBlue"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:padding="@dimen/margin_tiny"
-                    android:src="@drawable/q_mark_in_circle" />
+                    android:src="@drawable/q_mark_in_circle"
+                    android:tint="@color/midBlue" />
+
+                <!-- salon number container -->
+                <LinearLayout
+                    android:id="@+id/salon_number_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/salon_logo"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:orientation="horizontal">
+
+                    <!-- salon number label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/salon_number"
+                        android:textColor="@color/battleshipGrey"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <!-- salon number -->
+                    <TextView
+                        android:id="@+id/salon_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_tiny"
+                        android:textColor="@color/midBlue"
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
             <!-- back -->
             <ImageView
                 android:id="@+id/salon_back"
-                android:layout_width="@dimen/icon_back"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:padding="@dimen/margin_small"
+                android:padding="@dimen/margin_large"
                 android:src="@drawable/ic_arrow_left_only" />
 
         </RelativeLayout>
-
-        <!-- salon number container -->
-        <LinearLayout
-            android:id="@+id/salon_number_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:orientation="horizontal">
-
-            <!-- salon number label -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/salon_number"
-                android:textColor="@color/battleshipGrey"
-                android:textSize="@dimen/text_size_large" />
-
-            <!-- salon number -->
-            <TextView
-                android:id="@+id/salon_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:textColor="@color/midBlue"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
-
-        </LinearLayout>
 
         <!-- time container -->
         <include layout="@layout/layout_salon_countdown" />

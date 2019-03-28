@@ -77,7 +77,6 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_tiny"
-            android:background="@drawable/joined_play_shape"
             android:padding="@dimen/margin_small"
             android:text="@string/join_round"
             android:textSize="@dimen/text_size_large"

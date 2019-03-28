@@ -214,7 +214,7 @@
     <string name="free_join">دخول مجاني</string>
     <string name="you_can_join">يمكنك الاشتراك الان</string>
     <string name="card_join_time">وقت الدخول بالكارت</string>
-    <string name="can_use_golden_card">يمكنك ا</string>
+    <string name="can_use_golden_card">يمكنك استخدام الكارت الذهبي للاشتراك</string>
     <string name="closed">الجولة مغلقة</string>
     <string name="round_started">الجولة بداءت</string>
     <string name="round_started_add_offer">الجولة بداءت اضف عرضك للفوز</string>
@@ -233,7 +233,9 @@
     <string name="rounds_empty_hint">لا تدع الفرصة تفوتك .. اشترك الآن</string>
     <string name="no_notifications">لا يوجد إشعارات</string>
     <string name="canceled">تم الالغاء</string>
+    <string name="is_typing">" %1$s يكتب الآن "</string>
     <string name="no_joined_salons">ليست لديك صالات</string>
     <string name="chat_is_closed">غرفة المحادثة مغلقة</string>
     <string name="Help">مساعدة؟</string>
+    <string name="is_typing_others">" %1$s وآخرون يكتبون الآن "</string>
 </resources>

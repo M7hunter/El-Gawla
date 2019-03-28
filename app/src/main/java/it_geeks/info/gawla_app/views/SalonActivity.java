@@ -13,6 +13,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
@@ -54,6 +56,7 @@ import io.socket.emitter.Emitter;
 import it_geeks.info.gawla_app.Adapters.ActivityAdapter;
 import it_geeks.info.gawla_app.Adapters.ChatAdapter;
 import it_geeks.info.gawla_app.Adapters.TopTenAdapter;
+import it_geeks.info.gawla_app.general.Interfaces.AlertButtonsClickListener;
 import it_geeks.info.gawla_app.repository.Models.Activity;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.ChatModel;
@@ -87,18 +90,18 @@ public class SalonActivity extends AppCompatActivity {
     private AlertDialog joinAlert;
     private ProgressBar joinProgress, joinConfirmationProgress, pbTopTen;
     public VideoView vpProductMainVideo;
-    public ImageView imProductMainImage;
-    private ImageView btnPlayPause, imgNotification, joinIcon;
+    public ImageView ivProductMainViewer;
+    private ImageView btnPlayPause, imgNotification, joinIcon, ivProductImage;
     public CardView more, notificationCard, activityContainer, chatContainer, topTenContainer;
     private CardView loadingCard;
     public Button btnJoinRound, btnAddOffer;
     private Button btnJoinConfirmation, btnUseGoldenCard, btnSendMsg;
     public TextView joinHeader, joinText, tvSalonMessage, tvRoundActivity;
-    private TextView tvProductDetailsTab, tvSalonActivityTab, tvChatTab, tvTopTenTab, tvChatEmptyHint, tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound;
+    private TextView tvProductDetailsTab, tvSalonActivityTab, tvChatTab, tvTopTenTab, tvChatEmptyHint, tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound, tvChatTypingState;
     private EditText etAddOffer, etChatMessage;
     private View salonMainContainer;
     private LinearLayout addOfferLayout, detailsContainer;
-    private RecyclerView chatRecycler, activityRecycler, topTenRecycler;
+    private RecyclerView chatRecycler, activityRecycler, topTenRecycler, cardsRecycler;
 
     // objects
     private Round round;
@@ -109,6 +112,7 @@ public class SalonActivity extends AppCompatActivity {
     private Socket mSocket;
     private ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
 
+    private ArrayList<String> names = new ArrayList<>();
     private String userName, apiToken;
     private int goldenCardCount = 0, stopPosition = 0, screenHeight, screenWidth, joinState; // 0 = watcher, 1 = want to join, 2 = joined
     public int userId;
@@ -239,10 +243,10 @@ public class SalonActivity extends AppCompatActivity {
         }
 
         if (round != null) {
-            getRemainingTimeOfRound();
             initBottomSheetCardsBag();
+            getRemainingTimeOfRound();
+            bindProductMainViews();
             initBottomSheetProductDetails();
-            initRoundViews_setData();
         }
     }
 
@@ -306,7 +310,7 @@ public class SalonActivity extends AppCompatActivity {
                 @Override
                 public void handleTrueResponse(JsonObject mainObject) {
                     Toast.makeText(SalonActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                    initBottomSheetCardsBag();
+                    getUserCardsForSalonFromServer();
                 }
 
                 @Override
@@ -337,7 +341,8 @@ public class SalonActivity extends AppCompatActivity {
                     Toast.makeText(SalonActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                     roundRemainingTime.setUserJoin(true);
                     goldenCard.setCount(goldenCardCount - 1);
-                    initBottomSheetCardsBag();
+                    getUserCardsForSalonFromServer();
+                    getRemainingTimeOfRound();
 
                     congratsSubscribing();
                     joinAlert.show();
@@ -533,6 +538,55 @@ public class SalonActivity extends AppCompatActivity {
         chatRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
         chatRecycler.setAdapter(new ChatAdapter(SalonActivity.this, chatList));
 
+        tvChatTypingState = findViewById(R.id.tv_chat_typing_state);
+
+        etChatMessage.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count > 0) {
+                    try {
+                        if (round != null) {
+                            JSONObject obj = new JSONObject();
+                            obj.put("user", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
+                            obj.put("salon_id", round.getSalon_id());
+                            if (mSocket != null && mSocket.connected()) {
+                                mSocket.emit("Typing", obj);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Crashlytics.logException(e);
+                    }
+                } else {
+                    if (round != null) {
+                        try {
+                            JSONObject obj = new JSONObject();
+                            obj.put("user", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
+
+                            obj.put("salon_id", round.getSalon_id());
+
+                            if (mSocket != null && mSocket.connected()) {
+                                mSocket.emit("leaveTyping", obj);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Crashlytics.logException(e);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         btnSendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -547,6 +601,7 @@ public class SalonActivity extends AppCompatActivity {
                                 chatData.put("user_id", SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id());
                                 chatData.put("user_name", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
                                 chatData.put("message", message);
+                                chatData.put("salon_id", round.getSalon_id());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Crashlytics.logException(e);
@@ -555,6 +610,7 @@ public class SalonActivity extends AppCompatActivity {
                             if (mSocket != null && mSocket.connected()) {
                                 mSocket.emit("newMessage", chatData);
                                 etChatMessage.setText("");
+
                             } else {
                                 Toast.makeText(SalonActivity.this, getString(R.string.chat_is_closed), Toast.LENGTH_SHORT).show();
                             }
@@ -734,6 +790,7 @@ public class SalonActivity extends AppCompatActivity {
         }
 
         mSocket.emit("allActivity", round.getSalon_id()); // what action triggers this emit ?!
+        initActivityRecycler();
 
         mSocket.on("new_member", new Emitter.Listener() {
             @Override
@@ -745,7 +802,6 @@ public class SalonActivity extends AppCompatActivity {
                             JSONObject main = (JSONObject) args[0];
                             displaySalonLatestActivity(main.get("data").toString());
                             updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
-                            initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket newMember: ", e.getMessage());
                             Crashlytics.logException(e);
@@ -763,7 +819,6 @@ public class SalonActivity extends AppCompatActivity {
                             JSONObject main = (JSONObject) args[0];
                             displaySalonLatestActivity(main.get("data").toString());
                             updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
-                            initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket memberAddOffer: ", e.getMessage());
                             Crashlytics.logException(e);
@@ -781,7 +836,6 @@ public class SalonActivity extends AppCompatActivity {
                             JSONObject main = (JSONObject) args[0];
                             displaySalonLatestActivity(main.get("data").toString());
                             updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
-                            initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket memberLeave: ", e.getMessage());
                             Crashlytics.logException(e);
@@ -799,7 +853,6 @@ public class SalonActivity extends AppCompatActivity {
                             JSONObject main = (JSONObject) args[0];
                             displaySalonLatestActivity(main.get("data").toString());
                             updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
-                            initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket winner: ", e.getMessage());
                             Crashlytics.logException(e);
@@ -819,7 +872,6 @@ public class SalonActivity extends AppCompatActivity {
                                 JSONObject jsonObject = main.getJSONObject(i);
                                 updateActivityList(new Activity(jsonObject.get("activity").toString(), jsonObject.get("created_at").toString()));
                             }
-                            initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket activity: ", e.getMessage());
                             Crashlytics.logException(e);
@@ -837,9 +889,65 @@ public class SalonActivity extends AppCompatActivity {
                             JSONObject main = (JSONObject) args[0];
                             displaySalonLatestActivity(main.get("data").toString());
                             updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
-                            initActivityRecycler();
                         } catch (Exception e) {
                             Log.e("socket memberUseCard: ", e.getMessage());
+                            Crashlytics.logException(e);
+                        }
+                    }
+                });
+            }
+        }).on("isTyping", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                SalonActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject main = (JSONObject) args[0];
+                            String user = main.getString("user_name");
+
+                            if (!names.contains(user)) {
+                                names.add(user);
+                            }
+
+                            if (names.size() > 1) {
+                                tvChatTypingState.setText(getString(R.string.is_typing_others, names.get(0)));
+                            } else {
+                                tvChatTypingState.setText(getString(R.string.is_typing, names.get(0)));
+                            }
+                            tvChatTypingState.setVisibility(View.VISIBLE);
+                        } catch (JSONException e) {
+                            Log.e("socket isTyping", e.getMessage());
+                            Crashlytics.logException(e);
+                        }
+                    }
+                });
+            }
+        }).on("stopTyping", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                SalonActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject data = (JSONObject) args[0];
+                            String user = data.getString("user_name");
+
+                            if (names.contains(user)) {
+                                names.remove(user);
+                                if (names.size() == 0) {
+                                    tvChatTypingState.setVisibility(View.GONE);
+                                } else {
+                                    if (names.size() > 1) {
+                                        tvChatTypingState.setText(getString(R.string.is_typing, names.get(0)));
+                                    } else {
+                                        tvChatTypingState.setText(getString(R.string.is_typing, names.get(0)));
+                                    }
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            Log.e("socket isTyping", e.getMessage());
                             Crashlytics.logException(e);
                         }
                     }
@@ -970,13 +1078,13 @@ public class SalonActivity extends AppCompatActivity {
             disableChat();
         }
 
-        if (roundRemainingTime.isUserJoin() && roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state()) { // on join time
+        if (roundRemainingTime.isUserJoin() && (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state())) { // on join time
             btnLeaveRound.setVisibility(View.VISIBLE); // display leave salon btn
         } else { // !join time
             btnLeaveRound.setVisibility(View.GONE); // hide leave salon btn
         }
 
-        if ( !roundRemainingTime.isUserJoin() && roundRemainingTime.isPay_join_state()) { // display golden card layout
+        if (!roundRemainingTime.isUserJoin() && roundRemainingTime.isPay_join_state()) { // display golden card layout
             btnJoinRound.setVisibility(View.GONE);
             if (goldenCard != null) {
                 displayGoldenLayout();
@@ -1070,15 +1178,14 @@ public class SalonActivity extends AppCompatActivity {
         });
     }
 
-    private void initRoundViews_setData() {
+    private void bindProductMainViews() {
         TextView tvProductName, tvProductPrice, tvSalonId;
-        ImageView imProductImage;
         // init views
         tvSalonMessage = findViewById(R.id.salon_message);
         tvRoundActivity = findViewById(R.id.round_notification_text);
         tvProductName = findViewById(R.id.salon_round_product_name);
         tvProductPrice = findViewById(R.id.salon_round_product_price);
-        imProductImage = findViewById(R.id.salon_round_product_image);
+        ivProductImage = findViewById(R.id.salon_round_product_image);
         tvSalonId = findViewById(R.id.salon_number);
 
         // set data
@@ -1086,21 +1193,26 @@ public class SalonActivity extends AppCompatActivity {
         tvProductPrice.setText(round.getProduct_commercial_price());
         tvSalonId.setText(String.valueOf(round.getSalon_id()));
 
-        Picasso.with(this).load(round.getProduct_image()).placeholder(new BitmapDrawable(getResources(), bitmapProductImage)).into(imProductImage);
+        Picasso.with(this)
+                .load(round.getProduct_image())
+                .resize(800, 800)
+                .onlyScaleDown()
+                .placeholder(new BitmapDrawable(getResources(), bitmapProductImage))
+                .into(ivProductImage);
     }
 
     private void leaveRoundDialog() {
-        AlertDialog.Builder alertOut = new AlertDialog.Builder(SalonActivity.this);
-        alertOut.setMessage(getString(R.string.leave_salon));
-        alertOut.setNegativeButton(getString(R.string.cancel), null);
-        alertOut.setPositiveButton(getString(R.string.logout_me), new DialogInterface.OnClickListener() {
+        Common.Instance(SalonActivity.this).createAlertDialog(SalonActivity.this, getString(R.string.leave_salon), new AlertButtonsClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onPositiveClick() {
                 unSubscribeUserFromSalonOnServer();
             }
-        });
 
-        alertOut.show();
+            @Override
+            public void onNegativeCLick() {
+
+            }
+        });
     }
 
     private void subscribeUserToSalonOnServer() {
@@ -1209,7 +1321,16 @@ public class SalonActivity extends AppCompatActivity {
                             //Save user Offer
                             SharedPrefManager.getInstance(SalonActivity.this).saveUserOffer(String.valueOf(round.getSalon_id() + "" + userId), userOffer);
                             tvRoundActivity.setText(mainObject.get("message").getAsString());
-                            mSocket.emit("addOffer", userName);
+
+                            try {
+                                JSONObject obj = new JSONObject();
+                                obj.put("user", userName);
+                                obj.put("salon_id", round.getSalon_id());
+                                mSocket.emit("addOffer", obj);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Crashlytics.logException(e);
+                            }
                         }
 
                         @Override
@@ -1329,12 +1450,12 @@ public class SalonActivity extends AppCompatActivity {
 
         // init bottom sheet views
         if (round != null && round.getSalon_cards() != null) {
-            RecyclerView cardsRecycler = sheetView.findViewById(R.id.salon_cards_bottom_recycler);
+            cardsRecycler = sheetView.findViewById(R.id.salon_cards_bottom_recycler);
             if (cardsRecycler.getLayoutManager() == null) {
                 cardsRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
             }
             cardsRecycler.setHasFixedSize(true);
-            getUserCardsForSalonFromServer(cardsRecycler); // <-- refresh user cards list
+            getUserCardsForSalonFromServer(); // <-- refresh user cards list
         }
 
         // close bottom sheet
@@ -1356,8 +1477,7 @@ public class SalonActivity extends AppCompatActivity {
                 .setBackgroundResource(android.R.color.transparent);
     }
 
-    private void getUserCardsForSalonFromServer(final RecyclerView cardsRecycler) {
-        displayLoading();
+    public void getUserCardsForSalonFromServer() {
         int userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
         String apiToken = SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token();
         Log.d(TAG, "getUserCardsForSalonFromServer: doing");
@@ -1465,7 +1585,7 @@ public class SalonActivity extends AppCompatActivity {
         tvProductPrice = parent.findViewById(R.id.product_details_price);
         tvProductDescription = parent.findViewById(R.id.product_details_descriptions);
         tvCategoryLabel = parent.findViewById(R.id.tv_category_label);
-        imProductMainImage = parent.findViewById(R.id.product_details_main_image);
+        ivProductMainViewer = parent.findViewById(R.id.product_details_main_image);
         vpProductMainVideo = parent.findViewById(R.id.player);
         btnPlayPause = parent.findViewById(R.id.btn_play_pause);
 
@@ -1476,7 +1596,7 @@ public class SalonActivity extends AppCompatActivity {
         tvProductPrice.setText(round.getProduct_commercial_price());
         tvProductDescription.setText(round.getProduct_product_description());
 
-        imProductMainImage.setImageBitmap(bitmapProductImage);
+        ivProductMainViewer.setImageDrawable(ivProductImage.getDrawable());
 
         SubImage.setImageUrl(round.getProduct_image());
     }
@@ -1486,16 +1606,16 @@ public class SalonActivity extends AppCompatActivity {
 
         if (SubImage.getImageUrl().endsWith(".mp4") || SubImage.getImageUrl().endsWith(".3gp")) {
 
-            imProductMainImage.setVisibility(View.INVISIBLE);
+            ivProductMainViewer.setVisibility(View.INVISIBLE);
             vpProductMainVideo.setVisibility(View.VISIBLE);
 
             setupVideoPlayer(SubImage.getImageUrl());
 
         } else {
             vpProductMainVideo.setVisibility(View.INVISIBLE);
-            imProductMainImage.setVisibility(View.VISIBLE);
+            ivProductMainViewer.setVisibility(View.VISIBLE);
 
-            imProductMainImage.setImageDrawable(drawable);
+            ivProductMainViewer.setImageDrawable(drawable);
         }
     }
 
@@ -1663,7 +1783,15 @@ public class SalonActivity extends AppCompatActivity {
         unregisterReceiver(connectionChangeReceiver);
 
         if (mSocket != null && mSocket.connected()) {
-            mSocket.emit("leave", userName);
+            try {
+                JSONObject obj = new JSONObject();
+                obj.put("user", userName);
+                obj.put("salon_id", round.getSalon_id());
+                mSocket.emit("leave", obj);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Crashlytics.logException(e);
+            }
             mSocket.disconnect();
         }
 
