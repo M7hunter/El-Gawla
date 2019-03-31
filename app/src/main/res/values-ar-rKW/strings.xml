@@ -63,7 +63,7 @@
     <string name="Discount_the_tour">حسم الجولة</string>
     <string name="Prod_price">سعر البيع : </string>
     <string name="money">جنية</string>
-    <string name="read_more">اقرأ المزيد</string>
+    <string name="read_more">المزيد</string>
     <string name="joine_Round">انضم للصالة العضو </string>
     <string name="mumber_joined_round">    15  عضو انضمو للجولة </string>
     <string name="next">التالي</string>
@@ -93,7 +93,7 @@
     <string name="Advertising_space_for_special_tours">مساحة اعلانات عن الجولات المميزة</string>
     <string name="Product_displayed">المنتج المعروض</string>
     <string name="the_description">الوصف : </string>
-    <string name="start_play">ابداء اللعب</string>
+    <string name="start_play">ابدأ اللعب</string>
     <string name="Attention">تنبيه</string>
     <string name="Attention_Details">هل تريد حقاً الانضمام الي الصالة  لديك فرصه واحده للمشاركة كل يوم ؟</string>
     <string name="Congratulations_Attention">تهانيناً انت الان عضو بالصالة</string>
@@ -217,7 +217,7 @@
     <string name="can_use_golden_card">يمكنك استخدام الكارت الذهبي للاشتراك</string>
     <string name="closed">الجولة مغلقة</string>
     <string name="round_started">الجولة بداءت</string>
-    <string name="round_started_add_offer">الجولة بداءت اضف عرضك للفوز</string>
+    <string name="round_started_add_offer">الجولة بدأت اضف عرضك للفوز</string>
     <string name="second_rest_time">الوقت المستقطع الثاني</string>
     <string name="second_round_time">الجولة الثانية</string>
     <string name="rest_time">وقت مستقطع .. التقط انفاسك</string>

@@ -207,12 +207,6 @@ public class RetrofitClient {
                     Log.d(TAG, "onFailure: " + t.getMessage());
                 // dynamic with each call
                 HandleResponses.handleConnectionErrors(context.getString(R.string.no_connection));
-
-                // try one more time
-                if (t.getMessage().contains("timeout") && reconnect < 1) {
-                    reconnect++;
-                    call.enqueue(this);
-                }
             }
         };
     }

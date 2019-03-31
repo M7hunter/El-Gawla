@@ -146,7 +146,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     private void getDatesAndRoundsFromServer() {
         displayLoading();
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
-                "getAllSalons", new Request(userId, apiToken), new HandleResponses() {
+                "getAllSalons", new Request(userId, apiToken, false), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         updateDatabaseList(ParseResponses.parseRounds(mainObject));

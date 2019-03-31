@@ -70,7 +70,7 @@ public class RoundCountDownController {
             }
 
         } else {
-            ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.closed));
+            ((SalonActivity) context).updateLatestActivity(context.getResources().getString(R.string.closed));
             ((SalonActivity) context).tvSalonMessage.setText(context.getResources().getString(R.string.closed));
         }
     }
@@ -79,10 +79,7 @@ public class RoundCountDownController {
     private void free_join_status(long value) {
         startCountDown(value);
         ((SalonActivity) context).tvSalonMessage.setText(context.getResources().getString(R.string.free_join));
-        if (roundRemainingTime.isUserJoin()) {
-            ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.you_are_joined));
-        } else {
-            ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.you_can_join));
+        if (!roundRemainingTime.isUserJoin()) {
             ((SalonActivity) context).btnJoinRound.setVisibility(View.VISIBLE);
         }
     }
@@ -92,11 +89,6 @@ public class RoundCountDownController {
         startCountDown(value);
         ((SalonActivity) context).tvSalonMessage.setText(context.getResources().getString(R.string.card_join_time));
         ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
-        if (roundRemainingTime.isUserJoin()) {
-            ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.you_are_joined));
-        } else {
-            ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.can_use_golden_card));
-        }
     }
 
     // add deal to product ( Round Time )
@@ -105,10 +97,7 @@ public class RoundCountDownController {
         ((SalonActivity) context).tvSalonMessage.setText(context.getResources().getString(R.string.first_round_time));
         ((SalonActivity) context).hideGoldenLayout();
         if (roundRemainingTime.isUserJoin()) {
-            ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.round_started_add_offer));
             ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
-        } else {
-            ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.round_started));
         }
     }
 
@@ -116,20 +105,18 @@ public class RoundCountDownController {
     private void onRest(long value, String message) {
         startCountDown(value);
         ((SalonActivity) context).tvSalonMessage.setText(message);
-        ((SalonActivity) context).tvRoundActivity.setText(message);
     }
 
     // Second Round when user restart the round
     private void second_round_value(long value) {
         startCountDown(value);
         ((SalonActivity) context).tvSalonMessage.setText(context.getResources().getString(R.string.second_round_time));
-        ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.second_round_time));
         ((SalonActivity) context).selectDetailsTab();
     }
 
     private void close_hall_value() {
         ((SalonActivity) context).tvSalonMessage.setText(context.getResources().getString(R.string.closed));
-        ((SalonActivity) context).tvRoundActivity.setText(context.getResources().getString(R.string.closed));
+        ((SalonActivity) context).updateLatestActivity(context.getResources().getString(R.string.activity_empty_hint));
     }
 
     private void startCountDown(long value) {

@@ -155,6 +155,7 @@ public class MainFragment extends Fragment {
 
         } else {
             noConnectionLayout.setVisibility(View.VISIBLE);
+            recentSalonsRecycler.setVisibility(View.GONE);
             recentSalonsProgress.setVisibility(View.GONE);
             winnersNewsProgress.setVisibility(View.GONE);
             refreshLayout.setRefreshing(false);
@@ -230,6 +231,9 @@ public class MainFragment extends Fragment {
     }
 
     private void initSalonsRecycler() {
+        if (recentSalonsRecycler.getVisibility() == View.GONE) {
+            recentSalonsRecycler.setVisibility(View.VISIBLE);
+        }
         layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         recentSalonsRecycler.setLayoutManager(layoutManager);
         recentSalonsPagedAdapter = new SalonsAdapter(getContext(), roundList);

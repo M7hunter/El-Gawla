@@ -20,6 +20,8 @@ public class Request {
 
     private String image;
 
+    private boolean isHome;
+
     private String firstName;
 
     private String lastName;
@@ -94,6 +96,12 @@ public class Request {
     public Request(int user_id, String api_token) { // salons & cards Request
         this.user_id = user_id;
         this.api_token = api_token;
+    }
+
+    public Request(int i, String s, boolean b) { // salons & cards Request
+        this.user_id = i;
+        this.api_token = s;
+        this.isHome = b;
     }
 
     public Request(String api_token) { // all countries
