@@ -298,7 +298,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
                 PrivacyDetailsActivity.this,
                 "updateUserData",
-                new Request(etEmail.getText().toString(), id, api_token),
+                new Request(etEmail.getText().toString(), id, api_token, SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getCountry().getCountry_id()),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

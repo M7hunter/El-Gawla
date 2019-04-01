@@ -43,10 +43,8 @@ public class RetrofitClient {
     private Retrofit retrofit;
 
     private Call<JsonObject> call;
-    private Context context;
-    private int reconnect = 0;
 
-    private RetrofitClient() {
+    private RetrofitClient(Context context) {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .connectTimeout(18, TimeUnit.SECONDS)
@@ -59,7 +57,7 @@ public class RetrofitClient {
                 .create();
 
         this.retrofit = new Retrofit.Builder()
-                .baseUrl(selectBaseUrl())
+                .baseUrl(selectBaseUrl(context))
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
@@ -68,12 +66,12 @@ public class RetrofitClient {
     public static synchronized RetrofitClient getInstance(Context context) {
         // on creation || on lang changed
         if (mInstance == null || SharedPrefManager.getInstance(context).isLangChanged()) {
-            mInstance = new RetrofitClient();
+            mInstance = new RetrofitClient(context);
         }
         return mInstance;
     }
 
-    private String selectBaseUrl() {
+    private String selectBaseUrl(Context context) {
         // it geeks server : https://dev.itgeeks.info/api/v1/en/
         // gawla server : http://elgawla.net/dev/public/api/v1/en/
         // gawla server ip : http://134.209.0.250/dev/public/api/v1/en/

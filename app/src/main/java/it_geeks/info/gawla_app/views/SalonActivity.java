@@ -13,8 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
@@ -43,7 +41,6 @@ import com.google.gson.JsonObject;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,17 +53,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 import it_geeks.info.gawla_app.Adapters.ActivityAdapter;
-import it_geeks.info.gawla_app.Adapters.ChatAdapter;
 import it_geeks.info.gawla_app.Adapters.TopTenAdapter;
 import it_geeks.info.gawla_app.general.Interfaces.AlertButtonsClickListener;
 import it_geeks.info.gawla_app.repository.Models.Activity;
 import it_geeks.info.gawla_app.repository.Models.Card;
-import it_geeks.info.gawla_app.repository.Models.ChatModel;
 import it_geeks.info.gawla_app.repository.Models.TopTen;
-import it_geeks.info.gawla_app.repository.SocketConnection.SocketConnection;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.receivers.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
@@ -81,7 +73,9 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Adapters.SalonCardsAdapter;
 import it_geeks.info.gawla_app.Adapters.ProductSubImagesAdapter;
 import it_geeks.info.gawla_app.general.NotificationStatus;
-import it_geeks.info.gawla_app.views.CountDown.RoundCountDownController;
+import it_geeks.info.gawla_app.views.salonUtils.CountDown.RoundCountDownController;
+import it_geeks.info.gawla_app.views.salonUtils.ChatUtils;
+import it_geeks.info.gawla_app.views.salonUtils.SocketUtils;
 import zendesk.core.AnonymousIdentity;
 import zendesk.core.Identity;
 import zendesk.core.Zendesk;
@@ -91,6 +85,7 @@ import zendesk.support.request.RequestActivity;
 public class SalonActivity extends AppCompatActivity {
 
     private static final String TAG = "salon_connection_order";
+
     // widgets
     private AlertDialog joinAlert;
     private ProgressBar joinProgress, joinConfirmationProgress, pbTopTen;
@@ -100,14 +95,14 @@ public class SalonActivity extends AppCompatActivity {
     public CardView more, activityContainer, chatContainer, topTenContainer;
     private CardView loadingCard;
     public Button btnJoinRound, btnAddOffer;
-    private Button btnJoinConfirmation, btnUseGoldenCard, btnSendMsg;
-    public TextView joinHeader, joinText, tvSalonMessage;
-    private TextSwitcher tsRoundLatestActivity, tvChatTypingState;
-    private TextView tvProductDetailsTab, tvSalonActivityTab, tvChatTab, tvTopTenTab, tvChatEmptyHint, tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound;
-    private EditText etAddOffer, etChatMessage;
+    private Button btnJoinConfirmation, btnUseGoldenCard;
+    private TextSwitcher tsRoundLatestActivity;
+    public TextView tvChatEmptyHint, joinHeader, joinText, tvSalonMessage, tvProductDetailsTab, tvSalonActivityTab, tvChatTab, tvTopTenTab;
+    private TextView tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound;
+    private EditText etAddOffer;
     private View salonMainContainer;
-    private LinearLayout addOfferLayout, detailsContainer;
-    private RecyclerView chatRecycler, activityRecycler, topTenRecycler, cardsRecycler;
+    public LinearLayout addOfferLayout, detailsContainer;
+    private RecyclerView activityRecycler, topTenRecycler, cardsRecycler;
 
     // objects
     private Round round;
@@ -115,10 +110,8 @@ public class SalonActivity extends AppCompatActivity {
     public ProductSubImage SubImage = new ProductSubImage();
     public BottomSheetDialog mBottomSheetDialogCardsBag;
     private BottomSheetDialog mBottomSheetDialogProductDetails;
-    private Socket mSocket;
     private ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
 
-    private ArrayList<String> names = new ArrayList<>();
     private String userName, apiToken;
     private int goldenCardCount = 0, stopPosition = 0, screenHeight, screenWidth, joinState; // 0 = watcher, 1 = want to join, 2 = joined
     public int userId;
@@ -130,15 +123,16 @@ public class SalonActivity extends AppCompatActivity {
 
     private RoundCountDownController roundCountDownController;
     private RoundRemainingTime roundRemainingTime;
+    private ChatUtils chatUtils;
+    private SocketUtils socketUtils;
+
     private ActivityAdapter activityAdapter;
 
     // lists
-    private List<ChatModel> chatList = new ArrayList<>();
     private List<Activity> activityList = new ArrayList<>();
     private List<Card> userCards = new ArrayList<>();
 
-    private boolean SendTypingState = true;
-    private View detailsSheetView;
+    private View detailsSheetView, salonMainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,9 +155,38 @@ public class SalonActivity extends AppCompatActivity {
 
         initCardsBagIcon();
 
-        initChat();
+        getChatUtils();
+
+        getSocketUtils();
+
+        getSocketUtils();
 
         handleEvents();
+    }
+
+    public Round getRound() {
+        return round;
+    }
+
+    public RoundRemainingTime getRoundRemainingTime() {
+        if (roundRemainingTime == null) {
+            getRemainingTimeOfRound();
+        }
+        return roundRemainingTime;
+    }
+
+    public ChatUtils getChatUtils() {
+        if (chatUtils == null) {
+            chatUtils = new ChatUtils(this, salonMainLayout);
+        }
+        return chatUtils;
+    }
+
+    public SocketUtils getSocketUtils() {
+        if (socketUtils == null) {
+            socketUtils = new SocketUtils(this);
+        }
+        return socketUtils;
     }
 
     @Override
@@ -172,13 +195,14 @@ public class SalonActivity extends AppCompatActivity {
 
         if (roundRemainingTime != null)
             if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_round_state()) {
-                connectSocket();
+                socketUtils.connectSocket();
             } else {
-                disconnectSocket();
+                socketUtils.disconnectSocket();
             }
     }
 
     public void initViews() {
+        salonMainLayout = findViewById(R.id.salon_main_layout);
         activityRecycler = findViewById(R.id.salon_activity_recycler);
         topTenRecycler = findViewById(R.id.top_ten_recycler);
 
@@ -197,9 +221,6 @@ public class SalonActivity extends AppCompatActivity {
         btnJoinRound = findViewById(R.id.btn_join_round);
         btnUseGoldenCard = findViewById(R.id.btn_use_golden_card);
         btnLeaveRound = findViewById(R.id.btn_leave_round);
-
-        etChatMessage = findViewById(R.id.et_chat_message);
-        btnSendMsg = findViewById(R.id.btn_send_chat_message);
 
         etAddOffer = findViewById(R.id.add_offer_et);
 
@@ -511,7 +532,7 @@ public class SalonActivity extends AppCompatActivity {
         }
     }
 
-    private void initActivityRecycler() {
+    public void initActivityRecycler() {
         if (activityList.size() > 0) {
             tvActivityEmptyHint.setVisibility(View.GONE);
             activityRecycler.setVisibility(View.VISIBLE);
@@ -526,7 +547,7 @@ public class SalonActivity extends AppCompatActivity {
         }
     }
 
-    private void updateActivityList(Activity activity) {
+    public void updateActivityList(Activity activity) {
         activityList.add(0, activity);
 
         if (activityAdapter != null) {
@@ -536,169 +557,6 @@ public class SalonActivity extends AppCompatActivity {
         }
 
         activityRecycler.scrollToPosition(0);
-    }
-
-    private void selectChatTab() {
-        detailsContainer.setVisibility(View.GONE);
-        activityContainer.setVisibility(View.GONE);
-        chatContainer.setVisibility(View.VISIBLE);
-        topTenContainer.setVisibility(View.GONE);
-
-        if (chatList.size() > 0) {
-            tvChatEmptyHint.setVisibility(View.GONE);
-        } else {
-            tvChatEmptyHint.setVisibility(View.VISIBLE);
-        }
-
-        // bgs
-        tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
-        tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
-        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_blue));
-        tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
-
-        // text color
-        tvProductDetailsTab.setTextColor(getResources().getColor(R.color.colorPrimary));
-        tvSalonActivityTab.setTextColor(getResources().getColor(R.color.colorPrimary));
-        tvChatTab.setTextColor(Color.WHITE);
-        tvTopTenTab.setTextColor(getResources().getColor(R.color.colorPrimary));
-    }
-
-    private void initChat() {
-        chatRecycler = findViewById(R.id.chat_list);
-        chatRecycler.setHasFixedSize(true);
-        chatRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
-        chatRecycler.setAdapter(new ChatAdapter(SalonActivity.this, chatList));
-
-        initTypingSwitcher();
-
-        etChatMessage.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count > 0) {
-                    if (SendTypingState) {
-                        try {
-                            if (round != null) {
-                                JSONObject obj = new JSONObject();
-                                obj.put("user", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
-                                obj.put("salon_id", round.getSalon_id());
-                                if (mSocket != null && mSocket.connected()) {
-                                    mSocket.emit("Typing", obj);
-                                    SendTypingState = false;
-                                }
-                            }
-                        } catch (JSONException e) {
-                            SendTypingState = true;
-                            e.printStackTrace();
-                            Crashlytics.logException(e);
-                        }
-                    }
-                } else {
-                    if (round != null) {
-                        try {
-                            JSONObject obj = new JSONObject();
-                            obj.put("user", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
-
-                            obj.put("salon_id", round.getSalon_id());
-
-                            if (mSocket != null && mSocket.connected()) {
-                                mSocket.emit("leaveTyping", obj);
-                                SendTypingState = true;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Crashlytics.logException(e);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        btnSendMsg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    if (joinState == 2 && !roundRemainingTime.getRound_state().equals("close")) {
-                        if (etChatMessage.getText().toString().trim().isEmpty()) {
-                            etChatMessage.setError(getString(R.string.empty_hint));
-                        } else {
-                            JSONObject chatData = new JSONObject();
-                            final String message = etChatMessage.getText().toString();
-                            try {
-                                chatData.put("user_id", SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id());
-                                chatData.put("user_name", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
-                                chatData.put("message", message);
-                                chatData.put("salon_id", round.getSalon_id());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Crashlytics.logException(e);
-                            }
-
-                            if (mSocket != null && mSocket.connected()) {
-                                mSocket.emit("newMessage", chatData);
-                                etChatMessage.setText("");
-
-                            } else {
-                                Toast.makeText(SalonActivity.this, getString(R.string.chat_is_closed), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    } else if (roundRemainingTime.getRound_state().equals("close")) {
-                        Toast.makeText(SalonActivity.this, getString(R.string.closed), Toast.LENGTH_SHORT).show();
-
-                    } else if (joinState != 2) {
-                        Toast.makeText(SalonActivity.this, getString(R.string.not_joined), Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (NullPointerException e) {
-                    Log.e("chat_send_message: ", e.getMessage());
-                    Crashlytics.logException(e);
-                }
-            }
-        });
-    }
-
-    private void initTypingSwitcher() {
-        tvChatTypingState = findViewById(R.id.tv_chat_typing_state);
-        tvChatTypingState.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                TextView tv = new TextView(SalonActivity.this);
-                tv.setTextSize(8);
-                tv.setGravity(Gravity.TOP);
-                tv.setTextColor(getResources().getColor(R.color.blueGrey));
-                return tv;
-            }
-        });
-
-        tvChatTypingState.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_top));
-        tvChatTypingState.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_out_bottom));
-    }
-
-    private void addMessageToChat(int user_id, String user_name, String message, String date) {
-        chatList.add(new ChatModel(user_id, user_name, message, date));
-        chatRecycler.setAdapter(new ChatAdapter(SalonActivity.this, chatList));
-        chatRecycler.scrollToPosition(chatList.size() - 1);
-    }
-
-    private void enableChat() {
-        tvChatEmptyHint.setText(getString(R.string.chat_empty_hint));
-        etChatMessage.setEnabled(true);
-        btnSendMsg.setEnabled(true);
-    }
-
-    private void disableChat() {
-        tvChatEmptyHint.setText(getString(R.string.chat_is_closed));
-        etChatMessage.setEnabled(false);
-        btnSendMsg.setEnabled(false);
     }
 
     private void handleEvents() {
@@ -777,7 +635,7 @@ public class SalonActivity extends AppCompatActivity {
         tvChatTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectChatTab();
+                chatUtils.selectChatTab();
             }
         });
 
@@ -809,229 +667,6 @@ public class SalonActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 RequestActivity.builder().show(SalonActivity.this);
-            }
-        });
-    }
-
-    private void connectSocket() {
-        if (mSocket == null) {
-            mSocket = new SocketConnection().getSocket();
-            mSocket.connect();
-            initSocket();
-        }
-    }
-
-    private void disconnectSocket() {
-        if (mSocket != null && mSocket.connected())
-            mSocket.disconnect();
-    }
-
-    public Socket getSocket() {
-        connectSocket();
-        return mSocket;
-    }
-
-    private void initSocket() {
-        mSocket.emit("allActivity", round.getSalon_id()); // what action triggers this emit ?!
-        initActivityRecycler();
-
-        try {
-            JSONObject o = new JSONObject();
-            o.put("room", round.getSalon_id());
-            o.put("user", userName);
-            mSocket.emit("joinRoom", o);
-        } catch (JSONException e) {
-            Log.e("socket joinRoom: ", e.getMessage());
-            Crashlytics.logException(e);
-        }
-
-        mSocket.on("new_member", new Emitter.Listener() {
-            @Override
-            public void call(final Object... args) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject main = (JSONObject) args[0];
-                            updateLatestActivity(main.get("data").toString());
-                            updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
-                        } catch (Exception e) {
-                            Log.e("socket newMember: ", e.getMessage());
-                            Crashlytics.logException(e);
-                        }
-                    }
-                });
-            }
-        }).on("member_add_offer", new Emitter.Listener() {
-            @Override
-            public void call(final Object... args) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject main = (JSONObject) args[0];
-                            updateLatestActivity(main.get("data").toString());
-                            updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
-                        } catch (Exception e) {
-                            Log.e("socket memberAddOffer: ", e.getMessage());
-                            Crashlytics.logException(e);
-                        }
-                    }
-                });
-            }
-        }).on("member_leave", new Emitter.Listener() {
-            @Override
-            public void call(final Object... args) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject main = (JSONObject) args[0];
-                            updateLatestActivity(main.get("data").toString());
-                            updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
-                        } catch (Exception e) {
-                            Log.e("socket memberLeave: ", e.getMessage());
-                            Crashlytics.logException(e);
-                        }
-                    }
-                });
-            }
-        }).on("winner", new Emitter.Listener() {
-            @Override
-            public void call(final Object... args) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject main = (JSONObject) args[0];
-                            updateLatestActivity(main.get("data").toString());
-                            updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
-                        } catch (Exception e) {
-                            Log.e("socket winner: ", e.getMessage());
-                            Crashlytics.logException(e);
-                        }
-                    }
-                });
-            }
-        }).on("activity", new Emitter.Listener() {
-            @Override
-            public void call(final Object... args) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONArray main = (JSONArray) args[0];
-                            for (int i = 0; i < main.length(); i++) {
-                                JSONObject jsonObject = main.getJSONObject(i);
-                                updateActivityList(new Activity(jsonObject.get("activity").toString(), jsonObject.get("created_at").toString()));
-                            }
-                        } catch (Exception e) {
-                            Log.e("socket activity: ", e.getMessage());
-                            Crashlytics.logException(e);
-                        }
-                    }
-                });
-            }
-        }).on("member_use_card", new Emitter.Listener() {
-            @Override
-            public void call(final Object... args) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject main = (JSONObject) args[0];
-                            updateLatestActivity(main.get("data").toString());
-                            updateActivityList(new Activity(main.get("data").toString(), main.get("date").toString()));
-                        } catch (Exception e) {
-                            Log.e("socket memberUseCard: ", e.getMessage());
-                            Crashlytics.logException(e);
-                        }
-                    }
-                });
-            }
-        }).on("isTyping", new Emitter.Listener() {
-            @Override
-            public void call(final Object... args) {
-                SalonActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject main = (JSONObject) args[0];
-                            String user = main.getString("user_name");
-
-                            if (!names.contains(user)) {
-                                names.add(user);
-                            }
-
-                            if (names.size() > 1) {
-                                tvChatTypingState.setText(getString(R.string.is_typing_others, names.get(0)));
-                            } else {
-                                tvChatTypingState.setText(getString(R.string.is_typing, names.get(0)));
-                            }
-                            tvChatTypingState.setVisibility(View.VISIBLE);
-                        } catch (JSONException e) {
-                            Log.e("socket SendTypingState", e.getMessage());
-                            Crashlytics.logException(e);
-                        }
-                    }
-                });
-            }
-        }).on("stopTyping", new Emitter.Listener() {
-            @Override
-            public void call(final Object... args) {
-                SalonActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject data = (JSONObject) args[0];
-                            String user = data.getString("user_name");
-
-                            if (names.contains(user)) {
-                                names.remove(user);
-                                if (names.size() == 0) {
-                                    tvChatTypingState.setVisibility(View.GONE);
-                                    tvChatTypingState.setText("");
-                                } else {
-                                    if (names.size() > 1) {
-                                        tvChatTypingState.setText(getString(R.string.is_typing, names.get(0)));
-                                    } else {
-                                        tvChatTypingState.setText(getString(R.string.is_typing, names.get(0)));
-                                    }
-                                }
-                            }
-
-                        } catch (JSONException e) {
-                            Log.e("socket SendTypingState", e.getMessage());
-                            Crashlytics.logException(e);
-                        }
-                    }
-                });
-            }
-        }).on("message", new Emitter.Listener() {
-            @Override
-            public void call(final Object... args) {
-                SalonActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        JSONObject main = (JSONObject) args[0];
-                        int user_id;
-                        String user_name;
-                        String message;
-                        String date;
-                        try {
-                            JSONObject data = main.getJSONObject("message");
-                            user_id = data.getInt("user_id");
-                            user_name = data.getString("user_name");
-                            message = data.getString("message");
-                            date = data.getString("date");
-                            addMessageToChat(user_id, user_name, message, date);
-                            tvChatEmptyHint.setVisibility(View.GONE);
-                        } catch (JSONException e) {
-                            Log.e("socket message", e.getMessage());
-                            Crashlytics.logException(e);
-                        }
-                    }
-                });
             }
         });
     }
@@ -1121,15 +756,15 @@ public class SalonActivity extends AppCompatActivity {
 
     public void checkOnTime() {
         if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isSecond_rest_state()) {
-            connectSocket();
+            socketUtils.connectSocket();
 
             if (roundRemainingTime.isUserJoin()) {
-                enableChat();
+                chatUtils.enableChat();
             } else {
-                disableChat();
+                chatUtils.disableChat();
             }
         } else {
-            disableChat();
+            chatUtils.disableChat();
         }
 
         if (roundRemainingTime.isUserJoin() && (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state())) { // on join time
@@ -1177,14 +812,13 @@ public class SalonActivity extends AppCompatActivity {
 
             selectTopTenTab();
             getWinner();
-            disconnectSocket();
-            disableChat();
+            socketUtils.disconnectSocket();
+            chatUtils.disableChat();
         }
     }
 
     private void displayUserOffer() {
-        String offer = SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId);
-        etAddOffer.setText(String.valueOf(offer));
+        etAddOffer.setText(String.valueOf(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId)));
     }
 
     private void getWinner() {
@@ -1279,6 +913,7 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     private void subscribeUserToSalonOnServer() {
+        btnJoinConfirmation.setEnabled(false);
         joinConfirmationProgress.setVisibility(View.VISIBLE);
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
                 "setUserSalon",
@@ -1290,7 +925,7 @@ public class SalonActivity extends AppCompatActivity {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         congratsSubscribing();
-                        enableChat();
+                        chatUtils.enableChat();
                     }
 
                     @Override
@@ -1301,11 +936,13 @@ public class SalonActivity extends AppCompatActivity {
                     @Override
                     public void handleEmptyResponse() {
                         joinConfirmationProgress.setVisibility(View.GONE);
+                        btnJoinConfirmation.setEnabled(true);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         joinConfirmationProgress.setVisibility(View.GONE);
+                        btnJoinConfirmation.setEnabled(true);
                         Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -1334,7 +971,7 @@ public class SalonActivity extends AppCompatActivity {
 
             @Override
             public void handleConnectionErrors(String errorMessage) {
-                Snackbar.make(findViewById(R.id.salon_main_layout), R.string.error_occurred, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
+                Snackbar.make(findViewById(R.id.salon_main_layout), R.string.no_connection, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         unSubscribeUserFromSalonOnServer();
@@ -1363,7 +1000,7 @@ public class SalonActivity extends AppCompatActivity {
         try {
             final String userOffer = etAddOffer.getText().toString();
 
-            if (String.valueOf(userOffer).isEmpty() || userOffer.equals("0")) {
+            if (String.valueOf(userOffer).isEmpty() || userOffer.equals("0") || userOffer.equals(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId))) {
                 joinProgress.setVisibility(View.GONE);
                 addOfferLayout.setVisibility(View.VISIBLE);
                 etAddOffer.setEnabled(true);
@@ -1389,7 +1026,7 @@ public class SalonActivity extends AppCompatActivity {
                                 JSONObject obj = new JSONObject();
                                 obj.put("user", userName);
                                 obj.put("salon_id", round.getSalon_id());
-                                mSocket.emit("addOffer", obj);
+                                socketUtils.emitData("addOffer", obj);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Crashlytics.logException(e);
@@ -1840,36 +1477,24 @@ public class SalonActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(connectionChangeReceiver);
 
-        if (mSocket != null && mSocket.connected()) {
-            if (round != null) {
-                try {
-                    JSONObject obj = new JSONObject();
-                    obj.put("user", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
-
-                    obj.put("salon_id", round.getSalon_id());
-
-                    mSocket.emit("leaveTyping", obj);
-                    SendTypingState = true;
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Crashlytics.logException(e);
-                }
-            }
-
+        if (round != null) {
             try {
                 JSONObject obj = new JSONObject();
-                obj.put("user", userName);
+                obj.put("user", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
                 obj.put("salon_id", round.getSalon_id());
-                mSocket.emit("leave", obj);
+
+                socketUtils.emitData("leaveTyping", obj);
+                socketUtils.emitData("leave", obj);
+                chatUtils.sendTypingState = true;
             } catch (JSONException e) {
                 e.printStackTrace();
                 Crashlytics.logException(e);
             }
-            mSocket.disconnect();
         }
+
+        unregisterReceiver(connectionChangeReceiver);
+        socketUtils.disconnectSocket();
 
         try {
             roundCountDownController.stopCountDown();

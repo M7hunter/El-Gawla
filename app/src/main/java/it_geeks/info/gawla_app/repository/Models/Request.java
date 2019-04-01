@@ -143,10 +143,11 @@ public class Request {
         this.message = message;
     }
 
-    public Request(String text, int user_id, String api_token) { // Update Email
+    public Request(String text, int i1, String api_token, int i2) { // Update Email
         this.email = text;
-        this.user_id = user_id;
+        this.user_id = i1;
         this.api_token = api_token;
+        this.country_id = i2;
     }
 
     public Request(int userId, String apiToken, int card_id, int salonId, int round_id) {

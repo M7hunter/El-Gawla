@@ -1,7 +1,6 @@
-package it_geeks.info.gawla_app.views.CountDown;
+package it_geeks.info.gawla_app.views.salonUtils.CountDown;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;

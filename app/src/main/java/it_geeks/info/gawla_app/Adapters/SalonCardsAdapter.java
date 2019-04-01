@@ -30,6 +30,7 @@ import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.views.SalonActivity;
+import it_geeks.info.gawla_app.views.salonUtils.SocketUtils;
 
 public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.ViewHolder> {
 
@@ -157,7 +158,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                     o.put("salon_id", salonId);
                     o.put("user", username);
                     o.put("type", card.getCard_type());
-                    ((SalonActivity) context).getSocket().emit("use_card", o);
+                    ((SalonActivity) context).getSocketUtils().emitData("use_card", o);
                 } catch (JSONException e) {
                     Log.e("socket use_card: ", e.getMessage());
                     Crashlytics.logException(e);

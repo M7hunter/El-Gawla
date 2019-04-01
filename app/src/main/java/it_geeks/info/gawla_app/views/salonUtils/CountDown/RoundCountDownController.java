@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.views.CountDown;
+package it_geeks.info.gawla_app.views.salonUtils.CountDown;
 
 import android.content.Context;
 import android.os.CountDownTimer;

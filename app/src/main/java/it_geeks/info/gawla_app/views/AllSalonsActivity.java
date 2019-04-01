@@ -208,7 +208,7 @@ public class AllSalonsActivity extends AppCompatActivity {
             dateList.add(transformDateToNames(date));
         }
 
-//        Common.Instance(AllSalonsActivity.this).sortList(dateList);
+        Common.Instance(AllSalonsActivity.this).sortList(dateList);
     }
 
     public SalonDate transformDateToNames(String date) {
