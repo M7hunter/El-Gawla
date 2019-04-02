@@ -32,6 +32,7 @@ public class SocketUtils {
     private Round round;
     private ChatUtils chatUtils;
     private ArrayList<String> names = new ArrayList<>();
+    private boolean isOn = false;
 
     public SocketUtils(Context context) {
         Log.d(TAG, "getInstance: new");
@@ -41,19 +42,24 @@ public class SocketUtils {
     }
 
     private void initSocket() {
-        try {
-            socket = IO.socket(GAWLA_SERVER_URL);
-        } catch (URISyntaxException e) {
-            Crashlytics.logException(e);
-            throw new RuntimeException(e);
-        }
+        if (socket == null)
+            try {
+                socket = IO.socket(GAWLA_SERVER_URL);
+            } catch (URISyntaxException e) {
+                Crashlytics.logException(e);
+                throw new RuntimeException(e);
+            }
     }
 
     public void connectSocket() {
         if (socket == null || !socket.connected()) {
             initSocket();
             socket.connect();
-            handleSocketEvents();
+            Log.d(TAG, "connectSocket: connected");
+            if (!isOn){
+                handleSocketEvents();
+                isOn = true;
+            }
         }
     }
 
@@ -67,6 +73,7 @@ public class SocketUtils {
         if (socket != null && socket.connected()) {
             socket.disconnect();
             Log.d(TAG, "disconnectSocket: disconnected");
+            isOn = false;
         }
     }
 

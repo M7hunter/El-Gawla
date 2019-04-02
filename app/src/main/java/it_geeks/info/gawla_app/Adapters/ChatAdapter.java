@@ -44,6 +44,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder> {
             holder.chatMessage.setTextColor(context.getResources().getColor(R.color.ic_launcher_background));
             holder.messageTime.setTextColor(context.getResources().getColor(R.color.ic_launcher_background));
             holder.chat_card_message.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_blue));
+        } else {
+            holder.chatUsername.setTextColor(context.getResources().getColor(R.color.browser_actions_text_color));
+            holder.chatMessage.setTextColor(context.getResources().getColor(R.color.browser_actions_text_color));
+            holder.messageTime.setTextColor(context.getResources().getColor(R.color.browser_actions_text_color));
+            holder.chat_card_message.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_pale_grey));
         }
     }
 

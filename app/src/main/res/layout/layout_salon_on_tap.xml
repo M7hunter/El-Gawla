@@ -115,8 +115,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_tiny"
-            android:foreground="?android:attr/selectableItemBackground"
             android:background="@drawable/bg_rounded_corners_white"
+            android:foreground="?android:attr/selectableItemBackground"
             android:visibility="visible"
             app:cardCornerRadius="@dimen/margin_small">
             <!-- card main layout -->
@@ -168,7 +168,9 @@
             android:id="@+id/salon_activity_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_tiny" />
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:scrollbars="vertical" />
 
         <TextView
             android:id="@+id/tv_activity_empty_hint"
@@ -196,6 +198,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
             <!-- chat recycler -->
@@ -203,9 +206,8 @@
                 android:id="@+id/chat_list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                app:layout_constraintHeight_max="0dp"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:scrollbars="vertical"
+                android:layout_weight="1" />
 
             <!-- chat empty view -->
             <TextView
@@ -217,23 +219,15 @@
                 android:text="@string/chat_empty_hint"
                 android:visibility="gone" />
 
-            <!-- separator -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/browser_actions_divider_color" />
-
             <!-- typing state -->
             <TextSwitcher
                 android:id="@+id/tv_chat_typing_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
-                android:animateLayoutChanges="true"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/blueGrey"
-                android:visibility="gone" />
+                android:textColor="@color/blueGrey" />
 
             <LinearLayout
                 android:layout_width="match_parent"

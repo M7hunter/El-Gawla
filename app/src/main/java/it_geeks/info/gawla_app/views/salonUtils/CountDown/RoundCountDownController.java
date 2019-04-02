@@ -28,6 +28,12 @@ public class RoundCountDownController {
 
     public void setRoundRemainingTime(RoundRemainingTime roundRemainingTime) {
         this.roundRemainingTime = roundRemainingTime;
+        try {
+            updateCountDown();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+        }
     }
 
     public void setUserJoin(boolean state) {

@@ -82,7 +82,6 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         Intent i = new Intent(context, SalonActivity.class);
                         // send round's data to round page
                         i.putExtra("round", round);
-                        i.putExtra("product_image", prepareImageToPass(viewHolder.imgProductImage));
 
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), new Pair<View, String>(viewHolder.imgProductImage, "transProductImage"));
@@ -100,15 +99,6 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
         } else {
             Log.d("test_placeholder: ", "salon == null");
         }
-    }
-
-    private byte[] prepareImageToPass(ImageView imgProductImage) {
-        imgProductImage.buildDrawingCache();
-
-        Bitmap bitmap = imgProductImage.getDrawingCache();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-        return outputStream.toByteArray();
     }
 
     public void updateRoundsList(List<Round> newList) {

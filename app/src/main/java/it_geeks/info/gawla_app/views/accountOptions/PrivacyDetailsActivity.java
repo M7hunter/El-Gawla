@@ -1,6 +1,5 @@
 package it_geeks.info.gawla_app.views.accountOptions;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,9 +21,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.general.Interfaces.AlertButtonsClickListener;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Request;
@@ -192,20 +191,17 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     }
 
     private void deleteAccountDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PrivacyDetailsActivity.this);
-        dialogBuilder.setMessage(getString(R.string.delete_account_hint))
-                .setPositiveButton(getResources().getString(R.string.continue_), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteAccount();
-                    }
-                })
-                .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+        Common.Instance(this).createAlertDialog(this, getString(R.string.delete_account_hint), new AlertButtonsClickListener() {
+            @Override
+            public void onPositiveClick() {
+                deleteAccount();
+            }
+
+            @Override
+            public void onNegativeCLick() {
+
+            }
+        });
     }
 
     private void deleteAccount() {
@@ -242,20 +238,17 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     }
 
     private void disconnectDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PrivacyDetailsActivity.this);
-        dialogBuilder.setMessage(getString(R.string.disconnect) + " ?")
-                .setPositiveButton(getResources().getString(R.string.continue_), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        disconnect();
-                    }
-                })
-                .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+        Common.Instance(this).createAlertDialog(this, getString(R.string.disconnect) + " ?", new AlertButtonsClickListener() {
+            @Override
+            public void onPositiveClick() {
+                disconnect();
+            }
+
+            @Override
+            public void onNegativeCLick() {
+
+            }
+        });
     }
 
     private void disconnect() {

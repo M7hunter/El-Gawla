@@ -37,7 +37,7 @@ public class ChatUtils {
     private Context mContext;
     private View salonMainView;
     TextSwitcher tvChatTypingState;
-    private TextView tvChatEmptyHint;
+    private TextView tvChatEmptyHint, tvNewMessagesCounter;
     private EditText etChatMessage;
     private Button btnSendMsg;
     private RecyclerView chatRecycler;
@@ -45,7 +45,8 @@ public class ChatUtils {
     private List<ChatModel> chatList = new ArrayList<>();
     private Round round;
 
-    public boolean sendTypingState = false;
+    public boolean sendTypingState = true;
+    private int messCounter = 0;
 
     public ChatUtils(Context context, View salonMainLayout) {
         mContext = context;
@@ -58,6 +59,7 @@ public class ChatUtils {
     }
 
     private void initViews() {
+        tvNewMessagesCounter = salonMainView.findViewById(R.id.tv_new_chat_message_counter);
         tvChatTypingState = salonMainView.findViewById(R.id.tv_chat_typing_state);
         tvChatTypingState = salonMainView.findViewById(R.id.tv_chat_typing_state);
         tvChatEmptyHint = salonMainView.findViewById(R.id.tv_chat_empty_hint);
@@ -72,6 +74,8 @@ public class ChatUtils {
         ((SalonActivity) mContext).activityContainer.setVisibility(View.GONE);
         ((SalonActivity) mContext).chatContainer.setVisibility(View.VISIBLE);
         ((SalonActivity) mContext).topTenContainer.setVisibility(View.GONE);
+        tvNewMessagesCounter.setVisibility(View.INVISIBLE);
+        messCounter = 0;
 
         if (chatList.size() > 0) {
             tvChatEmptyHint.setVisibility(View.GONE);
@@ -94,7 +98,9 @@ public class ChatUtils {
 
     private void initChat() {
         chatRecycler.setHasFixedSize(true);
-        chatRecycler.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, true);
+        layoutManager.setStackFromEnd(true);
+        chatRecycler.setLayoutManager(layoutManager);
         chatRecycler.setAdapter(new ChatAdapter(mContext, chatList));
 
         initTypingSwitcher();
@@ -107,22 +113,20 @@ public class ChatUtils {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d("onTextChanged", "s:: " + s);
                 try {
                     if (round != null) {
-                        if (count > 0) {
-                            if (sendTypingState) {
-                                JSONObject obj = new JSONObject();
-                                obj.put("user", SharedPrefManager.getInstance(mContext).getUser().getName());
-                                obj.put("salon_id", round.getSalon_id());
+                        JSONObject obj = new JSONObject();
+                        obj.put("salon_id", round.getSalon_id());
+                        obj.put("user", SharedPrefManager.getInstance(mContext).getUser().getName());
+                        obj.put("user_id", SharedPrefManager.getInstance(mContext).getUser().getUser_id());
 
+                        if (s.length() > 0) {
+                            if (sendTypingState) {
                                 ((SalonActivity) mContext).getSocketUtils().emitData("Typing", obj);
                                 sendTypingState = false;
                             }
                         } else {
-                            JSONObject obj = new JSONObject();
-                            obj.put("user", SharedPrefManager.getInstance(mContext).getUser().getName());
-                            obj.put("salon_id", round.getSalon_id());
-
                             ((SalonActivity) mContext).getSocketUtils().emitData("leaveTyping", obj);
                             sendTypingState = true;
                         }
@@ -191,14 +195,30 @@ public class ChatUtils {
             }
         });
 
-        tvChatTypingState.setInAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slide_in_top));
-        tvChatTypingState.setOutAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slide_out_bottom));
+        tvChatTypingState.setInAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slide_bottom_up));
+        tvChatTypingState.setOutAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slide_bottom_down));
     }
 
     void addMessageToChat(int user_id, String user_name, String message, String date) {
-        chatList.add(new ChatModel(user_id, user_name, message, date));
-        chatRecycler.setAdapter(new ChatAdapter(mContext, chatList));
-        chatRecycler.scrollToPosition(chatList.size() - 1);
+        chatList.add(0, new ChatModel(user_id, user_name, message, date));
+        if (chatRecycler.getAdapter() != null) {
+            chatRecycler.getAdapter().notifyItemInserted(0);
+        }
+        chatRecycler.scrollToPosition(0);
+        updateCounter();
+    }
+
+    private void updateCounter() {
+        if (((SalonActivity) mContext).chatContainer.getVisibility() != View.VISIBLE) {
+            messCounter = messCounter + 1;
+            if (messCounter <= 10) {
+                tvNewMessagesCounter.setText(String.valueOf(messCounter));
+            } else {
+                tvNewMessagesCounter.setText("+" + 10);
+            }
+            if (tvNewMessagesCounter.getVisibility() != View.VISIBLE)
+                tvNewMessagesCounter.setVisibility(View.VISIBLE);
+        }
     }
 
     public void enableChat() {

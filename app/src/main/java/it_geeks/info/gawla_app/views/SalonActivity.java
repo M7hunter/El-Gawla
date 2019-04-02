@@ -3,12 +3,9 @@ package it_geeks.info.gawla_app.views;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,7 +35,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -119,7 +115,6 @@ public class SalonActivity extends AppCompatActivity {
     private PointF staringPoint = new PointF();
     private PointF pointerPoint = new PointF();
     private GestureDetector gestureDetector;
-    private Bitmap bitmapProductImage;
 
     private RoundCountDownController roundCountDownController;
     private RoundRemainingTime roundRemainingTime;
@@ -278,18 +273,10 @@ public class SalonActivity extends AppCompatActivity {
 
             if (extras != null) { // get data from previous page
                 round = (Round) extras.getSerializable("round");
-                byte[] b = extras.getByteArray("product_image");
-                if (b != null) {
-                    bitmapProductImage = BitmapFactory.decodeByteArray(b, 0, b.length);
-                }
             }
 
         } else { // get data from saved state
             round = (Round) savedInstanceState.getSerializable("round");
-            byte[] b = savedInstanceState.getByteArray("product_image");
-            if (b != null) {
-                bitmapProductImage = BitmapFactory.decodeByteArray(b, 0, b.length);
-            }
         }
 
         if (round != null) {
@@ -405,7 +392,7 @@ public class SalonActivity extends AppCompatActivity {
 
                 @Override
                 public void handleEmptyResponse() {
-
+                    hideLoading();
                 }
 
                 @Override
@@ -740,17 +727,10 @@ public class SalonActivity extends AppCompatActivity {
 
     private void initCountDown() {
         roundCountDownController.setRoundRemainingTime(roundRemainingTime); // set round remaining time
-        if (roundRemainingTime.isUserJoin()) {
+        if (roundRemainingTime.isUserJoin()) { // update join state
             joinState = 2;
         } else {
             joinState = 0;
-        }
-
-        try {
-            roundCountDownController.updateCountDown();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
         }
     }
 
@@ -884,18 +864,7 @@ public class SalonActivity extends AppCompatActivity {
                 .resize(800, 800)
                 .onlyScaleDown()
                 .centerInside()
-                .placeholder(new BitmapDrawable(getResources(), bitmapProductImage))
-                .into(ivProductImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        ivProductMainViewer.setImageDrawable(ivProductImage.getDrawable());
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-                });
+                .into(ivProductImage);
     }
 
     private void leaveRoundDialog() {
@@ -1000,13 +969,15 @@ public class SalonActivity extends AppCompatActivity {
         try {
             final String userOffer = etAddOffer.getText().toString();
 
-            if (String.valueOf(userOffer).isEmpty() || userOffer.equals("0") || userOffer.equals(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId))) {
+            if (String.valueOf(userOffer).isEmpty() || userOffer.equals("0")) {
                 joinProgress.setVisibility(View.GONE);
                 addOfferLayout.setVisibility(View.VISIBLE);
                 etAddOffer.setEnabled(true);
                 etAddOffer.setText("");
                 etAddOffer.setHint(getString(R.string.no_content));
                 etAddOffer.setHintTextColor(getResources().getColor(R.color.paleRed));
+                return;
+            } else if (userOffer.equals(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId))) {
                 return;
             }
 
@@ -1246,19 +1217,6 @@ public class SalonActivity extends AppCompatActivity {
         initProductImagesRecycler(detailsSheetView);
         initProductDetails();
 
-        //close bottom sheet
-        detailsSheetView.findViewById(R.id.close_bottom_sheet_product_details).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mBottomSheetDialogProductDetails.isShowing()) {
-                    mBottomSheetDialogProductDetails.dismiss();
-
-                } else {
-                    mBottomSheetDialogProductDetails.show();
-                }
-            }
-        });
-
         //
         mBottomSheetDialogProductDetails.setContentView(detailsSheetView);
         Common.Instance(SalonActivity.this).setBottomSheetHeight(detailsSheetView);
@@ -1294,6 +1252,13 @@ public class SalonActivity extends AppCompatActivity {
         tvProductCategory.setText(round.getCategory_name());
         tvProductPrice.setText(round.getProduct_commercial_price());
         tvProductDescription.setText(round.getProduct_product_description());
+
+        Picasso.with(this)
+                .load(round.getProduct_image())
+                .resize(800, 800)
+                .onlyScaleDown()
+                .centerInside()
+                .into(ivProductMainViewer);
 
         SubImage.setImageUrl(round.getProduct_image());
     }
@@ -1462,22 +1427,7 @@ public class SalonActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        try {
-            roundCountDownController.stopCountDown();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        Intent i = new Intent();
-        setResult(RESULT_OK, i);
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onDestroy() {
-
+    private void disconnectSalonSocket() {
         if (round != null) {
             try {
                 JSONObject obj = new JSONObject();
@@ -1492,6 +1442,26 @@ public class SalonActivity extends AppCompatActivity {
                 Crashlytics.logException(e);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        disconnectSalonSocket();
+
+        try {
+            roundCountDownController.stopCountDown();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Intent i = new Intent();
+        setResult(RESULT_OK, i);
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        disconnectSalonSocket();
 
         unregisterReceiver(connectionChangeReceiver);
         socketUtils.disconnectSocket();

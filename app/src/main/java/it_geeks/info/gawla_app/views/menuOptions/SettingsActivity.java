@@ -2,6 +2,7 @@ package it_geeks.info.gawla_app.views.menuOptions;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -17,7 +18,6 @@ import it_geeks.info.gawla_app.R;
 public class SettingsActivity extends AppCompatActivity {
 
     TextView tvLang;
-
     SwitchMaterial notificationSwitch;
 
     @Override
@@ -42,6 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
         notificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.d("onCheckedChanged", "isChecked:: " + isChecked);
                 SharedPrefManager.getInstance(SettingsActivity.this).setNotificationEnabled(isChecked);
                 if (isChecked){
                     startNotifications();
