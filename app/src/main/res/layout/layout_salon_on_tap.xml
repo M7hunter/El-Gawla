@@ -206,8 +206,8 @@
                 android:id="@+id/chat_list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:scrollbars="vertical"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:scrollbars="vertical" />
 
             <!-- chat empty view -->
             <TextView
@@ -227,7 +227,8 @@
                 android:layout_marginStart="@dimen/margin_small"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/blueGrey" />
+                android:textColor="@color/blueGrey"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"

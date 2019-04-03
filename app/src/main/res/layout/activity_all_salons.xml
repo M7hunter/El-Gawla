@@ -2,10 +2,10 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/all_salon_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    android:id="@+id/all_salon_main_layout"
     tools:context=".views.AllSalonsActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -22,16 +22,15 @@
                 android:id="@+id/all_salons_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny">
+                android:layoutDirection="ltr">
 
                 <!-- back -->
                 <ImageView
                     android:id="@+id/all_salons_back"
                     android:layout_width="@dimen/icon_back"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/icon_back"
                     android:layout_centerVertical="true"
                     android:padding="@dimen/margin_small"
-                    android:layout_alignParentLeft="true"
                     android:src="@drawable/ic_arrow_left_only" />
 
                 <!-- title -->
@@ -51,11 +50,11 @@
                     android:layout_width="@dimen/icon_notification"
                     android:layout_height="@dimen/icon_notification"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:padding="@dimen/margin_tiny"
-                    android:src="@drawable/ic_notification" />
+                    android:src="@drawable/bell" />
 
             </RelativeLayout>
 

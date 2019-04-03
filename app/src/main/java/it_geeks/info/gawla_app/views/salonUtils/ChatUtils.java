@@ -131,8 +131,7 @@ public class ChatUtils {
                             sendTypingState = true;
                         }
                     }
-                } catch (
-                        JSONException e) {
+                } catch (JSONException e) {
                     sendTypingState = true;
                     e.printStackTrace();
                     Crashlytics.logException(e);

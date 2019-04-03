@@ -1,8 +1,12 @@
 package it_geeks.info.gawla_app.repository.Models;
 
+import java.util.Date;
+
 public class SalonDate {
 
-    private String date;
+    private Date date;
+
+    private String sDate;
 
     private String dayOfMonth;
 
@@ -12,20 +16,29 @@ public class SalonDate {
 
     private String salonsCount;
 
-    public SalonDate(String date, String dayOfMonth, String month, String dayOfWeek, String salonsCount) {
+    public SalonDate(Date date, String sDate, String dayOfMonth, String month, String dayOfWeek, String salonsCount) {
         this.date = date;
+        this.sDate = sDate;
         this.dayOfMonth = dayOfMonth;
         this.month = month;
         this.dayOfWeek = dayOfWeek;
         this.salonsCount = salonsCount;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getsDate() {
+        return sDate;
+    }
+
+    public void setsDate(String sDate) {
+        this.sDate = sDate;
     }
 
     public String getDayOfMonth() {

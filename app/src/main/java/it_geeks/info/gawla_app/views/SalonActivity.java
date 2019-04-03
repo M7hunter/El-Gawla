@@ -96,7 +96,7 @@ public class SalonActivity extends AppCompatActivity {
     public TextView tvChatEmptyHint, joinHeader, joinText, tvSalonMessage, tvProductDetailsTab, tvSalonActivityTab, tvChatTab, tvTopTenTab;
     private TextView tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound;
     private EditText etAddOffer;
-    private View salonMainContainer;
+    private View salonMainContainer, detailsSheetView, salonMainLayout;
     public LinearLayout addOfferLayout, detailsContainer;
     private RecyclerView activityRecycler, topTenRecycler, cardsRecycler;
 
@@ -108,9 +108,9 @@ public class SalonActivity extends AppCompatActivity {
     private BottomSheetDialog mBottomSheetDialogProductDetails;
     private ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
 
-    private String userName, apiToken;
-    private int goldenCardCount = 0, stopPosition = 0, screenHeight, screenWidth, joinState; // 0 = watcher, 1 = want to join, 2 = joined
     public int userId;
+    private int goldenCardCount = 0, stopPosition = 0, screenHeight, screenWidth, joinState; // 0 = watcher, 1 = want to join, 2 = joined
+    private String userName, apiToken;
 
     private PointF staringPoint = new PointF();
     private PointF pointerPoint = new PointF();
@@ -118,16 +118,14 @@ public class SalonActivity extends AppCompatActivity {
 
     private RoundCountDownController roundCountDownController;
     private RoundRemainingTime roundRemainingTime;
-    private ChatUtils chatUtils;
     private SocketUtils socketUtils;
+    private ChatUtils chatUtils;
 
     private ActivityAdapter activityAdapter;
 
     // lists
     private List<Activity> activityList = new ArrayList<>();
     private List<Card> userCards = new ArrayList<>();
-
-    private View detailsSheetView, salonMainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -864,6 +862,7 @@ public class SalonActivity extends AppCompatActivity {
                 .resize(800, 800)
                 .onlyScaleDown()
                 .centerInside()
+                .placeholder(R.drawable.placeholder)
                 .into(ivProductImage);
     }
 
@@ -1258,6 +1257,7 @@ public class SalonActivity extends AppCompatActivity {
                 .resize(800, 800)
                 .onlyScaleDown()
                 .centerInside()
+                .placeholder(R.drawable.placeholder)
                 .into(ivProductMainViewer);
 
         SubImage.setImageUrl(round.getProduct_image());
@@ -1446,8 +1446,6 @@ public class SalonActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        disconnectSalonSocket();
-
         try {
             roundCountDownController.stopCountDown();
         } catch (Exception e) {

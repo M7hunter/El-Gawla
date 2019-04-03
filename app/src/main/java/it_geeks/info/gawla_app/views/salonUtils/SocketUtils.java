@@ -56,7 +56,7 @@ public class SocketUtils {
             initSocket();
             socket.connect();
             Log.d(TAG, "connectSocket: connected");
-            if (!isOn){
+            if (!isOn) {
                 handleSocketEvents();
                 isOn = true;
             }
@@ -66,6 +66,7 @@ public class SocketUtils {
     public void emitData(String event, JSONObject obj) {
         if (socket != null && socket.connected()) {
             socket.emit(event, obj);
+            Log.d(TAG, "emitData: " + event);
         }
     }
 
@@ -203,19 +204,23 @@ public class SocketUtils {
                     @Override
                     public void run() {
                         try {
-                            JSONObject main = (JSONObject) args[0];
-                            String user = main.getString("user_name");
+                            JSONObject obj = (JSONObject) args[0];
+                            String user = obj.getString("user_name");
+//                            int user_id = obj.getInt("user_id");
+//                            Log.d(TAG, "user_id: " + user_id);
 
                             if (!names.contains(user)) {
                                 names.add(user);
                             }
 
-                            if (names.size() > 1) {
-                                chatUtils.tvChatTypingState.setText(mContext.getString(R.string.is_typing_others, names.get(0)));
-                            } else {
-                                chatUtils.tvChatTypingState.setText(mContext.getString(R.string.is_typing, names.get(0)));
-                            }
-                            chatUtils.tvChatTypingState.setVisibility(View.VISIBLE);
+//                            if (user_id != SharedPrefManager.getInstance(mContext).getUser().getUser_id()) {
+                                if (names.size() > 1) {
+                                    chatUtils.tvChatTypingState.setText(mContext.getString(R.string.is_typing_others, names.get(0)));
+                                } else {
+                                    chatUtils.tvChatTypingState.setText(mContext.getString(R.string.is_typing, names.get(0)));
+                                }
+                                chatUtils.tvChatTypingState.setVisibility(View.VISIBLE);
+//                            }
                         } catch (JSONException e) {
                             Log.e("socket SendTypingState", e.getMessage());
                             Crashlytics.logException(e);

@@ -14,8 +14,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.JsonObject;
 
 import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -59,6 +62,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     ImageView imgNotification;
 
     private CardView loadingCard;
+    private LinearLayout emptyViewLayout;
 
     private int userId;
     private String apiToken;
@@ -102,6 +106,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        emptyViewLayout = findViewById(R.id.all_salons_empty_view);
         loadingCard = findViewById(R.id.loading_card);
         filterRecycler = findViewById(R.id.filter_recycler);
         filterRecycler.setHasFixedSize(true);
@@ -156,7 +161,7 @@ public class AllSalonsActivity extends AppCompatActivity {
                         initDatesAdapter();
 
                         try {
-                            roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(dateList.get(0).getDate());
+                            roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(dateList.get(0).getsDate()));
                         } catch (IndexOutOfBoundsException e) {
                             e.printStackTrace();
                             Crashlytics.logException(e);
@@ -172,12 +177,10 @@ public class AllSalonsActivity extends AppCompatActivity {
 
                     @Override
                     public void handleEmptyResponse() {
-                        initSalonsEmptyView();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        initSalonsEmptyView();
                         Toast.makeText(AllSalonsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -211,8 +214,8 @@ public class AllSalonsActivity extends AppCompatActivity {
         Common.Instance(AllSalonsActivity.this).sortList(dateList);
     }
 
-    public SalonDate transformDateToNames(String date) {
-        String[] dateParts = date.split("-"); // separate date
+    public SalonDate transformDateToNames(String sDate) {
+        String[] dateParts = sDate.split("-"); // separate date
         String day = dateParts[0];
         String month = dateParts[1];
         String year = dateParts[2];
@@ -224,7 +227,14 @@ public class AllSalonsActivity extends AppCompatActivity {
         int dayWeek = cal.get(Calendar.DAY_OF_WEEK); // day in month to day in week
         String dayOfWeek = new DateFormatSymbols(new Locale(SharedPrefManager.getInstance(AllSalonsActivity.this).getSavedLang())).getWeekdays()[dayWeek]; // day in week from num to nam
 
-        return new SalonDate(date, day, monthName, dayOfWeek, GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getDatesCount(date) + getResources().getString(R.string.salons));
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("dd-MM-yyyy").parse(sDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return new SalonDate(date, sDate, day, monthName, dayOfWeek, GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getDatesCount(sDate) + getResources().getString(R.string.salons));
     }
 
     private void initDatesAdapter() {
@@ -232,11 +242,9 @@ public class AllSalonsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                 SalonDate salonDate = dateList.get(position);
-                roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(salonDate.getDate());
+                roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(salonDate.getsDate()));
 
                 initSalonsRecycler();
-
-                initSalonsEmptyView();
             }
         }));
     }
@@ -267,12 +275,11 @@ public class AllSalonsActivity extends AppCompatActivity {
 
                     @Override
                     public void handleEmptyResponse() {
-                        initSalonsEmptyView();
+
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        initSalonsEmptyView();
                         Toast.makeText(AllSalonsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -286,26 +293,18 @@ public class AllSalonsActivity extends AppCompatActivity {
                 roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(category.getCategoryName());
 
                 initSalonsRecycler();
-
-                initSalonsEmptyView();
             }
         }));
     }
 
     private void initSalonsRecycler() {
+        hideLoading();
+        if (roundsList.size() > 0) { // !empty ?
+            emptyViewLayout.setVisibility(View.GONE);
             RecyclerView dateSalonsRecycler = findViewById(R.id.date_salons_recycler);
             dateSalonsRecycler.setHasFixedSize(true);
             dateSalonsRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
             dateSalonsRecycler.setAdapter(new SalonsAdapter(AllSalonsActivity.this, roundsList));
-    }
-
-    private void initSalonsEmptyView() {
-        LinearLayout emptyViewLayout = findViewById(R.id.all_salons_empty_view);
-
-        hideLoading();
-
-        if (roundsList.size() > 0) { // !empty ?
-            emptyViewLayout.setVisibility(View.GONE);
 
         } else {  // empty ?
             emptyViewLayout.setVisibility(View.VISIBLE);
