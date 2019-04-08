@@ -77,7 +77,6 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
     // google login
     GoogleSignInClient mGoogleSignInClient;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -232,10 +231,10 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
                     public void handleTrueResponse(JsonObject mainObject) {
                         // notify user
                         Toast.makeText(CreateAccountActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-
                         // save user data locally
                         cacheUserData(mainObject, getResources().getString(R.string.app_name));
 
+                        Common.Instance(CreateAccountActivity.this).updateFirebaseToken();
                         // goto next page
                         startActivity(new Intent(CreateAccountActivity.this, MembershipActivity.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));

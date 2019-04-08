@@ -102,7 +102,7 @@ public class RetrofitClient {
         call.enqueue(createWebserviceCallback(HandleResponses, context));
     }
 
-    public APIs getAPI() {
+    private APIs getAPI() {
         return retrofit.create(APIs.class);
     }
 
@@ -140,9 +140,11 @@ public class RetrofitClient {
                                 HandleResponses.handleTrueResponse(mainObj);
 
                             } catch (NullPointerException e) { // errors of response body 'maybe response body has been changed'
+                                e.printStackTrace();
                                 Log.e(TAG, "onResponse: " + e.getMessage());
                                 Crashlytics.logException(e);
                             } catch (UnsupportedOperationException e) {
+                                e.printStackTrace();
                                 Log.e(TAG, "onResponse: " + e.getMessage());
                                 Crashlytics.logException(e);
                             }
@@ -167,6 +169,9 @@ public class RetrofitClient {
                             try {
                                 JsonObject errorObj = new JsonParser().parse(response.errorBody().string()).getAsJsonObject();
                                 String serverError = parseServerErrors(errorObj);
+                                if (serverError.isEmpty()) {
+                                    serverError  = context.getString(R.string.error_occurred);
+                                }
 
                                 // notify user
                                 Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
