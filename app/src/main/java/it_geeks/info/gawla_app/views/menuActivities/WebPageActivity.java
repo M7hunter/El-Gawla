@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.views.menuOptions;
+package it_geeks.info.gawla_app.views.menuActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;

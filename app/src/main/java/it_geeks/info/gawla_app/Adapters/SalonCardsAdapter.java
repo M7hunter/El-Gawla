@@ -185,33 +185,35 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
 
     private void buyCard(final Card card, final View btnConfirmBuying, final ProgressBar pbBuyCard) {
         hideSingleConfirmationBtn(btnConfirmBuying, pbBuyCard);
-        int user_id = SharedPrefManager.getInstance(context).getUser().getUser_id();
-        String api_token = SharedPrefManager.getInstance(context).getUser().getApi_token();
-        RetrofitClient.getInstance(context).executeConnectionToServer(context, "addCardsToUser", new Request(user_id, api_token, card.getCard_id()), new HandleResponses() {
-            @Override
-            public void handleTrueResponse(JsonObject mainObject) {
-                Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                mBottomSheetDialogSingleCard.dismiss();
-                ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
-                ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the cards list
-            }
+        RetrofitClient.getInstance(context).executeConnectionToServer(context, "addCardsToUser",
+                new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(),
+                        SharedPrefManager.getInstance(context).getUser().getApi_token(),
+                        card.getCard_id()),
+                new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        mBottomSheetDialogSingleCard.dismiss();
+                        ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
+                        ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the cards list
+                    }
 
-            @Override
-            public void handleFalseResponse(JsonObject errorObject) {
+                    @Override
+                    public void handleFalseResponse(JsonObject errorObject) {
 
-            }
+                    }
 
-            @Override
-            public void handleEmptyResponse() {
-                displaySingleConfirmationBtn(btnConfirmBuying, pbBuyCard);
-            }
+                    @Override
+                    public void handleEmptyResponse() {
+                        displaySingleConfirmationBtn(btnConfirmBuying, pbBuyCard);
+                    }
 
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                displaySingleConfirmationBtn(btnConfirmBuying, pbBuyCard);
-                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        displaySingleConfirmationBtn(btnConfirmBuying, pbBuyCard);
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void displayConfirmationBtn(View btn, ProgressBar pb) {

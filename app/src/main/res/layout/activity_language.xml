@@ -6,13 +6,12 @@
     android:background="@android:color/white"
     android:orientation="vertical"
     android:id="@+id/mainLanguageActivity"
-    tools:context=".views.menuOptions.LanguageActivity">
+    tools:context=".views.menuActivities.LanguageActivity">
 
     <!-- title bar -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_tiny"
         android:layoutDirection="ltr">
 
         <!-- back -->

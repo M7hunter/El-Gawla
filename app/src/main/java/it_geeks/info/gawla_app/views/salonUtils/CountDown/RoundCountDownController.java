@@ -29,7 +29,7 @@ public class RoundCountDownController {
     public void setRoundRemainingTime(RoundRemainingTime roundRemainingTime) {
         this.roundRemainingTime = roundRemainingTime;
         try {
-            updateCountDown();
+            updateState();
         } catch (NullPointerException e) {
             e.printStackTrace();
             Crashlytics.logException(e);
@@ -45,61 +45,60 @@ public class RoundCountDownController {
             countDownTimer.cancel();
     }
 
-    public void updateCountDown() {
-        int oneSecond = 1000;
-
+    private void updateState() {
         ((SalonActivity) context).checkOnTime();
         if (roundRemainingTime.getRound_state().trim().equals("open")) {
             if (roundRemainingTime.isOpen_hall_state()) {
-                onRest(roundRemainingTime.getOpen_hall_value() * oneSecond, context.getResources().getString(R.string.before_free_join));
+                onRest(roundRemainingTime.getOpen_hall_value(), context.getResources().getString(R.string.before_free_join));
 
             } else if (roundRemainingTime.isFree_join_state()) {
-                free_join_status(roundRemainingTime.getFree_join_value() * oneSecond);
+                onFreeJoin();
 
             } else if (roundRemainingTime.isPay_join_state()) {
-                pay_join_value(roundRemainingTime.getPay_join_value() * oneSecond);
+                onPayJoin();
 
             } else if (roundRemainingTime.isFirst_round_state()) {
-                first_round_value(roundRemainingTime.getFirst_round_value() * oneSecond);
+                onFirstRound();
 
             } else if (roundRemainingTime.isFirst_rest_state()) {
-                onRest(roundRemainingTime.getFirst_rest_value() * oneSecond, context.getResources().getString(R.string.rest_time));
+                onRest(roundRemainingTime.getFirst_rest_value(), context.getResources().getString(R.string.rest_time));
 
             } else if (roundRemainingTime.isSecond_round_state()) {
-                second_round_value(roundRemainingTime.getSecond_round_value() * oneSecond);
+                onSecondRound();
 
             } else if (roundRemainingTime.isSecond_rest_state()) {
-                onRest(roundRemainingTime.getSecond_rest_value() * oneSecond, context.getResources().getString(R.string.second_rest_time));
+                onRest(roundRemainingTime.getSecond_rest_value(), context.getResources().getString(R.string.second_rest_time));
 
             } else if (roundRemainingTime.isClose_hall_state()) {
-                close_hall_value();
+                onClosed();
             }
 
         } else {
-            ((SalonActivity) context).updateLatestActivity(context.getResources().getString(R.string.closed));
-            ((SalonActivity) context).tvSalonMessage.setText(context.getResources().getString(R.string.closed));
+            onClosed();
         }
     }
 
-    // join Round Opened
-    private void free_join_status(long value) {
+    private void onRest(long value, String message) {
         startCountDown(value);
+        ((SalonActivity) context).tvSalonMessage.setText(message);
+    }
+
+    private void onFreeJoin() {
+        startCountDown(roundRemainingTime.getFree_join_value());
         ((SalonActivity) context).tvSalonMessage.setText(context.getResources().getString(R.string.free_join));
         if (!roundRemainingTime.isUserJoin()) {
             ((SalonActivity) context).btnJoinRound.setVisibility(View.VISIBLE);
         }
     }
 
-    // join closed , use Golden Card
-    private void pay_join_value(long value) {
-        startCountDown(value);
+    private void onPayJoin() {
+        startCountDown(roundRemainingTime.getPay_join_value());
         ((SalonActivity) context).tvSalonMessage.setText(context.getResources().getString(R.string.card_join_time));
         ((SalonActivity) context).btnJoinRound.setVisibility(View.GONE);
     }
 
-    // add deal to product ( Round Time )
-    private void first_round_value(long value) {
-        startCountDown(value);
+    private void onFirstRound() {
+        startCountDown(roundRemainingTime.getFirst_round_value());
         ((SalonActivity) context).tvSalonMessage.setText(context.getResources().getString(R.string.first_round_time));
         ((SalonActivity) context).hideGoldenLayout();
         if (roundRemainingTime.isUserJoin()) {
@@ -107,20 +106,13 @@ public class RoundCountDownController {
         }
     }
 
-    //Rest show the winner
-    private void onRest(long value, String message) {
-        startCountDown(value);
-        ((SalonActivity) context).tvSalonMessage.setText(message);
-    }
-
-    // Second Round when user restart the round
-    private void second_round_value(long value) {
-        startCountDown(value);
+    private void onSecondRound() {
+        startCountDown(roundRemainingTime.getSecond_round_value());
         ((SalonActivity) context).tvSalonMessage.setText(context.getResources().getString(R.string.second_round_time));
         ((SalonActivity) context).selectDetailsTab();
     }
 
-    private void close_hall_value() {
+    private void onClosed() {
         ((SalonActivity) context).tvSalonMessage.setText(context.getResources().getString(R.string.closed));
         ((SalonActivity) context).updateLatestActivity(context.getResources().getString(R.string.activity_empty_hint));
     }
@@ -128,14 +120,14 @@ public class RoundCountDownController {
     private void startCountDown(long value) {
         try {
             stopCountDown();
-            countDownTimer = new CountDownTimer(value, 1000) {
+            countDownTimer = new CountDownTimer(value * 1000, 1000) {
 
                 public void onTick(final long millisUntilFinished) {
-                    setTimeDown(millisUntilFinished / 1000);
+                    animateOnTick(millisUntilFinished / 1000);
                 }
 
                 public void onFinish() {
-                    ((SalonActivity) context).getRemainingTimeOfRound();
+                    ((SalonActivity) context).getRemainingTimeFromServer();
                 }
 
             }.start();
@@ -145,26 +137,26 @@ public class RoundCountDownController {
         }
     }
 
-    private void setTimeDown(long millisUntilFinished) {
+    private void animateOnTick(long millisUntilFinished) {
         long hour = (millisUntilFinished / (60 * 60)) % 24;
         long minute = (millisUntilFinished / 60) % 60;
         long second = millisUntilFinished % 60;
 
         if (mSecond[0] != second) {
-            CountDownAnimator countDownAnimatorSecond = new CountDownAnimator(context, halvesModel.getUpperHalvesIdsList(), halvesModel.getLowerHalvesIdsList(), halvesModel.getUpperHalvesDrawablesList(), halvesModel.getLowerHalvesDrawablesList(), "second");
-            countDownAnimatorSecond.NumberTick(second);
+            CountDownAnimator countDownAnimatorSecond = new CountDownAnimator(context, halvesModel.getUpperViewsList(), halvesModel.getLowerViewsList(), halvesModel.getUpperDrawablesResList(), halvesModel.getLowerDrawablesResList(), "second");
+            countDownAnimatorSecond.tickNumber(second);
         }
         mSecond[0] = second;
 
         if (mMinute[0] != minute) {
-            CountDownAnimator countDownAnimatorMinute = new CountDownAnimator(context, halvesModel.getUpperHalvesIdsList(), halvesModel.getLowerHalvesIdsList(), halvesModel.getUpperHalvesDrawablesList(), halvesModel.getLowerHalvesDrawablesList(), "minute");
-            countDownAnimatorMinute.NumberTick(minute);
+            CountDownAnimator countDownAnimatorMinute = new CountDownAnimator(context, halvesModel.getUpperViewsList(), halvesModel.getLowerViewsList(), halvesModel.getUpperDrawablesResList(), halvesModel.getLowerDrawablesResList(), "minute");
+            countDownAnimatorMinute.tickNumber(minute);
         }
         mMinute[0] = minute;
 
         if (mHour[0] != hour) {
-            CountDownAnimator countDownAnimatorHour = new CountDownAnimator(context, halvesModel.getUpperHalvesIdsList(), halvesModel.getLowerHalvesIdsList(), halvesModel.getUpperHalvesDrawablesList(), halvesModel.getLowerHalvesDrawablesList(), "hour");
-            countDownAnimatorHour.NumberTick(hour);
+            CountDownAnimator countDownAnimatorHour = new CountDownAnimator(context, halvesModel.getUpperViewsList(), halvesModel.getLowerViewsList(), halvesModel.getUpperDrawablesResList(), halvesModel.getLowerDrawablesResList(), "hour");
+            countDownAnimatorHour.tickNumber(hour);
         }
         mHour[0] = hour;
 
@@ -172,7 +164,7 @@ public class RoundCountDownController {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    setTimeDown(0); // zero time
+                    animateOnTick(0); // zero time
                 }
             },1000);
         }

@@ -55,17 +55,17 @@
         <activity android:name=".views.loginActivities.ForgetPasswordActivity" />
         <activity android:name=".views.loginActivities.CreateAccountActivity" />
         <activity android:name=".views.loginActivities.LoginActivity" />
-        <activity android:name=".views.menuOptions.SettingsActivity" />
-        <activity android:name=".views.menuOptions.MoreAboutGawlaActivity" />
-        <activity android:name=".views.menuOptions.PrivacyPolicyActivity" />
-        <activity android:name=".views.menuOptions.TermsAndConditionsActivity" />
-        <activity android:name=".views.menuOptions.CallUsActivity" />
-        <activity android:name=".views.menuOptions.LanguageActivity" />
-        <activity android:name=".views.menuOptions.WebPageActivity" />
-        <activity android:name=".views.accountOptions.BuyingProcessesActivity" />
-        <activity android:name=".views.accountOptions.AccountDetailsActivity" />
+        <activity android:name=".views.menuActivities.SettingsActivity" />
+        <activity android:name=".views.menuActivities.MoreAboutGawlaActivity" />
+        <activity android:name=".views.menuActivities.PrivacyPolicyActivity" />
+        <activity android:name=".views.menuActivities.TermsAndConditionsActivity" />
+        <activity android:name=".views.menuActivities.CallUsActivity" />
+        <activity android:name=".views.menuActivities.LanguageActivity" />
+        <activity android:name=".views.menuActivities.WebPageActivity" />
+        <activity android:name=".views.accountActivities.BuyingProcessesActivity" />
+        <activity android:name=".views.accountActivities.AccountDetailsActivity" />
         <activity
-            android:name=".views.accountOptions.PrivacyDetailsActivity"
+            android:name=".views.accountActivities.PrivacyDetailsActivity"
             android:windowSoftInputMode="adjustPan" />
 
         <!-- receivers -->

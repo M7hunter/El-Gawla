@@ -12,10 +12,10 @@ public class HalvesModel {
     private Context context;
     private View parent;
 
-    private List<ImageView> upperHalvesIdsList = new ArrayList<>();
-    private List<ImageView> lowerHalvesIdsList = new ArrayList<>();
-    private List<Integer> upperHalvesDrawablesList = new ArrayList<>();
-    private List<Integer> lowerHalvesDrawablesList = new ArrayList<>();
+    private List<ImageView> upperViewsList = new ArrayList<>();
+    private List<ImageView> lowerViewsList = new ArrayList<>();
+    private List<Integer> upperDrawablesResList = new ArrayList<>();
+    private List<Integer> lowerDrawablesResList = new ArrayList<>();
 
     public HalvesModel(Context context, View parent) {
         this.context = context;
@@ -25,28 +25,28 @@ public class HalvesModel {
 
     private void initHalves() {
         for (int i = 1; i <= 12; i++) { // init halves ids lists
-            upperHalvesIdsList.add((ImageView) parent.findViewById(context.getResources().getIdentifier("div_up" + i, "id", context.getPackageName())));
-            lowerHalvesIdsList.add((ImageView) parent.findViewById(context.getResources().getIdentifier("div_down" + i, "id", context.getPackageName())));
+            upperViewsList.add((ImageView) parent.findViewById(context.getResources().getIdentifier("div_up" + i, "id", context.getPackageName())));
+            lowerViewsList.add((ImageView) parent.findViewById(context.getResources().getIdentifier("div_down" + i, "id", context.getPackageName())));
         }
         for (int i = 0; i < 12; i++) { // init halves drawables lists
-            upperHalvesDrawablesList.add(context.getResources().getIdentifier("digit_" + i + "_upper", "drawable", context.getPackageName()));
-            lowerHalvesDrawablesList.add(context.getResources().getIdentifier("digit_" + i + "_lower", "drawable", context.getPackageName()));
+            upperDrawablesResList.add(context.getResources().getIdentifier("digit_" + i + "_upper", "drawable", context.getPackageName()));
+            lowerDrawablesResList.add(context.getResources().getIdentifier("digit_" + i + "_lower", "drawable", context.getPackageName()));
         }
     }
 
-    public List<ImageView> getUpperHalvesIdsList() {
-        return upperHalvesIdsList;
+    public List<ImageView> getUpperViewsList() {
+        return upperViewsList;
     }
 
-    public List<ImageView> getLowerHalvesIdsList() {
-        return lowerHalvesIdsList;
+    public List<ImageView> getLowerViewsList() {
+        return lowerViewsList;
     }
 
-    public List<Integer> getUpperHalvesDrawablesList() {
-        return upperHalvesDrawablesList;
+    public List<Integer> getUpperDrawablesResList() {
+        return upperDrawablesResList;
     }
 
-    public List<Integer> getLowerHalvesDrawablesList() {
-        return lowerHalvesDrawablesList;
+    public List<Integer> getLowerDrawablesResList() {
+        return lowerDrawablesResList;
     }
 }

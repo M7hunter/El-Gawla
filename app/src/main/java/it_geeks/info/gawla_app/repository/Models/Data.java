@@ -16,9 +16,4 @@ public class Data {
         this.action = action;
         this.page = page;
     }
-    public Data(String action, long last_request, int page) { // request salons paged updated
-        this.action = action;
-        this.last_request = last_request;
-        this.page = page;
-    }
 }

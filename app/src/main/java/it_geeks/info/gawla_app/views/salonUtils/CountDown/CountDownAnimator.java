@@ -15,151 +15,76 @@ import it_geeks.info.gawla_app.R;
 
 public class CountDownAnimator implements Animation.AnimationListener {
 
-    private List<ImageView> upDivsList = new ArrayList<>();
-    private List<ImageView> downDivsList = new ArrayList<>();
-    private List<Integer> drawablesUp = new ArrayList<>();
-    private List<Integer> drawablesDown = new ArrayList<>();
+    private List<ImageView> upperViewsList = new ArrayList<>(), lowerViewsList = new ArrayList<>();
+    private List<Integer> upperDrawablesResList = new ArrayList<>(), lowerDrawablesResList = new ArrayList<>();
 
-    private Animation animation1;
-    private Animation animation2;
-    private Animation animation3;
-    private Animation animation4;
-    private int currentNumberTens;
-    private int currentNumber;
+    private Animation rightUpperAnim, rightLowerAnim, leftUpperAnim, leftLowerAnim;
+    private int rightNumber, leftNumber;
+//    private int right = 0;
 
     private Context context;
 
-    CountDownAnimator(Context context, List<ImageView> upDivsList, List<ImageView> downDivsList, List<Integer> drawablesUp, List<Integer> drawablesDown, String countType) {
+    CountDownAnimator(Context context, List<ImageView> upperViewsList, List<ImageView> lowerViewsList, List<Integer> upperDrawablesResList, List<Integer> lowerDrawablesResList, String countType) {
         this.context = context;
-        this.drawablesUp.addAll(drawablesUp);
-        this.drawablesDown.addAll(drawablesDown);
+        this.upperDrawablesResList.addAll(upperDrawablesResList);
+        this.lowerDrawablesResList.addAll(lowerDrawablesResList);
 
         switch (countType) {
             case "second":
                 for (int i = 0; i < 4; i++) {
-                    this.upDivsList.add(upDivsList.get(i));
-                    this.downDivsList.add(downDivsList.get(i));
+                    this.upperViewsList.add(upperViewsList.get(i));
+                    this.lowerViewsList.add(lowerViewsList.get(i));
                 }
                 break;
             case "minute":
                 for (int i = 4; i < 8; i++) {
-                    this.upDivsList.add(upDivsList.get(i));
-                    this.downDivsList.add(downDivsList.get(i));
+                    this.upperViewsList.add(upperViewsList.get(i));
+                    this.lowerViewsList.add(lowerViewsList.get(i));
                 }
                 break;
             case "hour":
                 for (int i = 8; i < 12; i++) {
-                    this.upDivsList.add(upDivsList.get(i));
-                    this.downDivsList.add(downDivsList.get(i));
+                    this.upperViewsList.add(upperViewsList.get(i));
+                    this.lowerViewsList.add(lowerViewsList.get(i));
                 }
                 break;
         }
     }
 
     // tick number
-    void NumberTick(long millisUntilFinished) {
+    void tickNumber(long millisUntilFinished) {
         try {
             int num = (int) millisUntilFinished;
-            int firstDigit = 0, secondDigit = 0;
-            if (String.valueOf(num).length() == 2) {
-                firstDigit = Integer.parseInt(Integer.toString(num).substring(0, 1));
-                secondDigit = Integer.parseInt(Integer.toString(num).substring(1, 2));
-                currentNumber = secondDigit;
-                currentNumberTens = firstDigit;
-            } else {
-                firstDigit = Integer.parseInt(Integer.toString(num).substring(0, 1));
-                currentNumber = firstDigit;
-                currentNumberTens = 0;
+            int leftDigit, rightDigit;
+
+            if (String.valueOf(num).length() == 2) { // >= 10
+                leftDigit = Integer.parseInt(Integer.toString(num).substring(0, 1));
+                rightDigit = Integer.parseInt(Integer.toString(num).substring(1, 2));
+                leftNumber = leftDigit;
+                rightNumber = rightDigit;
+            } else { // < 10
+                rightDigit = Integer.parseInt(Integer.toString(num).substring(0, 1));
+                leftDigit = 0;
+                rightNumber = rightDigit;
+                leftNumber = leftDigit;
             }
 
-            if (num < 10) {
-                anim(num);
-                upDivsList.get(0).setImageResource(drawablesUp.get(firstDigit));
-                downDivsList.get(1).setImageResource(drawablesDown.get(firstDigit));
+            if (num < 60) {
+                animRight();
+//                animUpper(1);
+//                right = 1;
+                upperViewsList.get(0).setImageResource(upperDrawablesResList.get(rightDigit));
+                upperViewsList.get(2).setImageResource(upperDrawablesResList.get(leftDigit));
+                lowerViewsList.get(1).setImageResource(lowerDrawablesResList.get(rightDigit));
+                lowerViewsList.get(3).setImageResource(lowerDrawablesResList.get(leftDigit));
 
-                downDivsList.get(2).setImageResource(drawablesDown.get(0));
-                upDivsList.get(2).setImageResource(drawablesUp.get(0));
-                upDivsList.get(3).setImageResource(drawablesUp.get(0));
-                downDivsList.get(3).setImageResource(drawablesDown.get(0));
-                if (num == 9) {
-                    tensAnim();
-                }
-            }
-
-            if (num >= 10 && num < 20) {
-                anim(num);
-                upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
-                downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
-
-                upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
-                downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
-                if (num == 19) {
-                    tensAnim();
+                if (rightDigit == 9) {
+                    animLeft();
+//                    animUpper(3);
+//                    right = 3;
                 } else {
-                    upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
-                    downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
-                }
-            }
-
-            if (num >= 20 && num < 30) {
-                anim(num);
-                upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
-                downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
-
-                upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
-                downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
-                if (num == 29) {
-                    tensAnim();
-                } else {
-                    upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
-                    downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
-                }
-            }
-
-            if (num >= 30 && num < 40) {
-                anim(num);
-                upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
-                downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
-
-                upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
-                downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
-                if (num == 39) {
-                    tensAnim();
-                } else {
-                    upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
-                    downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
-                }
-            }
-
-            if (num >= 40 && num < 50) {
-                anim(num);
-                upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
-                downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
-
-                upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
-                downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
-                if (num == 49) {
-                    tensAnim();
-                } else {
-                    upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
-                    downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
-                }
-            }
-
-            if (num >= 50 && num < 60) {
-                anim(num);
-                upDivsList.get(0).setImageResource(drawablesUp.get(secondDigit));
-                downDivsList.get(1).setImageResource(drawablesDown.get(secondDigit));
-
-                upDivsList.get(2).setImageResource(drawablesUp.get(firstDigit));
-                downDivsList.get(3).setImageResource(drawablesDown.get(firstDigit));
-                if (num == 59) {
-                    upDivsList.get(3).setImageResource(drawablesUp.get(currentNumberTens));
-                    downDivsList.get(2).setImageResource(drawablesDown.get(currentNumberTens));
-                    tensAnim();
-                } else {
-                    upDivsList.get(3).setImageResource(drawablesUp.get(firstDigit));
-                    downDivsList.get(2).setImageResource(drawablesDown.get(firstDigit));
+                    upperViewsList.get(3).setImageResource(upperDrawablesResList.get(leftDigit));
+                    lowerViewsList.get(2).setImageResource(lowerDrawablesResList.get(leftDigit));
                 }
             }
 
@@ -169,22 +94,39 @@ public class CountDownAnimator implements Animation.AnimationListener {
         }
     }
 
-    // anim for basic number
-    private void anim(int n) {
-        if (n < 60) {
-            animation1 = AnimationUtils.loadAnimation(context, R.anim.flip_point_to_middle);
-            animation1.setAnimationListener(this);
-            upDivsList.get(1).setVisibility(View.VISIBLE);
-            upDivsList.get(1).startAnimation(animation1);
-        }
+    private void animRight() {
+        upperViewsList.get(1).setVisibility(View.VISIBLE);
+        rightUpperAnim = AnimationUtils.loadAnimation(context, R.anim.flip_point_to_middle);
+        rightUpperAnim.setAnimationListener(this);
+        upperViewsList.get(1).startAnimation(rightUpperAnim);
     }
 
-    // anim for tens number
-    private void tensAnim() {
-        animation3 = AnimationUtils.loadAnimation(context, R.anim.flip_point_to_middle);
-        animation3.setAnimationListener(this);
-        upDivsList.get(3).setVisibility(View.VISIBLE);
-        upDivsList.get(3).startAnimation(animation3);
+    private void animLeft() {
+        upperViewsList.get(3).setVisibility(View.VISIBLE);
+        leftUpperAnim = AnimationUtils.loadAnimation(context, R.anim.flip_point_to_middle);
+        leftUpperAnim.setAnimationListener(this);
+        upperViewsList.get(3).startAnimation(leftUpperAnim);
+    }
+
+    private void animUpper(int i1) {
+        upperViewsList.get(i1).setVisibility(View.VISIBLE);
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.flip_point_to_middle);
+        anim.setAnimationListener(this);
+        upperViewsList.get(i1).startAnimation(anim);
+    }
+
+    private void animLower(int i1) {
+        upperViewsList.get(i1).setVisibility(View.INVISIBLE);
+        lowerViewsList.get(i1).setVisibility(View.VISIBLE);
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.flip_point_from_middle);
+        anim.setAnimationListener(this);
+        lowerViewsList.get(i1).startAnimation(anim);
+    }
+
+    private void reInitToAnim(int i1, int i2, int num) {
+        lowerViewsList.get(i1).setVisibility(View.INVISIBLE);
+        upperViewsList.get(i1).setImageResource(upperDrawablesResList.get(num));
+        lowerViewsList.get(i2).setImageResource(lowerDrawablesResList.get(num));
     }
 
     @Override
@@ -194,30 +136,36 @@ public class CountDownAnimator implements Animation.AnimationListener {
 
     @Override
     public void onAnimationEnd(Animation animation) {
-        if (animation == animation1) {
-            upDivsList.get(1).setVisibility(View.INVISIBLE);
-            downDivsList.get(1).setVisibility(View.VISIBLE);
-            animation2 = AnimationUtils.loadAnimation(context, R.anim.flip_point_from_middle);
-            animation2.setAnimationListener(this);
-            downDivsList.get(1).startAnimation(animation2);
-        } else if (animation == animation2) {
-            downDivsList.get(1).setVisibility(View.INVISIBLE);
-            upDivsList.get(1).setImageResource(drawablesUp.get(currentNumber));
-            downDivsList.get(0).setImageResource(drawablesDown.get(currentNumber));
+        if (animation == rightUpperAnim) {
+            upperViewsList.get(1).setVisibility(View.INVISIBLE);
+            lowerViewsList.get(1).setVisibility(View.VISIBLE);
+            rightLowerAnim = AnimationUtils.loadAnimation(context, R.anim.flip_point_from_middle);
+            rightLowerAnim.setAnimationListener(this);
+            lowerViewsList.get(1).startAnimation(rightLowerAnim);
+//            animLower(1);
+//            right = 2;
 
+        } else if (animation == rightLowerAnim) {
+            lowerViewsList.get(1).setVisibility(View.INVISIBLE);
+            upperViewsList.get(1).setImageResource(upperDrawablesResList.get(rightNumber));
+            lowerViewsList.get(0).setImageResource(lowerDrawablesResList.get(rightNumber));
+//            reInitToAnim(1, 0, rightNumber);
         }
 
-        if (animation == animation3) {
-            upDivsList.get(3).setVisibility(View.INVISIBLE);
-            downDivsList.get(3).setVisibility(View.VISIBLE);
-            animation4 = AnimationUtils.loadAnimation(context, R.anim.flip_point_from_middle);
-            animation4.setAnimationListener(this);
-            downDivsList.get(3).startAnimation(animation4);
+        if (animation == leftUpperAnim) {
+            upperViewsList.get(3).setVisibility(View.INVISIBLE);
+            lowerViewsList.get(3).setVisibility(View.VISIBLE);
+            leftLowerAnim = AnimationUtils.loadAnimation(context, R.anim.flip_point_from_middle);
+            leftLowerAnim.setAnimationListener(this);
+            lowerViewsList.get(3).startAnimation(leftLowerAnim);
+//            animLower(3);
+//            right = 4;
 
-        } else if (animation == animation4) {
-            downDivsList.get(3).setVisibility(View.INVISIBLE);
-            upDivsList.get(3).setImageResource(drawablesUp.get(currentNumberTens));
-            downDivsList.get(2).setImageResource(drawablesDown.get(currentNumberTens));
+        } else if (animation == leftLowerAnim) {
+            lowerViewsList.get(3).setVisibility(View.INVISIBLE);
+            upperViewsList.get(3).setImageResource(upperDrawablesResList.get(leftNumber));
+            lowerViewsList.get(2).setImageResource(lowerDrawablesResList.get(leftNumber));
+//            reInitToAnim(3, 2, leftNumber);
         }
     }
 

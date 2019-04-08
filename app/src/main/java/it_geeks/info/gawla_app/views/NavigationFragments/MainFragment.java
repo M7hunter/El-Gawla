@@ -35,7 +35,7 @@ import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
 import it_geeks.info.gawla_app.views.AllSalonsActivity;
 import it_geeks.info.gawla_app.views.MainActivity;
-import it_geeks.info.gawla_app.views.menuOptions.MoreAboutGawlaActivity;
+import it_geeks.info.gawla_app.views.menuActivities.MoreAboutGawlaActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 
 public class MainFragment extends Fragment {

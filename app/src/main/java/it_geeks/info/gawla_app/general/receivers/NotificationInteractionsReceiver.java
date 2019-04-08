@@ -7,7 +7,7 @@ import android.content.Intent;
 
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.general.services.UploadImageService;
-import it_geeks.info.gawla_app.views.accountOptions.AccountDetailsActivity;
+import it_geeks.info.gawla_app.views.accountActivities.AccountDetailsActivity;
 
 public class NotificationInteractionsReceiver extends BroadcastReceiver {
     @Override

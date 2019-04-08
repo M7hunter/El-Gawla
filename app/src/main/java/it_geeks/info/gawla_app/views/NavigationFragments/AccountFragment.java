@@ -16,9 +16,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.NotificationStatus;
 import it_geeks.info.gawla_app.general.TransHolder;
-import it_geeks.info.gawla_app.views.accountOptions.AccountDetailsActivity;
-import it_geeks.info.gawla_app.views.accountOptions.BuyingProcessesActivity;
-import it_geeks.info.gawla_app.views.accountOptions.PrivacyDetailsActivity;
+import it_geeks.info.gawla_app.views.accountActivities.AccountDetailsActivity;
+import it_geeks.info.gawla_app.views.accountActivities.BuyingProcessesActivity;
+import it_geeks.info.gawla_app.views.accountActivities.PrivacyDetailsActivity;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 

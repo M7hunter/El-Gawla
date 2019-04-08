@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Display;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -138,19 +137,22 @@ public class SalonActivity extends AppCompatActivity {
 
         initViews();
 
-        getRoundData(savedInstanceState);
+        if (getRound(savedInstanceState)) {
+            initBottomSheetCardsBag();
+            getRemainingTimeFromServer();
+            bindProductMainViews();
+            initBottomSheetProductDetails();
+        }
 
         initHelp();
 
         initJoinConfirmationDialog();
 
-        screenDimensions();
+        getScreenDimensions();
 
         initCardsBagIcon();
 
         getChatUtils();
-
-        getSocketUtils();
 
         getSocketUtils();
 
@@ -163,7 +165,7 @@ public class SalonActivity extends AppCompatActivity {
 
     public RoundRemainingTime getRoundRemainingTime() {
         if (roundRemainingTime == null) {
-            getRemainingTimeOfRound();
+            getRemainingTimeFromServer();
         }
         return roundRemainingTime;
     }
@@ -265,24 +267,18 @@ public class SalonActivity extends AppCompatActivity {
         Support.INSTANCE.init(Zendesk.INSTANCE);
     }
 
-    private void getRoundData(Bundle savedInstanceState) {
+    private boolean getRound(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
 
             if (extras != null) { // get data from previous page
                 round = (Round) extras.getSerializable("round");
             }
-
         } else { // get data from saved state
             round = (Round) savedInstanceState.getSerializable("round");
         }
 
-        if (round != null) {
-            initBottomSheetCardsBag();
-            getRemainingTimeOfRound();
-            bindProductMainViews();
-            initBottomSheetProductDetails();
-        }
+        return round != null;
     }
 
     private void calculateGoldenCard() {
@@ -377,7 +373,7 @@ public class SalonActivity extends AppCompatActivity {
                     roundRemainingTime.setUserJoin(true);
                     goldenCard.setCount(goldenCardCount - 1);
                     getUserCardsForSalonFromServer();
-                    getRemainingTimeOfRound();
+                    getRemainingTimeFromServer();
 
                     congratsSubscribing();
                     joinAlert.show();
@@ -683,9 +679,9 @@ public class SalonActivity extends AppCompatActivity {
         return salonMainContainer;
     }
 
-    public void getRemainingTimeOfRound() {
+    public void getRemainingTimeFromServer() {
         displayLoading();
-        Log.d(TAG, "getRemainingTimeOfRound: doing");
+        Log.d(TAG, "getRemainingTimeFromServer: doing");
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this, "getSalonWithRealTime", new Request(userId, apiToken, round.getSalon_id()), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
@@ -707,7 +703,7 @@ public class SalonActivity extends AppCompatActivity {
             @Override
             public void handleEmptyResponse() {
                 hideLoading();
-                Log.d(TAG, "getRemainingTimeOfRound: done");
+                Log.d(TAG, "getRemainingTimeFromServer: done");
             }
 
             @Override
@@ -716,7 +712,7 @@ public class SalonActivity extends AppCompatActivity {
                 Snackbar.make(findViewById(R.id.salon_main_layout), errorMessage, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getRemainingTimeOfRound();
+                        getRemainingTimeFromServer();
                     }
                 }).show();
             }
@@ -736,16 +732,16 @@ public class SalonActivity extends AppCompatActivity {
         if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isSecond_rest_state()) {
             socketUtils.connectSocket();
 
-            if (roundRemainingTime.isUserJoin()) {
+            if (roundRemainingTime.isUserJoin()) { // member?
                 chatUtils.enableChat();
-            } else {
+            } else { // !member
                 chatUtils.disableChat();
             }
         } else {
             chatUtils.disableChat();
         }
 
-        if (roundRemainingTime.isUserJoin() && (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state())) { // on join time
+        if (roundRemainingTime.isUserJoin() && (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state())) { // on join time & member
             btnLeaveRound.setVisibility(View.VISIBLE); // display leave salon btn
         } else { // !join time
             btnLeaveRound.setVisibility(View.GONE); // hide leave salon btn
@@ -923,7 +919,7 @@ public class SalonActivity extends AppCompatActivity {
                 roundCountDownController.stopCountDown();
                 btnLeaveRound.setVisibility(View.GONE);
                 unSubscribeUserFromSalonNotification();
-                getRemainingTimeOfRound();
+                getRemainingTimeFromServer();
                 initSubscribeConfirmationViews();
             }
 
@@ -1360,16 +1356,16 @@ public class SalonActivity extends AppCompatActivity {
 
                 // moved
                 switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // reinitialize points
+                        pointerPoint.set(motionEvent.getX(), motionEvent.getY());
+                        staringPoint.set(view.getX(), view.getY());
+
+                        break;
                     case MotionEvent.ACTION_MOVE:
                         // move smoothly
                         view.setX((int) (staringPoint.x + motionEvent.getX() - pointerPoint.x));
                         view.setY((int) (staringPoint.y + motionEvent.getY() - pointerPoint.y));
-                        staringPoint.set(view.getX(), view.getY());
-
-                        break;
-                    case MotionEvent.ACTION_DOWN:
-                        // reinitialize points
-                        pointerPoint.set(motionEvent.getX(), motionEvent.getY());
                         staringPoint.set(view.getX(), view.getY());
 
                         break;
@@ -1410,10 +1406,9 @@ public class SalonActivity extends AppCompatActivity {
         }
     }
 
-    private void screenDimensions() {
-        Display display = getWindowManager().getDefaultDisplay();
+    private void getScreenDimensions() {
         Point size = new Point();
-        display.getSize(size);
+        getWindowManager().getDefaultDisplay().getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
     }
@@ -1442,27 +1437,19 @@ public class SalonActivity extends AppCompatActivity {
                 Crashlytics.logException(e);
             }
         }
+        socketUtils.disconnectSocket();
     }
 
     @Override
     public void onBackPressed() {
-        try {
-            roundCountDownController.stopCountDown();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        Intent i = new Intent();
-        setResult(RESULT_OK, i);
+        setResult(RESULT_OK, new Intent());
         super.onBackPressed();
     }
 
     @Override
     protected void onDestroy() {
         disconnectSalonSocket();
-
         unregisterReceiver(connectionChangeReceiver);
-        socketUtils.disconnectSocket();
 
         try {
             roundCountDownController.stopCountDown();

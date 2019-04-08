@@ -106,7 +106,7 @@ public class CardActivity extends AppCompatActivity {
         imgNotification = findViewById(R.id.notification_bell);
 
         // notification status LiveData
-        NotificationStatus.notificationStatus(this,imgNotification);
+        NotificationStatus.notificationStatus(this, imgNotification);
 
         // goto notification page
         imgNotification.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +160,6 @@ public class CardActivity extends AppCompatActivity {
         btnConfirmBuying.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideConfirmationBtn(btnConfirmBuying, pbBuyCard);
                 buyCard(btnConfirmBuying, pbBuyCard);
             }
         });
@@ -197,6 +196,7 @@ public class CardActivity extends AppCompatActivity {
 //    }
 
     private void buyCard(final CardView btnConfirmBuying, final ProgressBar pbBuyCard) {
+        hideConfirmationBtn(btnConfirmBuying, pbBuyCard);
         int user_id = SharedPrefManager.getInstance(this).getUser().getUser_id();
         String api_token = SharedPrefManager.getInstance(this).getUser().getApi_token();
 

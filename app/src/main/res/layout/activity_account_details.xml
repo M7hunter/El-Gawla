@@ -7,7 +7,7 @@
     android:background="@android:color/white"
     android:orientation="vertical"
     android:id="@+id/mainAccountDetails"
-    tools:context=".views.accountOptions.AccountDetailsActivity">
+    tools:context=".views.accountActivities.AccountDetailsActivity">
     <!-- scroll main layout -->
     <LinearLayout
         android:layout_width="match_parent"

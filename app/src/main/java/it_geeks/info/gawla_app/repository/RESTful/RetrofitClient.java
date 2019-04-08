@@ -102,7 +102,7 @@ public class RetrofitClient {
         call.enqueue(createWebserviceCallback(HandleResponses, context));
     }
 
-    private APIs getAPI() {
+    public APIs getAPI() {
         return retrofit.create(APIs.class);
     }
 

@@ -63,7 +63,7 @@
         </LinearLayout>
 
         <!-- time container -->
-        <include layout="@layout/layout_salon_countdown" />
+        <include layout="@layout/layout_salon_timer" />
 
         <!-- taps layout -->
         <include layout="@layout/layout_salon_taps" />

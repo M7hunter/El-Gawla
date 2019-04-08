@@ -6,7 +6,7 @@
     android:background="@android:color/white"
     android:orientation="vertical"
     android:id="@+id/mainTermsAndConditionsActivity"
-    tools:context=".views.menuOptions.TermsAndConditionsActivity">
+    tools:context=".views.menuActivities.TermsAndConditionsActivity">
     <!-- scroll main layout -->
     <LinearLayout
         android:layout_width="match_parent"

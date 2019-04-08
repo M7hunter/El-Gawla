@@ -16,7 +16,7 @@ import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.views.accountOptions.AccountDetailsActivity;
+import it_geeks.info.gawla_app.views.accountActivities.AccountDetailsActivity;
 
 public class UploadImageService extends Service {
 

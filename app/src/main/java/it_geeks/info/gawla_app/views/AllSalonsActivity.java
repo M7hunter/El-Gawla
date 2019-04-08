@@ -51,7 +51,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
     public static Activity allSalonsActivityInstance;
 
-    private RecyclerView filterRecycler;
+    private RecyclerView filterRecycler, salonsRecycler;
 
     private List<Round> roundsList = new ArrayList<>();
     private List<Category> categoryList = new ArrayList<>();
@@ -59,7 +59,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
     private BottomSheetDialog mBottomSheetDialogFilterBy;
 
-    ImageView imgNotification;
+    private ImageView ivNotificationBell;
 
     private CardView loadingCard;
     private LinearLayout emptyViewLayout;
@@ -106,6 +106,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        salonsRecycler = findViewById(R.id.all_salons_recycler);
         emptyViewLayout = findViewById(R.id.all_salons_empty_view);
         loadingCard = findViewById(R.id.loading_card);
         filterRecycler = findViewById(R.id.filter_recycler);
@@ -121,13 +122,13 @@ public class AllSalonsActivity extends AppCompatActivity {
         });
 
         // Notification icon
-        imgNotification = findViewById(R.id.all_salon_notification_icon);
+        ivNotificationBell = findViewById(R.id.all_salon_notification_icon);
 
         // notification status LiveData
-        NotificationStatus.notificationStatus(this,imgNotification);
+        NotificationStatus.notificationStatus(this, ivNotificationBell);
 
         // notification onClick
-        imgNotification.setOnClickListener(new View.OnClickListener() {
+        ivNotificationBell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(AllSalonsActivity.this, NotificationActivity.class));
@@ -166,8 +167,6 @@ public class AllSalonsActivity extends AppCompatActivity {
                             e.printStackTrace();
                             Crashlytics.logException(e);
                         }
-
-                        initSalonsRecycler();
                     }
 
                     @Override
@@ -177,10 +176,12 @@ public class AllSalonsActivity extends AppCompatActivity {
 
                     @Override
                     public void handleEmptyResponse() {
+                        initSalonsRecycler();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
+                        initSalonsRecycler();
                         Toast.makeText(AllSalonsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -250,6 +251,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void getCategoriesAndRoundsFromServer() {
+        displayLoading();
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
                 "getAllCategories", new Request(userId, apiToken), new HandleResponses() {
                     @Override
@@ -265,8 +267,6 @@ public class AllSalonsActivity extends AppCompatActivity {
                             e.printStackTrace();
                             Crashlytics.logException(e);
                         }
-
-                        initSalonsRecycler();
                     }
 
                     @Override
@@ -275,11 +275,12 @@ public class AllSalonsActivity extends AppCompatActivity {
 
                     @Override
                     public void handleEmptyResponse() {
-
+                        initSalonsRecycler();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
+                        initSalonsRecycler();
                         Toast.makeText(AllSalonsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -301,13 +302,14 @@ public class AllSalonsActivity extends AppCompatActivity {
         hideLoading();
         if (roundsList.size() > 0) { // !empty ?
             emptyViewLayout.setVisibility(View.GONE);
-            RecyclerView dateSalonsRecycler = findViewById(R.id.date_salons_recycler);
-            dateSalonsRecycler.setHasFixedSize(true);
-            dateSalonsRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
-            dateSalonsRecycler.setAdapter(new SalonsAdapter(AllSalonsActivity.this, roundsList));
+            salonsRecycler.setVisibility(View.VISIBLE);
+            salonsRecycler.setHasFixedSize(true);
+            salonsRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
+            salonsRecycler.setAdapter(new SalonsAdapter(AllSalonsActivity.this, roundsList));
 
         } else {  // empty ?
             emptyViewLayout.setVisibility(View.VISIBLE);
+            salonsRecycler.setVisibility(View.GONE);
         }
     }
 
@@ -320,7 +322,6 @@ public class AllSalonsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getDatesAndRoundsFromServer();
-                displayLoading();
                 mBottomSheetDialogFilterBy.dismiss();
             }
         });
@@ -329,7 +330,6 @@ public class AllSalonsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getCategoriesAndRoundsFromServer();
-                displayLoading();
                 mBottomSheetDialogFilterBy.dismiss();
             }
         });

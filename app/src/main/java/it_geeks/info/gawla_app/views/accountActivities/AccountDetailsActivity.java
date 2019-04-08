@@ -1,4 +1,4 @@
-package it_geeks.info.gawla_app.views.accountOptions;
+package it_geeks.info.gawla_app.views.accountActivities;
 
 import android.content.Context;
 import android.content.Intent;
