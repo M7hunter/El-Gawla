@@ -23,7 +23,7 @@
 
             <!-- Ads card -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/salons_top_card"
+                android:id="@+id/cv_main_Ads"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
@@ -32,17 +32,25 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="@dimen/margin_small"
                 app:cardElevation="@dimen/margin_tiny">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/ads_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/image_width_main_fragment"
+                    android:background="@drawable/bg_rounded_corners_blue_180" />
+
                 <!-- card view main layout -->
                 <LinearLayout
+                    android:id="@+id/ads_empty_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_rounded_corners_blue_180"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:visibility="gone"
                     android:layoutDirection="ltr">
 
                     <ImageView
                         android:layout_width="@dimen/image_width_main_fragment"
-                        android:layout_height="match_parent"
+                        android:layout_height="@dimen/image_width_main_fragment"
                         android:scaleType="fitXY"
                         android:src="@drawable/flodillus" />
 
@@ -75,6 +83,7 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
             <!-- orange area 'with no need' -->

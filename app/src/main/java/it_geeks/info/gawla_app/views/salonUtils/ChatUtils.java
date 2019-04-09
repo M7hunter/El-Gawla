@@ -105,6 +105,9 @@ public class ChatUtils {
 
         initTypingSwitcher();
 
+        final String userName = SharedPrefManager.getInstance(mContext).getUser().getName();
+        final int userId = SharedPrefManager.getInstance(mContext).getUser().getUser_id();
+
         etChatMessage.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -118,8 +121,8 @@ public class ChatUtils {
                     if (round != null) {
                         JSONObject obj = new JSONObject();
                         obj.put("salon_id", round.getSalon_id());
-                        obj.put("user", SharedPrefManager.getInstance(mContext).getUser().getName());
-                        obj.put("user_id", SharedPrefManager.getInstance(mContext).getUser().getUser_id());
+                        obj.put("user", userName);
+                        obj.put("user_id", userId);
 
                         if (s.length() > 0) {
                             if (sendTypingState) {
@@ -155,8 +158,8 @@ public class ChatUtils {
                             JSONObject obj = new JSONObject();
                             final String message = etChatMessage.getText().toString();
                             try {
-                                obj.put("user_id", SharedPrefManager.getInstance(mContext).getUser().getUser_id());
-                                obj.put("user_name", SharedPrefManager.getInstance(mContext).getUser().getName());
+                                obj.put("user_id", userId);
+                                obj.put("user_name", userName);
                                 obj.put("message", message);
                                 obj.put("salon_id", round.getSalon_id());
                             } catch (JSONException e) {
