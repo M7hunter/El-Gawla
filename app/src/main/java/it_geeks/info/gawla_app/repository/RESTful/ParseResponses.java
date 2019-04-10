@@ -225,13 +225,13 @@ public class ParseResponses {
         List<Ad> adsList = new ArrayList<>();
 
         for (int i = 0; i < dataArray.size(); i++) {
-            JsonObject cardObj = dataArray.get(i).getAsJsonObject();
-            int slider_id = cardObj.get("slider_id").getAsInt();
-            int slider_salon_id = cardObj.get("slider_salon_id").getAsInt();
-            String slider_name = cardObj.get("slider_name").getAsString();
-            String slider_description = cardObj.get("slider_description").getAsString();
-            String slider_image = cardObj.get("slider_image").getAsString();
-            boolean slider_type = cardObj.get("slider_type").getAsBoolean();
+            JsonObject sliderObj = dataArray.get(i).getAsJsonObject();
+            int slider_id = sliderObj.get("slider_id").getAsInt();
+            int slider_salon_id = sliderObj.get("slider_salon_id").getAsInt();
+            String slider_name = sliderObj.get("slider_name").getAsString();
+            String slider_description = sliderObj.get("slider_description").getAsString();
+            String slider_image = sliderObj.get("slider_image").getAsString();
+            boolean slider_type = sliderObj.get("slider_type").getAsBoolean();
 
             adsList.add(
                     new Ad(slider_id, slider_salon_id, slider_name, slider_description, slider_image, slider_type));

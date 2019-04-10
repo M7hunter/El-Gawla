@@ -25,10 +25,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager.widget.ViewPager;
-import it_geeks.info.gawla_app.Adapters.AdsPagerAdapter;
+import androidx.viewpager2.widget.ViewPager2;
+import it_geeks.info.gawla_app.Adapters.AdsAdapter;
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
-import it_geeks.info.gawla_app.Adapters.WinnersNewsAdapter;
 import it_geeks.info.gawla_app.repository.Models.Ad;
 import it_geeks.info.gawla_app.repository.Models.Data;
 import it_geeks.info.gawla_app.general.Common;
@@ -49,7 +48,7 @@ public class MainFragment extends Fragment {
 
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recentSalonsRecycler, winnersNewsRecycler;
-    private ViewPager adsPager;
+    private ViewPager2 adsPager;
     private SalonsAdapter recentSalonsPagedAdapter;
     //    private WinnersNewsAdapter winnersNewsAdapter;
     private LinearLayoutManager layoutManager;
@@ -65,15 +64,11 @@ public class MainFragment extends Fragment {
     private TextView recentSalonsLabel, winnersLabel, tvEmptyHint; // <- trans
     private ImageView imgNotification;
 
-    private int page = 2, last_page = 1, userId;
+    private int page = 2, last_page = 1, userId, currentAd = 0;
     private String apiToken;
 
     private View view;
-
-    int currentPage = 0;
-    Timer timer;
-    final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
-    final long PERIOD_MS = 5000;
+    private Timer timer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -172,6 +167,8 @@ public class MainFragment extends Fragment {
             recentSalonsRecycler.setVisibility(View.GONE);
             recentSalonsProgress.setVisibility(View.GONE);
             winnersNewsProgress.setVisibility(View.GONE);
+            adsPager.setVisibility(View.GONE);
+            adsEmptyView.setVisibility(View.VISIBLE);
             refreshLayout.setRefreshing(false);
         }
     }
@@ -182,7 +179,6 @@ public class MainFragment extends Fragment {
             public void handleTrueResponse(JsonObject mainObject) {
                 adsList.clear();
                 adsList.addAll(ParseResponses.parseAds(mainObject));
-                initAdsRecycler();
             }
 
             @Override
@@ -206,8 +202,18 @@ public class MainFragment extends Fragment {
         if (adsList.size() > 0) {
             adsEmptyView.setVisibility(View.GONE);
             adsPager.setVisibility(View.VISIBLE);
-            adsPager.setAdapter(new AdsPagerAdapter(getContext(), adsList));
+            adsPager.setAdapter(new AdsAdapter(getContext(), adsList));
+
             autoSlideAds();
+
+            adsPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                @Override
+                public void onPageSelected(int position) {
+                    super.onPageSelected(position);
+                    currentAd = position;
+                }
+            });
+
         } else {
             adsPager.setVisibility(View.GONE);
             adsEmptyView.setVisibility(View.VISIBLE);
@@ -215,35 +221,24 @@ public class MainFragment extends Fragment {
     }
 
     private void autoSlideAds() {
-        new Handler().postDelayed(new Runnable() {
+        final Handler handler = new Handler();
+        final Runnable updateCurrentAd = new Runnable() {
+            public void run() {
+                if (currentAd == adsList.size()) {
+                    currentAd = 0;
+                }
+                adsPager.setCurrentItem(currentAd++, true);
+            }
+        };
+
+        if (timer == null)
+            timer = new Timer(); // This will create a new Thread
+        timer.schedule(new TimerTask() { // task to be scheduled
             @Override
             public void run() {
-                if (currentPage <= adsList.size()) {
-                    adsPager.setCurrentItem(currentPage++, true);
-                }else currentPage = 0;
-                autoSlideAds();
+                handler.post(updateCurrentAd);
             }
-        }, 3000);
-
-//        final Handler handler = new Handler();
-//        final Runnable Update = new Runnable() {
-//            public void run() {
-//                if (currentPage == adsList.size()) {
-//                    currentPage = 0;
-//                }
-//                adsPager.setCurrentItem(currentPage++, true);
-//            }
-//        };
-//
-//        if (timer == null)
-//            timer = new Timer(); // This will create a new Thread
-//        timer.schedule(new TimerTask() { // task to be scheduled
-//            @Override
-//            public void run() {
-//                handler.post(Update);
-//            }
-//        }, DELAY_MS, PERIOD_MS);
-
+        }, 0, 4000);
     }
 
     private void getFirstSalonsFromServer() {
