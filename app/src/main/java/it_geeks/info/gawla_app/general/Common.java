@@ -9,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -17,11 +16,9 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -34,12 +31,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.general.Interfaces.AlertButtonsClickListener;
 import it_geeks.info.gawla_app.general.Interfaces.ConnectionInterface;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.SalonDate;
@@ -252,12 +247,7 @@ public class Common {
                 }
 
                 @Override
-                public void handleFalseResponse(JsonObject errorObject) {
-
-                }
-
-                @Override
-                public void handleEmptyResponse() {
+                public void handleAfterResponse() {
 
                 }
 
@@ -268,35 +258,11 @@ public class Common {
         }
     }
 
-    public void createAlertDialog(Context context, String message, final AlertButtonsClickListener clickListener) {
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context, R.style.CustomAlertDialogStyle);
-        View dialogView = LayoutInflater.from(context).inflate(R.layout.layout_custom_alert_dialog, null);
-
-        ((TextView) dialogView.findViewById(R.id.tv_alert_body)).setText(message);
-        Button btnPositive = dialogView.findViewById(R.id.btn_alert_positive);
-        Button btnNegative = dialogView.findViewById(R.id.btn_alert_negative);
-
-        dialogBuilder.setView(dialogView);
-
-        final AlertDialog dialog = dialogBuilder.create();
-
-
-        btnPositive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickListener.onPositiveClick();
-                dialog.dismiss();
-            }
-        });
-
-        btnNegative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickListener.onNegativeCLick();
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }
+//    private MainFragment getFragment() {
+//        if(mainFragment == null) {
+//            mainFragment = (MainFragment) ((MainActivity)context).getSupportFragmentManager()
+//                    .findFragmentByTag("MainFragment");
+//        }
+//        return mainFragment;
+//    }
 }

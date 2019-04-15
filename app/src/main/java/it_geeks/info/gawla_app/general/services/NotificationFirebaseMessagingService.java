@@ -14,29 +14,31 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        super.onMessageReceived(remoteMessage);
-        // auto
-        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+        if (SharedPrefManager.getInstance(this).isNotificationEnabled()) {
+            super.onMessageReceived(remoteMessage);
+            // auto
+            FirebaseMessaging.getInstance().setAutoInitEnabled(true);
 
-        // notification when app open
-        if (remoteMessage.getNotification() != null)
-            displayNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+            // notification when app open
+            if (remoteMessage.getNotification() != null) {
+                String title = remoteMessage.getNotification().getTitle();
+                String body = remoteMessage.getNotification().getBody();
+
+                try {
+                    if (!title.isEmpty() && !body.isEmpty()) {
+                        new NotificationBuilder(this).displayRemoteMessage(title, body);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Crashlytics.logException(e);
+                }
+            }
+        }
 
         // have a new notification
         SharedPrefManager.getInstance(getApplicationContext()).setNewNotification(true);
         GawlaDataBse.getInstance(this).notificationDao().updateStatusNotification(true);
-    }
-
-    private void displayNotification(String title, String body) {
-        try {
-            if (!title.isEmpty() && !body.isEmpty()) {
-               new NotificationBuilder(this).displayRemoteMessage(title, body);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        }
     }
 
     @Override

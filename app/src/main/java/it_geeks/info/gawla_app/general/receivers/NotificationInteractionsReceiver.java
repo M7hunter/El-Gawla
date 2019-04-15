@@ -7,7 +7,7 @@ import android.content.Intent;
 
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.general.services.UploadImageService;
-import it_geeks.info.gawla_app.views.accountOptions.AccountDetailsActivity;
+import it_geeks.info.gawla_app.views.account.AccountDetailsActivity;
 
 public class NotificationInteractionsReceiver extends BroadcastReceiver {
     @Override
@@ -22,7 +22,7 @@ public class NotificationInteractionsReceiver extends BroadcastReceiver {
                 ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).cancel(notifyId);
 
                 try {
-                    AccountDetailsActivity.accountDetailsInstance.setUpdatedStateOnUI();
+                    AccountDetailsActivity.accountDetailsInstance.setUIAfterUpdating();
                     AccountDetailsActivity.accountDetailsInstance.btn_upload_image.setEnabled(true);
 
                 } catch (NullPointerException e) {

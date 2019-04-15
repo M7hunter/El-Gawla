@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import it_geeks.info.gawla_app.repository.Models.Ad;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.Category;
 import it_geeks.info.gawla_app.repository.Models.Country;
@@ -20,9 +21,6 @@ import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.repository.Models.WebPage;
 
 public class ParseResponses {
-
-    public ParseResponses() {
-    }
 
     public static List<Round> parseRounds(JsonObject object) {
         List<Round> rounds = new ArrayList<>();
@@ -218,6 +216,27 @@ public class ParseResponses {
         return cardsList;
     }
 
+    public static List<Ad> parseAds(JsonObject object) {
+        JsonArray dataArray = object.get("sliders").getAsJsonArray();
+
+        List<Ad> adsList = new ArrayList<>();
+
+        for (int i = 0; i < dataArray.size(); i++) {
+            JsonObject sliderObj = dataArray.get(i).getAsJsonObject();
+            int slider_id = sliderObj.get("slider_id").getAsInt();
+            int slider_salon_id = sliderObj.get("slider_salon_id").getAsInt();
+            String slider_name = sliderObj.get("slider_name").getAsString();
+            String slider_description = sliderObj.get("slider_description").getAsString();
+            String slider_image = sliderObj.get("slider_image").getAsString();
+            boolean slider_type = sliderObj.get("slider_type").getAsBoolean();
+
+            adsList.add(
+                    new Ad(slider_id, slider_salon_id, slider_name, slider_description, slider_image, slider_type));
+        }
+
+        return adsList;
+    }
+
     public static List<Card> parseUserCardsBySalon(JsonObject object) {
         JsonArray cardsArray = object.get("cards").getAsJsonArray();
 
@@ -256,7 +275,7 @@ public class ParseResponses {
     }
 
     static String parseServerErrors(JsonObject object) {
-        String error = "no errors";
+        String error = "";
         try {
             JsonArray errors = object.get("errors").getAsJsonArray();
             for (int i = 0; i < errors.size(); i++) {

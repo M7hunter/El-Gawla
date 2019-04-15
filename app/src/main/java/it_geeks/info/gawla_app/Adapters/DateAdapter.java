@@ -2,6 +2,7 @@ package it_geeks.info.gawla_app.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,14 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.general.Interfaces.OnItemClickListener;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.SalonDate;
+import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 
 public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
 
@@ -22,11 +25,13 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
     private List<SalonDate> dateList;
     private OnItemClickListener clickListener;
     private int selectedPosition = 0;
+    private String currentMonth;
 
     public DateAdapter(Context context, List<SalonDate> dateList, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.dateList = dateList;
         this.clickListener = onItemClickListener;
+        currentMonth = Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.LONG, new Locale(SharedPrefManager.getInstance(context).getSavedLang()));
     }
 
     @NonNull
@@ -39,15 +44,20 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         final SalonDate salonDate = dateList.get(i);
 
+//        Log.d("dateAdapter::", "salonDate.getDayOfMonth() == " + salonDate.getDayOfMonth());
+//        Log.d("dateAdapter::", "Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == " + Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+//        Log.d("dateAdapter::", "salonDate.getMonth() == " + salonDate.getMonth());
+//        Log.d("dateAdapter::", "currentMonth == " + currentMonth);
+
         // check if selected
         if (selectedPosition == i) { // selected
-            if (Integer.parseInt(salonDate.getDayOfMonth()) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) { // if today
+            if (Integer.parseInt(salonDate.getDayOfMonth()) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) && salonDate.getMonth().equals(currentMonth)) { // if today
                 dayIsToday(viewHolder);
             } else {
                 viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_white_bordered_nice_blue));
             }
         } else { // !selected
-            if (Integer.parseInt(salonDate.getDayOfMonth()) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) { // if today
+            if (Integer.parseInt(salonDate.getDayOfMonth()) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) && salonDate.getMonth().equals(currentMonth)) { // if today
                 dayIsToday(viewHolder);
             } else {
                 dayNotToday(viewHolder);

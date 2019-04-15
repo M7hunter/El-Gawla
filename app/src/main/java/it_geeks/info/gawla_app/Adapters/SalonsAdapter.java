@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -26,7 +24,7 @@ import it_geeks.info.gawla_app.general.RoundDiffCallback;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.views.SalonActivity;
+import it_geeks.info.gawla_app.views.salon.SalonActivity;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.R;
 
@@ -82,7 +80,6 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         Intent i = new Intent(context, SalonActivity.class);
                         // send round's data to round page
                         i.putExtra("round", round);
-                        i.putExtra("product_image", prepareImageToPass(viewHolder.imgProductImage));
 
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), new Pair<View, String>(viewHolder.imgProductImage, "transProductImage"));
@@ -100,15 +97,6 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
         } else {
             Log.d("test_placeholder: ", "salon == null");
         }
-    }
-
-    private byte[] prepareImageToPass(ImageView imgProductImage) {
-        imgProductImage.buildDrawingCache();
-
-        Bitmap bitmap = imgProductImage.getDrawingCache();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-        return outputStream.toByteArray();
     }
 
     public void updateRoundsList(List<Round> newList) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_small"
@@ -25,6 +26,7 @@
                 android:layout_width="@dimen/image_width_round"
                 android:layout_height="@dimen/image_height_round"
                 android:scaleType="fitXY"
+                tools:src="@tools:sample/backgrounds/scenic"
                 android:transitionName="transProductImage" />
 
             <!-- category -->
@@ -61,7 +63,6 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_small"
                 android:maxLines="1"
-                android:text="@string/no_content"
                 android:textColor="@color/BlueDark"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
@@ -95,11 +96,13 @@
                     android:layout_marginTop="@dimen/margin_xTiny"
                     android:layout_marginBottom="@dimen/margin_xTiny"
                     android:layout_weight="1"
+                    android:ellipsize="end"
                     android:gravity="center"
-                    android:lines="2"
+                    android:maxLines="2"
                     android:textColor="@color/midBlue2"
                     android:textSize="@dimen/text_size_large"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="@string/no_content" />
 
                 <!-- separator -->
                 <View
@@ -113,7 +116,10 @@
                     android:id="@+id/salon_cards_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_xTiny" />
+                    android:layout_margin="@dimen/margin_xTiny"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_salon_card" />
 
             </LinearLayout>
 

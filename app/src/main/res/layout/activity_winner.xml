@@ -20,6 +20,7 @@
     <ImageView
         android:id="@+id/winner_back"
         android:layout_width="@dimen/icon_back"
+        android:contentDescription="@string/back"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
@@ -49,7 +50,8 @@
             android:layout_margin="@dimen/margin_tiny"
             android:background="@drawable/bg_circle_bordered_pale_grey2"
             app:civ_border_color="@color/blueyGrey"
-            app:civ_border_width="1dp" />
+            app:civ_border_width="1dp"
+            tools:src="@tools:sample/avatars" />
 
         <!-- winner name -->
         <TextView
@@ -57,9 +59,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_tiny"
-            android:text="mahmoud hawas"
             android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="@tools:sample/first_names" />
 
         <ImageView
             android:id="@+id/winner_image"

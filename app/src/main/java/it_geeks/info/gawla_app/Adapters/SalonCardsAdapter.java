@@ -1,6 +1,7 @@
 package it_geeks.info.gawla_app.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,19 +18,25 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import it_geeks.info.gawla_app.repository.Models.Category;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Card;
-import it_geeks.info.gawla_app.views.SalonActivity;
+import it_geeks.info.gawla_app.views.card.BuyCardActivity;
+import it_geeks.info.gawla_app.views.card.CardActivity;
+import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
 public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.ViewHolder> {
 
@@ -37,12 +44,15 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
     private List<Card> cardList;
     private int salonId, round_id;
     private BottomSheetDialog mBottomSheetDialogSingleCard;
+    private List<Category> categoryList = new ArrayList<>();
 
     public SalonCardsAdapter(Context context, List<Card> cardList, int salon_id, int round_id) {
         this.context = context;
         this.cardList = cardList;
         this.salonId = salon_id;
         this.round_id = round_id;
+
+        getCategoriesFromServer();
     }
 
     @NonNull
@@ -157,7 +167,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                     o.put("salon_id", salonId);
                     o.put("user", username);
                     o.put("type", card.getCard_type());
-                    ((SalonActivity) context).getSocket().emit("use_card", o);
+                    ((SalonActivity) context).getSocketUtils().emitData("use_card", o);
                 } catch (JSONException e) {
                     Log.e("socket use_card: ", e.getMessage());
                     Crashlytics.logException(e);
@@ -165,12 +175,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
             }
 
             @Override
-            public void handleFalseResponse(JsonObject errorObject) {
-
-            }
-
-            @Override
-            public void handleEmptyResponse() {
+            public void handleAfterResponse() {
                 displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
             }
 
@@ -183,34 +188,38 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
     }
 
     private void buyCard(final Card card, final View btnConfirmBuying, final ProgressBar pbBuyCard) {
-        hideSingleConfirmationBtn(btnConfirmBuying, pbBuyCard);
-        int user_id = SharedPrefManager.getInstance(context).getUser().getUser_id();
-        String api_token = SharedPrefManager.getInstance(context).getUser().getApi_token();
-        RetrofitClient.getInstance(context).executeConnectionToServer(context, "addCardsToUser", new Request(user_id, api_token, card.getCard_id()), new HandleResponses() {
-            @Override
-            public void handleTrueResponse(JsonObject mainObject) {
-                Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                mBottomSheetDialogSingleCard.dismiss();
-                ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
-                ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the cards list
-            }
 
-            @Override
-            public void handleFalseResponse(JsonObject errorObject) {
+        Intent i = new Intent(context, BuyCardActivity.class);
+        i.putExtra("card_to_buy", card);
+        i.putExtra("salon_id_to_buy_card", salonId);
+        i.putExtra("categories_to_buy_card", (Serializable) categoryList);
+        context.startActivity(i);
 
-            }
-
-            @Override
-            public void handleEmptyResponse() {
-                displaySingleConfirmationBtn(btnConfirmBuying, pbBuyCard);
-            }
-
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                displaySingleConfirmationBtn(btnConfirmBuying, pbBuyCard);
-                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        hideSingleConfirmationBtn(btnConfirmBuying, pbBuyCard);
+//        RetrofitClient.getInstance(context).executeConnectionToServer(context, "addCardsToUser",
+//                new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(),
+//                        SharedPrefManager.getInstance(context).getUser().getApi_token(),
+//                        card.getCard_id()),
+//                new HandleResponses() {
+//                    @Override
+//                    public void handleTrueResponse(JsonObject mainObject) {
+//                        Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+//                        mBottomSheetDialogSingleCard.dismiss();
+//                        ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
+//                        ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the cards list
+//                    }
+//
+//                    @Override
+//                    public void handleAfterResponse() {
+//                        displaySingleConfirmationBtn(btnConfirmBuying, pbBuyCard);
+//                    }
+//
+//                    @Override
+//                    public void handleConnectionErrors(String errorMessage) {
+//                        displaySingleConfirmationBtn(btnConfirmBuying, pbBuyCard);
+//                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
     }
 
     private void displayConfirmationBtn(View btn, ProgressBar pb) {
@@ -231,6 +240,27 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
     private void hideSingleConfirmationBtn(View btnConfirmBuying, ProgressBar pbBuyCard) {
         btnConfirmBuying.setVisibility(View.GONE);
         pbBuyCard.setVisibility(View.VISIBLE);
+    }
+
+    public void getCategoriesFromServer() {
+        RetrofitClient.getInstance(context).executeConnectionToServer(context,
+                "getAllCategories", new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token()),
+                new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        categoryList = ParseResponses.parseCategories(mainObject);
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override

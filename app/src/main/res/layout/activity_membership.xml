@@ -248,6 +248,4 @@
         </LinearLayout>
     </ScrollView>
 
-    <include layout="@layout/layout_loading_card" />
-
 </RelativeLayout>

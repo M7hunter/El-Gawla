@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient_bluedark_angled_270">
@@ -20,10 +21,10 @@
                 android:id="@+id/slide_Image"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/image_width_round"
-                android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginBottom="@dimen/margin_large"
                 android:layout_marginStart="@dimen/margin_xx_large"
+                android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_xx_large"
+                android:layout_marginBottom="@dimen/margin_large"
                 app:srcCompat="@drawable/onbord1" />
 
             <TextView
@@ -32,22 +33,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_large"
                 android:gravity="center"
-                android:text="اشترك الان"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_large"
+                tools:text="اشترك الان" />
 
             <TextView
                 android:id="@+id/slide_Desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_xxxx_large"
-                android:layout_marginEnd="@dimen/margin_xxxx_large"
                 android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_xxxx_large"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:gravity="center"
-                android:text="قم بالاشتراك الان حتي تتمكن من الانضمام للجولات المفضلة "
                 android:textColor="@color/babyBlue"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_medium"
+                tools:text="قم بالاشتراك الان حتي تتمكن من الانضمام للجولات المفضلة " />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

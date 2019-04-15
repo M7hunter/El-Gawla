@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import io.fabric.sdk.android.Fabric;
+import it_geeks.info.gawla_app.general.DialogBuilder;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.WebPage;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
@@ -31,14 +32,13 @@ import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.general.receivers.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.general.TransHolder;
-import it_geeks.info.gawla_app.views.NavigationFragments.AccountFragment;
-import it_geeks.info.gawla_app.views.NavigationFragments.CardsFragment;
-import it_geeks.info.gawla_app.views.NavigationFragments.MainFragment;
-import it_geeks.info.gawla_app.views.NavigationFragments.MenuFragment;
-import it_geeks.info.gawla_app.views.NavigationFragments.MyRoundsFragment;
+import it_geeks.info.gawla_app.views.account.AccountFragment;
+import it_geeks.info.gawla_app.views.card.CardsFragment;
+import it_geeks.info.gawla_app.views.menu.MenuFragment;
+import it_geeks.info.gawla_app.views.salon.MyRoundsFragment;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
-import it_geeks.info.gawla_app.views.splashActivities.SplashActivity;
+import it_geeks.info.gawla_app.views.login.LoginActivity;
+import it_geeks.info.gawla_app.views.intro.SplashActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,8 +52,10 @@ public class MainActivity extends AppCompatActivity {
     private View snackContainer;
 
     private TransHolder transHolder;
+    public DialogBuilder dialogBuilder;
 
     public List<WebPage> webPageList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,23 +69,23 @@ public class MainActivity extends AppCompatActivity {
 
         Common.Instance(this).changeStatusBarColor("#f4f7fa", this);
         setContentView(R.layout.activity_main);
-
-        // Notification Update Status When App Open
-        updateNotificationStatus();
-
-        // Firebase Receive messaging notification
-        FirebaseMessagingInitialize();
-
         mainInstance = this;
 
         transHolder = new TransHolder(MainActivity.this);
         transHolder.getMainActivityTranses(MainActivity.this);
 
-        registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
-
         if (savedInstanceState == null) {
             displayFragment(fragment);
         }
+
+        // Notification Update Status When App Open
+        updateNotificationStatus();
+        // Firebase Receive messaging notification
+        FirebaseMessagingInitialize();
+
+        registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        dialogBuilder = new DialogBuilder();
+        dialogBuilder.createLoadingDialog(this);
 
         initNavigation();
 
@@ -220,7 +222,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, fragment).commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_frame, fragment)
+                .commit();
     }
 
     private void getWebPagesFromServer() {
@@ -234,12 +238,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void handleFalseResponse(JsonObject errorObject) {
-
-            }
-
-            @Override
-            public void handleEmptyResponse() {
+            public void handleAfterResponse() {
 
             }
 

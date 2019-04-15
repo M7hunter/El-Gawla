@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient_bluedark_angled_270"
     android:layoutDirection="rtl"
-    tools:context=".views.splashActivities.IntroActivity">
+    tools:context=".views.intro.IntroActivity">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/slideViewPager"
