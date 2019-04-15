@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
-import it_geeks.info.gawla_app.views.SalonActivity;
+import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
 public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImagesAdapter.Holder> {
 

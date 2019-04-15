@@ -39,6 +39,7 @@
 
     <!-- mix -->
     <dimen name="my_rounds_empty_view_height">500dp</dimen>
+    <dimen name="my_rounds_empty_view_min_height">400dp</dimen>
     <dimen name="card_background_height">85dp</dimen>
     <dimen name="card_height">55dp</dimen>
     <dimen name="card_width">35dp</dimen>

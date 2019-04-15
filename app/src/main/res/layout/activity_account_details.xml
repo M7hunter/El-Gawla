@@ -2,12 +2,12 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainAccountDetails"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:id="@+id/mainAccountDetails"
-    tools:context=".views.accountActivities.AccountDetailsActivity">
+    tools:context=".views.account.AccountDetailsActivity">
     <!-- scroll main layout -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,18 +17,18 @@
         <!-- title bar -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny">
+            android:layout_height="wrap_content">
 
             <!-- back -->
             <ImageView
                 android:id="@+id/account_details_back"
                 android:layout_width="@dimen/icon_back"
                 android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/back"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/margin_small"
-                android:layout_alignParentLeft="true"
                 android:src="@drawable/ic_arrow_left_only" />
 
             <!-- title -->
@@ -88,13 +88,15 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
 
             <!-- btn upload image -->
             <ImageView
                 android:id="@+id/btn_upload_image"
                 android:layout_width="@dimen/icon_notification"
                 android:layout_height="@dimen/icon_notification"
+                android:layout_marginTop="@dimen/margin_small"
                 android:background="@drawable/bg_circle_bordered_transparent"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/margin_small"
@@ -103,14 +105,14 @@
                 app:cornerRadius="4dp"
                 app:layout_constraintEnd_toStartOf="@id/iv_user_Image"
                 app:layout_constraintStart_toStartOf="@id/iv_user_Image"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="@dimen/margin_small"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- btn choose image -->
             <ImageButton
                 android:id="@+id/btn_choose_image"
                 android:layout_width="@dimen/icon_notification"
                 android:layout_height="@dimen/icon_notification"
+                android:layout_marginTop="@dimen/margin_small"
                 android:background="@drawable/bg_circle_mid_blue"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/margin_small"
@@ -118,8 +120,7 @@
                 android:visibility="visible"
                 app:layout_constraintEnd_toStartOf="@id/iv_user_Image"
                 app:layout_constraintStart_toStartOf="@id/iv_user_Image"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="@dimen/margin_small"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

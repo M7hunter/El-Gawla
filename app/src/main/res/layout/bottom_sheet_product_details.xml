@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_sheet_product_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -52,7 +53,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:padding="@dimen/margin_small"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                tools:src="@tools:sample/backgrounds/scenic" />
 
         </RelativeLayout>
 
@@ -63,7 +65,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/margin_small"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_product_sub_image"
+            tools:orientation="horizontal" />
 
         <!-- title -->
         <TextView
@@ -196,8 +202,8 @@
                 android:layout_marginBottom="@dimen/margin_large"
                 android:gravity="start"
                 android:padding="@dimen/margin_tiny"
-                android:text="@string/no_content"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_medium"
+                tools:text="@tools:sample/lorem/random" />
 
         </LinearLayout>
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".views.AllSalonsActivity">
+    tools:context=".views.salon.AllSalonsActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -70,7 +70,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_medium" />
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_salon_date"
+                    tools:orientation="horizontal" />
 
                 <!-- salons & empty view container & 'to center the cards' -->
                 <RelativeLayout
@@ -83,7 +87,11 @@
                         android:id="@+id/all_salons_recycler"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true" />
+                        android:layout_centerInParent="true"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_round"
+                        tools:orientation="horizontal" />
 
                     <!-- empty view -->
                     <LinearLayout
@@ -131,7 +139,5 @@
     <include layout="@layout/layout_no_connection" />
 
     <include layout="@layout/bottom_sheet_filter_by" />
-
-    <include layout="@layout/layout_loading_card" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

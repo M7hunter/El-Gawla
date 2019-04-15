@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
@@ -27,9 +28,9 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/margin_medium"
-            android:text="label"
             android:textColor="@color/darkSkyBlue"
-            android:textSize="@dimen/text_size_large" />
+            android:textSize="@dimen/text_size_large"
+            tools:text="@tools:sample/lorem" />
 
         <!-- icon -->
         <ImageView
@@ -38,7 +39,8 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:src="@drawable/ic_arrow" />
+            android:src="@drawable/ic_arrow"
+            tools:ignore="ContentDescription" />
 
     </RelativeLayout>
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient_bluedark_angled_270"
-    tools:context=".views.splashActivities.SplashActivity">
+    tools:context=".views.intro.SplashActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -56,13 +56,17 @@
                     android:id="@+id/country_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true" />
+                    android:layout_centerInParent="true"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_country" />
 
                 <ProgressBar
                     android:id="@+id/countries_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true" />
+                    android:layout_centerInParent="true"
+                    tools:visibility="gone" />
 
                 <Button
                     android:id="@+id/btn_retry"

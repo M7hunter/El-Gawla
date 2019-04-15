@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".views.menuActivities.WebPageActivity">
+    tools:context=".views.menu.WebPageActivity">
 
     <!-- title bar -->
     <RelativeLayout
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/privacy_policy"
+            android:text="@string/no_content"
             android:textColor="@color/battleshipGrey"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
@@ -41,7 +41,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/wep_page_header" />
-
-    <include layout="@layout/layout_loading_card" />
 
 </RelativeLayout>

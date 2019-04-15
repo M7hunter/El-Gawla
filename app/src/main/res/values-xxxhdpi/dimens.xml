@@ -4,6 +4,7 @@
     <dimen name="margin_xTiny">5dp</dimen>
     <dimen name="margin_tiny">8dp</dimen>
     <dimen name="margin_tiny_minus">-8dp</dimen>
+    <dimen name="margin_x_small">10dp</dimen>
     <dimen name="margin_small">13dp</dimen>
     <dimen name="margin_small_minus">-13dp</dimen>
     <dimen name="margin_medium">18dp</dimen>
@@ -37,10 +38,12 @@
 
     <!-- mix -->
     <dimen name="my_rounds_empty_view_height">550dp</dimen>
+    <dimen name="my_rounds_empty_view_min_height">500dp</dimen>
     <dimen name="card_background_height">100dp</dimen>
     <dimen name="card_height">60dp</dimen>
     <dimen name="card_width">40dp</dimen>
     <dimen name="single_card_height">140dp</dimen>
     <dimen name="single_card_width">95dp</dimen>
+    <dimen name="winner_image_height">380dp</dimen>
 
 </resources>

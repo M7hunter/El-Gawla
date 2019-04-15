@@ -22,9 +22,6 @@ import it_geeks.info.gawla_app.repository.Models.WebPage;
 
 public class ParseResponses {
 
-    public ParseResponses() {
-    }
-
     public static List<Round> parseRounds(JsonObject object) {
         List<Round> rounds = new ArrayList<>();
         JsonArray roundsArray = object.get("salons").getAsJsonArray();

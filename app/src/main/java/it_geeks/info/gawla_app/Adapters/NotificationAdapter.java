@@ -25,7 +25,7 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
-import it_geeks.info.gawla_app.views.SalonActivity;
+import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
 import static it_geeks.info.gawla_app.repository.RESTful.ParseResponses.parseRoundByID;
 
@@ -62,7 +62,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             @Override
             public void onClick(View v) {
                 if (notification.getType().trim().equals("salons")) {
-                    ((NotificationActivity) context).displayLoading();
+                    ((NotificationActivity) context).dialogBuilder.displayLoadingDialog();
                     getSalonDataFromServer(notification);
 
                 } else {
@@ -92,19 +92,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
 
                     @Override
-                    public void handleFalseResponse(JsonObject mainObject) {
-
-                    }
-
-                    @Override
-                    public void handleEmptyResponse() {
-                        ((NotificationActivity) context).hideLoading();
+                    public void handleAfterResponse() {
+                        ((NotificationActivity) context).dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
-                        ((NotificationActivity) context).hideLoading();
+                        ((NotificationActivity) context).dialogBuilder.hideLoadingDialog();
                     }
                 });
     }
@@ -138,7 +133,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         TextView tvTitle, tvBody, tvDate;
 
-        public Holder(View itemView) {
+        Holder(View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvBody = itemView.findViewById(R.id.tv_body);

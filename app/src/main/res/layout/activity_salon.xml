@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".views.SalonActivity">
+    tools:context=".views.salon.SalonActivity">
 
     <LinearLayout
         android:id="@+id/salon_container"
@@ -196,8 +196,5 @@
 
     <!-- cards bag btn container -->
     <include layout="@layout/bottom_sheet_single_card" />
-
-    <!-- loading -->
-    <include layout="@layout/layout_loading_card" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

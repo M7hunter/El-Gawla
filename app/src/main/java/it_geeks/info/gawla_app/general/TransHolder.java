@@ -42,7 +42,7 @@ public class TransHolder {
     // main fragment keys
     public String see_all;
     public String recent_salons;
-    public String winners_of_hales_news;
+    public String salons_winners;
     public String salons_empty_hint;
 
     // my rounds fragment keys
@@ -215,9 +215,9 @@ public class TransHolder {
             salons_empty_hint = context.getResources().getString(R.string.no_salons);
         }
 
-        winners_of_hales_news = transDao.getTransByKeyAndLang("winners_of_hales_news", lang);
-        if (winners_of_hales_news == null || winners_of_hales_news.isEmpty()) {
-            winners_of_hales_news = context.getResources().getString(R.string.winners_of_hale_news);
+        salons_winners = transDao.getTransByKeyAndLang("salons_winners", lang);
+        if (salons_winners == null || salons_winners.isEmpty()) {
+            salons_winners = context.getResources().getString(R.string.salons_winners);
         }
     }
 

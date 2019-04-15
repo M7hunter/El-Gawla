@@ -2,6 +2,10 @@ package it_geeks.info.gawla_app.repository.Models;
 
 public class Request {
 
+    private String payment_method;
+
+    private int category_id;
+
     private int round_id;
 
     private  int card_id;
@@ -156,6 +160,15 @@ public class Request {
         this.card_id = card_id;
         this.salon_id = salonId;
         this.round_id = round_id;
+    }
+
+    public Request(int i1, String s1, int i2, int i3, int i4, String s2) {
+        this.user_id = i1;
+        this.api_token = s1;
+        this.salon_id = i2;
+        this.card_id = i3;
+        this.category_id = i4;
+        this.payment_method = s2;
     }
 
     public Request(int in1, int in2, String str1, String  str2) {

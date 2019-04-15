@@ -53,7 +53,7 @@
     <string name="account_details">بيانات الحساب</string>
     <string name="new_offer">عرض جديد</string>
     <string name="add_offer">إضافة عرض</string>
-    <string name="winners_of_hale_news">اخبار رابحين  الصالة</string>
+    <string name="salons_winners">رابحين الصالات</string>
     <string name="tit1">"جوله هي تطبيق تفاعلي يمكنك من شراء المنتجات بناء علي افضل عرض تقدمة لسعر المنتج , انضم الان "</string>
     <string name="wile_send_password">سيتم ارسال البريد الالكتروني  لتجديد كلمة السر</string>
     <string name="salon_number">الصالة رقم : </string>
@@ -238,4 +238,6 @@
     <string name="chat_is_closed">غرفة المحادثة مغلقة</string>
     <string name="Help">مساعدة؟</string>
     <string name="is_typing_others">" %1$s وآخرون يكتبون الآن "</string>
+    <string name="amount">الكمية</string>
+    <string name="Payment_method">وسيلة الدفع</string>
 </resources>

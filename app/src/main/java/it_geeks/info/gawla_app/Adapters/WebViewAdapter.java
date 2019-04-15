@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.WebPage;
-import it_geeks.info.gawla_app.views.menuActivities.WebPageActivity;
+import it_geeks.info.gawla_app.views.menu.WebPageActivity;
 
 public class WebViewAdapter extends RecyclerView.Adapter<WebViewAdapter.ViewHolder> {
 

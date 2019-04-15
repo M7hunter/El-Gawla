@@ -16,7 +16,7 @@ import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.views.accountActivities.AccountDetailsActivity;
+import it_geeks.info.gawla_app.views.account.AccountDetailsActivity;
 
 public class UploadImageService extends Service {
 
@@ -34,18 +34,20 @@ public class UploadImageService extends Service {
 
     public void uploadImage() {
         final AccountDetailsActivity activity = AccountDetailsActivity.accountDetailsInstance;
-        int user_id = SharedPrefManager.getInstance(this).getUser().getUser_id();
-        String api_token = SharedPrefManager.getInstance(this).getUser().getApi_token();
         final NotificationBuilder notificationBuilder = new NotificationBuilder(this);
 
         if (activity != null && activity.encodedImage != null) {
+            activity.setUIOnUpdating();
 
             if (SharedPrefManager.getInstance(this).isNotificationEnabled()) {
                 notificationBuilder.displayUploadingImage();
             }
 
             RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                    "updateUserData", new Request(user_id, SharedPrefManager.getInstance(this).getCountry().getCountry_id(), api_token, activity.encodedImage), new HandleResponses() {
+                    "updateUserData",
+                    new Request(SharedPrefManager.getInstance(this).getUser().getUser_id(),
+                            SharedPrefManager.getInstance(this).getCountry().getCountry_id(),
+                            SharedPrefManager.getInstance(this).getUser().getApi_token(), activity.encodedImage), new HandleResponses() {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
                             // save updated user data
@@ -59,18 +61,13 @@ public class UploadImageService extends Service {
                             }
 
                             if (activity != null) {
-                                activity.setUpdatedStateOnUI();
+                                activity.setUIAfterUpdating();
                                 activity.hideUploadImageButton();
                             }
                         }
 
                         @Override
-                        public void handleFalseResponse(JsonObject mainObject) {
-
-                        }
-
-                        @Override
-                        public void handleEmptyResponse() {
+                        public void handleAfterResponse() {
                             stopSelf();
                         }
 
@@ -83,7 +80,7 @@ public class UploadImageService extends Service {
                             }
 
                             try {
-                                activity.setUpdatedStateOnUI();
+                                activity.setUIAfterUpdating();
                                 activity.btn_upload_image.setEnabled(true);
                             } catch (NullPointerException e) {
                                 Crashlytics.logException(e);

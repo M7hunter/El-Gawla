@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.loginActivities.CreateAccountActivity">
+    tools:context=".views.login.CreateAccountActivity">
 
     <ScrollView
         android:id="@+id/createAccountMainScreen"
@@ -219,7 +219,5 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <include layout="@layout/layout_loading_card" />
 
 </RelativeLayout>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context=".views.accountActivities.BuyingProcessesActivity">
+    tools:context=".views.account.BuyingProcessesActivity">
 
     <!-- title bar -->
     <RelativeLayout
@@ -13,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/margin_tiny"
         android:layoutDirection="ltr">
 
         <!-- back -->
@@ -22,6 +22,7 @@
             android:layout_width="@dimen/icon_back"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:contentDescription="@string/back"
             android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:padding="@dimen/margin_small"
             android:src="@drawable/ic_arrow_left_only" />
@@ -117,7 +118,10 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/btn_renew_membership"
         android:layout_below="@id/separator"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_buying_process" />
 
     <!-- empty view -->
     <TextView

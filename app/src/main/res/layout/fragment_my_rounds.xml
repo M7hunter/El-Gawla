@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".views.NavigationFragments.MyRoundsFragment">
+    tools:context=".views.salon.MyRoundsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -83,18 +83,20 @@
 
                     </LinearLayout>
 
-                    <!-- no connection view -->
-                    <include layout="@layout/layout_no_connection" />
-
                 </RelativeLayout>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
+        <!-- no connection view -->
+        <include layout="@layout/layout_no_connection" />
+
         <ProgressBar
             android:id="@+id/pb_my_rounds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+
             android:layout_centerInParent="true" />
 
     </RelativeLayout>

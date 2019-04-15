@@ -3,7 +3,7 @@
     <string name="slide_heading1">Subscribe now</string>
     <string name="slide_heading2">Join round</string>
     <string name="slide_heading3">Offer best price</string>
-    <string name="winners_of_hale_news">Winners of hale news</string>
+    <string name="salons_winners">salons winners</string>
     <string name="add_offer">Add offer</string>
     <string name="new_offer">New offer</string>
     <string name="hales">Hales</string>
@@ -240,5 +240,7 @@
     <string name="is_typing">%1$s is typing </string>
     <string name="is_typing_others">"%1$s and others are typing "</string>
     <string name="default_remote_notification_channel_id" translatable="false">remote notification</string>
+    <string name="amount">Amount</string>
+    <string name="Payment_method">Payment method</string>
 
 </resources>

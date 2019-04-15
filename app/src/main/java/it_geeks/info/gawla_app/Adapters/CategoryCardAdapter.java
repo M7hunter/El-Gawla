@@ -1,6 +1,5 @@
 package it_geeks.info.gawla_app.Adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Category;
-import it_geeks.info.gawla_app.views.CardActivity;
 
 public class CategoryCardAdapter extends RecyclerView.Adapter<CategoryCardAdapter.ViewHolder> {
 
-    private Context context;
     private List<Category> categoryList;
     private int clickedPosition = 0;
 
-    public CategoryCardAdapter(Context context, List<Category> categoryList) {
-        this.context = context;
+    public CategoryCardAdapter(List<Category> categoryList) {
         this.categoryList = categoryList;
     }
 
@@ -40,7 +36,7 @@ public class CategoryCardAdapter extends RecyclerView.Adapter<CategoryCardAdapte
 
         if (clickedPosition == position) {
             holder.rbCategory.setChecked(true);
-            ((CardActivity) context).cardPrice.setText(String.valueOf(categoryList.get(position).getCategoryId()));
+//            ((CardActivity) context).cardPrice.setText(String.valueOf(categoryList.get(position).getCategoryId()));
         } else {
             holder.rbCategory.setChecked(false);
         }

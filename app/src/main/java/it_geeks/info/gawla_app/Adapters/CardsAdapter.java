@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.views.CardActivity;
+import it_geeks.info.gawla_app.views.card.CardActivity;
 
 public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> {
 
@@ -48,8 +48,6 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
                 Intent i = new Intent(context, CardActivity.class);
                 i.putExtra("card", card);
                 i.putExtra("card_list", (Serializable) cardList);
-
-                i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
                 context.startActivity(i);
             }

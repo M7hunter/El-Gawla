@@ -23,7 +23,7 @@ import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.Data;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.RequestMainBody;
-import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
+import it_geeks.info.gawla_app.views.login.LoginActivity;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -111,24 +111,24 @@ public class RetrofitClient {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 // TODO: check codes
-                     /* case success 200:
-                        case validationErrors 402:
-                        case somethingWrong 100:
-                        case invalidApiToken 111:
-                        case invalidAccessToken 401:
-                        case notAuthorized 402:
-                        case notFound 404:
-                        case authFailed 203:
-                        case emailNotExist 104:
-                        case accountAlreadyVerified 106:
-                        case tokenNotFound 115:
-                        case accountNotConfirmed 116:
-                        case wrongPhoneVerifyNum 405:
-                        case wrongForgetPassVerifyNum 406:
-                        case waitBeforeResend 410:
-                        case doNotHavePermission 412:
-                        case internalServerError 500:
-                        case unKnown 1: */
+                /* case unKnown 1:
+                   case somethingWrong 100:
+                   case emailNotExist 104:
+                   case accountAlreadyVerified 106:
+                   case invalidApiToken 111:
+                   case tokenNotFound 115:
+                   case accountNotConfirmed 116:
+                   case success 200:
+                   case authFailed 203:
+                   case invalidAccessToken 401:
+                   case validationErrors 402:
+                   case notAuthorized 402:
+                   case notFound 404:
+                   case wrongPhoneVerifyNum 405:
+                   case wrongForgetPassVerifyNum 406:
+                   case waitBeforeResend 410:
+                   case doNotHavePermission 412:
+                   case internalServerError 500: */
                 try {
                     Log.d(TAG, "response_code: " + response.code());
                     switch (response.code()) {
@@ -170,15 +170,12 @@ public class RetrofitClient {
                                 JsonObject errorObj = new JsonParser().parse(response.errorBody().string()).getAsJsonObject();
                                 String serverError = parseServerErrors(errorObj);
                                 if (serverError.isEmpty()) {
-                                    serverError  = context.getString(R.string.error_occurred);
+                                    serverError = context.getString(R.string.error_occurred);
                                 }
 
                                 // notify user
                                 Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "onResponse!successful: " + serverError);
-
-                                // dynamic with each call
-                                HandleResponses.handleFalseResponse(errorObj);
 
                             } catch (JsonSyntaxException e) {
                                 e.printStackTrace();
@@ -201,7 +198,7 @@ public class RetrofitClient {
                 }
 
                 // dynamic with each call
-                HandleResponses.handleEmptyResponse();
+                HandleResponses.handleAfterResponse();
             }
 
             @Override
