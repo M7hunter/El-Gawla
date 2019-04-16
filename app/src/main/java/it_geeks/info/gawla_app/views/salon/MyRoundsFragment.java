@@ -57,7 +57,7 @@ public class MyRoundsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_my_rounds, container, false);
 
         userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
-        apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
+        apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
         initViews();
 
@@ -113,7 +113,7 @@ public class MyRoundsFragment extends Fragment {
     }
 
     private void checkConnection() {
-        if (Common.Instance(getActivity()).isConnected()) {
+        if (Common.Instance().isConnected(getActivity())) {
             noConnectionLayout.setVisibility(View.GONE);
 
             getUsrRoundsFromServer();

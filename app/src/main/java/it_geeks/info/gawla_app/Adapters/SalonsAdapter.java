@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import it_geeks.info.gawla_app.general.ImageLoader;
 import it_geeks.info.gawla_app.general.RoundDiffCallback;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.general.Common;
@@ -51,15 +52,15 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
         // bind
         if (round != null) {
             try {
-                Common.Instance(context).loadImage(round.getProduct_image(), viewHolder.imgProductImage);
+                ImageLoader.getInstance().loadImage(round.getProduct_image(), viewHolder.imgProductImage);
             } catch (Exception e) {
                 e.printStackTrace();
                 Crashlytics.logException(e);
             }
 
-            viewHolder.tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
-            viewHolder.tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
-            viewHolder.tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getMessage()));
+            viewHolder.tvProductName.setText(Common.Instance().removeEmptyLines(round.getProduct_name()));
+            viewHolder.tvProductCategory.setText(Common.Instance().removeEmptyLines(round.getCategory_name()));
+            viewHolder.tvStartTime.setText(Common.Instance().removeEmptyLines(round.getMessage()));
 
             if (round.getSalon_cards() != null) {
                 viewHolder.cardsRecycler.setAdapter(new SalonCardsIconAdapter(context, round.getSalon_cards()));
@@ -70,7 +71,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                 round.setProduct_images(GawlaDataBse.getInstance(context).productImageDao().getSubImagesById(round.getProduct_id()));
             }
 
-            Common.Instance(context).changeDrawableViewColor(viewHolder.tvProductCategory, round.getCategory_color());
+            Common.Instance().changeDrawableViewColor(viewHolder.tvProductCategory, round.getCategory_color());
 
             // open round page
             viewHolder.btnEnterRound.setOnClickListener(new View.OnClickListener() {

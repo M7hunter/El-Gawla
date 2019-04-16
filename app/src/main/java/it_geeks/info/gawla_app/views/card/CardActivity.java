@@ -126,7 +126,7 @@ public class CardActivity extends AppCompatActivity {
     }
 
     public void bindData(Card card) {
-        Common.Instance(this).changeDrawableViewColor(vCardIcon, card.getCard_color());
+        Common.Instance().changeDrawableViewColor(vCardIcon, card.getCard_color());
         tsCardName.setText(card.getCard_name());
         tsCardDesc.setText(card.getCard_details());
     }

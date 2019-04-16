@@ -31,7 +31,7 @@ public class SalonCardsIconAdapter extends RecyclerView.Adapter<SalonCardsIconAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Common.Instance(context).changeDrawableViewColor(viewHolder.cardIcon, cardList.get(i).getCard_color());
+        Common.Instance().changeDrawableViewColor(viewHolder.cardIcon, cardList.get(i).getCard_color());
     }
 
     @Override

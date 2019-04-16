@@ -44,7 +44,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
     @Override
     public void onNewToken(String token) {
         try {
-            Common.Instance(this).updateFirebaseToken();
+            Common.Instance().updateFirebaseToken(this);
 
         } catch (Exception e) {
             e.printStackTrace();

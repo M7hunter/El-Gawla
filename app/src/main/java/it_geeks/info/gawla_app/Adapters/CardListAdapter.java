@@ -37,7 +37,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
         final Card card = cardList.get(position);
 
         // bind
-        Common.Instance(context).changeDrawableViewColor(holder.vCardIcon, card.getCard_color());
+        Common.Instance().changeDrawableViewColor(holder.vCardIcon, card.getCard_color());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

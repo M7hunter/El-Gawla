@@ -13,6 +13,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.general.ImageLoader;
 import it_geeks.info.gawla_app.repository.Models.WinnerNews;
 import it_geeks.info.gawla_app.R;
 
@@ -36,13 +38,10 @@ public class WinnersNewsAdapter extends RecyclerView.Adapter<WinnersNewsAdapter.
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         WinnerNews news = winnerNewsList.get(position);
 
-        Picasso.with(context)
-                .load(news.getNewsImage())
-                .placeholder(context.getResources().getDrawable(R.drawable.placeholder))
-                .into(viewHolder.imgNewsImage);
-
-        viewHolder.tvNewsTitle.setText(news.getNewsTitle());
-        viewHolder.tvNewsBody.setText(news.getNewsBody());
+        if (news.getBlog_imagesArr().size() > 0)
+            ImageLoader.getInstance().loadImage(news.getBlog_imagesArr().get(0), viewHolder.imgNewsImage);
+        viewHolder.tvNewsTitle.setText(news.getBog_title());
+        viewHolder.tvNewsBody.setText(news.getBlog_description());
     }
 
     @Override

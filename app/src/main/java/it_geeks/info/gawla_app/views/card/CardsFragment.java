@@ -98,7 +98,7 @@ public class CardsFragment extends Fragment {
     private void checkConnection(View view) {
         LinearLayout noConnectionLayout = view.findViewById(R.id.no_connection);
 
-        if (Common.Instance(getActivity()).isConnected()) {
+        if (Common.Instance().isConnected(getContext())) {
             noConnectionLayout.setVisibility(View.GONE);
 
             getCardsFromServer(view);
@@ -111,7 +111,7 @@ public class CardsFragment extends Fragment {
 
     private void getCardsFromServer(final View view) {
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
-        String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
+        String apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
         RetrofitClient.getInstance(getContext()).executeConnectionToServer(MainActivity.mainInstance,
                 "getAllCards", new Request(userId, apiToken), new HandleResponses() {
@@ -144,7 +144,7 @@ public class CardsFragment extends Fragment {
         cardsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         cardsRecycler.setAdapter(new CardsAdapter(getContext(), cardsList));
 
-        Common.Instance(getContext()).hideProgress(cardsRecycler, cardsProgress);
+        Common.Instance().hideProgress(cardsRecycler, cardsProgress);
     }
 
     private void initEmptyView(View view) {

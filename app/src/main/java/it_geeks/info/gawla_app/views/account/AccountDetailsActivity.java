@@ -58,7 +58,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        Common.Instance(this).changeStatusBarColor("#ffffff", this);
+        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_account_details);
         accountDetailsInstance = this;
 
@@ -383,7 +383,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
             btn_upload_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Common.Instance(AccountDetailsActivity.this).isConnected()) {
+                    if (Common.Instance().isConnected(AccountDetailsActivity.this)) {
                         startUploadImageService();
                         setUIOnUpdating();
                     } else {

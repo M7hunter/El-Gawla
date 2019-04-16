@@ -22,12 +22,12 @@ public class BuyingProcessesActivity extends AppCompatActivity {
     private RecyclerView buyingProcessRecycler;
     private List<BuyingProcess> buyingProcessList = new ArrayList<>();
     private TextView tvEmptyView;
-    private Button btnRenewMemebrShip;
+    private Button btnRenewMemberShip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.Instance(this).changeStatusBarColor("#ffffff", this);
+        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_buying_processes);
 
         getData();
@@ -46,7 +46,7 @@ public class BuyingProcessesActivity extends AppCompatActivity {
     private void initViews() {
         buyingProcessRecycler = findViewById(R.id.buying_processes_recycler);
         tvEmptyView = findViewById(R.id.buying_processes_empty_view);
-        btnRenewMemebrShip = findViewById(R.id.btn_renew_membership);
+        btnRenewMemberShip = findViewById(R.id.btn_renew_membership);
     }
 
     private void handleEvents() {
@@ -58,7 +58,7 @@ public class BuyingProcessesActivity extends AppCompatActivity {
             }
         });
 
-        btnRenewMemebrShip.setOnClickListener(new View.OnClickListener() {
+        btnRenewMemberShip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(BuyingProcessesActivity.this, MembershipActivity.class));

@@ -78,7 +78,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
         dialogBuilder.createAlertDialog(context, context.getResources().getString(R.string.restart_hint), new AlertButtonsClickListener() {
             @Override
             public void onPositiveClick() {
-                Common.Instance(context).setLang(lang);
+                Common.Instance().setLang(context, lang);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override

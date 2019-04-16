@@ -51,6 +51,7 @@ import it_geeks.info.gawla_app.Adapters.ActivityAdapter;
 import it_geeks.info.gawla_app.Adapters.TopTenAdapter;
 import it_geeks.info.gawla_app.general.DialogBuilder;
 import it_geeks.info.gawla_app.general.Interfaces.AlertButtonsClickListener;
+import it_geeks.info.gawla_app.general.salonUtils.AudioPlayer;
 import it_geeks.info.gawla_app.repository.Models.Activity;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.TopTen;
@@ -137,6 +138,8 @@ public class SalonActivity extends AppCompatActivity {
         registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         countDownController = new CountDownController(SalonActivity.this, findViewById(R.id.time_container));
 
+        AudioPlayer.getInstance().play(SalonActivity.this, R.raw.enter);
+
         initViews();
 
         if (getRound(savedInstanceState)) {
@@ -190,12 +193,62 @@ public class SalonActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if (countDownController != null)
+            countDownController.setPause(false);
+
         if (roundRemainingTime != null)
             if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_round_state()) {
                 socketUtils.connectSocket();
             } else {
                 socketUtils.disconnectSocket();
             }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (countDownController != null)
+            countDownController.setPause(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        AudioPlayer.getInstance().play(SalonActivity.this, R.raw.exit);
+        setResult(RESULT_OK, new Intent());
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        disconnectSalonSocket();
+        unregisterReceiver(connectionChangeReceiver);
+
+        try {
+            countDownController.stopCountDown();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        super.onDestroy();
+    }
+
+    private void disconnectSalonSocket() {
+        if (round != null) {
+            try {
+                JSONObject obj = new JSONObject();
+                obj.put("user", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
+                obj.put("salon_id", round.getSalon_id());
+
+                socketUtils.emitData("leaveTyping", obj);
+                socketUtils.emitData("leave", obj);
+                chatUtils.sendTypingState = true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Crashlytics.logException(e);
+            }
+        }
+        socketUtils.disconnectSocket();
     }
 
     public void initViews() {
@@ -233,7 +286,7 @@ public class SalonActivity extends AppCompatActivity {
         imgNotification = findViewById(R.id.notification_bell);
         ivProductMainViewer = detailsSheetView.findViewById(R.id.product_details_main_image);
 
-        apiToken = Common.Instance(SalonActivity.this).removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
+        apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
         userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
         NotificationStatus.notificationStatus(this, imgNotification);
 
@@ -427,7 +480,7 @@ public class SalonActivity extends AppCompatActivity {
             topTenRecycler.setHasFixedSize(true);
             topTenRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
             topTenRecycler.setAdapter(new TopTenAdapter(topTens));
-            Common.Instance(this).hideProgress(topTenRecycler, pbTopTen);
+            Common.Instance().hideProgress(topTenRecycler, pbTopTen);
         } else {
             tvTopTenEmptyHint.setVisibility(View.VISIBLE);
             tvTopTenEmptyHint.setText(getString(R.string.top_ten_empty));
@@ -851,7 +904,7 @@ public class SalonActivity extends AppCompatActivity {
                 "setUserSalon",
                 new Request(SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
-                        , String.valueOf(Common.Instance(SalonActivity.this).getCurrentTimeInMillis())
+                        , String.valueOf(Common.Instance().getCurrentTimeInMillis())
                         , ""
                         , round.getSalon_id()), new HandleResponses() {
                     @Override
@@ -879,6 +932,7 @@ public class SalonActivity extends AppCompatActivity {
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this, "setRoundLeave", new Request(userId, apiToken, round.getSalon_id()), new HandleResponses() {
             @Override
             public void handleTrueResponse(JsonObject mainObject) {
+                AudioPlayer.getInstance().play(SalonActivity.this, R.raw.exit);
                 countDownController.stopCountDown();
                 btnLeaveRound.setVisibility(View.GONE);
                 unSubscribeUserFromSalonNotification();
@@ -1091,7 +1145,7 @@ public class SalonActivity extends AppCompatActivity {
 
         //
         mBottomSheetDialogCardsBag.setContentView(sheetView);
-        Common.Instance(SalonActivity.this).setBottomSheetHeight(sheetView);
+        Common.Instance().setBottomSheetHeight(sheetView);
         mBottomSheetDialogCardsBag.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
     }
@@ -1162,7 +1216,7 @@ public class SalonActivity extends AppCompatActivity {
 
         //
         mBottomSheetDialogProductDetails.setContentView(detailsSheetView);
-        Common.Instance(SalonActivity.this).setBottomSheetHeight(detailsSheetView);
+        Common.Instance().setBottomSheetHeight(detailsSheetView);
         mBottomSheetDialogProductDetails.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
     }
@@ -1368,43 +1422,5 @@ public class SalonActivity extends AppCompatActivity {
         } else { // close sheet
             mBottomSheetDialogCardsBag.show();
         }
-    }
-
-    private void disconnectSalonSocket() {
-        if (round != null) {
-            try {
-                JSONObject obj = new JSONObject();
-                obj.put("user", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
-                obj.put("salon_id", round.getSalon_id());
-
-                socketUtils.emitData("leaveTyping", obj);
-                socketUtils.emitData("leave", obj);
-                chatUtils.sendTypingState = true;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Crashlytics.logException(e);
-            }
-        }
-        socketUtils.disconnectSocket();
-    }
-
-    @Override
-    public void onBackPressed() {
-        setResult(RESULT_OK, new Intent());
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onDestroy() {
-        disconnectSalonSocket();
-        unregisterReceiver(connectionChangeReceiver);
-
-        try {
-            countDownController.stopCountDown();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        super.onDestroy();
     }
 }

@@ -83,7 +83,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        Common.Instance(this).changeStatusBarColor("#ffffff", this);
+        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_create_account);
 
         initViews();
@@ -227,7 +227,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
                         // save user data locally
                         cacheUserData(mainObject, getResources().getString(R.string.app_name));
 
-                        Common.Instance(CreateAccountActivity.this).updateFirebaseToken();
+                        Common.Instance().updateFirebaseToken(CreateAccountActivity.this);
                         // goto next page
                         startActivity(new Intent(CreateAccountActivity.this, MembershipActivity.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -373,7 +373,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         cacheUserData(mainObject, provider);
-                        Common.Instance(CreateAccountActivity.this).updateFirebaseToken();
+                        Common.Instance().updateFirebaseToken(CreateAccountActivity.this);
                         startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));
                         finish();
                     }

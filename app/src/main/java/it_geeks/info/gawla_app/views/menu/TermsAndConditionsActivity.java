@@ -12,7 +12,7 @@ public class TermsAndConditionsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.Instance(this).changeStatusBarColor("#ffffff", this);
+        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_terms_and_conditions);
 
         findViewById(R.id.terms_conditions_back).setOnClickListener(new View.OnClickListener() {

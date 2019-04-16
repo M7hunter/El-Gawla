@@ -76,13 +76,13 @@ public class AllSalonsActivity extends AppCompatActivity {
         allSalonsActivityInstance = this;
 
         userId = SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getUser_id();
-        apiToken = Common.Instance(AllSalonsActivity.this).removeQuotes(SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getApi_token());
+        apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getApi_token());
 
         initViews();
 
         initBottomSheetFilterBy();
 
-        Common.Instance(AllSalonsActivity.this).ApplyOnConnection(AllSalonsActivity.this, new ConnectionInterface() {
+        Common.Instance().ApplyOnConnection(AllSalonsActivity.this, new ConnectionInterface() {
             @Override
             public void onConnected() {
                 getDatesAndRoundsFromServer();
@@ -201,7 +201,7 @@ public class AllSalonsActivity extends AppCompatActivity {
             dateList.add(transformDateToNames(date));
         }
 
-        Common.Instance(AllSalonsActivity.this).sortList(dateList);
+        Common.Instance().sortList(dateList);
     }
 
     public SalonDate transformDateToNames(String sDate) {
@@ -335,7 +335,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
         //
         mBottomSheetDialogFilterBy.setContentView(sheetView);
-        Common.Instance(AllSalonsActivity.this).setBottomSheetHeight(sheetView);
+        Common.Instance().setBottomSheetHeight(sheetView);
         mBottomSheetDialogFilterBy.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
     }

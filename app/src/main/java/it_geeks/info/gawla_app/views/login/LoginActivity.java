@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        Common.Instance(this).changeStatusBarColor("#ffffff", this);
+        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_login);
 
         initViews();
@@ -317,7 +317,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
                         cacheUserData(mainObject, provider);
-                        Common.Instance(LoginActivity.this).updateFirebaseToken();
+                        Common.Instance().updateFirebaseToken(LoginActivity.this);
 
                         finish();
                     }
@@ -345,7 +345,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
                 cacheUserData(mainObject, LoginActivity.providerNormalLogin); // with normal provider
-                Common.Instance(LoginActivity.this).updateFirebaseToken();
+                Common.Instance().updateFirebaseToken(LoginActivity.this);
 
                 finish();
             }

@@ -35,7 +35,6 @@ import it_geeks.info.gawla_app.general.Common;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.views.card.BuyCardActivity;
-import it_geeks.info.gawla_app.views.card.CardActivity;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
 public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.ViewHolder> {
@@ -67,7 +66,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
 
         viewHolder.tvCardTitle.setText(card.getCard_name());
         viewHolder.tvCardCount.setText(String.valueOf(card.getCount()));
-        Common.Instance(context).changeDrawableViewColor(viewHolder.cardIcon, card.getCard_color());
+        Common.Instance().changeDrawableViewColor(viewHolder.cardIcon, card.getCard_color());
 
         if (card.getCount() > 0) { // use card state
             viewHolder.btn.setBackgroundColor(context.getResources().getColor(R.color.greenBlue));
@@ -119,7 +118,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         cardDescription.setText(card.getCard_details());
         cardCost.setText(card.getCard_cost());
 
-        Common.Instance(context).changeDrawableViewColor(cardIcon, card.getCard_color());
+        Common.Instance().changeDrawableViewColor(cardIcon, card.getCard_color());
 
         btnConfirmBuying.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +141,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         });
 
         mBottomSheetDialogSingleCard.setContentView(sheetView);
-        Common.Instance(context).setBottomSheetHeight(sheetView);
+        Common.Instance().setBottomSheetHeight(sheetView);
         mBottomSheetDialogSingleCard.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
 
@@ -242,7 +241,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         pbBuyCard.setVisibility(View.VISIBLE);
     }
 
-    public void getCategoriesFromServer() {
+    private void getCategoriesFromServer() {
         RetrofitClient.getInstance(context).executeConnectionToServer(context,
                 "getAllCategories", new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token()),
                 new HandleResponses() {

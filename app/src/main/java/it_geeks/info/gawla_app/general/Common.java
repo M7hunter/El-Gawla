@@ -45,23 +45,21 @@ import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 public class Common {
 
     private static Common common;
-    private Context context;
     private String Lang;
 
-    private Common(Context context) {
-        this.context = context;
+    private Common() {
         Lang = Locale.getDefault().getLanguage(); // get device default language
     }
 
-    public static Common Instance(Context context) {
+    public static Common Instance() {
         if (common == null) {
-            common = new Common(context);
+            common = new Common();
         }
         return common;
     }
 
     // change app lang
-    public void setLang(String lang) {
+    public void setLang(Context context, String lang) {
         try {
             new WebView(context).destroy();
         } catch (Exception e) {
@@ -82,50 +80,6 @@ public class Common {
 
         context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
         SharedPrefManager.getInstance(context).setLang(Lang);
-    }
-
-    public void loadImage(String imageUrl, ImageView imageView) {
-        try {
-            Picasso.with(context)
-                    .load(imageUrl)
-                    .resize(800, 800)
-                    .onlyScaleDown()
-                    .centerInside()
-                    .placeholder(R.drawable.placeholder)
-                    .into(imageView);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        }
-    }
-
-    public void loadLandscapeImage(String imageUrl, ImageView imageView) {
-        try {
-            Picasso.with(context)
-                    .load(imageUrl)
-                    .resize(900, 600)
-                    .onlyScaleDown()
-                    .centerInside()
-                    .placeholder(R.drawable.placeholder)
-                    .into(imageView);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        }
-    }
-
-    public void loadFittedImage(String imageUrl, ImageView imageView) {
-        try {
-            Picasso.with(context)
-                    .load(imageUrl)
-                    .fit()
-                    .centerInside()
-                    .placeholder(R.drawable.placeholder)
-                    .into(imageView);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        }
     }
 
     // remove unneeded quotes
@@ -188,7 +142,7 @@ public class Common {
     }
 
     // to change status bar color in fragments || activities if wanted
-    public void changeStatusBarColor(String color, Context context) {
+    public void changeStatusBarColor(Context context, String color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = ((AppCompatActivity) context).getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -197,7 +151,7 @@ public class Common {
     }
 
     // connected ?
-    public boolean isConnected() {
+    public boolean isConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
@@ -207,7 +161,7 @@ public class Common {
     public void ApplyOnConnection(Context context, ConnectionInterface connectionInterface) {
         LinearLayout noConnectionLayout = ((Activity) context).findViewById(R.id.no_connection);
 
-        if (Common.Instance(context).isConnected()) { // connected
+        if (isConnected(context)) { // connected
             noConnectionLayout.setVisibility(View.GONE);
 
             connectionInterface.onConnected();
@@ -229,12 +183,12 @@ public class Common {
     }
 
     // animate recycler items
-    public void setAnimation(View viewToAnimate) {
+    public void setAnimation(Context context, View viewToAnimate) {
         Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
         viewToAnimate.startAnimation(animation);
     }
 
-    public void updateFirebaseToken() {
+    public void updateFirebaseToken(Context context) {
         int user_id = SharedPrefManager.getInstance(context).getUser().getUser_id();
         String apiToken = SharedPrefManager.getInstance(context).getUser().getApi_token();
 

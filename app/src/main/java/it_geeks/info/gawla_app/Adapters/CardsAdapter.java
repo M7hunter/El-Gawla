@@ -40,7 +40,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
         // bind
         viewHolder.cardTitle.setText(card.getCard_name());
         viewHolder.cardDescription.setText(card.getCard_details());
-        Common.Instance(context).changeDrawableViewColor(viewHolder.cardIcon, card.getCard_color());
+        Common.Instance().changeDrawableViewColor(viewHolder.cardIcon, card.getCard_color());
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

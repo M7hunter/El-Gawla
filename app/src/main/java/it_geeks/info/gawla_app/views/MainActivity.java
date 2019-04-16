@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        Common.Instance(this).changeStatusBarColor("#f4f7fa", this);
+        Common.Instance().changeStatusBarColor(this, "#f4f7fa");
         setContentView(R.layout.activity_main);
         mainInstance = this;
 
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setLang() {
         try {
-            Common.Instance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
+            Common.Instance().setLang(this, SharedPrefManager.getInstance(this).getSavedLang());
         } catch (Exception e) {
             e.printStackTrace();
             Crashlytics.logException(e);
@@ -166,31 +166,31 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new MainFragment();
                         menuItem.setTitle(transHolder.hales);
                         // change status bar color
-                        Common.Instance(MainActivity.this).changeStatusBarColor("#f4f7fa", MainActivity.this);
+                        Common.Instance().changeStatusBarColor(MainActivity.this, "#f4f7fa");
                         break;
                     case R.id.navigation_my_rounds:
                         fragment = new MyRoundsFragment();
                         menuItem.setTitle(transHolder.my_rounds);
                         // change status bar color
-                        Common.Instance(MainActivity.this).changeStatusBarColor("#f4f7fa", MainActivity.this);
+                        Common.Instance().changeStatusBarColor(MainActivity.this, "#f4f7fa");
                         break;
                     case R.id.navigation_cards:
                         fragment = new CardsFragment();
                         menuItem.setTitle(transHolder.cards);
                         // change status bar color
-                        Common.Instance(MainActivity.this).changeStatusBarColor("#f4f7fa", MainActivity.this);
+                        Common.Instance().changeStatusBarColor(MainActivity.this, "#f4f7fa");
                         break;
                     case R.id.navigation_account:
                         fragment = new AccountFragment();
                         menuItem.setTitle(transHolder.account);
                         // change status bar color to white
-                        Common.Instance(MainActivity.this).changeStatusBarColor("#FFFFFF", MainActivity.this);
+                        Common.Instance().changeStatusBarColor(MainActivity.this, "#FFFFFF");
                         break;
                     case R.id.navigation_menu:
                         fragment = new MenuFragment();
                         menuItem.setTitle(transHolder.menu);
                         // change status bar color
-                        Common.Instance(MainActivity.this).changeStatusBarColor("#f4f7fa", MainActivity.this);
+                        Common.Instance().changeStatusBarColor(MainActivity.this, "#f4f7fa");
                         break;
                 }
 

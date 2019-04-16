@@ -90,13 +90,13 @@ public class SplashActivity extends AppCompatActivity {
                             retry();
                         }
 
-                        Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
+                        Common.Instance().hideProgress(countryRecycler, countriesProgress);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         retry();
-                        Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
+                        Common.Instance().hideProgress(countryRecycler, countriesProgress);
                         Toast.makeText(SplashActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });

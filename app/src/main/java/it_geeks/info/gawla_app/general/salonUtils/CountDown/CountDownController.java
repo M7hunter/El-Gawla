@@ -8,6 +8,7 @@ import android.view.View;
 import com.crashlytics.android.Crashlytics;
 
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.general.salonUtils.AudioPlayer;
 import it_geeks.info.gawla_app.repository.Models.RoundRemainingTime;
 import it_geeks.info.gawla_app.repository.Models.HalvesModel;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
@@ -20,6 +21,7 @@ public class CountDownController {
     private CountDownTimer countDownTimer;
     private Context context;
     private long[] mSecond = {0}, mMinute = {0}, mHour = {0};
+    private boolean pause = false;
 
     public CountDownController(Context context, View parent) {
         this.context = context;
@@ -124,6 +126,10 @@ public class CountDownController {
 
                 public void onTick(final long millisUntilFinished) {
                     animateOnTick(millisUntilFinished / 1000);
+                    if (!pause) {
+                        if (!AudioPlayer.getInstance().isPlaying())
+                            AudioPlayer.getInstance().play(context, R.raw.large_clock_tick);
+                    }
                 }
 
                 public void onFinish() {
@@ -160,13 +166,17 @@ public class CountDownController {
         }
         mHour[0] = hour;
 
-        if (hour == 0 && minute == 0 && second == 1){
+        if (hour == 0 && minute == 0 && second == 1) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     animateOnTick(0); // zero time
                 }
-            },1000);
+            }, 1000);
         }
+    }
+
+    public void setPause(boolean pause) {
+        this.pause = pause;
     }
 }

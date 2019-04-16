@@ -24,7 +24,7 @@ public class WebPageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.Instance(this).changeStatusBarColor("#FFFFFF", this);
+        Common.Instance().changeStatusBarColor(this, "#FFFFFF");
         setContentView(R.layout.activity_web_page);
 
         getData(savedInstanceState);
