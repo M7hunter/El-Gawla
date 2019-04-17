@@ -246,7 +246,7 @@ public class MainFragment extends Fragment {
 
     private void getFirstSalonsFromServer() {
         RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-                new Data("getAllSalons", 1), new Request(userId, apiToken), new HandleResponses() {
+                new Data("getAllSalons", 1), new Request(userId, apiToken, true), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         roundList.clear();
@@ -275,7 +275,7 @@ public class MainFragment extends Fragment {
 
     private void getNextSalonsFromServer() {
         RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-                new Data("getAllSalons", ++page), new Request(userId, apiToken), new HandleResponses() {
+                new Data("getAllSalons", ++page), new Request(userId, apiToken, true), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         int nextFirstPosition = roundList.size();
