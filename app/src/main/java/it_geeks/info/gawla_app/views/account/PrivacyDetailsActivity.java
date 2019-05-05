@@ -21,9 +21,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.DialogBuilder;
-import it_geeks.info.gawla_app.general.Interfaces.AlertButtonsClickListener;
+import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.DialogBuilder;
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Request;
@@ -177,7 +177,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     }
 
     private void deleteAccountDialog() {
-        dialogBuilder.createAlertDialog(this, getString(R.string.delete_account_hint), new AlertButtonsClickListener() {
+        dialogBuilder.createAlertDialog(this, getString(R.string.delete_account_hint), new ClickInterface.AlertButtonsClickListener() {
             @Override
             public void onPositiveClick() {
                 deleteAccount();
@@ -220,7 +220,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     }
 
     private void disconnectDialog() {
-        dialogBuilder.createAlertDialog(this, getString(R.string.disconnect) + " ?", new AlertButtonsClickListener() {
+        dialogBuilder.createAlertDialog(this, getString(R.string.disconnect) + " ?", new ClickInterface.AlertButtonsClickListener() {
             @Override
             public void onPositiveClick() {
                 disconnect();
@@ -236,7 +236,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     private void disconnect() {
         try {
             SharedPrefManager.getInstance(this).clearUser();
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, LoginActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             SharedPrefManager.getInstance(this).clearProvider();
             LoginManager.getInstance().logOut();
             if (mGoogleApiClient.isConnected()) {
@@ -244,7 +245,6 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                 mGoogleApiClient.disconnect();
                 mGoogleApiClient.connect();
             }
-            finish();
         } catch (Exception e) {
             e.printStackTrace();
             Crashlytics.logException(e);

@@ -160,7 +160,6 @@
                     android:id="@+id/social_provider"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/cairo_semibold"
                     android:textColor="@color/blueGrey"
                     android:textSize="18sp"
                     tools:text="@string/no_content" />

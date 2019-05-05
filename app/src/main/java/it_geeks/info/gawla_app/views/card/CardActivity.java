@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Adapters.CardListAdapter;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.general.Interfaces.OnItemClickListener;
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.Category;
 import it_geeks.info.gawla_app.repository.Models.Request;
@@ -14,8 +14,8 @@ import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.NotificationStatus;
+import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.NotificationStatus;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 
 import android.content.Intent;
@@ -167,7 +167,7 @@ public class CardActivity extends AppCompatActivity {
     private void initCardsRecycler() {
         cardsListRecycler.setHasFixedSize(true);
         cardsListRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-        cardsListRecycler.setAdapter(new CardListAdapter(this, cardList, new OnItemClickListener() {
+        cardsListRecycler.setAdapter(new CardListAdapter(this, cardList, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 newCard = cardList.get(position); // get new card from the list

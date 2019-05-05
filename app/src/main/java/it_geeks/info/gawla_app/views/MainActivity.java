@@ -21,17 +21,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import io.fabric.sdk.android.Fabric;
-import it_geeks.info.gawla_app.general.DialogBuilder;
+import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.WebPage;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.receivers.ConnectionChangeReceiver;
+import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.receivers.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.general.TransHolder;
+import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.account.AccountFragment;
 import it_geeks.info.gawla_app.views.card.CardsFragment;
 import it_geeks.info.gawla_app.views.menu.MenuFragment;
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void stopNotifications() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic("all");
-        FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + SharedPrefManager.getInstance(this).getCountry().getCountry_id());
     }
 
     public View getSnackBarContainer() {
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 fragment = null;
                 switch (menuItem.getItemId()) {
-                    case R.id.navigation_hales:
+                    case R.id.navigation_salons:
                         fragment = new MainFragment();
                         menuItem.setTitle(transHolder.hales);
                         // change status bar color
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("RestrictedApi")
     private void setupTrans() {
-        ((BottomNavigationItemView) findViewById(R.id.navigation_hales)).setTitle(transHolder.hales);
+        ((BottomNavigationItemView) findViewById(R.id.navigation_salons)).setTitle(transHolder.hales);
         ((BottomNavigationItemView) findViewById(R.id.navigation_my_rounds)).setTitle(transHolder.my_rounds);
         ((BottomNavigationItemView) findViewById(R.id.navigation_cards)).setTitle(transHolder.cards);
         ((BottomNavigationItemView) findViewById(R.id.navigation_account)).setTitle(transHolder.account);
@@ -251,12 +251,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (navigation.getSelectedItemId() == R.id.navigation_hales) { // back from main page
+        if (navigation.getSelectedItemId() == R.id.navigation_salons) { // back from main page
             super.onBackPressed();
 
         } else {
             displayFragment(new MainFragment());
-            navigation.setSelectedItemId(R.id.navigation_hales);
+            navigation.setSelectedItemId(R.id.navigation_salons);
         }
     }
 

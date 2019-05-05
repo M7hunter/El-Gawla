@@ -2,7 +2,6 @@ package it_geeks.info.gawla_app.views;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,13 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Adapters.NotificationAdapter;
-import it_geeks.info.gawla_app.general.DialogBuilder;
+import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.repository.Models.Notification;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;

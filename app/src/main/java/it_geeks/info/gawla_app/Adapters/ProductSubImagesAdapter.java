@@ -13,8 +13,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.ImageLoader;
+import it_geeks.info.gawla_app.util.ImageLoader;
 import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
 

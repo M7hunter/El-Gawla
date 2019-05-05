@@ -7,14 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.ImageLoader;
+
+import it_geeks.info.gawla_app.util.ImageLoader;
 import it_geeks.info.gawla_app.repository.Models.WinnerNews;
 import it_geeks.info.gawla_app.R;
 

@@ -2,8 +2,8 @@ package it_geeks.info.gawla_app.views.menu;
 
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.DialogBuilder;
+import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.DialogBuilder;
 
 import android.graphics.Bitmap;
 import android.os.Build;

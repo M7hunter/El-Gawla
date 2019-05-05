@@ -19,8 +19,8 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.Interfaces.OnItemClickListener;
+import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.Country;
 import it_geeks.info.gawla_app.repository.Models.Request;
@@ -111,7 +111,7 @@ public class SplashActivity extends AppCompatActivity {
     private void displayCountriesList() {
         countryRecycler.setLayoutManager(new LinearLayoutManager(SplashActivity.this, RecyclerView.VERTICAL, false));
         countryRecycler.setHasFixedSize(true);
-        CountryAdapter countryAdapter = new CountryAdapter(SplashActivity.this, countries, new OnItemClickListener() {
+        CountryAdapter countryAdapter = new CountryAdapter(SplashActivity.this, countries, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 SharedPrefManager.getInstance(SplashActivity.this).setCountry(countries.get(position));

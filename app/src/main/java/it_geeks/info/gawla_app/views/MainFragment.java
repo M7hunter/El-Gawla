@@ -30,7 +30,7 @@ import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.Adapters.WinnersNewsAdapter;
 import it_geeks.info.gawla_app.repository.Models.Ad;
 import it_geeks.info.gawla_app.repository.Models.Data;
-import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Models.WinnerNews;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.Request;
@@ -39,8 +39,8 @@ import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.general.NotificationStatus;
-import it_geeks.info.gawla_app.general.TransHolder;
+import it_geeks.info.gawla_app.util.NotificationStatus;
+import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.salon.AllSalonsActivity;
 
 public class MainFragment extends Fragment {

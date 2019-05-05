@@ -24,11 +24,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Adapters.WebViewAdapter;
-import it_geeks.info.gawla_app.general.DialogBuilder;
-import it_geeks.info.gawla_app.general.Interfaces.AlertButtonsClickListener;
+import it_geeks.info.gawla_app.util.DialogBuilder;
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.general.NotificationStatus;
-import it_geeks.info.gawla_app.general.TransHolder;
+import it_geeks.info.gawla_app.util.NotificationStatus;
+import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.login.LoginActivity;
 import it_geeks.info.gawla_app.R;
@@ -190,7 +190,7 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
         view.findViewById(R.id.menu_option_logout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogBuilder.createAlertDialog(getContext(), getString(R.string.sign_out_hint), new AlertButtonsClickListener() {
+                dialogBuilder.createAlertDialog(getContext(), getString(R.string.sign_out_hint), new ClickInterface.AlertButtonsClickListener() {
                     @Override
                     public void onPositiveClick() {
                         SharedPrefManager.getInstance(getActivity()).clearUser();

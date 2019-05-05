@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.general.NotificationStatus;
-import it_geeks.info.gawla_app.general.TransHolder;
+import it_geeks.info.gawla_app.util.NotificationStatus;
+import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 

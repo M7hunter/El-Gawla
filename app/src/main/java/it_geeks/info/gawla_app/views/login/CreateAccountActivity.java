@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,16 +43,16 @@ import java.util.Arrays;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import it_geeks.info.gawla_app.general.DialogBuilder;
+import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
-import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.general.TransHolder;
+import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.account.MembershipActivity;
 
@@ -64,7 +63,6 @@ import static it_geeks.info.gawla_app.views.login.LoginActivity.providerGoogle;
 public class CreateAccountActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private EditText etName, etEmail, etPass;
-    ScrollView createAccountMainScreen;
 
     TextInputLayout tl_create_name, tl_create_email, tl_create_pass;
     Button btnCreateAccount, btnAlreadyHaveAccount;
@@ -96,7 +94,6 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
     }
 
     private void initViews() {
-        createAccountMainScreen = findViewById(R.id.createAccountMainScreen);
         etName = findViewById(R.id.et_create_account_name);
         etEmail = findViewById(R.id.et_create_account_email);
         etPass = findViewById(R.id.et_create_account_pass);

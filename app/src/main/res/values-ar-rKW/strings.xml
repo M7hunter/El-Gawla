@@ -10,7 +10,7 @@
     <string name="account">الحساب</string>
     <string name="cards">الكروت</string>
     <string name="my_rounds">جولاتي</string>
-    <string name="hales">الصالات</string>
+    <string name="the_salons">الصالات</string>
     <string name="recent_salons">الصالات الحالية</string>
     <string name="slide_heading1">اشترك الان</string>
     <string name="slide_heading2">انضم للجولة</string>
@@ -240,4 +240,5 @@
     <string name="is_typing_others">" %1$s وآخرون يكتبون الآن "</string>
     <string name="amount">الكمية</string>
     <string name="Payment_method">وسيلة الدفع</string>
+    <string name="total_price">السعر الكلي</string>
 </resources>

@@ -22,8 +22,9 @@
             <include layout="@layout/layout_main_header" />
 
             <!-- Ads card -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_main_Ads"
+                style="@style/Widget.MaterialComponents.CardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
@@ -45,7 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_rounded_corners_blue_180"
-                    android:foreground="?android:attr/selectableItemBackground"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:gravity="center_vertical"
                     android:layoutDirection="ltr"
                     android:visibility="visible">
@@ -86,7 +87,7 @@
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- orange area 'with no need' -->
             <FrameLayout
@@ -153,9 +154,9 @@
                     android:id="@+id/recent_salons_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:visibility="gone"
                     android:layout_centerInParent="true"
-                    android:layout_margin="@dimen/margin_large" />
+                    android:layout_margin="@dimen/margin_large"
+                    tools:visibility="gone" />
 
                 <!-- empty view -->
                 <LinearLayout
@@ -196,8 +197,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_x_small">
+                android:layout_marginEnd="@dimen/margin_medium">
 
                 <!-- header -->
                 <TextView
@@ -226,26 +226,27 @@
             <!-- winners news container -->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_tiny">
 
                 <!-- winners news recycler -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/winners_news_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_tiny"
+                    android:layout_marginEnd="@dimen/margin_tiny"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="3"
-                    tools:listitem="@layout/item_news"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:layout_marginEnd="@dimen/margin_tiny" />
+                    tools:listitem="@layout/item_news" />
 
                 <!-- winners news progress -->
                 <ProgressBar
                     android:id="@+id/winners_news_progress"
                     android:layout_width="wrap_content"
-                    tools:visibility="gone"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true" />
+                    android:layout_centerInParent="true"
+                    tools:visibility="gone" />
 
             </RelativeLayout>
 

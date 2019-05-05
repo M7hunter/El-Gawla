@@ -49,14 +49,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Adapters.ActivityAdapter;
 import it_geeks.info.gawla_app.Adapters.TopTenAdapter;
-import it_geeks.info.gawla_app.general.DialogBuilder;
-import it_geeks.info.gawla_app.general.Interfaces.AlertButtonsClickListener;
-import it_geeks.info.gawla_app.general.salonUtils.AudioPlayer;
+import it_geeks.info.gawla_app.util.DialogBuilder;
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
+import it_geeks.info.gawla_app.util.salonUtils.AudioPlayer;
 import it_geeks.info.gawla_app.repository.Models.Activity;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.TopTen;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.receivers.ConnectionChangeReceiver;
+import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.receivers.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
 import it_geeks.info.gawla_app.repository.Models.Request;
@@ -68,12 +68,12 @@ import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Adapters.SalonCardsAdapter;
 import it_geeks.info.gawla_app.Adapters.ProductSubImagesAdapter;
-import it_geeks.info.gawla_app.general.NotificationStatus;
+import it_geeks.info.gawla_app.util.NotificationStatus;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 import it_geeks.info.gawla_app.views.WinnerActivity;
-import it_geeks.info.gawla_app.general.salonUtils.CountDown.CountDownController;
-import it_geeks.info.gawla_app.general.salonUtils.ChatUtils;
-import it_geeks.info.gawla_app.general.salonUtils.SocketUtils;
+import it_geeks.info.gawla_app.util.salonUtils.CountDown.CountDownController;
+import it_geeks.info.gawla_app.util.salonUtils.ChatUtils;
+import it_geeks.info.gawla_app.util.salonUtils.SocketUtils;
 import zendesk.core.AnonymousIdentity;
 import zendesk.core.Identity;
 import zendesk.core.Zendesk;
@@ -142,7 +142,7 @@ public class SalonActivity extends AppCompatActivity {
 
         initViews();
 
-        if (getRound(savedInstanceState)) {
+        if (getRoundData(savedInstanceState)) {
             initBottomSheetCardsBag();
             getRemainingTimeFromServer();
             bindProductMainViews();
@@ -323,7 +323,7 @@ public class SalonActivity extends AppCompatActivity {
         Support.INSTANCE.init(Zendesk.INSTANCE);
     }
 
-    private boolean getRound(Bundle savedInstanceState) {
+    private boolean getRoundData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
 
@@ -370,6 +370,7 @@ public class SalonActivity extends AppCompatActivity {
             btnUseGoldenCard.setText(R.string.buy_card_to_join);
         }
 
+        btnUseGoldenCard.setEnabled(true);
         btnUseGoldenCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -397,6 +398,7 @@ public class SalonActivity extends AppCompatActivity {
                 @Override
                 public void handleTrueResponse(JsonObject mainObject) {
                     Toast.makeText(SalonActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                    btnUseGoldenCard.setEnabled(false);
                     getUserCardsForSalonFromServer();
                 }
 
@@ -884,7 +886,7 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     private void leaveRoundDialog() {
-        dialogBuilder.createAlertDialog(SalonActivity.this, getString(R.string.leave_salon), new AlertButtonsClickListener() {
+        dialogBuilder.createAlertDialog(SalonActivity.this, getString(R.string.leave_salon), new ClickInterface.AlertButtonsClickListener() {
             @Override
             public void onPositiveClick() {
                 unSubscribeUserFromSalonOnServer();
@@ -976,7 +978,7 @@ public class SalonActivity extends AppCompatActivity {
         try {
             final String userOffer = etAddOffer.getText().toString();
 
-            if (String.valueOf(userOffer).isEmpty() || userOffer.equals("0")) {
+            if (userOffer.isEmpty() || userOffer.equals("0")) {
                 joinProgress.setVisibility(View.GONE);
                 addOfferLayout.setVisibility(View.VISIBLE);
                 etAddOffer.setEnabled(true);
@@ -997,7 +999,7 @@ public class SalonActivity extends AppCompatActivity {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
                             //Save user Offer
-                            SharedPrefManager.getInstance(SalonActivity.this).saveUserOffer(String.valueOf(round.getSalon_id() + "" + userId), userOffer);
+                            SharedPrefManager.getInstance(SalonActivity.this).saveUserOffer(String.valueOf(round.getSalon_id() + userId), userOffer);
                             updateLatestActivity(mainObject.get("message").getAsString());
 
                             try {
@@ -1027,8 +1029,8 @@ public class SalonActivity extends AppCompatActivity {
                         }
                     });
         } catch (NumberFormatException e) {
-            joinProgress.setVisibility(View.GONE);
             addOfferLayout.setVisibility(View.VISIBLE);
+            joinProgress.setVisibility(View.GONE);
             Crashlytics.logException(e);
         }
         etAddOffer.setEnabled(true);

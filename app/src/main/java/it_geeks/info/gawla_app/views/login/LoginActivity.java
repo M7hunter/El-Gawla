@@ -44,9 +44,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.DialogBuilder;
-import it_geeks.info.gawla_app.general.TransHolder;
+import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.DialogBuilder;
+import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
@@ -212,12 +212,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     // google login
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        String id = "", name = "", email = "", image = "";
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            String id = account.getId();
-            String name = account.getDisplayName();
-            String email = account.getEmail();
-            String image = "https://itgeeks.com/images/logo.png";
+            id = account.getId();
+            name = account.getDisplayName();
+            email = account.getEmail();
+            image = "https://itgeeks.com/images/logo.png";
             if (account.getPhotoUrl() != null) {
                 image = account.getPhotoUrl().toString();
             }
@@ -269,12 +270,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     // fb login
     private void getData(final JSONObject object) {
+        String id = "", name = "", email = "", image = "";
         try {
             URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/" + object.getString("id") + "/picture?type=normal");
-            String id = object.optString("id");
-            String name = object.optString("name");
-            String email = object.optString("email");
-            String image = Profile_Picture.toString();
+
+            id = object.optString("id");
+            name = object.optString("name");
+            email = object.optString("email");
+            image = Profile_Picture.toString();
 
             socialLogin(id, name, email, image, providerFacebook);
         } catch (MalformedURLException e) {

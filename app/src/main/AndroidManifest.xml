@@ -15,9 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_gawla_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".views.card.BuyCardActivity"></activity>
-        <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
+        android:usesCleartextTraffic="true"> <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
         <activity
             android:name=".views.MainActivity"
             android:clearTaskOnLaunch="true">
@@ -49,8 +47,8 @@
         <activity android:name=".views.WinnerActivity" />
         <activity android:name=".views.salon.AllSalonsActivity" />
         <activity android:name=".views.card.CardActivity" />
+        <activity android:name=".views.card.BuyCardActivity" />
         <activity android:name=".views.intro.IntroActivity" />
-        <activity android:name=".views.account.MembershipActivity" />
         <activity android:name=".views.login.ForgetPasswordActivity" />
         <activity android:name=".views.login.CreateAccountActivity" />
         <activity android:name=".views.login.LoginActivity" />
@@ -61,27 +59,35 @@
         <activity android:name=".views.menu.CallUsActivity" />
         <activity android:name=".views.menu.LanguageActivity" />
         <activity android:name=".views.menu.WebPageActivity" />
+        <activity android:name=".views.account.MembershipActivity" />
         <activity android:name=".views.account.BuyingProcessesActivity" />
         <activity android:name=".views.account.AccountDetailsActivity" />
         <activity
             android:name=".views.account.PrivacyDetailsActivity"
-            android:windowSoftInputMode="adjustPan" /> <!-- receivers -->
-        <receiver android:name=".general.receivers.NotificationInteractionsReceiver" />
+            android:windowSoftInputMode="adjustPan" />
+
+        <!-- receivers -->
+        <receiver android:name=".util.receivers.NotificationInteractionsReceiver" />
         <receiver
-            android:name=".general.receivers.ConnectionChangeReceiver"
+            android:name=".util.receivers.ConnectionChangeReceiver"
             android:label="NetworkConnection">
             <intent-filter>
                 <action android:name="android.net.com.CONNECTIVITY_CHANGE" />
             </intent-filter>
-        </receiver> <!-- services -->
-        <service android:name=".general.services.UploadImageService" /> <!-- Firebase Services -->
+        </receiver>
+
+        <!-- services -->
+        <!-- Firebase Services -->
+        <service android:name=".util.services.UploadImageService" />
         <service
-            android:name=".general.services.NotificationFirebaseMessagingService"
+            android:name=".util.services.NotificationFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service> <!-- firebase -->
+        </service>
+
+        <!-- firebase -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_remote_notification_channel_id" />
@@ -93,10 +99,15 @@
             android:resource="@color/colorPrimary" />
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
-            android:value="false" /> <!-- facebook -->
+            android:value="false" />
+        <!-- facebook -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+        <!-- pay -->
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
     </application>
 
 </manifest>

@@ -25,14 +25,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Adapters.CategoryAdapter;
-import it_geeks.info.gawla_app.general.DialogBuilder;
+import it_geeks.info.gawla_app.util.DialogBuilder;
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.CardDao;
 import it_geeks.info.gawla_app.repository.Storage.ProductImageDao;
 import it_geeks.info.gawla_app.repository.Storage.RoundDao;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.Interfaces.ConnectionInterface;
-import it_geeks.info.gawla_app.general.NotificationStatus;
-import it_geeks.info.gawla_app.general.Interfaces.OnItemClickListener;
+import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.Interfaces.ConnectionInterface;
+import it_geeks.info.gawla_app.util.NotificationStatus;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Category;
@@ -228,7 +228,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initDatesAdapter() {
-        filterRecycler.setAdapter(new DateAdapter(AllSalonsActivity.this, dateList, new OnItemClickListener() {
+        filterRecycler.setAdapter(new DateAdapter(AllSalonsActivity.this, dateList, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 SalonDate salonDate = dateList.get(position);
@@ -274,7 +274,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initCategoriesAdapter() {
-        filterRecycler.setAdapter(new CategoryAdapter(AllSalonsActivity.this, categoryList, new OnItemClickListener() {
+        filterRecycler.setAdapter(new CategoryAdapter(AllSalonsActivity.this, categoryList, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Category category = categoryList.get(position);

@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_hales"
+        android:id="@+id/navigation_salons"
         android:icon="@drawable/ic_flash"
-        android:title="@string/hales" />
+        android:title="@string/the_salons" />
 
     <item
         android:id="@+id/navigation_my_rounds"

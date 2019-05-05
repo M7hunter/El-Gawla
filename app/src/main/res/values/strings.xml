@@ -6,7 +6,7 @@
     <string name="salons_winners">salons winners</string>
     <string name="add_offer">Add offer</string>
     <string name="new_offer">New offer</string>
-    <string name="hales">Hales</string>
+    <string name="the_salons">Salons</string>
     <string name="my_rounds">My rounds</string>
     <string name="cards">Cards</string>
     <string name="account">Account</string>
@@ -242,5 +242,6 @@
     <string name="default_remote_notification_channel_id" translatable="false">remote notification</string>
     <string name="amount">Amount</string>
     <string name="Payment_method">Payment method</string>
+    <string name="total_price">Total Price</string>
 
 </resources>
