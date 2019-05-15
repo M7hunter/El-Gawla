@@ -851,7 +851,7 @@ public class SalonActivity extends AppCompatActivity {
                                 startActivity(i);
                             }
 
-                            Activity activity = new Activity(winnerName + " " + message + "(" + offer + ")", "");
+                            Activity activity = new Activity(winnerName + " " + message + offer , "");
                             updateLatestActivity(activity.getBody());
                             updateActivityList(activity);
 
