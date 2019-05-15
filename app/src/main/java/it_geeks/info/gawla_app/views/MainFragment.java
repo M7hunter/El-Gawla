@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
+
 import it_geeks.info.gawla_app.Adapters.AdsAdapter;
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.Adapters.WinnersNewsAdapter;
@@ -33,7 +34,7 @@ import it_geeks.info.gawla_app.repository.Models.Data;
 import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Models.WinnerNews;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
@@ -42,6 +43,10 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.util.NotificationStatus;
 import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.salon.AllSalonsActivity;
+
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_SLIDERS;
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_SALONS;
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_BLOGS;
 
 public class MainFragment extends Fragment {
 
@@ -153,7 +158,8 @@ public class MainFragment extends Fragment {
     }
 
     private void getData() {
-        if (Common.Instance().isConnected(getContext())) {
+        if (Common.Instance().isConnected(getContext()))
+        {
             noConnectionLayout.setVisibility(View.GONE);
 
             getAdsFromServer();
@@ -162,7 +168,9 @@ public class MainFragment extends Fragment {
 
             getWinnersFromServer();
 
-        } else {
+        }
+        else
+        {
             setOnNoConnection();
         }
     }
@@ -178,27 +186,30 @@ public class MainFragment extends Fragment {
     }
 
     private void getAdsFromServer() {
-        RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(), "getAllSliders", new Request(userId, apiToken), new HandleResponses() {
-            @Override
-            public void handleTrueResponse(JsonObject mainObject) {
-                adsList.clear();
-                adsList.addAll(ParseResponses.parseAds(mainObject));
-            }
+        RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(),
+                REQ_GET_ALL_SLIDERS, new Request<>(REQ_GET_ALL_SLIDERS, userId, apiToken
+                        , null, null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        adsList.clear();
+                        adsList.addAll(ParseResponses.parseAds(mainObject));
+                    }
 
-            @Override
-            public void handleAfterResponse() {
-                initAdsRecycler();
-            }
+                    @Override
+                    public void handleAfterResponse() {
+                        initAdsRecycler();
+                    }
 
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                initAdsRecycler();
-            }
-        });
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        initAdsRecycler();
+                    }
+                });
     }
 
     private void initAdsRecycler() {
-        if (adsList.size() > 0) {
+        if (adsList.size() > 0)
+        {
             adsEmptyView.setVisibility(View.GONE);
             adsPager.setVisibility(View.VISIBLE);
             adsPager.setAdapter(new AdsAdapter(getContext(), adsList));
@@ -213,7 +224,9 @@ public class MainFragment extends Fragment {
                 }
             });
 
-        } else {
+        }
+        else
+        {
             adsPager.setVisibility(View.GONE);
             adsEmptyView.setVisibility(View.VISIBLE);
         }
@@ -223,14 +236,16 @@ public class MainFragment extends Fragment {
         handler = new Handler();
         updateCurrentAd = new Runnable() {
             public void run() {
-                if (currentAd == adsList.size()) {
+                if (currentAd == adsList.size())
+                {
                     currentAd = 0;
                 }
                 adsPager.setCurrentItem(currentAd++, true);
             }
         };
 
-        if (timer != null) {
+        if (timer != null)
+        {
             timer.cancel();
             timer.purge();
         }
@@ -246,7 +261,8 @@ public class MainFragment extends Fragment {
 
     private void getFirstSalonsFromServer() {
         RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-                new Data("getAllSalons", 1), new Request(userId, apiToken, true), new HandleResponses() {
+                new Data(REQ_GET_ALL_SALONS, 1), new Request<>(REQ_GET_ALL_SALONS, userId, apiToken, true
+                        , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         roundList.clear();
@@ -275,12 +291,14 @@ public class MainFragment extends Fragment {
 
     private void getNextSalonsFromServer() {
         RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-                new Data("getAllSalons", ++page), new Request(userId, apiToken, true), new HandleResponses() {
+                new Data(REQ_GET_ALL_SALONS, ++page), new Request<>(REQ_GET_ALL_SALONS, userId, apiToken, true
+                        , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         int nextFirstPosition = roundList.size();
                         roundList.addAll(ParseResponses.parseRounds(mainObject));
-                        for (int i = nextFirstPosition; i < roundList.size(); i++) {
+                        for (int i = nextFirstPosition; i < roundList.size(); i++)
+                        {
                             recentSalonsPagedAdapter.notifyItemInserted(i);
                         }
 
@@ -302,10 +320,12 @@ public class MainFragment extends Fragment {
     }
 
     private void initSalonsRecycler() {
-        if (recentSalonsRecycler.getVisibility() == View.GONE) {
+        if (recentSalonsRecycler.getVisibility() == View.GONE)
+        {
             recentSalonsRecycler.setVisibility(View.VISIBLE);
         }
-        if (layoutManager == null) {
+        if (layoutManager == null)
+        {
             layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
             recentSalonsRecycler.setLayoutManager(layoutManager);
         }
@@ -316,7 +336,8 @@ public class MainFragment extends Fragment {
 
         Common.Instance().hideProgress(recentSalonsRecycler, recentSalonsProgress);
 
-        if (page < last_page) {
+        if (page < last_page)
+        {
             addScrollListener();
         }
     }
@@ -327,7 +348,8 @@ public class MainFragment extends Fragment {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                if (layoutManager.findLastCompletelyVisibleItemPosition() == recentSalonsPagedAdapter.getItemCount() - 1) {
+                if (layoutManager.findLastCompletelyVisibleItemPosition() == recentSalonsPagedAdapter.getItemCount() - 1)
+                {
                     getNextSalonsFromServer();
                     Toast.makeText(getContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();
 
@@ -342,11 +364,14 @@ public class MainFragment extends Fragment {
 
         recentSalonsProgress.setVisibility(View.GONE);
 
-        if (roundList.size() > 0) {
+        if (roundList.size() > 0)
+        {
             emptyViewLayout.setVisibility(View.GONE);
             recentSalonsRecycler.setVisibility(View.VISIBLE);
 
-        } else {
+        }
+        else
+        {
             emptyViewLayout.setVisibility(View.VISIBLE);
             recentSalonsRecycler.setVisibility(View.INVISIBLE);
         }
@@ -356,31 +381,35 @@ public class MainFragment extends Fragment {
         winnersHeader.setVisibility(View.GONE);
         winnersNewsProgress.setVisibility(View.GONE);
         winnersNewsRecycler.setVisibility(View.GONE);
-//        RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(), "getAllBlogs", new Request(userId, apiToken), new HandleResponses() {
-//            @Override
-//            public void handleTrueResponse(JsonObject mainObject) {
-//                winnerNewsList = ParseResponses.parseWinners(mainObject);
-//            }
-//
-//            @Override
-//            public void handleAfterResponse() {
-//                initWinnersRecycler();
-//            }
-//
-//            @Override
-//            public void handleConnectionErrors(String errorMessage) {
-//                initWinnersRecycler();
-//            }
-//        });
+        RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(),
+                REQ_GET_ALL_BLOGS, new Request<>(REQ_GET_ALL_BLOGS, userId, apiToken
+                        , null, null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        winnerNewsList = ParseResponses.parseWinners(mainObject);
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                        initWinnersRecycler();
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        initWinnersRecycler();
+                    }
+                });
     }
 
     private void initWinnersRecycler() {
-        if (winnerNewsList.size() > 0) {
+        if (winnerNewsList.size() > 0)
+        {
             if (!winnersNewsRecycler.hasFixedSize())
                 winnersNewsRecycler.setHasFixedSize(true);
             if (winnersNewsRecycler.getLayoutManager() == null)
                 winnersNewsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-            if (winnersNewsRecycler.getAdapter() == null) {
+            if (winnersNewsRecycler.getAdapter() == null)
+            {
                 winnersNewsAdapter = new WinnersNewsAdapter(getActivity(), winnerNewsList);
                 winnersNewsRecycler.setAdapter(winnersNewsAdapter);
             }
@@ -388,7 +417,9 @@ public class MainFragment extends Fragment {
             // to remove progress bar
             if (winnersNewsProgress.getVisibility() == View.VISIBLE)
                 Common.Instance().hideProgress(winnersNewsRecycler, winnersNewsProgress);
-        } else {
+        }
+        else
+        {
             winnersHeader.setVisibility(View.GONE);
             winnersNewsProgress.setVisibility(View.GONE);
             winnersNewsRecycler.setVisibility(View.GONE);

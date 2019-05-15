@@ -20,9 +20,10 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
 import io.fabric.sdk.android.Fabric;
 import it_geeks.info.gawla_app.util.DialogBuilder;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.Models.WebPage;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
@@ -40,6 +41,8 @@ import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.login.LoginActivity;
 import it_geeks.info.gawla_app.views.intro.SplashActivity;
 
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_PAGES;
+
 public class MainActivity extends AppCompatActivity {
 
     public static Activity mainInstance;
@@ -56,14 +59,14 @@ public class MainActivity extends AppCompatActivity {
 
     public List<WebPage> webPageList = new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Fabric.with(this, new Crashlytics());
         setLang();
         super.onCreate(savedInstanceState);
 
-        if (!checkLoginState()) {
+        if (!checkLoginState())
+        {
             return;
         }
 
@@ -74,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
         transHolder = new TransHolder(MainActivity.this);
         transHolder.getMainActivityTranses(MainActivity.this);
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null)
+        {
             displayFragment(fragment);
         }
 
@@ -97,9 +101,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setLang() {
-        try {
+        try
+        {
             Common.Instance().setLang(this, SharedPrefManager.getInstance(this).getSavedLang());
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -108,12 +114,16 @@ public class MainActivity extends AppCompatActivity {
     private boolean checkLoginState() {
         if (SharedPrefManager.getInstance(this).getUser().getUser_id() == -111 // id !saved
                 || SharedPrefManager.getInstance(this).getUser().getApi_token() == null // token !saved
-                || !SharedPrefManager.getInstance(this).isLoggedIn()) { // !logged in
+                || !SharedPrefManager.getInstance(this).isLoggedIn())
+        { // !logged in
 
-            if (SharedPrefManager.getInstance(this).getCountry().getCountry_id() == -111) { // country saved ?
+            if (SharedPrefManager.getInstance(this).getCountry().getCountry_id() == -111)
+            { // country saved ?
                 startActivity(new Intent(this, SplashActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            } else { // country !saved
+            }
+            else
+            { // country !saved
                 startActivity(new Intent(this, LoginActivity.class)
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }
@@ -125,22 +135,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateNotificationStatus() {
-        if (SharedPrefManager.getInstance(this).getNewNotification()) {
+        if (SharedPrefManager.getInstance(this).getNewNotification())
+        {
             GawlaDataBse.getInstance(this).notificationDao().updateStatusNotification(true);
-        } else {
+        }
+        else
+        {
             GawlaDataBse.getInstance(this).notificationDao().updateStatusNotification(false);
         }
     }
 
     // Firebase initialize
     private void FirebaseMessagingInitialize() {
-        if (SharedPrefManager.getInstance(this).isNotificationEnabled()) startNotifications();
+        if (SharedPrefManager.getInstance(this).isNotificationEnabled())
+            startNotifications();
         else stopNotifications();
     }
 
     private void startNotifications() {
         FirebaseMessaging.getInstance().subscribeToTopic("all");
-        FirebaseMessaging.getInstance().subscribeToTopic("country_" + String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
+        FirebaseMessaging.getInstance().subscribeToTopic("country_" + SharedPrefManager.getInstance(this).getCountry().getCountry_id());
     }
 
     private void stopNotifications() {
@@ -149,7 +163,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public View getSnackBarContainer() {
-        if (snackContainer == null) {
+        if (snackContainer == null)
+        {
             snackContainer = findViewById(R.id.snackbar_container);
         }
         return snackContainer;
@@ -161,7 +176,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 fragment = null;
-                switch (menuItem.getItemId()) {
+                switch (menuItem.getItemId())
+                {
                     case R.id.navigation_salons:
                         fragment = new MainFragment();
                         menuItem.setTitle(transHolder.hales);
@@ -194,7 +210,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
 
-                if (fragment != null) {
+                if (fragment != null)
+                {
                     displayFragment(fragment);
                     return true;
                 }
@@ -231,30 +248,35 @@ public class MainActivity extends AppCompatActivity {
         int user_id = SharedPrefManager.getInstance(MainActivity.this).getUser().getUser_id();
         String api_token = SharedPrefManager.getInstance(MainActivity.this).getUser().getApi_token();
 
-        RetrofitClient.getInstance(MainActivity.this).executeConnectionToServer(MainActivity.this, "getAllPages", new Request(user_id, api_token), new HandleResponses() {
-            @Override
-            public void handleTrueResponse(JsonObject mainObject) {
-                webPageList = ParseResponses.parseWebPages(mainObject);
-            }
+        RetrofitClient.getInstance(MainActivity.this).executeConnectionToServer(MainActivity.this,
+                REQ_GET_ALL_PAGES, new Request<>(REQ_GET_ALL_PAGES, user_id, api_token,
+                        null, null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        webPageList = ParseResponses.parseWebPages(mainObject);
+                    }
 
-            @Override
-            public void handleAfterResponse() {
+                    @Override
+                    public void handleAfterResponse() {
 
-            }
+                    }
 
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
 
-            }
-        });
+                    }
+                });
     }
 
     @Override
     public void onBackPressed() {
-        if (navigation.getSelectedItemId() == R.id.navigation_salons) { // back from main page
+        if (navigation.getSelectedItemId() == R.id.navigation_salons)
+        { // back from main page
             super.onBackPressed();
 
-        } else {
+        }
+        else
+        {
             displayFragment(new MainFragment());
             navigation.setSelectedItemId(R.id.navigation_salons);
         }
@@ -262,9 +284,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        try {
+        try
+        {
             unregisterReceiver(connectionChangeReceiver);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }

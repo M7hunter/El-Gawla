@@ -16,9 +16,10 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Ad;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
@@ -27,6 +28,7 @@ import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
 import static it_geeks.info.gawla_app.repository.RESTful.ParseResponses.parseRoundByID;
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_SALON_BY_ID;
 
 public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
 
@@ -61,7 +63,8 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ad.isType()) {
+                if (ad.isType())
+                {
                     getSalonByID(ad.getSalonId());
                 }
             }
@@ -72,7 +75,8 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
         ((MainActivity) context).dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(context).executeConnectionToServer(
                 context,
-                "getSalonByID", new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), salonId),
+                REQ_GET_SALON_BY_ID, new Request<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), salonId,
+                        null, null, null, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

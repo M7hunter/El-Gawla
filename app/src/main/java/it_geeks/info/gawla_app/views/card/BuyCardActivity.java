@@ -9,7 +9,7 @@ import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.util.GooglePay;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.Category;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
@@ -55,6 +55,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_CATEGORIES;
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_PAYMENT_PAGE;
+
 public class BuyCardActivity extends AppCompatActivity {
 
     private static final String TAG = "Buy_card";
@@ -69,12 +72,12 @@ public class BuyCardActivity extends AppCompatActivity {
 
     private List<Category> categoryList = new ArrayList<>();
     private List<String> catNamesList = new ArrayList<>();
-    private Card card;
     private Category selectedCategory;
+    private Card card;
 
     private int amount = 1;
     private int salonId = 0;
-    private String method = SharedPrefManager.getInstance(this).getLastMethod();
+    private String method;
 
     private DialogBuilder dialogBuilder;
 
@@ -95,9 +98,11 @@ public class BuyCardActivity extends AppCompatActivity {
         initGooglePayApiClient();
         initViews();
 
-        if (getCardData(savedInstanceState)) {
+        if (getCardData(savedInstanceState))
+        {
             bindData();
-            if (categoryList.size() == 0) {
+            if (categoryList.size() == 0)
+            {
                 getCategoriesFromServer();
             }
         }
@@ -123,24 +128,30 @@ public class BuyCardActivity extends AppCompatActivity {
     }
 
     private boolean getCardData(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null)
+        {
             Bundle extras = getIntent().getExtras();
-            if (extras != null) {
+            if (extras != null)
+            {
                 card = (Card) extras.getSerializable("card_to_buy");
                 salonId = extras.getInt("salon_id_to_buy_card");
                 categoryList.addAll((List<Category>) extras.getSerializable("categories_to_buy_card"));
 
             }
 
-        } else {
+        }
+        else
+        {
             card = (Card) savedInstanceState.getSerializable("card_to_buy");
             salonId = savedInstanceState.getInt("salon_id_to_buy_card");
             categoryList.addAll((List<Category>) savedInstanceState.getSerializable("categories_to_buy_card"));
         }
 
-        if (categoryList.size() > 0) {
+        if (categoryList.size() > 0)
+        {
             selectedCategory = categoryList.get(0);
         }
+
         return card != null;
     }
 
@@ -148,7 +159,8 @@ public class BuyCardActivity extends AppCompatActivity {
         tvHeader.setText(card.getCard_name());
         getTotalPrice();
 
-        for (Category category : categoryList) {
+        for (Category category : categoryList)
+        {
             catNamesList.add(category.getCategoryName());
         }
 
@@ -185,7 +197,8 @@ public class BuyCardActivity extends AppCompatActivity {
         ivDecreaseAmount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getAmount() > 1) {
+                if (getAmount() > 1)
+                {
                     tvAmount.setText(String.valueOf(--amount)); // decrease by 1
                     getTotalPrice();
                 }
@@ -209,13 +222,13 @@ public class BuyCardActivity extends AppCompatActivity {
 
     private void buyCard() {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(BuyCardActivity.this).executeConnectionToServer(BuyCardActivity.this, "getPaymentPage",
-                new Request(SharedPrefManager.getInstance(BuyCardActivity.this).getUser().getUser_id(),
+        RetrofitClient.getInstance(BuyCardActivity.this).executeConnectionToServer(BuyCardActivity.this,
+                REQ_GET_PAYMENT_PAGE, new Request<>(REQ_GET_PAYMENT_PAGE, SharedPrefManager.getInstance(BuyCardActivity.this).getUser().getUser_id(),
                         SharedPrefManager.getInstance(BuyCardActivity.this).getUser().getApi_token(),
                         salonId,
                         card.getCard_id(),
                         selectedCategory.getCategoryId(),
-                        method),
+                        method, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -259,7 +272,10 @@ public class BuyCardActivity extends AppCompatActivity {
         ivFawry = findViewById(R.id.iv_fawry);
         ivPaypal = findViewById(R.id.iv_paypal);
 
-        switch (method) {
+        method = SharedPrefManager.getInstance(this).getLastMethod();
+
+        switch (method)
+        {
             case Constants.VISA:
                 checkVisa();
                 break;
@@ -277,7 +293,13 @@ public class BuyCardActivity extends AppCompatActivity {
                 break;
         }
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+        /*
+         * google pay not supported on APIs < 24
+         * so, just hide google pay button form APIs < 24
+         * and check visa as default method
+         */
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N)
+        {
             llUseGooglePay.setVisibility(View.GONE);
             checkVisa();
         }
@@ -285,33 +307,39 @@ public class BuyCardActivity extends AppCompatActivity {
         CompoundButton.OnCheckedChangeListener checkListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                switch (buttonView.getId()) {
+                switch (buttonView.getId())
+                {
                     case R.id.rb_visa:
-                        if (isChecked) {
+                        if (isChecked)
+                        {
                             checkVisa();
                         }
 
                         break;
                     case R.id.rb_mastercard:
-                        if (isChecked) {
+                        if (isChecked)
+                        {
                             checkMastercard();
                         }
 
                         break;
                     case R.id.rb_fawry:
-                        if (isChecked) {
+                        if (isChecked)
+                        {
                             checkFawry();
                         }
 
                         break;
                     case R.id.rb_paypal:
-                        if (isChecked) {
+                        if (isChecked)
+                        {
                             checkPaypal();
                         }
 
                         break;
                     case R.id.rb_googlepay:
-                        if (isChecked) {
+                        if (isChecked)
+                        {
                             checkGooglePay();
                         }
 
@@ -330,33 +358,39 @@ public class BuyCardActivity extends AppCompatActivity {
         View.OnClickListener imageClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()) {
+                switch (v.getId())
+                {
                     case R.id.iv_visa:
-                        if (!rbVisa.isChecked()) {
+                        if (!rbVisa.isChecked())
+                        {
                             checkVisa();
                         }
 
                         break;
                     case R.id.iv_mastercard:
-                        if (!rbMastercard.isChecked()) {
+                        if (!rbMastercard.isChecked())
+                        {
                             checkMastercard();
                         }
 
                         break;
                     case R.id.iv_fawry:
-                        if (!rbFawry.isChecked()) {
+                        if (!rbFawry.isChecked())
+                        {
                             checkFawry();
                         }
 
                         break;
                     case R.id.iv_paypal:
-                        if (!rbPaypal.isChecked()) {
+                        if (!rbPaypal.isChecked())
+                        {
                             checkPaypal();
                         }
 
                         break;
                     case R.id.ll_use_googlepay:
-                        if (!rbGooglePay.isChecked()) {
+                        if (!rbGooglePay.isChecked())
+                        {
                             checkGooglePay();
                         }
 
@@ -458,12 +492,14 @@ public class BuyCardActivity extends AppCompatActivity {
     @SuppressLint("NewApi")
     private void possiblyShowGooglePayButton() {
         final Optional<JSONObject> isReadyToPayJson = GooglePay.getIsReadyToPayRequest();
-        if (!isReadyToPayJson.isPresent()) {
+        if (!isReadyToPayJson.isPresent())
+        {
             return;
         }
 
         IsReadyToPayRequest request = IsReadyToPayRequest.fromJson(isReadyToPayJson.get().toString());
-        if (request == null) {
+        if (request == null)
+        {
             return;
         }
 
@@ -472,9 +508,11 @@ public class BuyCardActivity extends AppCompatActivity {
                 new OnCompleteListener<Boolean>() {
                     @Override
                     public void onComplete(@NonNull Task<Boolean> task) {
-                        try {
+                        try
+                        {
                             boolean result = task.getResult(ApiException.class);
-                            if (result) {
+                            if (result)
+                            {
                                 // show Google as a payment option
                                 mGooglePayButton = findViewById(R.id.googlepay);
                                 mGooglePayButton.setOnClickListener(
@@ -486,8 +524,10 @@ public class BuyCardActivity extends AppCompatActivity {
                                         });
                                 mGooglePayButton.setVisibility(View.VISIBLE);
                             }
-                        } catch (ApiException exception) {
+                        } catch (ApiException exception)
+                        {
                             // handle developer errors
+                            Log.d(TAG, "possiblyShowGooglePayButton", exception);
                         }
                     }
                 });
@@ -501,11 +541,13 @@ public class BuyCardActivity extends AppCompatActivity {
     @SuppressLint("NewApi")
     public void requestPayment(View view) {
         Optional<JSONObject> paymentDataRequestJson = GooglePay.getPaymentDataRequest(getTotalPrice(), "USD");
-        if (!paymentDataRequestJson.isPresent()) {
+        if (!paymentDataRequestJson.isPresent())
+        {
             return;
         }
         PaymentDataRequest request = PaymentDataRequest.fromJson(paymentDataRequestJson.get().toString());
-        if (request != null) {
+        if (request != null)
+        {
             AutoResolveHelper.resolveTask(mPaymentsClient.loadPaymentData(request), this, LOAD_PAYMENT_DATA_REQUEST_CODE);
         }
     }
@@ -523,21 +565,27 @@ public class BuyCardActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
+        switch (requestCode)
+        {
             // value passed in AutoResolveHelper
             case LOAD_PAYMENT_DATA_REQUEST_CODE:
-                switch (resultCode) {
+                switch (resultCode)
+                {
                     case Activity.RESULT_OK:
                         PaymentData paymentData = PaymentData.getFromIntent(data);
                         String json = null;
-                        if (paymentData != null) {
+                        if (paymentData != null)
+                        {
                             json = paymentData.toJson();
-                        } else {
+                        }
+                        else
+                        {
                             Log.d(TAG, "paymentData: null");
                         }
                         // if using gateway tokenization, pass this token without modification
 //                        String paymentMethodData = ;
-                        try {
+                        try
+                        {
                             String paymentToken = new JSONObject(json)
                                     .getJSONObject("paymentMethodData")
                                     .getJSONObject("tokenizationData")
@@ -545,7 +593,8 @@ public class BuyCardActivity extends AppCompatActivity {
 
                             Log.d(TAG, "paymentToken:: " + paymentToken);
                             Toast.makeText(this, paymentToken, Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
+                        } catch (JSONException e)
+                        {
                             e.printStackTrace();
                         }
                         break;
@@ -589,12 +638,14 @@ public class BuyCardActivity extends AppCompatActivity {
 
     public void getCategoriesFromServer() {
         RetrofitClient.getInstance(BuyCardActivity.this).executeConnectionToServer(BuyCardActivity.this,
-                "getAllCategories", new Request(SharedPrefManager.getInstance(BuyCardActivity.this).getUser().getUser_id(), SharedPrefManager.getInstance(BuyCardActivity.this).getUser().getApi_token()),
+                REQ_GET_ALL_CATEGORIES, new Request<>(REQ_GET_ALL_CATEGORIES, SharedPrefManager.getInstance(BuyCardActivity.this).getUser().getUser_id(), SharedPrefManager.getInstance(BuyCardActivity.this).getUser().getApi_token(),
+                        null, null, null, null, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         categoryList = ParseResponses.parseCategories(mainObject);
-                        if (categoryList.size() > 0 && selectedCategory == null) {
+                        if (categoryList.size() > 0 && selectedCategory == null)
+                        {
                             selectedCategory = categoryList.get(0);
                         }
                         bindData();

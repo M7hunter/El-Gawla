@@ -18,13 +18,15 @@ import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Adapters.NotificationAdapter;
 import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.repository.Models.Notification;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.repository.Storage.NotificationDao;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
+
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_USER_NOTIFICATION;
 
 public class NotificationActivity extends AppCompatActivity {
 
@@ -88,8 +90,9 @@ public class NotificationActivity extends AppCompatActivity {
 
         RetrofitClient.getInstance(NotificationActivity.this).executeConnectionToServer(
                 NotificationActivity.this,
-                "getAllUserNotification",
-                new Request(SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()), new HandleResponses() {
+                REQ_GET_USER_NOTIFICATION,
+                new Request<>(REQ_GET_USER_NOTIFICATION, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()
+                , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         notificationDao.removeNotifications(notificationDao.getAllNotification());

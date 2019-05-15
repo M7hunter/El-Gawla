@@ -21,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.Data;
-import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.RequestMainBody;
 import it_geeks.info.gawla_app.views.login.LoginActivity;
 import okhttp3.OkHttpClient;

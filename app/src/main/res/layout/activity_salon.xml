@@ -151,43 +151,44 @@
             android:textStyle="bold"
             android:visibility="gone" />
 
-        <!-- leave & help -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:layoutDirection="ltr">
-
-            <!-- leave btn -->
-            <Button
-                android:id="@+id/btn_leave_round"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_tiny"
-                android:text="@string/leave"
-                android:visibility="gone"
-                app:icon="@drawable/ic_exit"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:rippleColor="@color/darkPaleRed" />
-
-            <!-- customer services -->
-            <ImageView
-                android:id="@+id/salon_help"
-                android:layout_width="@dimen/icon_notification"
-                android:layout_height="@dimen/icon_notification"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/margin_tiny"
-                android:src="@drawable/q_mark_in_circle"
-                android:tint="@color/midBlue"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
     </LinearLayout>
+
+    <!-- leave & help -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layoutDirection="ltr">
+
+        <!-- leave btn -->
+        <Button
+            android:id="@+id/btn_leave_round"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_xTiny"
+            android:text="@string/leave"
+            android:visibility="gone"
+            app:icon="@drawable/ic_exit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:rippleColor="@color/darkPaleRed" />
+
+        <!-- customer services -->
+        <ImageView
+            android:id="@+id/salon_help"
+            android:layout_width="@dimen/icon_notification"
+            android:layout_height="@dimen/icon_notification"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/margin_xTiny"
+            android:src="@drawable/q_mark_in_circle"
+            android:tint="@color/midBlue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- cards bag btn container -->
     <include layout="@layout/layout_cards_free_button" />

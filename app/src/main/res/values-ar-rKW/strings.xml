@@ -118,7 +118,7 @@
     <string name="renew_membership">تجديد العضوية</string>
     <string name="app_settings">اعدادات التطبيق</string>
     <string name="currency">العملة</string>
-    <string name="receive_notification">استقبال الاشعارات</string>
+    <string name="app_notification">اشعارات التطبيق</string>
     <string name="notification">الاشعارات</string>
     <string name="first_name">الاسم الاول</string>
     <string name="second_name">الاسم الثاني</string>
@@ -241,4 +241,5 @@
     <string name="amount">الكمية</string>
     <string name="Payment_method">وسيلة الدفع</string>
     <string name="total_price">السعر الكلي</string>
+    <string name="click_for_more_options">اضغط لمزيد من الخيارات</string>
 </resources>

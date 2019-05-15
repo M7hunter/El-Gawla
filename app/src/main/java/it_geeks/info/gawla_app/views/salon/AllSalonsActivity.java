@@ -36,7 +36,7 @@ import it_geeks.info.gawla_app.util.NotificationStatus;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Category;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.repository.Models.SalonDate;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
@@ -47,6 +47,9 @@ import it_geeks.info.gawla_app.Adapters.DateAdapter;
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
+
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_CATEGORIES;
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_SALONS;
 
 public class AllSalonsActivity extends AppCompatActivity {
 
@@ -144,7 +147,8 @@ public class AllSalonsActivity extends AppCompatActivity {
     private void getDatesAndRoundsFromServer() {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
-                "getAllSalons", new Request(userId, apiToken, false), new HandleResponses() {
+                REQ_GET_ALL_SALONS, new Request<>(REQ_GET_ALL_SALONS, userId, apiToken, false,
+                        null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         updateDatabaseList(ParseResponses.parseRounds(mainObject));
@@ -242,7 +246,8 @@ public class AllSalonsActivity extends AppCompatActivity {
     private void getCategoriesAndRoundsFromServer() {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
-                "getAllCategories", new Request(userId, apiToken), new HandleResponses() {
+                REQ_GET_ALL_CATEGORIES, new Request<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
+                        null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
 

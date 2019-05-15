@@ -11,13 +11,16 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
+
+import static it_geeks.info.gawla_app.util.Constants.REQ_SET_USER_MESSAGE;
 
 public class CallUsActivity extends AppCompatActivity {
 
@@ -78,19 +81,28 @@ public class CallUsActivity extends AppCompatActivity {
     }
 
     private void checkEntries() {
-        if (!usernameCallUS.getText().toString().trim().isEmpty()) { // !empty
-            if (!emailCallUS.getText().toString().trim().isEmpty()) { // !empty
-                if (!messageCallUS.getText().toString().trim().isEmpty()) { // !empty
+        if (!usernameCallUS.getText().toString().trim().isEmpty())
+        { // !empty
+            if (!emailCallUS.getText().toString().trim().isEmpty())
+            { // !empty
+                if (!messageCallUS.getText().toString().trim().isEmpty())
+                { // !empty
                     sendMessage();
-                } else { // empty ?
+                }
+                else
+                { // empty ?
                     messageCallUS.setFocusable(true);
                     tlText.setError(getString(R.string.empty_message));
                 }
-            } else { // empty ?
+            }
+            else
+            { // empty ?
                 emailCallUS.setFocusable(true);
                 tlEmail.setError(getString(R.string.emptyMail));
             }
-        } else { // empty ?
+        }
+        else
+        { // empty ?
             usernameCallUS.setFocusable(true);
             tlName.setError(getString(R.string.empty_name));
         }
@@ -109,7 +121,8 @@ public class CallUsActivity extends AppCompatActivity {
         tlEmail.setError(null);
 
         RetrofitClient.getInstance(CallUsActivity.this).executeConnectionToServer(CallUsActivity.this,
-                "setUserContactMessage", new Request(userID, apiToken, username, email, message), new HandleResponses() {
+                REQ_SET_USER_MESSAGE, new Request<>(REQ_SET_USER_MESSAGE, userID, apiToken, username, email, message,
+                        null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         Toast.makeText(CallUsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();

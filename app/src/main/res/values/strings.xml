@@ -136,7 +136,7 @@
     <string name="renew_membership">Renew membership</string>
     <string name="count_down_to_start">Count down to start</string>
     <string name="currency">Currency</string>
-    <string name="receive_notification">Receive Notification</string>
+    <string name="app_notification">App Notification</string>
     <string name="notification">Notification</string>
     <string name="all_salons">All salons</string>
     <string name="salons">" Salons "</string>
@@ -243,5 +243,6 @@
     <string name="amount">Amount</string>
     <string name="Payment_method">Payment method</string>
     <string name="total_price">Total Price</string>
+    <string name="click_for_more_options">click for more options</string>
 
 </resources>

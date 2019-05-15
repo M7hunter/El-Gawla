@@ -11,12 +11,14 @@ import com.google.gson.JsonObject;
 import androidx.annotation.Nullable;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.util.NotificationBuilder;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.account.AccountDetailsActivity;
+
+import static it_geeks.info.gawla_app.util.Constants.REQ_UPDATE_USER_DATA;
 
 public class UploadImageService extends Service {
 
@@ -44,10 +46,10 @@ public class UploadImageService extends Service {
             }
 
             RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                    "updateUserData",
-                    new Request(SharedPrefManager.getInstance(this).getUser().getUser_id(),
+                    REQ_UPDATE_USER_DATA, new Request<>("updateUserImage", SharedPrefManager.getInstance(this).getUser().getUser_id(),
                             SharedPrefManager.getInstance(this).getCountry().getCountry_id(),
-                            SharedPrefManager.getInstance(this).getUser().getApi_token(), activity.encodedImage), new HandleResponses() {
+                            SharedPrefManager.getInstance(this).getUser().getApi_token(), activity.encodedImage
+                    ,null,null,null), new HandleResponses() {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
                             // save updated user data

@@ -4,12 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import it_geeks.info.gawla_app.Adapters.CardListAdapter;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.Category;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
@@ -37,6 +38,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it_geeks.info.gawla_app.util.Constants.REQ_ADD_CARDS_TO_USER;
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_CATEGORIES;
+
 public class CardActivity extends AppCompatActivity {
 
     private View vCardIcon;
@@ -58,7 +62,8 @@ public class CardActivity extends AppCompatActivity {
 
         initViews();
 
-        if (getCardData(savedInstanceState)) {
+        if (getCardData(savedInstanceState))
+        {
             cardList.remove(card.getPosition()); // remove first card from bottom list
             bindData(card);
         }
@@ -69,14 +74,18 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private boolean getCardData(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null)
+        {
             Bundle extras = getIntent().getExtras();
-            if (extras != null) {
+            if (extras != null)
+            {
                 card = (Card) extras.getSerializable("card");
                 cardList.addAll((List<Card>) extras.getSerializable("card_list"));
             }
 
-        } else {
+        }
+        else
+        {
             card = (Card) savedInstanceState.getSerializable("card");
             cardList.addAll((List<Card>) savedInstanceState.getSerializable("card_list"));
         }
@@ -180,7 +189,8 @@ public class CardActivity extends AppCompatActivity {
 
     public void getCategoriesFromServer() {
         RetrofitClient.getInstance(CardActivity.this).executeConnectionToServer(CardActivity.this,
-                "getAllCategories", new Request(SharedPrefManager.getInstance(CardActivity.this).getUser().getUser_id(), SharedPrefManager.getInstance(CardActivity.this).getUser().getApi_token()),
+                REQ_GET_ALL_CATEGORIES, new Request<>(REQ_GET_ALL_CATEGORIES, SharedPrefManager.getInstance(CardActivity.this).getUser().getUser_id(), SharedPrefManager.getInstance(CardActivity.this).getUser().getApi_token(),
+                        null, null, null, null, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -204,23 +214,25 @@ public class CardActivity extends AppCompatActivity {
         int user_id = SharedPrefManager.getInstance(this).getUser().getUser_id();
         String api_token = SharedPrefManager.getInstance(this).getUser().getApi_token();
 
-        RetrofitClient.getInstance(this).executeConnectionToServer(this, "addCardsToUser", new Request(user_id, api_token, card.getCard_id()), new HandleResponses() {
-            @Override
-            public void handleTrueResponse(JsonObject mainObject) {
-                Toast.makeText(CardActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-            }
+        RetrofitClient.getInstance(this).executeConnectionToServer(this,
+                REQ_ADD_CARDS_TO_USER, new Request<>(REQ_ADD_CARDS_TO_USER, user_id, api_token, card.getCard_id(),
+                        null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        Toast.makeText(CardActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                    }
 
-            @Override
-            public void handleAfterResponse() {
-                displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
-            }
+                    @Override
+                    public void handleAfterResponse() {
+                        displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
+                    }
 
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
-                Toast.makeText(CardActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
+                        Toast.makeText(CardActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void displayConfirmationBtn(CardView btnConfirmBuying, ProgressBar pbBuyCard) {

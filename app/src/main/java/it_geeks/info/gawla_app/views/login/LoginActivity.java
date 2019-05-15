@@ -43,11 +43,12 @@ import java.util.Arrays;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.util.TransHolder;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
@@ -55,6 +56,9 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
+
+import static it_geeks.info.gawla_app.util.Constants.REQ_SIGN_IN;
+import static it_geeks.info.gawla_app.util.Constants.REQ_SOCIAL_SIGN;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -124,7 +128,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (checkEntries(etEmail.getText().toString(), etPassword.getText().toString())) {
+                if (checkEntries(etEmail.getText().toString(), etPassword.getText().toString()))
+                {
                     login(etEmail.getText().toString(), etPassword.getText().toString()); // Login ViewModel
                 }
             }
@@ -163,24 +168,32 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private boolean checkEntries(String email, String pass) {
-        if (email.isEmpty()) {
+        if (email.isEmpty())
+        {
             tlEmail.setError(getResources().getString(R.string.emptyMail));
             etEmail.requestFocus();
             return false;
-        } else tlEmail.setErrorEnabled(false);
+        }
+        else tlEmail.setErrorEnabled(false);
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        {
             tlEmail.setError(getString(R.string.enter_valid_email));
             etEmail.requestFocus();
             return false;
-        } else tlEmail.setErrorEnabled(false);
+        }
+        else tlEmail.setErrorEnabled(false);
 
-        if (pass.isEmpty()) {
+        if (pass.isEmpty())
+        {
             tlPass.setError(getResources().getString(R.string.emptyPass));
             etPassword.requestFocus();
             return false;
-        } else {
-            if (pass.length() < 6) {
+        }
+        else
+        {
+            if (pass.length() < 6)
+            {
                 tlPass.setError(getResources().getString(R.string.name_length_hint));
                 etPassword.requestFocus();
                 return false;
@@ -213,21 +226,25 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     // google login
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         String id = "", name = "", email = "", image = "";
-        try {
+        try
+        {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             id = account.getId();
             name = account.getDisplayName();
             email = account.getEmail();
             image = "https://itgeeks.com/images/logo.png";
-            if (account.getPhotoUrl() != null) {
+            if (account.getPhotoUrl() != null)
+            {
                 image = account.getPhotoUrl().toString();
             }
 
             socialLogin(id, name, email, image, providerGoogle);
-        } catch (ApiException e) {
+        } catch (ApiException e)
+        {
             Log.w("signIn:failed code", "" + e.getStatusCode());
             Crashlytics.logException(e);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -263,7 +280,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-        if (AccessToken.getCurrentAccessToken() != null) {
+        if (AccessToken.getCurrentAccessToken() != null)
+        {
             LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         }
     }
@@ -271,7 +289,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     // fb login
     private void getData(final JSONObject object) {
         String id = "", name = "", email = "", image = "";
-        try {
+        try
+        {
             URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/" + object.getString("id") + "/picture?type=normal");
 
             id = object.optString("id");
@@ -280,13 +299,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             image = Profile_Picture.toString();
 
             socialLogin(id, name, email, image, providerFacebook);
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
-        } catch (JSONException e) {
+        } catch (JSONException e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -298,7 +320,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onActivityResult(requestCode, resultCode, data);
 
         // google login
-        if (requestCode == GOOGLE_REQUEST) {
+        if (requestCode == GOOGLE_REQUEST)
+        {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
@@ -314,7 +337,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         dialogBuilder.displayLoadingDialog();
         int countryId = SharedPrefManager.getInstance(LoginActivity.this).getCountry().getCountry_id();
         RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer(LoginActivity.this,
-                "loginOrRegisterWithSocial", new Request(provider, id, name, email, image, countryId), new HandleResponses() {
+                REQ_SOCIAL_SIGN, new Request<>(REQ_SOCIAL_SIGN, provider, id, name, email, image, countryId,
+                        null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -342,30 +366,32 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     public void login(String email, String pass) {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer(LoginActivity.this, "login", new Request(email, pass), new HandleResponses() {
-            @Override
-            public void handleTrueResponse(JsonObject mainObject) {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer(LoginActivity.this,
+                REQ_SIGN_IN, new Request<>(REQ_SIGN_IN, email, pass,
+                        null, null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
-                cacheUserData(mainObject, LoginActivity.providerNormalLogin); // with normal provider
-                Common.Instance().updateFirebaseToken(LoginActivity.this);
+                        cacheUserData(mainObject, LoginActivity.providerNormalLogin); // with normal provider
+                        Common.Instance().updateFirebaseToken(LoginActivity.this);
 
-                finish();
-            }
+                        finish();
+                    }
 
-            @Override
-            public void handleAfterResponse() {
-                dialogBuilder.hideLoadingDialog();
-                FirebaseAuth.getInstance().signOut();
-            }
+                    @Override
+                    public void handleAfterResponse() {
+                        dialogBuilder.hideLoadingDialog();
+                        FirebaseAuth.getInstance().signOut();
+                    }
 
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                dialogBuilder.hideLoadingDialog();
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        dialogBuilder.hideLoadingDialog();
+                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void cacheUserData(JsonObject mainObject, String provider) {

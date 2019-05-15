@@ -25,8 +25,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import it_geeks.info.gawla_app.repository.Models.Category;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
@@ -36,6 +37,9 @@ import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.views.card.BuyCardActivity;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
+
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_CATEGORIES;
+import static it_geeks.info.gawla_app.util.Constants.REQ_USE_CARD;
 
 public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.ViewHolder> {
 
@@ -68,11 +72,14 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         viewHolder.tvCardCount.setText(String.valueOf(card.getCount()));
         Common.Instance().changeDrawableViewColor(viewHolder.cardIcon, card.getCard_color());
 
-        if (card.getCount() > 0) { // use card state
+        if (card.getCount() > 0)
+        { // use card state
             viewHolder.btn.setBackgroundColor(context.getResources().getColor(R.color.greenBlue));
             viewHolder.btn.setText(context.getString(R.string.use_card));
             viewHolder.tvCardCount.setBackground(context.getResources().getDrawable(R.drawable.bg_circle_green));
-        } else { // buy card  state
+        }
+        else
+        { // buy card  state
             viewHolder.btn.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
             viewHolder.btn.setText(context.getString(R.string.buy_card));
             viewHolder.tvCardCount.setBackground(context.getResources().getDrawable(R.drawable.bg_circle_red));
@@ -82,15 +89,21 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         viewHolder.btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (card.getCount() > 0) {
-                    if (card.getCard_type().equals("gold")) {
+                if (card.getCount() > 0)
+                {
+                    if (card.getCard_type().equals("gold"))
+                    {
                         ((SalonActivity) context).useGoldenCard();
                         ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
 
-                    } else {
+                    }
+                    else
+                    {
                         useCard(card, viewHolder.btn, viewHolder.pb);
                     }
-                } else {
+                }
+                else
+                {
                     initBottomSheetSingleCard(card).show();
                 }
             }
@@ -131,10 +144,12 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         sheetView.findViewById(R.id.close_bottom_sheet_single_card).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mBottomSheetDialogSingleCard.isShowing()) {
+                if (mBottomSheetDialogSingleCard.isShowing())
+                {
                     mBottomSheetDialogSingleCard.dismiss();
-
-                } else {
+                }
+                else
+                {
                     mBottomSheetDialogSingleCard.show();
                 }
             }
@@ -153,41 +168,44 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         final int userId = SharedPrefManager.getInstance(context).getUser().getUser_id();
         final String username = SharedPrefManager.getInstance(context).getUser().getName();
         String apiToken = SharedPrefManager.getInstance(context).getUser().getApi_token();
-        RetrofitClient.getInstance(context).executeConnectionToServer(context, "useCard", new Request(userId, apiToken, card.getCard_id(), salonId, round_id), new HandleResponses() {
-            @Override
-            public void handleTrueResponse(JsonObject mainObject) {
-                Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-                ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
-                card.setCount(card.getCount() - 1);
-                ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the cards list
+        RetrofitClient.getInstance(context).executeConnectionToServer(context,
+                REQ_USE_CARD, new Request<>(REQ_USE_CARD, userId, apiToken, card.getCard_id(), salonId, round_id
+                        , null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
+                        card.setCount(card.getCount() - 1);
+                        ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the cards list
 
-                try {
-                    JSONObject o = new JSONObject();
-                    o.put("salon_id", salonId);
-                    o.put("user", username);
-                    o.put("type", card.getCard_type());
-                    ((SalonActivity) context).getSocketUtils().emitData("use_card", o);
-                } catch (JSONException e) {
-                    Log.e("socket use_card: ", e.getMessage());
-                    Crashlytics.logException(e);
-                }
-            }
+                        try
+                        {
+                            JSONObject o = new JSONObject();
+                            o.put("salon_id", salonId);
+                            o.put("user", username);
+                            o.put("type", card.getCard_type());
+                            ((SalonActivity) context).getSocketUtils().emitData("use_card", o);
+                        } catch (JSONException e)
+                        {
+                            Log.e("socket use_card: ", e.getMessage());
+                            Crashlytics.logException(e);
+                        }
+                    }
 
-            @Override
-            public void handleAfterResponse() {
-                displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
-            }
+                    @Override
+                    public void handleAfterResponse() {
+                        displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
+                    }
 
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-                displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
-                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void buyCard(final Card card, final View btnConfirmBuying, final ProgressBar pbBuyCard) {
-
         Intent i = new Intent(context, BuyCardActivity.class);
         i.putExtra("card_to_buy", card);
         i.putExtra("salon_id_to_buy_card", salonId);
@@ -243,7 +261,8 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
 
     private void getCategoriesFromServer() {
         RetrofitClient.getInstance(context).executeConnectionToServer(context,
-                "getAllCategories", new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token()),
+                REQ_GET_ALL_CATEGORIES, new Request<>(REQ_GET_ALL_CATEGORIES, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token()
+                        , null, null, null, null, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

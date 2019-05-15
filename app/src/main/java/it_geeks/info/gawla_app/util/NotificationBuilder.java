@@ -12,6 +12,7 @@ import android.os.Bundle;
 import java.util.Random;
 
 import androidx.core.app.NotificationCompat;
+
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.util.receivers.NotificationInteractionsReceiver;
 import it_geeks.info.gawla_app.views.NotificationActivity;
@@ -19,16 +20,17 @@ import it_geeks.info.gawla_app.views.NotificationActivity;
 public class NotificationBuilder {
 
     private static final String REMOTE_NOTIFICATION_CHANNEL_ID = "GAWLA_CHANNEL_ID";
-    private static final String REMOTE_NOTIFICATION_CHANNEL_NAME = "GAWLA_CHANNEL_NAME";
-    private static final String REMOTE_NOTIFICATION_CHANNEL_DESC = "GAWLA_CHANNEL_DESC";
-    private static final String REMOTE_NOTIFICATION_GROUP_ID = "remote group";
+    private static final String REMOTE_NOTIFICATION_CHANNEL_NAME = "salons updates";
+    private static final String REMOTE_NOTIFICATION_CHANNEL_DESC = "latest updates of subscribed salons & if there is a new salon in your country";
+    private static final String REMOTE_NOTIFICATION_GROUP_ID = "remote_group";
 
-    private static final String LOCALE_NOTIFICATION_CHANNEL_NAME = "Updating User Image";
+    private static final String LOCALE_NOTIFICATION_CHANNEL_NAME = "updating user image";
     private static final String LOCALE_NOTIFICATION_CHANNEL_DESC = "uploading user account image states";
-    private static final String LOCALE_NOTIFICATION_GROUP_ID = "locale group";
+    private static final String LOCALE_NOTIFICATION_GROUP_ID = "locale_group";
 
-    private static final String UPLOAD_IMAGE_CHANNEL_ID = "upload image";
+    private static final String UPLOAD_IMAGE_CHANNEL_ID = "upload_image_channel";
     private static final int UPLOAD_IMAGE_NOTIFICATION_ID = 1;
+    private static final int NOTIFICATION_ICON = R.mipmap.ic_launcher;
 
     private Context context;
     private NotificationManager notificationManager;
@@ -39,21 +41,41 @@ public class NotificationBuilder {
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
-    private void createChannel(NotificationCompat.Builder builder, String channelId, String channelName, int importance, String channelDesc) {
+    public void createRemoteChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             for (NotificationChannel channel : notificationManager.getNotificationChannels()) {
-                if (channel.getId().equals(channelId)) {
+                if (channel.getId().equals(REMOTE_NOTIFICATION_CHANNEL_ID)) {
                     return;
                 }
             }
 
-            NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
-            notificationChannel.setDescription(channelDesc);
+            NotificationChannel notificationChannel = new NotificationChannel(REMOTE_NOTIFICATION_CHANNEL_ID, REMOTE_NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            notificationChannel.setDescription(REMOTE_NOTIFICATION_CHANNEL_DESC);
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.BLUE);
 
             notificationManager.createNotificationChannel(notificationChannel);
-            builder.setChannelId(channelId);
+        }
+    }
+
+    public void createUploadImageChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            for (NotificationChannel channel : notificationManager.getNotificationChannels()) {
+                if (channel.getId().equals(UPLOAD_IMAGE_CHANNEL_ID)) {
+                    return;
+                }
+            }
+
+            NotificationChannel notificationChannel = new NotificationChannel(UPLOAD_IMAGE_CHANNEL_ID, LOCALE_NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.setDescription(LOCALE_NOTIFICATION_CHANNEL_DESC);
+
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+    }
+
+    public void deleteChannel(String channelId) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.deleteNotificationChannel(channelId);
         }
     }
 
@@ -62,22 +84,24 @@ public class NotificationBuilder {
 
         notificationBuilder = new NotificationCompat.Builder(context, UPLOAD_IMAGE_CHANNEL_ID);
         notificationBuilder.setContentTitle(context.getString(R.string.updating_image))
-                .setSmallIcon(R.mipmap.ic_launcher_gawla)
+                .setSmallIcon(NOTIFICATION_ICON)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setOngoing(true)
                 .setAutoCancel(true)
-                .setGroup(LOCALE_NOTIFICATION_GROUP_ID)
                 .addAction(new NotificationCompat.Action(0, context.getString(R.string.cancel), cancelIntent))
-                .setProgress(0, 0, true);
+                .setProgress(0, 0, true)
+                .setGroup(LOCALE_NOTIFICATION_GROUP_ID);
 
-        createChannel(notificationBuilder, UPLOAD_IMAGE_CHANNEL_ID, LOCALE_NOTIFICATION_CHANNEL_NAME, 4, LOCALE_NOTIFICATION_CHANNEL_DESC);
+        createUploadImageChannel();
+        notificationBuilder.setChannelId(UPLOAD_IMAGE_CHANNEL_ID);
         notificationManager.notify(UPLOAD_IMAGE_NOTIFICATION_ID, notificationBuilder.build());
     }
 
     public void displayMessage(String message) {
         notificationBuilder = new NotificationCompat.Builder(context, UPLOAD_IMAGE_CHANNEL_ID);
         notificationBuilder.setContentText(message)
-                .setSmallIcon(R.mipmap.ic_launcher_gawla);
+                .setSmallIcon(NOTIFICATION_ICON)
+                .setAutoCancel(true);
 
         notificationManager.notify(UPLOAD_IMAGE_NOTIFICATION_ID, notificationBuilder.build());
     }
@@ -87,18 +111,20 @@ public class NotificationBuilder {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, REMOTE_NOTIFICATION_CHANNEL_ID);
         builder.setAutoCancel(true)
-                .setSmallIcon(R.mipmap.ic_launcher_gawla)
+                .setSmallIcon(NOTIFICATION_ICON)
                 .setContentTitle(title)
                 .setColor(context.getResources().getColor(R.color.greenBlue))
                 .setContentIntent(pendingIntent)
                 .setContentText(body)
-                .setGroup(REMOTE_NOTIFICATION_GROUP_ID)
+                .setAutoCancel(true)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(body)
                         .setBigContentTitle(title))
-                .setContentInfo("Info");
+                .setContentInfo("Info")
+                .setGroup(REMOTE_NOTIFICATION_GROUP_ID);
 
-        createChannel(builder, REMOTE_NOTIFICATION_CHANNEL_ID, REMOTE_NOTIFICATION_CHANNEL_NAME, 3, REMOTE_NOTIFICATION_CHANNEL_DESC);
+        createRemoteChannel();
+        builder.setChannelId(REMOTE_NOTIFICATION_CHANNEL_ID);
         notificationManager.notify(new Random().nextInt(), builder.build());
     }
 

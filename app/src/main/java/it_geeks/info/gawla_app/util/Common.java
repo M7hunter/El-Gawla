@@ -38,14 +38,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.util.Interfaces.ConnectionInterface;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.Models.SalonDate;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 
+import static it_geeks.info.gawla_app.util.Constants.REQ_SET_FIREBASE_TOKEN;
+
 public class Common {
 
+    private static final String TAG = "fireToken";
     private static Common common;
     private String Lang;
 
@@ -54,7 +57,8 @@ public class Common {
     }
 
     public static Common Instance() {
-        if (common == null) {
+        if (common == null)
+        {
             common = new Common();
         }
         return common;
@@ -62,17 +66,22 @@ public class Common {
 
     // change app lang
     public void setLang(Context context, String lang) {
-        try {
+        try
+        {
             new WebView(context).destroy();
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
 
         Lang = lang;
         Locale locale;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
             locale = new Locale(Lang, "kw");
-        } else {
+        }
+        else
+        {
             locale = new Locale(Lang);
         }
 
@@ -87,7 +96,8 @@ public class Common {
     // remove unneeded quotes
     public String removeQuotes(String s) {
         // check
-        if (s.startsWith("\"")) {
+        if (s.startsWith("\""))
+        {
             s = s.substring(1, s.length() - 1);
         }
 
@@ -123,7 +133,8 @@ public class Common {
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) view.getParent()).getLayoutParams();
         CoordinatorLayout.Behavior behavior = params.getBehavior();
 
-        if (behavior instanceof BottomSheetBehavior) {
+        if (behavior instanceof BottomSheetBehavior)
+        {
             final BottomSheetBehavior bottomSheetBehavior = (BottomSheetBehavior) behavior;
 
             view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -145,7 +156,8 @@ public class Common {
 
     // to change status bar color in fragments || activities if wanted
     public void changeStatusBarColor(Context context, String color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
             Window window = ((AppCompatActivity) context).getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.parseColor(color));
@@ -163,12 +175,15 @@ public class Common {
     public void ApplyOnConnection(Context context, ConnectionInterface connectionInterface) {
         LinearLayout noConnectionLayout = ((Activity) context).findViewById(R.id.no_connection);
 
-        if (isConnected(context)) { // connected
+        if (isConnected(context))
+        { // connected
             noConnectionLayout.setVisibility(View.GONE);
 
             connectionInterface.onConnected();
 
-        } else { // no connection
+        }
+        else
+        { // no connection
             noConnectionLayout.setVisibility(View.VISIBLE);
 
             connectionInterface.onFailed();
@@ -195,42 +210,53 @@ public class Common {
         final String apiToken = SharedPrefManager.getInstance(context).getUser().getApi_token();
 
         if (apiToken != null)
-            if (!String.valueOf(userId).isEmpty() && !apiToken.isEmpty()) {
+            if (!String.valueOf(userId).isEmpty() && !apiToken.isEmpty())
+            {
                 String fireToken = SharedPrefManager.getInstance(context).getFirebaseToken();
-                if (fireToken.equals("empty")) {
+                if (fireToken.equals(Constants.EMPTY_TOKEN))
+                {
                     FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                         @Override
                         public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                            if (task.isSuccessful()) {
-                                if (task.getResult() != null) {
+                            if (task.isSuccessful())
+                            {
+                                if (task.getResult() != null)
+                                {
                                     String token = task.getResult().getToken();
                                     SharedPrefManager.getInstance(context).setFirebaseToken(token);
                                     updateTokenOnServer(context, userId, apiToken, token);
-                                    Log.d("fireToken", "onComplete: " + token);
+                                    Log.d(TAG, "onComplete: " + token);
                                 }
                             }
                         }
                     });
                 }
+                else
+                {
+                    Log.d(TAG, "saved token: " + fireToken);
+                    updateTokenOnServer(context, userId, apiToken, fireToken);
+                }
             }
     }
 
     private void updateTokenOnServer(Context context, int user_id, String apiToken, String token) {
-        RetrofitClient.getInstance(context).executeConnectionToServer(context, "setUserFirebaseToken", new Request(user_id, apiToken, token), new HandleResponses() {
-            @Override
-            public void handleTrueResponse(JsonObject mainObject) {
-                Log.d("fireToken", "firebaseTokenSent");
-            }
+        RetrofitClient.getInstance(context).executeConnectionToServer(context,
+                REQ_SET_FIREBASE_TOKEN, new Request<>(REQ_SET_FIREBASE_TOKEN, user_id, apiToken, token,
+                        null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        Log.d(TAG, "firebaseTokenSent");
+                    }
 
-            @Override
-            public void handleAfterResponse() {
+                    @Override
+                    public void handleAfterResponse() {
 
-            }
+                    }
 
-            @Override
-            public void handleConnectionErrors(String errorMessage) {
-            }
-        });
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                    }
+                });
     }
 
 //    private MainFragment getFragment() {

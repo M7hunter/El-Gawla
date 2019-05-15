@@ -16,6 +16,7 @@ public class SharedPrefManager {
     private static SharedPrefManager sharedPrefManager;
     private Context context;
     private SharedPreferences sharedPreferences;
+
     private static final String SHARED_PREF_LANG = "lang_shared_pref";
     private static final String SHARED_PREF_USER = "user_shared_pref";
     private static final String SHARED_PREF_COUNTRY = "country_shared_pref";
@@ -26,7 +27,7 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_SUBSCRIBED_SALON = "subscribed_salon";
     private static final String SHARED_PREF_PAY_METHOD = "payment_method";
     private static final String SHARED_PREF_FIRE_TOKEN = "firebase_token";
-    private static final String SHARED_PREF_USEROFFER = "user_offer";
+    private static final String SHARED_PREF_USER_OFFER = "user_offer";
 
     private SharedPrefManager(Context context) {
         this.context = context;
@@ -39,8 +40,8 @@ public class SharedPrefManager {
         return sharedPrefManager;
     }
 
-    //--------------- notification -------------//
-    public void setFirebaseToken(String token) { // enabled, disabled
+    //--------------- firebase token -------------//
+    public void setFirebaseToken(String token) {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_FIRE_TOKEN, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -52,7 +53,7 @@ public class SharedPrefManager {
 
     public String getFirebaseToken() {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_FIRE_TOKEN, MODE_PRIVATE);
-        return sharedPreferences.getString("fire_token", "empty");
+        return sharedPreferences.getString("fire_token", Constants.EMPTY_TOKEN);
     }
 
     //--------------- notification -------------//
@@ -250,7 +251,7 @@ public class SharedPrefManager {
 
     // Save User Offer
     public void saveUserOffer(String offerKey, String offerValue) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USEROFFER, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_OFFER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
 
@@ -259,7 +260,7 @@ public class SharedPrefManager {
     }
 
     public String getUserOffer(String offerKey) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USEROFFER, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_OFFER, Context.MODE_PRIVATE);
         return sharedPreferences.getString(offerKey, "");
     }
 

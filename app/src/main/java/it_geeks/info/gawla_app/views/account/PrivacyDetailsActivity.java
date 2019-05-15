@@ -21,17 +21,22 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.views.login.LoginActivity;
+
+import static it_geeks.info.gawla_app.util.Constants.REQ_CHANGE_PASSWORD;
+import static it_geeks.info.gawla_app.util.Constants.REQ_DEACTIVATE_USER_ACCOUNT;
+import static it_geeks.info.gawla_app.util.Constants.REQ_UPDATE_USER_DATA;
 
 public class PrivacyDetailsActivity extends AppCompatActivity {
 
@@ -102,12 +107,16 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         btnEditPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!editPass) {
+                if (!editPass)
+                {
                     passEditMode();
 
-                } else { // check user entry & send it to the server
+                }
+                else
+                { // check user entry & send it to the server
                     String pass = etPass.getText().toString();
-                    if (checkPass(pass)) {
+                    if (checkPass(pass))
+                    {
                         sendPassToServer(pass);
                     }
 
@@ -126,11 +135,14 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     }
 
     private boolean checkPass(String pass) {
-        if (pass.isEmpty()) { // empty ?
+        if (pass.isEmpty())
+        { // empty ?
             tlPass.setError(getResources().getString(R.string.emptyPass));
             etPass.requestFocus();
             return false;
-        } else { // !empty
+        }
+        else
+        { // !empty
             return true;
         }
     }
@@ -141,8 +153,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
 
         RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
                 PrivacyDetailsActivity.this,
-                "changeUserPasswordByID",
-                new Request(id, api_token, Pass),
+                REQ_CHANGE_PASSWORD, new Request<>(REQ_CHANGE_PASSWORD, id, api_token, Pass
+                        , null, null, null, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -193,8 +205,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     private void deleteAccount() {
         RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
                 PrivacyDetailsActivity.this,
-                "deactivateUserAccountByID",
-                new Request(id, api_token),
+                REQ_DEACTIVATE_USER_ACCOUNT, new Request<>(REQ_DEACTIVATE_USER_ACCOUNT, id, api_token
+                        , null, null, null, null, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -234,18 +246,21 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     }
 
     private void disconnect() {
-        try {
+        try
+        {
             SharedPrefManager.getInstance(this).clearUser();
             startActivity(new Intent(this, LoginActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             SharedPrefManager.getInstance(this).clearProvider();
             LoginManager.getInstance().logOut();
-            if (mGoogleApiClient.isConnected()) {
+            if (mGoogleApiClient.isConnected())
+            {
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                 mGoogleApiClient.disconnect();
                 mGoogleApiClient.connect();
             }
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -253,7 +268,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
 
     private void initProvider() {
         Provider = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider();
-        switch (Provider) {
+        switch (Provider)
+        {
             case LoginActivity.providerFacebook:
                 providerImage.setImageDrawable(getResources().getDrawable(R.drawable.com_facebook_button_icon_blue));
                 socialProvider.setText(LoginActivity.providerFacebook);
@@ -273,8 +289,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
                 PrivacyDetailsActivity.this,
-                "updateUserData",
-                new Request(etEmail.getText().toString(), id, api_token, SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getCountry().getCountry_id()),
+                REQ_UPDATE_USER_DATA, new Request<>("updateUserEmail", etEmail.getText().toString(), id, api_token, SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getCountry().getCountry_id()
+                        , null, null, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -308,19 +324,26 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     private View.OnClickListener click = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch (v.getId()) {
+            switch (v.getId())
+            {
                 // edit email
                 case R.id.btn_edit_email:
-                    if (btnEditEmail.getText().toString() == getString(R.string.edit)) {
+                    if (btnEditEmail.getText().toString() == getString(R.string.edit))
+                    {
                         etEmail.setEnabled(true);
                         btnEditEmail.setText(getString(R.string.save));
-                    } else if (btnEditEmail.getText().toString() == getString(R.string.save)) {
+                    }
+                    else if (btnEditEmail.getText().toString() == getString(R.string.save))
+                    {
 
-                        if (etEmail.getText().toString().isEmpty()) { // empty ?
+                        if (etEmail.getText().toString().isEmpty())
+                        { // empty ?
                             tlEmail.setError(getString(R.string.emptyMail));
                             etEmail.requestFocus();
 
-                        } else { // !empty
+                        }
+                        else
+                        { // !empty
                             updateEmail();
                             btnEditEmail.setText(getString(R.string.edit));
                             etEmail.setEnabled(false);
