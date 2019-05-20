@@ -438,8 +438,8 @@ public class SalonActivity extends AppCompatActivity {
 
             RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
                     REQ_SET_USER_OFFER, new Request<>(REQ_SET_USER_OFFER, SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
-                            , round.getSalon_id()
                             , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
+                            , round.getSalon_id()
                             , userOffer
                             , null, null, null), new HandleResponses() {
                         @Override
@@ -851,7 +851,7 @@ public class SalonActivity extends AppCompatActivity {
                                 startActivity(i);
                             }
 
-                            Activity activity = new Activity(winnerName + " " + message + offer , "");
+                            Activity activity = new Activity(winnerName + " " + message + offer, "");
                             updateLatestActivity(activity.getBody());
                             updateActivityList(activity);
 
@@ -1010,6 +1010,7 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     private void unSubscribeUserFromSalonOnServer() {
+        dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
                 REQ_SET_ROUND_LEAVE, new Request<>(REQ_SET_ROUND_LEAVE, userId, apiToken, round.getSalon_id()
                         , null, null, null, null), new HandleResponses() {
@@ -1025,11 +1026,12 @@ public class SalonActivity extends AppCompatActivity {
 
                     @Override
                     public void handleAfterResponse() {
-
+                        dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
+                        dialogBuilder.hideLoadingDialog();
                         Snackbar.make(findViewById(R.id.salon_main_layout), R.string.no_connection, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -1324,7 +1326,7 @@ public class SalonActivity extends AppCompatActivity {
             dialogBuilder.displayLoadingDialog();
             hideGoldenLayout();
             RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                    REQ_USE_GOLDEN_CARD, new Request<>(REQ_USE_GOLDEN_CARD, userId, apiToken, goldenCard.getCard_id(), round.getSalon_id(), round.getRound_id()
+                    REQ_USE_GOLDEN_CARD, new Request<>(REQ_USE_GOLDEN_CARD, userId, apiToken, round.getSalon_id(), goldenCard.getCard_id(), round.getRound_id()
                             , null, null), new HandleResponses() {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {

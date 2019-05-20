@@ -169,7 +169,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         final String username = SharedPrefManager.getInstance(context).getUser().getName();
         String apiToken = SharedPrefManager.getInstance(context).getUser().getApi_token();
         RetrofitClient.getInstance(context).executeConnectionToServer(context,
-                REQ_USE_CARD, new Request<>(REQ_USE_CARD, userId, apiToken, card.getCard_id(), salonId, round_id
+                REQ_USE_CARD, new Request<>(REQ_USE_CARD, userId, apiToken, salonId, card.getCard_id(), round_id
                         , null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

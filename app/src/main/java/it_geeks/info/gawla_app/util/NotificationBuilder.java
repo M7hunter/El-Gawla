@@ -29,7 +29,7 @@ public class NotificationBuilder {
     private static final String LOCALE_NOTIFICATION_GROUP_ID = "locale_group";
 
     private static final String UPLOAD_IMAGE_CHANNEL_ID = "upload_image_channel";
-    private static final int UPLOAD_IMAGE_NOTIFICATION_ID = 1;
+    public static final int UPLOAD_IMAGE_NOTIFICATION_ID = 1;
     private static final int NOTIFICATION_ICON = R.mipmap.ic_launcher;
 
     private Context context;
@@ -42,9 +42,12 @@ public class NotificationBuilder {
     }
 
     public void createRemoteChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            for (NotificationChannel channel : notificationManager.getNotificationChannels()) {
-                if (channel.getId().equals(REMOTE_NOTIFICATION_CHANNEL_ID)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            for (NotificationChannel channel : notificationManager.getNotificationChannels())
+            {
+                if (channel.getId().equals(REMOTE_NOTIFICATION_CHANNEL_ID))
+                {
                     return;
                 }
             }
@@ -59,9 +62,12 @@ public class NotificationBuilder {
     }
 
     public void createUploadImageChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            for (NotificationChannel channel : notificationManager.getNotificationChannels()) {
-                if (channel.getId().equals(UPLOAD_IMAGE_CHANNEL_ID)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            for (NotificationChannel channel : notificationManager.getNotificationChannels())
+            {
+                if (channel.getId().equals(UPLOAD_IMAGE_CHANNEL_ID))
+                {
                     return;
                 }
             }
@@ -74,7 +80,8 @@ public class NotificationBuilder {
     }
 
     public void deleteChannel(String channelId) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
             notificationManager.deleteNotificationChannel(channelId);
         }
     }
@@ -126,6 +133,10 @@ public class NotificationBuilder {
         createRemoteChannel();
         builder.setChannelId(REMOTE_NOTIFICATION_CHANNEL_ID);
         notificationManager.notify(new Random().nextInt(), builder.build());
+    }
+
+    public void cancelNotification(int notificationId) {
+        notificationManager.cancel(notificationId);
     }
 
     private PendingIntent initCancelUploadingImageIntent() {
