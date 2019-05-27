@@ -1,29 +1,37 @@
 package it_geeks.info.gawla_app.views.menu;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.appcompat.app.AppCompatActivity;
-import it_geeks.info.gawla_app.general.Common;
+
+import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.util.NotificationBuilder;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    TextView tvLang;
-    SwitchMaterial notificationSwitch;
+    private TextView tvLang, tvNotificationOptions;
+    private SwitchMaterial notificationSwitch;
+    private RelativeLayout rlAppNotification;
+
+    private NotificationBuilder notificationBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.Instance(this).changeStatusBarColor("#ffffff", this);
+        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_settings);
 
         initViews();
@@ -31,7 +39,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void initViews() {
         tvLang = findViewById(R.id.app_settings_language);
+        tvNotificationOptions = findViewById(R.id.tv_notification_options);
         notificationSwitch = findViewById(R.id.notification_switch);
+        rlAppNotification = findViewById(R.id.rl_app_notification);
 
         if (SharedPrefManager.getInstance(SettingsActivity.this).isNotificationEnabled()) {
             notificationSwitch.setChecked(true);
@@ -39,14 +49,31 @@ public class SettingsActivity extends AppCompatActivity {
             notificationSwitch.setChecked(false);
         }
 
+        if (Build.VERSION.SDK_INT > 26) {
+            notificationBuilder = new NotificationBuilder(this);
+            notificationBuilder.createUploadImageChannel();
+            notificationBuilder.createRemoteChannel();
+
+            rlAppNotification.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+                    intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                    startActivity(intent);
+                }
+            });
+        } else {
+            tvNotificationOptions.setVisibility(View.GONE);
+        }
+
         notificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Log.d("onCheckedChanged", "isChecked:: " + isChecked);
                 SharedPrefManager.getInstance(SettingsActivity.this).setNotificationEnabled(isChecked);
-                if (isChecked){
+                if (isChecked) {
                     startNotifications();
-                }else {
+                } else {
                     stopNotifications();
                 }
             }

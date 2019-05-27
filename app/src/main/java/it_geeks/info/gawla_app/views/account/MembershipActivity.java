@@ -8,14 +8,17 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.DialogBuilder;
-import it_geeks.info.gawla_app.repository.Models.Request;
+
+import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.DialogBuilder;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.R;
+
+import static it_geeks.info.gawla_app.util.Constants.REQ_SET_MEMBERSHIP;
 
 public class MembershipActivity extends AppCompatActivity {
 
@@ -24,7 +27,7 @@ public class MembershipActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.Instance(this).changeStatusBarColor("#ffffff", this);
+        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_membership);
 
         dialogBuilder = new DialogBuilder();
@@ -55,8 +58,9 @@ public class MembershipActivity extends AppCompatActivity {
 
     private void updateMembership(String membership) {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(this).executeConnectionToServer(this, "setUserMembership",
-                new Request(SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token(), membership), new HandleResponses() {
+        RetrofitClient.getInstance(this).executeConnectionToServer(this,
+                REQ_SET_MEMBERSHIP, new Request<>(REQ_SET_MEMBERSHIP, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token(), membership
+                        , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         Toast.makeText(MembershipActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();

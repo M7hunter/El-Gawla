@@ -21,18 +21,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
-import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Card;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Adapters.CardsAdapter;
-import it_geeks.info.gawla_app.general.NotificationStatus;
-import it_geeks.info.gawla_app.general.TransHolder;
+import it_geeks.info.gawla_app.util.NotificationStatus;
+import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
+
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_CARDS;
 
 public class CardsFragment extends Fragment {
 
@@ -98,7 +100,7 @@ public class CardsFragment extends Fragment {
     private void checkConnection(View view) {
         LinearLayout noConnectionLayout = view.findViewById(R.id.no_connection);
 
-        if (Common.Instance(getActivity()).isConnected()) {
+        if (Common.Instance().isConnected(getContext())) {
             noConnectionLayout.setVisibility(View.GONE);
 
             getCardsFromServer(view);
@@ -111,10 +113,10 @@ public class CardsFragment extends Fragment {
 
     private void getCardsFromServer(final View view) {
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
-        String apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
+        String apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
         RetrofitClient.getInstance(getContext()).executeConnectionToServer(MainActivity.mainInstance,
-                "getAllCards", new Request(userId, apiToken), new HandleResponses() {
+                REQ_GET_ALL_CARDS, new Request<>(REQ_GET_ALL_CARDS, userId, apiToken, null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         cardsList = ParseResponses.parseCards(mainObject);
@@ -144,7 +146,7 @@ public class CardsFragment extends Fragment {
         cardsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         cardsRecycler.setAdapter(new CardsAdapter(getContext(), cardsList));
 
-        Common.Instance(getContext()).hideProgress(cardsRecycler, cardsProgress);
+        Common.Instance().hideProgress(cardsRecycler, cardsProgress);
     }
 
     private void initEmptyView(View view) {

@@ -10,7 +10,7 @@
     <string name="account">الحساب</string>
     <string name="cards">الكروت</string>
     <string name="my_rounds">جولاتي</string>
-    <string name="hales">الصالات</string>
+    <string name="the_salons">الصالات</string>
     <string name="recent_salons">الصالات الحالية</string>
     <string name="slide_heading1">اشترك الان</string>
     <string name="slide_heading2">انضم للجولة</string>
@@ -118,7 +118,7 @@
     <string name="renew_membership">تجديد العضوية</string>
     <string name="app_settings">اعدادات التطبيق</string>
     <string name="currency">العملة</string>
-    <string name="receive_notification">استقبال الاشعارات</string>
+    <string name="app_notification">اشعارات التطبيق</string>
     <string name="notification">الاشعارات</string>
     <string name="first_name">الاسم الاول</string>
     <string name="second_name">الاسم الثاني</string>
@@ -164,6 +164,7 @@
     <string name="count_down_to_start">العد التنازلي للبداية</string>
     <string name="all_salons">كل الصالات</string>
     <string name="cards_empty_hint">لا يوجد كروت هنا بعد</string>
+    <string name="check_connection">يوجد مشكلة في الاتصال</string>
     <string name="no_connection">لا يوجد اتصال</string>
     <string name="no_salons">لا يوجد صالات حاليا \n حاول لاحقا</string>
     <string name="salons">" صالات"</string>
@@ -240,4 +241,6 @@
     <string name="is_typing_others">" %1$s وآخرون يكتبون الآن "</string>
     <string name="amount">الكمية</string>
     <string name="Payment_method">وسيلة الدفع</string>
+    <string name="total_price">السعر الكلي</string>
+    <string name="click_for_more_options">اضغط لمزيد من الخيارات</string>
 </resources>

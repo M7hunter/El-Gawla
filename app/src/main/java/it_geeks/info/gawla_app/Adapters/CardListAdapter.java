@@ -10,17 +10,17 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.general.Interfaces.OnItemClickListener;
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Models.Card;
-import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.util.Common;
 
 public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHolder> {
 
     private Context context;
     private List<Card> cardList;
-    private OnItemClickListener itemClickListener;
+    private ClickInterface.OnItemClickListener itemClickListener;
 
-    public CardListAdapter(Context context, List<Card> cardList, OnItemClickListener itemClickListener) {
+    public CardListAdapter(Context context, List<Card> cardList, ClickInterface.OnItemClickListener itemClickListener) {
         this.context = context;
         this.cardList = cardList;
         this.itemClickListener = itemClickListener;
@@ -37,7 +37,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
         final Card card = cardList.get(position);
 
         // bind
-        Common.Instance(context).changeDrawableViewColor(holder.vCardIcon, card.getCard_color());
+        Common.Instance().changeDrawableViewColor(holder.vCardIcon, card.getCard_color());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

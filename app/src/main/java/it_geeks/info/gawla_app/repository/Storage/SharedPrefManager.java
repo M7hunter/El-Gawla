@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import it_geeks.info.gawla_app.repository.Models.Country;
 import it_geeks.info.gawla_app.repository.Models.User;
+import it_geeks.info.gawla_app.util.Constants;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -15,6 +16,7 @@ public class SharedPrefManager {
     private static SharedPrefManager sharedPrefManager;
     private Context context;
     private SharedPreferences sharedPreferences;
+
     private static final String SHARED_PREF_LANG = "lang_shared_pref";
     private static final String SHARED_PREF_USER = "user_shared_pref";
     private static final String SHARED_PREF_COUNTRY = "country_shared_pref";
@@ -23,6 +25,9 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_NOTIFICATION = "notification_shared_pref";
     private static final String SHARED_PREF_NEW_NOTIFICATION = "new_notification";
     private static final String SHARED_PREF_SUBSCRIBED_SALON = "subscribed_salon";
+    private static final String SHARED_PREF_PAY_METHOD = "payment_method";
+    private static final String SHARED_PREF_FIRE_TOKEN = "firebase_token";
+    private static final String SHARED_PREF_USER_OFFER = "user_offer";
 
     private SharedPrefManager(Context context) {
         this.context = context;
@@ -33,6 +38,22 @@ public class SharedPrefManager {
             sharedPrefManager = new SharedPrefManager(context);
         }
         return sharedPrefManager;
+    }
+
+    //--------------- firebase token -------------//
+    public void setFirebaseToken(String token) {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_FIRE_TOKEN, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.clear();
+
+        editor.putString("fire_token", token);
+        editor.apply();
+    }
+
+    public String getFirebaseToken() {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_FIRE_TOKEN, MODE_PRIVATE);
+        return sharedPreferences.getString("fire_token", Constants.EMPTY_TOKEN);
     }
 
     //--------------- notification -------------//
@@ -68,6 +89,22 @@ public class SharedPrefManager {
 
     public void clearNewNotification() {
         context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE).edit().clear().apply();
+    }
+
+    //--------------- payment method -------------//
+    public void setLastMethod(String method) {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_PAY_METHOD, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.clear();
+
+        editor.putString("method", method);
+        editor.apply();
+    }
+
+    public String getLastMethod() {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_PAY_METHOD, MODE_PRIVATE);
+        return sharedPreferences.getString("method", Constants.GOOGLEPAY);
     }
 
     //--------------- lang -------------//
@@ -213,18 +250,18 @@ public class SharedPrefManager {
     }
 
     // Save User Offer
-    public void saveUserOffer(String USER_OFFER_KEY, String offerValue) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(USER_OFFER_KEY, Context.MODE_PRIVATE);
+    public void saveUserOffer(String offerKey, String offerValue) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_OFFER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
 
-        editor.putString("user_offer", offerValue);
+        editor.putString(offerKey, offerValue);
         editor.apply();
     }
 
-    public String getUserOffer(String USER_OFFER_KEY) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(USER_OFFER_KEY, Context.MODE_PRIVATE);
-        return sharedPreferences.getString("user_offer", "");
+    public String getUserOffer(String offerKey) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_OFFER, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(offerKey, "");
     }
 
     public void clearUserOffer(String USER_OFFER_KEY) {

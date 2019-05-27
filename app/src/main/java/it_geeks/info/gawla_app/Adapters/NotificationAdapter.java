@@ -16,9 +16,10 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Notification;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
@@ -28,6 +29,7 @@ import it_geeks.info.gawla_app.views.NotificationActivity;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
 import static it_geeks.info.gawla_app.repository.RESTful.ParseResponses.parseRoundByID;
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_SALON_BY_ID;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.Holder> {
 
@@ -61,15 +63,20 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (notification.getType().trim().equals("salons")) {
+                if (notification.getType().trim().equals("salons"))
+                {
                     ((NotificationActivity) context).dialogBuilder.displayLoadingDialog();
                     getSalonDataFromServer(notification);
 
-                } else {
-                    try {
+                }
+                else
+                {
+                    try
+                    {
                         updateBottomSheet(notification);
 
-                    } catch (Exception e) {
+                    } catch (Exception e)
+                    {
                         e.printStackTrace();
                         Crashlytics.logException(e);
                     }
@@ -80,7 +87,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     private void getSalonDataFromServer(Notification notification) {
         RetrofitClient.getInstance(context).executeConnectionToServer(MainActivity.mainInstance,
-                "getSalonByID", new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), notification.getId()), new HandleResponses() {
+                REQ_GET_SALON_BY_ID, new Request<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), notification.getId()
+                        , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         Round round = parseRoundByID(mainObject);

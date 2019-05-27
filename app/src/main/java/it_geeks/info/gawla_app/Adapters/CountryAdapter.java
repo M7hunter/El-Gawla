@@ -13,7 +13,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.general.Interfaces.OnItemClickListener;
+
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Country;
 
@@ -21,9 +22,9 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.ViewHold
 
     private Context context;
     private List<Country> countriesList;
-    private OnItemClickListener onItemClickListener;
+    private ClickInterface.OnItemClickListener onItemClickListener;
 
-    public CountryAdapter(Context context, List<Country> countriesList, OnItemClickListener onItemClickListener) {
+    public CountryAdapter(Context context, List<Country> countriesList, ClickInterface.OnItemClickListener onItemClickListener) {
         this.context = context;
         this.countriesList = countriesList;
         this.onItemClickListener = onItemClickListener;

@@ -19,17 +19,20 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.Interfaces.OnItemClickListener;
+
+import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.Country;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Adapters.CountryAdapter;
 import it_geeks.info.gawla_app.R;
+
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_COUNTRIES;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -74,7 +77,8 @@ public class SplashActivity extends AppCompatActivity {
         final String apiToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
 
         RetrofitClient.getInstance(SplashActivity.this).executeConnectionToServer(SplashActivity.this,
-                "getAllCountries", new Request(apiToken), new HandleResponses() {
+                REQ_GET_ALL_COUNTRIES, new Request<>(REQ_GET_ALL_COUNTRIES, apiToken
+                        , null, null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         countries = ParseResponses.parseCountries(mainObject);
@@ -86,23 +90,24 @@ public class SplashActivity extends AppCompatActivity {
 
                     @Override
                     public void handleAfterResponse() {
-                        if (countries.size() == 0) {
-                            retry();
+                        if (countries.size() == 0)
+                        {
+                            displayRetry();
                         }
 
-                        Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
+                        Common.Instance().hideProgress(countryRecycler, countriesProgress);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        retry();
-                        Common.Instance(SplashActivity.this).hideProgress(countryRecycler, countriesProgress);
+                        displayRetry();
+                        Common.Instance().hideProgress(countryRecycler, countriesProgress);
                         Toast.makeText(SplashActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    public void retry() {
+    public void displayRetry() {
         btnRetry.setVisibility(View.VISIBLE);
         tvCountriesHeader.setText(getString(R.string.error_occurred));
         tvCountriesHeader.setTextColor(getResources().getColor(R.color.paleRed));
@@ -111,7 +116,7 @@ public class SplashActivity extends AppCompatActivity {
     private void displayCountriesList() {
         countryRecycler.setLayoutManager(new LinearLayoutManager(SplashActivity.this, RecyclerView.VERTICAL, false));
         countryRecycler.setHasFixedSize(true);
-        CountryAdapter countryAdapter = new CountryAdapter(SplashActivity.this, countries, new OnItemClickListener() {
+        CountryAdapter countryAdapter = new CountryAdapter(SplashActivity.this, countries, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 SharedPrefManager.getInstance(SplashActivity.this).setCountry(countries.get(position));

@@ -25,18 +25,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.Adapters.CategoryAdapter;
-import it_geeks.info.gawla_app.general.DialogBuilder;
+import it_geeks.info.gawla_app.util.DialogBuilder;
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.CardDao;
 import it_geeks.info.gawla_app.repository.Storage.ProductImageDao;
 import it_geeks.info.gawla_app.repository.Storage.RoundDao;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.Interfaces.ConnectionInterface;
-import it_geeks.info.gawla_app.general.NotificationStatus;
-import it_geeks.info.gawla_app.general.Interfaces.OnItemClickListener;
+import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.Interfaces.ConnectionInterface;
+import it_geeks.info.gawla_app.util.NotificationStatus;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Category;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.repository.Models.SalonDate;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
@@ -47,6 +47,9 @@ import it_geeks.info.gawla_app.Adapters.DateAdapter;
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
+
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_CATEGORIES;
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_SALONS;
 
 public class AllSalonsActivity extends AppCompatActivity {
 
@@ -76,13 +79,13 @@ public class AllSalonsActivity extends AppCompatActivity {
         allSalonsActivityInstance = this;
 
         userId = SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getUser_id();
-        apiToken = Common.Instance(AllSalonsActivity.this).removeQuotes(SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getApi_token());
+        apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getApi_token());
 
         initViews();
 
         initBottomSheetFilterBy();
 
-        Common.Instance(AllSalonsActivity.this).ApplyOnConnection(AllSalonsActivity.this, new ConnectionInterface() {
+        Common.Instance().ApplyOnConnection(AllSalonsActivity.this, new ConnectionInterface() {
             @Override
             public void onConnected() {
                 getDatesAndRoundsFromServer();
@@ -144,7 +147,8 @@ public class AllSalonsActivity extends AppCompatActivity {
     private void getDatesAndRoundsFromServer() {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
-                "getAllSalons", new Request(userId, apiToken, false), new HandleResponses() {
+                REQ_GET_ALL_SALONS, new Request<>(REQ_GET_ALL_SALONS, userId, apiToken, false,
+                        null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         updateDatabaseList(ParseResponses.parseRounds(mainObject));
@@ -201,7 +205,7 @@ public class AllSalonsActivity extends AppCompatActivity {
             dateList.add(transformDateToNames(date));
         }
 
-        Common.Instance(AllSalonsActivity.this).sortList(dateList);
+        Common.Instance().sortList(dateList);
     }
 
     public SalonDate transformDateToNames(String sDate) {
@@ -228,7 +232,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initDatesAdapter() {
-        filterRecycler.setAdapter(new DateAdapter(AllSalonsActivity.this, dateList, new OnItemClickListener() {
+        filterRecycler.setAdapter(new DateAdapter(AllSalonsActivity.this, dateList, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 SalonDate salonDate = dateList.get(position);
@@ -242,7 +246,8 @@ public class AllSalonsActivity extends AppCompatActivity {
     private void getCategoriesAndRoundsFromServer() {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
-                "getAllCategories", new Request(userId, apiToken), new HandleResponses() {
+                REQ_GET_ALL_CATEGORIES, new Request<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
+                        null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
 
@@ -274,7 +279,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initCategoriesAdapter() {
-        filterRecycler.setAdapter(new CategoryAdapter(AllSalonsActivity.this, categoryList, new OnItemClickListener() {
+        filterRecycler.setAdapter(new CategoryAdapter(AllSalonsActivity.this, categoryList, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Category category = categoryList.get(position);
@@ -335,7 +340,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
         //
         mBottomSheetDialogFilterBy.setContentView(sheetView);
-        Common.Instance(AllSalonsActivity.this).setBottomSheetHeight(sheetView);
+        Common.Instance().setBottomSheetHeight(sheetView);
         mBottomSheetDialogFilterBy.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
     }

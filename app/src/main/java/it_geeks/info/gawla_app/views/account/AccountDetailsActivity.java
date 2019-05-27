@@ -29,17 +29,21 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
+
 import it_geeks.info.gawla_app.repository.Models.Country;
-import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.general.services.UploadImageService;
+import it_geeks.info.gawla_app.util.services.UploadImageService;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
+
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_COUNTRIES;
+import static it_geeks.info.gawla_app.util.Constants.REQ_UPDATE_USER_DATA;
 
 public class AccountDetailsActivity extends AppCompatActivity {
 
@@ -58,7 +62,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        Common.Instance(this).changeStatusBarColor("#ffffff", this);
+        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_account_details);
         accountDetailsInstance = this;
 
@@ -126,7 +130,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
         sp_update_country.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
+                if (hasFocus)
+                {
                     countryPopupMenu();
                 }
             }
@@ -144,7 +149,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
         sp_update_gender.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
+                if (hasFocus)
+                {
                     genderPopupMenu();
                 }
             }
@@ -164,7 +170,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
         PopupMenu countryPopup = new PopupMenu(wrapper, sp_update_country);
 
         List<String> countries = GawlaDataBse.getInstance(this).countryDao().getCountriesNames();
-        for (String country : countries) {
+        for (String country : countries)
+        {
             countryPopup.getMenu().add(country);
         }
 
@@ -183,9 +190,11 @@ public class AccountDetailsActivity extends AppCompatActivity {
             }
         });
 
-        try {
+        try
+        {
             countryPopup.show();
-        } catch (RuntimeException e) {
+        } catch (RuntimeException e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -194,7 +203,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
     private void getCountriesFromSever() {
         final String apiToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
         RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                "getAllCountries", new Request(apiToken), new HandleResponses() {
+                REQ_GET_ALL_COUNTRIES, new Request<>(REQ_GET_ALL_COUNTRIES, apiToken,
+                        null, null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         GawlaDataBse.getInstance(AccountDetailsActivity.this).countryDao().insertCountryList(ParseResponses.parseCountries(mainObject));
@@ -234,9 +244,11 @@ public class AccountDetailsActivity extends AppCompatActivity {
             }
         });
 
-        try {
+        try
+        {
             genderPopup.show();
-        } catch (RuntimeException e) {
+        } catch (RuntimeException e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -258,13 +270,14 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     private void updateUserDataOnServer() {
-        try {
+        try
+        {
             setUIOnUpdating();
             final Country country = GawlaDataBse.getInstance(AccountDetailsActivity.this).countryDao().getCountryByName(sp_update_country.getText().toString());
             RetrofitClient.getInstance(AccountDetailsActivity.this)
                     .executeConnectionToServer(AccountDetailsActivity.this,
-                            "updateUserData",
-                            new Request(user_id,
+                            REQ_UPDATE_USER_DATA, new Request<>(REQ_UPDATE_USER_DATA,
+                                    user_id,
                                     api_token,
                                     et_update_first_name.getText().toString(),
                                     et_update_last_name.getText().toString(),
@@ -281,7 +294,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
                                     SharedPrefManager.getInstance(AccountDetailsActivity.this).setCountry(country);
 
                                     // subscribe remote notification to current country
-                                    FirebaseMessaging.getInstance().subscribeToTopic("country_" + String.valueOf(SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id()));
+                                    FirebaseMessaging.getInstance().subscribeToTopic("country_" + SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id());
 
                                     // notify user
                                     Toast.makeText(AccountDetailsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
@@ -298,7 +311,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
                                     Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                                 }
                             });
-        } catch (NullPointerException e) {
+        } catch (NullPointerException e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -348,24 +362,28 @@ public class AccountDetailsActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         RetrofitClient.getInstance(this).cancelCall();
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            if (data != null) {
+        if (requestCode == 1 && resultCode == RESULT_OK)
+        {
+            if (data != null)
+            {
                 getImageUri(data);
             }
         }
     }
 
     private void getImageUri(Intent data) {
-
         Uri imagePath = data.getData();
 
-        try {
+        try
+        {
             // display image before uploading
-            try {
+            try
+            {
                 Picasso.with(this)
                         .load(imagePath)
                         .into(ivUserImage);
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 e.printStackTrace();
                 Crashlytics.logException(e);
             }
@@ -383,16 +401,20 @@ public class AccountDetailsActivity extends AppCompatActivity {
             btn_upload_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Common.Instance(AccountDetailsActivity.this).isConnected()) {
+                    if (Common.Instance().isConnected(AccountDetailsActivity.this))
+                    {
                         startUploadImageService();
                         setUIOnUpdating();
-                    } else {
+                    }
+                    else
+                    {
                         Toast.makeText(AccountDetailsActivity.this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
 
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             Toast.makeText(AccountDetailsActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             Crashlytics.logException(e);
         }

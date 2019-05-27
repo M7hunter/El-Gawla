@@ -15,9 +15,9 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.general.DialogBuilder;
-import it_geeks.info.gawla_app.general.Interfaces.AlertButtonsClickListener;
+import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.DialogBuilder;
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.MainActivity;
@@ -75,10 +75,10 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
     }
 
     private void restartDialog(final String lang) {
-        dialogBuilder.createAlertDialog(context, context.getResources().getString(R.string.restart_hint), new AlertButtonsClickListener() {
+        dialogBuilder.createAlertDialog(context, context.getResources().getString(R.string.restart_hint), new ClickInterface.AlertButtonsClickListener() {
             @Override
             public void onPositiveClick() {
-                Common.Instance(context).setLang(lang);
+                Common.Instance().setLang(context, lang);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override

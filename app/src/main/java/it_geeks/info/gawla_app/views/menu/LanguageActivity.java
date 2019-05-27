@@ -9,7 +9,7 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.Adapters.LanguageAdapter;
 
@@ -21,7 +21,7 @@ public class LanguageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.Instance(this).changeStatusBarColor("#ffffff", this);
+        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_language);
 
         initViews();

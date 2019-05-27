@@ -21,8 +21,8 @@ import java.util.concurrent.TimeUnit;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.Data;
-import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.RequestMainBody;
+import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.views.login.LoginActivity;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -65,7 +65,8 @@ public class RetrofitClient {
 
     public static synchronized RetrofitClient getInstance(Context context) {
         // on creation || on lang changed
-        if (mInstance == null || SharedPrefManager.getInstance(context).isLangChanged()) {
+        if (mInstance == null || SharedPrefManager.getInstance(context).isLangChanged())
+        {
             mInstance = new RetrofitClient(context);
         }
         return mInstance;
@@ -77,7 +78,8 @@ public class RetrofitClient {
         // gawla server ip : http://134.209.0.250/dev/public/api/v1/en/
 
         String BASE_URL;
-        switch (SharedPrefManager.getInstance(context).getSavedLang()) {
+        switch (SharedPrefManager.getInstance(context).getSavedLang())
+        {
             case "en":
                 BASE_URL = "http://elgawla.net/dev/public/api/v1/en/";
                 break;
@@ -129,21 +131,26 @@ public class RetrofitClient {
                    case waitBeforeResend 410:
                    case doNotHavePermission 412:
                    case internalServerError 500: */
-                try {
+                try
+                {
                     Log.d(TAG, "response_code: " + response.code());
-                    switch (response.code()) {
+                    switch (response.code())
+                    {
                         case 200:
-                            try {
+                            try
+                            {
                                 JsonObject mainObj = response.body().getAsJsonObject();
 
                                 // dynamic with each call
                                 HandleResponses.handleTrueResponse(mainObj);
 
-                            } catch (NullPointerException e) { // errors of response body 'maybe response body has been changed'
+                            } catch (NullPointerException e)
+                            { // errors of response body 'maybe response body has been changed'
                                 e.printStackTrace();
                                 Log.e(TAG, "onResponse: " + e.getMessage());
                                 Crashlytics.logException(e);
-                            } catch (UnsupportedOperationException e) {
+                            } catch (UnsupportedOperationException e)
+                            {
                                 e.printStackTrace();
                                 Log.e(TAG, "onResponse: " + e.getMessage());
                                 Crashlytics.logException(e);
@@ -158,18 +165,20 @@ public class RetrofitClient {
                             LoginManager.getInstance().logOut();
 
                             GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext()).addApi(Auth.GOOGLE_SIGN_IN_API).build();
-                            if (mGoogleApiClient.isConnected()) {
+                            if (mGoogleApiClient.isConnected())
+                            {
                                 Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                                 mGoogleApiClient.disconnect();
-                                mGoogleApiClient.connect();
                             }
 
                             break;
                         default: // code != 200
-                            try {
+                            try
+                            {
                                 JsonObject errorObj = new JsonParser().parse(response.errorBody().string()).getAsJsonObject();
                                 String serverError = parseServerErrors(errorObj);
-                                if (serverError.isEmpty()) {
+                                if (serverError.isEmpty())
+                                {
                                     serverError = context.getString(R.string.error_occurred);
                                 }
 
@@ -177,7 +186,8 @@ public class RetrofitClient {
                                 Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "onResponse!successful: " + serverError);
 
-                            } catch (JsonSyntaxException e) {
+                            } catch (JsonSyntaxException e)
+                            {
                                 e.printStackTrace();
                                 Crashlytics.logException(e);
                                 Toast.makeText(context, context.getString(R.string.error_occurred), Toast.LENGTH_SHORT).show();
@@ -186,13 +196,16 @@ public class RetrofitClient {
                             break;
                     }
 
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                     Crashlytics.logException(e);
-                } catch (RuntimeException e) {
+                } catch (RuntimeException e)
+                {
                     e.printStackTrace();
                     Crashlytics.logException(e);
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     e.printStackTrace();
                     Crashlytics.logException(e);
                 }
@@ -204,16 +217,24 @@ public class RetrofitClient {
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
                 if (t.getMessage() != null && !t.getMessage().isEmpty())
-                    Log.d(TAG, "onFailure: " + t.getMessage());
-                // dynamic with each call
-                HandleResponses.handleConnectionErrors(context.getString(R.string.no_connection));
+                    Log.d(TAG, "onFailure: " + t.getCause());
+
+                if (!Common.Instance().isConnected(context))
+                {
+                    HandleResponses.handleConnectionErrors(context.getString(R.string.check_connection));
+                    return;
+                }
+
+                HandleResponses.handleConnectionErrors(t.getLocalizedMessage());
             }
         };
     }
 
     public void cancelCall() {
-        if (call != null) {
-            if (!call.isCanceled()) {
+        if (call != null)
+        {
+            if (!call.isCanceled())
+            {
                 call.cancel();
             }
         }

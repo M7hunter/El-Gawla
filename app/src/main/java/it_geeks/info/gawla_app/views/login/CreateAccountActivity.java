@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,19 +43,22 @@ import java.util.Arrays;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import it_geeks.info.gawla_app.general.DialogBuilder;
+
+import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
-import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.User;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.general.TransHolder;
+import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.account.MembershipActivity;
 
+import static it_geeks.info.gawla_app.util.Constants.REQ_SIGN_UP;
+import static it_geeks.info.gawla_app.util.Constants.REQ_SOCIAL_SIGN;
 import static it_geeks.info.gawla_app.views.login.LoginActivity.GOOGLE_REQUEST;
 import static it_geeks.info.gawla_app.views.login.LoginActivity.providerFacebook;
 import static it_geeks.info.gawla_app.views.login.LoginActivity.providerGoogle;
@@ -64,7 +66,6 @@ import static it_geeks.info.gawla_app.views.login.LoginActivity.providerGoogle;
 public class CreateAccountActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private EditText etName, etEmail, etPass;
-    ScrollView createAccountMainScreen;
 
     TextInputLayout tl_create_name, tl_create_email, tl_create_pass;
     Button btnCreateAccount, btnAlreadyHaveAccount;
@@ -83,7 +84,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        Common.Instance(this).changeStatusBarColor("#ffffff", this);
+        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_create_account);
 
         initViews();
@@ -96,7 +97,6 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
     }
 
     private void initViews() {
-        createAccountMainScreen = findViewById(R.id.createAccountMainScreen);
         etName = findViewById(R.id.et_create_account_name);
         etEmail = findViewById(R.id.et_create_account_email);
         etPass = findViewById(R.id.et_create_account_pass);
@@ -169,42 +169,55 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
         String pass = etPass.getText().toString();
         int countryId = SharedPrefManager.getInstance(CreateAccountActivity.this).getCountry().getCountry_id();
 
-        if (checkEntries(name, email, pass)) {
+        if (checkEntries(name, email, pass))
+        {
             connectToServer(new User(name, email, pass), countryId);
         }
     }
 
     private boolean checkEntries(String name, String email, String pass) {
         // check if empty
-        if (name.isEmpty()) {
+        if (name.isEmpty())
+        {
             tl_create_name.setError(getString(R.string.empty_hint));
             etName.requestFocus();
             return false;
-        } else tl_create_name.setErrorEnabled(false);
+        }
+        else tl_create_name.setErrorEnabled(false);
         // check validation
-        if (name.length() < 6) {
+        if (name.length() < 6)
+        {
             tl_create_name.setError(getString(R.string.name_length_hint));
             etName.requestFocus();
             return false;
-        } else tl_create_name.setErrorEnabled(false);
+        }
+        else tl_create_name.setErrorEnabled(false);
 
-        if (email.isEmpty()) {
+        if (email.isEmpty())
+        {
             tl_create_email.setError(getString(R.string.empty_hint));
             etEmail.requestFocus();
             return false;
-        } else tl_create_email.setErrorEnabled(false);
+        }
+        else tl_create_email.setErrorEnabled(false);
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        {
             tl_create_email.setError(getString(R.string.enter_valid_email));
             etEmail.requestFocus();
             return false;
-        } else tl_create_email.setErrorEnabled(false);
-        if (pass.isEmpty()) {
+        }
+        else tl_create_email.setErrorEnabled(false);
+        if (pass.isEmpty())
+        {
             tl_create_pass.setError(getString(R.string.empty_hint));
             etPass.requestFocus();
             return false;
-        } else {
-            if (pass.length() < 6) {
+        }
+        else
+        {
+            if (pass.length() < 6)
+            {
                 tl_create_pass.setError(getResources().getString(R.string.name_length_hint));
                 etPass.requestFocus();
                 return false;
@@ -219,7 +232,8 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
     private void connectToServer(final User user, final int countryId) {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer(CreateAccountActivity.this,
-                "register", new Request(user.getName(), user.getEmail(), countryId, user.getPassword()), new HandleResponses() {
+                REQ_SIGN_UP, new Request<>(REQ_SIGN_UP, user.getName(), user.getEmail(), countryId, user.getPassword(),
+                        null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         // notify user
@@ -227,7 +241,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
                         // save user data locally
                         cacheUserData(mainObject, getResources().getString(R.string.app_name));
 
-                        Common.Instance(CreateAccountActivity.this).updateFirebaseToken();
+                        Common.Instance().updateFirebaseToken(CreateAccountActivity.this);
                         // goto next page
                         startActivity(new Intent(CreateAccountActivity.this, MembershipActivity.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -268,22 +282,26 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
 
     // google login
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
+        try
+        {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String id = account.getId();
             String name = account.getDisplayName();
             String email = account.getEmail();
             String image = "https://itgeeks.com/images/logo.png";
-            if (account.getPhotoUrl() != null) {
+            if (account.getPhotoUrl() != null)
+            {
                 image = account.getPhotoUrl().toString();
             }
 
             dialogBuilder.displayLoadingDialog();
             socialLogin(id, name, email, image, providerGoogle);
-        } catch (ApiException e) {
+        } catch (ApiException e)
+        {
             Log.w("signIn:failed code", "" + e.getStatusCode());
             Crashlytics.logException(e);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -322,7 +340,8 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
             }
         });
 
-        if (AccessToken.getCurrentAccessToken() != null) {
+        if (AccessToken.getCurrentAccessToken() != null)
+        {
             LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         }
 
@@ -330,7 +349,8 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
 
     // fb login
     private void getData(final JSONObject object) {
-        try {
+        try
+        {
             URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/" + object.getString("id") + "/picture?type=normal");
             String id = object.optString("id");
             String name = object.optString("name");
@@ -339,10 +359,12 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
 
             dialogBuilder.displayLoadingDialog();
             socialLogin(id, name, email, image, providerFacebook);
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
-        } catch (JSONException e) {
+        } catch (JSONException e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -354,7 +376,8 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
         super.onActivityResult(requestCode, resultCode, data);
 
         // google login
-        if (requestCode == GOOGLE_REQUEST) {
+        if (requestCode == GOOGLE_REQUEST)
+        {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
@@ -369,11 +392,12 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
     public void socialLogin(String id, final String name, final String email, final String image, final String provider) {
         int countryId = SharedPrefManager.getInstance(CreateAccountActivity.this).getCountry().getCountry_id();
         RetrofitClient.getInstance(CreateAccountActivity.this).executeConnectionToServer(CreateAccountActivity.this,
-                "loginOrRegisterWithSocial", new Request(provider, id, name, email, image, countryId), new HandleResponses() {
+                REQ_SOCIAL_SIGN, new Request<>(REQ_SOCIAL_SIGN, provider, id, name, email, image, countryId,
+                        null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         cacheUserData(mainObject, provider);
-                        Common.Instance(CreateAccountActivity.this).updateFirebaseToken();
+                        Common.Instance().updateFirebaseToken(CreateAccountActivity.this);
                         startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));
                         finish();
                     }

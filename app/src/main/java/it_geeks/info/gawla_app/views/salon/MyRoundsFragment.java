@@ -21,11 +21,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
-import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.general.NotificationStatus;
-import it_geeks.info.gawla_app.general.TransHolder;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.util.NotificationStatus;
+import it_geeks.info.gawla_app.util.TransHolder;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Models.Round;
@@ -34,6 +34,7 @@ import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 
 import static it_geeks.info.gawla_app.repository.RESTful.ParseResponses.parseRounds;
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_SALON_BY_USER_ID;
 
 public class MyRoundsFragment extends Fragment {
 
@@ -57,7 +58,7 @@ public class MyRoundsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_my_rounds, container, false);
 
         userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
-        apiToken = Common.Instance(getContext()).removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
+        apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
         initViews();
 
@@ -113,7 +114,7 @@ public class MyRoundsFragment extends Fragment {
     }
 
     private void checkConnection() {
-        if (Common.Instance(getActivity()).isConnected()) {
+        if (Common.Instance().isConnected(getActivity())) {
             noConnectionLayout.setVisibility(View.GONE);
 
             getUsrRoundsFromServer();
@@ -127,7 +128,8 @@ public class MyRoundsFragment extends Fragment {
 
     private void getUsrRoundsFromServer() {
         RetrofitClient.getInstance(getActivity()).executeConnectionToServer(MainActivity.mainInstance,
-                "getSalonByUserID", new Request(userId, apiToken), new HandleResponses() {
+                REQ_GET_SALON_BY_USER_ID, new Request<>(REQ_GET_SALON_BY_USER_ID, userId, apiToken
+                ,null,null,null,null,null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         roundsList.clear();

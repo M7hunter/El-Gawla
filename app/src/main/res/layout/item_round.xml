@@ -98,6 +98,7 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="center"
+                    android:lines="2"
                     android:maxLines="2"
                     android:textColor="@color/midBlue2"
                     android:textSize="@dimen/text_size_large"

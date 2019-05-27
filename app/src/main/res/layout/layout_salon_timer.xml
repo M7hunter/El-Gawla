@@ -8,7 +8,7 @@
     android:layout_marginStart="@dimen/margin_medium"
     android:layout_marginTop="@dimen/margin_tiny"
     android:layout_marginEnd="@dimen/margin_medium"
-    android:layout_marginBottom="@dimen/margin_small"
+    android:layout_marginBottom="@dimen/margin_xTiny"
     android:background="@drawable/bg_rounded_corners_white"
     app:cardCornerRadius="@dimen/margin_small"
     tools:showIn="@layout/activity_salon">

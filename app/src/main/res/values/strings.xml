@@ -6,7 +6,7 @@
     <string name="salons_winners">salons winners</string>
     <string name="add_offer">Add offer</string>
     <string name="new_offer">New offer</string>
-    <string name="hales">Hales</string>
+    <string name="the_salons">Salons</string>
     <string name="my_rounds">My rounds</string>
     <string name="cards">Cards</string>
     <string name="account">Account</string>
@@ -136,7 +136,7 @@
     <string name="renew_membership">Renew membership</string>
     <string name="count_down_to_start">Count down to start</string>
     <string name="currency">Currency</string>
-    <string name="receive_notification">Receive Notification</string>
+    <string name="app_notification">App Notification</string>
     <string name="notification">Notification</string>
     <string name="all_salons">All salons</string>
     <string name="salons">" Salons "</string>
@@ -169,7 +169,7 @@
     <string name="mainNotiNews">You can customize your settings so that only the notifications you want appear when the device is locked</string>
     <string name="cards_empty_hint">No cards here yet</string>
     <string name="no_salons">No salons right now \n try later</string>
-    <string name="no_connection">No connection</string>
+    <string name="check_connection">check your connection</string>
     <string name="retry">Retry</string>
     <string name="category">"Category "</string>
     <string name="filter_by">Filter by</string>
@@ -242,5 +242,8 @@
     <string name="default_remote_notification_channel_id" translatable="false">remote notification</string>
     <string name="amount">Amount</string>
     <string name="Payment_method">Payment method</string>
+    <string name="total_price">Total Price</string>
+    <string name="click_for_more_options">click for more options</string>
+    <string name="no_connection">no connection</string>
 
 </resources>
