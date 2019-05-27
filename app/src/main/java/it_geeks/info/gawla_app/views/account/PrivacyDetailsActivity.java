@@ -110,7 +110,6 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                 if (!editPass)
                 {
                     passEditMode();
-
                 }
                 else
                 { // check user entry & send it to the server
@@ -289,7 +288,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
                 PrivacyDetailsActivity.this,
-                REQ_UPDATE_USER_DATA, new Request<>("updateUserEmail", etEmail.getText().toString(), id, api_token, SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getCountry().getCountry_id()
+                REQ_UPDATE_USER_DATA, new Request<>("updateUserEmail", id, api_token, etEmail.getText().toString(), SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getCountry().getCountry_id()
                         , null, null, null),
                 new HandleResponses() {
                     @Override
@@ -352,7 +351,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                     break;
                 // back
                 case R.id.privacy_details_back:
-                    PrivacyDetailsActivity.this.onBackPressed();
+                    onBackPressed();
                     break;
 
                 case R.id.social_out:

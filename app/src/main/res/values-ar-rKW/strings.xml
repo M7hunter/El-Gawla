@@ -164,6 +164,7 @@
     <string name="count_down_to_start">العد التنازلي للبداية</string>
     <string name="all_salons">كل الصالات</string>
     <string name="cards_empty_hint">لا يوجد كروت هنا بعد</string>
+    <string name="check_connection">يوجد مشكلة في الاتصال</string>
     <string name="no_connection">لا يوجد اتصال</string>
     <string name="no_salons">لا يوجد صالات حاليا \n حاول لاحقا</string>
     <string name="salons">" صالات"</string>

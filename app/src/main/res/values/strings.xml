@@ -169,7 +169,7 @@
     <string name="mainNotiNews">You can customize your settings so that only the notifications you want appear when the device is locked</string>
     <string name="cards_empty_hint">No cards here yet</string>
     <string name="no_salons">No salons right now \n try later</string>
-    <string name="no_connection">No connection</string>
+    <string name="check_connection">check your connection</string>
     <string name="retry">Retry</string>
     <string name="category">"Category "</string>
     <string name="filter_by">Filter by</string>
@@ -244,5 +244,6 @@
     <string name="Payment_method">Payment method</string>
     <string name="total_price">Total Price</string>
     <string name="click_for_more_options">click for more options</string>
+    <string name="no_connection">no connection</string>
 
 </resources>
