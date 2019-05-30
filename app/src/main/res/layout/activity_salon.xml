@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".views.SalonActivity">
+    tools:context=".views.salon.SalonActivity">
 
     <LinearLayout
         android:id="@+id/salon_container"
@@ -63,7 +63,7 @@
         </LinearLayout>
 
         <!-- time container -->
-        <include layout="@layout/layout_salon_countdown" />
+        <include layout="@layout/layout_salon_timer" />
 
         <!-- taps layout -->
         <include layout="@layout/layout_salon_taps" />
@@ -79,7 +79,6 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_tiny"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_tiny"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -122,7 +121,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_tiny"
             android:background="@drawable/joined_play_shape"
             android:padding="@dimen/margin_small"
             android:text="@string/join_round"
@@ -167,7 +165,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_tiny"
+                android:padding="@dimen/margin_xTiny"
                 android:text="@string/leave"
                 android:visibility="gone"
                 app:icon="@drawable/ic_exit"
@@ -181,7 +179,7 @@
                 android:layout_width="@dimen/icon_notification"
                 android:layout_height="@dimen/icon_notification"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/margin_tiny"
+                android:padding="@dimen/margin_xTiny"
                 android:src="@drawable/q_mark_in_circle"
                 android:tint="@color/midBlue"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -196,8 +194,5 @@
 
     <!-- cards bag btn container -->
     <include layout="@layout/bottom_sheet_single_card" />
-
-    <!-- loading -->
-    <include layout="@layout/layout_loading_card" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

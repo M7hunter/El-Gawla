@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="0dp">
@@ -14,13 +15,17 @@
             android:id="@+id/message_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textStyle="bold" />
+            android:padding="@dimen/margin_small"
+            android:textStyle="bold"
+            tools:text="@string/no_content" />
 
         <TextView
             android:id="@+id/message_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp" />
+            android:layout_marginStart="@dimen/margin_xTiny"
+            android:padding="@dimen/margin_small"
+            tools:text="@string/no_content" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

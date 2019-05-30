@@ -16,18 +16,20 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Notification;
-import it_geeks.info.gawla_app.repository.Models.Request;
+import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
-import it_geeks.info.gawla_app.views.SalonActivity;
+import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
 import static it_geeks.info.gawla_app.repository.RESTful.ParseResponses.parseRoundByID;
+import static it_geeks.info.gawla_app.util.Constants.REQ_GET_SALON_BY_ID;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.Holder> {
 
@@ -61,15 +63,20 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (notification.getType().trim().equals("salons")) {
-                    ((NotificationActivity) context).displayLoading();
+                if (notification.getType().trim().equals("salons"))
+                {
+                    ((NotificationActivity) context).dialogBuilder.displayLoadingDialog();
                     getSalonDataFromServer(notification);
 
-                } else {
-                    try {
+                }
+                else
+                {
+                    try
+                    {
                         updateBottomSheet(notification);
 
-                    } catch (Exception e) {
+                    } catch (Exception e)
+                    {
                         e.printStackTrace();
                         Crashlytics.logException(e);
                     }
@@ -80,7 +87,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     private void getSalonDataFromServer(Notification notification) {
         RetrofitClient.getInstance(context).executeConnectionToServer(MainActivity.mainInstance,
-                "getSalonByID", new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), notification.getId()), new HandleResponses() {
+                REQ_GET_SALON_BY_ID, new Request<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), notification.getId()
+                        , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         Round round = parseRoundByID(mainObject);
@@ -92,19 +100,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
 
                     @Override
-                    public void handleFalseResponse(JsonObject mainObject) {
-
-                    }
-
-                    @Override
-                    public void handleEmptyResponse() {
-                        ((NotificationActivity) context).hideLoading();
+                    public void handleAfterResponse() {
+                        ((NotificationActivity) context).dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
-                        ((NotificationActivity) context).hideLoading();
+                        ((NotificationActivity) context).dialogBuilder.hideLoadingDialog();
                     }
                 });
     }
@@ -138,7 +141,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         TextView tvTitle, tvBody, tvDate;
 
-        public Holder(View itemView) {
+        Holder(View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvBody = itemView.findViewById(R.id.tv_body);

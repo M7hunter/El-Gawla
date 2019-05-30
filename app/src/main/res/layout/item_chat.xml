@@ -1,63 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="@dimen/text_size_tiny">
+    android:layout_marginStart="@dimen/margin_xTiny"
+    android:layout_marginTop="@dimen/margin_xTiny"
+    android:layout_marginEnd="@dimen/margin_tiny"
+    android:layout_marginBottom="@dimen/margin_xTiny"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/chat_username"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_weight="3"
-        android:gravity="center"
-        android:maxLines="2"
+        android:layout_marginEnd="@dimen/margin_tiny"
+        android:layout_weight="1"
         android:ellipsize="end"
-        android:textColor="@color/browser_actions_text_color"
+        android:gravity="center"
         android:maxLength="30"
+        android:maxLines="2"
         android:text="user"
+        android:textColor="@color/browser_actions_text_color"
         android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:text="@tools:sample/first_names" />
 
+    <LinearLayout
+        android:id="@+id/chat_card_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="7"
+        android:background="@drawable/bg_rounded_corners_pale_grey"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/chat_card_message"
+        <TextView
+            android:id="@+id/chat_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:background="@drawable/bg_rounded_corners_palegrey">
+            android:layout_margin="@dimen/margin_tiny"
+            android:gravity="start"
+            android:textColor="@color/browser_actions_text_color"
+            android:textSize="@dimen/text_size_medium"
+            tools:text="@tools:sample/lorem" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/chat_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="@dimen/margin_xTiny"
+            android:layout_marginEnd="@dimen/margin_tiny"
+            android:textColor="@color/browser_actions_text_color"
+            android:textSize="@dimen/text_size_tiny"
+            tools:text="@tools:sample/date/hhmm" />
 
-                <TextView
-                    android:id="@+id/chat_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_small"
-                    android:text="@string/Advertising_space_for_special_tours"
-                    android:textColor="@color/browser_actions_text_color"
-                    android:textSize="@dimen/text_size_medium"/>
-
-            </LinearLayout>
-
-
-            <TextView
-                android:id="@+id/chat_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="5dp"
-                android:padding="5dp"
-                android:text="منذ 15 دقيقة"
-                android:textColor="@color/browser_actions_text_color"
-                android:textSize="@dimen/text_size_small" />
-
-        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

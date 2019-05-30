@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_more_about_gawla"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:id="@+id/main_more_about_gawla"
-    tools:context=".views.menuOptions.MoreAboutGawlaActivity">
+    tools:context=".views.menu.MoreAboutGawlaActivity">
     <!-- scroll main layout -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,19 +16,19 @@
         <!-- title bar -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny">
+            android:layout_height="wrap_content">
 
             <!-- back -->
             <ImageView
                 android:id="@+id/more_about_gawla_back"
                 android:layout_width="@dimen/icon_back"
                 android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/back"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/margin_small"
-                android:src="@drawable/ic_arrow_left_only"
-                android:layout_alignParentLeft="true"/>
+                android:src="@drawable/ic_arrow_left_only" />
 
             <!-- title -->
             <TextView
@@ -48,9 +48,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginStart="@dimen/margin_tiny"
             android:layout_marginEnd="@dimen/margin_tiny"
-            android:layout_gravity="center"
             android:src="@drawable/flodillus" />
 
         <TextView
@@ -70,10 +70,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_xx_large"
+            android:gravity="start"
             android:text="@string/about_gawla_text"
             android:textColor="@color/blueGrey"
-            android:gravity="start"
-            android:layout_marginBottom="@dimen/margin_xx_large"
             android:textSize="@dimen/text_size_medium" />
 
     </LinearLayout>

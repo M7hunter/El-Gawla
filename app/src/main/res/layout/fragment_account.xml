@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".views.NavigationFragments.MainFragment">
+    tools:context=".views.MainFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <!-- logo, bell, user image & user name container -->`
+            <!-- logo, bell, user image & user name container -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

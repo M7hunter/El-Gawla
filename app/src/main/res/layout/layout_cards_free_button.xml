@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cards_bag_btn_container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="left"
-    android:padding="@dimen/margin_xTiny">
+    android:padding="@dimen/margin_xTiny"
+    tools:showIn="@layout/activity_salon">
 
     <!-- icon -->
     <ImageView

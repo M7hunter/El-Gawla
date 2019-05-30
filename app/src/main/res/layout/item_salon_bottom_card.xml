@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/margin_tiny"
-    android:background="@drawable/bg_rounded_corners_pale_grey">
+    android:background="@drawable/bg_rounded_corners_pale_grey"
+    tools:showIn="@layout/bottom_sheet_cards_bag">
 
     <!-- title & btn -->
     <LinearLayout
@@ -21,7 +23,6 @@
             android:layout_margin="@dimen/margin_tiny"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="@string/no_content"
             android:textColor="@color/battleshipGrey"
             android:textSize="@dimen/text_size_large" />
 

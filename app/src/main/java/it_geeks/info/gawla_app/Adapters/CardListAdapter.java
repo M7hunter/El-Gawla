@@ -1,7 +1,6 @@
 package it_geeks.info.gawla_app.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +10,20 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Models.Card;
-import it_geeks.info.gawla_app.general.Common;
-import it_geeks.info.gawla_app.views.CardActivity;
+import it_geeks.info.gawla_app.util.Common;
 
 public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHolder> {
 
     private Context context;
     private List<Card> cardList;
+    private ClickInterface.OnItemClickListener itemClickListener;
 
-    public CardListAdapter(Context context, List<Card> cardList) {
+    public CardListAdapter(Context context, List<Card> cardList, ClickInterface.OnItemClickListener itemClickListener) {
         this.context = context;
         this.cardList = cardList;
+        this.itemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -32,19 +33,17 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final Card card = cardList.get(position);
 
         // bind
-        Common.Instance(context).changeDrawableViewColor(holder.vCardIcon, card.getCard_color());
+        Common.Instance().changeDrawableViewColor(holder.vCardIcon, card.getCard_color());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = CardActivity.cardInstance.getIntent();
-                i.putExtra("card", card);
-
-                context.startActivity(i);
+                itemClickListener.onItemClick(v, holder.getAdapterPosition());
+                notifyItemChanged(position);
             }
         });
     }

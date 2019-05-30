@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_sheet_product_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,41 +15,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
         android:orientation="vertical">
 
-        <!-- header & back container -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <!-- header -->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_large"
-                android:layout_weight="1"
-                android:text="@string/Product_displayed"
-                android:textColor="@color/battleshipGrey"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
-
-            <!-- back -->
-            <Button
-                android:id="@+id/close_bottom_sheet_product_details"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                android:layout_width="@dimen/icon_notification"
-                android:layout_height="@dimen/icon_notification"
-                android:layout_margin="@dimen/margin_large"
-                android:padding="@dimen/margin_medium"
-                app:icon="@drawable/x"
-                app:iconGravity="textStart"
-                app:iconPadding="0dp"
-                app:iconSize="20dp" />
-
-        </LinearLayout>
-
+        <!-- images -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -83,20 +53,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
                 android:padding="@dimen/margin_small"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                tools:src="@tools:sample/backgrounds/scenic" />
 
         </RelativeLayout>
 
-        <!-- small images recycler -->
+        <!-- sub images recycler -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/product_details_images_recycler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/margin_small"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_product_sub_image"
+            tools:orientation="horizontal" />
 
-        <!-- name -->
+        <!-- title -->
         <TextView
             android:id="@+id/product_details_name"
             android:layout_width="match_parent"
@@ -117,7 +92,7 @@
             android:layout_marginEnd="@dimen/margin_large"
             android:background="@color/paleGreyTwo" />
 
-        <!-- price container -->
+        <!-- category container -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -227,8 +202,8 @@
                 android:layout_marginBottom="@dimen/margin_large"
                 android:gravity="start"
                 android:padding="@dimen/margin_tiny"
-                android:text="@string/no_content"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_medium"
+                tools:text="@tools:sample/lorem/random" />
 
         </LinearLayout>
 

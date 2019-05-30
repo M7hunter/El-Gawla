@@ -3,7 +3,7 @@ package it_geeks.info.gawla_app.views;
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.util.Common;
 
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +19,7 @@ public class WinnerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Common.Instance(this).changeStatusBarColor("#ffffff", this);
+        Common.Instance().changeStatusBarColor(this, "#ffffff");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winner);
 

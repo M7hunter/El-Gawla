@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -7,10 +8,10 @@
         android:id="@+id/rb_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="engines"
+        android:paddingStart="@dimen/margin_large"
+        android:textColor="@color/battleshipGrey"
         android:textSize="@dimen/text_size_large"
         android:textStyle="bold"
-        android:paddingStart="@dimen/margin_large"
-        android:textColor="@color/battleshipGrey"/>
+        tools:text="@tools:sample/lorem" />
 
 </LinearLayout>

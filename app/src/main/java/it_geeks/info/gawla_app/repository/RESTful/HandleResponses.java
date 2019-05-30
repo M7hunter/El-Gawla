@@ -6,9 +6,7 @@ public interface HandleResponses {
 
     void handleTrueResponse(JsonObject mainObject);
 
-    void handleFalseResponse(JsonObject errorObject);
-
-    void handleEmptyResponse();
+    void handleAfterResponse();
 
     void handleConnectionErrors(String errorMessage);
 }

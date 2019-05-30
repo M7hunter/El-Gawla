@@ -12,7 +12,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.general.Interfaces.OnItemClickListener;
+
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Category;
 
@@ -20,10 +21,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     private Context context;
     private List<Category> categoryList;
-    private OnItemClickListener clickListener;
+    private ClickInterface.OnItemClickListener clickListener;
     private int selectedPosition = 0;
 
-    public CategoryAdapter(Context context, List<Category> categoryList, OnItemClickListener clickListener) {
+    public CategoryAdapter(Context context, List<Category> categoryList, ClickInterface.OnItemClickListener clickListener) {
         this.context = context;
         this.categoryList = categoryList;
         this.clickListener = clickListener;

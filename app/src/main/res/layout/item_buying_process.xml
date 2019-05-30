@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_height="wrap_content">
+    tools:showIn="@layout/activity_buying_processes">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +19,6 @@
             android:layout_marginStart="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_tiny"
             android:layout_weight="1.5"
-            android:text="@string/processes"
             android:textSize="@dimen/text_size_medium" />
 
         <!-- card -->
@@ -29,7 +30,6 @@
             android:layout_marginEnd="@dimen/margin_tiny"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/card"
             android:textSize="@dimen/text_size_medium" />
 
         <!-- date -->
@@ -41,7 +41,7 @@
             android:layout_marginEnd="@dimen/margin_tiny"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/date"
+            tools:text="@tools:sample/date/ddmmyy"
             android:textSize="@dimen/text_size_medium" />
 
         <!-- cost -->
@@ -53,7 +53,6 @@
             android:layout_marginEnd="@dimen/margin_tiny"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/cost"
             android:textSize="@dimen/text_size_medium" />
 
     </LinearLayout>
@@ -63,8 +62,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/margin_large"
-        android:layout_marginEnd="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_large"
         android:layout_marginBottom="@dimen/margin_small"
         android:background="@color/blueyGrey" />
 

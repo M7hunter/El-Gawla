@@ -13,9 +13,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.util.ImageLoader;
 import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
-import it_geeks.info.gawla_app.views.SalonActivity;
+import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
 public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImagesAdapter.Holder> {
 
@@ -37,7 +37,7 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
     public void onBindViewHolder(@NonNull final Holder holder, int i) {
         final ProductSubImage subImage = imagesList.get(i);
 
-        Common.Instance(context).loadImage(subImage.getImageUrl(), holder.productSubImage);
+        ImageLoader.getInstance().loadImage(subImage.getImageUrl(), holder.productSubImage);
 
         // check if video
         if (subImage.getImageUrl().endsWith(".mp4") || subImage.getImageUrl().endsWith(".3gp")) {

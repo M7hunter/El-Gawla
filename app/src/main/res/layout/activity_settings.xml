@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainSettingsActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:id="@+id/mainSettingsActivity"
-    tools:context=".views.menuOptions.SettingsActivity">
+    tools:context=".views.menu.SettingsActivity">
     <!-- scroll main layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_medium"
         android:orientation="vertical">
 
         <!-- title bar -->
@@ -44,33 +42,45 @@
 
         </RelativeLayout>
 
-        <!-- top border -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/margin_small"
-            android:background="@color/paleGrey2" />
-
-        <!-- switch option -->
+        <!-- notification -->
         <RelativeLayout
+            android:id="@+id/rl_app_notification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
             android:background="@android:color/white"
+            android:foreground="?android:attr/selectableItemBackground"
             android:paddingStart="@dimen/margin_small"
             android:paddingTop="@dimen/margin_small"
             android:paddingEnd="@dimen/margin_small"
             android:paddingBottom="@dimen/margin_small">
 
-            <!-- label -->
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:text="@string/receive_notification"
-                android:textColor="@android:color/tertiary_text_dark"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
+                android:orientation="vertical">
+
+                <!-- label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_notification"
+                    android:textColor="@android:color/tertiary_text_dark"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
+
+                <!-- options -->
+                <TextView
+                    android:id="@+id/tv_notification_options"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/click_for_more_options"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
             <!-- switch -->
             <com.google.android.material.switchmaterial.SwitchMaterial
@@ -78,15 +88,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:checked="true"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:checked="true" />
 
         </RelativeLayout>
+
+        <!-- switch option -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:background="@color/paleGrey2" />
 
         <!-- top border -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
             android:background="@color/paleGrey2" />
 
         <!-- 1st option -->
@@ -94,10 +115,12 @@
             android:id="@+id/settings_lang_option"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
             android:background="@android:color/white"
+            android:foreground="?android:attr/selectableItemBackground"
             android:paddingStart="@dimen/margin_small"
             android:paddingTop="@dimen/margin_small"
-            android:foreground="?android:attr/selectableItemBackground"
             android:paddingEnd="@dimen/margin_small"
             android:paddingBottom="@dimen/margin_small">
 

@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/margin_medium"
     android:layout_marginTop="@dimen/margin_tiny"
     android:layout_marginEnd="@dimen/margin_medium"
-    android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/margin_large"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/margin_small"
-    app:cardElevation="@dimen/margin_tiny">
+    app:cardElevation="@dimen/margin_tiny"
+    tools:showIn="@layout/fragment_cards">
     <!-- card view main layout -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +33,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_tiny"
-                android:text="@string/dont_have_green_card"
                 android:textColor="@color/battleshipGrey"
                 android:textSize="@dimen/text_size_large" />
 
@@ -41,9 +42,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_tiny"
-                android:text="يمكنك شراء الكارت الاخضر من اعادة فتح  الجولة لمدة ١٥ دقيقة "
                 android:textColor="@color/blueyGrey"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_small"
+                tools:text="@tools:sample/lorem" />
 
         </LinearLayout>
 
@@ -53,7 +54,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_tiny"
             android:layout_weight="1">
-
             <!-- icon container -->
             <FrameLayout
                 android:layout_width="match_parent"
@@ -70,19 +70,6 @@
                     android:background="@drawable/dynamic_card"
                     android:padding="@dimen/margin_large" />
             </FrameLayout>
-
-            <!--&lt;!&ndash; counter &ndash;&gt;-->
-            <!--<TextView-->
-                <!--android:id="@+id/card_count"-->
-                <!--android:layout_width="@dimen/margin_xxlarge"-->
-                <!--android:layout_height="@dimen/margin_xxlarge"-->
-                <!--android:layout_margin="@dimen/margin_tiny"-->
-                <!--android:background="@drawable/bg_circle_red"-->
-                <!--android:gravity="center"-->
-                <!--android:textColor="@android:color/white"-->
-                <!--android:textSize="@dimen/text_size_medium"-->
-                <!--android:textStyle="bold" />-->
-
         </RelativeLayout>
 
     </LinearLayout>

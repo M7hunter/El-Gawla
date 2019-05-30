@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLanguageActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:id="@+id/mainLanguageActivity"
-    tools:context=".views.menuOptions.LanguageActivity">
+    tools:context=".views.menu.LanguageActivity">
 
     <!-- title bar -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_tiny"
         android:layoutDirection="ltr">
 
         <!-- back -->
@@ -20,9 +20,10 @@
             android:id="@+id/language_back"
             android:layout_width="@dimen/icon_back"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/back"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:padding="@dimen/margin_small"
             android:src="@drawable/ic_arrow_left_only" />
 
@@ -43,6 +44,9 @@
         android:id="@+id/lang_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/margin_small"/>
+        android:layout_margin="@dimen/margin_small"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_lang" />
 
 </LinearLayout>

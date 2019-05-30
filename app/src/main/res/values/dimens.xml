@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- margin & padding -->
-    <dimen name="margin_xTiny">5dp</dimen>
-    <dimen name="margin_tiny">5dp</dimen>
-    <dimen name="margin_tiny_minus">-5dp</dimen>
-    <dimen name="margin_small">10dp</dimen>
-    <dimen name="margin_small_minus">-10dp</dimen>
-    <dimen name="margin_medium">15dp</dimen>
-    <dimen name="margin_large">20dp</dimen>
-    <dimen name="margin_xlarge">25dp</dimen>
-    <dimen name="margin_xx_large">35dp</dimen>
-    <dimen name="margin_xxx_large">50dp</dimen>
-    <dimen name="margin_xxxx_large">60dp</dimen>
+    <dimen name="margin_xTiny">2dp</dimen>
+    <dimen name="margin_tiny">3dp</dimen>
+    <dimen name="margin_tiny_minus">-3dp</dimen>
+    <dimen name="margin_small">7dp</dimen>
+    <dimen name="margin_x_small">5dp</dimen>
+    <dimen name="margin_small_minus">-7dp</dimen>
+    <dimen name="margin_medium">12dp</dimen>
+    <dimen name="margin_large">17dp</dimen>
+    <dimen name="margin_xlarge">22dp</dimen>
+    <dimen name="margin_xx_large">32dp</dimen>
+    <dimen name="margin_xxx_large">45dp</dimen>
+    <dimen name="margin_xxxx_large">52dp</dimen>
 
     <!-- text sizes -->
-    <dimen name="text_size_tiny">10sp</dimen>
-    <dimen name="text_size_small">13sp</dimen>
-    <dimen name="text_size_medium">16sp</dimen>
-    <dimen name="text_size_large">19sp</dimen>
-    <dimen name="text_size_xlarge">22sp</dimen>
-    <dimen name="text_size_xx_large">26sp</dimen>
-    <dimen name="num_tick" >42sp</dimen>
+    <dimen name="text_size_tiny">8sp</dimen>
+    <dimen name="text_size_small">11sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_large">17sp</dimen>
+    <dimen name="text_size_xlarge">20sp</dimen>
+    <dimen name="text_size_xx_large">23sp</dimen>
+    <dimen name="num_tick">40sp</dimen>
 
     <!-- icons & images -->
-    <dimen name="logo_width">140dp</dimen>
-    <dimen name="logo_height">80dp</dimen>
+    <dimen name="logo_width">120dp</dimen>
+    <dimen name="logo_height">60dp</dimen>
     <dimen name="icon_notification">35dp</dimen>
-    <dimen name="icon_back">55dp</dimen>
-    <dimen name="image_width_main_fragment">190dp</dimen>
-    <dimen name="image_width_round">300dp</dimen>
-    <dimen name="image_height_round">185dp</dimen>
-    <dimen name="image_height_product">200dp</dimen>
-    <dimen name="image_news">100dp</dimen>
-    <dimen name="image_account">120dp</dimen>
-    <dimen name="image_cards_round_updates">65dp</dimen>
+    <dimen name="icon_back">35dp</dimen>
+    <dimen name="image_width_main_fragment">160dp</dimen>
+    <dimen name="image_width_round">270dp</dimen>
+    <dimen name="image_height_round">170dp</dimen>
+    <dimen name="image_height_product">170dp</dimen>
+    <dimen name="image_news">70dp</dimen>
+    <dimen name="image_account">100dp</dimen>
+    <dimen name="image_cards_round_updates">60dp</dimen>
+    <dimen name="winner_image_height">320dp</dimen> <!-- <<<< -->
 
-    <!-- -->
-    <dimen name="my_rounds_empty_view_height">550dp</dimen>
-    <dimen name="card_background_height">100dp</dimen>
-    <dimen name="card_height">60dp</dimen>
-    <dimen name="card_width">40dp</dimen>
-    <dimen name="single_card_height">140dp</dimen>
-    <dimen name="single_card_width">95dp</dimen>
-    <dimen name="winner_image_height">350dp</dimen>
-
+    <!-- mix -->
+    <dimen name="my_rounds_empty_view_height">500dp</dimen>
+    <dimen name="my_rounds_empty_view_min_height">400dp</dimen>
+    <dimen name="card_background_height">85dp</dimen>
+    <dimen name="card_height">55dp</dimen>
+    <dimen name="card_width">35dp</dimen>
+    <dimen name="single_card_height">120dp</dimen>
+    <dimen name="single_card_width">85dp</dimen>
 </resources>

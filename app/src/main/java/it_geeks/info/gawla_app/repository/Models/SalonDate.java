@@ -1,62 +1,75 @@
 package it_geeks.info.gawla_app.repository.Models;
 
+import java.util.Date;
+
 public class SalonDate {
 
-  private String date;
+    private Date date;
 
-  private String dayOfMonth;
+    private String sDate;
 
-  private String month;
+    private String dayOfMonth;
 
-  private String dayOfWeek;
+    private String month;
 
-  private String salonsCount;
+    private String dayOfWeek;
 
-  public SalonDate(String date, String dayOfMonth, String month, String dayOfWeek, String salonsCount) {
-    this.date = date;
-    this.dayOfMonth = dayOfMonth;
-    this.month = month;
-    this.dayOfWeek = dayOfWeek;
-    this.salonsCount = salonsCount;
-  }
+    private String salonsCount;
 
-  public String getDate() {
-    return date;
-  }
+    public SalonDate(Date date, String sDate, String dayOfMonth, String month, String dayOfWeek, String salonsCount) {
+        this.date = date;
+        this.sDate = sDate;
+        this.dayOfMonth = dayOfMonth;
+        this.month = month;
+        this.dayOfWeek = dayOfWeek;
+        this.salonsCount = salonsCount;
+    }
 
-  public void setDate(String date) {
-    this.date = date;
-  }
+    public Date getDate() {
+        return date;
+    }
 
-  public String getDayOfMonth() {
-    return dayOfMonth;
-  }
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-  public void setDayOfMonth(String dayOfMonth) {
-    this.dayOfMonth = dayOfMonth;
-  }
+    public String getsDate() {
+        return sDate;
+    }
 
-  public String getMonth() {
-    return month;
-  }
+    public void setsDate(String sDate) {
+        this.sDate = sDate;
+    }
 
-  public void setMonth(String month) {
-    this.month = month;
-  }
+    public String getDayOfMonth() {
+        return dayOfMonth;
+    }
 
-  public String getDayOfWeek() {
-    return dayOfWeek;
-  }
+    public void setDayOfMonth(String dayOfMonth) {
+        this.dayOfMonth = dayOfMonth;
+    }
 
-  public void setDayOfWeek(String dayOfWeek) {
-    this.dayOfWeek = dayOfWeek;
-  }
+    public String getMonth() {
+        return month;
+    }
 
-  public String getSalonsCount() {
-    return salonsCount;
-  }
+    public void setMonth(String month) {
+        this.month = month;
+    }
 
-  public void setSalonsCount(String salonsCount) {
-    this.salonsCount = salonsCount;
-  }
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public String getSalonsCount() {
+        return salonsCount;
+    }
+
+    public void setSalonsCount(String salonsCount) {
+        this.salonsCount = salonsCount;
+    }
 }

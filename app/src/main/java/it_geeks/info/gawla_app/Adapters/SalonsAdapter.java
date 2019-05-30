@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -15,18 +14,18 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import it_geeks.info.gawla_app.general.RoundDiffCallback;
+import it_geeks.info.gawla_app.util.ImageLoader;
+import it_geeks.info.gawla_app.util.RoundDiffCallback;
 import it_geeks.info.gawla_app.repository.Models.Card;
-import it_geeks.info.gawla_app.general.Common;
+import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.views.SalonActivity;
+import it_geeks.info.gawla_app.views.salon.SalonActivity;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.R;
 
@@ -53,15 +52,15 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
         // bind
         if (round != null) {
             try {
-                Common.Instance(context).loadImage(round.getProduct_image(), viewHolder.imgProductImage);
+                ImageLoader.getInstance().loadImage(round.getProduct_image(), viewHolder.imgProductImage);
             } catch (Exception e) {
                 e.printStackTrace();
                 Crashlytics.logException(e);
             }
 
-            viewHolder.tvProductName.setText(Common.Instance(context).removeEmptyLines(round.getProduct_name()));
-            viewHolder.tvProductCategory.setText(Common.Instance(context).removeEmptyLines(round.getCategory_name()));
-            viewHolder.tvStartTime.setText(Common.Instance(context).removeEmptyLines(round.getMessage()));
+            viewHolder.tvProductName.setText(Common.Instance().removeEmptyLines(round.getProduct_name()));
+            viewHolder.tvProductCategory.setText(Common.Instance().removeEmptyLines(round.getCategory_name()));
+            viewHolder.tvStartTime.setText(Common.Instance().removeEmptyLines(round.getMessage()));
 
             if (round.getSalon_cards() != null) {
                 viewHolder.cardsRecycler.setAdapter(new SalonCardsIconAdapter(context, round.getSalon_cards()));
@@ -72,7 +71,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                 round.setProduct_images(GawlaDataBse.getInstance(context).productImageDao().getSubImagesById(round.getProduct_id()));
             }
 
-            Common.Instance(context).changeDrawableViewColor(viewHolder.tvProductCategory, round.getCategory_color());
+            Common.Instance().changeDrawableViewColor(viewHolder.tvProductCategory, round.getCategory_color());
 
             // open round page
             viewHolder.btnEnterRound.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +81,6 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         Intent i = new Intent(context, SalonActivity.class);
                         // send round's data to round page
                         i.putExtra("round", round);
-                        i.putExtra("product_image", prepareImageToPass(viewHolder.imgProductImage));
 
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), new Pair<View, String>(viewHolder.imgProductImage, "transProductImage"));
@@ -100,15 +98,6 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
         } else {
             Log.d("test_placeholder: ", "salon == null");
         }
-    }
-
-    private byte[] prepareImageToPass(ImageView imgProductImage) {
-        imgProductImage.buildDrawingCache();
-
-        Bitmap bitmap = imgProductImage.getDrawingCache();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-        return outputStream.toByteArray();
     }
 
     public void updateRoundsList(List<Round> newList) {

@@ -21,9 +21,9 @@ import java.util.concurrent.TimeUnit;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.Data;
-import it_geeks.info.gawla_app.repository.Models.Request;
 import it_geeks.info.gawla_app.repository.Models.RequestMainBody;
-import it_geeks.info.gawla_app.views.loginActivities.LoginActivity;
+import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.views.login.LoginActivity;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -43,10 +43,8 @@ public class RetrofitClient {
     private Retrofit retrofit;
 
     private Call<JsonObject> call;
-    private Context context;
-    private int reconnect = 0;
 
-    private RetrofitClient() {
+    private RetrofitClient(Context context) {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .connectTimeout(18, TimeUnit.SECONDS)
@@ -59,7 +57,7 @@ public class RetrofitClient {
                 .create();
 
         this.retrofit = new Retrofit.Builder()
-                .baseUrl(selectBaseUrl())
+                .baseUrl(selectBaseUrl(context))
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
@@ -67,19 +65,21 @@ public class RetrofitClient {
 
     public static synchronized RetrofitClient getInstance(Context context) {
         // on creation || on lang changed
-        if (mInstance == null || SharedPrefManager.getInstance(context).isLangChanged()) {
-            mInstance = new RetrofitClient();
+        if (mInstance == null || SharedPrefManager.getInstance(context).isLangChanged())
+        {
+            mInstance = new RetrofitClient(context);
         }
         return mInstance;
     }
 
-    private String selectBaseUrl() {
+    private String selectBaseUrl(Context context) {
         // it geeks server : https://dev.itgeeks.info/api/v1/en/
         // gawla server : http://elgawla.net/dev/public/api/v1/en/
         // gawla server ip : http://134.209.0.250/dev/public/api/v1/en/
 
         String BASE_URL;
-        switch (SharedPrefManager.getInstance(context).getSavedLang()) {
+        switch (SharedPrefManager.getInstance(context).getSavedLang())
+        {
             case "en":
                 BASE_URL = "http://elgawla.net/dev/public/api/v1/en/";
                 break;
@@ -113,38 +113,45 @@ public class RetrofitClient {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 // TODO: check codes
-                     /* case success 200:
-                        case validationErrors 402:
-                        case somethingWrong 100:
-                        case invalidApiToken 111:
-                        case invalidAccessToken 401:
-                        case notAuthorized 402:
-                        case notFound 404:
-                        case authFailed 203:
-                        case emailNotExist 104:
-                        case accountAlreadyVerified 106:
-                        case tokenNotFound 115:
-                        case accountNotConfirmed 116:
-                        case wrongPhoneVerifyNum 405:
-                        case wrongForgetPassVerifyNum 406:
-                        case waitBeforeResend 410:
-                        case doNotHavePermission 412:
-                        case internalServerError 500:
-                        case unKnown 1: */
-                try {
+                /* case unKnown 1:
+                   case somethingWrong 100:
+                   case emailNotExist 104:
+                   case accountAlreadyVerified 106:
+                   case invalidApiToken 111:
+                   case tokenNotFound 115:
+                   case accountNotConfirmed 116:
+                   case success 200:
+                   case authFailed 203:
+                   case invalidAccessToken 401:
+                   case validationErrors 402:
+                   case notAuthorized 402:
+                   case notFound 404:
+                   case wrongPhoneVerifyNum 405:
+                   case wrongForgetPassVerifyNum 406:
+                   case waitBeforeResend 410:
+                   case doNotHavePermission 412:
+                   case internalServerError 500: */
+                try
+                {
                     Log.d(TAG, "response_code: " + response.code());
-                    switch (response.code()) {
+                    switch (response.code())
+                    {
                         case 200:
-                            try {
+                            try
+                            {
                                 JsonObject mainObj = response.body().getAsJsonObject();
 
                                 // dynamic with each call
                                 HandleResponses.handleTrueResponse(mainObj);
 
-                            } catch (NullPointerException e) { // errors of response body 'maybe response body has been changed'
+                            } catch (NullPointerException e)
+                            { // errors of response body 'maybe response body has been changed'
+                                e.printStackTrace();
                                 Log.e(TAG, "onResponse: " + e.getMessage());
                                 Crashlytics.logException(e);
-                            } catch (UnsupportedOperationException e) {
+                            } catch (UnsupportedOperationException e)
+                            {
+                                e.printStackTrace();
                                 Log.e(TAG, "onResponse: " + e.getMessage());
                                 Crashlytics.logException(e);
                             }
@@ -158,26 +165,29 @@ public class RetrofitClient {
                             LoginManager.getInstance().logOut();
 
                             GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext()).addApi(Auth.GOOGLE_SIGN_IN_API).build();
-                            if (mGoogleApiClient.isConnected()) {
+                            if (mGoogleApiClient.isConnected())
+                            {
                                 Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                                 mGoogleApiClient.disconnect();
-                                mGoogleApiClient.connect();
                             }
 
                             break;
                         default: // code != 200
-                            try {
+                            try
+                            {
                                 JsonObject errorObj = new JsonParser().parse(response.errorBody().string()).getAsJsonObject();
                                 String serverError = parseServerErrors(errorObj);
+                                if (serverError.isEmpty())
+                                {
+                                    serverError = context.getString(R.string.error_occurred);
+                                }
 
                                 // notify user
                                 Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "onResponse!successful: " + serverError);
 
-                                // dynamic with each call
-                                HandleResponses.handleFalseResponse(errorObj);
-
-                            } catch (JsonSyntaxException e) {
+                            } catch (JsonSyntaxException e)
+                            {
                                 e.printStackTrace();
                                 Crashlytics.logException(e);
                                 Toast.makeText(context, context.getString(R.string.error_occurred), Toast.LENGTH_SHORT).show();
@@ -186,34 +196,45 @@ public class RetrofitClient {
                             break;
                     }
 
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                     Crashlytics.logException(e);
-                } catch (RuntimeException e) {
+                } catch (RuntimeException e)
+                {
                     e.printStackTrace();
                     Crashlytics.logException(e);
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     e.printStackTrace();
                     Crashlytics.logException(e);
                 }
 
                 // dynamic with each call
-                HandleResponses.handleEmptyResponse();
+                HandleResponses.handleAfterResponse();
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) { // connection errors
                 if (t.getMessage() != null && !t.getMessage().isEmpty())
-                    Log.d(TAG, "onFailure: " + t.getMessage());
-                // dynamic with each call
-                HandleResponses.handleConnectionErrors(context.getString(R.string.no_connection));
+                    Log.d(TAG, "onFailure: " + t.getCause());
+
+                if (!Common.Instance().isConnected(context))
+                {
+                    HandleResponses.handleConnectionErrors(context.getString(R.string.check_connection));
+                    return;
+                }
+
+                HandleResponses.handleConnectionErrors(t.getLocalizedMessage());
             }
         };
     }
 
     public void cancelCall() {
-        if (call != null) {
-            if (!call.isCanceled()) {
+        if (call != null)
+        {
+            if (!call.isCanceled())
+            {
                 call.cancel();
             }
         }
