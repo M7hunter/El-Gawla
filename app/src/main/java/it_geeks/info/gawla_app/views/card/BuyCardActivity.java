@@ -95,7 +95,15 @@ public class BuyCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_card);
 
-        initGooglePayApiClient();
+        /*
+         * google pay not supported on APIs < 24
+         * so, no need to initialize google pay client
+         */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+        {
+            initGooglePayApiClient();
+        }
+
         initViews();
 
         if (getCardData(savedInstanceState))

@@ -984,9 +984,9 @@ public class SalonActivity extends AppCompatActivity {
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
                 REQ_SET_USER_SALON, new Request<>(REQ_SET_USER_SALON, SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
+                        , round.getSalon_id()
                         , String.valueOf(Common.Instance().getCurrentTimeInMillis())
                         , ""
-                        , round.getSalon_id()
                         , null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

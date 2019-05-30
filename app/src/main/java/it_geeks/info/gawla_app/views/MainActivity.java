@@ -245,11 +245,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getWebPagesFromServer() {
-        int user_id = SharedPrefManager.getInstance(MainActivity.this).getUser().getUser_id();
-        String api_token = SharedPrefManager.getInstance(MainActivity.this).getUser().getApi_token();
+//        int user_id = SharedPrefManager.getInstance(MainActivity.this).getUser().getUser_id();
+        String api_token = "T9hQoKYK7bGop5y6tuZq5S4RBH0dTNu0Lh6XuRzhyju8OVZ3Bz6TRDUJD4YH";
 
         RetrofitClient.getInstance(MainActivity.this).executeConnectionToServer(MainActivity.this,
-                REQ_GET_ALL_PAGES, new Request<>(REQ_GET_ALL_PAGES, user_id, api_token,
+                REQ_GET_ALL_PAGES, new Request<>(REQ_GET_ALL_PAGES, null, api_token,
                         null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
