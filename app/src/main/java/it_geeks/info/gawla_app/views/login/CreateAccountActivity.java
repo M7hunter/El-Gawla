@@ -56,7 +56,9 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.account.MembershipActivity;
+import it_geeks.info.gawla_app.views.intro.IntroActivity;
 
+import static it_geeks.info.gawla_app.util.Constants.PREVIOUS_PAGE_KEY;
 import static it_geeks.info.gawla_app.util.Constants.REQ_SIGN_UP;
 import static it_geeks.info.gawla_app.util.Constants.REQ_SOCIAL_SIGN;
 import static it_geeks.info.gawla_app.views.login.LoginActivity.GOOGLE_REQUEST;
@@ -68,8 +70,8 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
     private EditText etName, etEmail, etPass;
 
     TextInputLayout tl_create_name, tl_create_email, tl_create_pass;
-    Button btnCreateAccount, btnAlreadyHaveAccount;
-    TextView tvSignUp, tvGooglePlus, tvFacebook;
+    Button btnCreateAccount;
+    TextView tvSignUp, tvGooglePlus, tvFacebook, tvAlreadyHaveAccount;
 
     // fb login
     CallbackManager callbackManager;
@@ -79,13 +81,15 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
     GoogleSignInClient mGoogleSignInClient;
 
     private DialogBuilder dialogBuilder;
+    private String previousPageKey = "no key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_create_account);
+
+        getKey();
 
         initViews();
 
@@ -96,20 +100,26 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
         handleEvents();
     }
 
+    private void getKey() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+            previousPageKey = extras.getString(PREVIOUS_PAGE_KEY);
+    }
+
     private void initViews() {
         etName = findViewById(R.id.et_create_account_name);
         etEmail = findViewById(R.id.et_create_account_email);
         etPass = findViewById(R.id.et_create_account_pass);
 
         // translatable views
-        tvSignUp = findViewById(R.id.tv_sign_up);
-        tvGooglePlus = findViewById(R.id.tv_google_plus_su);
-        tvFacebook = findViewById(R.id.tv_facebook_su);
+        tvSignUp = findViewById(R.id.tv_sign_up_header);
+        tvGooglePlus = findViewById(R.id.tv_google_sign_up);
+        tvFacebook = findViewById(R.id.tv_facebook_sign_up);
         tl_create_name = findViewById(R.id.tl_create_name);
         tl_create_email = findViewById(R.id.tl_create_email);
         tl_create_pass = findViewById(R.id.tl_create_pass);
         btnCreateAccount = findViewById(R.id.btn_create_account);
-        btnAlreadyHaveAccount = findViewById(R.id.btn_already_have_account);
+        tvAlreadyHaveAccount = findViewById(R.id.tv_already_have_account);
 
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
@@ -126,7 +136,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
         tl_create_email.setHint(transHolder.email);
         tl_create_pass.setHint(transHolder.password);
         btnCreateAccount.setText(transHolder.sign_up);
-        btnAlreadyHaveAccount.setText(transHolder.already_have_account);
+        tvAlreadyHaveAccount.setText(transHolder.already_have_account);
     }
 
     private void handleEvents() {
@@ -139,15 +149,22 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
         });
 
         // have account ? goto previous page
-        btnAlreadyHaveAccount.setOnClickListener(new View.OnClickListener() {
+        tvAlreadyHaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                if (previousPageKey != null && previousPageKey.equals(IntroActivity.class.getSimpleName()))
+                {
+                    startActivity(LoginActivity.class);
+                }
+                else
+                {
+                    onBackPressed();
+                }
             }
         });
 
         // use google
-        findViewById(R.id.btn_google_sign_up).setOnClickListener(new View.OnClickListener() {
+        tvGooglePlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn();
@@ -155,12 +172,18 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
         });
 
         // use facebook
-        findViewById(R.id.btn_facebook_sign_up).setOnClickListener(new View.OnClickListener() {
+        tvFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 btn_fb_login.performClick();
             }
         });
+    }
+
+    // google login
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, GOOGLE_REQUEST);
     }
 
     private void registerNewUser() {
@@ -243,8 +266,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
 
                         Common.Instance().updateFirebaseToken(CreateAccountActivity.this);
                         // goto next page
-                        startActivity(new Intent(CreateAccountActivity.this, MembershipActivity.class)
-                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        startActivity(MembershipActivity.class);
                     }
 
                     @Override
@@ -258,7 +280,6 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
                         Toast.makeText(CreateAccountActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
     private void firebaseInit() {
@@ -272,39 +293,6 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-    }
-
-    // google login
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, GOOGLE_REQUEST);
-    }
-
-    // google login
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try
-        {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            String id = account.getId();
-            String name = account.getDisplayName();
-            String email = account.getEmail();
-            String image = "https://itgeeks.com/images/logo.png";
-            if (account.getPhotoUrl() != null)
-            {
-                image = account.getPhotoUrl().toString();
-            }
-
-            dialogBuilder.displayLoadingDialog();
-            socialLogin(id, name, email, image, providerGoogle);
-        } catch (ApiException e)
-        {
-            Log.w("signIn:failed code", "" + e.getStatusCode());
-            Crashlytics.logException(e);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        }
     }
 
     // fb login
@@ -347,7 +335,6 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
 
     }
 
-    // fb login
     private void getData(final JSONObject object) {
         try
         {
@@ -369,7 +356,6 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
             Crashlytics.logException(e);
         }
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -380,6 +366,32 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
         {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
+        }
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try
+        {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            String id = account.getId();
+            String name = account.getDisplayName();
+            String email = account.getEmail();
+            String image = "https://itgeeks.com/images/logo.png";
+            if (account.getPhotoUrl() != null)
+            {
+                image = account.getPhotoUrl().toString();
+            }
+
+            dialogBuilder.displayLoadingDialog();
+            socialLogin(id, name, email, image, providerGoogle);
+        } catch (ApiException e)
+        {
+            Log.w("signIn:failed code", "" + e.getStatusCode());
+            Crashlytics.logException(e);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            Crashlytics.logException(e);
         }
     }
 
@@ -398,8 +410,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
                     public void handleTrueResponse(JsonObject mainObject) {
                         cacheUserData(mainObject, provider);
                         Common.Instance().updateFirebaseToken(CreateAccountActivity.this);
-                        startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));
-                        finish();
+                        startActivity(MainActivity.class);
                     }
 
                     @Override
@@ -420,5 +431,10 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
         User user = ParseResponses.parseUser(mainObject);
         SharedPrefManager.getInstance(CreateAccountActivity.this).saveUser(user);
         SharedPrefManager.getInstance(CreateAccountActivity.this).saveProvider(provider); // Provider
+    }
+
+    public void startActivity(Class target) {
+        startActivity(new Intent(CreateAccountActivity.this, target)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 }

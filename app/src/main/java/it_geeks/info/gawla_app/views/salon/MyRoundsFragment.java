@@ -77,7 +77,7 @@ public class MyRoundsFragment extends Fragment {
         myRoundProgress = view.findViewById(R.id.pb_my_rounds);
         myRoundsRecycler = view.findViewById(R.id.my_rounds_recycler);
         emptyViewLayout = view.findViewById(R.id.my_rounds_empty_view);
-        ivNotificationBell = view.findViewById(R.id.notification_bell);
+        ivNotificationBell = view.findViewById(R.id.iv_notification_bell);
         noConnectionLayout = view.findViewById(R.id.no_connection);
 
         // translatable views

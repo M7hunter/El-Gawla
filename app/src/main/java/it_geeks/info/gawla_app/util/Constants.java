@@ -51,5 +51,6 @@ public class Constants {
     // endregion
 
     public static final String EMPTY_TOKEN = "empty";
-
+    public static final int NULL_INT_VALUE = -111;
+    public static final String PREVIOUS_PAGE_KEY = "previous_page";
 }

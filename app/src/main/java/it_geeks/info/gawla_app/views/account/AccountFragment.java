@@ -56,7 +56,7 @@ public class AccountFragment extends Fragment {
         userImage = view.findViewById(R.id.user_image);
 
         //Notification icon
-        ivNotificationBell = view.findViewById(R.id.notification_bell);
+        ivNotificationBell = view.findViewById(R.id.iv_notification_bell);
 
         // translatable views
         tvAccountDetails = view.findViewById(R.id.tv_account_details);

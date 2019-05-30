@@ -38,7 +38,7 @@
 
         <!-- bell -->
         <ImageView
-            android:id="@+id/notification_bell"
+            android:id="@+id/iv_notification_bell"
             android:layout_width="@dimen/icon_notification"
             android:layout_height="@dimen/icon_notification"
             android:layout_alignParentTop="true"

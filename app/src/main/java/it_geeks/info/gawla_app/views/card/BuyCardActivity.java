@@ -177,7 +177,7 @@ public class BuyCardActivity extends AppCompatActivity {
         });
 
         // notification
-        findViewById(R.id.notification_bell).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.iv_notification_bell).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(BuyCardActivity.this, NotificationActivity.class));

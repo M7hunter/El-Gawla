@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">الجولة</string>
-    <string name="see_all">شاهد الكل</string>
+    <string name="see_more">شاهد المزيد</string>
     <string name="round_start">بداية الجولة</string>
     <string name="close">اغلاق</string>
     <string name="join_round">" انضم للجولة"</string>
@@ -243,4 +243,5 @@
     <string name="Payment_method">وسيلة الدفع</string>
     <string name="total_price">السعر الكلي</string>
     <string name="click_for_more_options">اضغط لمزيد من الخيارات</string>
+    <string name="or">أو</string>
 </resources>

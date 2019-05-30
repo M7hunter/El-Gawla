@@ -97,7 +97,7 @@ public class CardActivity extends AppCompatActivity {
         vCardIcon = findViewById(R.id.v_card_icon);
         btnBuy = findViewById(R.id.btn_buy_card);
         cardsListRecycler = findViewById(R.id.cards_list_recycler);
-        ivNotificationBell = findViewById(R.id.notification_bell);
+        ivNotificationBell = findViewById(R.id.iv_notification_bell);
 
         initSwitchers();
     }

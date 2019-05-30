@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?><!-- logo & bell container -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/margin_medium"
@@ -11,19 +13,36 @@
 
     <!-- logo -->
     <ImageView
-        android:layout_width="@dimen/logo_width"
-        android:layout_height="@dimen/logo_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/gawla_logo_blue" />
+        android:layout_margin="@dimen/margin_medium"
+        android:src="@drawable/gawla_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- bell -->
     <ImageView
-    android:id="@+id/notification_bell"
-    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-    android:layout_width="@dimen/icon_notification"
-    android:layout_height="@dimen/icon_notification"
-    android:foreground="?android:attr/selectableItemBackgroundBorderless"
-    android:padding="@dimen/margin_tiny"
-    android:src="@drawable/bell" />
+        android:id="@+id/iv_notification_bell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:padding="@dimen/margin_small"
+        android:src="@drawable/bell"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</RelativeLayout>
+    <ImageView
+        android:id="@+id/iv_user_image"
+        android:layout_width="@dimen/icon_notification"
+        android:layout_height="@dimen/icon_notification"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:padding="@dimen/margin_tiny"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/flag_egypt" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

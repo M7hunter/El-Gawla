@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
             tools:text="@tools:sample/lorem"
@@ -43,8 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_small"
             android:gravity="center"
-            android:text="@string/ads"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/text_size_small"
             tools:text="@tools:sample/lorem"
             tools:textColor="@color/colorPrimary" />

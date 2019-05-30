@@ -9,7 +9,6 @@ public interface ClickInterface {
         void onItemClick(View view, int position);
     }
 
-
     interface AlertButtonsClickListener {
 
         void onPositiveClick();

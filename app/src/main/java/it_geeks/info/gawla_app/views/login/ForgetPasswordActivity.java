@@ -36,7 +36,6 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_forget_password);
 
         initViews();
@@ -50,7 +49,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.et_email_fp);
 
         // translatable views
-        tvForgetPass = findViewById(R.id.tv_forget_pass);
+        tvForgetPass = findViewById(R.id.tv_forgot_pass_header);
         tvForgetPassHint = findViewById(R.id.tv_forget_pass_hint);
         btnSend = findViewById(R.id.btn_send_fp);
         tlEmail = findViewById(R.id.tl_email_fp);
@@ -77,6 +76,13 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                     hideSendBtn();
                     sendEmail(email);
                 }
+            }
+        });
+
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }

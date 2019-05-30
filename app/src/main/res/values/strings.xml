@@ -15,7 +15,7 @@
     <string name="round_start">Round start</string>
     <string name="close">Close</string>
     <string name="join_round">Join round</string>
-    <string name="see_all">See all</string>
+    <string name="see_more">See more</string>
     <string name="recent_salons">Recent salons</string>
     <string name="password">Password</string>
     <string name="full_name">"Full name"</string>
@@ -245,5 +245,7 @@
     <string name="total_price">Total Price</string>
     <string name="click_for_more_options">click for more options</string>
     <string name="no_connection">no connection</string>
+    <string name="countries">countries</string>
+    <string name="or">or</string>
 
 </resources>

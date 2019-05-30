@@ -40,7 +40,7 @@ public class Request<T> {
         {
             this.api_token = t1;
         }
-        else // requests that needs user id & api token
+        else // requests that that depends on user id & api token
         {
             this.user_id = t1;
             this.api_token = t2;
@@ -100,7 +100,7 @@ public class Request<T> {
                 this.email = t4;
                 this.message = t5;
             }
-            else // requests that needs salon id
+            else // requests that depends on salon id
             {
                 this.salon_id = t3;
 

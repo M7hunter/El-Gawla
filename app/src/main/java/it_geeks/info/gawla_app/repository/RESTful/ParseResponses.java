@@ -27,7 +27,8 @@ public class ParseResponses {
         List<Round> rounds = new ArrayList<>();
         JsonArray roundsArray = object.get("salons").getAsJsonArray();
 
-        for (int i = 0; i < roundsArray.size(); i++) {
+        for (int i = 0; i < roundsArray.size(); i++)
+        {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
             int product_id = roundObj.get("product_id").getAsInt();
             int salon_id = roundObj.get("salon_id").getAsInt();
@@ -83,7 +84,8 @@ public class ParseResponses {
 
         List<ProductSubImage> subImagesList = new ArrayList<>();
 
-        for (int i = 0; i < product_images.size(); i++) {
+        for (int i = 0; i < product_images.size(); i++)
+        {
             ProductSubImage subImage = new ProductSubImage(product_id, product_images.get(i).getAsString());
             subImagesList.add(subImage);
         }
@@ -96,7 +98,8 @@ public class ParseResponses {
 
         List<Card> salon_cardsList = new ArrayList<>();
 
-        for (int j = 0; j < salon_cards.size(); j++) {
+        for (int j = 0; j < salon_cards.size(); j++)
+        {
             JsonObject cardObj = salon_cards.get(j).getAsJsonObject();
             int card_id = cardObj.get("id").getAsInt();
             String card_name = cardObj.get("name").getAsString();
@@ -148,7 +151,8 @@ public class ParseResponses {
         List<Country> countries = new ArrayList<>();
         JsonArray roundsArray = object.get("countries").getAsJsonArray();
 
-        for (int i = 0; i < roundsArray.size(); i++) {
+        for (int i = 0; i < roundsArray.size(); i++)
+        {
             JsonObject roundObj = roundsArray.get(i).getAsJsonObject();
             int country_id = roundObj.get("country_id").getAsInt();
             String country_title = roundObj.get("country_title").getAsString();
@@ -184,7 +188,8 @@ public class ParseResponses {
         List<Category> categories = new ArrayList<>();
         JsonArray categoriesArray = object.get("categories").getAsJsonArray();
 
-        for (int i = 0; i < categoriesArray.size(); i++) {
+        for (int i = 0; i < categoriesArray.size(); i++)
+        {
             JsonObject categoryObj = categoriesArray.get(i).getAsJsonObject();
             int category_id = categoryObj.get("category_id").getAsInt();
             String category_name = categoryObj.get("category_name").getAsString();
@@ -202,7 +207,8 @@ public class ParseResponses {
 
         List<Card> cardsList = new ArrayList<>();
 
-        for (int i = 0; i < dataArray.size(); i++) {
+        for (int i = 0; i < dataArray.size(); i++)
+        {
             JsonObject cardObj = dataArray.get(i).getAsJsonObject();
             int card_id = cardObj.get("card_id").getAsInt();
             String card_name = cardObj.get("card_name").getAsString();
@@ -217,12 +223,35 @@ public class ParseResponses {
         return cardsList;
     }
 
+    public static List<Category> parseHomeCategories(JsonObject object) {
+        JsonObject obj = object.get("sliders").getAsJsonObject();
+        JsonArray categoriesArray = obj.get("categories").getAsJsonArray();
+
+        List<Category> categories = new ArrayList<>();
+
+        for (int i = 0; i < categoriesArray.size(); i++)
+        {
+            JsonObject categoryObj = categoriesArray.get(i).getAsJsonObject();
+            int category_id = categoryObj.get("category_id").getAsInt();
+            String category_name = categoryObj.get("category_name").getAsString();
+            String category_color = categoryObj.get("category_color").getAsString();
+            String category_image = categoryObj.get("category_image").getAsString();
+
+            categories.add(
+                    new Category(category_id, category_name, category_color, category_image));
+        }
+
+        return categories;
+    }
+
     public static List<Ad> parseAds(JsonObject object) {
-        JsonArray dataArray = object.get("sliders").getAsJsonArray();
+        JsonObject obj = object.get("sliders").getAsJsonObject();
+        JsonArray dataArray = obj.get("sliders").getAsJsonArray();
 
         List<Ad> adsList = new ArrayList<>();
 
-        for (int i = 0; i < dataArray.size(); i++) {
+        for (int i = 0; i < dataArray.size(); i++)
+        {
             JsonObject sliderObj = dataArray.get(i).getAsJsonObject();
             int slider_id = sliderObj.get("slider_id").getAsInt();
             int slider_salon_id = sliderObj.get("slider_salon_id").getAsInt();
@@ -243,7 +272,8 @@ public class ParseResponses {
 
         List<WinnerNews> winnerNewsList = new ArrayList<>();
 
-        for (int i = 0; i < dataArray.size(); i++) {
+        for (int i = 0; i < dataArray.size(); i++)
+        {
             JsonObject sliderObj = dataArray.get(i).getAsJsonObject();
             int blog_id = sliderObj.get("blog_id").getAsInt();
             String blog_category = sliderObj.get("blog_category").getAsString();
@@ -267,7 +297,8 @@ public class ParseResponses {
 
     private static List<String> parseBlogImages(JsonArray blog_imagesArr) {
         List<String> blog_images = new ArrayList<>();
-        for (int i = 0; i < blog_imagesArr.size(); i++) {
+        for (int i = 0; i < blog_imagesArr.size(); i++)
+        {
             blog_images.add(blog_imagesArr.get(i).getAsString());
         }
 
@@ -278,7 +309,8 @@ public class ParseResponses {
         JsonArray cardsArray = object.get("cards").getAsJsonArray();
 
         List<Card> cards = new ArrayList<>();
-        for (int i = 0; i < cardsArray.size(); i++) {
+        for (int i = 0; i < cardsArray.size(); i++)
+        {
             JsonObject cardObj = cardsArray.get(i).getAsJsonObject();
             int cardId = cardObj.get("card_id").getAsInt();
             int count = cardObj.get("count").getAsInt();
@@ -295,7 +327,8 @@ public class ParseResponses {
 
         List<TopTen> topTenList = new ArrayList<>();
 
-        for (int i = 0; i < dataArray.size(); i++) {
+        for (int i = 0; i < dataArray.size(); i++)
+        {
             JsonObject userObj = dataArray.get(i).getAsJsonObject();
             int userId = userObj.get("id").getAsInt();
             String userName = userObj.get("user").getAsString();
@@ -313,12 +346,15 @@ public class ParseResponses {
 
     static String parseServerErrors(JsonObject object) {
         String error = "";
-        try {
+        try
+        {
             JsonArray errors = object.get("errors").getAsJsonArray();
-            for (int i = 0; i < errors.size(); i++) {
+            for (int i = 0; i < errors.size(); i++)
+            {
                 error = errors.get(i).getAsString();
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -331,7 +367,8 @@ public class ParseResponses {
 
         List<WebPage> webPageList = new ArrayList<>();
 
-        for (int i = 0; i < dataArray.size(); i++) {
+        for (int i = 0; i < dataArray.size(); i++)
+        {
             JsonObject cardObj = dataArray.get(i).getAsJsonObject();
             int page_id = cardObj.get("page_id").getAsInt();
             String page_title = cardObj.get("page_title").getAsString();
@@ -348,7 +385,8 @@ public class ParseResponses {
         JsonArray notificationsArr = object.get("notifications").getAsJsonArray();
         List<Notification> notificationList = new ArrayList<>();
 
-        for (int i = 0; i < notificationsArr.size(); i++) {
+        for (int i = 0; i < notificationsArr.size(); i++)
+        {
             JsonObject notificationObj = notificationsArr.get(i).getAsJsonObject();
 
             notificationList.add(

@@ -264,7 +264,7 @@ public class SalonActivity extends AppCompatActivity {
         tvChatTab = findViewById(R.id.tv_salon_chat);
 
         detailsSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_product_details, null);
-        imgNotification = findViewById(R.id.notification_bell);
+        imgNotification = findViewById(R.id.iv_notification_bell);
         ivProductMainViewer = detailsSheetView.findViewById(R.id.product_details_main_image);
 
         apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
@@ -982,11 +982,12 @@ public class SalonActivity extends AppCompatActivity {
         btnJoinConfirmation.setEnabled(false);
         joinConfirmationProgress.setVisibility(View.VISIBLE);
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
-                REQ_SET_USER_SALON, new Request<>(REQ_SET_USER_SALON, SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
+                REQ_SET_USER_SALON, new Request<>(REQ_SET_USER_SALON
+                        , SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
+                        , round.getSalon_id()
                         , String.valueOf(Common.Instance().getCurrentTimeInMillis())
                         , ""
-                        , round.getSalon_id()
                         , null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

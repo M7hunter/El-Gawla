@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorLightPrimary"
+    android:gravity="center"
+    android:padding="@dimen/margin_tiny">
+
+    <!-- arrow -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_tiny"
+        android:src="@drawable/ic_arrow_down" />
+
+    <!-- country label -->
+    <TextView
+        android:id="@+id/tv_country_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_xlarge"
+        android:layout_marginEnd="@dimen/margin_xlarge"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:hint="@string/country"
+        android:maxLines="1"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_large"
+        tools:text="county" />
+
+    <!-- country flag-->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_country_flag"
+        android:layout_width="@dimen/icon_notification"
+        android:layout_height="@dimen/icon_notification"
+        android:layout_margin="@dimen/margin_tiny"
+        tools:src="@drawable/flag_egypt" />
+
+</LinearLayout>

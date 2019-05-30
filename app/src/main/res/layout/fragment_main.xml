@@ -19,117 +19,212 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <include layout="@layout/layout_main_header" />
-
-            <!-- Ads card -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_main_Ads"
-                style="@style/Widget.MaterialComponents.CardView"
+            <!-- main header & ads -->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_medium"
-                app:cardCornerRadius="@dimen/margin_small"
-                app:cardElevation="@dimen/margin_tiny">
+                android:paddingBottom="@dimen/margin_small">
 
-                <!-- ads -->
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/ads_viewpager"
+                <!-- blue background -->
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/image_width_main_fragment"
-                    android:background="@drawable/bg_rounded_corners_blue_180" />
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/margin_xxxxx_large"
+                    android:src="@drawable/bg_bottom_round_c_primary"
+                    app:layout_constraintBottom_toBottomOf="@id/cv_main_Ads"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <!-- ads main/empty layout -->
-                <LinearLayout
-                    android:id="@+id/ads_empty_view"
+                <!-- header -->
+                <include layout="@layout/layout_main_header" />
+
+                <!-- Ads card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_main_Ads"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_corners_blue_180"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                    android:gravity="center_vertical"
-                    android:layoutDirection="ltr"
-                    android:visibility="visible">
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    app:cardCornerRadius="@dimen/margin_small"
+                    app:cardElevation="@dimen/margin_medium"
+                    app:layout_constraintTop_toBottomOf="@id/main_header">
 
-                    <ImageView
-                        android:layout_width="@dimen/image_width_main_fragment"
-                        android:layout_height="@dimen/image_width_main_fragment"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/flodillus" />
+                    <!-- ads -->
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/ads_viewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/image_width_main_fragment" />
 
-                    <!-- texts -->
+                    <!-- ads main/empty layout -->
                     <LinearLayout
+                        android:id="@+id/ads_empty_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                        android:gravity="center_vertical"
+                        android:layoutDirection="ltr"
+                        android:visibility="visible">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/more_gawla_main_page"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/text_size_large"
-                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="@dimen/image_width_main_fragment"
+                            android:layout_height="@dimen/image_width_main_fragment"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/flodillus" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <!-- texts -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_small"
                             android:gravity="center"
-                            android:text="@string/ads"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/text_size_small" />
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/more_gawla_main_page"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/text_size_large"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_small"
+                                android:gravity="center"
+                                android:text="@string/ads"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/text_size_small" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-            </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- orange area 'with no need' -->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_large"
-                android:layout_marginStart="@dimen/margin_xxx_large"
-                android:layout_marginEnd="@dimen/margin_xxx_large"
-                android:background="@drawable/yellow_with_shadow"
-                android:paddingBottom="@dimen/margin_small" />
-
-            <!-- recent salons header -->
+            <!-- cats -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_x_small">
+                android:gravity="center">
 
-                <!-- header -->
-                <TextView
-                    android:id="@+id/recent_salons_header_label"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:text="@string/recent_salons"
-                    android:textSize="@dimen/text_size_large"
-                    android:textStyle="bold" />
-
-                <!-- btn see all -->
-                <TextView
-                    android:id="@+id/recent_salons_see_all_btn"
+                <!-- vehicles -->
+                <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                    android:padding="@dimen/margin_small"
-                    android:text="@string/see_all"
-                    android:textColor="@color/midBlue"
-                    android:textSize="@dimen/text_size_large" />
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="@dimen/margin_small"
+                    app:cardElevation="@dimen/margin_tiny">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:drawableTop="@drawable/vehicles"
+                        android:drawablePadding="@dimen/margin_small"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/margin_xTiny"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingEnd="@dimen/margin_xTiny"
+                        android:paddingBottom="@dimen/margin_xTiny"
+                        android:text="vehicles"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_large" />
+                </androidx.cardview.widget.CardView>
+
+                <!-- electronics -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="@dimen/margin_small"
+                    app:cardElevation="@dimen/margin_tiny">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/zs_avatar_view_color_15"
+                        android:drawableTop="@drawable/electronics"
+                        android:drawablePadding="@dimen/margin_small"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/margin_xTiny"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingEnd="@dimen/margin_xTiny"
+                        android:paddingBottom="@dimen/margin_xTiny"
+                        android:text="electronics"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_large" />
+                </androidx.cardview.widget.CardView>
+
+                <!-- real state -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="@dimen/margin_small"
+                    app:cardElevation="@dimen/margin_tiny">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/design_default_color_primary"
+                        android:drawableTop="@drawable/real_state"
+                        android:drawablePadding="@dimen/margin_small"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/margin_xTiny"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingEnd="@dimen/margin_xTiny"
+                        android:paddingBottom="@dimen/margin_xTiny"
+                        android:text="real state"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_large" />
+                </androidx.cardview.widget.CardView>
+
+                <!-- jewellery -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="@dimen/margin_small"
+                    app:cardElevation="@dimen/margin_tiny">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorYellow"
+                        android:drawableTop="@drawable/jewellery"
+                        android:drawablePadding="@dimen/margin_small"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/margin_xTiny"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingEnd="@dimen/margin_xTiny"
+                        android:paddingBottom="@dimen/margin_xTiny"
+                        android:text="real state"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_large" />
+                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
+
+            <!-- recent salons header -->
+            <TextView
+                android:id="@+id/recent_salons_header_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_margin="@dimen/margin_large"
+                android:text="@string/recent_salons"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
 
             <!-- recent salons container -->
             <RelativeLayout
@@ -190,6 +285,16 @@
 
             </RelativeLayout>
 
+            <!-- btn see more -->
+            <Button
+                android:id="@+id/recent_salons_see_all_btn"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/see_more"
+                android:textColor="@color/midBlue"
+                android:textSize="@dimen/text_size_large" />
+
             <!-- winners news header -->
             <LinearLayout
                 android:id="@+id/winners_header"
@@ -217,7 +322,7 @@
                     android:layout_height="wrap_content"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:padding="@dimen/margin_small"
-                    android:text="@string/see_all"
+                    android:text="@string/see_more"
                     android:textColor="@color/midBlue"
                     android:textSize="@dimen/text_size_large" />
 

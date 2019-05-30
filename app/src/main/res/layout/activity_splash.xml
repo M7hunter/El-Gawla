@@ -1,87 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient_bluedark_angled_270"
+    android:background="@color/colorPrimary"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".views.intro.SplashActivity">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!-- logo -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_xlarge"
+        android:src="@drawable/gawla_logo" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <!-- hint -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_xx_large"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/margin_medium"
+        android:padding="@dimen/margin_small"
+        android:text="@string/tit1e"
+        android:textColor="@color/babyBlue"
+        android:textSize="@dimen/text_size_large" />
+
+    <!-- countries header -->
+    <TextView
+        android:id="@+id/countries_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_medium"
+        android:text="@string/choose_country"
+        android:textAllCaps="true"
+        android:textColor="@color/colorSecondary"
+        android:textSize="@dimen/text_size_large"
+        android:textStyle="bold" />
+
+    <!-- countries container -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_medium"
+        app:cardCornerRadius="@dimen/margin_xx_large"
+        app:cardElevation="@dimen/margin_small">
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/s_splash_country"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:background="@color/colorLightPrimary" />
+    </androidx.cardview.widget.CardView>
 
-            <ImageView
-                android:layout_width="@dimen/image_height_round"
-                android:layout_height="60.4pt"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/gawlalogo"
-                tools:layout_editor_absoluteX="118dp"
-                tools:layout_editor_absoluteY="95dp" />
-
-            <TextView
-                android:layout_width="@dimen/image_width_round"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/tit1e"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_large"
-                tools:layout_editor_absoluteX="29dp"
-                tools:layout_editor_absoluteY="291dp" />
-
-            <TextView
-                android:id="@+id/countries_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:text="@string/choose_country"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_large" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <!-- countries recycler -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/country_recycler"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/item_country" />
-
-                <ProgressBar
-                    android:id="@+id/countries_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    tools:visibility="gone" />
-
-                <Button
-                    android:id="@+id/btn_retry"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/countries_progress"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/retry"
-                    android:textColor="@android:color/white"
-                    android:visibility="invisible" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

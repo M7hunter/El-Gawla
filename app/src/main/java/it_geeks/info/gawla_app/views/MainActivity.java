@@ -57,20 +57,9 @@ public class MainActivity extends AppCompatActivity {
     private TransHolder transHolder;
     public DialogBuilder dialogBuilder;
 
-    public List<WebPage> webPageList = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Fabric.with(this, new Crashlytics());
-        setLang();
         super.onCreate(savedInstanceState);
-
-        if (!checkLoginState())
-        {
-            return;
-        }
-
-        Common.Instance().changeStatusBarColor(this, "#f4f7fa");
         setContentView(R.layout.activity_main);
         mainInstance = this;
 
@@ -96,42 +85,6 @@ public class MainActivity extends AppCompatActivity {
         handleEvents();
 
         setupTrans();
-
-        getWebPagesFromServer();
-    }
-
-    private void setLang() {
-        try
-        {
-            Common.Instance().setLang(this, SharedPrefManager.getInstance(this).getSavedLang());
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        }
-    }
-
-    private boolean checkLoginState() {
-        if (SharedPrefManager.getInstance(this).getUser().getUser_id() == -111 // id !saved
-                || SharedPrefManager.getInstance(this).getUser().getApi_token() == null // token !saved
-                || !SharedPrefManager.getInstance(this).isLoggedIn())
-        { // !logged in
-
-            if (SharedPrefManager.getInstance(this).getCountry().getCountry_id() == -111)
-            { // country saved ?
-                startActivity(new Intent(this, SplashActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            }
-            else
-            { // country !saved
-                startActivity(new Intent(this, LoginActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            }
-
-            return false;
-        }
-
-        return true;
     }
 
     private void updateNotificationStatus() {
@@ -242,30 +195,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_frame, fragment)
                 .commit();
-    }
-
-    private void getWebPagesFromServer() {
-        int user_id = SharedPrefManager.getInstance(MainActivity.this).getUser().getUser_id();
-        String api_token = SharedPrefManager.getInstance(MainActivity.this).getUser().getApi_token();
-
-        RetrofitClient.getInstance(MainActivity.this).executeConnectionToServer(MainActivity.this,
-                REQ_GET_ALL_PAGES, new Request<>(REQ_GET_ALL_PAGES, user_id, api_token,
-                        null, null, null, null, null), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        webPageList = ParseResponses.parseWebPages(mainObject);
-                    }
-
-                    @Override
-                    public void handleAfterResponse() {
-
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-
-                    }
-                });
     }
 
     @Override

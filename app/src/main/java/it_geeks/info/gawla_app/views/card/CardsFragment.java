@@ -69,7 +69,7 @@ public class CardsFragment extends Fragment {
         cardsRecycler = view.findViewById(R.id.cards_recycler);
 
         //Notification icon
-        imgNotification = view.findViewById(R.id.notification_bell);
+        imgNotification = view.findViewById(R.id.iv_notification_bell);
 
         // translatable views
         tvCardsStoreHeader = view.findViewById(R.id.tv_cards_store_header);

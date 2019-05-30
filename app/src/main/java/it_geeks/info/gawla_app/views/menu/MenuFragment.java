@@ -30,6 +30,7 @@ import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.NotificationStatus;
 import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.intro.SplashScreenActivity;
 import it_geeks.info.gawla_app.views.login.LoginActivity;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.NotificationActivity;
@@ -87,7 +88,7 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
         webViewsRecycler = view.findViewById(R.id.web_views_recycler);
 
         //Notification icon
-        imgNotification = view.findViewById(R.id.notification_bell);
+        imgNotification = view.findViewById(R.id.iv_notification_bell);
 
         tvAppSettings = view.findViewById(R.id.tv_app_settings);
         tvMoreAboutGawla = view.findViewById(R.id.tv_more_about_gawla);
@@ -233,10 +234,10 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
     }
 
     private void initWebViewRecycler() {
-        if (((MainActivity) MainActivity.mainInstance).webPageList.size() > 0) {
+        if (((SplashScreenActivity) SplashScreenActivity.splashInstance).webPageList.size() > 0) {
             webViewsRecycler.setHasFixedSize(true);
             webViewsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-            webViewsRecycler.setAdapter(new WebViewAdapter(getContext(), ((MainActivity) MainActivity.mainInstance).webPageList));
+            webViewsRecycler.setAdapter(new WebViewAdapter(getContext(), ((SplashScreenActivity) SplashScreenActivity.splashInstance).webPageList));
         }
     }
 

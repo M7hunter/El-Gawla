@@ -30,6 +30,7 @@ import it_geeks.info.gawla_app.Adapters.AdsAdapter;
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.Adapters.WinnersNewsAdapter;
 import it_geeks.info.gawla_app.repository.Models.Ad;
+import it_geeks.info.gawla_app.repository.Models.Category;
 import it_geeks.info.gawla_app.repository.Models.Data;
 import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Models.WinnerNews;
@@ -59,6 +60,7 @@ public class MainFragment extends Fragment {
 
     private List<Ad> adsList = new ArrayList<>();
     private List<Round> roundList = new ArrayList<>();
+    private List<Category> categoryList = new ArrayList<>();
     private List<WinnerNews> winnerNewsList = new ArrayList<>();
 
     private ProgressBar recentSalonsProgress, winnersNewsProgress;
@@ -107,7 +109,7 @@ public class MainFragment extends Fragment {
         noConnectionLayout = view.findViewById(R.id.no_connection);
 
         //Notification icon
-        imgNotification = view.findViewById(R.id.notification_bell);
+        imgNotification = view.findViewById(R.id.iv_notification_bell);
 
         // translatable views
         btnRecentSalonsSeeAll = view.findViewById(R.id.recent_salons_see_all_btn);
@@ -193,11 +195,14 @@ public class MainFragment extends Fragment {
                     public void handleTrueResponse(JsonObject mainObject) {
                         adsList.clear();
                         adsList.addAll(ParseResponses.parseAds(mainObject));
+                        categoryList.clear();
+                        categoryList.addAll(ParseResponses.parseHomeCategories(mainObject));
                     }
 
                     @Override
                     public void handleAfterResponse() {
                         initAdsRecycler();
+                        initCategoriesRecycler();
                     }
 
                     @Override
@@ -205,6 +210,10 @@ public class MainFragment extends Fragment {
                         initAdsRecycler();
                     }
                 });
+    }
+
+    private void initCategoriesRecycler() {
+        // todo: ??
     }
 
     private void initAdsRecycler() {

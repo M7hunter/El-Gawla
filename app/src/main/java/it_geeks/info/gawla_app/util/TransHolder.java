@@ -202,7 +202,7 @@ public class TransHolder {
     public void getMainFragmentTranses(Context context) {
         see_all = transDao.getTransByKeyAndLang("see_all", lang);
         if (see_all == null || see_all.isEmpty()) {
-            see_all = context.getResources().getString(R.string.see_all);
+            see_all = context.getResources().getString(R.string.see_more);
         }
 
         recent_salons = transDao.getTransByKeyAndLang("recent_salons", lang);
