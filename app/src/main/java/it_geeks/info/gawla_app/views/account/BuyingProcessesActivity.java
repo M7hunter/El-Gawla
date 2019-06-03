@@ -27,7 +27,6 @@ public class BuyingProcessesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_buying_processes);
 
         getData();
@@ -51,7 +50,7 @@ public class BuyingProcessesActivity extends AppCompatActivity {
 
     private void handleEvents() {
         // back
-        findViewById(R.id.buying_processes_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

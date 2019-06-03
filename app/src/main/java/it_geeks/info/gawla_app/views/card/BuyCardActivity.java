@@ -169,18 +169,10 @@ public class BuyCardActivity extends AppCompatActivity {
 
     private void handleEvents() {
         // back
-        findViewById(R.id.buy_card_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-            }
-        });
-
-        // notification
-        findViewById(R.id.iv_notification_bell).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(BuyCardActivity.this, NotificationActivity.class));
             }
         });
 

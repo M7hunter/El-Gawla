@@ -16,16 +16,14 @@ import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.Common;
-import it_geeks.info.gawla_app.util.NotificationStatus;
-import it_geeks.info.gawla_app.views.NotificationActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -46,7 +44,6 @@ public class CardActivity extends AppCompatActivity {
     private View vCardIcon;
     private TextSwitcher tsCardName, tsCardDesc;
     private Button btnBuy;
-    private ImageView ivNotificationBell;
     private RecyclerView cardsListRecycler;
 
     private Card card, newCard;
@@ -97,7 +94,6 @@ public class CardActivity extends AppCompatActivity {
         vCardIcon = findViewById(R.id.v_card_icon);
         btnBuy = findViewById(R.id.btn_buy_card);
         cardsListRecycler = findViewById(R.id.cards_list_recycler);
-        ivNotificationBell = findViewById(R.id.iv_notification_bell);
 
         initSwitchers();
     }
@@ -112,7 +108,7 @@ public class CardActivity extends AppCompatActivity {
                 TextView tv = new TextView(CardActivity.this);
                 tv.setTextSize(18);
                 tv.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
-                tv.setTextColor(getResources().getColor(R.color.blueGrey));
+                tv.setTextColor(Color.WHITE);
                 tv.setText(getString(R.string.activity_empty_hint));
                 return tv;
             }
@@ -141,19 +137,8 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void handleEvents() {
-        // notification status LiveData
-        NotificationStatus.notificationStatus(this, ivNotificationBell);
-
-        // goto notification page
-        ivNotificationBell.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(CardActivity.this, NotificationActivity.class));
-            }
-        });
-
         // back
-        findViewById(R.id.card_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

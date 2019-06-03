@@ -17,46 +17,22 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!-- title bar -->
-            <RelativeLayout
-                android:id="@+id/all_salons_header"
-                android:layout_width="match_parent"
+            <!-- header -->
+            <include layout="@layout/layout_header" />
+
+            <!-- title -->
+            <TextView
+                android:id="@+id/tv_all_salons_header"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layoutDirection="ltr">
-
-                <!-- back -->
-                <ImageView
-                    android:id="@+id/all_salons_back"
-                    android:layout_width="@dimen/icon_back"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:padding="@dimen/margin_small"
-                    android:src="@drawable/ic_arrow_left_only" />
-
-                <!-- title -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="@string/all_salons"
-                    android:textColor="@color/battleshipGrey"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textStyle="bold" />
-
-                <!-- bell -->
-                <ImageView
-                    android:id="@+id/all_salon_notification_icon"
-                    android:layout_width="@dimen/icon_notification"
-                    android:layout_height="@dimen/icon_notification"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="@dimen/margin_tiny"
-                    android:src="@drawable/bell" />
-
-            </RelativeLayout>
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_xlarge"
+                android:gravity="center"
+                android:text="@string/all_salons"
+                android:textAllCaps="true"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
 
             <!-- recyclers container -->
             <LinearLayout

@@ -23,19 +23,46 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny_minus"
-                android:layout_marginBottom="@dimen/margin_xlarge"
-                app:cardCornerRadius="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_medium"
                 app:cardElevation="@dimen/margin_small">
                 <!-- card view main layout -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingTop="2dp">
+                    android:orientation="vertical">
 
-                    <include layout="@layout/layout_main_header" />
+                    <!-- header -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_medium"
+                        android:layoutDirection="rtl">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_medium"
+                            android:src="@drawable/gawla_logo"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/iv_notification_bell"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_small"
+                            android:layout_marginTop="@dimen/margin_small"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:padding="@dimen/margin_small"
+                            android:src="@drawable/bell"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <!-- user image container -->
                     <RelativeLayout
@@ -67,138 +94,157 @@
                         android:id="@+id/user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small"
+                        android:layout_margin="@dimen/margin_large"
                         android:gravity="center"
-                        android:text="ITGeeks"
-                        android:textColor="@color/midBlue"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/text_size_large"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:text="ITGeeks" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <!-- 1st option card -->
-            <androidx.cardview.widget.CardView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cv_account_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardCornerRadius="@dimen/margin_tiny"
-                app:cardElevation="@dimen/margin_tiny">
-                <!-- card view main layout -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                android:layout_margin="@dimen/margin_medium"
+                android:background="@drawable/bg_rounded_corners_white"
+                android:foreground="?android:attr/selectableItemBackground">
 
+                <!-- icon -->
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:src="@drawable/ic_user"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <!-- label -->
+                <TextView
+                    android:id="@+id/tv_account_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:text="@string/profile"
+                    android:textColor="@color/darkSkyBlue"
+                    android:textSize="@dimen/text_size_large"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView2"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- label -->
-                    <TextView
-                        android:id="@+id/tv_account_details"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/margin_small"
-                        android:text="@string/account_details"
-                        android:textColor="@color/darkSkyBlue"
-                        android:textSize="@dimen/text_size_large" />
+                <!-- icon -->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:src="@drawable/ic_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- icon -->
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:src="@drawable/ic_user2" />
-
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- 2nd option card -->
-            <androidx.cardview.widget.CardView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/account_option_buying_processes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardCornerRadius="@dimen/margin_tiny"
-                app:cardElevation="@dimen/margin_tiny">
-                <!-- card view main layout -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                android:background="@drawable/bg_rounded_corners_white"
+                android:foreground="?android:attr/selectableItemBackground">
 
+                <!-- icon -->
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:src="@drawable/ic_credit_card2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <!-- label -->
+                <TextView
+                    android:id="@+id/tv_buying_processes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:text="@string/buying_processes"
+                    android:textColor="@color/darkSkyBlue"
+                    android:textSize="@dimen/text_size_large"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView4"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- label -->
-                    <TextView
-                        android:id="@+id/tv_buying_processes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/margin_small"
-                        android:text="@string/buying_processes"
-                        android:textColor="@color/darkSkyBlue"
-                        android:textSize="@dimen/text_size_large" />
+                <!-- icon -->
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:src="@drawable/ic_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- icon -->
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:src="@drawable/ic_credit_card2" />
-
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- 3rd option card -->
-            <androidx.cardview.widget.CardView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cv_privacy_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardCornerRadius="@dimen/margin_tiny"
-                app:cardElevation="@dimen/margin_tiny">
-                <!-- card view main layout -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                android:background="@drawable/bg_rounded_corners_white"
+                android:foreground="?android:attr/selectableItemBackground">
 
-                    <!-- icon -->
+                <!-- icon -->
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/ic_lock2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- label -->
-                    <TextView
-                        android:id="@+id/tv_privacy_details"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/margin_small"
-                        android:text="@string/privacy_details"
-                        android:textColor="@color/darkSkyBlue"
-                        android:textSize="@dimen/text_size_large" />
+                <!-- label -->
+                <TextView
+                    android:id="@+id/tv_privacy_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:text="@string/change_password"
+                    android:textColor="@color/darkSkyBlue"
+                    android:textSize="@dimen/text_size_large"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView6"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- icon -->
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:src="@drawable/ic_lock2" />
+                <!-- icon -->
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:src="@drawable/ic_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
     </ScrollView>

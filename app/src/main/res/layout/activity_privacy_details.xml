@@ -7,34 +7,36 @@
     android:background="@android:color/white"
     tools:context=".views.account.PrivacyDetailsActivity">
 
-    <!-- title bar -->
-    <RelativeLayout
+    <!-- header -->
+    <androidx.cardview.widget.CardView
         android:id="@+id/privacy_details_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layoutDirection="ltr">
-
-        <!-- back -->
-        <ImageView
-            android:id="@+id/privacy_details_back"
-            android:layout_width="@dimen/icon_back"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:padding="@dimen/margin_small"
-            android:src="@drawable/ic_arrow_left_only" />
-
-        <!-- title -->
-        <TextView
+        app:cardElevation="@dimen/margin_small">
+        <!-- card main layout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/privacy_details"
-            android:textColor="@color/battleshipGrey"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
+            android:background="@color/colorPrimary"
+            android:layoutDirection="rtl"
+            android:padding="@dimen/margin_small">
 
-    </RelativeLayout>
+            <include layout="@layout/layout_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/privacy_details"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <ScrollView
         android:id="@+id/privacy_details_Page"
@@ -47,46 +49,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <!-- edit email btn -->
-            <Button
-                android:id="@+id/btn_edit_email"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/margin_xx_large"
-                android:text="@string/edit"
-                android:textColor="@color/azureTwo"
-                android:textSize="@dimen/text_size_medium" />
-
-            <!-- email -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tl_privacy_details_email"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xx_large"
-                android:layout_marginEnd="@dimen/margin_xx_large"
-                android:layout_weight="1"
-                android:textColorHint="@color/paleGrey2"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_account_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:focusable="auto"
-                    android:hint="@string/email"
-                    android:inputType="textEmailAddress"
-                    android:paddingStart="@dimen/margin_xlarge"
-                    android:paddingTop="@dimen/margin_small"
-                    android:paddingEnd="@dimen/margin_xlarge"
-                    android:paddingBottom="@dimen/margin_small"
-                    android:textSize="@dimen/text_size_large"
-                    android:textStyle="bold" />
-            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- edit pass btn -->
             <Button
@@ -211,14 +173,11 @@
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="@dimen/margin_small"
+                android:layout_margin="@dimen/margin_xxx_large"
+                android:backgroundTint="@android:color/holo_red_dark"
+                android:padding="@dimen/margin_large"
                 android:text="@string/delete_account"
+                android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
 

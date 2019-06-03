@@ -27,6 +27,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import it_geeks.info.gawla_app.Adapters.AdsAdapter;
+import it_geeks.info.gawla_app.Adapters.CategoryAdapter;
+import it_geeks.info.gawla_app.Adapters.CategoryFilterAdapter;
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.Adapters.WinnersNewsAdapter;
 import it_geeks.info.gawla_app.repository.Models.Ad;
@@ -41,6 +43,8 @@ import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.util.ImageLoader;
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.util.NotificationStatus;
 import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.salon.AllSalonsActivity;
@@ -52,7 +56,7 @@ import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_BLOGS;
 public class MainFragment extends Fragment {
 
     private SwipeRefreshLayout refreshLayout;
-    private RecyclerView recentSalonsRecycler, winnersNewsRecycler;
+    private RecyclerView recentSalonsRecycler, winnersNewsRecycler, catsRecycler;
     private ViewPager2 adsPager;
     private SalonsAdapter recentSalonsPagedAdapter;
     private WinnersNewsAdapter winnersNewsAdapter;
@@ -73,14 +77,14 @@ public class MainFragment extends Fragment {
     private int page = 1, last_page = 1, userId, currentAd = 0;
     private String apiToken;
 
-    private View view;
+    private View fragmentView;
     private Timer timer;
     private Handler handler;
     private Runnable updateCurrentAd;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_main, container, false);
+        fragmentView = inflater.inflate(R.layout.fragment_main, container, false);
 
         userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
         apiToken = SharedPrefManager.getInstance(getContext()).getUser().getApi_token();
@@ -93,30 +97,32 @@ public class MainFragment extends Fragment {
 
         getData();
 
-        return view;
+        return fragmentView;
     }
 
     private void initViews() {
-        refreshLayout = view.findViewById(R.id.main_refresh_layout);
+        refreshLayout = fragmentView.findViewById(R.id.main_refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.paleRed, R.color.colorYellow, R.color.niceBlue, R.color.azure);
-        recentSalonsRecycler = view.findViewById(R.id.recent_salons_recycler);
-        winnersNewsRecycler = view.findViewById(R.id.winners_news_recycler);
-        adsPager = view.findViewById(R.id.ads_viewpager);
-        recentSalonsProgress = view.findViewById(R.id.recent_salons_progress);
-        winnersNewsProgress = view.findViewById(R.id.winners_news_progress);
-        winnersHeader = view.findViewById(R.id.winners_header);
-        adsEmptyView = view.findViewById(R.id.ads_empty_view);
-        noConnectionLayout = view.findViewById(R.id.no_connection);
+        recentSalonsRecycler = fragmentView.findViewById(R.id.recent_salons_recycler);
+        winnersNewsRecycler = fragmentView.findViewById(R.id.winners_news_recycler);
+        adsPager = fragmentView.findViewById(R.id.ads_viewpager);
+        recentSalonsProgress = fragmentView.findViewById(R.id.recent_salons_progress);
+        winnersNewsProgress = fragmentView.findViewById(R.id.winners_news_progress);
+        winnersHeader = fragmentView.findViewById(R.id.winners_header);
+        adsEmptyView = fragmentView.findViewById(R.id.ads_empty_view);
+        noConnectionLayout = fragmentView.findViewById(R.id.no_connection);
 
         //Notification icon
-        imgNotification = view.findViewById(R.id.iv_notification_bell);
+        imgNotification = fragmentView.findViewById(R.id.iv_notification_bell);
+        // load user image
+        ImageLoader.getInstance().loadUserImage(MainActivity.mainInstance, ((ImageView) fragmentView.findViewById(R.id.iv_user_image)));
 
         // translatable views
-        btnRecentSalonsSeeAll = view.findViewById(R.id.recent_salons_see_all_btn);
-        recentSalonsLabel = view.findViewById(R.id.recent_salons_header_label);
-        btnWinnersSeeAll = view.findViewById(R.id.winners_news_see_all_btn);
-        winnersLabel = view.findViewById(R.id.winners_news_header_label);
-        tvEmptyHint = view.findViewById(R.id.recent_salons_empty_hint);
+        btnRecentSalonsSeeAll = fragmentView.findViewById(R.id.recent_salons_see_all_btn);
+        recentSalonsLabel = fragmentView.findViewById(R.id.recent_salons_header_label);
+        btnWinnersSeeAll = fragmentView.findViewById(R.id.winners_news_see_all_btn);
+        winnersLabel = fragmentView.findViewById(R.id.winners_news_header_label);
+        tvEmptyHint = fragmentView.findViewById(R.id.recent_salons_empty_hint);
     }
 
     private void setupTrans() {
@@ -169,7 +175,6 @@ public class MainFragment extends Fragment {
             getFirstSalonsFromServer();
 
             getWinnersFromServer();
-
         }
         else
         {
@@ -213,7 +218,16 @@ public class MainFragment extends Fragment {
     }
 
     private void initCategoriesRecycler() {
-        // todo: ??
+        catsRecycler = fragmentView.findViewById(R.id.cats_recycler);
+        catsRecycler.setHasFixedSize(true);
+        catsRecycler.setAdapter(new CategoryFilterAdapter(MainActivity.mainInstance, categoryList, new ClickInterface.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int catId) {
+                Intent i = new Intent(MainActivity.mainInstance, AllSalonsActivity.class);
+                i.putExtra("cat_key", catId);
+                startActivity(i);
+            }
+        }));
     }
 
     private void initAdsRecycler() {
@@ -333,6 +347,7 @@ public class MainFragment extends Fragment {
         {
             recentSalonsRecycler.setVisibility(View.VISIBLE);
         }
+        recentSalonsRecycler.setHasFixedSize(true);
         if (layoutManager == null)
         {
             layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
@@ -369,7 +384,7 @@ public class MainFragment extends Fragment {
     }
 
     private void initSalonsEmptyView(List<Round> roundList) {
-        LinearLayout emptyViewLayout = view.findViewById(R.id.recent_salons_empty_view);
+        LinearLayout emptyViewLayout = fragmentView.findViewById(R.id.recent_salons_empty_view);
 
         recentSalonsProgress.setVisibility(View.GONE);
 

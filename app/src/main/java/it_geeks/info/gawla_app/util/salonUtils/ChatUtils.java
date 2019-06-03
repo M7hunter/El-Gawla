@@ -25,6 +25,7 @@ import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import it_geeks.info.gawla_app.Adapters.ChatAdapter;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.ChatModel;
@@ -70,30 +71,34 @@ public class ChatUtils {
     }
 
     public void selectChatTab() {
-        ((SalonActivity) mContext).detailsContainer.setVisibility(View.GONE);
+        ((SalonActivity) mContext).more.setVisibility(View.GONE);
+        ((SalonActivity) mContext).lastActivity.setVisibility(View.GONE);
         ((SalonActivity) mContext).activityContainer.setVisibility(View.GONE);
         ((SalonActivity) mContext).chatContainer.setVisibility(View.VISIBLE);
         ((SalonActivity) mContext).topTenContainer.setVisibility(View.GONE);
         tvNewMessagesCounter.setVisibility(View.INVISIBLE);
         messCounter = 0;
 
-        if (chatList.size() > 0) {
+        if (chatList.size() > 0)
+        {
             tvChatEmptyHint.setVisibility(View.GONE);
-        } else {
+        }
+        else
+        {
             tvChatEmptyHint.setVisibility(View.VISIBLE);
         }
 
         // bgs
-        ((SalonActivity) mContext).tvProductDetailsTab.setBackground(mContext.getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
-        ((SalonActivity) mContext).tvSalonActivityTab.setBackground(mContext.getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
+        ((SalonActivity) mContext).tvProductDetailsTab.setBackground(mContext.getResources().getDrawable(R.drawable.bg_rectangle_white_border_grey));
+        ((SalonActivity) mContext).tvSalonActivityTab.setBackground(mContext.getResources().getDrawable(R.drawable.bg_rectangle_white_border_grey));
         ((SalonActivity) mContext).tvChatTab.setBackground(mContext.getResources().getDrawable(R.drawable.bg_rectangle_blue));
-        ((SalonActivity) mContext).tvTopTenTab.setBackground(mContext.getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
+        ((SalonActivity) mContext).tvTopTenTab.setBackground(mContext.getResources().getDrawable(R.drawable.bg_rectangle_white_border_grey));
 
         // text color
-        ((SalonActivity) mContext).tvProductDetailsTab.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
-        ((SalonActivity) mContext).tvSalonActivityTab.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+        ((SalonActivity) mContext).tvProductDetailsTab.setTextColor(Color.BLACK);
+        ((SalonActivity) mContext).tvSalonActivityTab.setTextColor(Color.BLACK);
         ((SalonActivity) mContext).tvChatTab.setTextColor(Color.WHITE);
-        ((SalonActivity) mContext).tvTopTenTab.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+        ((SalonActivity) mContext).tvTopTenTab.setTextColor(Color.BLACK);
     }
 
     private void initChat() {
@@ -117,24 +122,31 @@ public class ChatUtils {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.d("onTextChanged", "s:: " + s);
-                try {
-                    if (round != null) {
+                try
+                {
+                    if (round != null)
+                    {
                         JSONObject obj = new JSONObject();
                         obj.put("salon_id", round.getSalon_id());
                         obj.put("user", userName);
                         obj.put("user_id", userId);
 
-                        if (s.length() > 0) {
-                            if (sendTypingState) {
+                        if (s.length() > 0)
+                        {
+                            if (sendTypingState)
+                            {
                                 ((SalonActivity) mContext).getSocketUtils().emitData("Typing", obj);
                                 sendTypingState = false;
                             }
-                        } else {
+                        }
+                        else
+                        {
                             ((SalonActivity) mContext).getSocketUtils().emitData("leaveTyping", obj);
                             sendTypingState = true;
                         }
                     }
-                } catch (JSONException e) {
+                } catch (JSONException e)
+                {
                     sendTypingState = true;
                     e.printStackTrace();
                     Crashlytics.logException(e);
@@ -150,19 +162,26 @@ public class ChatUtils {
         btnSendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    if (((SalonActivity) mContext).getRoundRemainingTime().isUserJoin() && !((SalonActivity) mContext).getRoundRemainingTime().getRound_state().equals("close")) {
-                        if (etChatMessage.getText().toString().trim().isEmpty()) {
+                try
+                {
+                    if (((SalonActivity) mContext).getRoundRemainingTime().isUserJoin() && !((SalonActivity) mContext).getRoundRemainingTime().getRound_state().equals("close"))
+                    {
+                        if (etChatMessage.getText().toString().trim().isEmpty())
+                        {
                             etChatMessage.setError(mContext.getString(R.string.empty_hint));
-                        } else {
+                        }
+                        else
+                        {
                             JSONObject obj = new JSONObject();
                             final String message = etChatMessage.getText().toString();
-                            try {
+                            try
+                            {
                                 obj.put("user_id", userId);
                                 obj.put("user_name", userName);
                                 obj.put("message", message);
                                 obj.put("salon_id", round.getSalon_id());
-                            } catch (JSONException e) {
+                            } catch (JSONException e)
+                            {
                                 e.printStackTrace();
                                 Crashlytics.logException(e);
                             }
@@ -170,14 +189,19 @@ public class ChatUtils {
                             ((SalonActivity) mContext).getSocketUtils().emitData("newMessage", obj);
                             etChatMessage.setText("");
                         }
-                    } else if (((SalonActivity) mContext).getRoundRemainingTime().getRound_state().equals("close")) {
+                    }
+                    else if (((SalonActivity) mContext).getRoundRemainingTime().getRound_state().equals("close"))
+                    {
                         Toast.makeText(mContext, mContext.getString(R.string.closed), Toast.LENGTH_SHORT).show();
 
-                    } else if (!((SalonActivity) mContext).getRoundRemainingTime().isUserJoin()) {
+                    }
+                    else if (!((SalonActivity) mContext).getRoundRemainingTime().isUserJoin())
+                    {
                         Toast.makeText(mContext, mContext.getString(R.string.not_joined), Toast.LENGTH_SHORT).show();
                     }
 
-                } catch (NullPointerException e) {
+                } catch (NullPointerException e)
+                {
                     Log.e("chat_send_message: ", e.getMessage());
                     Crashlytics.logException(e);
                 }
@@ -203,7 +227,8 @@ public class ChatUtils {
 
     void addMessageToChat(int user_id, String user_name, String message, String date) {
         chatList.add(0, new ChatModel(user_id, user_name, message, date));
-        if (chatRecycler.getAdapter() != null) {
+        if (chatRecycler.getAdapter() != null)
+        {
             chatRecycler.getAdapter().notifyItemInserted(0);
         }
         chatRecycler.scrollToPosition(0);
@@ -211,11 +236,15 @@ public class ChatUtils {
     }
 
     private void updateCounter() {
-        if (((SalonActivity) mContext).chatContainer.getVisibility() != View.VISIBLE) {
+        if (((SalonActivity) mContext).chatContainer.getVisibility() != View.VISIBLE)
+        {
             messCounter = messCounter + 1;
-            if (messCounter <= 10) {
+            if (messCounter <= 10)
+            {
                 tvNewMessagesCounter.setText(String.valueOf(messCounter));
-            } else {
+            }
+            else
+            {
                 tvNewMessagesCounter.setText("+" + 10);
             }
             if (tvNewMessagesCounter.getVisibility() != View.VISIBLE)

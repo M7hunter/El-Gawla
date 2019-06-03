@@ -3,6 +3,7 @@ package it_geeks.info.gawla_app.views.salon;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PointF;
@@ -46,6 +47,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -103,7 +106,6 @@ public class SalonActivity extends AppCompatActivity {
     public VideoView vpProductMainVideo;
     public ImageView ivProductMainViewer;
     private ImageView btnPlayPause, imgNotification, joinIcon, ivProductImage;
-    public CardView more, activityContainer, chatContainer, topTenContainer;
     public Button btnJoinRound, btnAddOffer;
     private Button btnJoinConfirmation, btnUseGoldenCard;
     private TextSwitcher tsRoundLatestActivity;
@@ -111,7 +113,8 @@ public class SalonActivity extends AppCompatActivity {
     private TextView tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound;
     private EditText etAddOffer;
     private View salonMainContainer, detailsSheetView, salonMainLayout;
-    public LinearLayout addOfferLayout, detailsContainer;
+    public View lastActivity;
+    public LinearLayout addOfferLayout, activityContainer, chatContainer, topTenContainer, more;
     private RecyclerView activityRecycler, topTenRecycler, cardsRecycler;
     // endregion
 
@@ -243,9 +246,9 @@ public class SalonActivity extends AppCompatActivity {
         more = findViewById(R.id.cv_more);
         addOfferLayout = findViewById(R.id.add_offer_layout);
         topTenContainer = findViewById(R.id.top_ten_container);
-        detailsContainer = findViewById(R.id.details_container);
         activityContainer = findViewById(R.id.activity_container);
         chatContainer = findViewById(R.id.chat_container);
+        lastActivity = findViewById(R.id.cv_round_activity_container);
 
         btnAddOffer = findViewById(R.id.add_offer_btn);
         btnJoinRound = findViewById(R.id.btn_join_round);
@@ -396,14 +399,6 @@ public class SalonActivity extends AppCompatActivity {
             }
         });
 
-        // back
-        findViewById(R.id.salon_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
         // help
         findViewById(R.id.salon_help).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -526,21 +521,22 @@ public class SalonActivity extends AppCompatActivity {
     // region tabs
     private void selectTopTenTab() {
         getTopTen();
-        detailsContainer.setVisibility(View.GONE);
+        more.setVisibility(View.GONE);
+        lastActivity.setVisibility(View.GONE);
         activityContainer.setVisibility(View.GONE);
         chatContainer.setVisibility(View.GONE);
         topTenContainer.setVisibility(View.VISIBLE);
 
         // bgs
-        tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
-        tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
-        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
+        tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_grey));
+        tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_grey));
+        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_grey));
         tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_blue));
 
         // text color
-        tvProductDetailsTab.setTextColor(getResources().getColor(R.color.colorPrimary));
-        tvSalonActivityTab.setTextColor(getResources().getColor(R.color.colorPrimary));
-        tvChatTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tvProductDetailsTab.setTextColor(Color.BLACK);
+        tvSalonActivityTab.setTextColor(Color.BLACK);
+        tvChatTab.setTextColor(Color.BLACK);
         tvTopTenTab.setTextColor(Color.WHITE);
     }
 
@@ -564,21 +560,22 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     public void selectDetailsTab() {
-        detailsContainer.setVisibility(View.VISIBLE);
+        more.setVisibility(View.VISIBLE);
+        lastActivity.setVisibility(View.VISIBLE);
         activityContainer.setVisibility(View.GONE);
         chatContainer.setVisibility(View.GONE);
         topTenContainer.setVisibility(View.GONE);
 
         tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_blue));
-        tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
-        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
-        tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
+        tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_grey));
+        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_grey));
+        tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_grey));
 
         // text color
         tvProductDetailsTab.setTextColor(Color.WHITE);
-        tvSalonActivityTab.setTextColor(getResources().getColor(R.color.colorPrimary));
-        tvChatTab.setTextColor(getResources().getColor(R.color.colorPrimary));
-        tvTopTenTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tvSalonActivityTab.setTextColor(Color.BLACK);
+        tvChatTab.setTextColor(Color.BLACK);
+        tvTopTenTab.setTextColor(Color.BLACK);
     }
 
     public void updateLatestActivity(String notificationMsg) {
@@ -593,22 +590,23 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     private void selectActivityTab() {
-        detailsContainer.setVisibility(View.GONE);
+        more.setVisibility(View.GONE);
+        lastActivity.setVisibility(View.GONE);
         activityContainer.setVisibility(View.VISIBLE);
         chatContainer.setVisibility(View.GONE);
         topTenContainer.setVisibility(View.GONE);
 
         // bgs
-        tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
+        tvProductDetailsTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_grey));
         tvSalonActivityTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_blue));
-        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
-        tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_midblue));
+        tvChatTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_grey));
+        tvTopTenTab.setBackground(getResources().getDrawable(R.drawable.bg_rectangle_white_border_grey));
 
         // text color
-        tvProductDetailsTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tvProductDetailsTab.setTextColor(Color.BLACK);
         tvSalonActivityTab.setTextColor(Color.WHITE);
-        tvChatTab.setTextColor(getResources().getColor(R.color.colorPrimary));
-        tvTopTenTab.setTextColor(getResources().getColor(R.color.colorPrimary));
+        tvChatTab.setTextColor(Color.BLACK);
+        tvTopTenTab.setTextColor(Color.BLACK);
 
         if (activityList.size() > 0)
         {
@@ -939,10 +937,11 @@ public class SalonActivity extends AppCompatActivity {
         subscribeUserToSalonNotification();
 
         joinIcon.setImageDrawable(getResources().getDrawable(R.drawable.joinedrounddone));
+        ImageViewCompat.setImageTintList(joinIcon, ColorStateList.valueOf(ContextCompat.getColor(this, R.color.greenBlue)));
         joinHeader.setText(getString(R.string.Congratulations_Attention));
         joinHeader.setTextColor(getResources().getColor(R.color.greenBlue));
         joinText.setText(getString(R.string.Congratulations_Attention_Details));
-        btnJoinConfirmation.setBackgroundColor(getResources().getColor(R.color.greenBlue));
+        btnJoinConfirmation.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         btnJoinConfirmation.setText(getString(R.string.start_play));
     }
 

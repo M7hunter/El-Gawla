@@ -2,7 +2,6 @@ package it_geeks.info.gawla_app.views;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,36 +11,21 @@ import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.gson.JsonObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import io.fabric.sdk.android.Fabric;
 import it_geeks.info.gawla_app.util.DialogBuilder;
-import it_geeks.info.gawla_app.repository.RESTful.Request;
-import it_geeks.info.gawla_app.repository.Models.WebPage;
-import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
-import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
-import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
-import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.util.receivers.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.account.AccountFragment;
-import it_geeks.info.gawla_app.views.card.CardsFragment;
+import it_geeks.info.gawla_app.views.card.StoreFragment;
 import it_geeks.info.gawla_app.views.menu.MenuFragment;
-import it_geeks.info.gawla_app.views.salon.MyRoundsFragment;
+import it_geeks.info.gawla_app.views.salon.MySalonsFragment;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.views.login.LoginActivity;
-import it_geeks.info.gawla_app.views.intro.SplashActivity;
-
-import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_PAGES;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         handleEvents();
 
-        setupTrans();
+//        setupTrans();
     }
 
     private void updateNotificationStatus() {
@@ -135,31 +119,26 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new MainFragment();
                         menuItem.setTitle(transHolder.hales);
                         // change status bar color
-                        Common.Instance().changeStatusBarColor(MainActivity.this, "#f4f7fa");
                         break;
                     case R.id.navigation_my_rounds:
-                        fragment = new MyRoundsFragment();
+                        fragment = new MySalonsFragment();
                         menuItem.setTitle(transHolder.my_rounds);
                         // change status bar color
-                        Common.Instance().changeStatusBarColor(MainActivity.this, "#f4f7fa");
                         break;
                     case R.id.navigation_cards:
-                        fragment = new CardsFragment();
+                        fragment = new StoreFragment();
                         menuItem.setTitle(transHolder.cards);
                         // change status bar color
-                        Common.Instance().changeStatusBarColor(MainActivity.this, "#f4f7fa");
                         break;
                     case R.id.navigation_account:
                         fragment = new AccountFragment();
                         menuItem.setTitle(transHolder.account);
                         // change status bar color to white
-                        Common.Instance().changeStatusBarColor(MainActivity.this, "#FFFFFF");
                         break;
                     case R.id.navigation_menu:
                         fragment = new MenuFragment();
                         menuItem.setTitle(transHolder.menu);
                         // change status bar color
-                        Common.Instance().changeStatusBarColor(MainActivity.this, "#f4f7fa");
                         break;
                 }
 

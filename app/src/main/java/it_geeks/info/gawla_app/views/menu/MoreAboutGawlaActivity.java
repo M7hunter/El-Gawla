@@ -12,10 +12,9 @@ public class MoreAboutGawlaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_more_about_gawla);
 
-        findViewById(R.id.more_about_gawla_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

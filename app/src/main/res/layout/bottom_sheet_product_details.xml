@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/margin_medium"
     android:background="@drawable/bg_rounded_top_corners_white"
-    android:scrollbars="none"
     app:behavior_hideable="true"
     app:behavior_peekHeight="0dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -76,6 +75,7 @@
             android:id="@+id/product_details_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
             android:layout_marginStart="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_small"
             android:padding="@dimen/margin_small"
@@ -96,7 +96,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_small">
 
             <!-- price label -->
             <TextView
@@ -138,7 +139,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_small">
 
             <!-- price label -->
             <TextView
@@ -161,7 +163,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/no_content"
-                android:textColor="@color/azureTwo"
+                android:textColor="@color/colorSecondary"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
@@ -180,7 +182,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/margin_small"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/margin_small">
 
             <!-- description label -->
             <TextView

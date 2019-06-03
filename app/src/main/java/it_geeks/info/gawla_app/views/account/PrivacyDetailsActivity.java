@@ -41,7 +41,7 @@ import static it_geeks.info.gawla_app.util.Constants.REQ_UPDATE_USER_DATA;
 public class PrivacyDetailsActivity extends AppCompatActivity {
 
     TextView socialUsername, socialProvider, socialOut;
-    Button btnEditEmail, btnEditPassword, btnDeleteAccount;
+    Button btnEditPassword, btnDeleteAccount;
     ImageView providerImage;
     LinearLayout socialDiv;
     private GoogleApiClient mGoogleApiClient;
@@ -51,8 +51,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     private int id;
     private String api_token;
 
-    private EditText etEmail, etPass;
-    private TextInputLayout tlEmail, tlPass;
+    private EditText etPass;
+    private TextInputLayout tlPass;
 
     private boolean editPass = false;
 
@@ -62,7 +62,6 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_privacy_details);
 
         id = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getUser().getUser_id();
@@ -74,10 +73,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
 
         // Logout Disconnect
         socialOut.setOnClickListener(click);
-        // make user can edit email
-        btnEditEmail.setOnClickListener(click);
         // arrow back
-        findViewById(R.id.privacy_details_back).setOnClickListener(click);
+        findViewById(R.id.back).setOnClickListener(click);
     }
 
     private void init() {
@@ -86,15 +83,12 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         providerImage = findViewById(R.id.social_image);
         socialDiv = findViewById(R.id.social_div);
         socialOut = findViewById(R.id.social_out);
-        etEmail = findViewById(R.id.et_account_email);
         etPass = findViewById(R.id.et_account_pass);
-        tlEmail = findViewById(R.id.tl_privacy_details_email);
+
         tlPass = findViewById(R.id.tl_privacy_details_pass);
-        btnEditEmail = findViewById(R.id.btn_edit_email);
         btnEditPassword = findViewById(R.id.btn_edit_password);
         btnDeleteAccount = findViewById(R.id.btn_delete_account);
 
-        etEmail.setText(SharedPrefManager.getInstance(this).getUser().getEmail());
         socialUsername.setText(SharedPrefManager.getInstance(this).getUser().getName());
 
         initProvider();
@@ -288,13 +282,16 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
                 PrivacyDetailsActivity.this,
-                REQ_UPDATE_USER_DATA, new Request<>("updateUserEmail", id, api_token, etEmail.getText().toString(), SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getCountry().getCountry_id()
+                REQ_UPDATE_USER_DATA, new Request<>("updateUserEmail", id, api_token,
+//                        etEmail.getText().toString(),
+                        "",
+                        SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getCountry().getCountry_id()
                         , null, null, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         User user = ParseResponses.parseUser(mainObject);
-                        etEmail.setText(user.getEmail());
+//                        etEmail.setText(user.getEmail());
                         SharedPrefManager.getInstance(PrivacyDetailsActivity.this).saveUser(user);
                         Toast.makeText(PrivacyDetailsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
 
@@ -325,32 +322,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId())
             {
-                // edit email
-                case R.id.btn_edit_email:
-                    if (btnEditEmail.getText().toString() == getString(R.string.edit))
-                    {
-                        etEmail.setEnabled(true);
-                        btnEditEmail.setText(getString(R.string.save));
-                    }
-                    else if (btnEditEmail.getText().toString() == getString(R.string.save))
-                    {
-
-                        if (etEmail.getText().toString().isEmpty())
-                        { // empty ?
-                            tlEmail.setError(getString(R.string.emptyMail));
-                            etEmail.requestFocus();
-
-                        }
-                        else
-                        { // !empty
-                            updateEmail();
-                            btnEditEmail.setText(getString(R.string.edit));
-                            etEmail.setEnabled(false);
-                        }
-                    }
-                    break;
                 // back
-                case R.id.privacy_details_back:
+                case R.id.back:
                     onBackPressed();
                     break;
 

@@ -55,6 +55,10 @@ public class Request<T> {
                 this.join_time = t4;
                 this.left_time = t5;
             }
+            else if (action.equals("getSalonsByCategoryID"))
+            {
+                this.category_id = t3;
+            }
             else if (action.equals("getTopTen") || action.equals("getWinner"))
             {
                 this.salon_id = t3;

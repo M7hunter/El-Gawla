@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?><!-- cats bar -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <!-- vehicles -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cat_eng"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_weight="1"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/margin_small"
+        app:cardElevation="@dimen/margin_tiny">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:drawableTop="@drawable/vehicles"
+            android:drawablePadding="@dimen/margin_small"
+            android:gravity="center"
+            android:paddingStart="@dimen/margin_xTiny"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_xTiny"
+            android:paddingBottom="@dimen/margin_small"
+            android:text="@string/vehicles"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- electronics -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cat_elctro"
+        android:foreground="?attr/selectableItemBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_weight="1"
+        app:cardCornerRadius="@dimen/margin_small"
+        app:cardElevation="@dimen/margin_tiny">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/zs_avatar_view_color_15"
+            android:drawableTop="@drawable/electronics"
+            android:drawablePadding="@dimen/margin_small"
+            android:gravity="center"
+            android:paddingStart="@dimen/margin_xTiny"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_xTiny"
+            android:paddingBottom="@dimen/margin_small"
+            android:text="@string/electronics"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- real state -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cat_real"
+        android:foreground="?attr/selectableItemBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_weight="1"
+        app:cardCornerRadius="@dimen/margin_small"
+        app:cardElevation="@dimen/margin_tiny">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/design_default_color_primary"
+            android:drawableTop="@drawable/real_state"
+            android:drawablePadding="@dimen/margin_small"
+            android:gravity="center"
+            android:paddingStart="@dimen/margin_xTiny"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_xTiny"
+            android:paddingBottom="@dimen/margin_small"
+            android:text="@string/real_state"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- jewellery -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cat_jewe"
+        android:foreground="?attr/selectableItemBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_weight="1"
+        app:cardCornerRadius="@dimen/margin_small"
+        app:cardElevation="@dimen/margin_tiny">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorYellow"
+            android:drawableTop="@drawable/jewellery"
+            android:drawablePadding="@dimen/margin_small"
+            android:gravity="center"
+            android:paddingStart="@dimen/margin_xTiny"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_xTiny"
+            android:paddingBottom="@dimen/margin_small"
+            android:text="@string/jewellery"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium" />
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

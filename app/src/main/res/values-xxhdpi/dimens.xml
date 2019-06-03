@@ -8,6 +8,7 @@
     <dimen name="margin_x_small">8dp</dimen>
     <dimen name="margin_small_minus">-10dp</dimen>
     <dimen name="margin_medium">15dp</dimen>
+    <dimen name="margin_xmedium">17dp</dimen>
     <dimen name="margin_large">20dp</dimen>
     <dimen name="margin_xlarge">25dp</dimen>
     <dimen name="margin_xx_large">35dp</dimen>
@@ -43,7 +44,7 @@
     <dimen name="my_rounds_empty_view_height">550dp</dimen>
     <dimen name="my_rounds_empty_view_min_height">450dp</dimen>
     <dimen name="card_background_height">100dp</dimen>
-    <dimen name="card_height">60dp</dimen>
+    <dimen name="card_height">55dp</dimen>
     <dimen name="card_width">40dp</dimen>
     <dimen name="single_card_height">140dp</dimen>
     <dimen name="single_card_width">95dp</dimen>

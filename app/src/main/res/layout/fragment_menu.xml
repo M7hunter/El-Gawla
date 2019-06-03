@@ -22,9 +22,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layoutDirection="ltr"
                 android:orientation="horizontal">
 
-                <include layout="@layout/layout_main_header" />
+                <include layout="@layout/layout_header" />
 
                 <!-- country -->
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -36,23 +37,27 @@
 
             </RelativeLayout>
 
-            <!-- top border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/margin_large"
-                android:background="@color/paleGrey2" />
-
             <!-- 1st option -->
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/menu_option_settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                android:layout_margin="@dimen/margin_small"
+                android:background="@drawable/bg_rounded_corners_white"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:paddingStart="@dimen/margin_small"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small">
+                android:padding="@dimen/margin_medium">
+
+                <!-- icon -->
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:src="@drawable/ic_settings"
+                    android:tint="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <!-- label -->
                 <TextView
@@ -63,280 +68,252 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/app_settings"
-                    android:textColor="@color/darkSkyBlue"
-                    android:textSize="@dimen/text_size_large" />
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_large"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imageView8"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <!-- icon -->
                 <ImageView
+                    android:id="@+id/imageView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:src="@drawable/ic_arrow" />
+                    android:src="@drawable/ic_arrow"
+                    android:tint="@android:color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- bottom border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/paleGrey2" />
-
-            <!-- top border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/margin_large"
-                android:background="@color/paleGrey2" />
-
-            <!-- 2nd option -->
-            <RelativeLayout
-                android:id="@+id/menu_option_more_about_gawla"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:paddingStart="@dimen/margin_small"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small">
+                android:layout_margin="@dimen/margin_small"
+                android:background="@drawable/bg_rounded_corners_white"
+                android:orientation="vertical">
 
-                <!-- label -->
-                <TextView
-                    android:id="@+id/tv_more_about_gawla"
-                    android:layout_width="wrap_content"
+                <!-- 2nd option -->
+                <RelativeLayout
+                    android:id="@+id/menu_option_more_about_gawla"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:text="@string/more_about_gawla"
-                    android:textColor="@color/darkSkyBlue"
-                    android:textSize="@dimen/text_size_large" />
+                    android:layout_margin="@dimen/margin_small"
+                    android:background="@drawable/bg_rounded_corners_white"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="@dimen/margin_medium">
 
-                <!-- icon -->
-                <ImageView
-                    android:layout_width="wrap_content"
+                    <!-- label -->
+                    <TextView
+                        android:id="@+id/tv_more_about_gawla"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:text="@string/more_about_gawla"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <!-- icon -->
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow"
+                        android:tint="@android:color/black" />
+
+                </RelativeLayout>
+
+                <!-- separator -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/margin_xx_large"
+                    android:layout_marginEnd="@dimen/margin_xx_large"
+                    android:background="@color/paleGrey2" />
+
+                <!-- 3rd option -->
+                <RelativeLayout
+                    android:id="@+id/menu_option_privacy_policy"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:src="@drawable/ic_arrow" />
+                    android:layout_margin="@dimen/margin_small"
+                    android:background="@drawable/bg_rounded_corners_white"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="@dimen/margin_medium">
 
-            </RelativeLayout>
+                    <!-- label -->
+                    <TextView
+                        android:id="@+id/tv_privacy_policy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:text="@string/privacy_policy"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_large" />
 
-            <!-- separator -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="@dimen/margin_xx_large"
-                android:layout_marginEnd="@dimen/margin_xx_large"
-                android:background="@color/paleGrey2" />
+                    <!-- icon -->
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow"
+                        android:tint="@android:color/black" />
 
-            <!-- 3rd option -->
-            <RelativeLayout
-                android:id="@+id/menu_option_privacy_policy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:paddingStart="@dimen/margin_small"
-                android:paddingTop="@dimen/margin_small"
+                </RelativeLayout>
 
-                android:paddingBottom="@dimen/margin_small">
+                <!-- separator -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/margin_xx_large"
+                    android:layout_marginEnd="@dimen/margin_xx_large"
+                    android:background="@color/paleGrey2" />
 
-                <!-- label -->
-                <TextView
-                    android:id="@+id/tv_privacy_policy"
-                    android:layout_width="wrap_content"
+                <!-- 4th option -->
+                <RelativeLayout
+                    android:id="@+id/menu_option_terms_conditions"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:text="@string/privacy_policy"
-                    android:textColor="@color/darkSkyBlue"
-                    android:textSize="@dimen/text_size_large" />
+                    android:layout_margin="@dimen/margin_small"
+                    android:background="@drawable/bg_rounded_corners_white"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="@dimen/margin_medium">
 
-                <!-- icon -->
-                <ImageView
-                    android:layout_width="wrap_content"
+                    <!-- label -->
+                    <TextView
+                        android:id="@+id/tv_terms_and_conditions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:text="@string/terms_conditions"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <!-- icon -->
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow"
+                        android:tint="@android:color/black" />
+
+                </RelativeLayout>
+
+                <!-- separator -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/margin_xx_large"
+                    android:layout_marginEnd="@dimen/margin_xx_large"
+                    android:background="@color/paleGrey2" />
+
+                <!-- 5th option -->
+                <RelativeLayout
+                    android:id="@+id/menu_option_call_us"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:src="@drawable/ic_arrow" />
+                    android:layout_margin="@dimen/margin_small"
+                    android:background="@drawable/bg_rounded_corners_white"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="@dimen/margin_medium">
 
-            </RelativeLayout>
+                    <!-- label -->
+                    <TextView
+                        android:id="@+id/tv_call_us"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:text="@string/call_us"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_large" />
 
-            <!-- separator -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="@dimen/margin_xx_large"
-                android:layout_marginEnd="@dimen/margin_xx_large"
-                android:background="@color/paleGrey2" />
+                    <!-- icon -->
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow"
+                        android:tint="@android:color/black" />
 
-            <!-- 4th option -->
-            <RelativeLayout
-                android:id="@+id/menu_option_terms_conditions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:paddingStart="@dimen/margin_small"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small">
+                </RelativeLayout>
 
-                <!-- label -->
-                <TextView
-                    android:id="@+id/tv_terms_and_conditions"
-                    android:layout_width="wrap_content"
+                <!-- separator -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/margin_xx_large"
+                    android:layout_marginEnd="@dimen/margin_xx_large"
+                    android:background="@color/paleGrey2" />
+
+                <!-- 6th option -->
+                <RelativeLayout
+                    android:id="@+id/menu_option_how_gawla_works"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:text="@string/terms_conditions"
-                    android:textColor="@color/darkSkyBlue"
-                    android:textSize="@dimen/text_size_large" />
+                    android:layout_margin="@dimen/margin_small"
+                    android:background="@drawable/bg_rounded_corners_white"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:padding="@dimen/margin_medium">
 
-                <!-- icon -->
-                <ImageView
-                    android:layout_width="wrap_content"
+                    <!-- label -->
+                    <TextView
+                        android:id="@+id/tv_how_gawla_works"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:text="@string/how_gawla_works"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <!-- icon -->
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_arrow"
+                        android:tint="@android:color/black" />
+
+                </RelativeLayout>
+
+                <!-- web views recycler -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/web_views_recycler"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:src="@drawable/ic_arrow" />
+                    android:scrollbars="none"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_web_page_label" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <!-- bottom border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/paleGrey2" />
-
-            <!-- top border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/margin_large"
-                android:background="@color/paleGrey2" />
-
-            <!-- 5th option -->
-            <RelativeLayout
-                android:id="@+id/menu_option_call_us"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:paddingStart="@dimen/margin_small"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small">
-
-                <!-- label -->
-                <TextView
-                    android:id="@+id/tv_call_us"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:text="@string/call_us"
-                    android:textColor="@color/darkSkyBlue"
-                    android:textSize="@dimen/text_size_large" />
-
-                <!-- icon -->
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:src="@drawable/ic_arrow" />
-
-            </RelativeLayout>
-
-            <!-- bottom border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/paleGrey2" />
-
-            <!-- top border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/margin_large"
-                android:background="@color/paleGrey2" />
-
-            <!-- 6th option -->
-            <RelativeLayout
-                android:id="@+id/menu_option_how_gawla_works"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:paddingStart="@dimen/margin_small"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small">
-
-                <!-- label -->
-                <TextView
-                    android:id="@+id/tv_how_gawla_works"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:text="@string/how_gawla_works"
-                    android:textColor="@color/darkSkyBlue"
-                    android:textSize="@dimen/text_size_large" />
-
-                <!-- icon -->
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:src="@drawable/ic_arrow" />
-
-            </RelativeLayout>
-
-            <!-- bottom border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:background="@color/paleGrey2" />
-
-            <!-- web views recycler -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/web_views_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_web_page_label" />
-
-            <!-- top border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/margin_large"
-                android:background="@color/paleGrey2" />
-
-            <!-- 8th option -->
+            <!-- 8th option 'sign out' -->
             <RelativeLayout
                 android:id="@+id/menu_option_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                android:layout_margin="@dimen/margin_small"
+                android:background="@drawable/bg_rounded_corners_white"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:paddingStart="@dimen/margin_small"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small">
+                android:padding="@dimen/margin_medium">
 
                 <!-- label -->
                 <TextView
@@ -348,7 +325,8 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/sign_out"
                     android:textColor="@color/paleRed"
-                    android:textSize="@dimen/text_size_large" />
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold" />
 
                 <!-- icon -->
                 <ImageView
@@ -356,17 +334,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:src="@drawable/ic_arrow" />
+                    android:src="@drawable/ic_exit"
+                    android:tint="@color/paleRed" />
 
             </RelativeLayout>
-
-            <!-- bottom border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="@dimen/margin_small"
-                android:background="@color/paleGrey2" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

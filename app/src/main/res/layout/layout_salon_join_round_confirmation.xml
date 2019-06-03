@@ -12,13 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/margin_xlarge">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_xlarge"
-            android:layout_marginBottom="@dimen/margin_tiny">
+            android:layout_height="wrap_content">
 
             <!-- icon -->
             <ImageView
@@ -28,6 +27,7 @@
                 android:layout_gravity="center"
                 android:contentDescription="@string/Attention"
                 android:src="@drawable/q_mark_in_circle"
+                android:tint="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,11 +49,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_small"
+            android:layout_margin="@dimen/margin_xlarge"
             android:gravity="center"
+            android:lineSpacingExtra="@dimen/margin_small"
             android:text="@string/Attention"
-            android:textColor="@color/midBlue"
-            android:textColorHint="@color/editText_hint"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />
 
@@ -66,6 +66,7 @@
             android:layout_marginRight="@dimen/margin_xx_large"
             android:layout_marginBottom="@dimen/margin_large"
             android:gravity="center"
+            android:lineSpacingExtra="@dimen/margin_small"
             android:text="@string/Attention_Details"
             android:textColor="@color/blueGrey"
             android:textSize="@dimen/text_size_medium" />
@@ -78,7 +79,8 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_tiny"
-            android:padding="@dimen/margin_small"
+            android:paddingTop="@dimen/margin_large"
+            android:paddingBottom="@dimen/margin_medium"
             android:text="@string/join_round"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"

@@ -29,7 +29,6 @@ import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.login.LoginActivity;
 
-import static it_geeks.info.gawla_app.util.Constants.NULL_INT_VALUE;
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_COUNTRIES;
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_PAGES;
 
@@ -42,7 +41,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     private ProgressBar pbSplash;
     private boolean getWebPagesFromServer = false, getCountriesFromSever = false;
 
-    private String apiToken = "T9hQoKYK7bGop5y6tuZq5S4RBH0dTNu0Lh6XuRzhyju8OVZ3Bz6TRDUJD4YH";
+    private String countriesToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
+    private String pagesToken = "T9hQoKYK7bGop5y6tuZq5S4RBH0dTNu0Lh6XuRzhyju8OVZ3Bz6TRDUJD4YH";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void getCountriesFromSever() {
         RetrofitClient.getInstance(SplashScreenActivity.this).executeConnectionToServer(SplashScreenActivity.this,
-                REQ_GET_ALL_COUNTRIES, new Request<>(REQ_GET_ALL_COUNTRIES, apiToken
+                REQ_GET_ALL_COUNTRIES, new Request<>(REQ_GET_ALL_COUNTRIES, countriesToken
                         , null, null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -114,8 +114,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         int user_id = SharedPrefManager.getInstance(SplashScreenActivity.this).getUser().getUser_id();
 
         RetrofitClient.getInstance(SplashScreenActivity.this).executeConnectionToServer(SplashScreenActivity.this,
-                REQ_GET_ALL_PAGES, new Request<>(REQ_GET_ALL_PAGES, user_id, apiToken,
-                        null, null, null, null, null), new HandleResponses() {
+                REQ_GET_ALL_PAGES, new Request<>(REQ_GET_ALL_PAGES, user_id, pagesToken
+                        , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         webPageList = ParseResponses.parseWebPages(mainObject);
@@ -136,12 +136,12 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void checkLoginState() {
-        if (SharedPrefManager.getInstance(this).getUser().getUser_id() == NULL_INT_VALUE // id !saved
+        if (SharedPrefManager.getInstance(this).getUser().getUser_id() == -111 // id !saved
                 || SharedPrefManager.getInstance(this).getUser().getApi_token() == null // token !saved
                 || !SharedPrefManager.getInstance(this).isLoggedIn())
         { // !logged in
 
-            if (SharedPrefManager.getInstance(this).getCountry().getCountry_id() == NULL_INT_VALUE)
+            if (SharedPrefManager.getInstance(this).getCountry().getCountry_id() == -111)
             { // country !saved
                 if (getCountriesFromSever)
                     startActivity(SplashActivity.class);
@@ -153,7 +153,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         else
         { // the user is logged in
-//            if (getWebPagesFromServer)
+            if (getWebPagesFromServer)
                 startActivity(MainActivity.class);
         }
     }

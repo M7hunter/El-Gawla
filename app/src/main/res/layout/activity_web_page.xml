@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".views.menu.WebPageActivity">
 
-    <!-- title bar -->
-    <RelativeLayout
+    <!-- header -->
+    <androidx.cardview.widget.CardView
         android:id="@+id/wep_page_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layoutDirection="ltr">
-
-        <!-- back -->
-        <ImageView
-            android:id="@+id/wep_page_back"
-            android:layout_width="@dimen/icon_back"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:padding="@dimen/margin_small"
-            android:src="@drawable/ic_arrow_left_only" />
-
-        <!-- title -->
-        <TextView
-            android:id="@+id/tv_wep_page_title"
+        app:cardElevation="@dimen/margin_small">
+        <!-- card main layout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/no_content"
-            android:textColor="@color/battleshipGrey"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
+            android:background="@color/colorPrimary"
+            android:layoutDirection="rtl"
+            android:padding="@dimen/margin_small">
 
-    </RelativeLayout>
+            <include layout="@layout/layout_back" />
+
+            <TextView
+                android:id="@+id/tv_wep_page_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_content"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <WebView
         android:id="@+id/web_view"

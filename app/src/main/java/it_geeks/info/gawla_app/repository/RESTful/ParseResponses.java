@@ -224,7 +224,7 @@ public class ParseResponses {
     }
 
     public static List<Category> parseHomeCategories(JsonObject object) {
-        JsonObject obj = object.get("sliders").getAsJsonObject();
+        JsonObject obj = object.get("home").getAsJsonObject();
         JsonArray categoriesArray = obj.get("categories").getAsJsonArray();
 
         List<Category> categories = new ArrayList<>();
@@ -245,7 +245,7 @@ public class ParseResponses {
     }
 
     public static List<Ad> parseAds(JsonObject object) {
-        JsonObject obj = object.get("sliders").getAsJsonObject();
+        JsonObject obj = object.get("home").getAsJsonObject();
         JsonArray dataArray = obj.get("sliders").getAsJsonArray();
 
         List<Ad> adsList = new ArrayList<>();

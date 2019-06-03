@@ -17,34 +17,35 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- title bar -->
-            <RelativeLayout
+            <!-- header -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layoutDirection="ltr">
-
-                <!-- title -->
-                <TextView
+                app:cardElevation="@dimen/margin_small">
+                <!-- card main layout -->
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="@string/call_us"
-                    android:textColor="@color/battleshipGrey"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textStyle="bold" />
+                    android:background="@color/colorPrimary"
+                    android:layoutDirection="rtl"
+                    android:padding="@dimen/margin_small">
 
-                <!-- back -->
-                <ImageView
-                    android:id="@+id/call_us_back"
-                    android:layout_width="@dimen/icon_back"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                    android:padding="@dimen/margin_small"
-                    android:src="@drawable/ic_arrow_left_only" />
+                    <include layout="@layout/layout_back" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/call_us"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
             <!-- name -->
             <com.google.android.material.textfield.TextInputLayout
@@ -52,10 +53,10 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xlarge"
+                android:layout_marginStart="@dimen/margin_xlarge"
                 android:layout_marginTop="@dimen/margin_xlarge"
-                android:layout_marginRight="@dimen/margin_xlarge"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_xlarge"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:textColorHint="@color/paleGrey2"
                 app:errorEnabled="true">
 
@@ -80,9 +81,9 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xlarge"
-                android:layout_marginRight="@dimen/margin_xlarge"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_xlarge"
+                android:layout_marginEnd="@dimen/margin_xlarge"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:textColorHint="@color/paleGrey2"
                 app:errorEnabled="true">
 
@@ -107,9 +108,9 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/margin_xlarge"
-                android:layout_marginRight="@dimen/margin_xlarge"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_xlarge"
+                android:layout_marginEnd="@dimen/margin_xlarge"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:layout_weight="1"
                 android:textColorHint="@color/paleGrey2"
                 app:errorEnabled="true">
@@ -122,7 +123,7 @@
                     android:gravity="top|start"
                     android:hint="@string/text"
                     android:inputType="text|textAutoComplete|textMultiLine"
-                    android:lines="6"
+                    android:lines="8"
                     android:paddingStart="@dimen/margin_xlarge"
                     android:paddingTop="@dimen/margin_small"
                     android:paddingEnd="@dimen/margin_xlarge"
@@ -139,7 +140,7 @@
                 android:layout_marginStart="@dimen/margin_xlarge"
                 android:layout_marginEnd="@dimen/margin_xlarge"
                 android:layout_marginBottom="@dimen/margin_small"
-                android:padding="@dimen/margin_medium"
+                android:padding="@dimen/margin_large"
                 android:text="@string/send"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_medium"

@@ -19,7 +19,6 @@ public class WinnerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Common.Instance().changeStatusBarColor(this, "#ffffff");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winner);
 
@@ -47,14 +46,6 @@ public class WinnerActivity extends AppCompatActivity {
     }
 
     private void handleEvents() {
-        // back
-        findViewById(R.id.winner_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
         // goto winners page
         findViewById(R.id.btn_winner).setOnClickListener(new View.OnClickListener() {
             @Override

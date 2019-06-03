@@ -33,7 +33,6 @@ public class CallUsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_call_us);
 
         initViews();
@@ -64,7 +63,7 @@ public class CallUsActivity extends AppCompatActivity {
 
     private void handleEvents() {
         // back
-        findViewById(R.id.call_us_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

@@ -180,7 +180,7 @@ public class TransHolder {
 
         my_rounds = transDao.getTransByKeyAndLang("my_rounds", lang);
         if (my_rounds == null || my_rounds.isEmpty()) {
-            my_rounds = context.getResources().getString(R.string.my_rounds);
+            my_rounds = context.getResources().getString(R.string.my_salons);
         }
 
         cards = transDao.getTransByKeyAndLang("cards", lang);
@@ -248,7 +248,7 @@ public class TransHolder {
     public void getAccountFragmentTranses(Context context) {
         account_details = transDao.getTransByKeyAndLang("account_details", lang);
         if (account_details == null || account_details.isEmpty()) {
-            account_details = context.getResources().getString(R.string.account_details);
+            account_details = context.getResources().getString(R.string.profile);
         }
 
         buying_processes = transDao.getTransByKeyAndLang("buying_processes", lang);

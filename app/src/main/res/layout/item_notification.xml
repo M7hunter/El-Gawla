@@ -37,6 +37,9 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
                 tools:text="@tools:sample/lorem" />
 
             <!-- body -->
@@ -44,6 +47,9 @@
                 android:id="@+id/tv_body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:lineSpacingExtra="@dimen/margin_xTiny"
                 android:textColor="@color/battleshipGrey"
                 android:textSize="@dimen/text_size_small"
                 tools:text="@tools:sample/lorem" />

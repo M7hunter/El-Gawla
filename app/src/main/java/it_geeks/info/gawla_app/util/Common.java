@@ -155,14 +155,14 @@ public class Common {
     }
 
     // to change status bar color in fragments || activities if wanted
-    public void changeStatusBarColor(Context context, String color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            Window window = ((AppCompatActivity) context).getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.parseColor(color));
-        }
-    }
+//    public void changeStatusBarColor(Context context, String color) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+//        {
+//            Window window = ((AppCompatActivity) context).getWindow();
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            window.setStatusBarColor(Color.parseColor(color));
+//        }
+//    }
 
     // connected ?
     public boolean isConnected(Context context) {

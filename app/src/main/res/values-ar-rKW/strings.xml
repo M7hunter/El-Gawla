@@ -9,7 +9,7 @@
     <string name="menu">القائمة</string>
     <string name="account">الحساب</string>
     <string name="cards">الكروت</string>
-    <string name="my_rounds">جولاتي</string>
+    <string name="my_salons">صالاتي</string>
     <string name="the_salons">الصالات</string>
     <string name="recent_salons">الصالات الحالية</string>
     <string name="slide_heading1">اشترك الان</string>
@@ -50,7 +50,7 @@
     <string name="dont_have_red_card">ليس لديك الكارت الاحمر</string>
     <string name="privacy_policy">سياسة الخصوصية</string>
     <string name="buying_processes">عمليات الشراء</string>
-    <string name="account_details">بيانات الحساب</string>
+    <string name="profile">البروفايل</string>
     <string name="new_offer">عرض جديد</string>
     <string name="add_offer">إضافة عرض</string>
     <string name="salons_winners">رابحين الصالات</string>
@@ -244,4 +244,11 @@
     <string name="total_price">السعر الكلي</string>
     <string name="click_for_more_options">اضغط لمزيد من الخيارات</string>
     <string name="or">أو</string>
+    <string name="vehicles">محركات</string>
+    <string name="real_state">عقارات</string>
+    <string name="jewellery">مجوهرات</string>
+    <string name="electronics">الكترونيات</string>
+    <string name="countries">الدول</string>
+    <string name="store">المتجر</string>
+    <string name="change_password">تعديل كلمة السر</string>
 </resources>

@@ -31,7 +31,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_settings);
 
         initViews();
@@ -90,7 +89,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         // back
-        findViewById(R.id.app_settings_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

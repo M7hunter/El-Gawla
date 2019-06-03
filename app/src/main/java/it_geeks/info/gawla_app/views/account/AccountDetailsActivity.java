@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
@@ -48,10 +49,11 @@ import static it_geeks.info.gawla_app.util.Constants.REQ_UPDATE_USER_DATA;
 public class AccountDetailsActivity extends AppCompatActivity {
 
     public static AccountDetailsActivity accountDetailsInstance;
-    private EditText et_update_first_name, et_update_last_name, et_update_telephone, sp_update_gender, sp_update_country;
+    private EditText etEmail, et_update_first_name, et_update_telephone, sp_update_gender, sp_update_country;
     private ImageView ivUserImage, btn_choose_image;
     public ImageView btn_upload_image;
     private TextView btn_update_profile;
+    private TextInputLayout tlEmail;
     private ProgressBar progressBarUpdateProfile;
 
     private int user_id;
@@ -62,7 +64,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_account_details);
         accountDetailsInstance = this;
 
@@ -80,19 +81,22 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
     private void initViews() {
         et_update_first_name = findViewById(R.id.et_update_first_name);
-        et_update_last_name = findViewById(R.id.et_update_last_name);
         et_update_telephone = findViewById(R.id.et_update_telephone);
+        etEmail = findViewById(R.id.et_account_email);
         sp_update_country = findViewById(R.id.my_sp_country);
         sp_update_gender = findViewById(R.id.my_sp_gender);
         ivUserImage = findViewById(R.id.iv_user_Image);
 
         btn_choose_image = findViewById(R.id.btn_choose_image);
         btn_upload_image = findViewById(R.id.btn_upload_image);
+        tlEmail = findViewById(R.id.tl_account_details_email);
 
         btn_update_profile = findViewById(R.id.btn_update_profile);
         progressBarUpdateProfile = findViewById(R.id.progress_update_profile);
 
         et_update_first_name.requestFocus();
+
+        etEmail.setText(SharedPrefManager.getInstance(this).getUser().getEmail());
 
         initCountriesMaterialSpinner();
 
@@ -117,7 +121,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         });
 
         // back
-        findViewById(R.id.account_details_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -260,7 +264,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
         Log.d("image_url:", user.getImage());
         Picasso.with(this).load(user.getImage()).placeholder(R.drawable.placeholder).into(ivUserImage);
         et_update_first_name.setText(user.getFirstName());
-        et_update_last_name.setText(user.getLastName());
         et_update_telephone.setText(user.getPhone());
         sp_update_gender.setText(user.getGender());
         sp_update_country.setText(GawlaDataBse.getInstance(AccountDetailsActivity.this).countryDao().getCountryNameByID(user.getCountry_id()));
@@ -280,7 +283,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
                                     user_id,
                                     api_token,
                                     et_update_first_name.getText().toString(),
-                                    et_update_last_name.getText().toString(),
+                                    "",
                                     et_update_telephone.getText().toString(),
                                     sp_update_gender.getText().toString(),
                                     country.getCountry_id()), new HandleResponses() {
@@ -333,7 +336,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
         btn_update_profile.setVisibility(View.INVISIBLE);
 
         et_update_first_name.setEnabled(false);
-        et_update_last_name.setEnabled(false);
         et_update_telephone.setEnabled(false);
         sp_update_country.setEnabled(false);
         sp_update_gender.setEnabled(false);
@@ -345,7 +347,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
         btn_update_profile.setVisibility(View.VISIBLE);
 
         et_update_first_name.setEnabled(true);
-        et_update_last_name.setEnabled(true);
         et_update_telephone.setEnabled(true);
         sp_update_country.setEnabled(true);
         sp_update_gender.setEnabled(true);
@@ -389,7 +390,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
             }
 
             // transform image to bytes || string
-//            ivUserImage.buildDrawingCache();
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(AccountDetailsActivity.this.getContentResolver(), imagePath);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);

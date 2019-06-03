@@ -17,31 +17,43 @@
         <!-- title bar -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl">
 
-            <!-- back -->
-            <ImageView
-                android:id="@+id/account_details_back"
-                android:layout_width="@dimen/icon_back"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:contentDescription="@string/back"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/margin_small"
-                android:src="@drawable/ic_arrow_left_only" />
-
-            <!-- title -->
-            <TextView
+            <!-- header -->
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:gravity="center"
-                android:text="@string/account_details"
-                android:textColor="@color/battleshipGrey"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardElevation="@dimen/margin_small">
+                    <!-- card main layout -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:layoutDirection="rtl"
+                        android:padding="@dimen/margin_small">
+
+                        <include layout="@layout/layout_back" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/profile"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/text_size_large"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+            </FrameLayout>
 
             <!-- save btn -->
             <Button
@@ -49,10 +61,9 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="@string/save"
-                android:textColor="@color/darkSkyBlue"
+                android:textColor="@color/colorSecondary"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
@@ -61,9 +72,9 @@
                 android:id="@+id/progress_update_profile"
                 android:layout_width="@dimen/icon_notification"
                 android:layout_height="@dimen/icon_notification"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
                 android:visibility="invisible" />
 
         </RelativeLayout>
@@ -83,8 +94,8 @@
                 android:layout_height="@dimen/image_account"
                 android:layout_centerInParent="true"
                 android:layout_margin="@dimen/margin_tiny"
-                app:civ_border_color="@color/blueyGrey"
-                app:civ_border_width="1dp"
+                app:civ_border_color="@color/colorPrimary"
+                app:civ_border_width="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -133,7 +144,6 @@
             android:layout_marginTop="@dimen/margin_xlarge"
             android:layout_marginEnd="@dimen/margin_xxx_large"
             android:layout_marginBottom="@dimen/margin_xlarge"
-            android:layout_weight="1"
             android:textColorHint="@color/paleGrey2">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -144,36 +154,34 @@
                 android:hint="@string/first_name"
                 android:inputType="textPersonName"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_small"
+                android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_medium"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- last name -->
+        <!-- email -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
+            android:id="@+id/tl_account_details_email"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xxx_large"
-            android:layout_marginRight="@dimen/margin_xxx_large"
+            android:layout_marginStart="@dimen/margin_xxx_large"
+            android:layout_marginEnd="@dimen/margin_xxx_large"
             android:layout_marginBottom="@dimen/margin_xlarge"
-            android:layout_weight="1"
             android:textColorHint="@color/paleGrey2">
 
-            <EditText
-                android:id="@+id/et_update_last_name"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_account_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="auto"
-                android:hint="@string/second_name"
-                android:inputType="textPersonName"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_small"
+                android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_small"
-                android:textColorHint="@color/editText_hint"
+                android:paddingBottom="@dimen/margin_medium"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -186,7 +194,6 @@
             android:layout_marginLeft="@dimen/margin_xxx_large"
             android:layout_marginRight="@dimen/margin_xxx_large"
             android:layout_marginBottom="@dimen/margin_xlarge"
-            android:layout_weight="1"
             android:textColorHint="@color/paleGrey2">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -197,12 +204,11 @@
                 android:hint="@string/telephone_number"
                 android:inputType="phone"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_small"
+                android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_medium"
                 android:textSize="@dimen/text_size_large"
-                android:textStyle="bold"
-                app:helperText="+2" />
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- country -->
@@ -213,7 +219,6 @@
             android:layout_marginLeft="@dimen/margin_xxx_large"
             android:layout_marginRight="@dimen/margin_xxx_large"
             android:layout_marginBottom="@dimen/margin_xlarge"
-            android:layout_weight="1"
             android:textColorHint="@color/paleGrey2">
 
             <EditText
@@ -225,9 +230,9 @@
                 android:hint="@string/country"
                 android:inputType="none"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_medium"
-                android:paddingBottom="@dimen/margin_small"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_xlarge"
+                android:paddingBottom="@dimen/margin_medium"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -240,7 +245,6 @@
             android:layout_marginLeft="@dimen/margin_xxx_large"
             android:layout_marginRight="@dimen/margin_xxx_large"
             android:layout_marginBottom="@dimen/margin_xlarge"
-            android:layout_weight="1"
             android:textColorHint="@color/paleGrey2">
 
             <EditText
@@ -252,9 +256,9 @@
                 android:hint="@string/gender"
                 android:inputType="none"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_medium"
-                android:paddingBottom="@dimen/margin_small"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_xlarge"
+                android:paddingBottom="@dimen/margin_medium"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>

@@ -7,7 +7,7 @@
     <string name="add_offer">Add offer</string>
     <string name="new_offer">New offer</string>
     <string name="the_salons">Salons</string>
-    <string name="my_rounds">My rounds</string>
+    <string name="my_salons">My salons</string>
     <string name="cards">Cards</string>
     <string name="account">Account</string>
     <string name="menu">Menu</string>
@@ -22,13 +22,13 @@
     <string name="pay_later">"Later"</string>
     <string name="activate_card">Activate card</string>
     <string name="buy_card_to_join">Buy card to join</string>
-    <string name="account_details">Account details</string>
+    <string name="profile">profile</string>
     <string name="buying_processes">Buying processes</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="dont_have_red_card">Don\'t have red card</string>
     <string name="dont_have_golden_card">Don\'t have golden card</string>
     <string name="dont_have_green_card">Don\'t have green card</string>
-    <string name="cards_store">Cards store</string>
+    <string name="cards_store">cards store</string>
     <string name="more_about_gawla">More about Gawla</string>
     <string name="terms_conditions">Terms and conditions</string>
     <string name="call_us">Call us</string>
@@ -247,5 +247,11 @@
     <string name="no_connection">no connection</string>
     <string name="countries">countries</string>
     <string name="or">or</string>
+    <string name="vehicles">vehicles</string>
+    <string name="electronics">electronics</string>
+    <string name="real_state">real state</string>
+    <string name="jewellery">jewellery</string>
+    <string name="store">store</string>
+    <string name="change_password">change password</string>
 
 </resources>

@@ -47,7 +47,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
         viewHolder.langLabel.setText(lang);
 
         if (sLang(lang).equals(SharedPrefManager.getInstance(context).getSavedLang())) {
-            viewHolder.langLabel.setTextColor(context.getResources().getColor(R.color.midBlue));
+            viewHolder.langLabel.setBackground(context.getDrawable(R.drawable.bg_rounded_c_white_bordered_c_primary));
         }
 
         // events
