@@ -47,7 +47,7 @@ public class ImageLoader {
 //                    .resize(100, 100)
 //                    .onlyScaleDown()
 //                    .centerInside()
-                    .placeholder(R.drawable.placeholder)
+//                    .placeholder(R.drawable.placeholder)
                     .into(imageView);
         } catch (Exception e) {
             e.printStackTrace();

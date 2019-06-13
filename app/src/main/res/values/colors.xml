@@ -8,6 +8,9 @@
     <color name="colorSecondaryVariant">#2196ee</color>
     <color name="colorBackground">#f4f7fa</color>
 
+    <color name="colorOverlay">#3E7A7A7A</color>
+    <color name="colorOverlayLight">#167A7A7A</color>
+
     <!-- palette -->
     <color name="bg_Splash_Start">#468ae7</color>
     <color name="BlueDark">#23479c</color>

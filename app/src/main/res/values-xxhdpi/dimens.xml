@@ -32,7 +32,7 @@
     <dimen name="icon_notification">35dp</dimen>
     <dimen name="icon_back">55dp</dimen>
     <dimen name="image_width_main_fragment">165dp</dimen>
-    <dimen name="image_width_round">300dp</dimen>
+    <dimen name="image_width_round">280dp</dimen>
     <dimen name="image_height_round">200dp</dimen>
     <dimen name="image_height_product">200dp</dimen>
     <dimen name="image_news">100dp</dimen>

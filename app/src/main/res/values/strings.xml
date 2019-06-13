@@ -6,11 +6,11 @@
     <string name="salons_winners">salons winners</string>
     <string name="add_offer">Add offer</string>
     <string name="new_offer">New offer</string>
-    <string name="the_salons">Salons</string>
-    <string name="my_salons">My salons</string>
+    <string name="the_salons">salons</string>
+    <string name="my_salons">my salons</string>
     <string name="cards">Cards</string>
-    <string name="account">Account</string>
-    <string name="menu">Menu</string>
+    <string name="account">my account</string>
+    <string name="menu">menu</string>
     <string name="sell_price">Sell price</string>
     <string name="round_start">Round start</string>
     <string name="close">Close</string>

@@ -89,7 +89,7 @@
 
             <!-- image -->
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_user_Image"
+                android:id="@+id/iv_account_Image"
                 android:layout_width="@dimen/image_account"
                 android:layout_height="@dimen/image_account"
                 android:layout_centerInParent="true"
@@ -107,16 +107,14 @@
                 android:id="@+id/btn_upload_image"
                 android:layout_width="@dimen/icon_notification"
                 android:layout_height="@dimen/icon_notification"
-                android:layout_marginTop="@dimen/margin_small"
                 android:background="@drawable/bg_circle_bordered_transparent"
                 android:foreground="?android:attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/margin_small"
                 android:src="@drawable/ic_check"
                 android:visibility="visible"
-                app:cornerRadius="4dp"
-                app:layout_constraintEnd_toStartOf="@id/iv_user_Image"
-                app:layout_constraintStart_toStartOf="@id/iv_user_Image"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="@id/btn_choose_image"
+                app:layout_constraintStart_toStartOf="@id/btn_choose_image"
+                app:layout_constraintTop_toTopOf="@id/btn_choose_image" />
 
             <!-- btn choose image -->
             <ImageButton
@@ -129,8 +127,8 @@
                 android:padding="@dimen/margin_small"
                 android:src="@drawable/ic_edit"
                 android:visibility="visible"
-                app:layout_constraintEnd_toStartOf="@id/iv_user_Image"
-                app:layout_constraintStart_toStartOf="@id/iv_user_Image"
+                app:layout_constraintEnd_toStartOf="@id/iv_account_Image"
+                app:layout_constraintStart_toStartOf="@id/iv_account_Image"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -151,7 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="auto"
-                android:hint="@string/first_name"
+                android:hint="@string/full_name"
                 android:inputType="textPersonName"
                 android:paddingStart="@dimen/margin_xlarge"
                 android:paddingTop="@dimen/margin_medium"
@@ -163,9 +161,9 @@
 
         <!-- email -->
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_account_details_email"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:id="@+id/tl_account_details_email"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_xxx_large"
             android:layout_marginEnd="@dimen/margin_xxx_large"

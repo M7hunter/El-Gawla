@@ -1,6 +1,5 @@
 package it_geeks.info.gawla_app.views;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -20,7 +18,6 @@ import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.util.receivers.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.account.AccountFragment;
 import it_geeks.info.gawla_app.views.card.StoreFragment;
 import it_geeks.info.gawla_app.views.menu.MenuFragment;
@@ -38,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
     private View snackContainer;
 
-    private TransHolder transHolder;
     public DialogBuilder dialogBuilder;
 
     @Override
@@ -46,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainInstance = this;
-
-        transHolder = new TransHolder(MainActivity.this);
-        transHolder.getMainActivityTranses(MainActivity.this);
 
         if (savedInstanceState == null)
         {
@@ -67,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
         initNavigation();
 
         handleEvents();
-
-//        setupTrans();
     }
 
     private void updateNotificationStatus() {
@@ -117,28 +108,23 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case R.id.navigation_salons:
                         fragment = new MainFragment();
-                        menuItem.setTitle(transHolder.hales);
-                        // change status bar color
+//                        menuItem.setTitle(transHolder.hales);
                         break;
                     case R.id.navigation_my_rounds:
                         fragment = new MySalonsFragment();
-                        menuItem.setTitle(transHolder.my_rounds);
-                        // change status bar color
+//                        menuItem.setTitle(transHolder.my_rounds);
                         break;
                     case R.id.navigation_cards:
                         fragment = new StoreFragment();
-                        menuItem.setTitle(transHolder.cards);
-                        // change status bar color
+//                        menuItem.setTitle(transHolder.store);
                         break;
                     case R.id.navigation_account:
                         fragment = new AccountFragment();
-                        menuItem.setTitle(transHolder.account);
-                        // change status bar color to white
+//                        menuItem.setTitle(transHolder.account);
                         break;
                     case R.id.navigation_menu:
                         fragment = new MenuFragment();
-                        menuItem.setTitle(transHolder.menu);
-                        // change status bar color
+//                        menuItem.setTitle(transHolder.menu);
                         break;
                 }
 
@@ -159,15 +145,6 @@ public class MainActivity extends AppCompatActivity {
             public void onNavigationItemReselected(@NonNull MenuItem item) {
             }
         });
-    }
-
-    @SuppressLint("RestrictedApi")
-    private void setupTrans() {
-        ((BottomNavigationItemView) findViewById(R.id.navigation_salons)).setTitle(transHolder.hales);
-        ((BottomNavigationItemView) findViewById(R.id.navigation_my_rounds)).setTitle(transHolder.my_rounds);
-        ((BottomNavigationItemView) findViewById(R.id.navigation_cards)).setTitle(transHolder.cards);
-        ((BottomNavigationItemView) findViewById(R.id.navigation_account)).setTitle(transHolder.account);
-        ((BottomNavigationItemView) findViewById(R.id.navigation_menu)).setTitle(transHolder.menu);
     }
 
     private void displayFragment(Fragment fragment) {

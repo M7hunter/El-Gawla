@@ -18,8 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/salon_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layoutDirection="rtl">
+            android:layout_height="wrap_content">
 
             <!-- blue background -->
             <ImageView
@@ -63,7 +62,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_large"
-                android:layoutDirection="locale"
                 app:layout_constraintBottom_toTopOf="@id/time_container"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -762,10 +760,10 @@
 
     </LinearLayout>
 
-    <!-- cards bag btn container -->
+    <!-- store bag btn container -->
     <include layout="@layout/layout_cards_free_button" />
 
-    <!-- cards bag btn container -->
+    <!-- store bag btn container -->
     <include layout="@layout/bottom_sheet_single_card" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

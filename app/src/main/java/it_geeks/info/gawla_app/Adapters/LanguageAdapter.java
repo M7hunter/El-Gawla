@@ -15,12 +15,14 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.intro.SplashScreenActivity;
 
 public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHolder> {
 
@@ -46,7 +48,8 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 
         viewHolder.langLabel.setText(lang);
 
-        if (sLang(lang).equals(SharedPrefManager.getInstance(context).getSavedLang())) {
+        if (sLang(lang).equals(SharedPrefManager.getInstance(context).getSavedLang()))
+        {
             viewHolder.langLabel.setBackground(context.getDrawable(R.drawable.bg_rounded_c_white_bordered_c_primary));
         }
 
@@ -97,7 +100,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 
     private void restartTheApp() {
         AlarmManager alm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent i = new Intent(context, MainActivity.class);
+        Intent i = new Intent(context, SplashScreenActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         alm.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT));
 
@@ -134,7 +137,8 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 //    }
 
     private String sLang(String lang) {
-        switch (lang) {
+        switch (lang)
+        {
             case "العربية":
                 lang = "ar";
                 break;

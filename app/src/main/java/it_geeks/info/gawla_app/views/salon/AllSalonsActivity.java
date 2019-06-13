@@ -50,6 +50,7 @@ import it_geeks.info.gawla_app.Adapters.DateAdapter;
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
+import it_geeks.info.gawla_app.views.account.AccountDetailsActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_CATEGORIES;
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_SALONS;
@@ -70,7 +71,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
     private LinearLayout emptyViewLayout;
 
-    private int userId, catKey = Constants.NULL_INT_VALUE;
+    private int userId, catKey;
     private String apiToken;
     private DialogBuilder dialogBuilder;
 
@@ -114,7 +115,7 @@ public class AllSalonsActivity extends AppCompatActivity {
         Bundle extra = getIntent().getExtras();
         if (extra != null)
         {
-            catKey = extra.getInt("cat_key");
+            catKey = extra.getInt(Constants.CATEGORY_KEY);
         }
     }
 
@@ -158,6 +159,13 @@ public class AllSalonsActivity extends AppCompatActivity {
                 { // close sheet
                     mBottomSheetDialogFilterBy.show();
                 }
+            }
+        });
+
+        findViewById(R.id.iv_user_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AllSalonsActivity.this, AccountDetailsActivity.class));
             }
         });
     }

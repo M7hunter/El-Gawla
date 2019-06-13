@@ -164,6 +164,7 @@
             android:textColor="@color/blueGrey"
             android:visibility="gone" />
 
+        <!-- message to send -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -176,7 +177,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_chat_message"
@@ -193,16 +195,15 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- btn send message -->
-            <Button
+            <ImageButton
                 android:id="@+id/btn_send_chat_message"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="@dimen/icon_back"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:background="@drawable/selector_ripple_primary"
                 android:enabled="false"
-                app:icon="@drawable/ic_send_message"
-                app:iconGravity="textStart"
-                app:iconPadding="0dp" />
+                android:padding="@dimen/margin_tiny"
+                android:src="@drawable/ic_send_message" />
 
         </LinearLayout>
 

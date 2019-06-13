@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
@@ -34,6 +35,7 @@ import it_geeks.info.gawla_app.util.NotificationStatus;
 import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
+import it_geeks.info.gawla_app.views.account.AccountDetailsActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_CARDS;
 
@@ -100,17 +102,27 @@ public class StoreFragment extends Fragment {
                 startActivity(new Intent(getContext(), NotificationActivity.class));
             }
         });
+
+        fragmentView.findViewById(R.id.iv_user_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.mainInstance, AccountDetailsActivity.class));
+            }
+        });
     }
 
     private void checkConnection(View view) {
         LinearLayout noConnectionLayout = view.findViewById(R.id.no_connection);
 
-        if (Common.Instance().isConnected(getContext())) {
+        if (Common.Instance().isConnected(getContext()))
+        {
             noConnectionLayout.setVisibility(View.GONE);
 
             getCardsFromServer(view);
 
-        } else {
+        }
+        else
+        {
             noConnectionLayout.setVisibility(View.VISIBLE);
             cardsProgress.setVisibility(View.GONE);
         }
@@ -159,11 +171,14 @@ public class StoreFragment extends Fragment {
 
         cardsProgress.setVisibility(View.GONE);
 
-        if (cardsList.size() > 0) {
+        if (cardsList.size() > 0)
+        {
             emptyViewLayout.setVisibility(View.INVISIBLE);
             cardsRecycler.setVisibility(View.VISIBLE);
 
-        } else {
+        }
+        else
+        {
             emptyViewLayout.setVisibility(View.VISIBLE);
             cardsRecycler.setVisibility(View.INVISIBLE);
         }

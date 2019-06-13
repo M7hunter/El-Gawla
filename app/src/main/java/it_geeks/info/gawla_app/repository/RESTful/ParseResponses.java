@@ -179,8 +179,6 @@ public class ParseResponses {
                 userObj.get("email").getAsString(),
                 userObj.get("membership").getAsString(),
                 userObj.get("gender").getAsString(),
-                userObj.get("firstName").getAsString(),
-                userObj.get("lastName").getAsString(),
                 userObj.get("phone").getAsString());
     }
 
@@ -223,25 +221,18 @@ public class ParseResponses {
         return cardsList;
     }
 
-    public static List<Category> parseHomeCategories(JsonObject object) {
-        JsonObject obj = object.get("home").getAsJsonObject();
-        JsonArray categoriesArray = obj.get("categories").getAsJsonArray();
+    public static Category parseHomeCategories(JsonObject object, String catKey) {
+        JsonObject homeObj = object.get("home").getAsJsonObject();
+        JsonObject categoriesObj = homeObj.get("categories").getAsJsonObject();
 
-        List<Category> categories = new ArrayList<>();
+        JsonObject catObj = categoriesObj.get(catKey).getAsJsonObject();
 
-        for (int i = 0; i < categoriesArray.size(); i++)
-        {
-            JsonObject categoryObj = categoriesArray.get(i).getAsJsonObject();
-            int category_id = categoryObj.get("category_id").getAsInt();
-            String category_name = categoryObj.get("category_name").getAsString();
-            String category_color = categoryObj.get("category_color").getAsString();
-            String category_image = categoryObj.get("category_image").getAsString();
+        int category_id = catObj.get("category_id").getAsInt();
+        String category_name = catObj.get("category_name").getAsString();
+        String category_color = catObj.get("category_color").getAsString();
+        String category_image = catObj.get("category_image").getAsString();
 
-            categories.add(
-                    new Category(category_id, category_name, category_color, category_image));
-        }
-
-        return categories;
+        return new Category(category_id, category_name, category_color, category_image);
     }
 
     public static List<Ad> parseAds(JsonObject object) {

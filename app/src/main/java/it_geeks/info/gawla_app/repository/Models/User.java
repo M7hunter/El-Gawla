@@ -18,10 +18,6 @@ public class User {
 
   private String gender;
 
-  private String firstName;
-
-  private String lastName;
-
   private String phone;
 
   private String password;
@@ -33,7 +29,7 @@ public class User {
     this.password = password;
   }
 
-  public User(int user_id, String api_token, String name, int country_id, String image, String email, String membership, String gender, String firstName, String lastName, String phone) {
+  public User(int user_id, String api_token, String name, int country_id, String image, String email, String membership, String gender, String phone) {
     this.user_id = user_id;
     this.api_token = api_token;
     this.name = name;
@@ -42,8 +38,6 @@ public class User {
     this.email = email;
     this.membership = membership;
     this.gender = gender;
-    this.firstName = firstName;
-    this.lastName = lastName;
     this.phone = phone;
   }
 
@@ -109,22 +103,6 @@ public class User {
 
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
   }
 
   public String getGender() {

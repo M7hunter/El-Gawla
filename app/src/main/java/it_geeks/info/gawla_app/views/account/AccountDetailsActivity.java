@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
@@ -49,11 +48,10 @@ import static it_geeks.info.gawla_app.util.Constants.REQ_UPDATE_USER_DATA;
 public class AccountDetailsActivity extends AppCompatActivity {
 
     public static AccountDetailsActivity accountDetailsInstance;
-    private EditText etEmail, et_update_first_name, et_update_telephone, sp_update_gender, sp_update_country;
+    private EditText et_Email, et_name, et_telephone, sp_gender, sp_country;
     private ImageView ivUserImage, btn_choose_image;
     public ImageView btn_upload_image;
     private TextView btn_update_profile;
-    private TextInputLayout tlEmail;
     private ProgressBar progressBarUpdateProfile;
 
     private int user_id;
@@ -67,8 +65,6 @@ public class AccountDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account_details);
         accountDetailsInstance = this;
 
-        getCountriesFromSever();
-
         user_id = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getUser_id();
         api_token = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getApi_token();
 
@@ -80,23 +76,20 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        et_update_first_name = findViewById(R.id.et_update_first_name);
-        et_update_telephone = findViewById(R.id.et_update_telephone);
-        etEmail = findViewById(R.id.et_account_email);
-        sp_update_country = findViewById(R.id.my_sp_country);
-        sp_update_gender = findViewById(R.id.my_sp_gender);
-        ivUserImage = findViewById(R.id.iv_user_Image);
+        et_name = findViewById(R.id.et_update_first_name);
+        et_telephone = findViewById(R.id.et_update_telephone);
+        et_Email = findViewById(R.id.et_account_email);
+        sp_country = findViewById(R.id.my_sp_country);
+        sp_gender = findViewById(R.id.my_sp_gender);
+        ivUserImage = findViewById(R.id.iv_account_Image);
 
         btn_choose_image = findViewById(R.id.btn_choose_image);
         btn_upload_image = findViewById(R.id.btn_upload_image);
-        tlEmail = findViewById(R.id.tl_account_details_email);
 
         btn_update_profile = findViewById(R.id.btn_update_profile);
         progressBarUpdateProfile = findViewById(R.id.progress_update_profile);
 
-        et_update_first_name.requestFocus();
-
-        etEmail.setText(SharedPrefManager.getInstance(this).getUser().getEmail());
+        et_name.requestFocus();
 
         initCountriesMaterialSpinner();
 
@@ -130,8 +123,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     private void initCountriesMaterialSpinner() {
-        sp_update_country.setInputType(InputType.TYPE_NULL);
-        sp_update_country.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        sp_country.setInputType(InputType.TYPE_NULL);
+        sp_country.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus)
@@ -140,7 +133,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-        sp_update_country.setOnClickListener(new View.OnClickListener() {
+        sp_country.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 countryPopupMenu();
@@ -149,8 +142,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     private void initGenderMaterialSpinner() {
-        sp_update_gender.setInputType(InputType.TYPE_NULL);
-        sp_update_gender.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        sp_gender.setInputType(InputType.TYPE_NULL);
+        sp_gender.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus)
@@ -159,7 +152,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-        sp_update_gender.setOnClickListener(new View.OnClickListener() {
+        sp_gender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 genderPopupMenu();
@@ -168,10 +161,10 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     private void countryPopupMenu() {
-        sp_update_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_up), null);
+        sp_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_up), null);
 
         Context wrapper = new ContextThemeWrapper(this, R.style.PopupMenuTheme);
-        PopupMenu countryPopup = new PopupMenu(wrapper, sp_update_country);
+        PopupMenu countryPopup = new PopupMenu(wrapper, sp_country);
 
         List<String> countries = GawlaDataBse.getInstance(this).countryDao().getCountriesNames();
         for (String country : countries)
@@ -182,7 +175,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         countryPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                sp_update_country.setText(item.getTitle());
+                sp_country.setText(item.getTitle());
                 return true;
             }
         });
@@ -190,7 +183,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         countryPopup.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
-                sp_update_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_down), null);
+                sp_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_down), null);
             }
         });
 
@@ -204,39 +197,17 @@ public class AccountDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void getCountriesFromSever() {
-        final String apiToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
-        RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                REQ_GET_ALL_COUNTRIES, new Request<>(REQ_GET_ALL_COUNTRIES, apiToken,
-                        null, null, null, null, null, null), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        GawlaDataBse.getInstance(AccountDetailsActivity.this).countryDao().insertCountryList(ParseResponses.parseCountries(mainObject));
-                    }
-
-                    @Override
-                    public void handleAfterResponse() {
-
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
     private void genderPopupMenu() {
-        sp_update_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_up), null);
+        sp_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_up), null);
 
         Context wrapper = new ContextThemeWrapper(this, R.style.PopupMenuTheme);
-        PopupMenu genderPopup = new PopupMenu(wrapper, sp_update_gender);
+        PopupMenu genderPopup = new PopupMenu(wrapper, sp_gender);
         genderPopup.getMenuInflater().inflate(R.menu.gender_menu, genderPopup.getMenu());
 
         genderPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                sp_update_gender.setText(item.getTitle());
+                sp_gender.setText(item.getTitle());
                 return true;
             }
         });
@@ -244,7 +215,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         genderPopup.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
-                sp_update_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_down), null);
+                sp_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_down), null);
             }
         });
 
@@ -263,29 +234,30 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
         Log.d("image_url:", user.getImage());
         Picasso.with(this).load(user.getImage()).placeholder(R.drawable.placeholder).into(ivUserImage);
-        et_update_first_name.setText(user.getFirstName());
-        et_update_telephone.setText(user.getPhone());
-        sp_update_gender.setText(user.getGender());
-        sp_update_country.setText(GawlaDataBse.getInstance(AccountDetailsActivity.this).countryDao().getCountryNameByID(user.getCountry_id()));
+        et_name.setText(user.getName());
+        et_Email.setText(user.getEmail());
+        et_telephone.setText(user.getPhone());
+        sp_gender.setText(user.getGender());
+        sp_country.setText(GawlaDataBse.getInstance(AccountDetailsActivity.this).countryDao().getCountryNameByID(user.getCountry_id()));
 
-        if (sp_update_country.getText().toString().isEmpty())
-            sp_update_country.setText(SharedPrefManager.getInstance(this).getCountry().getCountry_title());
+        if (sp_country.getText().toString().isEmpty())
+            sp_country.setText(SharedPrefManager.getInstance(this).getCountry().getCountry_title());
     }
 
     private void updateUserDataOnServer() {
         try
         {
             setUIOnUpdating();
-            final Country country = GawlaDataBse.getInstance(AccountDetailsActivity.this).countryDao().getCountryByName(sp_update_country.getText().toString());
+            final Country country = GawlaDataBse.getInstance(AccountDetailsActivity.this).countryDao().getCountryByName(sp_country.getText().toString());
             RetrofitClient.getInstance(AccountDetailsActivity.this)
                     .executeConnectionToServer(AccountDetailsActivity.this,
                             REQ_UPDATE_USER_DATA, new Request<>(REQ_UPDATE_USER_DATA,
                                     user_id,
                                     api_token,
-                                    et_update_first_name.getText().toString(),
-                                    "",
-                                    et_update_telephone.getText().toString(),
-                                    sp_update_gender.getText().toString(),
+                                    et_name.getText().toString(),
+                                    et_Email.getText().toString(),
+                                    et_telephone.getText().toString(),
+                                    sp_gender.getText().toString(),
                                     country.getCountry_id()), new HandleResponses() {
                                 @Override
                                 public void handleTrueResponse(JsonObject mainObject) {
@@ -335,10 +307,11 @@ public class AccountDetailsActivity extends AppCompatActivity {
         progressBarUpdateProfile.setVisibility(View.VISIBLE);
         btn_update_profile.setVisibility(View.INVISIBLE);
 
-        et_update_first_name.setEnabled(false);
-        et_update_telephone.setEnabled(false);
-        sp_update_country.setEnabled(false);
-        sp_update_gender.setEnabled(false);
+        et_name.setEnabled(false);
+        et_Email.setEnabled(false);
+        et_telephone.setEnabled(false);
+        sp_country.setEnabled(false);
+        sp_gender.setEnabled(false);
         btn_upload_image.setEnabled(false);
     }
 
@@ -346,10 +319,11 @@ public class AccountDetailsActivity extends AppCompatActivity {
         progressBarUpdateProfile.setVisibility(View.GONE);
         btn_update_profile.setVisibility(View.VISIBLE);
 
-        et_update_first_name.setEnabled(true);
-        et_update_telephone.setEnabled(true);
-        sp_update_country.setEnabled(true);
-        sp_update_gender.setEnabled(true);
+        et_name.setEnabled(true);
+        et_Email.setEnabled(true);
+        et_telephone.setEnabled(true);
+        sp_country.setEnabled(true);
+        sp_gender.setEnabled(true);
     }
 
     private void selectImage() {

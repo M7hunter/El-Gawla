@@ -35,7 +35,7 @@ public class TransHolder {
     // main activity keys
     public String hales;
     public String my_rounds;
-    public String cards;
+    public String store;
     public String account;
     public String menu;
 
@@ -49,7 +49,7 @@ public class TransHolder {
     public String joined_salons;
     public String rounds_empty_hint;
 
-    // cards fragment keys
+    // store fragment keys
     public String cards_store;
     public String cards_empty_hint;
 
@@ -183,9 +183,9 @@ public class TransHolder {
             my_rounds = context.getResources().getString(R.string.my_salons);
         }
 
-        cards = transDao.getTransByKeyAndLang("cards", lang);
-        if (cards == null || cards.isEmpty()) {
-            cards = context.getResources().getString(R.string.cards);
+        store = transDao.getTransByKeyAndLang("store", lang);
+        if (store == null || store.isEmpty()) {
+            store = context.getResources().getString(R.string.store);
         }
 
         account = transDao.getTransByKeyAndLang("account", lang);

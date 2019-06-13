@@ -50,72 +50,85 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/main_header">
 
-                    <!-- ads -->
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/ads_viewpager"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/image_width_main_fragment" />
+                        android:layout_height="wrap_content">
 
-                    <!-- ads main/empty layout -->
-                    <LinearLayout
-                        android:id="@+id/ads_empty_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:layoutDirection="ltr"
-                        android:visibility="visible">
-
-                        <ImageView
-                            android:layout_width="@dimen/image_width_main_fragment"
+                        <!-- ads -->
+                        <androidx.viewpager2.widget.ViewPager2
+                            android:id="@+id/ads_viewpager"
+                            android:layout_width="match_parent"
                             android:layout_height="@dimen/image_width_main_fragment"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/flodillus" />
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                        <!-- texts -->
+                        <!-- ads main/empty layout -->
                         <LinearLayout
+                            android:id="@+id/ads_empty_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_small"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                            android:gravity="center_vertical"
+                            android:layoutDirection="ltr"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="@string/more_gawla_main_page"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/text_size_large"
-                                android:textStyle="bold" />
+                            <ImageView
+                                android:layout_width="@dimen/image_width_main_fragment"
+                                android:layout_height="@dimen/image_width_main_fragment"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/flodillus" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <!-- texts -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="@dimen/margin_small"
                                 android:gravity="center"
-                                android:text="@string/ads"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/text_size_small" />
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@string/more_gawla_main_page"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/text_size_large"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/margin_small"
+                                    android:gravity="center"
+                                    android:text="@string/ads"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/text_size_small" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
-                    </LinearLayout>
+                        <ProgressBar
+                            android:id="@+id/pb_ads"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- cats taps -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cats_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="4"
-                tools:listitem="@layout/item_category_filter" />
-
-            <!--<include layout="@layout/layout_categories" />-->
+            <include layout="@layout/layout_categories" />
 
             <!-- recent salons header -->
             <TextView
@@ -191,6 +204,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
                 android:text="@string/see_more"
                 android:textColor="@color/midBlue"
                 android:textSize="@dimen/text_size_large" />

@@ -29,7 +29,7 @@
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
-        <!-- cards recycler -->
+        <!-- store recycler -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/salon_cards_bottom_recycler"
             android:layout_width="match_parent"

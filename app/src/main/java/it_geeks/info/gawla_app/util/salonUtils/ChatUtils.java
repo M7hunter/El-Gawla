@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +41,7 @@ public class ChatUtils {
     TextSwitcher tvChatTypingState;
     private TextView tvChatEmptyHint, tvNewMessagesCounter;
     private EditText etChatMessage;
-    private Button btnSendMsg;
+    private ImageButton btnSendMsg;
     private RecyclerView chatRecycler;
 
     private List<ChatModel> chatList = new ArrayList<>();

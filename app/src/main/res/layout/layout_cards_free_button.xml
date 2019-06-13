@@ -17,7 +17,7 @@
         android:src="@drawable/ic_cards"
         android:tint="@color/colorPrimary" />
 
-    <!-- cards count -->
+    <!-- store count -->
     <TextView
         android:id="@+id/tv_cards_count"
         android:layout_width="@dimen/margin_xlarge"

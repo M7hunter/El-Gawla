@@ -50,7 +50,15 @@ public class Constants {
     public static final String REQ_FORGOT_PASSWORD = "forgotPassword";
     // endregion
 
-    public static final String EMPTY_TOKEN = "empty";
+    // region cats keys
+    public static final String CAT_ENGINES = "Engines";
+    public static final String CAT_JEWELLERY = "Jewelery";
+    public static final String CAT_REAL_STATE = "Real Estates";
+    public static final String CAT_MATERIALS = "Consumption materials";
+    // endregion
+
     public static final int NULL_INT_VALUE = -111;
+    public static final String EMPTY_TOKEN = "empty";
+    public static final String CATEGORY_KEY = "cat_key";
     public static final String PREVIOUS_PAGE_KEY = "previous_page";
 }

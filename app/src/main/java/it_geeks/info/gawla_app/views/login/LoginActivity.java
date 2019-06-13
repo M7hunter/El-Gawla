@@ -63,7 +63,7 @@ import static it_geeks.info.gawla_app.util.Constants.REQ_SOCIAL_SIGN;
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private Button btnForgetPassword, btnLogin;
-    private TextView tvSingInHeader, tvGooglePlus, tvFacebook, tvCreateAccount;
+    private TextView tvCreateAccount;
     private EditText etEmail, etPassword;
     private TextInputLayout tlEmail, tlPass;
 
@@ -83,8 +83,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         initViews();
 
-        setupTrans();
-
         firebaseInit();
 
         handleEvents();
@@ -94,10 +92,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         etEmail = findViewById(R.id.et_Email);
         etPassword = findViewById(R.id.et_Password);
 
-        // translatable views
-        tvSingInHeader = findViewById(R.id.tv_sign_in_header);
-        tvGooglePlus = findViewById(R.id.tv_google_plus_si);
-        tvFacebook = findViewById(R.id.tv_facebook_si);
         tlEmail = findViewById(R.id.tl_email);
         tlPass = findViewById(R.id.tl_pass);
         btnLogin = findViewById(R.id.btn_login);
@@ -106,20 +100,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
-    }
-
-    private void setupTrans() {
-        TransHolder transHolder = new TransHolder(this);
-        transHolder.getSignInActivityTranses(this);
-
-        tvSingInHeader.setText(transHolder.sign_in);
-        tvGooglePlus.setText(transHolder.via_google_plus);
-        tvFacebook.setText(transHolder.via_facebook);
-        tlEmail.setHint(transHolder.email);
-        tlPass.setHint(transHolder.password);
-        btnLogin.setText(transHolder.sign_in);
-        btnForgetPassword.setText(transHolder.forget_pass);
-        tvCreateAccount.setText(transHolder.create_account);
     }
 
     private void handleEvents() {

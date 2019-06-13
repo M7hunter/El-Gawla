@@ -26,6 +26,7 @@ public class IntroActivity extends AppCompatActivity {
     private Button btnSkip, btnNext;
     private ImageButton ibPrevious;
     private TextView tvSignIn, tvSignUp;
+    private View introSignBar;
 
     private int mCurrentPage;
     public static boolean settingPage = false;
@@ -50,6 +51,9 @@ public class IntroActivity extends AppCompatActivity {
         btnNext = findViewById(R.id.btn_intro_next);
         tvSignIn = findViewById(R.id.tv_intro_sign_in);
         tvSignUp = findViewById(R.id.tv_intro_sign_up);
+        introSignBar = findViewById(R.id.intro_sign_bar);
+
+        if (settingPage) introSignBar.setVisibility(View.GONE);
     }
 
     private void initPager() {

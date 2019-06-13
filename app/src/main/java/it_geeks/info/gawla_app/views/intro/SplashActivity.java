@@ -16,6 +16,7 @@ import it_geeks.info.gawla_app.Adapters.CountrySpinnerAdapter;
 import it_geeks.info.gawla_app.repository.Models.Country;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -42,7 +43,7 @@ public class SplashActivity extends AppCompatActivity {
                 if (selected)
                 {
                     if (position != 0)
-                        saveAndProceed();
+                        saveAndProceed(position);
                 }
                 else
                 {
@@ -56,9 +57,9 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-    private void saveAndProceed() {
+    private void saveAndProceed(int position) {
         // cache country
-//                SharedPrefManager.getInstance(SplashActivity.this).setCountry(countries.get(position));
+        SharedPrefManager.getInstance(SplashActivity.this).setCountry(countries.get(position));
 
         // move to intro screen
         startActivity(new Intent(SplashActivity.this, IntroActivity.class)

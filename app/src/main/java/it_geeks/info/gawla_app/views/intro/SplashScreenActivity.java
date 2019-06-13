@@ -39,7 +39,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     public List<WebPage> webPageList = new ArrayList<>();
 
     private ProgressBar pbSplash;
-    private boolean getWebPagesFromServer = false, getCountriesFromSever = false;
+    private boolean webPagesReady = false, countriesReady = false;
 
     private String countriesToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
     private String pagesToken = "T9hQoKYK7bGop5y6tuZq5S4RBH0dTNu0Lh6XuRzhyju8OVZ3Bz6TRDUJD4YH";
@@ -48,9 +48,12 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Fabric.with(this, new Crashlytics());
         setLang();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
         splashInstance = this;
+
         pbSplash = findViewById(R.id.pb_splash);
 
         checkConnection();
@@ -97,14 +100,14 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     @Override
                     public void handleAfterResponse() {
-                        getCountriesFromSever = true;
+                        countriesReady = true;
                         getWebPagesFromServer();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         Toast.makeText(SplashScreenActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-                        getCountriesFromSever = true;
+                        countriesReady = true;
                         getWebPagesFromServer();
                     }
                 });
@@ -123,13 +126,13 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     @Override
                     public void handleAfterResponse() {
-                        getWebPagesFromServer = true;
+                        webPagesReady = true;
                         checkLoginState();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        getWebPagesFromServer = true;
+                        webPagesReady = true;
                         checkLoginState();
                     }
                 });
@@ -143,7 +146,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             if (SharedPrefManager.getInstance(this).getCountry().getCountry_id() == -111)
             { // country !saved
-                if (getCountriesFromSever)
+                if (countriesReady)
                     startActivity(SplashActivity.class);
             }
             else
@@ -153,7 +156,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         else
         { // the user is logged in
-            if (getWebPagesFromServer)
+            if (webPagesReady)
                 startActivity(MainActivity.class);
         }
     }

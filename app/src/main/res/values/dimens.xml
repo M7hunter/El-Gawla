@@ -29,7 +29,7 @@
     <dimen name="icon_notification">35dp</dimen>
     <dimen name="icon_back">35dp</dimen>
     <dimen name="image_width_main_fragment">160dp</dimen>
-    <dimen name="image_width_round">270dp</dimen>
+    <dimen name="image_width_round">280dp</dimen>
     <dimen name="image_height_round">170dp</dimen>
     <dimen name="image_height_product">170dp</dimen>
     <dimen name="image_news">70dp</dimen>
@@ -45,4 +45,7 @@
     <dimen name="card_width">35dp</dimen>
     <dimen name="single_card_height">120dp</dimen>
     <dimen name="single_card_width">85dp</dimen>
+    <dimen name="cat_icon_dim">50dp</dimen>
+    <dimen name="user_image">60dp</dimen>
+    <dimen name="text_size_x_medium">13sp</dimen>
 </resources>

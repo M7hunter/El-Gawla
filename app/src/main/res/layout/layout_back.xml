@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_alignParentLeft="true"
     android:layout_gravity="left"
-    android:background="@drawable/selector_ripple_back"
+    android:background="@drawable/selector_ripple_white"
     android:padding="@dimen/margin_medium"
     android:src="@drawable/ic_arrow_back"
     app:layout_constraintLeft_toLeftOf="parent" />

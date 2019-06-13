@@ -119,6 +119,7 @@ public class CardActivity extends AppCompatActivity {
             public View makeView() {
                 TextView tv = new TextView(CardActivity.this);
                 tv.setTextSize(15);
+                tv.setLineSpacing(0, 1.5f);
                 tv.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
                 tv.setTextColor(getResources().getColor(R.color.blueGrey));
                 tv.setText(getString(R.string.activity_empty_hint));
@@ -166,7 +167,7 @@ public class CardActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 newCard = cardList.get(position); // get new card from the list
                 bindData(newCard); // bind the new data
-                cardList.set(position, card); // swap cards
+                cardList.set(position, card); // swap store
                 card = newCard; // after swapping act normal
             }
         }));

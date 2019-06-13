@@ -151,8 +151,6 @@ public class SharedPrefManager {
         editor.putString("userEmail", user.getEmail());
         editor.putString("membership", user.getMembership());
         editor.putString("gender", user.getGender());
-        editor.putString("firstName", user.getFirstName());
-        editor.putString("lastName", user.getLastName());
         editor.putString("phone", user.getPhone());
 
         editor.putBoolean("userLogged", true);
@@ -177,8 +175,6 @@ public class SharedPrefManager {
                 sharedPreferences.getString("userEmail", null),
                 sharedPreferences.getString("membership", null),
                 sharedPreferences.getString("gender", null),
-                sharedPreferences.getString("firstName", null),
-                sharedPreferences.getString("lastName", null),
                 sharedPreferences.getString("phone", null)
         );
     }

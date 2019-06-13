@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
@@ -33,6 +34,7 @@ import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
+import it_geeks.info.gawla_app.views.account.AccountDetailsActivity;
 
 import static it_geeks.info.gawla_app.repository.RESTful.ParseResponses.parseRounds;
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_SALON_BY_USER_ID;
@@ -115,15 +117,25 @@ public class MySalonsFragment extends Fragment {
                 startActivity(new Intent(getContext(), NotificationActivity.class));
             }
         });
+
+        fragmentView.findViewById(R.id.iv_user_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.mainInstance, AccountDetailsActivity.class));
+            }
+        });
     }
 
     private void checkConnection() {
-        if (Common.Instance().isConnected(getActivity())) {
+        if (Common.Instance().isConnected(getActivity()))
+        {
             noConnectionLayout.setVisibility(View.GONE);
 
             getUsrSalonsFromServer();
 
-        } else {
+        }
+        else
+        {
             noConnectionLayout.setVisibility(View.VISIBLE);
             mySalonsProgress.setVisibility(View.GONE);
             refreshLayout.setRefreshing(false);
@@ -133,7 +145,7 @@ public class MySalonsFragment extends Fragment {
     private void getUsrSalonsFromServer() {
         RetrofitClient.getInstance(getActivity()).executeConnectionToServer(MainActivity.mainInstance,
                 REQ_GET_SALON_BY_USER_ID, new Request<>(REQ_GET_SALON_BY_USER_ID, userId, apiToken
-                ,null,null,null,null,null), new HandleResponses() {
+                        , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         salonsList.clear();
@@ -158,7 +170,8 @@ public class MySalonsFragment extends Fragment {
     private void initMySalonsRecycler() {
         mySalonsProgress.setVisibility(View.GONE);
 
-        if (salonsList.size() > 0) {
+        if (salonsList.size() > 0)
+        {
             tvMySalonsHeader.setText(MainActivity.mainInstance.getString(R.string.joined_salons));
             emptyViewLayout.setVisibility(View.GONE);
             mySalonsRecycler.setVisibility(View.VISIBLE);
@@ -167,7 +180,9 @@ public class MySalonsFragment extends Fragment {
             mySalonsRecycler.setLayoutManager(new LinearLayoutManager(MainActivity.mainInstance));
             mySalonsRecycler.setAdapter(new SalonsAdapter(getActivity(), salonsList));
 
-        } else {
+        }
+        else
+        {
             tvMySalonsHeader.setText(MainActivity.mainInstance.getString(R.string.no_joined_salons));
             emptyViewLayout.setVisibility(View.VISIBLE);
             mySalonsRecycler.setVisibility(View.GONE);

@@ -12,7 +12,6 @@
         android:layout_height="match_parent">
         <!-- scroll main layout -->
         <LinearLayout
-            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_xx_large"
@@ -36,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_large"
                 android:gravity="center"
+                android:lineSpacingExtra="@dimen/margin_small"
                 android:padding="@dimen/margin_small"
                 android:text="@string/payment_enjoy"
                 android:textColor="@color/midBlue"
@@ -252,7 +252,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_xTiny"
                 android:layout_marginBottom="@dimen/margin_small"
-                android:padding="@dimen/margin_small"
+                android:padding="@dimen/margin_medium"
                 android:text="@string/pay_later"
                 android:textColor="@color/blueyGrey"
                 android:textSize="@dimen/text_size_medium"

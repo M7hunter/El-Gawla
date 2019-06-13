@@ -52,7 +52,7 @@
                     tools:listitem="@layout/item_salon_date"
                     tools:orientation="horizontal" />
 
-                <!-- salons & empty view container & 'to center the cards' -->
+                <!-- salons & empty view container & 'to center the store' -->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -66,7 +66,7 @@
                         android:layout_centerInParent="true"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:itemCount="3"
-                        tools:listitem="@layout/item_round"
+                        tools:listitem="@layout/item_salon"
                         tools:orientation="horizontal" />
 
                     <!-- empty view -->

@@ -43,7 +43,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_round, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_salon, viewGroup, false));
     }
 
     @Override

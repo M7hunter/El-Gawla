@@ -16,7 +16,7 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="@dimen/margin_xxxx_large"
         android:layout_marginEnd="@dimen/margin_xxxx_large"
-        android:background="@drawable/bg_rounded_corners_white_bordered_nice_blue"
+        android:background="@drawable/bg_rounded_corners_white_bordered_gray"
         android:gravity="center"
         android:padding="@dimen/margin_medium"
         android:textColor="@color/battleshipGrey"

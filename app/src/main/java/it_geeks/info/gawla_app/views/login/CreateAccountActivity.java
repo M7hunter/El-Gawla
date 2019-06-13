@@ -95,8 +95,6 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
 
         firebaseInit();
 
-        setupTrans();
-
         handleEvents();
     }
 
@@ -123,20 +121,6 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
 
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
-    }
-
-    private void setupTrans() {
-        TransHolder transHolder = new TransHolder(this);
-        transHolder.getSignUpActivityTranses(this);
-
-        tvSignUp.setText(transHolder.sign_up);
-        tvGooglePlus.setText(transHolder.via_google_plus);
-        tvFacebook.setText(transHolder.via_facebook);
-        tl_create_name.setHint(transHolder.full_name);
-        tl_create_email.setHint(transHolder.email);
-        tl_create_pass.setHint(transHolder.password);
-        btnCreateAccount.setText(transHolder.sign_up);
-        tvAlreadyHaveAccount.setText(transHolder.already_have_account);
     }
 
     private void handleEvents() {

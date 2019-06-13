@@ -1224,7 +1224,7 @@ public class SalonActivity extends AppCompatActivity {
     }
     // endregion
 
-    // region cards
+    // region card
 
     // region golden card
     private void calculateGoldenCard() {
@@ -1457,12 +1457,13 @@ public class SalonActivity extends AppCompatActivity {
         if (round != null && round.getSalon_cards() != null)
         {
             cardsRecycler = sheetView.findViewById(R.id.salon_cards_bottom_recycler);
+            cardsRecycler.setHasFixedSize(true);
             if (cardsRecycler.getLayoutManager() == null)
             {
                 cardsRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
             }
-            cardsRecycler.setHasFixedSize(true);
-            getUserCardsForSalonFromServer(); // <-- refresh user cards list
+
+            getUserCardsForSalonFromServer(); // <-- refresh user store list
         }
 
         // close bottom sheet
@@ -1490,7 +1491,7 @@ public class SalonActivity extends AppCompatActivity {
     public void getUserCardsForSalonFromServer() {
         int userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
         String apiToken = SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token();
-        Log.d(TAG, "getUserCardsForSalonFromServer: doing");
+
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
                 REQ_GET_USER_CARDS_BY_SALON, new Request<>(REQ_GET_USER_CARDS_BY_SALON, userId, apiToken, round.getSalon_id()
                         , null, null, null, null), new HandleResponses() {
@@ -1519,7 +1520,7 @@ public class SalonActivity extends AppCompatActivity {
 
                         calculateGoldenCard();
 
-                        // update cards adapter
+                        // update store adapter
                         if (cardsRecycler.getAdapter() == null)
                         {
                             cardsRecycler.setAdapter(new SalonCardsAdapter(SalonActivity.this, round.getSalon_cards(), round.getSalon_id(), round.getRound_id()));
