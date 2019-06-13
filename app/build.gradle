@@ -8,8 +8,8 @@ android {
         applicationId "it_geeks.info.gawla_app"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 6
-        versionName "1.1.0"
+        versionCode 7
+        versionName "1.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -42,7 +42,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation "androidx.viewpager2:viewpager2:1.0.0-alpha04"
+    implementation "androidx.viewpager2:viewpager2:1.0.0-alpha05"
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
