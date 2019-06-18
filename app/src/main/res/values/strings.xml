@@ -5,43 +5,29 @@
     <string name="slide_heading3">Offer best price</string>
     <string name="salons_winners">salons winners</string>
     <string name="add_offer">Add offer</string>
-    <string name="new_offer">New offer</string>
     <string name="the_salons">salons</string>
     <string name="my_salons">my salons</string>
     <string name="cards">Cards</string>
     <string name="account">my account</string>
     <string name="menu">menu</string>
     <string name="sell_price">Sell price</string>
-    <string name="round_start">Round start</string>
-    <string name="close">Close</string>
     <string name="join_round">Join round</string>
     <string name="see_more">See more</string>
     <string name="recent_salons">Recent salons</string>
     <string name="password">Password</string>
     <string name="full_name">"Full name"</string>
     <string name="pay_later">"Later"</string>
-    <string name="activate_card">Activate card</string>
     <string name="buy_card_to_join">Buy card to join</string>
     <string name="profile">profile</string>
     <string name="buying_processes">Buying processes</string>
     <string name="privacy_policy">Privacy policy</string>
-    <string name="dont_have_red_card">Don\'t have red card</string>
-    <string name="dont_have_golden_card">Don\'t have golden card</string>
-    <string name="dont_have_green_card">Don\'t have green card</string>
-    <string name="cards_store">cards store</string>
     <string name="more_about_gawla">More about Gawla</string>
     <string name="terms_conditions">Terms and conditions</string>
     <string name="call_us">Call us</string>
     <string name="how_gawla_works">How Gawla works</string>
-    <string name="zero_members_joined">0 Members joined</string>
     <string name="joined_salons">Joined salons</string>
-    <string name="tit2">Choose your country</string>
-    <string name="egypt">Egypt</string>
-    <string name="kuwait">Kuwait</string>
-    <string name="login">Login</string>
     <string name="create_account">Create account</string>
     <string name="send">Send</string>
-    <string name="create_new_account">Create new account</string>
     <string name="already_have_account">Already have an account</string>
     <string name="forgetPassword">Forget password ?</string>
     <string name="email">E-mail</string>
@@ -50,31 +36,16 @@
     <string name="slide_descs1"> Sign up now so you can join your favorite tours </string>
     <string name="slide_descs2">Choose your favorite room and join it and then watch the bidding time</string>
     <string name="slide_descs3">Provide the best favorable price to buy inside the lounge to win the tour</string>
-    <string name="menu_fragment_hint">Tour is an interactive application that enables you to purchase products based on the best offer of an offer for the price of the product, now join the card bag</string>
-    <string name="joined_salons_empty_hint">Join one of the lounges and you have one chance to participate every day</string>
     <string name="tit1e">A tour is an interactive application that enables you to buy products based on the best offer offer for the price of the product, now join</string>
     <string name="wile_send_password">The email will be sent for password renewal</string>
     <string name="salon_number">Salon No: </string>
     <string name="second">Second</string>
     <string name="Minute">Minute</string>
     <string name="hour">Hour</string>
-    <string name="Discount_the_tour">Discount the tour</string>
     <string name="Prod_price">Selling price : </string>
-    <string name="money">EGP</string>
     <string name="read_more">Read More</string>
-    <string name="joine_Round">Join the member lounge</string>
-    <string name="mumber_joined_round">15 members joined the tour</string>
     <string name="next">Next</string>
-    <string name="back">Back</string>
     <string name="finish">Finish</string>
-    <string name="login_account">Login</string>
-    <string name="Payment">Payment</string>
-    <string name="payment_step">One step away from the tour is to enjoy the benefits of joining the club, making offers and winning tours </string>
-    <string name="Payment_numberOfCard">Credit card number</string>
-    <string name="NameOfCard">Name on the card</string>
-    <string name="Card_PIN">Card PIN</string>
-    <string name="Expiry_date">Expiry date</string>
-    <string name="Monthly_membership">10 EGP / Monthly membership</string>
     <string name="Confirm_payment">Confirm Payment</string>
     <string name="Congratulations">Congratulations</string>
     <string name="payment_enjoy">Enjoy the benefits of joining the hotel, offering offers and winning tours</string>
@@ -86,56 +57,40 @@
     <string name="One_lounge1">One lounge is accessible daily</string>
     <string name="One_lounge2">* Access to any lounge daily</string>
     <string name="skip">Skip</string>
-    <string name="nati">Member joined Salim Al Duthari</string>
-    <string name="Learn_more_about_the_tour">Learn more about the tour</string>
-    <string name="Advertising_space_for_special_tours">Advertising space for special tours</string>
-    <string name="Product_displayed">Product displayed</string>
     <string name="the_description">Description : </string>
     <string name="start_play">Start Play</string>
     <string name="Attention">Attention</string>
     <string name="Attention_Details">Do you really want to join the Round You have one chance to participate every day ?</string>
     <string name="Congratulations_Attention">Congratulations, you are now a member of the lounge</string>
     <string name="Congratulations_Attention_Details">Add the best offer to win the mobile and follow the card card and use your cards</string>
-    <string name="tit1">"جوله هي تطبيق تفاعلي يمكنك من شراء المنتجات بناء علي افضل عرض تقدمة لسعر المنتج , انضم الان "</string>
     <string name="show">Show</string>
     <string name="app_settings">App settings</string>
     <string name="language">Language</string>
     <string name="sign_out">Sign Out</string>
-    <string name="Invalid_email_password">Invalid email or password</string>
     <string name="emptyMail">Your Email is Empty .</string>
     <string name="emptyPass">Your Password is Empty .</string>
     <string name="sign_up">Sing Up</string>
     <string name="sign_in">Sign In</string>
     <string name="no_content">No content available</string>
     <string name="choose_country">Choose country</string>
-    <string name="first_name">First Name</string>
-    <string name="second_name">Second Name</string>
-    <string name="nationality">Nationality</string>
     <string name="gender">Gender</string>
     <string name="telephone_number">Telephone number</string>
-    <string name="account_info">Account Info</string>
     <string name="privacy_details">Privacy Details</string>
     <string name="edit">Edit</string>
     <string name="disconnect">Disconnect</string>
     <string name="connect_with">Connected With </string>
     <string name="delete_account">Delete Your Account</string>
-    <string name="provider_google">Google</string>
-    <string name="provider_fb">Facebook</string>
     <string name="facebook_app_id" translatable="false">1076557455858728</string>
-    <string name="fb_login_protocol_scheme" translatable="false">fb1076557455858728</string>
     <string name="card_price_salon">Card price for this salon</string>
     <string name="what_is_Gawla">What is Gawla ?</string>
     <string name="text">Text</string>
     <string name="processes">Processes</string>
     <string name="cost">Cost</string>
     <string name="date">Date</string>
-    <string name="round_date">Round Date</string>
     <string name="card">Card</string>
     <string name="save">Save</string>
     <string name="country">Country</string>
     <string name="renew_membership">Renew membership</string>
-    <string name="count_down_to_start">Count down to start</string>
-    <string name="currency">Currency</string>
     <string name="app_notification">App Notification</string>
     <string name="notification">Notification</string>
     <string name="all_salons">All salons</string>
@@ -143,10 +98,8 @@
     <string name="error_occurred">"Error occurred"</string>
     <string name="empty_name">Username Empty</string>
     <string name="empty_message">Message Empty</string>
-    <string name="sending_message">Sending ...</string>
     <string name="rOffer">The Offer</string>
     <string name="use_card_to_join">Use card to join</string>
-    <string name="goldenCard">This Card use for join Round .</string>
     <string name="privacy_text">Create a reseller account for a selected country: As instructed in the site, you must create
              If you are an individual, you must be a resident of that selected country. In the case of companies, the company must have the ability to do business in the selected country
              In accordance with the laws in force in that chosen State. We may assist you in creating an account in each of the selected countries after receiving the necessary information
@@ -158,14 +111,8 @@
              In accordance with the laws in force in that chosen State. We may assist you in creating an account in each of the selected countries after receiving the necessary information
               From you and you must identify yourself to the process contained in the site and also identify all the conditions of the site.</string>
     <!--  Arr For Test and will delete later .-->
-    <array name="ArrGender">
-        <item>Male</item>
-        <item>Female</item>
-    </array>
 
     <!--  TODO Will Delete This Strings Later -->
-    <string name="lastNews">Latest News ...</string>
-    <string name="notiNews">Member Muhammed Boucha has added a new offer</string>
     <string name="mainNotiNews">You can customize your settings so that only the notifications you want appear when the device is locked</string>
     <string name="cards_empty_hint">No cards here yet</string>
     <string name="no_salons">No salons right now \n try later</string>
@@ -176,24 +123,16 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="enter_valid_email">Enter valid email</string>
-    <string name="recent_pass">Recent password</string>
     <string name="continue_">Continue</string>
     <string name="cancel">Cancel</string>
-    <string name="edit_pass">Edit password</string>
-    <string name="new_pass">New password</string>
-    <string name="action_share" translatable="false">Share</string>
     <string name="updated">Updated</string>
     <string name="loading">Loading ...</string>
 
-    <string name="day">Day</string>
     <string name="restart_hint">Restart the app and change language ?</string>
     <string name="delete_account_hint">Delete this account ?</string>
     <string name="empty_hint">empty field</string>
     <string name="name_length_hint">should be more than 5 chars</string>
     <string name="sign_out_hint">Are you sure ?</string>
-    <string name="card_price_category">Card price for this category</string>
-    <string name="card_price_by_category">Card price by category</string>
-    <string name="card_price">Card price</string>
     <string name="salon_activity">Salon activity</string>
     <string name="image_updated">Image updated successfully</string>
     <string name="updating_image">Updating User Image</string>
@@ -202,31 +141,26 @@
     <string name="winner">Winner</string>
     <string name="top_ten">Top ten</string>
 
-    <string name="forget_password_check_maill">Check your mailbox to create new password</string>
-
     <string name="product_details">Product Details</string>
     <string name="leave">Leave</string>
     <string name="more_gawla_main_page">Learn more about the tour</string>
     <string name="ads">Advertising space for special tours</string>
     <string name="you_are_joined">You are joined</string>
     <string name="leave_salon">Are you sure to leave this Salon ?</string>
-    <string name="logout_me">Logout Me</string>
     <string name="before_free_join">Wait The Room To Start</string>
-    <string name="wait_round_to_start">Wait round to start</string>
     <string name="free_join">Free Join</string>
-    <string name="you_can_join">You Can Join Now</string>
     <string name="card_join_time">Card Join Time</string>
-    <string name="can_use_golden_card">You can use golden card to join</string>
     <string name="second_round_time">Second Round time</string>
     <string name="second_rest_time">Second Rest time</string>
     <string name="rest_time">It\'s Rest .. Take Your Breath</string>
     <string name="closed">Closed</string>
     <string name="first_round_time">First Round Time</string>
-    <string name="round_started_add_offer">Round stared add offers to win</string>
-    <string name="round_started">Round stared</string>
     <string name="top_ten_empty">no one in this list</string>
     <string name="activity_empty_hint">no activities in this round</string>
     <string name="buying_processes_empty_hint">Here is your buying history</string>
+    <string name="my_cards_empty_hint">Here is your cards</string>
+    <string name="used">used</string>
+    <string name="unused">unused</string>
     <string name="chat_empty_hint">You can chat salon members here</string>
     <string name="not_joined">You are not joined</string>
     <string name="use_card">Use Card</string>
@@ -253,5 +187,15 @@
     <string name="jewellery">jewellery</string>
     <string name="store">store</string>
     <string name="change_password">change password</string>
-
+    <string name="my_cards">my cards</string>
+    <string name="salons_archive">salons archive</string>
+    <string name="status">status</string>
+    <string name="card_color">card color</string>
+    <string name="cards_store">cards store</string>
+    <string name="image">image</string>
+    <string name="name">name</string>
+    <string name="salons_archive_empty_hint">here is your salons history</string>
+    <string name="won">won</string>
+    <string name="lose">lose</string>
+    <string name="app_sound">app sound</string>
 </resources>

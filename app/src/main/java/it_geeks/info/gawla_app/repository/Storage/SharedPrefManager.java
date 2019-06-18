@@ -24,6 +24,7 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_LAST_REQUEST = "last_request_shared_pref";
     private static final String SHARED_PREF_USER_PROVIDER = "user_socialMedia_Provider";
     private static final String SHARED_PREF_NOTIFICATION = "notification_shared_pref";
+    private static final String SHARED_PREF_SOUND = "sound_shared_pref";
     private static final String SHARED_PREF_NEW_NOTIFICATION = "new_notification";
     private static final String SHARED_PREF_SUBSCRIBED_SALON = "subscribed_salon";
     private static final String SHARED_PREF_PAY_METHOD = "payment_method";
@@ -91,6 +92,23 @@ public class SharedPrefManager {
 
     public void clearNewNotification() {
         context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE).edit().clear().apply();
+    }
+    // endregion
+
+    // region sound
+    public void setSoundEnabled(boolean enabled) { // enabled, disabled
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_SOUND, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.clear();
+
+        editor.putBoolean("sound_enabled", enabled);
+        editor.apply();
+    }
+
+    public boolean isSoundEnabled() {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_SOUND, MODE_PRIVATE);
+        return sharedPreferences.getBoolean("sound_enabled", true);
     }
     // endregion
 

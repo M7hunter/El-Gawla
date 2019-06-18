@@ -132,7 +132,6 @@
 
             <!-- recent salons header -->
             <TextView
-                android:id="@+id/recent_salons_header_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -182,7 +181,6 @@
                         android:src="@drawable/empty_view_salons" />
 
                     <TextView
-                        android:id="@+id/recent_salons_empty_hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_medium"
@@ -220,7 +218,6 @@
 
                 <!-- header -->
                 <TextView
-                    android:id="@+id/winners_news_header_label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -231,7 +228,6 @@
 
                 <!-- btn see all -->
                 <TextView
-                    android:id="@+id/winners_news_see_all_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:foreground="?android:attr/selectableItemBackground"

@@ -12,7 +12,6 @@
         android:layout_height="match_parent">
         <!-- scroll main layout -->
         <LinearLayout
-            android:id="@+id/CallUsParentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

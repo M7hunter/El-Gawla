@@ -43,7 +43,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_salon, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_salon, viewGroup, false));
     }
 
     @Override
@@ -62,12 +62,12 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
 
             if (round.getSalon_cards() != null)
             {
-                viewHolder.cardsRecycler.setAdapter(new SalonCardsIconAdapter(context, round.getSalon_cards()));
+                viewHolder.cardsRecycler.setAdapter(new SalonCardsIconAdapter(round.getSalon_cards()));
             }
             else
             {
                 List<Card> cards = GawlaDataBse.getInstance(context).cardDao().getCardsById(round.getSalon_id());
-                viewHolder.cardsRecycler.setAdapter(new SalonCardsIconAdapter(context, cards));
+                viewHolder.cardsRecycler.setAdapter(new SalonCardsIconAdapter(cards));
                 round.setSalon_cards(cards);
                 round.setProduct_images(GawlaDataBse.getInstance(context).productImageDao().getSubImagesById(round.getProduct_id()));
             }
@@ -79,7 +79,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                     try
                     {
                         Intent i = new Intent(context, SalonActivity.class);
-                        // send round's data to round page
+                        // pass salon's data to salon page
                         i.putExtra("round", round);
 
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)

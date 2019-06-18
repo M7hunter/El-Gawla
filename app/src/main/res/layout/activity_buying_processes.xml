@@ -51,7 +51,6 @@
 
         <!-- headers -->
         <LinearLayout
-            android:id="@+id/buying_processes_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_rounded_top_corners_c_primary"

@@ -2,8 +2,6 @@
 <resources>
     <string name="app_name">الجولة</string>
     <string name="see_more">شاهد المزيد</string>
-    <string name="round_start">بداية الجولة</string>
-    <string name="close">اغلاق</string>
     <string name="join_round">" انضم للجولة"</string>
     <string name="sell_price">سعر البيع</string>
     <string name="menu">القائمة</string>
@@ -19,64 +17,37 @@
     <string name="slide_descs2">قم باختيار الصاله المفضلة و انضم اليها ثم قم بمراقبة وقت المزايدة</string>
     <string name="slide_descs3">قدم افضل سعر مناسب للشراء داخل الصالة لربح الجوله</string>
     <string name="tit1e">"جوله هي تطبيق تفاعلي يمكنك من شراء المنتجات بناء علي افضل عرض تقدمة لسعر المنتج ,         انضم الان "</string>
-    <string name="tit2">اختار دولتك</string>
-    <string name="egypt">مصر</string>
-    <string name="kuwait">الكويت</string>
     <string name="google_plus">سجل عبر جوجل</string>
     <string name="facebook">سجل عبر فيسبوك</string>
     <string name="email">البريد اللإلكتروني</string>
-    <string name="login">دخول</string>
     <string name="forgetPassword">نسيت كلمة السر ؟</string>
     <string name="create_account">إنشاء حساب</string>
     <string name="password">كلمة السر</string>
     <string name="send">ارسال</string>
     <string name="full_name">الاسم بالكامل</string>
-    <string name="create_new_account">انشاء حساب جديد</string>
     <string name="already_have_account">لدي حساب بالفعل</string>
     <string name="pay_later">دفع لاحقاً</string>
-    <string name="activate_card">تفعيل الكارت</string>
     <string name="buy_card_to_join"> شراء الكارت للإنضمام</string>
     <string name="cards_store">متجر الكروت</string>
-    <string name="menu_fragment_hint">جوله هي تطبيق تفاعلي يمكنك من شراء المنتجات بناء علي افضل عرض تقدمة لسعر المنتج , انضم الان حقيبة الكروت</string>
     <string name="more_about_gawla">المزيد عن الجولة</string>
     <string name="terms_conditions">الشروط والأحكام</string>
     <string name="call_us">اتصل بنا</string>
     <string name="how_gawla_works">كيف تعمل الجولة</string>
-    <string name="zero_members_joined">0 عضو انضموا للجولة</string>
     <string name="joined_salons">الصالات المشترك بها</string>
-    <string name="joined_salons_empty_hint">قم بالانضمام الي  احد الصالات لديك فرصه واحده للمشاركة كل يوم</string>
-    <string name="dont_have_green_card">ليس لديك الكارت الاخضر</string>
-    <string name="dont_have_golden_card">ليس لديك الكارت الذهبي</string>
-    <string name="dont_have_red_card">ليس لديك الكارت الاحمر</string>
     <string name="privacy_policy">سياسة الخصوصية</string>
     <string name="buying_processes">عمليات الشراء</string>
     <string name="profile">البروفايل</string>
-    <string name="new_offer">عرض جديد</string>
     <string name="add_offer">إضافة عرض</string>
     <string name="salons_winners">رابحين الصالات</string>
-    <string name="tit1">"جوله هي تطبيق تفاعلي يمكنك من شراء المنتجات بناء علي افضل عرض تقدمة لسعر المنتج , انضم الان "</string>
     <string name="wile_send_password">سيتم ارسال البريد الالكتروني  لتجديد كلمة السر</string>
     <string name="salon_number">الصالة رقم : </string>
     <string name="second">ثانية</string>
     <string name="Minute">دقيقة</string>
     <string name="hour">ساعة</string>
-    <string name="Discount_the_tour">حسم الجولة</string>
     <string name="Prod_price">سعر البيع : </string>
-    <string name="money">جنية</string>
     <string name="read_more">المزيد</string>
-    <string name="joine_Round">انضم للصالة العضو </string>
-    <string name="mumber_joined_round">    15  عضو انضمو للجولة </string>
     <string name="next">التالي</string>
-    <string name="back">السابق</string>
     <string name="finish">انهاء</string>
-    <string name="login_account">تسجيل الدخول</string>
-    <string name="Payment">الدفع</string>
-    <string name="payment_step">خطوة واحدة تفصلك عن التسجيل في الجولة لتتمتع بمزايا الانضمام  للصالة و تقدم العروض و ربح الجولات </string>
-    <string name="Payment_numberOfCard">رقم بطاقة الائتمان</string>
-    <string name="NameOfCard">الاسم علي البطاقة</string>
-    <string name="Card_PIN">الرقم السري للبطاقة</string>
-    <string name="Expiry_date">تاريخ الانتهاء</string>
-    <string name="Monthly_membership">10 EGP / عضوية شهرية</string>
     <string name="Confirm_payment">تاكيد الدفع</string>
     <string name="Congratulations">تهانينا</string>
     <string name="payment_enjoy">لتتمتع بمزايا الانضمام  للصالة و تقدم العروض و ربح الجولات</string>
@@ -88,10 +59,6 @@
     <string name="One_lounge1">يمكن دخول صالة واحدة يومياً</string>
     <string name="One_lounge2"> * يمكن دخول اي صالة  يومياً</string>
     <string name="skip">تخطي</string>
-    <string name="nati">انضم الصالة العضو سالم الدوثري</string>
-    <string name="Learn_more_about_the_tour">تعرف علي المزيد من تطبيق الجولة</string>
-    <string name="Advertising_space_for_special_tours">مساحة اعلانات عن الجولات المميزة</string>
-    <string name="Product_displayed">المنتج المعروض</string>
     <string name="the_description">الوصف : </string>
     <string name="start_play">ابدأ اللعب</string>
     <string name="Attention">تنبيه</string>
@@ -100,7 +67,6 @@
     <string name="Congratulations_Attention_Details">اضف افضل عرض لربح الجوالات و قم بمتابعة شنطة الكروت و استخدم الكروت لديك</string>
     <string name="show">عرض</string>
     <string name="language">اللغة</string>
-    <string name="Invalid_email_password">بيانات الدخول غير صحيحة</string>
     <string name="emptyMail">بريد الكتروني فارغ</string>
     <string name="emptyPass">كلمة سر فارغة</string>
     <string name="sign_in">تسجيل الدخول</string>
@@ -113,24 +79,17 @@
     <string name="processes">العمليات</string>
     <string name="cost">التكاليف</string>
     <string name="date">التاريخ</string>
-    <string name="round_date">تاريخ الجولة</string>
     <string name="card">الكارت</string>
     <string name="renew_membership">تجديد العضوية</string>
     <string name="app_settings">اعدادات التطبيق</string>
-    <string name="currency">العملة</string>
     <string name="app_notification">اشعارات التطبيق</string>
     <string name="notification">الاشعارات</string>
-    <string name="first_name">الاسم الاول</string>
-    <string name="second_name">الاسم الثاني</string>
-    <string name="nationality">الجنسية</string>
     <string name="gender">الجنس</string>
     <string name="telephone_number">رقم الهاتف</string>
-    <string name="account_info">بيانات الحساب</string>
     <string name="edit">تعديل</string>
     <string name="disconnect">الغاء الاتصال</string>
     <string name="connect_with">"متصل بأستخدام "</string>
     <string name="use_card_to_join">إستخدام الكارت للإنضمام</string>
-    <string name="goldenCard">هاذا الكارت يستخدم لدخول الجوله .</string>
     <string name="privacy_text">إنشاء حساب بائع لدولة مختارة:
  حسب التعليمات الواردة في الموقع، يتعين عليك إنشاء
 حساب بائع لدينا عن كل دولة من الدول المختارة التي تحتاج إلى الاستفادة من خدماتنا فيها إذا كنت فرداً يجب أن تكون مقيماً في تلك الدولة المختارة أما في حالة الشركات، يتعين أن يكون لدى الشركة القدرة على ممارسة الأعمال في الدولة المختارة
@@ -145,23 +104,14 @@
               من طرفكم ويجب عليكم التعرف بأنفسكم على العملية الواردة في الموقع والتعرف كذلك على جميع شروط الموقع .</string>
 
     <!--  Arr For Test and will delete later .-->
-    <array name="ArrGender">
-        <item>ذكر</item>
-        <item>انثي</item>
-    </array>
 
     <string name="delete_account">حذف الحساب الخاص بك</string>
-    <string name="provider_fb">فيسبوك</string>
-    <string name="provider_google">جوجل</string>
     <string name="save">حفظ</string>
     <string name="country">الدولة</string>
     <string name="privacy_details">بيانات الخصوصية</string>
 
     <!--  TODO Will Delete This Strings Later -->
-    <string name="lastNews">اخر اخبار الصالة …</string>
-    <string name="notiNews">قام العضو  Muhammed Boucha  بضافة عرض جديد</string>
     <string name="mainNotiNews">يمكنك تخصيص الإعدادات الخاصة بك بحيث لا تظهر على الشاشة سوى الإشعارات التي تريدها عندما يكون الجهاز مقفلاً</string>
-    <string name="count_down_to_start">العد التنازلي للبداية</string>
     <string name="all_salons">كل الصالات</string>
     <string name="cards_empty_hint">لا يوجد كروت هنا بعد</string>
     <string name="check_connection">يوجد مشكلة في الاتصال</string>
@@ -172,34 +122,25 @@
     <string name="retry">أعد المحاولة</string>
     <string name="empty_name">اسم المستخدم فارغ</string>
     <string name="empty_message">محتوي الرسالة فارغ</string>
-    <string name="sending_message">جاري الارسال ...</string>
     <string name="category">الفئة</string>
     <string name="rOffer">العرض</string>
     <string name="sign_out">تسجيل خروج</string>
     <string name="filter_by">فرز حسب</string>
     <string name="male">ذكر</string>
     <string name="female">أنثى</string>
-    <string name="recent_pass">كلمة السر الحالية</string>
     <string name="continue_">متابعة</string>
     <string name="cancel">الغاء</string>
-    <string name="new_pass">كلمة السر الجديدة</string>
-    <string name="edit_pass">تعديل كلمة السر</string>
-    <string name="day">يوم</string>
     <string name="loading">تحميل ...</string>
     <string name="restart_hint">إعادة تشغيل البرنامج و تغيير اللغة ؟</string>
     <string name="delete_account_hint">حذف هذا الحساب ؟</string>
     <string name="sign_out_hint">تسجيل خروج ؟</string>
-    <string name="card_price_category">سعر الكارت لهذه الفئة</string>
     <string name="name_length_hint">يجب ان يزيد عن خمسة احرف</string>
-    <string name="card_price_by_category">سعر الكارت حسب الفئة</string>
-    <string name="card_price">سعر الكارت</string>
     <string name="updated">تم التحديث</string>
     <string name="salon_activity">نشاط الصالة</string>
     <string name="top_ten">أعلى عشرة</string>
     <string name="chat_room">غرفة المحادثة</string>
     <string name="chat_message_hint">أكتب رسالتك هنا</string>
     <string name="product_details">تفاصيل المنتج</string>
-    <string name="forget_password_check_maill">تم ارسال بريد لأسترداد كلمة السر</string>
     <string name="updating_image">جاري رفع صورة المستخدم</string>
     <string name="winner">الفائز</string>
     <string name="image_updated">تم رفع الصورة</string>
@@ -209,16 +150,10 @@
     <string name="ads">مساحة اعلانات عن الجولات المميزة</string>
     <string name="you_are_joined">تم إشتراكك</string>
     <string name="leave_salon">هل تريد حقا مغادرة الصاله ؟</string>
-    <string name="logout_me">أخرجني</string>
     <string name="before_free_join">انتظر الغرفة للبدء</string>
-    <string name="wait_round_to_start">انتظر حتي تبداء الجولة</string>
     <string name="free_join">دخول مجاني</string>
-    <string name="you_can_join">يمكنك الاشتراك الان</string>
     <string name="card_join_time">وقت الدخول بالكارت</string>
-    <string name="can_use_golden_card">يمكنك استخدام الكارت الذهبي للاشتراك</string>
     <string name="closed">الجولة مغلقة</string>
-    <string name="round_started">الجولة بداءت</string>
-    <string name="round_started_add_offer">الجولة بدأت اضف عرضك للفوز</string>
     <string name="second_rest_time">الوقت المستقطع الثاني</string>
     <string name="second_round_time">الجولة الثانية</string>
     <string name="rest_time">وقت مستقطع .. التقط انفاسك</string>
@@ -251,4 +186,17 @@
     <string name="countries">الدول</string>
     <string name="store">المتجر</string>
     <string name="change_password">تعديل كلمة السر</string>
+    <string name="my_cards">كروتي</string>
+    <string name="salons_archive">أرشيف الصالات</string>
+    <string name="status">الحالة</string>
+    <string name="card_color">لون الكارت</string>
+    <string name="my_cards_empty_hint">هنا يوجد كروتك</string>
+    <string name="used">مستخدم</string>
+    <string name="unused">غير مستخدم</string>
+    <string name="image">الصورة</string>
+    <string name="name">الاسم</string>
+    <string name="salons_archive_empty_hint">هنا يوجد تاريخ صالاتك</string>
+    <string name="lose">خسر</string>
+    <string name="won">فاز</string>
+    <string name="app_sound">اصوات التطبيق</string>
 </resources>

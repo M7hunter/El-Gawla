@@ -18,10 +18,8 @@ import it_geeks.info.gawla_app.repository.Models.Country;
 public class CountrySpinnerAdapter extends BaseAdapter {
 
     private List<Country> countryList;
-    private Context context;
 
     public CountrySpinnerAdapter(List<Country> countryList, Context context) {
-        this.context = context;
         countryList.add(0, new Country(-178, context.getString(R.string.countries), "-000", "eg", "000", "000"));
         this.countryList = countryList;
 
@@ -44,7 +42,8 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_country_spinner, parent, false);
+        if (convertView == null)
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_country_spinner, parent, false);
         TextView tv = convertView.findViewById(R.id.tv_country_label);
         ImageView iv = convertView.findViewById(R.id.iv_country_flag);
 

@@ -338,7 +338,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initCategoriesAdapter() {
-        filterRecycler.setAdapter(new CategoryAdapter(AllSalonsActivity.this, categoryList, new ClickInterface.OnItemClickListener() {
+        filterRecycler.setAdapter(new CategoryAdapter(categoryList, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Category category = categoryList.get(position);

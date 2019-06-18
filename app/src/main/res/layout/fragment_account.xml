@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
-    tools:context=".views.MainFragment">
+    tools:context=".views.account.AccountFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -130,7 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:text="@string/profile"
+                    android:text="@string/account"
                     android:textColor="@color/darkSkyBlue"
                     android:textSize="@dimen/text_size_large"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -158,7 +158,8 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:background="@drawable/bg_rounded_corners_white"
-                android:foreground="?android:attr/selectableItemBackground">
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="@dimen/margin_xTiny">
 
                 <!-- icon -->
                 <ImageView
@@ -186,7 +187,6 @@
 
                 <!-- icon -->
                 <ImageView
-                    android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_medium"
@@ -206,7 +206,8 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:background="@drawable/bg_rounded_corners_white"
-                android:foreground="?android:attr/selectableItemBackground">
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="@dimen/margin_xTiny">
 
                 <!-- icon -->
                 <ImageView
@@ -235,7 +236,104 @@
 
                 <!-- icon -->
                 <ImageView
-                    android:id="@+id/imageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:src="@drawable/ic_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 4th option card -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cv_my_cards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:background="@drawable/bg_rounded_corners_white"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="@dimen/margin_xTiny">
+
+                <!-- icon -->
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/ic_my_cards"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- label -->
+                <TextView
+                    android:id="@+id/tv_my_cards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:text="@string/my_cards"
+                    android:textColor="@color/darkSkyBlue"
+                    android:textSize="@dimen/text_size_large"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView7"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- icon -->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:src="@drawable/ic_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 5th option card -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cv_my_victories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:background="@drawable/bg_rounded_corners_white"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="@dimen/margin_xTiny">
+
+                <!-- icon -->
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/ic_smile"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- label -->
+                <TextView
+                    android:id="@+id/tv_my_victories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:text="@string/salons_archive"
+                    android:textColor="@color/darkSkyBlue"
+                    android:textSize="@dimen/text_size_large"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView8"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- icon -->
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_medium"

@@ -1,6 +1,5 @@
 package it_geeks.info.gawla_app.Adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +15,16 @@ import it_geeks.info.gawla_app.util.Common;
 
 public class SalonCardsIconAdapter extends RecyclerView.Adapter<SalonCardsIconAdapter.ViewHolder> {
 
-    private Context context;
     private List<Card> cardList;
 
-    public SalonCardsIconAdapter(Context context, List<Card> cardList) {
-        this.context = context;
+    SalonCardsIconAdapter(List<Card> cardList) {
         this.cardList = cardList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_salon_card, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_salon_card, viewGroup, false));
     }
 
     @Override

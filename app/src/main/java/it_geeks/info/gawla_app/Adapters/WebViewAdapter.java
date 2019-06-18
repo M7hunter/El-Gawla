@@ -11,6 +11,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.WebPage;
 import it_geeks.info.gawla_app.views.menu.WebPageActivity;
@@ -28,7 +29,7 @@ public class WebViewAdapter extends RecyclerView.Adapter<WebViewAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_web_page_label, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_web_page_label, parent, false));
     }
 
     @Override

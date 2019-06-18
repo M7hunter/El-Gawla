@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import androidx.fragment.app.Fragment;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
@@ -27,7 +28,7 @@ public class AccountFragment extends Fragment {
 
     ImageView ivNotificationBell;
 
-    private TextView tvAccountDetails, tvBuyingProcesses, tvPrivacyDetails; // <- trans
+    private TextView tvAccountDetails, tvBuyingProcesses, tvPrivacyDetails, tvMyCards, tvMyVictories;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,7 +75,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void handleEvents(View v) {
-        //intent to account details
+        // account details page
         v.findViewById(R.id.cv_account_details).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +83,7 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        //intent to Privacy details
+        // privacy details page
         v.findViewById(R.id.cv_privacy_details).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,13 +91,30 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        // open buying processes page
+        // buying processes page
         v.findViewById(R.id.account_option_buying_processes).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), BuyingProcessesActivity.class));
             }
         });
+
+        // my cards page
+        v.findViewById(R.id.cv_my_cards).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), MyCardsActivity.class));
+            }
+        });
+
+        // my victories page
+        v.findViewById(R.id.cv_my_victories).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), SalonsArchiveActivity.class));
+            }
+        });
+
 
         // notification status LiveData
         NotificationStatus.notificationStatus(getContext(), ivNotificationBell);

@@ -22,6 +22,8 @@ public class Constants {
     public static final String REQ_GET_ALL_CARDS = "getAllCards";
     public static final String REQ_GET_PAYMENT_PAGE = "getPaymentPage";
     public static final String REQ_GET_SALON_BY_ID = "getSalonByID";
+    public static final String REQ_GET_SALONS_ARCHIVE = "getSalonsArchive";
+    public static final String REQ_GET_MY_CARDS = "getMyCards";
 
     // salon
     public static final String REQ_GET_SALON_BY_USER_ID = "getSalonByUserID";

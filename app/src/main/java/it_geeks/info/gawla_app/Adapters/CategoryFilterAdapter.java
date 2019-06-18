@@ -1,6 +1,5 @@
 package it_geeks.info.gawla_app.Adapters;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.crashlytics.android.Crashlytics;
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import it_geeks.info.gawla_app.R;
@@ -23,12 +19,10 @@ import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 
 public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAdapter.ViewHolder> {
 
-    private Context context;
     private List<Category> categoryList;
     private ClickInterface.OnItemClickListener clickListener;
 
-    public CategoryFilterAdapter(Context context, List<Category> categoryList, ClickInterface.OnItemClickListener clickListener) {
-        this.context = context;
+    public CategoryFilterAdapter(List<Category> categoryList, ClickInterface.OnItemClickListener clickListener) {
         this.categoryList = categoryList;
         this.clickListener = clickListener;
     }
@@ -36,7 +30,7 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_category_filter, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_category_filter, viewGroup, false));
     }
 
     @Override

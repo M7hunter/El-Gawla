@@ -2,7 +2,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainSettingsActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -89,6 +88,40 @@
             <!-- switch -->
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/notification_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:checked="true" />
+
+        </RelativeLayout>
+
+        <!-- sound -->
+        <RelativeLayout
+            android:id="@+id/rl_app_sound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:background="@android:color/white"
+            android:paddingStart="@dimen/margin_small"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_small"
+            android:paddingBottom="@dimen/margin_small">
+
+            <!-- label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/app_sound"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
+
+            <!-- switch -->
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/sound_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

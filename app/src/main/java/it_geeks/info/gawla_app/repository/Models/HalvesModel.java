@@ -28,7 +28,7 @@ public class HalvesModel {
             upperViewsList.add((ImageView) parent.findViewById(context.getResources().getIdentifier("div_up" + i, "id", context.getPackageName())));
             lowerViewsList.add((ImageView) parent.findViewById(context.getResources().getIdentifier("div_down" + i, "id", context.getPackageName())));
         }
-        for (int i = 0; i < 12; i++) { // init halves drawables lists
+        for (int i = 0; i < 10; i++) { // init halves drawables lists
             upperDrawablesResList.add(context.getResources().getIdentifier("digit_" + i + "_upper", "drawable", context.getPackageName()));
             lowerDrawablesResList.add(context.getResources().getIdentifier("digit_" + i + "_lower", "drawable", context.getPackageName()));
         }

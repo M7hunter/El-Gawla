@@ -1,8 +1,6 @@
 package it_geeks.info.gawla_app.Adapters;
 
-import android.content.Context;
 import android.graphics.Color;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +17,11 @@ import it_geeks.info.gawla_app.repository.Models.Category;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
-    private Context context;
     private List<Category> categoryList;
     private ClickInterface.OnItemClickListener clickListener;
     private int selectedPosition = 0;
 
-    public CategoryAdapter(Context context, List<Category> categoryList, ClickInterface.OnItemClickListener clickListener) {
-        this.context = context;
+    public CategoryAdapter(List<Category> categoryList, ClickInterface.OnItemClickListener clickListener) {
         this.categoryList = categoryList;
         this.clickListener = clickListener;
     }
@@ -33,7 +29,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_category, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_category, viewGroup, false));
     }
 
     @Override
@@ -44,9 +40,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         viewHolder.tvCategory.setTextColor(Color.parseColor(category.getCategoryColor()));
 
         // selected ?
-        if (selectedPosition == i) { // selected
+        if (selectedPosition == i)
+        { // selected
             selectedUI(viewHolder, category);
-        } else { // !selected
+        }
+        else
+        { // !selected
             unselectedUI(viewHolder);
         }
 

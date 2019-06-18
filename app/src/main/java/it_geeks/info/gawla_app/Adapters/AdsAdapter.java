@@ -45,7 +45,7 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_ad, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ad, parent, false));
     }
 
     @Override

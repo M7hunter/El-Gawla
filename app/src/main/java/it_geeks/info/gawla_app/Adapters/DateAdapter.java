@@ -37,7 +37,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_salon_date, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_salon_date, viewGroup, false));
     }
 
     @Override
@@ -103,12 +103,12 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
         return dateList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView dayOfMonth, month, dayOfWeek, salonsCount;
         View separator;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             dayOfMonth = itemView.findViewById(R.id.date_day_of_month);

@@ -1,6 +1,5 @@
 package it_geeks.info.gawla_app.Adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +15,10 @@ import it_geeks.info.gawla_app.util.Common;
 
 public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHolder> {
 
-    private Context context;
     private List<Card> cardList;
     private ClickInterface.OnItemClickListener itemClickListener;
 
-    public CardListAdapter(Context context, List<Card> cardList, ClickInterface.OnItemClickListener itemClickListener) {
-        this.context = context;
+    public CardListAdapter(List<Card> cardList, ClickInterface.OnItemClickListener itemClickListener) {
         this.cardList = cardList;
         this.itemClickListener = itemClickListener;
     }
@@ -29,7 +26,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_card_list, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card_list, parent, false));
     }
 
     @Override

@@ -532,7 +532,7 @@ public class MainFragment extends Fragment {
                 winnersNewsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
             if (winnersNewsRecycler.getAdapter() == null)
             {
-                winnersNewsRecycler.setAdapter(new WinnersNewsAdapter(getActivity(), winnerNewsList));
+                winnersNewsRecycler.setAdapter(new WinnersNewsAdapter(winnerNewsList));
             }
 
             // to remove progress bar

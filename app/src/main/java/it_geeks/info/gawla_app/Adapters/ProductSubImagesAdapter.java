@@ -12,6 +12,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.util.ImageLoader;
 import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
@@ -30,7 +31,7 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new Holder(LayoutInflater.from(context).inflate(R.layout.item_product_sub_image, viewGroup, false));
+        return new Holder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_product_sub_image, viewGroup, false));
     }
 
     @Override
@@ -40,7 +41,8 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
         ImageLoader.getInstance().loadImage(subImage.getImageUrl(), holder.productSubImage);
 
         // check if video
-        if (subImage.getImageUrl().endsWith(".mp4") || subImage.getImageUrl().endsWith(".3gp")) {
+        if (subImage.getImageUrl().endsWith(".mp4") || subImage.getImageUrl().endsWith(".3gp"))
+        {
             setPlayIcon(holder);
         }
 
@@ -77,7 +79,7 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
 
         ImageView productSubImage;
 
-        public Holder(@NonNull View itemView) {
+        Holder(@NonNull View itemView) {
             super(itemView);
 
             productSubImage = itemView.findViewById(R.id.product_sub_image);

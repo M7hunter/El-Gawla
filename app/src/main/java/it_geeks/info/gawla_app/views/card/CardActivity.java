@@ -162,7 +162,7 @@ public class CardActivity extends AppCompatActivity {
     private void initCardsRecycler() {
         cardsListRecycler.setHasFixedSize(true);
         cardsListRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-        cardsListRecycler.setAdapter(new CardListAdapter(this, cardList, new ClickInterface.OnItemClickListener() {
+        cardsListRecycler.setAdapter(new CardListAdapter(cardList, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 newCard = cardList.get(position); // get new card from the list
