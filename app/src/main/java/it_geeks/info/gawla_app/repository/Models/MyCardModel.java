@@ -2,50 +2,61 @@ package it_geeks.info.gawla_app.repository.Models;
 
 public class MyCardModel {
 
-    private String CardColor;
+    private int card_id;
 
-    private String CardCategory;
+    private String card_color;
 
-    private String CardStatus;
+    private String card_category;
 
-    private int SalonId;
+    private boolean card_status;
 
-    public MyCardModel(String cardColor, String cardCategory, String cardStatus, int salonId) {
-        CardColor = cardColor;
-        CardCategory = cardCategory;
-        CardStatus = cardStatus;
-        SalonId = salonId;
+    private int salon_id;
+
+    public MyCardModel(int card_id, String card_color, String card_category, boolean card_status, int salon_id) {
+        this.card_id = card_id;
+        this.card_color = card_color;
+        this.card_category = card_category;
+        this.card_status = card_status;
+        this.salon_id = salon_id;
     }
 
-    public String getCardColor() {
-        return CardColor;
+    public int getCard_id() {
+        return card_id;
     }
 
-    public void setCardColor(String cardColor) {
-        CardColor = cardColor;
+    public void setCard_id(int card_id) {
+        this.card_id = card_id;
     }
 
-    public String getCardCategory() {
-        return CardCategory;
+    public String getCard_color() {
+        return card_color;
     }
 
-    public void setCardCategory(String cardCategory) {
-        CardCategory = cardCategory;
+    public void setCard_color(String card_color) {
+        this.card_color = card_color;
     }
 
-    public String getCardStatus() {
-        return CardStatus;
+    public String getCard_category() {
+        return card_category;
     }
 
-    public void setCardStatus(String cardStatus) {
-        CardStatus = cardStatus;
+    public void setCard_category(String card_category) {
+        this.card_category = card_category;
     }
 
-    public int getSalonId() {
-        return SalonId;
+    public boolean getCard_status() {
+        return card_status;
     }
 
-    public void setSalonId(int salon) {
-        SalonId = salon;
+    public void setCard_status(boolean card_status) {
+        this.card_status = card_status;
+    }
+
+    public int getSalon_id() {
+        return salon_id;
+    }
+
+    public void setSalon_id(int salon_id) {
+        this.salon_id = salon_id;
     }
 }

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin_tiny"
+    android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical">
 
     <LinearLayout
@@ -21,10 +22,10 @@
 
             <View
                 android:id="@+id/v_my_card_color"
-                android:layout_width="@dimen/icon_back"
-                android:layout_gravity="center"
+                android:layout_width="@dimen/margin_xlarge"
                 android:layout_height="match_parent"
-                android:background="@color/colorPrimary"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_rounded_corners_c_primary"
                 android:textSize="@dimen/text_size_medium" />
         </FrameLayout>
 
@@ -47,11 +48,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_tiny"
             android:layout_marginEnd="@dimen/margin_tiny"
-            android:textColor="@color/colorPrimary"
             android:layout_weight="1"
             android:gravity="center"
-            tools:text="@string/used"
-            android:textSize="@dimen/text_size_medium" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_medium"
+            tools:text="@string/used" />
 
     </LinearLayout>
 

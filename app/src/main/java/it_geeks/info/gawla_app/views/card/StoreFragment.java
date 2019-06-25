@@ -49,8 +49,6 @@ public class StoreFragment extends Fragment {
 
     private ImageView imgNotification;
 
-    private TextView tvCardsStoreHeader, tvCardsStoreEmptyHint; // <- trans
-
     private View fragmentView;
 
     @Override
@@ -59,8 +57,6 @@ public class StoreFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.fragment_store, container, false);
 
         initViews(fragmentView);
-
-        setupTrans();
 
         handleEvents();
 
@@ -75,26 +71,16 @@ public class StoreFragment extends Fragment {
 
         //Notification icon
         imgNotification = view.findViewById(R.id.iv_notification_bell);
+        View bellIndicator = view.findViewById(R.id.bell_indicator);
+
+        // notification status LiveData
+        NotificationStatus.notificationStatus(getContext(), bellIndicator);
+
         // load user image
         ImageLoader.getInstance().loadUserImage(MainActivity.mainInstance, ((ImageView) fragmentView.findViewById(R.id.iv_user_image)));
-
-        // translatable views
-        tvCardsStoreHeader = view.findViewById(R.id.tv_cards_store_header);
-        tvCardsStoreEmptyHint = view.findViewById(R.id.tv_cards_empty_hint);
-    }
-
-    private void setupTrans() {
-        TransHolder transHolder = new TransHolder(getContext());
-        transHolder.getCardStoreFragmentTranses(getContext());
-
-        tvCardsStoreHeader.setText(transHolder.cards_store);
-        tvCardsStoreEmptyHint.setText(transHolder.cards_empty_hint);
     }
 
     private void handleEvents() {
-        // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(), imgNotification);
-
         // notification
         imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override

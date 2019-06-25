@@ -149,8 +149,9 @@ public class SharedPrefManager {
     }
 
     public String getSavedLang() {
+        String defaultLang =  Locale.getDefault().getLanguage();
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_LANG, MODE_PRIVATE);
-        return sharedPreferences.getString("lang", Locale.getDefault().getLanguage());
+        return sharedPreferences.getString("lang", defaultLang != null ? defaultLang : "ar"); // if null return device default language
     }
     // endregion
 

@@ -54,7 +54,7 @@
     <string name="Monthly_membership2">عضوية شهرية</string>
     <string name="Paying_up">تدفع مقدماً  84EGP سنويا</string>
     <string name="offer">توفير</string>
-    <string name="Monthly10">10 EGP / شهريا</string>
+    <string name="Monthly">شهريا / %1$s</string>
     <string name="Monthly17">17 EGP / شهريا</string>
     <string name="One_lounge1">يمكن دخول صالة واحدة يومياً</string>
     <string name="One_lounge2"> * يمكن دخول اي صالة  يومياً</string>

@@ -16,6 +16,7 @@ import it_geeks.info.gawla_app.Adapters.MyCardsAdapter;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.MyCardModel;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
@@ -60,7 +61,7 @@ public class MyCardsActivity extends AppCompatActivity {
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-
+                        myCardsList = ParseResponses.parseMyCards(mainObject);
                     }
 
                     @Override
@@ -83,6 +84,7 @@ public class MyCardsActivity extends AppCompatActivity {
             myCardsRecycler.setHasFixedSize(true);
             myCardsRecycler.setAdapter(new MyCardsAdapter(this, myCardsList));
             myCardsEmptyView.setVisibility(View.GONE);
+            myCardsRecycler.setVisibility(View.VISIBLE);
         }
         else
         {

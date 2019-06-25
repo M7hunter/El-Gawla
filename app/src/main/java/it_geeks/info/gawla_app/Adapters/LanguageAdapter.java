@@ -21,7 +21,6 @@ import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.intro.SplashScreenActivity;
 
 public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHolder> {
@@ -61,20 +60,6 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
                     restartDialog(sLang(lang));
             }
         });
-
-        //TODO: another sprint
-//        viewHolder.btnDownloadLang.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                downloadLangFromServer();
-
-        // test
-//                GawlaDataBse.getInstance(context).transDao().insertTrans(new Trans("see_all", "test ar", "ar"));
-//                GawlaDataBse.getInstance(context).transDao().insertTrans(new Trans("see_all", "test en", "en"));
-//                GawlaDataBse.getInstance(context).transDao().insertTrans(new Trans("recent_salons", "recent salons ar", "ar"));
-//                GawlaDataBse.getInstance(context).transDao().insertTrans(new Trans("recent_salons", "recent salons en", "en"));
-//            }
-//        });
     }
 
     private void restartDialog(final String lang) {
@@ -106,35 +91,6 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
 
         System.exit(0);
     }
-
-    //TODO: another sprint
-//    private void downloadLangFromServer(String lang) {
-//        RetrofitClient.getInstance(context).executeConnectionToServer(context, "getLang",
-//                new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(),
-//                        SharedPrefManager.getInstance(context).getUser().getApi_token(),
-//                        sLang(lang)), // <- new lang
-//                new HandleResponses() {
-//                    @Override
-//                    public void handleTrueResponse(JsonObject mainObject) {
-//                        GawlaDataBse.getInstance(context).transDao().insertTranses(ParseResponses.parseLanguages(mainObject));
-//                    }
-//
-//                    @Override
-//                    public void handleFalseResponse(JsonObject mainObject) {
-//
-//                    }
-//
-//                    @Override
-//                    public void handleAfterResponse() {
-//
-//                    }
-//
-//                    @Override
-//                    public void handleConnectionErrors(String errorMessage) {
-//                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
 
     private String sLang(String lang) {
         switch (lang)

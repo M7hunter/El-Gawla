@@ -1,262 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:scrollbars="none">
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:scrollbars="none"
+    tools:context=".views.account.MembershipActivity">
 
-    <ScrollView
+    <!-- header -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <!-- scroll main layout -->
-        <LinearLayout
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardElevation="@dimen/margin_medium">
+        <!-- card main layout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xx_large"
-            android:layout_marginEnd="@dimen/margin_xx_large"
-            android:background="@android:color/white"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layoutDirection="rtl"
+            android:padding="@dimen/margin_small">
 
-            <TextView
+            <!-- logo -->
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:text="@string/Congratulations"
-                android:textColor="@color/midBlue"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:gravity="center"
-                android:lineSpacingExtra="@dimen/margin_small"
-                android:padding="@dimen/margin_small"
-                android:text="@string/payment_enjoy"
-                android:textColor="@color/midBlue"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_standard_membership"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xTiny"
-                android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_xTiny"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:background="@drawable/mumbership_month_nurmal"
-                app:cardCornerRadius="@dimen/margin_medium">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/mumbership_month_nurmal"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="@dimen/margin_small">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/cairo_regular"
-                        android:gravity="center"
-                        android:text="@string/Monthly_membership2"
-                        android:textColor="@color/muddyBrown"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        tools:ignore="DuplicateIds" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/cairo_regular"
-                        android:gravity="center"
-                        android:text="@string/Paying_up"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        tools:ignore="DuplicateIds" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/Monthly10"
-                        android:textColor="@android:color/white"
-                        android:textSize="24sp"
-                        tools:ignore="DuplicateIds" />
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_tiny"
-                        android:fontFamily="@font/cairo_regular"
-                        android:gravity="center"
-                        android:text="@string/One_lounge1"
-                        android:textColor="@android:color/white"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        tools:ignore="DuplicateIds" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <!-- rectangles -->
-                <RelativeLayout
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:background="@drawable/shape_triangle2"
-                    android:gravity="right">
-
-                </RelativeLayout>
-
-                <!-- card -->
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_golden_membership"
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/margin_xTiny"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginEnd="@dimen/margin_xTiny"
-                        android:layout_marginBottom="20dp"
-                        android:background="@drawable/mumbership_month_nurmal"
-                        app:cardCornerRadius="15dp">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/mumbership_month_vip">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/cairo_regular"
-                                    android:gravity="center"
-                                    android:text="@string/Monthly_membership2"
-                                    android:textColor="@color/muddyBrown"
-                                    android:textSize="20sp"
-                                    android:textStyle="bold"
-                                    tools:ignore="DuplicateIds" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/cairo_regular"
-                                    android:gravity="center"
-                                    android:text="@string/Paying_up"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold"
-                                    tools:ignore="DuplicateIds" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="@string/Monthly17"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="24sp"
-                                    tools:ignore="DuplicateIds" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="@dimen/margin_tiny"
-                                    android:fontFamily="@font/cairo_regular"
-                                    android:gravity="center"
-                                    android:text="@string/One_lounge2"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    tools:ignore="DuplicateIds" />
-
-                            </LinearLayout>
-
-                        </RelativeLayout>
-                    </androidx.cardview.widget.CardView>
-                </FrameLayout>
-
-                <RelativeLayout
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="14dp"
-                    android:background="@drawable/shape_triangle"
-                    android:gravity="right"
-                    android:rotation="270">
-
-
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="52dp"
-                    android:layout_height="46dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="20dp"
-                    android:gravity="top|center"
-                    android:text="@string/offer"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="52dp"
-                    android:layout_height="46dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="31dp"
-                    android:fontFamily="@font/cairo_regular"
-                    android:gravity="top|center"
-                    android:text=" 20%"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
+                android:src="@drawable/g_logo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- later -->
             <Button
                 android:id="@+id/btn_pay_later"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xTiny"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_xTiny"
-                android:layout_marginBottom="@dimen/margin_small"
-                android:padding="@dimen/margin_medium"
+                android:fontFamily="sans-serif"
                 android:text="@string/pay_later"
-                android:textColor="@color/blueyGrey"
+                android:textColor="@color/colorSecondary"
                 android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:icon="@drawable/ic_arrow_right"
+                app:iconTint="@color/colorSecondary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:rippleColor="@android:color/white" />
 
-        </LinearLayout>
-    </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
-</RelativeLayout>
+    <!-- congrats -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:text="@string/Congratulations"
+        android:textColor="@color/midBlue"
+        android:textSize="@dimen/text_size_xlarge"
+        android:textStyle="bold" />
+
+    <!-- hint -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_xx_large"
+        android:layout_marginEnd="@dimen/margin_xx_large"
+        android:layout_marginBottom="@dimen/margin_large"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/margin_small"
+        android:padding="@dimen/margin_small"
+        android:text="@string/payment_enjoy"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
+
+    <!-- packages -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/packages_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_package" />
+
+</LinearLayout>

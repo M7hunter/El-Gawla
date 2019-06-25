@@ -47,8 +47,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Fabric.with(this, new Crashlytics());
-        setLang();
-
+        Common.Instance().setLang(this, SharedPrefManager.getInstance(this).getSavedLang());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
@@ -75,17 +74,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                             checkConnection();
                         }
                     }).show();
-        }
-    }
-
-    private void setLang() {
-        try
-        {
-            Common.Instance().setLang(this, SharedPrefManager.getInstance(this).getSavedLang());
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            Crashlytics.logException(e);
         }
     }
 

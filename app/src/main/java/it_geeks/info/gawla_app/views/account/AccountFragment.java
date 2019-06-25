@@ -28,8 +28,6 @@ public class AccountFragment extends Fragment {
 
     ImageView ivNotificationBell;
 
-    private TextView tvAccountDetails, tvBuyingProcesses, tvPrivacyDetails, tvMyCards, tvMyVictories;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,8 +36,6 @@ public class AccountFragment extends Fragment {
         initViews(view);
 
         getData();
-
-        setupTrans();
 
         handleEvents(view);
 
@@ -58,20 +54,10 @@ public class AccountFragment extends Fragment {
 
         //Notification icon
         ivNotificationBell = view.findViewById(R.id.iv_notification_bell);
+        View bellIndicator = view.findViewById(R.id.bell_indicator);
 
-        // translatable views
-        tvAccountDetails = view.findViewById(R.id.tv_account_details);
-        tvBuyingProcesses = view.findViewById(R.id.tv_buying_processes);
-        tvPrivacyDetails = view.findViewById(R.id.tv_privacy_details);
-    }
-
-    private void setupTrans() {
-        TransHolder transHolder = new TransHolder(getContext());
-        transHolder.getAccountFragmentTranses(getContext());
-
-        tvAccountDetails.setText(transHolder.account_details);
-        tvBuyingProcesses.setText(transHolder.buying_processes);
-        tvPrivacyDetails.setText(transHolder.privacy_details);
+        // notification status LiveData
+        NotificationStatus.notificationStatus(getContext(), bellIndicator);
     }
 
     private void handleEvents(View v) {
@@ -114,10 +100,6 @@ public class AccountFragment extends Fragment {
                 startActivity(new Intent(getContext(), SalonsArchiveActivity.class));
             }
         });
-
-
-        // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(), ivNotificationBell);
 
         ivNotificationBell.setOnClickListener(new View.OnClickListener() {
             @Override

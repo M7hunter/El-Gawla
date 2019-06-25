@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_tiny"
                 android:layout_marginEnd="@dimen/margin_tiny"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:gravity="center"
                 android:text="@string/name"
                 android:textColor="@android:color/white"
@@ -116,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_large"
+            android:paddingTop="@dimen/margin_large"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="3"
             tools:listitem="@layout/item_salon_archive" />

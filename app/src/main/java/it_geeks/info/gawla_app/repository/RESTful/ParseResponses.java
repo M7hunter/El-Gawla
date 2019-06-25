@@ -11,15 +11,18 @@ import it_geeks.info.gawla_app.repository.Models.Ad;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.Category;
 import it_geeks.info.gawla_app.repository.Models.Country;
+import it_geeks.info.gawla_app.repository.Models.MyCardModel;
 import it_geeks.info.gawla_app.repository.Models.Notification;
+import it_geeks.info.gawla_app.repository.Models.Package;
+import it_geeks.info.gawla_app.repository.Models.SalonArchiveModel;
 import it_geeks.info.gawla_app.repository.Models.TopTen;
-import it_geeks.info.gawla_app.repository.Models.Trans;
 import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.repository.Models.RoundRemainingTime;
 import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.repository.Models.WebPage;
 import it_geeks.info.gawla_app.repository.Models.WinnerNews;
+import it_geeks.info.gawla_app.util.Constants;
 
 public class ParseResponses {
 
@@ -221,6 +224,56 @@ public class ParseResponses {
         return cardsList;
     }
 
+    public static List<MyCardModel> parseMyCards(JsonObject object) {
+        JsonArray dataArray = object.get("cards").getAsJsonArray();
+
+        List<MyCardModel> cardsList = new ArrayList<>();
+
+        for (int i = 0; i < dataArray.size(); i++)
+        {
+            JsonObject cardObj = dataArray.get(i).getAsJsonObject();
+            int card_id = cardObj.get("card_id").getAsInt();
+            String card_color = cardObj.get("card_color").getAsString();
+            String card_category = cardObj.get("card_category").getAsString();
+            boolean card_status = cardObj.get("card_status").getAsBoolean();
+
+            int salon_id;
+            try
+            {
+                salon_id = cardObj.get("salon_id").getAsInt();
+            } catch (UnsupportedOperationException e)
+            {
+                salon_id = Constants.NULL_INT_VALUE;
+            }
+
+            cardsList.add(
+                    new MyCardModel(card_id, card_color, card_category, card_status, salon_id));
+        }
+
+        return cardsList;
+    }
+
+    public static List<SalonArchiveModel> parseSalonsArchive(JsonObject object) {
+        JsonArray dataArray = object.get("salons").getAsJsonArray();
+
+        List<SalonArchiveModel> salonsList = new ArrayList<>();
+
+        for (int i = 0; i < dataArray.size(); i++)
+        {
+            JsonObject cardObj = dataArray.get(i).getAsJsonObject();
+            String product_image = cardObj.get("product_image").getAsString();
+            String product_name = cardObj.get("product_name").getAsString();
+            String salon_date = cardObj.get("salon_date").getAsString();
+            boolean isWinner = cardObj.get("isWinner").getAsBoolean();
+            int salon_id = cardObj.get("salon_id").getAsInt();
+
+            salonsList.add(
+                    new SalonArchiveModel(product_image, product_name, salon_date, isWinner, salon_id));
+        }
+
+        return salonsList;
+    }
+
     public static Category parseHomeCategories(JsonObject object, String catKey) {
         JsonObject homeObj = object.get("home").getAsJsonObject();
         JsonObject categoriesObj = homeObj.get("categories").getAsJsonObject();
@@ -296,6 +349,25 @@ public class ParseResponses {
         return blog_images;
     }
 
+    public static List<Package> parsePackages(JsonObject object) {
+        JsonArray packagesArray = object.get("packages").getAsJsonArray();
+
+        List<Package> packages = new ArrayList<>();
+        for (int i = 0; i < packagesArray.size(); i++)
+        {
+            JsonObject cardObj = packagesArray.get(i).getAsJsonObject();
+            int package_id = cardObj.get("package_id").getAsInt();
+            String package_name = cardObj.get("package_name").getAsString();
+            String package_description = cardObj.get("package_description").getAsString();
+            String package_color = cardObj.get("package_color").getAsString();
+            String package_cost = cardObj.get("package_cost").getAsString();
+
+            packages.add(new Package(package_id, package_name, package_cost, package_description, package_color));
+        }
+
+        return packages;
+    }
+
     public static List<Card> parseUserCardsBySalon(JsonObject object) {
         JsonArray cardsArray = object.get("cards").getAsJsonArray();
 
@@ -329,10 +401,6 @@ public class ParseResponses {
         }
 
         return topTenList;
-    }
-
-    public static List<Trans> parseLanguages(JsonObject object) {
-        return null;
     }
 
     static String parseServerErrors(JsonObject object) {

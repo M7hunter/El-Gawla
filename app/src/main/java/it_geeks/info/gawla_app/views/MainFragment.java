@@ -114,6 +114,10 @@ public class MainFragment extends Fragment {
 
         //Notification icon
         imgNotification = fragmentView.findViewById(R.id.iv_notification_bell);
+        View bellIndicator = fragmentView.findViewById(R.id.bell_indicator);
+
+        // notification status LiveData
+        NotificationStatus.notificationStatus(getContext(), bellIndicator);
 
         // load user image
         ImageLoader.getInstance().loadUserImage(MainActivity.mainInstance, ((ImageView) fragmentView.findViewById(R.id.iv_user_image)));
@@ -139,9 +143,6 @@ public class MainFragment extends Fragment {
                 startActivity(i);
             }
         });
-
-        // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(), imgNotification);
 
         // notification onClick
         imgNotification.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +188,7 @@ public class MainFragment extends Fragment {
     }
 
     private void getAdsAndCatsFromServer() {
+        pbAds.setVisibility(View.VISIBLE);
         RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(),
                 REQ_GET_ALL_SLIDERS, new Request<>(REQ_GET_ALL_SLIDERS, userId, apiToken
                         , null, null, null, null, null), new HandleResponses() {
@@ -526,10 +528,8 @@ public class MainFragment extends Fragment {
     private void initWinnersRecycler() {
         if (winnerNewsList.size() > 0)
         {
-            if (!winnersNewsRecycler.hasFixedSize())
-                winnersNewsRecycler.setHasFixedSize(true);
-            if (winnersNewsRecycler.getLayoutManager() == null)
-                winnersNewsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+            winnersNewsRecycler.setVisibility(View.VISIBLE);
+            winnersNewsRecycler.setHasFixedSize(true);
             if (winnersNewsRecycler.getAdapter() == null)
             {
                 winnersNewsRecycler.setAdapter(new WinnersNewsAdapter(winnerNewsList));
@@ -538,12 +538,6 @@ public class MainFragment extends Fragment {
             // to remove progress bar
             if (winnersNewsProgress.getVisibility() == View.VISIBLE)
                 Common.Instance().hideProgress(winnersNewsRecycler, winnersNewsProgress);
-        }
-        else
-        {
-            winnersHeader.setVisibility(View.GONE);
-            winnersNewsProgress.setVisibility(View.GONE);
-            winnersNewsRecycler.setVisibility(View.GONE);
         }
     }
 }

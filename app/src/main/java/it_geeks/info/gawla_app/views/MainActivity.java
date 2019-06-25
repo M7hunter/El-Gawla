@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.util.receivers.ConnectionChangeReceiver;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Common.Instance().setLang(this, SharedPrefManager.getInstance(this).getSavedLang());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainInstance = this;
@@ -58,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
         dialogBuilder.createLoadingDialog(this);
 
         initNavigation();
-
-        handleEvents();
     }
 
     private void updateNotificationStatus() {
@@ -108,23 +108,18 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case R.id.navigation_salons:
                         fragment = new MainFragment();
-//                        menuItem.setTitle(transHolder.hales);
                         break;
                     case R.id.navigation_my_rounds:
                         fragment = new MySalonsFragment();
-//                        menuItem.setTitle(transHolder.my_rounds);
                         break;
                     case R.id.navigation_cards:
                         fragment = new StoreFragment();
-//                        menuItem.setTitle(transHolder.store);
                         break;
                     case R.id.navigation_account:
                         fragment = new AccountFragment();
-//                        menuItem.setTitle(transHolder.account);
                         break;
                     case R.id.navigation_menu:
                         fragment = new MenuFragment();
-//                        menuItem.setTitle(transHolder.menu);
                         break;
                 }
 
@@ -137,12 +132,11 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
 
-    private void handleEvents() {
         navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected(@NonNull MenuItem item) {
+                // do nothing on reselection
             }
         });
     }
@@ -158,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
         if (navigation.getSelectedItemId() == R.id.navigation_salons)
         { // back from main page
             super.onBackPressed();
-
         }
         else
         {

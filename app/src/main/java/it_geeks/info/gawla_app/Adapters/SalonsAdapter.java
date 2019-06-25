@@ -82,15 +82,10 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         // pass salon's data to salon page
                         i.putExtra("round", round);
 
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
-                        {
-                            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), new Pair<View, String>(viewHolder.imgProductImage, "transProductImage"));
-                            context.startActivity(i, options.toBundle());
-                        }
-                        else
-                        {
-                            context.startActivity(i);
-                        }
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), new Pair<View, String>(viewHolder.imgProductImage, "transProductImage"));
+                        context.startActivity(i, options.toBundle());
+
+
                     } catch (Exception e)
                     {
                         e.printStackTrace();

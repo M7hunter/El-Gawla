@@ -16,6 +16,7 @@ import it_geeks.info.gawla_app.Adapters.MySalonsArchiveAdapter;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.SalonArchiveModel;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
+import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
@@ -60,7 +61,7 @@ public class SalonsArchiveActivity extends AppCompatActivity {
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-
+                        salonArchiveList = ParseResponses.parseSalonsArchive(mainObject);
                     }
 
                     @Override

@@ -266,12 +266,16 @@ public class SalonActivity extends AppCompatActivity {
         tvChatTab = findViewById(R.id.tv_salon_chat);
 
         detailsSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_product_details, null);
-        imgNotification = findViewById(R.id.iv_notification_bell);
         ivProductMainViewer = detailsSheetView.findViewById(R.id.product_details_main_image);
 
         apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token());
         userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
-        NotificationStatus.notificationStatus(this, imgNotification);
+
+        imgNotification = findViewById(R.id.iv_notification_bell);
+        View bellIndicator = findViewById(R.id.bell_indicator);
+
+        // notification status LiveData
+        NotificationStatus.notificationStatus(this, bellIndicator);
 
         initActivitySwitcher();
         dialogBuilder = new DialogBuilder();
@@ -668,7 +672,6 @@ public class SalonActivity extends AppCompatActivity {
                             roundRemainingTime = ParseResponses.parseRoundRemainingTime(mainObject);
                             round.setRound_id(roundRemainingTime.getLast_round_id());
                             initCountDown();
-
                         }
                         else
                         { // !today

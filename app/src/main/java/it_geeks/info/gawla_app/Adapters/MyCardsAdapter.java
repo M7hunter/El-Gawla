@@ -2,6 +2,7 @@ package it_geeks.info.gawla_app.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,6 @@ import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.Common;
-import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.account.MyCardsActivity;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
@@ -50,22 +50,23 @@ public class MyCardsAdapter extends RecyclerView.Adapter<MyCardsAdapter.ViewHold
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final MyCardModel myCard = myCardsList.get(position);
 
-        holder.tvCat.setText(myCard.getCardCategory());
-        holder.tvStatus.setText(myCard.getCardStatus());
-        Common.Instance().changeDrawableViewColor(holder.vCardColor, myCard.getCardColor());
+        holder.tvCat.setText(myCard.getCard_category());
+        Common.Instance().changeDrawableViewColor(holder.vCardColor, myCard.getCard_color());
 
-        if (myCard.getCardStatus().equals("used"))
+        if (myCard.getCard_status())
         {
+            holder.tvStatus.setText(context.getString(R.string.used));
             holder.tvStatus.setTextColor(context.getResources().getColor(R.color.colorPrimary));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getSalonByID(myCard.getSalonId());
+                    getSalonByID(myCard.getSalon_id());
                 }
             });
         }
         else
         {
+            holder.tvStatus.setText(context.getString(R.string.unused));
             holder.tvStatus.setTextColor(context.getResources().getColor(R.color.greenBlue));
         }
 

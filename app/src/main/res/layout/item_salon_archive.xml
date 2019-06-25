@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/margin_tiny"
-    android:orientation="vertical">
+    android:foreground="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/margin_tiny">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +20,7 @@
             android:layout_marginStart="@dimen/margin_tiny"
             android:layout_marginEnd="@dimen/margin_tiny"
             android:layout_weight="1"
+            android:transitionName="transProductImage"
             tools:src="@drawable/flodillus" />
 
         <!-- name -->
@@ -28,12 +30,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_tiny"
             android:layout_marginEnd="@dimen/margin_tiny"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="2"
             android:padding="@dimen/margin_large"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_small"
             tools:text="@string/name" />
 
         <!-- date -->
@@ -45,7 +47,7 @@
             android:layout_marginEnd="@dimen/margin_tiny"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_small"
             tools:text="@tools:sample/date/ddmmyy" />
 
         <!-- status -->
@@ -58,7 +60,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_small"
             tools:text="@string/won" />
 
     </LinearLayout>

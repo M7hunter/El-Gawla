@@ -129,14 +129,15 @@ public class AllSalonsActivity extends AppCompatActivity {
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
 
-        // Notification icon
-        ivNotificationBell = findViewById(R.id.iv_notification_bell);
-
         // load user image
         ImageLoader.getInstance().loadUserImage(this, ((ImageView) findViewById(R.id.iv_user_image)));
 
+        // Notification icon
+        ivNotificationBell = findViewById(R.id.iv_notification_bell);
+        View bellIndicator = findViewById(R.id.bell_indicator);
+
         // notification status LiveData
-        NotificationStatus.notificationStatus(this, ivNotificationBell);
+        NotificationStatus.notificationStatus(this, bellIndicator);
 
         // notification onClick
         ivNotificationBell.setOnClickListener(new View.OnClickListener() {

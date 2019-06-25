@@ -80,12 +80,17 @@ public class MySalonsFragment extends Fragment {
         mySalonsProgress = fragmentView.findViewById(R.id.pb_my_rounds);
         mySalonsRecycler = fragmentView.findViewById(R.id.my_rounds_recycler);
         emptyViewLayout = fragmentView.findViewById(R.id.my_rounds_empty_view);
-        ivNotificationBell = fragmentView.findViewById(R.id.iv_notification_bell);
         noConnectionLayout = fragmentView.findViewById(R.id.no_connection);
 
         // translatable views
         tvMySalonsHeader = fragmentView.findViewById(R.id.tv_my_rounds_header);
         tvMySalonsEmptyHint = fragmentView.findViewById(R.id.tv_my_rounds_empty_hint);
+
+        ivNotificationBell = fragmentView.findViewById(R.id.iv_notification_bell);
+        View bellIndicator = fragmentView.findViewById(R.id.bell_indicator);
+
+        // notification status LiveData
+        NotificationStatus.notificationStatus(getContext(), bellIndicator);
 
         // load user image
         ImageLoader.getInstance().loadUserImage(MainActivity.mainInstance, ((ImageView) fragmentView.findViewById(R.id.iv_user_image)));
@@ -106,9 +111,6 @@ public class MySalonsFragment extends Fragment {
                 checkConnection();
             }
         });
-
-        // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(), ivNotificationBell);
 
         // notification onClick
         ivNotificationBell.setOnClickListener(new View.OnClickListener() {

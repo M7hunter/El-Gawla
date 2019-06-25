@@ -194,7 +194,6 @@ public class ChatUtils {
                     else if (((SalonActivity) mContext).getRoundRemainingTime().getRound_state().equals("close"))
                     {
                         Toast.makeText(mContext, mContext.getString(R.string.closed), Toast.LENGTH_SHORT).show();
-
                     }
                     else if (!((SalonActivity) mContext).getRoundRemainingTime().isUserJoin())
                     {

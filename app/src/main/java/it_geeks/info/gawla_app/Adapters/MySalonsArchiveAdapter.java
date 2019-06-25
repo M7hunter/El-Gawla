@@ -1,7 +1,10 @@
 package it_geeks.info.gawla_app.Adapters;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,25 +58,30 @@ public class MySalonsArchiveAdapter extends RecyclerView.Adapter<MySalonsArchive
 
         holder.tvProductName.setText(salonArchive.getProductName());
         holder.tvDate.setText(salonArchive.getDate());
-        holder.tvStatus.setText(salonArchive.getStatus());
+
         ImageLoader.getInstance().loadFitImage(salonArchive.getProductImage(), holder.ivProductImage);
 
-        if (salonArchive.getStatus().equals("won")) {
+        if (salonArchive.getStatus())
+        {
+            holder.tvStatus.setText(context.getString(R.string.won));
             holder.tvStatus.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-        } else {
+        }
+        else
+        {
+            holder.tvStatus.setText(context.getString(R.string.lose));
             holder.tvStatus.setTextColor(context.getResources().getColor(R.color.paleRed));
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSalonByID(salonArchive.getSalonId());
+                getSalonByID(salonArchive.getSalonId(), holder);
             }
         });
 
     }
 
-    private void getSalonByID(int salonId) {
+    private void getSalonByID(int salonId, final ViewHolder holder) {
         ((SalonsArchiveActivity) context).dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(context).executeConnectionToServer(
                 context,
@@ -86,7 +94,9 @@ public class MySalonsArchiveAdapter extends RecyclerView.Adapter<MySalonsArchive
 
                         Intent i = new Intent(context, SalonActivity.class);
                         i.putExtra("round", round);
-                        context.startActivity(i);
+
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), new Pair<View, String>(holder.ivProductImage, "transProductImage"));
+                        context.startActivity(i, options.toBundle());
                     }
 
                     @Override

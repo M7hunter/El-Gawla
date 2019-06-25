@@ -8,11 +8,11 @@ public class SalonArchiveModel {
 
     private String Date;
 
-    private String Status;
+    private boolean Status;
 
     private int SalonId;
 
-    public SalonArchiveModel(String productImage, String productName, String date, String status, int salonId) {
+    public SalonArchiveModel(String productImage, String productName, String date, boolean status, int salonId) {
         ProductImage = productImage;
         ProductName = productName;
         Date = date;
@@ -44,11 +44,11 @@ public class SalonArchiveModel {
         Date = date;
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
         return Status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         Status = status;
     }
 

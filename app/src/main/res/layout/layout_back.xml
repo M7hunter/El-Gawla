@@ -8,5 +8,5 @@
     android:layout_gravity="left"
     android:background="@drawable/selector_ripple_white"
     android:padding="@dimen/margin_medium"
-    android:src="@drawable/ic_arrow_back"
+    android:src="@drawable/ic_arrow_left"
     app:layout_constraintLeft_toLeftOf="parent" />

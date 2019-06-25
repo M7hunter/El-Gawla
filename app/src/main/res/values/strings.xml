@@ -52,7 +52,7 @@
     <string name="Monthly_membership2">Monthly membership</string>
     <string name="Paying_up">Paying up to 84EGP per annum</string>
     <string name="offer">Saving</string>
-    <string name="Monthly10">10 EGP / month</string>
+    <string name="Monthly">%1$s / monthly</string>
     <string name="Monthly17">17 EGP / month</string>
     <string name="One_lounge1">One lounge is accessible daily</string>
     <string name="One_lounge2">* Access to any lounge daily</string>
