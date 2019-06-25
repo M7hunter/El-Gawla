@@ -1,47 +1,29 @@
 package it_geeks.info.gawla_app.views;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.gson.JsonObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import io.fabric.sdk.android.Fabric;
-import it_geeks.info.gawla_app.util.DialogBuilder;
-import it_geeks.info.gawla_app.repository.RESTful.Request;
-import it_geeks.info.gawla_app.repository.Models.WebPage;
-import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
-import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
-import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.DialogBuilder;
+import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.util.receivers.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.account.AccountFragment;
-import it_geeks.info.gawla_app.views.card.CardsFragment;
+import it_geeks.info.gawla_app.views.card.StoreFragment;
 import it_geeks.info.gawla_app.views.menu.MenuFragment;
-import it_geeks.info.gawla_app.views.salon.MyRoundsFragment;
+import it_geeks.info.gawla_app.views.salon.MySalonsFragment;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.views.login.LoginActivity;
-import it_geeks.info.gawla_app.views.intro.SplashActivity;
-
-import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_PAGES;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,28 +36,14 @@ public class MainActivity extends AppCompatActivity {
 
     private View snackContainer;
 
-    private TransHolder transHolder;
     public DialogBuilder dialogBuilder;
-
-    public List<WebPage> webPageList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Fabric.with(this, new Crashlytics());
-        setLang();
+        Common.Instance().setLang(this, SharedPrefManager.getInstance(this).getSavedLang());
         super.onCreate(savedInstanceState);
-
-        if (!checkLoginState())
-        {
-            return;
-        }
-
-        Common.Instance().changeStatusBarColor(this, "#f4f7fa");
         setContentView(R.layout.activity_main);
         mainInstance = this;
-
-        transHolder = new TransHolder(MainActivity.this);
-        transHolder.getMainActivityTranses(MainActivity.this);
 
         if (savedInstanceState == null)
         {
@@ -92,46 +60,6 @@ public class MainActivity extends AppCompatActivity {
         dialogBuilder.createLoadingDialog(this);
 
         initNavigation();
-
-        handleEvents();
-
-        setupTrans();
-
-        getWebPagesFromServer();
-    }
-
-    private void setLang() {
-        try
-        {
-            Common.Instance().setLang(this, SharedPrefManager.getInstance(this).getSavedLang());
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        }
-    }
-
-    private boolean checkLoginState() {
-        if (SharedPrefManager.getInstance(this).getUser().getUser_id() == -111 // id !saved
-                || SharedPrefManager.getInstance(this).getUser().getApi_token() == null // token !saved
-                || !SharedPrefManager.getInstance(this).isLoggedIn())
-        { // !logged in
-
-            if (SharedPrefManager.getInstance(this).getCountry().getCountry_id() == -111)
-            { // country saved ?
-                startActivity(new Intent(this, SplashActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            }
-            else
-            { // country !saved
-                startActivity(new Intent(this, LoginActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            }
-
-            return false;
-        }
-
-        return true;
     }
 
     private void updateNotificationStatus() {
@@ -180,33 +108,18 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case R.id.navigation_salons:
                         fragment = new MainFragment();
-                        menuItem.setTitle(transHolder.hales);
-                        // change status bar color
-                        Common.Instance().changeStatusBarColor(MainActivity.this, "#f4f7fa");
                         break;
                     case R.id.navigation_my_rounds:
-                        fragment = new MyRoundsFragment();
-                        menuItem.setTitle(transHolder.my_rounds);
-                        // change status bar color
-                        Common.Instance().changeStatusBarColor(MainActivity.this, "#f4f7fa");
+                        fragment = new MySalonsFragment();
                         break;
                     case R.id.navigation_cards:
-                        fragment = new CardsFragment();
-                        menuItem.setTitle(transHolder.cards);
-                        // change status bar color
-                        Common.Instance().changeStatusBarColor(MainActivity.this, "#f4f7fa");
+                        fragment = new StoreFragment();
                         break;
                     case R.id.navigation_account:
                         fragment = new AccountFragment();
-                        menuItem.setTitle(transHolder.account);
-                        // change status bar color to white
-                        Common.Instance().changeStatusBarColor(MainActivity.this, "#FFFFFF");
                         break;
                     case R.id.navigation_menu:
                         fragment = new MenuFragment();
-                        menuItem.setTitle(transHolder.menu);
-                        // change status bar color
-                        Common.Instance().changeStatusBarColor(MainActivity.this, "#f4f7fa");
                         break;
                 }
 
@@ -219,23 +132,13 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
 
-    private void handleEvents() {
         navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected(@NonNull MenuItem item) {
+                // do nothing on reselection
             }
         });
-    }
-
-    @SuppressLint("RestrictedApi")
-    private void setupTrans() {
-        ((BottomNavigationItemView) findViewById(R.id.navigation_salons)).setTitle(transHolder.hales);
-        ((BottomNavigationItemView) findViewById(R.id.navigation_my_rounds)).setTitle(transHolder.my_rounds);
-        ((BottomNavigationItemView) findViewById(R.id.navigation_cards)).setTitle(transHolder.cards);
-        ((BottomNavigationItemView) findViewById(R.id.navigation_account)).setTitle(transHolder.account);
-        ((BottomNavigationItemView) findViewById(R.id.navigation_menu)).setTitle(transHolder.menu);
     }
 
     private void displayFragment(Fragment fragment) {
@@ -244,36 +147,11 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    private void getWebPagesFromServer() {
-//        int user_id = SharedPrefManager.getInstance(MainActivity.this).getUser().getUser_id();
-        String api_token = "T9hQoKYK7bGop5y6tuZq5S4RBH0dTNu0Lh6XuRzhyju8OVZ3Bz6TRDUJD4YH";
-
-        RetrofitClient.getInstance(MainActivity.this).executeConnectionToServer(MainActivity.this,
-                REQ_GET_ALL_PAGES, new Request<>(REQ_GET_ALL_PAGES, null, api_token,
-                        null, null, null, null, null), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        webPageList = ParseResponses.parseWebPages(mainObject);
-                    }
-
-                    @Override
-                    public void handleAfterResponse() {
-
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-
-                    }
-                });
-    }
-
     @Override
     public void onBackPressed() {
         if (navigation.getSelectedItemId() == R.id.navigation_salons)
         { // back from main page
             super.onBackPressed();
-
         }
         else
         {

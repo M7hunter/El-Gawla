@@ -24,7 +24,6 @@ public class WebPageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.Instance().changeStatusBarColor(this, "#FFFFFF");
         setContentView(R.layout.activity_web_page);
 
         getData(savedInstanceState);
@@ -67,7 +66,7 @@ public class WebPageActivity extends AppCompatActivity {
 
     private void handleEvents() {
         // back
-        findViewById(R.id.wep_page_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

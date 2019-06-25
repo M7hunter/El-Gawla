@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -43,22 +45,35 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_ad, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ad, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final Ad ad = adList.get(position);
 
+        holder.pbAdLoading.setVisibility(View.VISIBLE);
         Picasso.with(context)
                 .load(ad.getImage())
                 .resize(800, 800)
                 .onlyScaleDown()
-                .placeholder(R.drawable.flodillus)
-                .into(holder.ivAdImage);
+                .into(holder.ivAdImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.pbAdLoading.setVisibility(View.GONE);
+                    }
 
-        holder.tvAdTitle.setText(ad.getTitle());
-        holder.tvAdBody.setText(ad.getBody());
+                    @Override
+                    public void onError() {
+                        holder.pbAdLoading.setVisibility(View.GONE);
+                    }
+                });
+
+        if (ad.getTitle() != null && ad.getBody() != null)
+        {
+            holder.tvAdTitle.setText(ad.getTitle());
+            holder.tvAdBody.setText(ad.getBody());
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +124,7 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
 
         ImageView ivAdImage;
         TextView tvAdTitle, tvAdBody;
+        ProgressBar pbAdLoading;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -116,6 +132,7 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
             ivAdImage = itemView.findViewById(R.id.iv_ad_image);
             tvAdTitle = itemView.findViewById(R.id.tv_ad_title);
             tvAdBody = itemView.findViewById(R.id.tv_ad_body);
+            pbAdLoading = itemView.findViewById(R.id.pb_ad_loading);
         }
     }
 }

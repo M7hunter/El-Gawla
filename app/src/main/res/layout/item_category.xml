@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_xTiny"
-        android:background="@drawable/bg_rounded_corners_bordered_white_pale_grey"
+        android:background="@drawable/bg_circled_corners_bordered_white_pale_grey"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:gravity="center"
         android:padding="@dimen/margin_small"

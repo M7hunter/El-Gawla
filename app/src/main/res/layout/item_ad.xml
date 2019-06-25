@@ -1,54 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:gravity="center_vertical"
-    android:layoutDirection="ltr">
+    android:foreground="?android:attr/selectableItemBackground">
 
     <!-- image -->
     <ImageView
         android:id="@+id/iv_ad_image"
-        android:layout_width="@dimen/image_width_main_fragment"
-        android:layout_height="@dimen/image_width_main_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:src="@drawable/flodillus"
-        tools:src="@tools:sample/backgrounds/scenic" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/backgrounds/scenic"
+        tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
 
-    <!-- texts -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_small"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- title -->
-        <TextView
-            android:id="@+id/tv_ad_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold"
-            tools:text="@tools:sample/lorem"
-            tools:textColor="@color/colorPrimary" />
+            android:layout_margin="@dimen/margin_tiny"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <!-- body -->
-        <TextView
-            android:id="@+id/tv_ad_body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_small"
-            android:gravity="center"
-            android:text="@string/ads"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_small"
-            tools:text="@tools:sample/lorem"
-            tools:textColor="@color/colorPrimary" />
+            <!-- title -->
+            <TextView
+                android:id="@+id/tv_ad_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
+                android:background="@drawable/bg_overlay"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
+                tools:text="@tools:sample/lorem" />
+
+            <!-- body -->
+            <TextView
+                android:id="@+id/tv_ad_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
+                android:background="@drawable/bg_overlay"
+                android:gravity="start"
+                android:lineSpacingExtra="@dimen/margin_tiny"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"
+                tools:text="@tools:sample/lorem" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/pb_ad_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

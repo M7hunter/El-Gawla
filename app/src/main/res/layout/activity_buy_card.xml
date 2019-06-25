@@ -8,47 +8,36 @@
     tools:context=".views.card.BuyCardActivity">
 
     <!-- header -->
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/buy_card_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layoutDirection="ltr">
-
-        <!-- back -->
-        <ImageView
-            android:id="@+id/buy_card_back"
-            android:layout_width="@dimen/icon_back"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/back"
-            android:padding="@dimen/margin_small"
-            android:src="@drawable/ic_arrow_left_only" />
-
-        <!-- title -->
-        <TextView
-            android:id="@+id/tv_buy_card_name"
+        app:cardElevation="@dimen/margin_small">
+        <!-- card main layout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/card"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
+            android:background="@color/colorPrimary"
+            android:layoutDirection="rtl"
+            android:padding="@dimen/margin_small">
 
-        <!-- bell -->
-        <ImageView
-            android:id="@+id/notification_bell"
-            android:layout_width="@dimen/icon_notification"
-            android:layout_height="@dimen/icon_notification"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:padding="@dimen/margin_tiny"
-            android:src="@drawable/bell" />
+            <include layout="@layout/layout_back" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_buy_card_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/buy_card"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <!-- main content -->
     <ScrollView
@@ -81,6 +70,7 @@
                     android:layout_marginEnd="@dimen/margin_xlarge"
                     android:layout_marginBottom="@dimen/margin_tiny"
                     android:text="@string/amount"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_size_large" />
 
                 <!-- amount container -->
@@ -89,21 +79,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_xlarge"
                     android:layout_marginEnd="@dimen/margin_xlarge"
-                    android:background="@drawable/bg_rounded_corners_bordered_white_pale_grey"
+                    android:background="@drawable/bg_circled_corners_bordered_white_pale_grey"
                     android:gravity="center"
-                    android:paddingStart="@dimen/margin_xTiny"
-                    android:paddingTop="@dimen/margin_xTiny"
-                    android:paddingEnd="@dimen/margin_xTiny"
-                    android:paddingBottom="@dimen/margin_xTiny">
+                    android:padding="@dimen/margin_tiny">
 
-                    <!-- minus -->
+                    <!-- plus -->
                     <ImageView
-                        android:id="@+id/iv_decrease_amount"
+                        android:id="@+id/iv_increase_amount"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:padding="@dimen/margin_tiny"
-                        android:src="@drawable/ic_remove_circle" />
+                        android:src="@drawable/ic_add_circle" />
 
                     <!-- count -->
                     <TextView
@@ -119,14 +106,14 @@
                         android:textSize="@dimen/text_size_xlarge"
                         android:textStyle="bold" />
 
-                    <!-- plus -->
+                    <!-- minus -->
                     <ImageView
-                        android:id="@+id/iv_increase_amount"
+                        android:id="@+id/iv_decrease_amount"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:padding="@dimen/margin_tiny"
-                        android:src="@drawable/ic_add_circle" />
+                        android:src="@drawable/ic_remove_circle" />
 
                 </LinearLayout>
 
@@ -139,6 +126,7 @@
                     android:layout_marginEnd="@dimen/margin_xlarge"
                     android:layout_marginBottom="@dimen/margin_tiny"
                     android:text="@string/category"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_size_large" />
 
                 <!-- category container -->
@@ -147,12 +135,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_xlarge"
                     android:layout_marginEnd="@dimen/margin_xlarge"
-                    android:background="@drawable/bg_rounded_corners_bordered_white_pale_grey"
+                    android:background="@drawable/bg_circled_corners_bordered_white_pale_grey"
                     android:gravity="center"
-                    android:paddingStart="@dimen/margin_xTiny"
-                    android:paddingTop="@dimen/margin_tiny"
-                    android:paddingEnd="@dimen/margin_xTiny"
-                    android:paddingBottom="@dimen/margin_tiny">
+                    android:padding="@dimen/margin_tiny">
 
                     <Spinner
                         android:id="@+id/sp_buy_card_category"
@@ -175,6 +160,7 @@
                     android:layout_marginEnd="@dimen/margin_xlarge"
                     android:layout_marginBottom="@dimen/margin_tiny"
                     android:text="@string/Payment_method"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_size_large" />
 
                 <!-- payment methods -->
@@ -183,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_xlarge"
                     android:layout_marginEnd="@dimen/margin_xlarge"
-                    android:background="@drawable/bg_rounded_corners_bordered_white_pale_grey"
+                    android:background="@drawable/bg_rounded_corners_bordered_pale_grey"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="@dimen/margin_small">
@@ -293,29 +279,20 @@
 
                 </LinearLayout>
 
-                <!-- separator -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="@dimen/margin_xlarge"
-                    android:layout_marginTop="@dimen/margin_xlarge"
-                    android:layout_marginEnd="@dimen/margin_xlarge"
-                    android:layout_marginBottom="@dimen/margin_xTiny"
-                    android:background="@color/blueGrey" />
-
                 <!-- price container -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_xlarge"
-                    android:layout_marginEnd="@dimen/margin_xlarge">
+                    android:layout_margin="@dimen/margin_xlarge">
 
                     <!-- price label -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/total_price"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
 
                     <!-- price -->
                     <TextView
@@ -325,7 +302,7 @@
                         android:layout_weight="1"
                         android:gravity="end"
                         android:padding="@dimen/margin_tiny"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_large"
                         android:textStyle="bold"
                         tools:text="150" />
@@ -337,7 +314,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_xlarge"
-                    android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_xlarge"
                     android:layout_marginBottom="@dimen/margin_medium">
 
@@ -346,6 +322,7 @@
                         android:id="@+id/btn_buy_card_buy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:padding="@dimen/margin_large"
                         android:text="@string/buy_card"
                         android:textSize="@dimen/text_size_large" />
 

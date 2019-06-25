@@ -1,6 +1,5 @@
 package it_geeks.info.gawla_app.Adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +17,16 @@ import it_geeks.info.gawla_app.R;
 
 public class WinnersNewsAdapter extends RecyclerView.Adapter<WinnersNewsAdapter.ViewHolder> {
 
-    private Context context;
     private List<WinnerNews> winnerNewsList;
 
-    public WinnersNewsAdapter(Context context, List<WinnerNews> roundsList) {
-        this.context = context;
+    public WinnersNewsAdapter(List<WinnerNews> roundsList) {
         this.winnerNewsList = roundsList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_news, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_news, viewGroup, false));
     }
 
     @Override

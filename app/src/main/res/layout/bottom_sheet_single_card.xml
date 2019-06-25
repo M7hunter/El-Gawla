@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/bottom_sheet_single_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:behavior_hideable="true"
@@ -24,8 +23,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/margin_xxx_large"
                 android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_xxx_large"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:background="@drawable/bg_circle_grey">
@@ -70,19 +69,18 @@
                 android:id="@+id/btn_confirm_buying_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
                 android:layout_marginLeft="@dimen/margin_xx_large"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginRight="@dimen/margin_xx_large"
                 android:layout_marginBottom="@dimen/margin_large"
-                app:cardCornerRadius="@dimen/margin_small"
+                android:visibility="visible"
+                app:cardCornerRadius="@dimen/margin_large"
                 app:cardElevation="@dimen/margin_small">
                 <!-- card main layout -->
                 <LinearLayout
-                    android:id="@+id/payment_confirm_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_gradient_blue_angled_270"
+                    android:background="@drawable/bg_rounded_corners_c_primary"
                     android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:gravity="center"
                     android:orientation="vertical">
@@ -91,7 +89,8 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
+                        android:layout_margin="@dimen/margin_small"
+
                         android:gravity="center">
 
                         <!-- label -->

@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- main -->
-    <color name="colorPrimary">#4A90E2</color>
-    <color name="colorPrimaryVariant">#23479c</color>
-    <color name="colorSecondary">#24aaf6</color>
-    <color name="colorSecondaryVariant">#2196ee</color>
+    <color name="colorPrimary">#2e5dca</color>
+    <color name="colorLightPrimary">#3870F1</color>
+    <color name="colorPrimaryVariant">#1C4CB9</color>
+    <color name="colorSecondary">#e9b213</color>
     <color name="colorBackground">#f4f7fa</color>
 
+    <color name="colorOverlay">#3E7A7A7A</color>
+    <color name="colorOverlayLight">#167A7A7A</color>
+
     <!-- palette -->
-    <color name="bg_Splash_Start">#468ae7</color>
     <color name="BlueDark">#23479c</color>
-    <color name="bg_Splash_country">#1f3e81</color>
-    <color name="bg_Splash_country_border">#3a74ce</color>
-    <color name="black_overlay">#66000000</color>
-    <color name="btn_google_plus_start">#f85844</color>
-    <color name="btn_google_plus_end">#dd4b39</color>
-    <color name="btn_facebook_start">#6088db</color>
     <color name="btn_facebook_end">#3b5998</color>
     <color name="paleGrey">#f4f7fa</color>
     <color name="editText_hint">#9498b9</color>
-    <color name="create_account_text">#2267c6</color>
     <color name="bg_mumbership_nurmal_start">#70c7ff</color>
     <color name="bg_mumbership_nurmal_end">#46a2e7</color>
     <color name="bg_mumbership_vip_start">#ffdb76</color>
@@ -28,29 +23,19 @@
     <color name="dots">#19326d</color>
     <color name="ops">#17000000</color>
     <color name="colorYellow">#eab422</color>
-    <color name="colorYellowTransparent">#36FFD500</color>
-    <color name="transparent">#0DDDDDDC</color>
-    <color name="colorOrange">#EA9022</color>
-    <color name="bgBlueLight">#468ae7</color>
     <color name="niceBlue">#1b94b1</color>
     <color name="darkSkyBlue">#4a90e2</color>
     <color name="blueyGrey">#b0bac5</color>
     <color name="blueGrey">#8091a5</color>
     <color name="midBlue">#2066c6</color>
-    <color name="midBlue2">#1157b6</color>
     <color name="battleshipGrey">#667587</color>
     <color name="paleRed">#e34c4c</color>
     <color name="darkPaleRed">#ff5656</color>
-    <color name="tealish">#23cea8</color>
-    <color name="darkTealish">#119c7d</color>
     <color name="paleGrey2">#dfe6ee</color>
-    <color name="cornflowerBlue">#3e69d2</color>
     <color name="azure">#2196ee</color>
     <color name="duskBlue">#223e81</color>
     <color name="azureTwo">#24aaf6</color>
     <color name="greenBlue">#21B594</color>
     <color name="paleGreyTwo">#dfe6ee</color>
-    <color name="fb_btn">#3c5a99</color>
     <color name="ic_launcher_background">#FFFFFF</color>
-    <color name="black">#000000</color>
 </resources>

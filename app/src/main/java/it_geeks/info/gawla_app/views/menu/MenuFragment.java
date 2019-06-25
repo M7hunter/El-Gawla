@@ -30,6 +30,7 @@ import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.NotificationStatus;
 import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.intro.SplashScreenActivity;
 import it_geeks.info.gawla_app.views.login.LoginActivity;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.NotificationActivity;
@@ -46,7 +47,6 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
 
     private GoogleApiClient mGoogleApiClient;
 
-    private TextView tvAppSettings, tvMoreAboutGawla, tvPrivacyPolicy, tvTermsAndCo, tvCallUs, tvHowGawlaWorks, tvSignOut; // <- trans
     private RecyclerView webViewsRecycler;
     ImageView imgNotification;
 
@@ -69,8 +69,6 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
 
         initHelp();
 
-        setupTrans();
-
         screenDimensions();
 
         initCustomerServiceIcon(view);
@@ -87,15 +85,11 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
         webViewsRecycler = view.findViewById(R.id.web_views_recycler);
 
         //Notification icon
-        imgNotification = view.findViewById(R.id.notification_bell);
+        imgNotification = view.findViewById(R.id.iv_notification_bell);
+        View bellIndicator = view.findViewById(R.id.bell_indicator);
 
-        tvAppSettings = view.findViewById(R.id.tv_app_settings);
-        tvMoreAboutGawla = view.findViewById(R.id.tv_more_about_gawla);
-        tvPrivacyPolicy = view.findViewById(R.id.tv_privacy_policy);
-        tvTermsAndCo = view.findViewById(R.id.tv_terms_and_conditions);
-        tvCallUs = view.findViewById(R.id.tv_call_us);
-        tvHowGawlaWorks = view.findViewById(R.id.tv_how_gawla_works);
-        tvSignOut = view.findViewById(R.id.tv_sign_out);
+        // notification status LiveData
+        NotificationStatus.notificationStatus(getContext(), bellIndicator);
 
         Picasso.with(getContext()).load(SharedPrefManager.getInstance(getContext()).getCountry().getImage()).fit().into(imCountryIcon);
         dialogBuilder = new DialogBuilder();
@@ -121,19 +115,6 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
                 return true;
             }
         });
-    }
-
-    private void setupTrans() {
-        TransHolder transHolder = new TransHolder(getContext());
-        transHolder.getMenuFragmentTranses(getContext());
-
-        tvAppSettings.setText(transHolder.app_settings);
-        tvMoreAboutGawla.setText(transHolder.more_about_gawla);
-        tvPrivacyPolicy.setText(transHolder.privacy_policy);
-        tvTermsAndCo.setText(transHolder.terms_and_conditions);
-        tvCallUs.setText(transHolder.call_us);
-        tvHowGawlaWorks.setText(transHolder.how_gawla_works);
-        tvSignOut.setText(transHolder.sign_out);
     }
 
     private void handleEvents(View view) {
@@ -215,9 +196,6 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
             }
         });
 
-        // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(), imgNotification);
-
         // notification onClick
         imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,10 +211,10 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
     }
 
     private void initWebViewRecycler() {
-        if (((MainActivity) MainActivity.mainInstance).webPageList.size() > 0) {
+        if (((SplashScreenActivity) SplashScreenActivity.splashInstance).webPageList.size() > 0) {
             webViewsRecycler.setHasFixedSize(true);
             webViewsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-            webViewsRecycler.setAdapter(new WebViewAdapter(getContext(), ((MainActivity) MainActivity.mainInstance).webPageList));
+            webViewsRecycler.setAdapter(new WebViewAdapter(getContext(), ((SplashScreenActivity) SplashScreenActivity.splashInstance).webPageList));
         }
     }
 

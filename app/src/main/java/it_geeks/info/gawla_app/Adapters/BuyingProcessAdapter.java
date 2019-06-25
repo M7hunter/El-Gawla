@@ -1,6 +1,5 @@
 package it_geeks.info.gawla_app.Adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +14,16 @@ import it_geeks.info.gawla_app.repository.Models.BuyingProcess;
 
 public class BuyingProcessAdapter extends RecyclerView.Adapter<BuyingProcessAdapter.ViewHolder> {
 
-    private Context context;
     private List<BuyingProcess> processList;
 
-    public BuyingProcessAdapter(Context context, List<BuyingProcess> processList) {
-        this.context = context;
+    public BuyingProcessAdapter(List<BuyingProcess> processList) {
         this.processList = processList;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_buying_process, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_buying_process, viewGroup, false));
     }
 
     @Override

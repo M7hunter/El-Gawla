@@ -11,8 +11,6 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
@@ -32,7 +30,6 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,11 +47,8 @@ public class Common {
 
     private static final String TAG = "fireToken";
     private static Common common;
-    private String Lang;
 
-    private Common() {
-        Lang = Locale.getDefault().getLanguage(); // get device default language
-    }
+    private Common() {}
 
     public static Common Instance() {
         if (common == null)
@@ -64,7 +58,6 @@ public class Common {
         return common;
     }
 
-    // change app lang
     public void setLang(Context context, String lang) {
         try
         {
@@ -74,15 +67,14 @@ public class Common {
             e.printStackTrace();
         }
 
-        Lang = lang;
         Locale locale;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            locale = new Locale(Lang, "kw");
+            locale = new Locale(lang, "kw");
         }
         else
         {
-            locale = new Locale(Lang);
+            locale = new Locale(lang);
         }
 
         Configuration configuration = context.getResources().getConfiguration();
@@ -90,7 +82,7 @@ public class Common {
         Locale.setDefault(locale);
 
         context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
-        SharedPrefManager.getInstance(context).setLang(Lang);
+        SharedPrefManager.getInstance(context).setLang(lang);
     }
 
     // remove unneeded quotes
@@ -152,16 +144,6 @@ public class Common {
     public void changeDrawableViewColor(View v, String color) {
         GradientDrawable background = (GradientDrawable) v.getBackground();
         background.setColor(Color.parseColor(color));
-    }
-
-    // to change status bar color in fragments || activities if wanted
-    public void changeStatusBarColor(Context context, String color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            Window window = ((AppCompatActivity) context).getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.parseColor(color));
-        }
     }
 
     // connected ?
@@ -258,12 +240,4 @@ public class Common {
                     }
                 });
     }
-
-//    private MainFragment getFragment() {
-//        if(mainFragment == null) {
-//            mainFragment = (MainFragment) ((MainActivity)context).getSupportFragmentManager()
-//                    .findFragmentByTag("MainFragment");
-//        }
-//        return mainFragment;
-//    }
 }

@@ -9,17 +9,17 @@
     android:layout_marginBottom="@dimen/margin_xTiny"
     android:orientation="horizontal">
 
+    <!-- user name -->
     <TextView
         android:id="@+id/chat_username"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/margin_tiny"
         android:layout_marginEnd="@dimen/margin_tiny"
         android:layout_weight="1"
         android:ellipsize="end"
         android:gravity="center"
-        android:maxLength="30"
+        android:maxLength="15"
         android:maxLines="2"
         android:text="user"
         android:textColor="@color/browser_actions_text_color"
@@ -27,35 +27,32 @@
         android:textStyle="bold"
         tools:text="@tools:sample/first_names" />
 
-    <LinearLayout
-        android:id="@+id/chat_card_message"
+    <!-- message -->
+    <TextView
+        android:id="@+id/chat_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_tiny"
+        android:layout_marginTop="@dimen/margin_tiny"
+        android:layout_marginEnd="@dimen/margin_tiny"
+        android:layout_marginBottom="@dimen/margin_tiny"
+        android:layout_weight="4"
+        android:background="@drawable/bg_rounded_bottom_corners_primary"
+        android:gravity="start"
+        android:lineSpacingExtra="@dimen/margin_xTiny"
+        android:padding="@dimen/margin_small"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_medium"
+        tools:text="@tools:sample/lorem" />
+
+    <!-- time -->
+    <TextView
+        android:id="@+id/chat_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="7"
-        android:background="@drawable/bg_rounded_corners_pale_grey"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/chat_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_tiny"
-            android:gravity="start"
-            android:textColor="@color/browser_actions_text_color"
-            android:textSize="@dimen/text_size_medium"
-            tools:text="@tools:sample/lorem" />
-
-        <TextView
-            android:id="@+id/chat_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_margin="@dimen/margin_xTiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
-            android:textColor="@color/browser_actions_text_color"
-            android:textSize="@dimen/text_size_tiny"
-            tools:text="@tools:sample/date/hhmm" />
-
-    </LinearLayout>
+        android:layout_marginEnd="@dimen/margin_tiny"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="@dimen/text_size_tiny"
+        tools:text="@tools:sample/date/hhmm" />
 
 </LinearLayout>

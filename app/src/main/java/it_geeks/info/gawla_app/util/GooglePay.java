@@ -94,7 +94,7 @@ public class GooglePay {
      * <p>The provided properties are applicable to both an IsReadyToPayRequest and a
      * PaymentDataRequest
      *
-     * @return a CARD PaymentMethod object describing accepted cards
+     * @return a CARD PaymentMethod object describing accepted store
      * @throws JSONException .
      * @see <a
      * href="https://developers.google.com/pay/api/android/reference/object#PaymentMethod">PaymentMethod</a>
@@ -113,7 +113,7 @@ public class GooglePay {
     /**
      * Describe the expected returned payment data for the CARD payment method
      *
-     * @return a CARD PaymentMethod describing accepted cards and optional fields
+     * @return a CARD PaymentMethod describing accepted store and optional fields
      * @throws JSONException
      * @see <a
      * href="https://developers.google.com/pay/api/android/reference/object#PaymentMethod">PaymentMethod</a>

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_marginTop="@dimen/margin_tiny"
     tools:showIn="@layout/activity_buying_processes">
 
     <LinearLayout
@@ -61,10 +62,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="@dimen/margin_large"
         android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginEnd="@dimen/margin_large"
-        android:layout_marginBottom="@dimen/margin_small"
-        android:background="@color/blueyGrey" />
+        android:background="@color/paleGrey" />
 
 </LinearLayout>

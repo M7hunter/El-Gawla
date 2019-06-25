@@ -8,7 +8,7 @@ import android.view.View;
 import com.crashlytics.android.Crashlytics;
 
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.util.salonUtils.AudioPlayer;
+import it_geeks.info.gawla_app.util.AudioPlayer;
 import it_geeks.info.gawla_app.repository.Models.RoundRemainingTime;
 import it_geeks.info.gawla_app.repository.Models.HalvesModel;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;

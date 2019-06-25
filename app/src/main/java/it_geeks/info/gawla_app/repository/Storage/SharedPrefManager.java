@@ -10,6 +10,7 @@ import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.util.Constants;
 
 import static android.content.Context.MODE_PRIVATE;
+import static it_geeks.info.gawla_app.util.Constants.NULL_INT_VALUE;
 
 public class SharedPrefManager {
 
@@ -23,6 +24,7 @@ public class SharedPrefManager {
     private static final String SHARED_PREF_LAST_REQUEST = "last_request_shared_pref";
     private static final String SHARED_PREF_USER_PROVIDER = "user_socialMedia_Provider";
     private static final String SHARED_PREF_NOTIFICATION = "notification_shared_pref";
+    private static final String SHARED_PREF_SOUND = "sound_shared_pref";
     private static final String SHARED_PREF_NEW_NOTIFICATION = "new_notification";
     private static final String SHARED_PREF_SUBSCRIBED_SALON = "subscribed_salon";
     private static final String SHARED_PREF_PAY_METHOD = "payment_method";
@@ -40,7 +42,7 @@ public class SharedPrefManager {
         return sharedPrefManager;
     }
 
-    //--------------- firebase token -------------//
+    // region firebase token
     public void setFirebaseToken(String token) {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_FIRE_TOKEN, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -55,8 +57,9 @@ public class SharedPrefManager {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_FIRE_TOKEN, MODE_PRIVATE);
         return sharedPreferences.getString("fire_token", Constants.EMPTY_TOKEN);
     }
+    // endregion
 
-    //--------------- notification -------------//
+    // region notification
     public void setNotificationEnabled(boolean enabled) { // enabled, disabled
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NOTIFICATION, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -90,8 +93,26 @@ public class SharedPrefManager {
     public void clearNewNotification() {
         context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE).edit().clear().apply();
     }
+    // endregion
 
-    //--------------- payment method -------------//
+    // region sound
+    public void setSoundEnabled(boolean enabled) { // enabled, disabled
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_SOUND, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.clear();
+
+        editor.putBoolean("sound_enabled", enabled);
+        editor.apply();
+    }
+
+    public boolean isSoundEnabled() {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_SOUND, MODE_PRIVATE);
+        return sharedPreferences.getBoolean("sound_enabled", true);
+    }
+    // endregion
+
+    // region payment method
     public void setLastMethod(String method) {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_PAY_METHOD, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -106,8 +127,9 @@ public class SharedPrefManager {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_PAY_METHOD, MODE_PRIVATE);
         return sharedPreferences.getString("method", Constants.GOOGLEPAY);
     }
+    // endregion
 
-    //--------------- lang -------------//
+    // region lang
     public void setLang(String lang) {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_LANG, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -127,11 +149,13 @@ public class SharedPrefManager {
     }
 
     public String getSavedLang() {
+        String defaultLang =  Locale.getDefault().getLanguage();
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_LANG, MODE_PRIVATE);
-        return sharedPreferences.getString("lang", Locale.getDefault().getLanguage());
+        return sharedPreferences.getString("lang", defaultLang != null ? defaultLang : "ar"); // if null return device default language
     }
+    // endregion
 
-    //--------------- user -------------//
+    // region user
     public void saveUser(User user) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -146,8 +170,6 @@ public class SharedPrefManager {
         editor.putString("userEmail", user.getEmail());
         editor.putString("membership", user.getMembership());
         editor.putString("gender", user.getGender());
-        editor.putString("firstName", user.getFirstName());
-        editor.putString("lastName", user.getLastName());
         editor.putString("phone", user.getPhone());
 
         editor.putBoolean("userLogged", true);
@@ -164,16 +186,14 @@ public class SharedPrefManager {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER, Context.MODE_PRIVATE);
 
         return new User(
-                sharedPreferences.getInt("userId", -111),
+                sharedPreferences.getInt("userId", NULL_INT_VALUE),
                 sharedPreferences.getString("userToken", null),
                 sharedPreferences.getString("userName", null),
-                sharedPreferences.getInt("country_id", -111),
+                sharedPreferences.getInt("country_id", NULL_INT_VALUE),
                 sharedPreferences.getString("userImage", null),
                 sharedPreferences.getString("userEmail", null),
                 sharedPreferences.getString("membership", null),
                 sharedPreferences.getString("gender", null),
-                sharedPreferences.getString("firstName", null),
-                sharedPreferences.getString("lastName", null),
                 sharedPreferences.getString("phone", null)
         );
     }
@@ -185,8 +205,9 @@ public class SharedPrefManager {
         editor.clear();
         editor.apply();
     }
+    // endregion
 
-    //--------------- country -------------//
+    // region country
     public void setCountry(Country country) {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_COUNTRY, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -213,8 +234,9 @@ public class SharedPrefManager {
                 sharedPreferences.getString("tel", ""),
                 sharedPreferences.getString("image", ""));
     }
+    // endregion
 
-    //--------------- last request -------------//
+    // region last request
     public void setLastRequest(long lastRequest) {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_LAST_REQUEST, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -229,8 +251,9 @@ public class SharedPrefManager {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_LAST_REQUEST, MODE_PRIVATE);
         return sharedPreferences.getLong("lastRequest", 0);
     }
+    // endregion
 
-    // -------------- Social Provider ------------- //
+    // region Social Provider
     public void saveProvider(String provider) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_PROVIDER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -248,8 +271,9 @@ public class SharedPrefManager {
     public void clearProvider() {
         context.getSharedPreferences(SHARED_PREF_USER_PROVIDER, Context.MODE_PRIVATE).edit().clear().apply();
     }
+    // endregion
 
-    // Save User Offer
+    // region user offer
     public void saveUserOffer(String offerKey, String offerValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_USER_OFFER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -267,7 +291,9 @@ public class SharedPrefManager {
     public void clearUserOffer(String USER_OFFER_KEY) {
         context.getSharedPreferences(USER_OFFER_KEY, Context.MODE_PRIVATE).edit().clear().apply();
     }
+    // endregion
 
+    // region subscribed salon id
     public void saveSubscribedSalonId(int salonId) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREF_SUBSCRIBED_SALON, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -285,4 +311,5 @@ public class SharedPrefManager {
     public void clearSubscribedSalonId() {
         context.getSharedPreferences(SHARED_PREF_SUBSCRIBED_SALON, Context.MODE_PRIVATE).edit().clear().apply();
     }
+    // endregion
 }

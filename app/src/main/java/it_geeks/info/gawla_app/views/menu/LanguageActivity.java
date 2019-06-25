@@ -21,7 +21,6 @@ public class LanguageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_language);
 
         initViews();
@@ -33,7 +32,7 @@ public class LanguageActivity extends AppCompatActivity {
 
     private void initViews() {
         // back
-        findViewById(R.id.language_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

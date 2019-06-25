@@ -4,73 +4,104 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
+
 import it_geeks.info.gawla_app.Adapters.SliderAdapter;
+import it_geeks.info.gawla_app.views.login.CreateAccountActivity;
 import it_geeks.info.gawla_app.views.login.LoginActivity;
 import it_geeks.info.gawla_app.R;
 
+import static it_geeks.info.gawla_app.util.Constants.PREVIOUS_PAGE_KEY;
+
 public class IntroActivity extends AppCompatActivity {
 
-    private ViewPager mViewPager;
+    private ViewPager2 mViewPager;
     private LinearLayout mDotLayout;
-    private TextView[] mDots;
-    TextView tvBack, tvNext;
+    private Button btnSkip, btnNext;
+    private ImageButton ibPrevious;
+    private TextView tvSignIn, tvSignUp;
+    private View introSignBar;
+
     private int mCurrentPage;
-    Button btnSkip;
     public static boolean settingPage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_intro);
 
-        btnSkip = findViewById(R.id.btn_skip);
-        tvBack = findViewById(R.id.txt_back);
-        tvNext = findViewById(R.id.txt_next);
-        mViewPager = findViewById(R.id.slideViewPager);
-        mDotLayout = findViewById(R.id.dots);
-        SliderAdapter sliderAdapter = new SliderAdapter(IntroActivity.this);
-        mViewPager.setAdapter(sliderAdapter);
+        initViews();
+
+        initPager();
+
+        handleEvents();
 
         addDots(0);
+    }
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+    private void initViews() {
+        btnSkip = findViewById(R.id.btn_intro_skip);
+        ibPrevious = findViewById(R.id.ib_intro_previous);
+        btnNext = findViewById(R.id.btn_intro_next);
+        tvSignIn = findViewById(R.id.tv_intro_sign_in);
+        tvSignUp = findViewById(R.id.tv_intro_sign_up);
+        introSignBar = findViewById(R.id.intro_sign_bar);
+
+        if (settingPage) introSignBar.setVisibility(View.GONE);
+    }
+
+    private void initPager() {
+        mViewPager = findViewById(R.id.intro_view_pager);
+        mViewPager.setAdapter(new SliderAdapter(IntroActivity.this));
+        mDotLayout = findViewById(R.id.dots);
+    }
+
+    private void handleEvents() {
+        tvSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
+            public void onClick(View v) {
+                startActivity(new Intent(IntroActivity.this, LoginActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }
+        });
 
+        tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPageSelected(int i) {
-                addDots(i);
-                mCurrentPage = i;
-                if (i == 0) {
-                    tvBack.setVisibility(View.INVISIBLE);
-                    tvNext.setText(R.string.next);
-                } else if (i == 1) {
-                    tvBack.setVisibility(View.VISIBLE);
-                    tvNext.setText(R.string.next);
-                    tvBack.setText(R.string.back);
-                } else if (i == 2) {
-                    tvBack.setVisibility(View.VISIBLE);
-                    tvNext.setText(R.string.finish);
-                    tvBack.setText(R.string.back);
+            public void onClick(View v) {
+                Intent i = new Intent(IntroActivity.this, CreateAccountActivity.class);
+                i.putExtra(PREVIOUS_PAGE_KEY, IntroActivity.this.getClass().getSimpleName());
+                startActivity(i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            }
+        });
+
+        mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+
+                addDots(position);
+                mCurrentPage = position;
+                if (position == 0)
+                {
+                    ibPrevious.setVisibility(View.INVISIBLE);
+                    btnNext.setText(R.string.next);
                 }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
+                else if (position == 1)
+                {
+                    ibPrevious.setVisibility(View.VISIBLE);
+                    btnNext.setText(R.string.next);
+                }
+                else if (position == 2)
+                {
+                    ibPrevious.setVisibility(View.VISIBLE);
+                    btnNext.setText(R.string.finish);
+                }
             }
         });
 
@@ -81,44 +112,48 @@ public class IntroActivity extends AppCompatActivity {
             }
         });
 
-        tvNext.setOnClickListener(new View.OnClickListener() {
+        btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mCurrentPage >= 2) {
-                    openNextPage();
-                }
+                if (mCurrentPage >= 2) openNextPage();
+
                 mViewPager.setCurrentItem(mCurrentPage + 1);
             }
         });
-        tvBack.setOnClickListener(new View.OnClickListener() {
+
+        ibPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mViewPager.setCurrentItem(mCurrentPage - 1);
             }
         });
-
     }
 
     public void openNextPage() {
-        if (settingPage){
+        if (settingPage)
+        {
             settingPage = false;
             finish();
-        }else startActivity(new Intent(IntroActivity.this, LoginActivity.class)
-                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
+        else
+        {
+            startActivity(new Intent(IntroActivity.this, LoginActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
     }
 
     public void addDots(int position) {
-        mDots = new TextView[3];
+        TextView[] mDots = new TextView[3];
         mDotLayout.removeAllViews();
-        for (int i = 0; i < mDots.length; i++) {
+        for (int i = 0; i < mDots.length; i++)
+        {
             mDots[i] = new TextView(this);
             mDots[i].setText(Html.fromHtml("&#8226"));
             mDots[i].setTextSize(25);
             mDots[i].setTextColor(getResources().getColor(R.color.dots));
             mDotLayout.addView(mDots[i]);
         }
-        if (mDots.length > 0) {
-            mDots[position].setTextColor(getResources().getColor(R.color.babyBlue));
-        }
+
+        mDots[position].setTextColor(getResources().getColor(R.color.babyBlue));
     }
 }

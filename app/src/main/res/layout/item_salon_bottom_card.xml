@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/margin_tiny"
     android:background="@drawable/bg_rounded_corners_pale_grey"
+    android:gravity="center"
     tools:showIn="@layout/bottom_sheet_cards_bag">
 
     <!-- title & btn -->
@@ -27,21 +28,22 @@
             android:textSize="@dimen/text_size_large" />
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_xTiny">
 
             <Button
                 android:id="@+id/bottom_card_btn"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_large"
                 android:background="@drawable/bg_rounded_corners_red_270"
+                android:paddingStart="@dimen/margin_xlarge"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_xlarge"
                 android:text="@string/buy_card"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 android:visibility="visible" />
 
@@ -72,7 +74,7 @@
             android:layout_centerInParent="true"
             android:background="@drawable/dynamic_card" />
 
-        <!-- cards count -->
+        <!-- store count -->
         <TextView
             android:id="@+id/tv_cards_count_cards_bag"
             android:layout_width="@dimen/margin_xlarge"

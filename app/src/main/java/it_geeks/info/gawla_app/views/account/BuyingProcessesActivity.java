@@ -27,7 +27,6 @@ public class BuyingProcessesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_buying_processes);
 
         getData();
@@ -51,7 +50,7 @@ public class BuyingProcessesActivity extends AppCompatActivity {
 
     private void handleEvents() {
         // back
-        findViewById(R.id.buying_processes_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -70,7 +69,7 @@ public class BuyingProcessesActivity extends AppCompatActivity {
         if (buyingProcessList.size() > 0) {
             buyingProcessRecycler.setHasFixedSize(true);
             buyingProcessRecycler.setLayoutManager(new LinearLayoutManager(BuyingProcessesActivity.this, RecyclerView.VERTICAL, false));
-            buyingProcessRecycler.setAdapter(new BuyingProcessAdapter(BuyingProcessesActivity.this, buyingProcessList));
+            buyingProcessRecycler.setAdapter(new BuyingProcessAdapter(buyingProcessList));
 
             tvEmptyView.setVisibility(View.GONE);
         } else {

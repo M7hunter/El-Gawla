@@ -4,173 +4,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/margin_small"
-    android:layout_marginTop="@dimen/margin_tiny"
-    android:layout_marginEnd="@dimen/margin_small"
-    android:layout_marginBottom="@dimen/margin_tiny"
     android:layout_weight="1">
 
     <!-- 1st tap : details container -->
     <LinearLayout
-        android:id="@+id/details_container"
+        android:id="@+id/cv_more"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:background="@drawable/bg_rounded_corners_white"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:orientation="horizontal"
         android:visibility="visible">
 
-        <!-- product container -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_more"
-            android:layout_width="match_parent"
+        <!-- product image -->
+        <ImageView
+            android:id="@+id/salon_round_product_image"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:contentDescription="@string/product_details"
+            android:scaleType="fitXY"
+            android:src="@drawable/flodillus"
+            android:transitionName="transProductImage" />
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_tiny"
-            android:background="@drawable/bg_rounded_corners_white"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="@dimen/margin_small">
-            <!-- card main layout -->
+            android:layout_weight="1.4"
+            android:orientation="vertical">
+
+            <!-- details container -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_margin="@dimen/margin_small"
+                android:orientation="vertical">
 
-                <!-- product image -->
-                <ImageView
-                    android:id="@+id/salon_round_product_image"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/product_details"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/flodillus"
-                    android:transitionName="transProductImage" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <!-- product name -->
+                <TextView
+                    android:id="@+id/salon_round_product_name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.4"
-                    android:orientation="vertical">
+                    android:layout_margin="@dimen/margin_small"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="2"
+                    android:textColor="@color/duskBlue"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold"
+                    tools:text="@string/no_content" />
 
-                    <!-- details container -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small"
-                        android:orientation="vertical">
+                <!-- price container -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_small">
 
-                        <!-- product name -->
-                        <TextView
-                            android:id="@+id/salon_round_product_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_tiny"
-                            android:ellipsize="end"
-                            android:gravity="center"
-                            android:maxLines="2"
-                            android:textColor="@color/duskBlue"
-                            android:textSize="@dimen/text_size_medium"
-                            android:textStyle="bold"
-                            tools:text="@string/no_content" />
-
-                        <!-- price container -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <!-- price label -->
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/Prod_price"
-                                android:textSize="@dimen/text_size_medium" />
-
-                            <!-- price -->
-                            <TextView
-                                android:id="@+id/salon_round_product_price"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:textColor="@color/azureTwo"
-                                android:textSize="@dimen/text_size_medium"
-                                android:textStyle="bold"
-                                tools:text="910" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <!-- read more as btn -->
+                    <!-- price label -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_margin="@dimen/margin_tiny"
-                        android:text="@string/read_more"
-                        android:textColor="@color/blueGrey" />
+                        android:text="@string/Prod_price"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_medium" />
+
+                    <!-- price -->
+                    <TextView
+                        android:id="@+id/salon_round_product_price"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_tiny"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:textColor="@color/colorSecondary"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        tools:text="910" />
 
                 </LinearLayout>
 
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
-        <!-- activity container -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cv_round_activity_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
-            android:layout_marginBottom="@dimen/margin_tiny"
-            android:background="@drawable/bg_rounded_corners_white"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:visibility="visible"
-            app:cardCornerRadius="@dimen/margin_small">
-            <!-- card main layout -->
-            <LinearLayout
-                android:id="@+id/round_latest_activity"
-                android:layout_width="match_parent"
+            <!-- read more as btn -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_small"
-                android:gravity="center">
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/margin_small"
+                android:text="@string/read_more"
+                android:textColor="@color/colorPrimary" />
 
-                <!-- activity icon -->
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/round_notification_icon"
-                    android:layout_width="@dimen/icon_notification"
-                    android:layout_height="@dimen/icon_notification"
-                    android:layout_margin="@dimen/margin_small"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/notification" />
-
-                <!-- text -->
-                <TextSwitcher
-                    android:id="@+id/ts_round_latest_activity"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_weight="1"
-                    android:text="@string/join_round"
-                    android:textColor="@color/blueGrey" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
     </LinearLayout>
 
     <!-- 2nd tap : activity container -->
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:id="@+id/activity_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_tiny"
-        android:layout_marginTop="@dimen/margin_tiny"
-        android:layout_marginEnd="@dimen/margin_tiny"
-        android:layout_marginBottom="@dimen/margin_tiny"
         android:background="@drawable/bg_rounded_corners_white"
-        android:visibility="gone"
-        app:cardCornerRadius="@dimen/margin_small">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/salon_activity_recycler"
@@ -188,108 +124,98 @@
             android:text="@string/activity_empty_hint"
             android:visibility="gone" />
 
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
     <!-- 3rd tap : chat container -->
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:id="@+id/chat_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_tiny"
-        android:layout_marginTop="@dimen/margin_tiny"
-        android:layout_marginEnd="@dimen/margin_tiny"
-        android:layout_marginBottom="@dimen/margin_tiny"
+        android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:background="@drawable/bg_rounded_corners_white"
-        android:visibility="gone"
-        app:cardCornerRadius="@dimen/margin_small">
-        <!-- card main layout -->
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <!-- chat recycler -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chat_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="vertical" />
+
+        <!-- chat empty view -->
+        <TextView
+            android:id="@+id/tv_chat_empty_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_large"
+            android:text="@string/chat_empty_hint"
+            android:visibility="gone" />
+
+        <!-- typing state -->
+        <TextSwitcher
+            android:id="@+id/tv_chat_typing_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/blueGrey"
+            android:visibility="gone" />
+
+        <!-- message to send -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_xTiny"
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
-            <!-- chat recycler -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/chat_list"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+            <!-- new message -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:scrollbars="vertical" />
+                app:hintEnabled="false">
 
-            <!-- chat empty view -->
-            <TextView
-                android:id="@+id/tv_chat_empty_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_large"
-                android:text="@string/chat_empty_hint"
-                android:visibility="gone" />
-
-            <!-- typing state -->
-            <TextSwitcher
-                android:id="@+id/tv_chat_typing_state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_small"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/blueGrey"
-                android:visibility="gone" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_xTiny"
-                android:background="@drawable/bg_rounded_corners_bordered_white_pale_grey"
-                android:gravity="bottom"
-                android:orientation="horizontal">
-
-                <!-- new message -->
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_chat_message"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
                     android:enabled="false"
                     android:hint="@string/chat_message_hint"
                     android:inputType="textShortMessage"
-                    android:maxLength="250"
                     android:maxLines="1"
-                    android:padding="@dimen/margin_tiny" />
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- btn send message -->
-                <Button
-                    android:id="@+id/btn_send_chat_message"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="@dimen/icon_back"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:enabled="false"
-                    app:icon="@drawable/ic_send_message"
-                    app:iconGravity="textStart"
-                    app:iconPadding="0dp" />
-
-            </LinearLayout>
+            <!-- btn send message -->
+            <ImageButton
+                android:id="@+id/btn_send_chat_message"
+                android:layout_width="@dimen/icon_back"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/selector_ripple_primary"
+                android:enabled="false"
+                android:padding="@dimen/margin_tiny"
+                android:src="@drawable/ic_send_message" />
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
 
     <!-- 4th tap : top ten container -->
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:id="@+id/top_ten_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_tiny"
-        android:layout_marginTop="@dimen/margin_tiny"
-        android:layout_marginEnd="@dimen/margin_tiny"
-        android:layout_marginBottom="@dimen/margin_tiny"
-        android:background="@drawable/bg_rounded_corners_white"
-        android:visibility="gone"
-        app:cardCornerRadius="@dimen/margin_small">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/top_ten_recycler"
@@ -315,6 +241,6 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/margin_small" />
 
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
 </FrameLayout>

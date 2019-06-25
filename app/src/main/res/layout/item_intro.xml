@@ -1,56 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient_bluedark_angled_270">
+    android:background="@color/colorPrimary"
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <!-- scroll main layout -->
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+    <ImageView
+        android:id="@+id/slide_Image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_xxx_large"
+        android:src="@drawable/subscribe" />
 
-            <ImageView
-                android:id="@+id/slide_Image"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/image_width_round"
-                android:layout_marginStart="@dimen/margin_xx_large"
-                android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_xx_large"
-                android:layout_marginBottom="@dimen/margin_large"
-                app:srcCompat="@drawable/onbord1" />
+    <TextView
+        android:id="@+id/slide_Heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_large"
+        android:gravity="center"
+        android:textColor="@color/colorSecondary"
+        android:textSize="@dimen/text_size_large"
+        android:textStyle="bold"
+        tools:text="اشترك الان" />
 
-            <TextView
-                android:id="@+id/slide_Heading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:gravity="center"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_large"
-                tools:text="اشترك الان" />
+    <TextView
+        android:id="@+id/slide_Desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_xxxx_large"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_xxxx_large"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/margin_medium"
+        android:textColor="@color/babyBlue"
+        android:textSize="@dimen/text_size_medium"
+        tools:text="قم بالاشتراك الان حتي تتمكن من الانضمام للجولات المفضلة " />
 
-            <TextView
-                android:id="@+id/slide_Desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xxxx_large"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_xxxx_large"
-                android:layout_marginBottom="@dimen/margin_medium"
-                android:gravity="center"
-                android:textColor="@color/babyBlue"
-                android:textSize="@dimen/text_size_medium"
-                tools:text="قم بالاشتراك الان حتي تتمكن من الانضمام للجولات المفضلة " />
-
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-
-</RelativeLayout>
+</LinearLayout>

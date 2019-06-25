@@ -62,8 +62,8 @@ import static it_geeks.info.gawla_app.util.Constants.REQ_SOCIAL_SIGN;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
-    private Button btnForgetPassword, btnCreateAccount, btnLogin;
-    private TextView tvSingIn, tvGooglePlus, tvFacebook;
+    private Button btnForgetPassword, btnLogin;
+    private TextView tvCreateAccount;
     private EditText etEmail, etPassword;
     private TextInputLayout tlEmail, tlPass;
 
@@ -79,12 +79,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_login);
 
         initViews();
-
-        setupTrans();
 
         firebaseInit();
 
@@ -95,32 +92,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         etEmail = findViewById(R.id.et_Email);
         etPassword = findViewById(R.id.et_Password);
 
-        // translatable views
-        tvSingIn = findViewById(R.id.tv_sign_in);
-        tvGooglePlus = findViewById(R.id.tv_google_plus_si);
-        tvFacebook = findViewById(R.id.tv_facebook_si);
         tlEmail = findViewById(R.id.tl_email);
         tlPass = findViewById(R.id.tl_pass);
         btnLogin = findViewById(R.id.btn_login);
         btnForgetPassword = findViewById(R.id.btn_forget_password);
-        btnCreateAccount = findViewById(R.id.btn_Create_Account);
+        tvCreateAccount = findViewById(R.id.btn_Create_Account);
 
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
-    }
-
-    private void setupTrans() {
-        TransHolder transHolder = new TransHolder(this);
-        transHolder.getSignInActivityTranses(this);
-
-        tvSingIn.setText(transHolder.sign_in);
-        tvGooglePlus.setText(transHolder.via_google_plus);
-        tvFacebook.setText(transHolder.via_facebook);
-        tlEmail.setHint(transHolder.email);
-        tlPass.setHint(transHolder.password);
-        btnLogin.setText(transHolder.sign_in);
-        btnForgetPassword.setText(transHolder.forget_pass);
-        btnCreateAccount.setText(transHolder.create_account);
     }
 
     private void handleEvents() {
@@ -143,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         });
 
         // goto sign up
-        btnCreateAccount.setOnClickListener(new View.OnClickListener() {
+        tvCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
@@ -151,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         });
 
         // use google
-        findViewById(R.id.btn_google_sign_in).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tv_google_plus_si).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn();
@@ -159,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         });
 
         // use facebook
-        findViewById(R.id.btn_facebook_sign_in).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tv_facebook_si).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 btn_fb_login.performClick();
@@ -204,6 +183,36 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         return true;
     }
 
+    public void login(String email, String pass) {
+        dialogBuilder.displayLoadingDialog();
+        RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer(LoginActivity.this,
+                REQ_SIGN_IN, new Request<>(REQ_SIGN_IN, email, pass,
+                        null, null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                        cacheUserData(mainObject, LoginActivity.providerNormalLogin); // with normal provider
+                        Common.Instance().updateFirebaseToken(LoginActivity.this);
+
+                        finish();
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                        dialogBuilder.hideLoadingDialog();
+                        FirebaseAuth.getInstance().signOut();
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        dialogBuilder.hideLoadingDialog();
+                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     private void firebaseInit() {
         //fb login
         callbackManager = CallbackManager.Factory.create();
@@ -223,7 +232,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         startActivityForResult(signInIntent, GOOGLE_REQUEST);
     }
 
-    // google login
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         String id = "", name = "", email = "", image = "";
         try
@@ -344,36 +352,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
                         cacheUserData(mainObject, provider);
-                        Common.Instance().updateFirebaseToken(LoginActivity.this);
-
-                        finish();
-                    }
-
-                    @Override
-                    public void handleAfterResponse() {
-                        dialogBuilder.hideLoadingDialog();
-                        FirebaseAuth.getInstance().signOut();
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        dialogBuilder.hideLoadingDialog();
-                        FirebaseAuth.getInstance().signOut();
-                        Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    public void login(String email, String pass) {
-        dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(LoginActivity.this).executeConnectionToServer(LoginActivity.this,
-                REQ_SIGN_IN, new Request<>(REQ_SIGN_IN, email, pass,
-                        null, null, null, null, null), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
-                        cacheUserData(mainObject, LoginActivity.providerNormalLogin); // with normal provider
                         Common.Instance().updateFirebaseToken(LoginActivity.this);
 
                         finish();

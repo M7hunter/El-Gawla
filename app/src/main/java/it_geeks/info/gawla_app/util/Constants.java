@@ -20,8 +20,11 @@ public class Constants {
     public static final String REQ_GET_ALL_CATEGORIES = "getAllCategories";
     public static final String REQ_GET_ALL_COUNTRIES = "getAllCountries";
     public static final String REQ_GET_ALL_CARDS = "getAllCards";
+    public static final String REQ_GET_ALL_PACKAGES = "getAllPackages";
     public static final String REQ_GET_PAYMENT_PAGE = "getPaymentPage";
     public static final String REQ_GET_SALON_BY_ID = "getSalonByID";
+    public static final String REQ_GET_SALONS_ARCHIVE = "getSalonsArchive";
+    public static final String REQ_GET_MY_CARDS = "getMyCards";
 
     // salon
     public static final String REQ_GET_SALON_BY_USER_ID = "getSalonByUserID";
@@ -50,6 +53,15 @@ public class Constants {
     public static final String REQ_FORGOT_PASSWORD = "forgotPassword";
     // endregion
 
-    public static final String EMPTY_TOKEN = "empty";
+    // region cats keys
+    public static final String CAT_ENGINES = "Engines";
+    public static final String CAT_JEWELLERY = "Jewelery";
+    public static final String CAT_REAL_STATE = "Real Estates";
+    public static final String CAT_MATERIALS = "Consumption materials";
+    // endregion
 
+    public static final int NULL_INT_VALUE = -111;
+    public static final String EMPTY_TOKEN = "empty";
+    public static final String CATEGORY_KEY = "cat_key";
+    public static final String PREVIOUS_PAGE_KEY = "previous_page";
 }

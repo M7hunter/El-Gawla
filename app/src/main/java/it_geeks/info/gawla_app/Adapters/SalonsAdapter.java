@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import it_geeks.info.gawla_app.util.ImageLoader;
 import it_geeks.info.gawla_app.util.RoundDiffCallback;
 import it_geeks.info.gawla_app.repository.Models.Card;
@@ -42,7 +43,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_round, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_salon, viewGroup, false));
     }
 
     @Override
@@ -50,52 +51,52 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
         final Round round = rounds.get(position);
 
         // bind
-        if (round != null) {
-            try {
-                ImageLoader.getInstance().loadImage(round.getProduct_image(), viewHolder.imgProductImage);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Crashlytics.logException(e);
-            }
-
+        if (round != null)
+        {
+            ImageLoader.getInstance().loadImage(round.getProduct_image(), viewHolder.imgProductImage);
             viewHolder.tvProductName.setText(Common.Instance().removeEmptyLines(round.getProduct_name()));
+            viewHolder.tvProductPrice.setText(Common.Instance().removeEmptyLines(round.getProduct_commercial_price()));
             viewHolder.tvProductCategory.setText(Common.Instance().removeEmptyLines(round.getCategory_name()));
             viewHolder.tvStartTime.setText(Common.Instance().removeEmptyLines(round.getMessage()));
+            Common.Instance().changeDrawableViewColor(viewHolder.tvProductCategory, round.getCategory_color());
 
-            if (round.getSalon_cards() != null) {
-                viewHolder.cardsRecycler.setAdapter(new SalonCardsIconAdapter(context, round.getSalon_cards()));
-            } else {
+            if (round.getSalon_cards() != null)
+            {
+                viewHolder.cardsRecycler.setAdapter(new SalonCardsIconAdapter(round.getSalon_cards()));
+            }
+            else
+            {
                 List<Card> cards = GawlaDataBse.getInstance(context).cardDao().getCardsById(round.getSalon_id());
-                viewHolder.cardsRecycler.setAdapter(new SalonCardsIconAdapter(context, cards));
+                viewHolder.cardsRecycler.setAdapter(new SalonCardsIconAdapter(cards));
                 round.setSalon_cards(cards);
                 round.setProduct_images(GawlaDataBse.getInstance(context).productImageDao().getSubImagesById(round.getProduct_id()));
             }
-
-            Common.Instance().changeDrawableViewColor(viewHolder.tvProductCategory, round.getCategory_color());
 
             // open round page
             viewHolder.btnEnterRound.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    try {
+                    try
+                    {
                         Intent i = new Intent(context, SalonActivity.class);
-                        // send round's data to round page
+                        // pass salon's data to salon page
                         i.putExtra("round", round);
 
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), new Pair<View, String>(viewHolder.imgProductImage, "transProductImage"));
-                            context.startActivity(i, options.toBundle());
-                        } else {
-                            context.startActivity(i);
-                        }
-                    } catch (Exception e) {
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), new Pair<View, String>(viewHolder.imgProductImage, "transProductImage"));
+                        context.startActivity(i, options.toBundle());
+
+
+                    } catch (Exception e)
+                    {
                         e.printStackTrace();
                         Crashlytics.logException(e);
                     }
                 }
             });
 
-        } else {
+        }
+        else
+        {
             Log.d("test_placeholder: ", "salon == null");
         }
     }
@@ -112,7 +113,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvProductName, tvProductCategory, tvStartTime, btnEnterRound;
+        TextView tvProductName, tvProductPrice, tvProductCategory, tvStartTime, btnEnterRound;
         ImageView imgProductImage;
         RecyclerView cardsRecycler;
 
@@ -121,6 +122,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
 
             imgProductImage = itemView.findViewById(R.id.round_product_image);
             tvProductName = itemView.findViewById(R.id.round_product_name);
+            tvProductPrice = itemView.findViewById(R.id.round_product_price);
             tvProductCategory = itemView.findViewById(R.id.round_product_category);
             tvStartTime = itemView.findViewById(R.id.round_start_time);
             btnEnterRound = itemView.findViewById(R.id.btn_enter_round);

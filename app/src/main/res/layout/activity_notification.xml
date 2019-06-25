@@ -14,36 +14,36 @@
         android:orientation="vertical"
         tools:context=".views.NotificationActivity">
 
-        <!-- title bar -->
-        <RelativeLayout
+        <!-- header -->
+        <androidx.cardview.widget.CardView
             android:id="@+id/notification_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layoutDirection="ltr">
-
-            <!-- back -->
-            <ImageView
-                android:id="@+id/notification_back"
-                android:layout_width="@dimen/icon_back"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:contentDescription="@string/back"
-                android:padding="@dimen/margin_small"
-                android:src="@drawable/ic_arrow_back" />
-
-            <!-- title -->
-            <TextView
+            app:cardElevation="@dimen/margin_small">
+            <!-- card main layout -->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:gravity="center"
-                android:text="@string/notification"
-                android:textColor="@color/battleshipGrey"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+                android:background="@color/colorPrimary"
+                android:layoutDirection="rtl"
+                android:padding="@dimen/margin_small">
 
-        </RelativeLayout>
+                <include layout="@layout/layout_back" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notification"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

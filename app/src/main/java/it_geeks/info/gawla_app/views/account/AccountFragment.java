@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import androidx.fragment.app.Fragment;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
@@ -27,8 +28,6 @@ public class AccountFragment extends Fragment {
 
     ImageView ivNotificationBell;
 
-    private TextView tvAccountDetails, tvBuyingProcesses, tvPrivacyDetails; // <- trans
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,8 +36,6 @@ public class AccountFragment extends Fragment {
         initViews(view);
 
         getData();
-
-        setupTrans();
 
         handleEvents(view);
 
@@ -56,25 +53,15 @@ public class AccountFragment extends Fragment {
         userImage = view.findViewById(R.id.user_image);
 
         //Notification icon
-        ivNotificationBell = view.findViewById(R.id.notification_bell);
+        ivNotificationBell = view.findViewById(R.id.iv_notification_bell);
+        View bellIndicator = view.findViewById(R.id.bell_indicator);
 
-        // translatable views
-        tvAccountDetails = view.findViewById(R.id.tv_account_details);
-        tvBuyingProcesses = view.findViewById(R.id.tv_buying_processes);
-        tvPrivacyDetails = view.findViewById(R.id.tv_privacy_details);
-    }
-
-    private void setupTrans() {
-        TransHolder transHolder = new TransHolder(getContext());
-        transHolder.getAccountFragmentTranses(getContext());
-
-        tvAccountDetails.setText(transHolder.account_details);
-        tvBuyingProcesses.setText(transHolder.buying_processes);
-        tvPrivacyDetails.setText(transHolder.privacy_details);
+        // notification status LiveData
+        NotificationStatus.notificationStatus(getContext(), bellIndicator);
     }
 
     private void handleEvents(View v) {
-        //intent to account details
+        // account details page
         v.findViewById(R.id.cv_account_details).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +69,7 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        //intent to Privacy details
+        // privacy details page
         v.findViewById(R.id.cv_privacy_details).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +77,7 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        // open buying processes page
+        // buying processes page
         v.findViewById(R.id.account_option_buying_processes).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,8 +85,21 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(), ivNotificationBell);
+        // my cards page
+        v.findViewById(R.id.cv_my_cards).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), MyCardsActivity.class));
+            }
+        });
+
+        // my victories page
+        v.findViewById(R.id.cv_my_victories).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), SalonsArchiveActivity.class));
+            }
+        });
 
         ivNotificationBell.setOnClickListener(new View.OnClickListener() {
             @Override

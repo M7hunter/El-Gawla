@@ -10,10 +10,19 @@ public class Category implements Serializable {
 
     private String CategoryColor;
 
+    private String CategoryImage;
+
     public Category(int categoryId, String categoryName, String categoryColor) {
         CategoryId = categoryId;
         CategoryName = categoryName;
         CategoryColor = categoryColor;
+    }
+
+    public Category(int categoryId, String categoryName, String categoryColor, String categoryImage) {
+        CategoryId = categoryId;
+        CategoryName = categoryName;
+        CategoryColor = categoryColor;
+        CategoryImage = categoryImage;
     }
 
     public int getCategoryId() {
@@ -38,5 +47,13 @@ public class Category implements Serializable {
 
     public void setCategoryColor(String categoryColor) {
         CategoryColor = categoryColor;
+    }
+
+    public String getCategoryImage() {
+        return CategoryImage;
+    }
+
+    public void setCategoryImage(String categoryImage) {
+        CategoryImage = categoryImage;
     }
 }

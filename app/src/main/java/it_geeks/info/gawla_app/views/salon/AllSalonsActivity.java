@@ -24,8 +24,11 @@ import java.util.Locale;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import it_geeks.info.gawla_app.Adapters.CategoryAdapter;
+import it_geeks.info.gawla_app.util.Constants;
 import it_geeks.info.gawla_app.util.DialogBuilder;
+import it_geeks.info.gawla_app.util.ImageLoader;
 import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.CardDao;
 import it_geeks.info.gawla_app.repository.Storage.ProductImageDao;
@@ -47,6 +50,7 @@ import it_geeks.info.gawla_app.Adapters.DateAdapter;
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
+import it_geeks.info.gawla_app.views.account.AccountDetailsActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_CATEGORIES;
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_SALONS;
@@ -67,7 +71,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
     private LinearLayout emptyViewLayout;
 
-    private int userId;
+    private int userId, catKey;
     private String apiToken;
     private DialogBuilder dialogBuilder;
 
@@ -88,7 +92,16 @@ public class AllSalonsActivity extends AppCompatActivity {
         Common.Instance().ApplyOnConnection(AllSalonsActivity.this, new ConnectionInterface() {
             @Override
             public void onConnected() {
-                getDatesAndRoundsFromServer();
+                getExtraData();
+
+                if (catKey == Constants.NULL_INT_VALUE)
+                {
+                    getDatesAndRoundsFromServer();
+                }
+                else
+                {
+                    getSalonsByCatFromServer();
+                }
             }
 
             @Override
@@ -96,6 +109,14 @@ public class AllSalonsActivity extends AppCompatActivity {
                 dialogBuilder.hideLoadingDialog();
             }
         });
+    }
+
+    private void getExtraData() {
+        Bundle extra = getIntent().getExtras();
+        if (extra != null)
+        {
+            catKey = extra.getInt(Constants.CATEGORY_KEY);
+        }
     }
 
     private void initViews() {
@@ -108,19 +129,15 @@ public class AllSalonsActivity extends AppCompatActivity {
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
 
-        // back
-        findViewById(R.id.all_salons_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        // load user image
+        ImageLoader.getInstance().loadUserImage(this, ((ImageView) findViewById(R.id.iv_user_image)));
 
         // Notification icon
-        ivNotificationBell = findViewById(R.id.all_salon_notification_icon);
+        ivNotificationBell = findViewById(R.id.iv_notification_bell);
+        View bellIndicator = findViewById(R.id.bell_indicator);
 
         // notification status LiveData
-        NotificationStatus.notificationStatus(this, ivNotificationBell);
+        NotificationStatus.notificationStatus(this, bellIndicator);
 
         // notification onClick
         ivNotificationBell.setOnClickListener(new View.OnClickListener() {
@@ -135,11 +152,21 @@ public class AllSalonsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // open sheet
-                if (mBottomSheetDialogFilterBy.isShowing()) {
+                if (mBottomSheetDialogFilterBy.isShowing())
+                {
                     mBottomSheetDialogFilterBy.dismiss();
-                } else { // close sheet
+                }
+                else
+                { // close sheet
                     mBottomSheetDialogFilterBy.show();
                 }
+            }
+        });
+
+        findViewById(R.id.iv_user_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AllSalonsActivity.this, AccountDetailsActivity.class));
             }
         });
     }
@@ -157,12 +184,39 @@ public class AllSalonsActivity extends AppCompatActivity {
 
                         initDatesAdapter();
 
-                        try {
+                        try
+                        {
                             roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(dateList.get(0).getsDate()));
-                        } catch (IndexOutOfBoundsException e) {
+                        } catch (IndexOutOfBoundsException e)
+                        {
                             e.printStackTrace();
                             Crashlytics.logException(e);
                         }
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                        initSalonsRecycler();
+                        dialogBuilder.hideLoadingDialog();
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        initSalonsRecycler();
+                        dialogBuilder.hideLoadingDialog();
+                        Toast.makeText(AllSalonsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void getSalonsByCatFromServer() {
+        dialogBuilder.displayLoadingDialog();
+        RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
+                "getSalonsByCategoryID", new Request<>("getSalonsByCategoryID", userId, apiToken, catKey,
+                        null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        roundsList = ParseResponses.parseRounds(mainObject);
                     }
 
                     @Override
@@ -190,7 +244,8 @@ public class AllSalonsActivity extends AppCompatActivity {
         CardDao cardDao = GawlaDataBse.getInstance(AllSalonsActivity.this).cardDao();
         cardDao.removeCards(cardDao.getCards());
 
-        for (int i = 0; i < rounds.size(); i++) {
+        for (int i = 0; i < rounds.size(); i++)
+        {
             productImageDao.insertSubImages(rounds.get(i).getProduct_images());
             cardDao.insertCards(rounds.get(i).getSalon_cards());
         }
@@ -201,7 +256,8 @@ public class AllSalonsActivity extends AppCompatActivity {
 
         dateList.clear();
 
-        for (String date : dates) {
+        for (String date : dates)
+        {
             dateList.add(transformDateToNames(date));
         }
 
@@ -222,9 +278,11 @@ public class AllSalonsActivity extends AppCompatActivity {
         String dayOfWeek = new DateFormatSymbols(new Locale(SharedPrefManager.getInstance(AllSalonsActivity.this).getSavedLang())).getWeekdays()[dayWeek]; // day in week from num to nam
 
         Date date = null;
-        try {
+        try
+        {
             date = new SimpleDateFormat("dd-MM-yyyy").parse(sDate);
-        } catch (ParseException e) {
+        } catch (ParseException e)
+        {
             e.printStackTrace();
         }
 
@@ -255,9 +313,11 @@ public class AllSalonsActivity extends AppCompatActivity {
 
                         initCategoriesAdapter();
 
-                        try {
+                        try
+                        {
                             roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
-                        } catch (IndexOutOfBoundsException e) {
+                        } catch (IndexOutOfBoundsException e)
+                        {
                             e.printStackTrace();
                             Crashlytics.logException(e);
                         }
@@ -279,7 +339,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initCategoriesAdapter() {
-        filterRecycler.setAdapter(new CategoryAdapter(AllSalonsActivity.this, categoryList, new ClickInterface.OnItemClickListener() {
+        filterRecycler.setAdapter(new CategoryAdapter(categoryList, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Category category = categoryList.get(position);
@@ -291,14 +351,17 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initSalonsRecycler() {
-        if (roundsList.size() > 0) { // !empty ?
+        if (roundsList.size() > 0)
+        { // !empty ?
             emptyViewLayout.setVisibility(View.GONE);
             salonsRecycler.setVisibility(View.VISIBLE);
             salonsRecycler.setHasFixedSize(true);
             salonsRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
             salonsRecycler.setAdapter(new SalonsAdapter(AllSalonsActivity.this, roundsList));
 
-        } else {  // empty ?
+        }
+        else
+        {  // empty ?
             emptyViewLayout.setVisibility(View.VISIBLE);
             salonsRecycler.setVisibility(View.GONE);
         }
@@ -329,10 +392,13 @@ public class AllSalonsActivity extends AppCompatActivity {
         sheetView.findViewById(R.id.close_bottom_sheet_filter_by).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mBottomSheetDialogFilterBy.isShowing()) {
+                if (mBottomSheetDialogFilterBy.isShowing())
+                {
                     mBottomSheetDialogFilterBy.dismiss();
 
-                } else {
+                }
+                else
+                {
                     mBottomSheetDialogFilterBy.show();
                 }
             }

@@ -23,7 +23,7 @@ import it_geeks.info.gawla_app.util.NotificationBuilder;
 public class SettingsActivity extends AppCompatActivity {
 
     private TextView tvLang, tvNotificationOptions;
-    private SwitchMaterial notificationSwitch;
+    private SwitchMaterial notificationSwitch, soundSwitch;
     private RelativeLayout rlAppNotification;
 
     private NotificationBuilder notificationBuilder;
@@ -31,25 +31,45 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Common.Instance().changeStatusBarColor(this, "#ffffff");
         setContentView(R.layout.activity_settings);
 
         initViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        tvLang.setText(displayLanguage());
     }
 
     private void initViews() {
         tvLang = findViewById(R.id.app_settings_language);
         tvNotificationOptions = findViewById(R.id.tv_notification_options);
         notificationSwitch = findViewById(R.id.notification_switch);
+        soundSwitch = findViewById(R.id.sound_switch);
         rlAppNotification = findViewById(R.id.rl_app_notification);
 
-        if (SharedPrefManager.getInstance(SettingsActivity.this).isNotificationEnabled()) {
+        if (SharedPrefManager.getInstance(SettingsActivity.this).isNotificationEnabled())
+        {
             notificationSwitch.setChecked(true);
-        } else {
+        }
+        else
+        {
             notificationSwitch.setChecked(false);
         }
 
-        if (Build.VERSION.SDK_INT > 26) {
+        if (SharedPrefManager.getInstance(SettingsActivity.this).isSoundEnabled())
+        {
+            soundSwitch.setChecked(true);
+        }
+        else
+        {
+            soundSwitch.setChecked(false);
+        }
+
+        if (Build.VERSION.SDK_INT > 26)
+        {
             notificationBuilder = new NotificationBuilder(this);
             notificationBuilder.createUploadImageChannel();
             notificationBuilder.createRemoteChannel();
@@ -62,7 +82,9 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-        } else {
+        }
+        else
+        {
             tvNotificationOptions.setVisibility(View.GONE);
         }
 
@@ -71,11 +93,22 @@ public class SettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Log.d("onCheckedChanged", "isChecked:: " + isChecked);
                 SharedPrefManager.getInstance(SettingsActivity.this).setNotificationEnabled(isChecked);
-                if (isChecked) {
+                if (isChecked)
+                {
                     startNotifications();
-                } else {
+                }
+                else
+                {
                     stopNotifications();
                 }
+            }
+        });
+
+        soundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.d("onCheckedChanged", "isChecked:: " + isChecked);
+                SharedPrefManager.getInstance(SettingsActivity.this).setSoundEnabled(isChecked);
             }
         });
 
@@ -90,7 +123,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         // back
-        findViewById(R.id.app_settings_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -106,14 +139,15 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void stopNotifications() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic("all");
-        FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + String.valueOf(SharedPrefManager.getInstance(this).getCountry().getCountry_id()));
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + SharedPrefManager.getInstance(this).getCountry().getCountry_id());
         FirebaseMessaging.getInstance().unsubscribeFromTopic("salon_" + SharedPrefManager.getInstance(this).getSubscribedSalonId());
     }
 
     private String displayLanguage() {
         String s = SharedPrefManager.getInstance(SettingsActivity.this).getSavedLang();
 
-        switch (s) {
+        switch (s)
+        {
             case "en":
                 s = "English";
                 break;
@@ -125,12 +159,5 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         return s;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        tvLang.setText(displayLanguage());
     }
 }

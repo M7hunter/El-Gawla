@@ -35,7 +35,7 @@ public class TransHolder {
     // main activity keys
     public String hales;
     public String my_rounds;
-    public String cards;
+    public String store;
     public String account;
     public String menu;
 
@@ -49,7 +49,7 @@ public class TransHolder {
     public String joined_salons;
     public String rounds_empty_hint;
 
-    // cards fragment keys
+    // store fragment keys
     public String cards_store;
     public String cards_empty_hint;
 
@@ -180,12 +180,12 @@ public class TransHolder {
 
         my_rounds = transDao.getTransByKeyAndLang("my_rounds", lang);
         if (my_rounds == null || my_rounds.isEmpty()) {
-            my_rounds = context.getResources().getString(R.string.my_rounds);
+            my_rounds = context.getResources().getString(R.string.my_salons);
         }
 
-        cards = transDao.getTransByKeyAndLang("cards", lang);
-        if (cards == null || cards.isEmpty()) {
-            cards = context.getResources().getString(R.string.cards);
+        store = transDao.getTransByKeyAndLang("store", lang);
+        if (store == null || store.isEmpty()) {
+            store = context.getResources().getString(R.string.store);
         }
 
         account = transDao.getTransByKeyAndLang("account", lang);
@@ -202,7 +202,7 @@ public class TransHolder {
     public void getMainFragmentTranses(Context context) {
         see_all = transDao.getTransByKeyAndLang("see_all", lang);
         if (see_all == null || see_all.isEmpty()) {
-            see_all = context.getResources().getString(R.string.see_all);
+            see_all = context.getResources().getString(R.string.see_more);
         }
 
         recent_salons = transDao.getTransByKeyAndLang("recent_salons", lang);
@@ -248,7 +248,7 @@ public class TransHolder {
     public void getAccountFragmentTranses(Context context) {
         account_details = transDao.getTransByKeyAndLang("account_details", lang);
         if (account_details == null || account_details.isEmpty()) {
-            account_details = context.getResources().getString(R.string.account_details);
+            account_details = context.getResources().getString(R.string.profile);
         }
 
         buying_processes = transDao.getTransByKeyAndLang("buying_processes", lang);

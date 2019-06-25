@@ -37,31 +37,21 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_salon_date, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_salon_date, viewGroup, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         final SalonDate salonDate = dateList.get(i);
 
-//        Log.d("dateAdapter::", "salonDate.getDayOfMonth() == " + salonDate.getDayOfMonth());
-//        Log.d("dateAdapter::", "Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == " + Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-//        Log.d("dateAdapter::", "salonDate.getMonth() == " + salonDate.getMonth());
-//        Log.d("dateAdapter::", "currentMonth == " + currentMonth);
-
         // check if selected
-        if (selectedPosition == i) { // selected
-            if (Integer.parseInt(salonDate.getDayOfMonth()) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) && salonDate.getMonth().equals(currentMonth)) { // if today
-                dayIsToday(viewHolder);
-            } else {
-                viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_white_bordered_nice_blue));
-            }
-        } else { // !selected
-            if (Integer.parseInt(salonDate.getDayOfMonth()) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH) && salonDate.getMonth().equals(currentMonth)) { // if today
-                dayIsToday(viewHolder);
-            } else {
-                dayNotToday(viewHolder);
-            }
+        if (selectedPosition == i)
+        { // selected
+            selectedDay(viewHolder);
+        }
+        else
+        { // !selected
+            NotSelectedDay(viewHolder, salonDate);
         }
 
         viewHolder.dayOfMonth.setText(salonDate.getDayOfMonth());
@@ -80,26 +70,32 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
         });
     }
 
-    private void dayIsToday(ViewHolder viewHolder) {
+    private void selectedDay(ViewHolder viewHolder) {
         viewHolder.month.setTextColor(Color.WHITE);
         viewHolder.dayOfWeek.setTextColor(Color.WHITE);
         viewHolder.dayOfWeek.setTextColor(Color.WHITE);
         viewHolder.dayOfMonth.setTextColor(Color.WHITE);
-        viewHolder.salonsCount.setTextColor(Color.WHITE);
         viewHolder.separator.setBackgroundColor(Color.WHITE);
-        viewHolder.salonsCount.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_nice_blue));
-        viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_nice_blue));
+        viewHolder.salonsCount.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_c_primary_dark));
+        viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_c_primary));
     }
 
-    private void dayNotToday(ViewHolder viewHolder) {
-        viewHolder.month.setTextColor(context.getResources().getColor(R.color.niceBlue));
-        viewHolder.dayOfWeek.setTextColor(context.getResources().getColor(R.color.niceBlue));
-        viewHolder.dayOfWeek.setTextColor(context.getResources().getColor(R.color.niceBlue));
-        viewHolder.dayOfMonth.setTextColor(context.getResources().getColor(R.color.niceBlue));
-        viewHolder.salonsCount.setTextColor(context.getResources().getColor(R.color.niceBlue));
-        viewHolder.separator.setBackgroundColor(context.getResources().getColor(R.color.niceBlue));
-        viewHolder.salonsCount.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_pale_grey));
-        viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_white));
+    private void NotSelectedDay(ViewHolder viewHolder, SalonDate salonDate) {
+        viewHolder.month.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        viewHolder.dayOfWeek.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        viewHolder.dayOfWeek.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        viewHolder.dayOfMonth.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+        viewHolder.separator.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+        viewHolder.salonsCount.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_c_primary));
+
+        if (salonDate.getMonth().equals(currentMonth) && Integer.parseInt(salonDate.getDayOfMonth()) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+        { // if today
+            viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_c_white_bordered_c_primary));
+        }
+        else
+        {
+            viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_white));
+        }
     }
 
     @Override
@@ -107,12 +103,12 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
         return dateList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView dayOfMonth, month, dayOfWeek, salonsCount;
         View separator;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             dayOfMonth = itemView.findViewById(R.id.date_day_of_month);

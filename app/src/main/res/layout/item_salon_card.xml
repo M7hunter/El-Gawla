@@ -7,4 +7,4 @@
     android:layout_marginTop="@dimen/margin_tiny"
     android:layout_marginBottom="@dimen/margin_tiny"
     android:background="@drawable/dynamic_card"
-    tools:showIn="@layout/item_round" />
+    tools:showIn="@layout/item_salon" />

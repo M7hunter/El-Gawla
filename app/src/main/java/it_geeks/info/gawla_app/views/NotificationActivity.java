@@ -65,7 +65,7 @@ public class NotificationActivity extends AppCompatActivity {
         dialogBuilder.createLoadingDialog(this);
 
         // back
-        findViewById(R.id.notification_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

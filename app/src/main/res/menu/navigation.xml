@@ -3,18 +3,18 @@
 
     <item
         android:id="@+id/navigation_salons"
-        android:icon="@drawable/ic_flash"
+        android:icon="@drawable/ic_main"
         android:title="@string/the_salons" />
 
     <item
         android:id="@+id/navigation_my_rounds"
         android:icon="@drawable/ic_round"
-        android:title="@string/my_rounds" />
+        android:title="@string/my_salons" />
 
     <item
         android:id="@+id/navigation_cards"
         android:icon="@drawable/ic_cards"
-        android:title="@string/cards" />
+        android:title="@string/store" />
 
     <item
         android:id="@+id/navigation_account"

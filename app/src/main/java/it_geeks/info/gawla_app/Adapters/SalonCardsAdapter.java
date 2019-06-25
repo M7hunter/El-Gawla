@@ -61,7 +61,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_salon_bottom_card, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_salon_bottom_card, viewGroup, false));
     }
 
     @Override
@@ -176,7 +176,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                         Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
                         ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
                         card.setCount(card.getCount() - 1);
-                        ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the cards list
+                        ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the store list
 
                         try
                         {
@@ -223,7 +223,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
 //                        Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
 //                        mBottomSheetDialogSingleCard.dismiss();
 //                        ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
-//                        ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the cards list
+//                        ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the store list
 //                    }
 //
 //                    @Override

@@ -192,14 +192,14 @@ public class RetrofitClient {
                                 Crashlytics.logException(e);
                                 Toast.makeText(context, context.getString(R.string.error_occurred), Toast.LENGTH_SHORT).show();
                                 Log.e(TAG, "JsonSyntaxException: " + e.getMessage());
+                            } catch (IOException e)
+                            {
+                                e.printStackTrace();
+                                Crashlytics.logException(e);
                             }
                             break;
                     }
 
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                    Crashlytics.logException(e);
                 } catch (RuntimeException e)
                 {
                     e.printStackTrace();

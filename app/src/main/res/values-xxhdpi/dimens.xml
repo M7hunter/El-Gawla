@@ -3,46 +3,38 @@
     <!-- margin & padding -->
     <dimen name="margin_xTiny">3dp</dimen>
     <dimen name="margin_tiny">5dp</dimen>
-    <dimen name="margin_tiny_minus">-5dp</dimen>
     <dimen name="margin_small">10dp</dimen>
-    <dimen name="margin_x_small">8dp</dimen>
-    <dimen name="margin_small_minus">-10dp</dimen>
     <dimen name="margin_medium">15dp</dimen>
     <dimen name="margin_large">20dp</dimen>
     <dimen name="margin_xlarge">25dp</dimen>
     <dimen name="margin_xx_large">35dp</dimen>
     <dimen name="margin_xxx_large">50dp</dimen>
     <dimen name="margin_xxxx_large">60dp</dimen>
+    <dimen name="margin_xxxxx_large">80dp</dimen>
 
     <!-- text sizes -->
     <dimen name="text_size_tiny">9sp</dimen>
-    <dimen name="text_size_x_small">10.5sp</dimen>
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="text_size_medium">15sp</dimen>
     <dimen name="text_size_large">18sp</dimen>
     <dimen name="text_size_xlarge">21sp</dimen>
     <dimen name="text_size_xx_large">25sp</dimen>
-    <dimen name="num_tick">42sp</dimen>
 
     <!-- icons & images -->
-    <dimen name="logo_width">140dp</dimen>
     <dimen name="logo_height">80dp</dimen>
-    <dimen name="icon_notification">40dp</dimen>
+    <dimen name="icon_notification">35dp</dimen>
     <dimen name="icon_back">55dp</dimen>
     <dimen name="image_width_main_fragment">165dp</dimen>
-    <dimen name="image_width_round">300dp</dimen>
+    <dimen name="image_width_round">280dp</dimen>
     <dimen name="image_height_round">200dp</dimen>
-    <dimen name="image_height_product">200dp</dimen>
     <dimen name="image_news">100dp</dimen>
     <dimen name="image_account">120dp</dimen>
     <dimen name="image_cards_round_updates">65dp</dimen>
-    <dimen name="winner_image_height">320dp</dimen>
 
     <!-- mix -->
-    <dimen name="my_rounds_empty_view_height">550dp</dimen>
     <dimen name="my_rounds_empty_view_min_height">450dp</dimen>
     <dimen name="card_background_height">100dp</dimen>
-    <dimen name="card_height">60dp</dimen>
+    <dimen name="card_height">55dp</dimen>
     <dimen name="card_width">40dp</dimen>
     <dimen name="single_card_height">140dp</dimen>
     <dimen name="single_card_width">95dp</dimen>
