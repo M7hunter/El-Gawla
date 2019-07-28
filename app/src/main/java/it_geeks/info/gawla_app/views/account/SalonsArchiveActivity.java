@@ -82,7 +82,7 @@ public class SalonsArchiveActivity extends AppCompatActivity {
         if (salonArchiveList.size() > 0)
         {
             mySalonArchiveRecycler.setHasFixedSize(true);
-            mySalonArchiveRecycler.setAdapter(new MySalonsArchiveAdapter(this, salonArchiveList));
+            mySalonArchiveRecycler.setAdapter(new MySalonsArchiveAdapter(this, salonArchiveList, findViewById(R.id.salons_archive_main_layout)));
             mySalonArchiveEmptyView.setVisibility(View.GONE);
         }
         else

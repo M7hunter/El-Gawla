@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
@@ -26,6 +25,7 @@ import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.ImageLoader;
 import it_geeks.info.gawla_app.util.NotificationStatus;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
@@ -34,7 +34,7 @@ import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
-import it_geeks.info.gawla_app.views.account.AccountDetailsActivity;
+import it_geeks.info.gawla_app.views.account.ProfileActivity;
 
 import static it_geeks.info.gawla_app.repository.RESTful.ParseResponses.parseRounds;
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_SALON_BY_USER_ID;
@@ -123,7 +123,7 @@ public class MySalonsFragment extends Fragment {
         fragmentView.findViewById(R.id.iv_user_image).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.mainInstance, AccountDetailsActivity.class));
+                startActivity(new Intent(MainActivity.mainInstance, ProfileActivity.class));
             }
         });
     }
@@ -163,7 +163,7 @@ public class MySalonsFragment extends Fragment {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         initMySalonsRecycler();
-                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+                        new SnackBuilder(fragmentView.findViewById(R.id.membership_main_layout)).setSnackText(errorMessage).showSnackbar();
                         refreshLayout.setRefreshing(false);
                     }
                 });

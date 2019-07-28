@@ -48,9 +48,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_medium"
+                android:layout_margin="@dimen/margin_small"
                 android:text="red card"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
             <!-- card description -->
@@ -59,9 +59,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_medium"
+                android:layout_margin="@dimen/margin_small"
                 android:gravity="center"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
             <!-- btn confirm -->
@@ -89,8 +89,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small"
-
+                        android:layout_margin="@dimen/margin_tiny"
                         android:gravity="center">
 
                         <!-- label -->
@@ -127,7 +126,7 @@
                         android:text="@string/Confirm_payment"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_large"
+                        android:textSize="@dimen/text_size_medium"
                         android:textStyle="bold" />
 
                 </LinearLayout>

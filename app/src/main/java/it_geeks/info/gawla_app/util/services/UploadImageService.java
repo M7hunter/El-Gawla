@@ -17,7 +17,7 @@ import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.views.account.AccountDetailsActivity;
+import it_geeks.info.gawla_app.views.account.ProfileActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_UPDATE_USER_DATA;
 import static it_geeks.info.gawla_app.util.NotificationBuilder.UPLOAD_IMAGE_NOTIFICATION_ID;
@@ -39,7 +39,7 @@ public class UploadImageService extends Service {
     }
 
     public void uploadImage() {
-        final AccountDetailsActivity activity = AccountDetailsActivity.accountDetailsInstance;
+        final ProfileActivity activity = ProfileActivity.accountDetailsInstance;
         final NotificationBuilder notificationBuilder = new NotificationBuilder(this);
 
         if (activity != null && activity.encodedImage != null)

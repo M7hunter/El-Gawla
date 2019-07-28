@@ -3,7 +3,6 @@ package it_geeks.info.gawla_app.views.account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
@@ -21,6 +20,7 @@ import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.R;
 
@@ -69,7 +69,7 @@ public class MembershipActivity extends AppCompatActivity {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
-                        Toast.makeText(MembershipActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        new SnackBuilder(findViewById(R.id.membership_main_layout)).setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }
@@ -79,7 +79,7 @@ public class MembershipActivity extends AppCompatActivity {
         {
             RecyclerView packagesRecycler = findViewById(R.id.packages_recycler);
             packagesRecycler.setHasFixedSize(true);
-            packagesRecycler.setAdapter(new PackageAdapter(this, packageList));
+            packagesRecycler.setAdapter(new PackageAdapter(this, packageList, findViewById(R.id.membership_main_layout)));
         }
     }
 }

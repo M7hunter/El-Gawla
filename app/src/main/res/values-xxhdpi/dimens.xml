@@ -15,6 +15,7 @@
     <!-- text sizes -->
     <dimen name="text_size_tiny">9sp</dimen>
     <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_x_small">13.5sp</dimen>
     <dimen name="text_size_medium">15sp</dimen>
     <dimen name="text_size_large">18sp</dimen>
     <dimen name="text_size_xlarge">21sp</dimen>
@@ -26,7 +27,7 @@
     <dimen name="icon_back">55dp</dimen>
     <dimen name="image_width_main_fragment">165dp</dimen>
     <dimen name="image_width_round">280dp</dimen>
-    <dimen name="image_height_round">200dp</dimen>
+    <dimen name="image_height_round">185dp</dimen>
     <dimen name="image_news">100dp</dimen>
     <dimen name="image_account">120dp</dimen>
     <dimen name="image_cards_round_updates">65dp</dimen>

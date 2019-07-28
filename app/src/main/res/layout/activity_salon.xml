@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:src="@drawable/g_logo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_large"
+                android:layout_margin="@dimen/margin_medium"
                 app:layout_constraintBottom_toTopOf="@id/time_container"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/salon_number"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
 
                 <!-- salon number -->
@@ -88,9 +88,9 @@
                     android:id="@+id/salon_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_tiny"
+                    android:layout_marginStart="@dimen/margin_xTiny"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold"
                     tools:text="100" />
 
@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_tiny"
+                android:layout_marginTop="@dimen/margin_xTiny"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_xTiny"
                 android:background="@drawable/bg_rounded_corners_white"
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="@dimen/margin_xlarge">
+                    android:padding="@dimen/margin_large">
 
                     <!-- time container -->
                     <LinearLayout
@@ -139,14 +139,14 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/hour"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/text_size_medium"
+                                android:textSize="@dimen/text_size_small"
                                 android:textStyle="bold" />
 
                             <!-- hours -->
                             <RelativeLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:padding="5dp">
+                                android:padding="@dimen/margin_tiny">
 
                                 <ImageView
                                     android:id="@+id/div_up9"
@@ -266,14 +266,14 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/Minute"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/text_size_medium"
+                                android:textSize="@dimen/text_size_small"
                                 android:textStyle="bold" />
 
                             <!-- minutes -->
                             <RelativeLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:padding="5dp">
+                                android:padding="@dimen/margin_tiny">
 
                                 <ImageView
                                     android:id="@+id/div_up5"
@@ -395,14 +395,14 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/second"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/text_size_medium"
+                                android:textSize="@dimen/text_size_small"
                                 android:textStyle="bold" />
 
                             <!-- seconds -->
                             <RelativeLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:padding="5dp">
+                                android:padding="@dimen/margin_tiny">
 
                                 <ImageView
                                     android:id="@+id/div_up1"
@@ -519,11 +519,11 @@
                         android:background="@drawable/bg_circled_corners_c_secondary"
                         android:gravity="center"
                         android:paddingStart="@dimen/margin_xx_large"
-                        android:paddingTop="@dimen/margin_small"
+                        android:paddingTop="@dimen/margin_tiny"
                         android:paddingEnd="@dimen/margin_xx_large"
                         android:paddingBottom="@dimen/margin_tiny"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_large"
+                        android:textSize="@dimen/text_size_medium"
                         android:textStyle="bold"
                         tools:text="@string/no_content" />
 
@@ -571,8 +571,8 @@
             <!-- new messages counter -->
             <TextView
                 android:id="@+id/tv_new_chat_message_counter"
-                android:layout_width="@dimen/margin_large"
-                android:layout_height="@dimen/margin_large"
+                android:layout_width="@dimen/margin_medium"
+                android:layout_height="@dimen/margin_medium"
                 android:background="@drawable/bg_circle_green"
                 android:fontFamily="monospace"
                 android:gravity="center"
@@ -604,7 +604,7 @@
                     android:id="@+id/round_latest_activity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_tiny"
                     android:gravity="center">
 
                     <!-- activity icon -->
@@ -653,7 +653,7 @@
                 android:gravity="center"
                 android:hint="@string/rOffer"
                 android:inputType="number"
-                android:paddingTop="@dimen/margin_small"
+                android:paddingTop="@dimen/margin_medium"
                 android:paddingBottom="@dimen/margin_small"
                 android:textColor="@color/battleshipGrey"
                 android:textColorHint="@color/editText_hint" />
@@ -665,11 +665,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_weight="1"
-                android:paddingTop="@dimen/margin_large"
-                android:paddingBottom="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_small"
                 android:text="@string/add_offer"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -682,10 +682,11 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:background="@drawable/joined_play_shape"
-            android:paddingTop="@dimen/margin_large"
-            android:paddingBottom="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingBottom="@dimen/margin_small"
             android:text="@string/join_round"
-            android:textSize="@dimen/text_size_large"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/leave_and_help_container" />
@@ -696,7 +697,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginTop="@dimen/margin_xTiny"
             android:visibility="gone" />
 
         <!-- btn use/buy golden card -->
@@ -707,11 +708,11 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:background="@drawable/bg_rounded_corners_red_270"
-            android:paddingTop="@dimen/margin_large"
-            android:paddingBottom="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingBottom="@dimen/margin_small"
             android:text="@string/use_card_to_join"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/leave_and_help_container" />
@@ -722,7 +723,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_tiny"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_tiny"
             android:layoutDirection="ltr"
@@ -735,7 +736,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/white"
                 android:paddingStart="@dimen/margin_small"
-                android:paddingTop="@dimen/margin_small"
+                android:paddingTop="@dimen/margin_tiny"
                 android:paddingBottom="@dimen/margin_tiny"
                 android:text="@string/leave"
                 android:textColor="@android:color/black"

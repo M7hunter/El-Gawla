@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +17,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.NotificationStatus;
-import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 
@@ -25,6 +25,7 @@ public class AccountFragment extends Fragment {
     private TextView userName;
     private CircleImageView userImage;
     private String name, image;
+    private Button btnRenewMemberShip;
 
     ImageView ivNotificationBell;
 
@@ -51,6 +52,7 @@ public class AccountFragment extends Fragment {
     private void initViews(View view) {
         userName = view.findViewById(R.id.user_name);
         userImage = view.findViewById(R.id.user_image);
+        btnRenewMemberShip = view.findViewById(R.id.btn_renew_membership);
 
         //Notification icon
         ivNotificationBell = view.findViewById(R.id.iv_notification_bell);
@@ -65,7 +67,7 @@ public class AccountFragment extends Fragment {
         v.findViewById(R.id.cv_account_details).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), AccountDetailsActivity.class));
+                startActivity(new Intent(getContext(), ProfileActivity.class));
             }
         });
 
@@ -73,7 +75,7 @@ public class AccountFragment extends Fragment {
         v.findViewById(R.id.cv_privacy_details).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), PrivacyDetailsActivity.class));
+                startActivity(new Intent(getContext(), ChangePasswordActivity.class));
             }
         });
 
@@ -105,6 +107,13 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), NotificationActivity.class));
+            }
+        });
+
+        btnRenewMemberShip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), MembershipActivity.class));
             }
         });
     }

@@ -21,8 +21,8 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:gravity="center_vertical"
-            android:paddingStart="@dimen/margin_small"
-            android:paddingEnd="@dimen/margin_small">
+            android:paddingStart="@dimen/margin_tiny"
+            android:paddingEnd="@dimen/margin_tiny">
 
             <!-- icon -->
             <ImageView
@@ -36,16 +36,16 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_tiny"
+                android:layout_marginEnd="@dimen/margin_xTiny"
                 android:background="@color/azure" />
 
             <TextView
                 android:id="@+id/round_start_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_tiny"
+                android:layout_marginBottom="@dimen/margin_tiny"
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:gravity="center"
@@ -60,8 +60,8 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_marginStart="@dimen/margin_xTiny"
+                android:layout_marginEnd="@dimen/margin_tiny"
                 android:background="@color/azure" />
 
             <!-- store -->
@@ -103,7 +103,7 @@
                 android:layout_margin="@dimen/margin_tiny"
                 android:background="@drawable/bg_rounded_corners_orange"
                 android:paddingStart="@dimen/margin_small"
-                android:paddingTop="@dimen/margin_small"
+                android:paddingTop="@dimen/margin_tiny"
                 android:paddingEnd="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_tiny"
                 android:textColor="@android:color/white"
@@ -120,11 +120,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_xlarge"
-            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_tiny"
             android:ellipsize="end"
             android:gravity="center"
-            android:lineSpacingExtra="@dimen/margin_small"
             android:maxLines="1"
             android:textColor="@color/BlueDark"
             android:textSize="@dimen/text_size_medium"
@@ -141,11 +140,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_small"
-                android:maxLines="1"
+                android:layout_margin="@dimen/margin_tiny"
                 android:text="@string/sell_price"
                 android:textColor="@color/blueyGrey"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
             <!-- price -->
@@ -157,7 +155,7 @@
                 android:layout_margin="@dimen/margin_small"
                 android:maxLines="1"
                 android:textColor="@color/colorSecondary"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold"
                 tools:text="000" />
         </LinearLayout>
@@ -170,9 +168,9 @@
             android:layout_marginStart="@dimen/margin_small"
             android:layout_marginTop="@dimen/margin_tiny"
             android:layout_marginEnd="@dimen/margin_small"
-            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_tiny"
             android:gravity="center"
-            android:padding="@dimen/margin_medium"
+            android:padding="@dimen/margin_small"
             android:text="@string/show"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_medium"

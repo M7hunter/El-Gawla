@@ -26,7 +26,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.ViewSwitcher;
 
@@ -60,6 +59,7 @@ import it_geeks.info.gawla_app.repository.Models.Activity;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.TopTen;
 import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.util.receivers.ConnectionChangeReceiver;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
@@ -138,6 +138,7 @@ public class SalonActivity extends AppCompatActivity {
     private SocketUtils socketUtils;
     private ChatUtils chatUtils;
     private DialogBuilder dialogBuilder;
+    private SnackBuilder snackBuilder;
 
     private ActivityAdapter activityAdapter;
     // endregion
@@ -280,6 +281,8 @@ public class SalonActivity extends AppCompatActivity {
         initActivitySwitcher();
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
+
+        snackBuilder = new SnackBuilder(salonMainLayout);
     }
 
     private boolean getRoundData(Bundle savedInstanceState) {
@@ -471,7 +474,7 @@ public class SalonActivity extends AppCompatActivity {
                             addOfferLayout.setVisibility(View.VISIBLE);
                             joinProgress.setVisibility(View.GONE);
                             etAddOffer.setEnabled(true);
-                            Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                            snackBuilder.setSnackText(errorMessage).showSnackbar();
                         }
                     });
         } catch (NumberFormatException e)
@@ -823,7 +826,7 @@ public class SalonActivity extends AppCompatActivity {
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                         pbTopTen.setVisibility(View.GONE);
                     }
                 });
@@ -1006,7 +1009,7 @@ public class SalonActivity extends AppCompatActivity {
                     public void handleConnectionErrors(String errorMessage) {
                         joinConfirmationProgress.setVisibility(View.GONE);
                         btnJoinConfirmation.setEnabled(true);
-                        Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }
@@ -1303,7 +1306,8 @@ public class SalonActivity extends AppCompatActivity {
                             , null, null, null, null), new HandleResponses() {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
-                            Toast.makeText(SalonActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                            snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
+
                             btnUseGoldenCard.setEnabled(false);
                             getUserCardsForSalonFromServer();
                         }
@@ -1316,7 +1320,7 @@ public class SalonActivity extends AppCompatActivity {
                         @Override
                         public void handleConnectionErrors(String errorMessage) {
                             dialogBuilder.hideLoadingDialog();
-                            Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                            snackBuilder.setSnackText(errorMessage).showSnackbar();
                         }
                     });
         }
@@ -1332,7 +1336,8 @@ public class SalonActivity extends AppCompatActivity {
                             , null, null), new HandleResponses() {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
-                            Toast.makeText(SalonActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                            snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
+
                             roundRemainingTime.setUserJoin(true);
                             goldenCard.setCount(goldenCardCount - 1);
                             getUserCardsForSalonFromServer();
@@ -1351,7 +1356,7 @@ public class SalonActivity extends AppCompatActivity {
                         public void handleConnectionErrors(String errorMessage) {
                             displayGoldenLayout();
                             dialogBuilder.hideLoadingDialog();
-                            Toast.makeText(SalonActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                            snackBuilder.setSnackText(errorMessage).showSnackbar();
                         }
                     });
         }
@@ -1525,7 +1530,7 @@ public class SalonActivity extends AppCompatActivity {
                         // update store adapter
                         if (cardsRecycler.getAdapter() == null)
                         {
-                            cardsRecycler.setAdapter(new SalonCardsAdapter(SalonActivity.this, round.getSalon_cards(), round.getSalon_id(), round.getRound_id()));
+                            cardsRecycler.setAdapter(new SalonCardsAdapter(SalonActivity.this, round.getSalon_cards(), round.getSalon_id(), round.getRound_id(), salonMainLayout));
                         }
                         else
                         {

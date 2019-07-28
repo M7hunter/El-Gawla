@@ -38,7 +38,7 @@
             android:layout_marginEnd="@dimen/margin_tiny"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_small"
             tools:text="@string/electronics" />
 
         <!-- status -->
@@ -51,7 +51,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_small"
             tools:text="@string/used" />
 
     </LinearLayout>

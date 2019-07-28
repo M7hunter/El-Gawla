@@ -11,17 +11,17 @@
         android:id="@+id/slide_Image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_xxx_large"
+        android:layout_margin="@dimen/margin_xx_large"
         android:src="@drawable/subscribe" />
 
     <TextView
         android:id="@+id/slide_Heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_large"
+        android:layout_marginBottom="@dimen/margin_medium"
         android:gravity="center"
         android:textColor="@color/colorSecondary"
-        android:textSize="@dimen/text_size_large"
+        android:textSize="@dimen/text_size_medium"
         android:textStyle="bold"
         tools:text="اشترك الان" />
 
@@ -30,13 +30,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_xxxx_large"
-        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_tiny"
         android:layout_marginEnd="@dimen/margin_xxxx_large"
-        android:layout_marginBottom="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_small"
         android:gravity="center"
-        android:lineSpacingExtra="@dimen/margin_medium"
         android:textColor="@color/babyBlue"
-        android:textSize="@dimen/text_size_medium"
+        android:textSize="@dimen/text_size_small"
         tools:text="قم بالاشتراك الان حتي تتمكن من الانضمام للجولات المفضلة " />
 
 </LinearLayout>

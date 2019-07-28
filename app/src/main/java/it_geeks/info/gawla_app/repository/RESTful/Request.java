@@ -4,7 +4,7 @@ import it_geeks.info.gawla_app.util.Constants;
 
 public class Request<T> {
 
-    private T firstName, lastName, phone, gender, join_time, left_time, offer, package_id,
+    private T phone, gender, join_time, left_time, offer, package_id,
             provider, provider_id, provider_name, provider_email, provider_image, firebase_token, payment_method,
             name, api_token, image, password, email, message,
             category_id, salon_id, round_id, card_id, user_id, country_id,
@@ -23,7 +23,7 @@ public class Request<T> {
             this.email = t2;
             this.country_id = t3;
             this.password = t4;
-            this.package_id = (T) "0";
+//            this.package_id = t5;
         }
         else if (action.equals(Constants.REQ_SOCIAL_SIGN))
         {

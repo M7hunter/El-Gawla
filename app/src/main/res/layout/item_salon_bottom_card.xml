@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -27,7 +28,7 @@
             android:textColor="@color/battleshipGrey"
             android:textSize="@dimen/text_size_large" />
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_xTiny">
@@ -38,23 +39,32 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_rounded_corners_red_270"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_small"
+                android:paddingTop="@dimen/margin_tiny"
                 android:paddingEnd="@dimen/margin_xlarge"
+                android:paddingBottom="@dimen/margin_tiny"
                 android:text="@string/buy_card"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
-                android:visibility="visible" />
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ProgressBar
                 android:id="@+id/pb_bottom_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
@@ -84,7 +94,7 @@
             android:gravity="center"
             android:text="0"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_small"
             android:textStyle="bold" />
 
     </RelativeLayout>

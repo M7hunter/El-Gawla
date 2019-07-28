@@ -13,7 +13,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_xlarge"
+        android:layout_margin="@dimen/margin_large"
         android:src="@drawable/gawla_logo" />
 
     <!-- hint -->
@@ -22,11 +22,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_xx_large"
         android:gravity="center"
-        android:lineSpacingExtra="@dimen/margin_medium"
-        android:padding="@dimen/margin_small"
+        android:padding="@dimen/margin_tiny"
         android:text="@string/tit1e"
         android:textColor="@color/babyBlue"
-        android:textSize="@dimen/text_size_large" />
+        android:textSize="@dimen/text_size_medium" />
 
     <!-- countries header -->
     <TextView
@@ -44,14 +43,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_medium"
-        app:cardCornerRadius="@dimen/margin_xx_large"
+        app:cardCornerRadius="@dimen/margin_xlarge"
         app:cardElevation="@dimen/margin_small">
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/s_splash_country"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorLightPrimary" />
+            android:background="@color/colorLightPrimary"
+            tools:listitem="@layout/item_country_spinner" />
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>

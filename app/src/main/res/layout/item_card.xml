@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_tiny"
                 android:textColor="@color/battleshipGrey"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_medium" />
 
             <!-- description -->
             <TextView

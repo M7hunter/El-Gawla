@@ -29,6 +29,17 @@ public class User {
     this.password = password;
   }
 
+  public User(int user_id, String api_token, String name, int country_id, String image, String email, String gender, String phone) {
+    this.user_id = user_id;
+    this.api_token = api_token;
+    this.name = name;
+    this.country_id = country_id;
+    this.image = image;
+    this.email = email;
+    this.gender = gender;
+    this.phone = phone;
+  }
+
   public User(int user_id, String api_token, String name, int country_id, String image, String email, String membership, String gender, String phone) {
     this.user_id = user_id;
     this.api_token = api_token;

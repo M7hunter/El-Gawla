@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_cards_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -13,23 +14,30 @@
         android:id="@+id/my_cards_title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp"
         app:cardElevation="@dimen/margin_small">
         <!-- card main layout -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:layoutDirection="rtl"
-            android:padding="@dimen/margin_small">
+            android:layoutDirection="rtl">
 
-            <include layout="@layout/layout_back" />
+            <include
+                layout="@layout/layout_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/margin_medium"
                 android:text="@string/my_cards"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +74,7 @@
                 android:gravity="center"
                 android:text="@string/card_color"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
             <!-- category -->
@@ -79,7 +87,7 @@
                 android:gravity="center"
                 android:text="@string/category"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
             <!-- status -->
@@ -92,7 +100,7 @@
                 android:gravity="center"
                 android:text="@string/status"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
         </LinearLayout>

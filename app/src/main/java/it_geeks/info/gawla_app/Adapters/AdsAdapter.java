@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Callback;
@@ -26,6 +25,7 @@ import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
@@ -36,10 +36,12 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
 
     private Context context;
     private List<Ad> adList;
+    private SnackBuilder snackBuilder;
 
-    public AdsAdapter(Context context, List<Ad> adList) {
+    public AdsAdapter(Context context, List<Ad> adList, SnackBuilder snackBuilder) {
         this.context = context;
         this.adList = adList;
+        this.snackBuilder = snackBuilder;
     }
 
     @NonNull
@@ -110,7 +112,7 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         ((MainActivity) context).dialogBuilder.hideLoadingDialog();
-                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }

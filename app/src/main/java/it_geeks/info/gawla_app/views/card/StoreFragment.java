@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
@@ -32,10 +30,10 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Adapters.CardsAdapter;
 import it_geeks.info.gawla_app.util.ImageLoader;
 import it_geeks.info.gawla_app.util.NotificationStatus;
-import it_geeks.info.gawla_app.util.TransHolder;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
-import it_geeks.info.gawla_app.views.account.AccountDetailsActivity;
+import it_geeks.info.gawla_app.views.account.ProfileActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_CARDS;
 
@@ -60,7 +58,7 @@ public class StoreFragment extends Fragment {
 
         handleEvents();
 
-        checkConnection(fragmentView);
+        checkConnection();
 
         return fragmentView;
     }
@@ -92,19 +90,19 @@ public class StoreFragment extends Fragment {
         fragmentView.findViewById(R.id.iv_user_image).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.mainInstance, AccountDetailsActivity.class));
+                startActivity(new Intent(MainActivity.mainInstance, ProfileActivity.class));
             }
         });
     }
 
-    private void checkConnection(View view) {
-        LinearLayout noConnectionLayout = view.findViewById(R.id.no_connection);
+    private void checkConnection() {
+        LinearLayout noConnectionLayout = fragmentView.findViewById(R.id.no_connection);
 
         if (Common.Instance().isConnected(getContext()))
         {
             noConnectionLayout.setVisibility(View.GONE);
 
-            getCardsFromServer(view);
+            getCardsFromServer();
 
         }
         else
@@ -114,7 +112,7 @@ public class StoreFragment extends Fragment {
         }
     }
 
-    private void getCardsFromServer(final View view) {
+    private void getCardsFromServer() {
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
         String apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
@@ -133,13 +131,13 @@ public class StoreFragment extends Fragment {
 
                     @Override
                     public void handleAfterResponse() {
-                        initEmptyView(view);
+                        initEmptyView();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        initEmptyView(view);
-                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+                        initEmptyView();
+                        new SnackBuilder(fragmentView.findViewById(R.id.store_main_layout)).setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }
@@ -152,8 +150,8 @@ public class StoreFragment extends Fragment {
         Common.Instance().hideProgress(cardsRecycler, cardsProgress);
     }
 
-    private void initEmptyView(View view) {
-        LinearLayout emptyViewLayout = view.findViewById(R.id.cards_empty_view);
+    private void initEmptyView() {
+        LinearLayout emptyViewLayout = fragmentView.findViewById(R.id.cards_empty_view);
 
         cardsProgress.setVisibility(View.GONE);
 

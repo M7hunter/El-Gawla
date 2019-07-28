@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sign_in_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
@@ -14,11 +15,11 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:gravity="center"
-        android:padding="@dimen/margin_large"
+        android:padding="@dimen/margin_medium"
         android:text="@string/sign_in"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_large"
+        android:textSize="@dimen/text_size_medium"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_xx_large"
             android:layout_marginEnd="@dimen/margin_xx_large"
-            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_small"
             android:focusable="true"
             android:hint="@string/email"
             android:textColorHint="@color/paleGrey2"
@@ -67,7 +68,7 @@
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
                 android:paddingBottom="@dimen/margin_medium"
-                android:textSize="@dimen/text_size_xlarge"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,11 +80,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_xx_large"
             android:layout_marginEnd="@dimen/margin_xx_large"
-            android:layout_marginBottom="@dimen/margin_medium"
             android:hint="@string/password"
             android:textColorHint="@color/paleGrey2"
             app:errorEnabled="true"
-            app:passwordToggleDrawable="@drawable/ic_visible"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/colorPrimary">
 
@@ -96,24 +95,23 @@
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
                 android:paddingBottom="@dimen/margin_medium"
-                android:textSize="@dimen/text_size_xlarge"
-                android:textStyle="bold"
-                app:counterMaxLength="26" />
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- forget pass btn -->
         <Button
             android:id="@+id/btn_forget_password"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/margin_xx_large"
             android:layout_marginEnd="@dimen/margin_xx_large"
-            android:padding="@dimen/margin_small"
+            android:padding="@dimen/margin_tiny"
             android:text="@string/forgetPassword"
             android:textColor="@color/midBlue"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_small"
             app:rippleColor="@color/paleGrey2" />
 
         <!-- sign in btn -->
@@ -122,12 +120,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_xlarge"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_xlarge"
-            android:padding="@dimen/margin_large"
+            android:padding="@dimen/margin_small"
             android:text="@string/sign_in"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
         <!-- create account btn -->
@@ -141,10 +139,10 @@
             android:layout_marginEnd="@dimen/margin_xlarge"
             android:layout_marginBottom="@dimen/margin_small"
             android:gravity="center"
-            android:padding="@dimen/margin_large"
+            android:padding="@dimen/margin_small"
             android:text="@string/create_account"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -165,10 +163,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/paleGrey"
-        android:padding="@dimen/margin_xlarge"
+        android:padding="@dimen/margin_large"
         android:text="@string/or"
         android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/text_size_medium"
+        android:textSize="@dimen/text_size_small"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/si_separator"
         app:layout_constraintEnd_toEndOf="parent"
@@ -193,7 +191,7 @@
             android:drawableEnd="@drawable/facebook"
             android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:gravity="center"
-            android:padding="@dimen/margin_large"
+            android:padding="@dimen/margin_small"
             android:text="@string/facebook"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
@@ -208,7 +206,7 @@
             android:drawableEnd="@drawable/google_plus"
             android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:gravity="center"
-            android:padding="@dimen/margin_large"
+            android:padding="@dimen/margin_medium"
             android:text="@string/google_plus"
             android:textColor="@android:color/white"
             android:textStyle="bold" />

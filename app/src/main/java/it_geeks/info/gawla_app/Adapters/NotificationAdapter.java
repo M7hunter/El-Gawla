@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -24,6 +23,7 @@ import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
@@ -37,10 +37,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private List<Notification> notificationList;
     private BottomSheetDialog bottomSheet;
     private TextView messageTitle, messageBody;
+    private SnackBuilder snackBuilder;
 
-    public NotificationAdapter(Context context, List<Notification> notificationList) {
+    public NotificationAdapter(Context context, List<Notification> notificationList, View parentView) {
         this.context = context;
         this.notificationList = notificationList;
+        snackBuilder = new SnackBuilder(parentView);
         initBottomSheet();
     }
 
@@ -106,7 +108,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                         ((NotificationActivity) context).dialogBuilder.hideLoadingDialog();
                     }
                 });

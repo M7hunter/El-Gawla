@@ -13,23 +13,30 @@
         android:id="@+id/buying_processes_title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp"
         app:cardElevation="@dimen/margin_small">
         <!-- card main layout -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:layoutDirection="rtl"
-            android:padding="@dimen/margin_small">
+            android:layoutDirection="rtl">
 
-            <include layout="@layout/layout_back" />
+            <include
+                layout="@layout/layout_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/margin_medium"
                 android:text="@string/buying_processes"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +72,7 @@
                 android:layout_weight="1.5"
                 android:text="@string/processes"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
             <!-- card -->
@@ -78,7 +85,7 @@
                 android:gravity="center"
                 android:text="@string/card"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
             <!-- date -->
@@ -91,7 +98,7 @@
                 android:gravity="center"
                 android:text="@string/date"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
             <!-- cost -->
@@ -104,7 +111,7 @@
                 android:gravity="center"
                 android:text="@string/cost"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -131,20 +138,5 @@
         android:text="@string/buying_processes_empty_hint"
         android:textSize="@dimen/text_size_medium"
         android:visibility="gone" />
-
-    <Button
-        android:id="@+id/btn_renew_membership"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/margin_xlarge"
-        android:layout_marginEnd="@dimen/margin_xlarge"
-        android:layout_marginBottom="@dimen/margin_tiny"
-        android:backgroundTint="@color/colorSecondary"
-        android:padding="@dimen/margin_large"
-        android:text="@string/renew_membership"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold" />
 
 </RelativeLayout>

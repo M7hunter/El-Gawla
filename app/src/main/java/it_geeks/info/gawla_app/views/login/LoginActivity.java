@@ -9,7 +9,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.AccessToken;
@@ -47,7 +46,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.util.DialogBuilder;
-import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
@@ -55,6 +53,7 @@ import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.views.MainActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_SIGN_IN;
@@ -74,6 +73,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public static int GOOGLE_REQUEST = 1000;
 
     private DialogBuilder dialogBuilder;
+
+    private SnackBuilder snackBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +101,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
+
+        snackBuilder = new SnackBuilder(findViewById(R.id.sign_in_main_layout));
     }
 
     private void handleEvents() {
@@ -208,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     public void handleConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         FirebaseAuth.getInstance().signOut();
-                        Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }
@@ -279,12 +282,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             @Override
             public void onCancel() {
-                Toast.makeText(LoginActivity.this, getString(R.string.canceled), Toast.LENGTH_SHORT).show();
+                snackBuilder.setSnackText(getString(R.string.canceled)).showSnackbar();
             }
 
             @Override
             public void onError(FacebookException exception) {
-                Toast.makeText(LoginActivity.this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+                snackBuilder.setSnackText(getString(R.string.error_occurred)).showSnackbar();
             }
         });
 
@@ -338,7 +341,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     // google login
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, connectionResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
+        snackBuilder.setSnackText(connectionResult.getErrorMessage()).showSnackbar();
     }
 
     public void socialLogin(String id, final String name, final String email, final String image, final String provider) {
@@ -367,7 +370,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     public void handleConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         FirebaseAuth.getInstance().signOut();
-                        Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }

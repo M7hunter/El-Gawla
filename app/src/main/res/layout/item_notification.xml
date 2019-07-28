@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_small"
+    android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/margin_small"
     app:cardElevation="@dimen/margin_tiny"
-    tools:ignore="NewApi"
     tools:showIn="@layout/activity_notification">
     <!-- card main layout -->
     <LinearLayout
@@ -32,12 +32,13 @@
             android:layout_marginStart="@dimen/margin_small"
             android:orientation="vertical">
 
+            <!-- title -->
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 tools:text="@tools:sample/lorem" />
 

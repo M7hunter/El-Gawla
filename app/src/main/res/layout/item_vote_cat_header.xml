@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_small"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="@dimen/margin_small"
+    app:cardElevation="@dimen/margin_tiny">
+    <!-- card main layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/lv_vote"
+            android:layout_width="3dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/iv_vote_header_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_vote_header_icon" />
+
+        <!-- cat icon -->
+        <ImageView
+            android:id="@+id/iv_vote_header_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/lv_vote"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/vehicles" />
+
+        <!-- cat title -->
+        <TextView
+            android:id="@+id/tv_vote_header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_vote_header_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/vehicles"
+            tools:textColor="@color/colorPrimary" />
+
+        <!-- votes count -->
+        <TextView
+            android:id="@+id/tv_votes_header_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:text="@string/votes"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_vote_header"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- vote -->
+        <ImageView
+            android:id="@+id/iv_vote_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:foreground="?attr/selectableItemBackground"
+            android:padding="@dimen/margin_tiny"
+            android:src="@drawable/unvoted"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

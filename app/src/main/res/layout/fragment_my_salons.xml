@@ -37,7 +37,7 @@
                     android:text="@string/joined_salons"
                     android:textAllCaps="true"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
 
                 <!-- main content -->

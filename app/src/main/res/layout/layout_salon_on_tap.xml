@@ -46,12 +46,12 @@
                     android:id="@+id/salon_round_product_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
+                    android:layout_margin="@dimen/margin_tiny"
                     android:ellipsize="end"
                     android:gravity="start"
                     android:maxLines="2"
                     android:textColor="@color/duskBlue"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold"
                     tools:text="@string/no_content" />
 
@@ -59,7 +59,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small">
+                    android:layout_margin="@dimen/margin_tiny">
 
                     <!-- price label -->
                     <TextView
@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/Prod_price"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textSize="@dimen/text_size_small" />
 
                     <!-- price -->
                     <TextView
@@ -78,7 +78,7 @@
                         android:layout_weight="1"
                         android:gravity="start"
                         android:textColor="@color/colorSecondary"
-                        android:textSize="@dimen/text_size_medium"
+                        android:textSize="@dimen/text_size_small"
                         android:textStyle="bold"
                         tools:text="910" />
 
@@ -91,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_margin="@dimen/margin_small"
+                android:layout_margin="@dimen/margin_tiny"
                 android:text="@string/read_more"
                 android:textColor="@color/colorPrimary" />
 
@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:padding="@dimen/margin_large"
+            android:padding="@dimen/margin_medium"
             android:text="@string/activity_empty_hint"
             android:visibility="gone" />
 
@@ -149,7 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_large"
+            android:layout_margin="@dimen/margin_medium"
             android:text="@string/chat_empty_hint"
             android:visibility="gone" />
 
@@ -158,7 +158,7 @@
             android:id="@+id/tv_chat_typing_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_tiny"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/blueGrey"
@@ -188,9 +188,9 @@
                     android:hint="@string/chat_message_hint"
                     android:inputType="textShortMessage"
                     android:maxLines="1"
-                    android:paddingTop="@dimen/margin_medium"
-                    android:paddingBottom="@dimen/margin_small"
-                    android:textSize="@dimen/text_size_medium"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_tiny"
+                    android:textSize="@dimen/text_size_small"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -202,7 +202,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/selector_ripple_primary"
                 android:enabled="false"
-                android:padding="@dimen/margin_tiny"
+                android:padding="@dimen/margin_xTiny"
                 android:src="@drawable/ic_send_message" />
 
         </LinearLayout>
@@ -221,7 +221,7 @@
             android:id="@+id/top_ten_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_tiny" />
+            android:layout_margin="@dimen/margin_xTiny" />
 
         <!-- top ten empty hint -->
         <TextView
@@ -230,7 +230,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:padding="@dimen/margin_large"
+            android:padding="@dimen/margin_medium"
             android:text="@string/top_ten_empty"
             android:visibility="gone" />
 
@@ -239,7 +239,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_small" />
+            android:layout_margin="@dimen/margin_tiny" />
 
     </LinearLayout>
 

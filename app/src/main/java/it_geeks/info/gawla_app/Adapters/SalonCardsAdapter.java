@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -35,6 +34,7 @@ import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Card;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.views.card.BuyCardActivity;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
@@ -48,12 +48,14 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
     private int salonId, round_id;
     private BottomSheetDialog mBottomSheetDialogSingleCard;
     private List<Category> categoryList = new ArrayList<>();
+    private SnackBuilder snackBuilder;
 
-    public SalonCardsAdapter(Context context, List<Card> cardList, int salon_id, int round_id) {
+    public SalonCardsAdapter(Context context, List<Card> cardList, int salon_id, int round_id, View parenView) {
         this.context = context;
         this.cardList = cardList;
         this.salonId = salon_id;
         this.round_id = round_id;
+        snackBuilder = new SnackBuilder(parenView);
 
         getCategoriesFromServer();
     }
@@ -173,7 +175,8 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                         , null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
+
                         ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
                         card.setCount(card.getCount() - 1);
                         ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the store list
@@ -200,7 +203,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }
@@ -276,7 +279,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }
