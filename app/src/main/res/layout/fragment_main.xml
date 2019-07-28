@@ -14,6 +14,7 @@
         android:scrollbars="none">
         <!-- scroll main layout -->
         <LinearLayout
+            android:id="@+id/main_snack_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -139,7 +140,7 @@
                 android:layout_margin="@dimen/margin_large"
                 android:text="@string/recent_salons"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
             <!-- recent salons container -->
@@ -206,7 +207,7 @@
                 android:layout_margin="@dimen/margin_small"
                 android:text="@string/see_more"
                 android:textColor="@color/midBlue"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_medium" />
 
             <!-- winners news header -->
             <LinearLayout

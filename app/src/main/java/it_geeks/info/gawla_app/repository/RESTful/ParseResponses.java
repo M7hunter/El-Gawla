@@ -20,6 +20,8 @@ import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.repository.Models.RoundRemainingTime;
 import it_geeks.info.gawla_app.repository.Models.User;
+import it_geeks.info.gawla_app.repository.Models.Vote;
+import it_geeks.info.gawla_app.repository.Models.VoteChild;
 import it_geeks.info.gawla_app.repository.Models.WebPage;
 import it_geeks.info.gawla_app.repository.Models.WinnerNews;
 import it_geeks.info.gawla_app.util.Constants;
@@ -180,7 +182,6 @@ public class ParseResponses {
                 userObj.get("country_id").getAsInt(),
                 userObj.get("image").getAsString(),
                 userObj.get("email").getAsString(),
-                userObj.get("membership").getAsString(),
                 userObj.get("gender").getAsString(),
                 userObj.get("phone").getAsString());
     }
@@ -366,6 +367,44 @@ public class ParseResponses {
         }
 
         return packages;
+    }
+
+    public static List<Vote> parseVotes(JsonObject object) {
+        JsonArray votesArray = object.get("votes").getAsJsonArray();
+
+        List<Vote> votes = new ArrayList<>();
+        for (int i = 0; i < votesArray.size(); i++)
+        {
+            JsonObject voteObj = votesArray.get(i).getAsJsonObject();
+            int vote_id = voteObj.get("vote_id").getAsInt();
+            String vote_title = voteObj.get("vote_title").getAsString();
+            String vote_count = voteObj.get("vote_count").getAsString();
+            String icon = voteObj.get("icon").getAsString();
+            String color = voteObj.get("color").getAsString();
+            boolean voted = voteObj.get("voted").getAsBoolean();
+
+            votes.add(new Vote(vote_id, color, icon, vote_title, vote_count, voted, parseVoteChildes(voteObj)));
+        }
+
+        return votes;
+    }
+
+    private static List<VoteChild>  parseVoteChildes(JsonObject voteObj) {
+        JsonArray childesArray = voteObj.get("votes").getAsJsonArray();
+
+        List<VoteChild> childes = new ArrayList<>();
+        for (int i = 0; i < childesArray.size(); i++)
+        {
+            JsonObject childObj = childesArray.get(i).getAsJsonObject();
+            int vote_id = childObj.get("vote_id").getAsInt();
+            String vote_title = childObj.get("vote_title").getAsString();
+            String vote_count = childObj.get("vote_count").getAsString();
+            boolean voted = childObj.get("voted").getAsBoolean();
+
+            childes.add(new VoteChild(vote_id, vote_title, vote_count, voted));
+        }
+
+        return childes;
     }
 
     public static List<Card> parseUserCardsBySalon(JsonObject object) {

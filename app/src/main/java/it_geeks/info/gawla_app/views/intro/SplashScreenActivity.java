@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,6 +25,7 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.login.LoginActivity;
 
@@ -94,7 +94,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(SplashScreenActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        new SnackBuilder(findViewById(R.id.splash_screen_main_view)).setSnackText(errorMessage).showSnackbar();
                         countriesReady = true;
                         getWebPagesFromServer();
                     }

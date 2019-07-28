@@ -6,10 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
 
 import java.text.DateFormatSymbols;
@@ -48,9 +49,10 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Adapters.DateAdapter;
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.NotificationActivity;
-import it_geeks.info.gawla_app.views.account.AccountDetailsActivity;
+import it_geeks.info.gawla_app.views.account.ProfileActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_CATEGORIES;
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_SALONS;
@@ -68,12 +70,15 @@ public class AllSalonsActivity extends AppCompatActivity {
     private BottomSheetDialog mBottomSheetDialogFilterBy;
 
     private ImageView ivNotificationBell;
+    private TextView tvAllSalonsTitle;
 
     private LinearLayout emptyViewLayout;
 
     private int userId, catKey;
     private String apiToken;
     private DialogBuilder dialogBuilder;
+    private SnackBuilder snackBuilder;
+    private FloatingActionButton fbtnFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,18 +121,28 @@ public class AllSalonsActivity extends AppCompatActivity {
         if (extra != null)
         {
             catKey = extra.getInt(Constants.CATEGORY_KEY);
+            String catName = extra.getString(Constants.CATEGORY_NAME);
+            if (catName != null && !catName.isEmpty())
+            {
+                tvAllSalonsTitle.setText(extra.getString(Constants.CATEGORY_NAME));
+                fbtnFilter.setVisibility(View.GONE);
+            }
         }
     }
 
     private void initViews() {
+        fbtnFilter = findViewById(R.id.all_salon_filter_icon);
         salonsRecycler = findViewById(R.id.all_salons_recycler);
         emptyViewLayout = findViewById(R.id.all_salons_empty_view);
+        tvAllSalonsTitle = findViewById(R.id.tv_all_salon_title);
         filterRecycler = findViewById(R.id.filter_recycler);
         filterRecycler.setHasFixedSize(true);
         filterRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
 
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
+
+        snackBuilder = new SnackBuilder(findViewById(R.id.all_salons_main_layout));
 
         // load user image
         ImageLoader.getInstance().loadUserImage(this, ((ImageView) findViewById(R.id.iv_user_image)));
@@ -148,7 +163,7 @@ public class AllSalonsActivity extends AppCompatActivity {
         });
 
         // open filter sheet
-        findViewById(R.id.all_salon_filter_icon).setOnClickListener(new View.OnClickListener() {
+        fbtnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // open sheet
@@ -166,7 +181,7 @@ public class AllSalonsActivity extends AppCompatActivity {
         findViewById(R.id.iv_user_image).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AllSalonsActivity.this, AccountDetailsActivity.class));
+                startActivity(new Intent(AllSalonsActivity.this, ProfileActivity.class));
             }
         });
     }
@@ -204,7 +219,7 @@ public class AllSalonsActivity extends AppCompatActivity {
                     public void handleConnectionErrors(String errorMessage) {
                         initSalonsRecycler();
                         dialogBuilder.hideLoadingDialog();
-                        Toast.makeText(AllSalonsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }
@@ -229,7 +244,7 @@ public class AllSalonsActivity extends AppCompatActivity {
                     public void handleConnectionErrors(String errorMessage) {
                         initSalonsRecycler();
                         dialogBuilder.hideLoadingDialog();
-                        Toast.makeText(AllSalonsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }
@@ -333,7 +348,7 @@ public class AllSalonsActivity extends AppCompatActivity {
                     public void handleConnectionErrors(String errorMessage) {
                         initSalonsRecycler();
                         dialogBuilder.hideLoadingDialog();
-                        Toast.makeText(AllSalonsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }

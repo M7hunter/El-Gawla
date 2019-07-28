@@ -17,7 +17,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_small"
         android:background="@drawable/bg_rounded_corners_white"
         android:foreground="?android:attr/selectableItemBackground"
         android:padding="@dimen/margin_medium">
@@ -31,7 +30,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/margin_medium"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_medium"
             tools:text="@tools:sample/lorem" />
 
         <!-- icon -->

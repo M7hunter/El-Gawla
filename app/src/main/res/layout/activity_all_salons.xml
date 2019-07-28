@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/all_salons_main_layout"
     android:background="@color/paleGrey"
     tools:context=".views.salon.AllSalonsActivity">
 
@@ -21,6 +22,7 @@
 
             <!-- title -->
             <TextView
+                android:id="@+id/tv_all_salon_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -29,7 +31,7 @@
                 android:text="@string/all_salons"
                 android:textAllCaps="true"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
             <!-- recyclers container -->
@@ -44,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_small"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_salon_date"
@@ -54,7 +56,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/margin_xx_large">
+                    android:layout_marginTop="@dimen/margin_xlarge">
 
                     <!-- salons recycler -->
                     <androidx.recyclerview.widget.RecyclerView

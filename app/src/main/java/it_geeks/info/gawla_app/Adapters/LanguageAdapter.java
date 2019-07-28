@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,8 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
         if (sLang(lang).equals(SharedPrefManager.getInstance(context).getSavedLang()))
         {
             viewHolder.langLabel.setBackground(context.getDrawable(R.drawable.bg_rounded_c_white_bordered_c_primary));
+            viewHolder.langLabel.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            viewHolder.langLabel.setTypeface(Typeface.DEFAULT_BOLD);
         }
 
         // events
@@ -116,13 +119,11 @@ public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView langLabel;
-        Button btnDownloadLang;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             langLabel = itemView.findViewById(R.id.lang_label);
-            btnDownloadLang = itemView.findViewById(R.id.btn_download_lang);
         }
     }
 }

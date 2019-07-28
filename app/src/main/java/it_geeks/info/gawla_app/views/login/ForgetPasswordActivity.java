@@ -7,8 +7,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
@@ -18,19 +16,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
-import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.util.TransHolder;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_FORGOT_PASSWORD;
 
 public class ForgetPasswordActivity extends AppCompatActivity {
 
-    private TextView tvForgetPass, tvForgetPassHint;
     private Button btnSend;
     private EditText etEmail;
     private TextInputLayout tlEmail;
     private ProgressBar pbForgetPass;
+
+    private SnackBuilder snackBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,30 +38,17 @@ public class ForgetPasswordActivity extends AppCompatActivity {
 
         initViews();
 
-        setupTrans();
-
         handleEvents();
     }
 
     private void initViews() {
         etEmail = findViewById(R.id.et_email_fp);
 
-        // translatable views
-        tvForgetPass = findViewById(R.id.tv_forgot_pass_header);
-        tvForgetPassHint = findViewById(R.id.tv_forget_pass_hint);
         btnSend = findViewById(R.id.btn_send_fp);
         tlEmail = findViewById(R.id.tl_email_fp);
         pbForgetPass = findViewById(R.id.pb_forget_pass);
-    }
 
-    private void setupTrans() {
-        TransHolder transHolder = new TransHolder(this);
-        transHolder.getForgetPassActivityTranses(this);
-
-        tvForgetPass.setText(transHolder.forget_pass);
-        tvForgetPassHint.setText(transHolder.forget_pass_hint);
-        tlEmail.setHint(transHolder.email);
-        btnSend.setText(transHolder.send);
+        snackBuilder = new SnackBuilder(findViewById(R.id.forget_main_layout));
     }
 
     private void handleEvents() {
@@ -93,7 +78,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                         , null, null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Toast.makeText(ForgetPasswordActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
                     }
 
                     @Override
@@ -104,7 +89,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         displaySendBtn();
-                        Toast.makeText(ForgetPasswordActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }
@@ -140,7 +125,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     }
 
     private void hideSendBtn() {
-        btnSend.setVisibility(View.GONE);
+        btnSend.setVisibility(View.INVISIBLE);
         pbForgetPass.setVisibility(View.VISIBLE);
     }
 }

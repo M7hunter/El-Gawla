@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/membership_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -26,6 +27,7 @@
 
             <!-- logo -->
             <ImageView
+                android:id="@+id/membership_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/g_logo"
@@ -41,13 +43,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="@string/pay_later"
+                android:text="@string/subscribe_later"
                 android:textColor="@color/colorSecondary"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold"
                 app:icon="@drawable/ic_arrow_right"
                 app:iconTint="@color/colorSecondary"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/membership_logo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:rippleColor="@android:color/white" />
@@ -63,7 +66,7 @@
         android:layout_marginBottom="@dimen/margin_medium"
         android:text="@string/Congratulations"
         android:textColor="@color/midBlue"
-        android:textSize="@dimen/text_size_xlarge"
+        android:textSize="@dimen/text_size_large"
         android:textStyle="bold" />
 
     <!-- hint -->
@@ -77,7 +80,7 @@
         android:lineSpacingExtra="@dimen/margin_small"
         android:padding="@dimen/margin_small"
         android:text="@string/payment_enjoy"
-        android:textSize="@dimen/text_size_medium"
+        android:textSize="@dimen/text_size_small"
         android:textStyle="bold" />
 
     <!-- packages -->

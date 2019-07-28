@@ -7,7 +7,7 @@
         <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorOnSecondary">@color/paleGrey</item>
-        <item name="android:fontFamily">@font/tajawal_regular</item>
+        <item name="android:fontFamily">@font/helveticaneueltarabic_roman_0</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:statusBarColor">@color/colorPrimaryVariant</item>
         <item name="android:navigationBarColor">@color/colorPrimaryVariant</item>
@@ -21,12 +21,12 @@
     <style name="AppShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">30dp</item>
-        <item name="android:padding">@dimen/margin_large</item>
+        <item name="android:padding">@dimen/margin_small</item>
     </style>
 
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textSize">@dimen/text_size_x_small</item>
     </style>
 
     <style name="PopupMenuTheme" parent="Widget.AppCompat.PopupMenu">

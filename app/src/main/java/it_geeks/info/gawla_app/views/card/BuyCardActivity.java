@@ -14,7 +14,7 @@ import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.views.NotificationActivity;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -33,7 +33,6 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
@@ -80,6 +79,8 @@ public class BuyCardActivity extends AppCompatActivity {
     private String method;
 
     private DialogBuilder dialogBuilder;
+
+    private SnackBuilder snackBuilder;
 
     // A client for interacting with the Google Pay API
     private PaymentsClient mPaymentsClient;
@@ -133,6 +134,8 @@ public class BuyCardActivity extends AppCompatActivity {
 
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
+
+        snackBuilder = new SnackBuilder(findViewById(R.id.buy_card_main_layout));
     }
 
     private boolean getCardData(Bundle savedInstanceState) {
@@ -232,7 +235,7 @@ public class BuyCardActivity extends AppCompatActivity {
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Toast.makeText(BuyCardActivity.this, "done", Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText("done").showSnackbar();
                     }
 
                     @Override
@@ -243,7 +246,7 @@ public class BuyCardActivity extends AppCompatActivity {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
-                        Toast.makeText(BuyCardActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }
@@ -289,19 +292,19 @@ public class BuyCardActivity extends AppCompatActivity {
                 checkPaypal();
                 break;
             case Constants.GOOGLEPAY:
-                checkGooglePay();
+                /*
+                 * google pay not supported on APIs < 24
+                 * so, just hide google pay button form APIs < 24
+                 * and check visa as default method
+                 */
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N)
+                {
+                    llUseGooglePay.setVisibility(View.GONE);
+                    checkVisa();
+                } else {
+                    checkGooglePay();
+                }
                 break;
-        }
-
-        /*
-         * google pay not supported on APIs < 24
-         * so, just hide google pay button form APIs < 24
-         * and check visa as default method
-         */
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N)
-        {
-            llUseGooglePay.setVisibility(View.GONE);
-            checkVisa();
         }
 
         CompoundButton.OnCheckedChangeListener checkListener = new CompoundButton.OnCheckedChangeListener() {
@@ -592,7 +595,8 @@ public class BuyCardActivity extends AppCompatActivity {
                                     .getString("token");
 
                             Log.d(TAG, "paymentToken:: " + paymentToken);
-                            Toast.makeText(this, paymentToken, Toast.LENGTH_SHORT).show();
+                            snackBuilder.setSnackText(paymentToken).showSnackbar();
+
                         } catch (JSONException e)
                         {
                             e.printStackTrace();
@@ -658,7 +662,7 @@ public class BuyCardActivity extends AppCompatActivity {
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(BuyCardActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }

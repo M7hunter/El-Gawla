@@ -5,20 +5,19 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_SET_USER_MESSAGE;
 
@@ -28,6 +27,7 @@ public class CallUsActivity extends AppCompatActivity {
     private Button btnSendCallUs;
     private TextInputLayout tlName, tlEmail, tlText;
     private DialogBuilder dialogBuilder;
+    private SnackBuilder snackBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,8 @@ public class CallUsActivity extends AppCompatActivity {
 
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
+
+        snackBuilder = new SnackBuilder(findViewById(R.id.call_us_main_layout));
     }
 
     private void bindViews() {
@@ -124,7 +126,7 @@ public class CallUsActivity extends AppCompatActivity {
                         null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Toast.makeText(CallUsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
                         messageCallUS.setText("");
                     }
 
@@ -136,7 +138,7 @@ public class CallUsActivity extends AppCompatActivity {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
-                        Toast.makeText(CallUsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }

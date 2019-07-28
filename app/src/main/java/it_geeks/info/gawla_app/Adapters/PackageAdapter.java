@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -23,6 +22,7 @@ import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.account.MembershipActivity;
 
@@ -32,10 +32,12 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
 
     private Context context;
     private List<Package> packageList;
+    private SnackBuilder snackBuilder;
 
-    public PackageAdapter(Context context, List<Package> packageList) {
+    public PackageAdapter(Context context, List<Package> packageList, View parentView) {
         this.context = context;
         this.packageList = packageList;
+        snackBuilder = new SnackBuilder(parentView);
     }
 
     @NonNull
@@ -68,7 +70,7 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
                         context.startActivity(new Intent(context, MainActivity.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                     }
@@ -81,7 +83,7 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         ((MembershipActivity) context).dialogBuilder.hideLoadingDialog();
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }

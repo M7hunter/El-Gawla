@@ -2,11 +2,12 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context=".views.account.AccountDetailsActivity">
+    tools:context=".views.account.ProfileActivity">
     <!-- scroll main layout -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,23 +28,30 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:cardCornerRadius="0dp"
                     app:cardElevation="@dimen/margin_small">
                     <!-- card main layout -->
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/colorPrimary"
-                        android:layoutDirection="rtl"
-                        android:padding="@dimen/margin_small">
+                        android:layoutDirection="rtl">
 
-                        <include layout="@layout/layout_back" />
+                        <include
+                            layout="@layout/layout_back"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:padding="@dimen/margin_medium"
                             android:text="@string/profile"
                             android:textColor="@android:color/white"
-                            android:textSize="@dimen/text_size_large"
+                            android:textSize="@dimen/text_size_medium"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -57,13 +65,14 @@
             <!-- save btn -->
             <Button
                 android:id="@+id/btn_update_profile"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margin_small"
+                android:backgroundTint="@color/colorSecondary"
                 android:text="@string/save"
-                android:textColor="@color/colorSecondary"
-                android:textSize="@dimen/text_size_medium"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
             <!-- update progress -->
@@ -148,13 +157,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="auto"
-                android:hint="@string/full_name"
+                android:hint="@string/name"
                 android:inputType="textPersonName"
                 android:paddingStart="@dimen/margin_xlarge"
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
                 android:paddingBottom="@dimen/margin_medium"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -178,7 +187,7 @@
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
                 android:paddingBottom="@dimen/margin_medium"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -203,7 +212,7 @@
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
                 android:paddingBottom="@dimen/margin_medium"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -229,7 +238,7 @@
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
                 android:paddingBottom="@dimen/margin_medium"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -255,7 +264,7 @@
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
                 android:paddingBottom="@dimen/margin_medium"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 

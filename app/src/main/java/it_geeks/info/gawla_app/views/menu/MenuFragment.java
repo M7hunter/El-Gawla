@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.view.MotionEvent;
 
 import com.facebook.login.LoginManager;
@@ -23,13 +22,14 @@ import com.squareup.picasso.Picasso;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import it_geeks.info.gawla_app.Adapters.WebViewAdapter;
 import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.NotificationStatus;
-import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.VoteActivity;
 import it_geeks.info.gawla_app.views.intro.SplashScreenActivity;
 import it_geeks.info.gawla_app.views.login.LoginActivity;
 import it_geeks.info.gawla_app.R;
@@ -48,7 +48,7 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
     private GoogleApiClient mGoogleApiClient;
 
     private RecyclerView webViewsRecycler;
-    ImageView imgNotification;
+    private ImageView imgNotification;
 
     private PointF staringPoint = new PointF();
     private PointF pointerPoint = new PointF();
@@ -126,6 +126,15 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
             }
         });
 
+
+        // open vote page
+        view.findViewById(R.id.vote_option_settings).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), VoteActivity.class));
+            }
+        });
+
         // more about gawla page
         view.findViewById(R.id.menu_option_more_about_gawla).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +186,8 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
                         SharedPrefManager.getInstance(getActivity()).clearUser();
                         SharedPrefManager.getInstance(getActivity()).clearProvider();
                         LoginManager.getInstance().logOut();
-                        if (mGoogleApiClient.isConnected()) {
+                        if (mGoogleApiClient.isConnected())
+                        {
                             Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                             mGoogleApiClient.disconnect();
                             mGoogleApiClient.connect();
@@ -211,7 +221,8 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
     }
 
     private void initWebViewRecycler() {
-        if (((SplashScreenActivity) SplashScreenActivity.splashInstance).webPageList.size() > 0) {
+        if (((SplashScreenActivity) SplashScreenActivity.splashInstance).webPageList.size() > 0)
+        {
             webViewsRecycler.setHasFixedSize(true);
             webViewsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
             webViewsRecycler.setAdapter(new WebViewAdapter(getContext(), ((SplashScreenActivity) SplashScreenActivity.splashInstance).webPageList));
@@ -222,13 +233,15 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
         // just clicked
-        if (gestureDetector.onTouchEvent(motionEvent)) {
+        if (gestureDetector.onTouchEvent(motionEvent))
+        {
             // Customers Service
             RequestActivity.builder().show(getContext());
         }
 
         // moved
-        switch (motionEvent.getAction()) {
+        switch (motionEvent.getAction())
+        {
             case MotionEvent.ACTION_MOVE:
                 // move smoothly
                 view.setX((int) (staringPoint.x + motionEvent.getX() - pointerPoint.x));
@@ -257,22 +270,26 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
 
     private void handleWithScreenBorders(View view) {
         // if x of the left border || in the left half of screen
-        if (view.getX() < 0 || (view.getX() + (view.getWidth() / 2)) < (screenWidth / 2)) {
+        if (view.getX() < 0 || (view.getX() + (view.getWidth() / 2)) < (screenWidth / 2))
+        {
             view.animate().translationX(0).setDuration(250).start();
         }
 
         // if x of the right border || in the right half of screen
-        if ((view.getX() + view.getWidth()) > screenWidth || (view.getX() + (view.getWidth() / 2)) > (screenWidth / 2)) {
+        if ((view.getX() + view.getWidth()) > screenWidth || (view.getX() + (view.getWidth() / 2)) > (screenWidth / 2))
+        {
             view.animate().translationX(screenWidth - view.getWidth()).setDuration(250).start();
         }
 
         // if y of the up border
-        if (view.getY() < 0) {
+        if (view.getY() < 0)
+        {
             view.animate().translationY(0).setDuration(200).start();
         }
 
         // if y of the bottom border
-        if (view.getY() >= (screenHeight - (view.getHeight()) * 2)) {
+        if (view.getY() >= (screenHeight - (view.getHeight()) * 2))
+        {
             view.animate().translationY(screenHeight - (view.getHeight() * 2)).setDuration(200).start();
         }
     }

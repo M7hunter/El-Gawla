@@ -16,9 +16,11 @@ import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -27,7 +29,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.google.gson.JsonObject;
@@ -49,6 +50,8 @@ public class CardActivity extends AppCompatActivity {
     private Card card, newCard;
     private List<Card> cardList = new ArrayList<>();
     private List<Category> categoryList = new ArrayList<>();
+
+    private SnackBuilder snackBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +98,8 @@ public class CardActivity extends AppCompatActivity {
         btnBuy = findViewById(R.id.btn_buy_card);
         cardsListRecycler = findViewById(R.id.cards_list_recycler);
 
+        snackBuilder = new SnackBuilder(findViewById(R.id.card_main_layout));
+
         initSwitchers();
     }
 
@@ -106,9 +111,10 @@ public class CardActivity extends AppCompatActivity {
             @Override
             public View makeView() {
                 TextView tv = new TextView(CardActivity.this);
-                tv.setTextSize(18);
+                tv.setTextSize(15);
                 tv.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
                 tv.setTextColor(Color.WHITE);
+                tv.setTypeface(Typeface.DEFAULT_BOLD);
                 tv.setText(getString(R.string.activity_empty_hint));
                 return tv;
             }
@@ -118,8 +124,8 @@ public class CardActivity extends AppCompatActivity {
             @Override
             public View makeView() {
                 TextView tv = new TextView(CardActivity.this);
-                tv.setTextSize(15);
-                tv.setLineSpacing(0, 1.5f);
+                tv.setTextSize(12);
+                tv.setLineSpacing(0, 1f);
                 tv.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
                 tv.setTextColor(getResources().getColor(R.color.blueGrey));
                 tv.setText(getString(R.string.activity_empty_hint));
@@ -190,7 +196,7 @@ public class CardActivity extends AppCompatActivity {
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(CardActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }
@@ -205,7 +211,7 @@ public class CardActivity extends AppCompatActivity {
                         null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Toast.makeText(CardActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
                     }
 
                     @Override
@@ -216,7 +222,7 @@ public class CardActivity extends AppCompatActivity {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
-                        Toast.makeText(CardActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }

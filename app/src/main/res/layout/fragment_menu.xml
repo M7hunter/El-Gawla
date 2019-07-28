@@ -69,9 +69,63 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/app_settings"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imageView8"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- icon -->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_arrow"
+                    android:tint="@android:color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- vote option -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/vote_option_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_xTiny"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_xTiny"
+                android:background="@drawable/bg_rounded_corners_white"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="@dimen/margin_medium">
+
+                <!-- icon -->
+                <ImageView
+                    android:id="@+id/imageView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:src="@drawable/ic_stare"
+                    android:tint="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- label -->
+                <TextView
+                    android:id="@+id/tv_vote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:text="@string/vote"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imageView14"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <!-- icon -->
@@ -100,7 +154,6 @@
                     android:id="@+id/menu_option_more_about_gawla"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
                     android:background="@drawable/bg_rounded_corners_white"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:padding="@dimen/margin_medium">
@@ -115,7 +168,7 @@
                         android:layout_marginStart="@dimen/margin_medium"
                         android:text="@string/more_about_gawla"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textSize="@dimen/text_size_medium" />
 
                     <!-- icon -->
                     <ImageView
@@ -141,7 +194,6 @@
                     android:id="@+id/menu_option_privacy_policy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
                     android:background="@drawable/bg_rounded_corners_white"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:padding="@dimen/margin_medium">
@@ -156,7 +208,7 @@
                         android:layout_marginStart="@dimen/margin_medium"
                         android:text="@string/privacy_policy"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textSize="@dimen/text_size_medium" />
 
                     <!-- icon -->
                     <ImageView
@@ -182,7 +234,6 @@
                     android:id="@+id/menu_option_terms_conditions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
                     android:background="@drawable/bg_rounded_corners_white"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:padding="@dimen/margin_medium">
@@ -197,7 +248,7 @@
                         android:layout_marginStart="@dimen/margin_medium"
                         android:text="@string/terms_conditions"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textSize="@dimen/text_size_medium" />
 
                     <!-- icon -->
                     <ImageView
@@ -223,7 +274,6 @@
                     android:id="@+id/menu_option_call_us"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
                     android:background="@drawable/bg_rounded_corners_white"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:padding="@dimen/margin_medium">
@@ -238,7 +288,7 @@
                         android:layout_marginStart="@dimen/margin_medium"
                         android:text="@string/call_us"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textSize="@dimen/text_size_medium" />
 
                     <!-- icon -->
                     <ImageView
@@ -264,7 +314,6 @@
                     android:id="@+id/menu_option_how_gawla_works"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
                     android:background="@drawable/bg_rounded_corners_white"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:padding="@dimen/margin_medium">
@@ -279,7 +328,7 @@
                         android:layout_marginStart="@dimen/margin_medium"
                         android:text="@string/how_gawla_works"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textSize="@dimen/text_size_medium" />
 
                     <!-- icon -->
                     <ImageView
@@ -324,7 +373,7 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/sign_out"
                     android:textColor="@color/paleRed"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
 
                 <!-- icon -->

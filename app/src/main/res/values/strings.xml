@@ -16,10 +16,10 @@
     <string name="recent_salons">Recent salons</string>
     <string name="password">Password</string>
     <string name="full_name">"Full name"</string>
-    <string name="pay_later">"Later"</string>
+    <string name="subscribe_later">"subscribe later"</string>
     <string name="buy_card_to_join">Buy card to join</string>
     <string name="profile">profile</string>
-    <string name="buying_processes">Buying processes</string>
+    <string name="buying_processes">buying processes</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="more_about_gawla">More about Gawla</string>
     <string name="terms_conditions">Terms and conditions</string>
@@ -67,8 +67,8 @@
     <string name="app_settings">App settings</string>
     <string name="language">Language</string>
     <string name="sign_out">Sign Out</string>
-    <string name="emptyMail">Your Email is Empty .</string>
-    <string name="emptyPass">Your Password is Empty .</string>
+    <string name="emptyMail">email is empty</string>
+    <string name="emptyPass">password is empty</string>
     <string name="sign_up">Sing Up</string>
     <string name="sign_in">Sign In</string>
     <string name="no_content">No content available</string>
@@ -122,7 +122,7 @@
     <string name="filter_by">Filter by</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
-    <string name="enter_valid_email">Enter valid email</string>
+    <string name="enter_valid_email">enter valid email</string>
     <string name="continue_">Continue</string>
     <string name="cancel">Cancel</string>
     <string name="updated">Updated</string>
@@ -198,4 +198,6 @@
     <string name="won">won</string>
     <string name="lose">lose</string>
     <string name="app_sound">app sound</string>
+    <string name="vote">vote</string>
+    <string name="votes">(%1$s vote)</string>
 </resources>

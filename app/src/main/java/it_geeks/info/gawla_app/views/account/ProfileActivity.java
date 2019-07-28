@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -33,6 +32,7 @@ import androidx.appcompat.view.ContextThemeWrapper;
 import it_geeks.info.gawla_app.repository.Models.Country;
 import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.util.services.UploadImageService;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.RESTful.Request;
@@ -42,12 +42,11 @@ import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 
-import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_COUNTRIES;
 import static it_geeks.info.gawla_app.util.Constants.REQ_UPDATE_USER_DATA;
 
-public class AccountDetailsActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
-    public static AccountDetailsActivity accountDetailsInstance;
+    public static ProfileActivity accountDetailsInstance;
     private EditText et_Email, et_name, et_telephone, sp_gender, sp_country;
     private ImageView ivUserImage, btn_choose_image;
     public ImageView btn_upload_image;
@@ -58,15 +57,17 @@ public class AccountDetailsActivity extends AppCompatActivity {
     private String api_token;
     public String encodedImage;
 
+    private SnackBuilder snackBuilder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        setContentView(R.layout.activity_account_details);
+        setContentView(R.layout.activity_profile);
         accountDetailsInstance = this;
 
-        user_id = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getUser_id();
-        api_token = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser().getApi_token();
+        user_id = SharedPrefManager.getInstance(ProfileActivity.this).getUser().getUser_id();
+        api_token = SharedPrefManager.getInstance(ProfileActivity.this).getUser().getApi_token();
 
         initViews();
 
@@ -88,6 +89,8 @@ public class AccountDetailsActivity extends AppCompatActivity {
 
         btn_update_profile = findViewById(R.id.btn_update_profile);
         progressBarUpdateProfile = findViewById(R.id.progress_update_profile);
+
+        snackBuilder = new SnackBuilder(findViewById(R.id.profile_main_layout));
 
         et_name.requestFocus();
 
@@ -230,7 +233,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
     }
 
     private void bindUserData() {
-        User user = SharedPrefManager.getInstance(AccountDetailsActivity.this).getUser();
+        User user = SharedPrefManager.getInstance(ProfileActivity.this).getUser();
 
         Log.d("image_url:", user.getImage());
         Picasso.with(this).load(user.getImage()).placeholder(R.drawable.placeholder).into(ivUserImage);
@@ -238,7 +241,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
         et_Email.setText(user.getEmail());
         et_telephone.setText(user.getPhone());
         sp_gender.setText(user.getGender());
-        sp_country.setText(GawlaDataBse.getInstance(AccountDetailsActivity.this).countryDao().getCountryNameByID(user.getCountry_id()));
+        sp_country.setText(GawlaDataBse.getInstance(ProfileActivity.this).countryDao().getCountryNameByID(user.getCountry_id()));
 
         if (sp_country.getText().toString().isEmpty())
             sp_country.setText(SharedPrefManager.getInstance(this).getCountry().getCountry_title());
@@ -248,9 +251,9 @@ public class AccountDetailsActivity extends AppCompatActivity {
         try
         {
             setUIOnUpdating();
-            final Country country = GawlaDataBse.getInstance(AccountDetailsActivity.this).countryDao().getCountryByName(sp_country.getText().toString());
-            RetrofitClient.getInstance(AccountDetailsActivity.this)
-                    .executeConnectionToServer(AccountDetailsActivity.this,
+            final Country country = GawlaDataBse.getInstance(ProfileActivity.this).countryDao().getCountryByName(sp_country.getText().toString());
+            RetrofitClient.getInstance(ProfileActivity.this)
+                    .executeConnectionToServer(ProfileActivity.this,
                             REQ_UPDATE_USER_DATA, new Request<>(REQ_UPDATE_USER_DATA,
                                     user_id,
                                     api_token,
@@ -262,17 +265,17 @@ public class AccountDetailsActivity extends AppCompatActivity {
                                 @Override
                                 public void handleTrueResponse(JsonObject mainObject) {
                                     // unsubscribe remote notification from previous country
-                                    FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id());
+                                    FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + SharedPrefManager.getInstance(ProfileActivity.this).getCountry().getCountry_id());
 
                                     // save updated data locally
-                                    SharedPrefManager.getInstance(AccountDetailsActivity.this).saveUser(ParseResponses.parseUser(mainObject));
-                                    SharedPrefManager.getInstance(AccountDetailsActivity.this).setCountry(country);
+                                    SharedPrefManager.getInstance(ProfileActivity.this).saveUser(ParseResponses.parseUser(mainObject));
+                                    SharedPrefManager.getInstance(ProfileActivity.this).setCountry(country);
 
                                     // subscribe remote notification to current country
-                                    FirebaseMessaging.getInstance().subscribeToTopic("country_" + SharedPrefManager.getInstance(AccountDetailsActivity.this).getCountry().getCountry_id());
+                                    FirebaseMessaging.getInstance().subscribeToTopic("country_" + SharedPrefManager.getInstance(ProfileActivity.this).getCountry().getCountry_id());
 
                                     // notify user
-                                    Toast.makeText(AccountDetailsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                                    snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
                                 }
 
                                 @Override
@@ -283,7 +286,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
                                 @Override
                                 public void handleConnectionErrors(String errorMessage) {
                                     setUIAfterUpdating();
-                                    Toast.makeText(AccountDetailsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                                    snackBuilder.setSnackText(errorMessage).showSnackbar();
                                 }
                             });
         } catch (NullPointerException e)
@@ -364,7 +367,7 @@ public class AccountDetailsActivity extends AppCompatActivity {
             }
 
             // transform image to bytes || string
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(AccountDetailsActivity.this.getContentResolver(), imagePath);
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(ProfileActivity.this.getContentResolver(), imagePath);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
             byte[] imageAsByte = outputStream.toByteArray();
@@ -375,21 +378,21 @@ public class AccountDetailsActivity extends AppCompatActivity {
             btn_upload_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Common.Instance().isConnected(AccountDetailsActivity.this))
+                    if (Common.Instance().isConnected(ProfileActivity.this))
                     {
                         startUploadImageService();
                         setUIOnUpdating();
                     }
                     else
                     {
-                        Toast.makeText(AccountDetailsActivity.this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(getString(R.string.no_connection)).showSnackbar();
                     }
                 }
             });
 
         } catch (Exception e)
         {
-            Toast.makeText(AccountDetailsActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            snackBuilder.setSnackText(e.getLocalizedMessage()).showSnackbar();
             Crashlytics.logException(e);
         }
     }

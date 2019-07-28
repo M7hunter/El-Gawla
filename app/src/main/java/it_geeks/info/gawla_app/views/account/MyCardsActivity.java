@@ -82,7 +82,7 @@ public class MyCardsActivity extends AppCompatActivity {
         if (myCardsList.size() > 0)
         {
             myCardsRecycler.setHasFixedSize(true);
-            myCardsRecycler.setAdapter(new MyCardsAdapter(this, myCardsList));
+            myCardsRecycler.setAdapter(new MyCardsAdapter(this, myCardsList, findViewById(R.id.my_cards_main_layout)));
             myCardsEmptyView.setVisibility(View.GONE);
             myCardsRecycler.setVisibility(View.VISIBLE);
         }
@@ -101,12 +101,5 @@ public class MyCardsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-//        findViewById(R.id.btn_cards_store).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(MyCardsActivity.this, ));
-//            }
-//        });
-
     }
 }

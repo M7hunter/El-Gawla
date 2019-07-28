@@ -14,7 +14,7 @@
         android:background="@drawable/bg_circled_corners_bordered_white_pale_grey"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:gravity="center"
-        android:padding="@dimen/margin_small"
+        android:padding="@dimen/margin_tiny"
         android:textSize="@dimen/text_size_medium"
         android:textStyle="bold"
         tools:text="@tools:sample/lorem" />
@@ -22,7 +22,6 @@
     <View
         android:id="@+id/bottom_line_category"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@android:color/white" />
+        android:layout_height="2dp" />
 
 </LinearLayout>

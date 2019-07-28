@@ -13,6 +13,8 @@ public class Constants {
     // region requests actions
     static final String REQ_SET_FIREBASE_TOKEN = "setUserFirebaseToken";
     public static final String REQ_GET_USER_NOTIFICATION = "getAllUserNotification";
+    public static final String REQ_GET_ALL_VOTES = "getAllVotes";
+    public static final String REQ_SET_VOTE = "setVote";
     public static final String REQ_GET_ALL_PAGES = "getAllPages";
     public static final String REQ_GET_ALL_SLIDERS = "getAllSliders";
     public static final String REQ_GET_ALL_SALONS = "getAllSalons";
@@ -63,5 +65,6 @@ public class Constants {
     public static final int NULL_INT_VALUE = -111;
     public static final String EMPTY_TOKEN = "empty";
     public static final String CATEGORY_KEY = "cat_key";
+    public static final String CATEGORY_NAME = "cat_name";
     public static final String PREVIOUS_PAGE_KEY = "previous_page";
 }

@@ -26,7 +26,7 @@
         android:hint="@string/country"
         android:maxLines="1"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_large"
+        android:textSize="@dimen/text_size_medium"
         tools:text="county" />
 
     <!-- country flag-->

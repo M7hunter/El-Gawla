@@ -3,7 +3,6 @@ package it_geeks.info.gawla_app.views;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
@@ -25,6 +24,7 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.repository.Storage.NotificationDao;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_USER_NOTIFICATION;
 
@@ -116,7 +116,7 @@ public class NotificationActivity extends AppCompatActivity {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         notificationLoading.setText(errorMessage);
-                        Toast.makeText(NotificationActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        new SnackBuilder(findViewById(R.id.notification_swipe_refresh)).setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }
@@ -126,6 +126,6 @@ public class NotificationActivity extends AppCompatActivity {
 
         RecyclerView notificationRecycler = findViewById(R.id.notification_recycler);
         notificationRecycler.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
-        notificationRecycler.setAdapter(new NotificationAdapter(NotificationActivity.this, notificationList));
+        notificationRecycler.setAdapter(new NotificationAdapter(NotificationActivity.this, notificationList, findViewById(R.id.notification_main_layout)));
     }
 }

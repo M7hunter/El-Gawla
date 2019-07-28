@@ -20,7 +20,7 @@
             android:layout_marginStart="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_tiny"
             android:layout_weight="1.5"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_small" />
 
         <!-- card -->
         <TextView
@@ -31,7 +31,7 @@
             android:layout_marginEnd="@dimen/margin_tiny"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_small" />
 
         <!-- date -->
         <TextView
@@ -43,7 +43,7 @@
             android:layout_weight="1"
             android:gravity="center"
             tools:text="@tools:sample/date/ddmmyy"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_small" />
 
         <!-- cost -->
         <TextView
@@ -54,7 +54,7 @@
             android:layout_marginEnd="@dimen/margin_tiny"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_small" />
 
     </LinearLayout>
 

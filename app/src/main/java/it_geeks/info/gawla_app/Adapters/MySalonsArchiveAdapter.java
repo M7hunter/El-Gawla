@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,16 +19,14 @@ import com.google.gson.JsonObject;
 import java.util.List;
 
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.repository.Models.MyCardModel;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.repository.Models.SalonArchiveModel;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.util.ImageLoader;
-import it_geeks.info.gawla_app.views.account.MyCardsActivity;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.views.account.SalonsArchiveActivity;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
@@ -40,10 +37,12 @@ public class MySalonsArchiveAdapter extends RecyclerView.Adapter<MySalonsArchive
 
     private Context context;
     private List<SalonArchiveModel> salonArchiveList;
+    private SnackBuilder snackBuilder;
 
-    public MySalonsArchiveAdapter(Context context, List<SalonArchiveModel> salonArchiveList) {
+    public MySalonsArchiveAdapter(Context context, List<SalonArchiveModel> salonArchiveList, View parentView) {
         this.context = context;
         this.salonArchiveList = salonArchiveList;
+        snackBuilder = new SnackBuilder(parentView);
     }
 
     @NonNull
@@ -107,7 +106,7 @@ public class MySalonsArchiveAdapter extends RecyclerView.Adapter<MySalonsArchive
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         ((SalonsArchiveActivity) context).dialogBuilder.hideLoadingDialog();
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }

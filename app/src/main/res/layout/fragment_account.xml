@@ -23,7 +23,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_small"
                 app:cardElevation="@dimen/margin_small">
                 <!-- card view main layout -->
                 <LinearLayout
@@ -140,9 +140,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
-                    android:text="@string/account"
+                    android:text="@string/profile"
                     android:textColor="@color/darkSkyBlue"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -190,7 +190,7 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/buying_processes"
                     android:textColor="@color/darkSkyBlue"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView4"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -239,7 +239,7 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/change_password"
                     android:textColor="@color/darkSkyBlue"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView6"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -288,7 +288,7 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/my_cards"
                     android:textColor="@color/darkSkyBlue"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView7"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -337,7 +337,7 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/salons_archive"
                     android:textColor="@color/darkSkyBlue"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView8"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -353,6 +353,21 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- btn renew membership -->
+            <Button
+                android:id="@+id/btn_renew_membership"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_xlarge"
+                android:layout_marginEnd="@dimen/margin_xlarge"
+                android:layout_marginBottom="@dimen/margin_tiny"
+                android:backgroundTint="@color/colorSecondary"
+                android:padding="@dimen/margin_small"
+                android:text="@string/renew_membership"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

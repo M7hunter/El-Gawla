@@ -46,7 +46,8 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.util.Constants;
 import it_geeks.info.gawla_app.util.ImageLoader;
 import it_geeks.info.gawla_app.util.NotificationStatus;
-import it_geeks.info.gawla_app.views.account.AccountDetailsActivity;
+import it_geeks.info.gawla_app.util.SnackBuilder;
+import it_geeks.info.gawla_app.views.account.ProfileActivity;
 import it_geeks.info.gawla_app.views.salon.AllSalonsActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_SLIDERS;
@@ -78,6 +79,8 @@ public class MainFragment extends Fragment {
     private Timer timer;
     private Handler handler;
     private Runnable updateCurrentAd;
+
+    private SnackBuilder snackBuilder;
 
     private Category catVehicles, catElectronics, catRealState, catJewellery;
     // endregion
@@ -123,6 +126,8 @@ public class MainFragment extends Fragment {
         ImageLoader.getInstance().loadUserImage(MainActivity.mainInstance, ((ImageView) fragmentView.findViewById(R.id.iv_user_image)));
 
         btnRecentSalonsSeeAll = fragmentView.findViewById(R.id.recent_salons_see_all_btn);
+
+        snackBuilder = new SnackBuilder(fragmentView.findViewById(R.id.main_snack_view));
     }
 
     private void handleEvents() {
@@ -155,7 +160,7 @@ public class MainFragment extends Fragment {
         fragmentView.findViewById(R.id.iv_user_image).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.mainInstance, AccountDetailsActivity.class));
+                startActivity(new Intent(MainActivity.mainInstance, ProfileActivity.class));
             }
         });
     }
@@ -223,7 +228,7 @@ public class MainFragment extends Fragment {
         {
             adsEmptyView.setVisibility(View.GONE);
             adsPager.setVisibility(View.VISIBLE);
-            adsPager.setAdapter(new AdsAdapter(getContext(), adsList));
+            adsPager.setAdapter(new AdsAdapter(getContext(), adsList, snackBuilder));
 
             autoSlideAds();
 
@@ -306,7 +311,7 @@ public class MainFragment extends Fragment {
             cvCatVehicles.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    openFilterByCat(catVehicles.getCategoryId());
+                    openFilterByCat(catVehicles.getCategoryId(), catVehicles.getCategoryName());
                 }
             });
         }
@@ -327,7 +332,7 @@ public class MainFragment extends Fragment {
             cvCatElectronics.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    openFilterByCat(catElectronics.getCategoryId());
+                    openFilterByCat(catElectronics.getCategoryId(), catElectronics.getCategoryName());
                 }
             });
         }
@@ -348,7 +353,7 @@ public class MainFragment extends Fragment {
             cvCatRealState.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    openFilterByCat(catRealState.getCategoryId());
+                    openFilterByCat(catRealState.getCategoryId(), catRealState.getCategoryName());
                 }
             });
         }
@@ -369,7 +374,7 @@ public class MainFragment extends Fragment {
             cvCatJewellery.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    openFilterByCat(catJewellery.getCategoryId());
+                    openFilterByCat(catJewellery.getCategoryId(), catJewellery.getCategoryName());
                 }
             });
         }
@@ -379,9 +384,10 @@ public class MainFragment extends Fragment {
         }
     }
 
-    private void openFilterByCat(int catId) {
+    private void openFilterByCat(int catId, String categoryName) {
         Intent i = new Intent(MainActivity.mainInstance, AllSalonsActivity.class);
         i.putExtra(Constants.CATEGORY_KEY, catId);
+        i.putExtra(Constants.CATEGORY_NAME, categoryName);
         startActivity(i);
     }
 
@@ -409,7 +415,7 @@ public class MainFragment extends Fragment {
                     public void handleConnectionErrors(String errorMessage) {
                         initSalonsEmptyView(salonList);
                         recentSalonsProgress.setVisibility(View.GONE);
-                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                         refreshLayout.setRefreshing(false);
                     }
                 });
@@ -440,7 +446,7 @@ public class MainFragment extends Fragment {
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(MainActivity.mainInstance, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }

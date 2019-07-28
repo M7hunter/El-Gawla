@@ -2,12 +2,10 @@ package it_geeks.info.gawla_app.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +22,7 @@ import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.views.account.MyCardsActivity;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
@@ -34,10 +33,12 @@ public class MyCardsAdapter extends RecyclerView.Adapter<MyCardsAdapter.ViewHold
 
     private Context context;
     private List<MyCardModel> myCardsList;
+    private SnackBuilder snackBuilder;
 
-    public MyCardsAdapter(Context context, List<MyCardModel> myCardsList) {
+    public MyCardsAdapter(Context context, List<MyCardModel> myCardsList, View parentView) {
         this.context = context;
         this.myCardsList = myCardsList;
+        snackBuilder = new SnackBuilder(parentView);
     }
 
     @NonNull
@@ -96,7 +97,7 @@ public class MyCardsAdapter extends RecyclerView.Adapter<MyCardsAdapter.ViewHold
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         ((MyCardsActivity) context).dialogBuilder.hideLoadingDialog();
-                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }

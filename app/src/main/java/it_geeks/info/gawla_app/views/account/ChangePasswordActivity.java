@@ -9,42 +9,38 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.RESTful.Request;
-import it_geeks.info.gawla_app.repository.Models.User;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
-import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.views.login.LoginActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_CHANGE_PASSWORD;
 import static it_geeks.info.gawla_app.util.Constants.REQ_DEACTIVATE_USER_ACCOUNT;
-import static it_geeks.info.gawla_app.util.Constants.REQ_UPDATE_USER_DATA;
 
-public class PrivacyDetailsActivity extends AppCompatActivity {
+public class ChangePasswordActivity extends AppCompatActivity {
 
     TextView socialUsername, socialProvider, socialOut;
     Button btnEditPassword, btnDeleteAccount;
     ImageView providerImage;
     LinearLayout socialDiv;
     private GoogleApiClient mGoogleApiClient;
+
+    private SnackBuilder snackBuilder;
 
     String Provider;
 
@@ -62,10 +58,10 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        setContentView(R.layout.activity_privacy_details);
+        setContentView(R.layout.activity_change_password);
 
-        id = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getUser().getUser_id();
-        api_token = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getUser().getApi_token();
+        id = SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getUser_id();
+        api_token = SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getApi_token();
 
         init();
 
@@ -94,6 +90,8 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
         initProvider();
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
+
+        snackBuilder = new SnackBuilder(findViewById(R.id.pass_main_layout));
     }
 
     private void handleEvents() {
@@ -141,28 +139,25 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     }
 
     private void sendPassToServer(String Pass) {
-        final Snackbar snackbar = Snackbar.make(findViewById(R.id.privacy_details_Page), "updating...", Snackbar.LENGTH_INDEFINITE);
-        snackbar.show();
+        snackBuilder.setSnackText(getString(R.string.loading)).showSnackbar();
 
-        RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
-                PrivacyDetailsActivity.this,
+        RetrofitClient.getInstance(ChangePasswordActivity.this).executeConnectionToServer(
+                ChangePasswordActivity.this,
                 REQ_CHANGE_PASSWORD, new Request<>(REQ_CHANGE_PASSWORD, id, api_token, Pass
                         , null, null, null, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Toast.makeText(PrivacyDetailsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
                     }
 
                     @Override
                     public void handleAfterResponse() {
-                        snackbar.dismiss();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        snackbar.setText(errorMessage);
-                        snackbar.setDuration(BaseTransientBottomBar.LENGTH_LONG).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 }
         );
@@ -196,18 +191,18 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     }
 
     private void deleteAccount() {
-        RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
-                PrivacyDetailsActivity.this,
+        RetrofitClient.getInstance(ChangePasswordActivity.this).executeConnectionToServer(
+                ChangePasswordActivity.this,
                 REQ_DEACTIVATE_USER_ACCOUNT, new Request<>(REQ_DEACTIVATE_USER_ACCOUNT, id, api_token
                         , null, null, null, null, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Toast.makeText(PrivacyDetailsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
                         disconnect();
-                        SharedPrefManager.getInstance(PrivacyDetailsActivity.this).clearUser();
+                        SharedPrefManager.getInstance(ChangePasswordActivity.this).clearUser();
 
-                        startActivity(new Intent(PrivacyDetailsActivity.this, LoginActivity.class)
+                        startActivity(new Intent(ChangePasswordActivity.this, LoginActivity.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     }
 
@@ -218,7 +213,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        Snackbar.make(findViewById(R.id.privacy_details_Page), errorMessage, Snackbar.LENGTH_LONG).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 }
         );
@@ -260,7 +255,7 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
     }
 
     private void initProvider() {
-        Provider = SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getProvider();
+        Provider = SharedPrefManager.getInstance(ChangePasswordActivity.this).getProvider();
         switch (Provider)
         {
             case LoginActivity.providerFacebook:
@@ -276,44 +271,6 @@ public class PrivacyDetailsActivity extends AppCompatActivity {
                 providerImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_gawla_logo_two));
                 break;
         }
-    }
-
-    private void updateEmail() {
-        dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(PrivacyDetailsActivity.this).executeConnectionToServer(
-                PrivacyDetailsActivity.this,
-                REQ_UPDATE_USER_DATA, new Request<>("updateUserEmail", id, api_token,
-//                        etEmail.getText().toString(),
-                        "",
-                        SharedPrefManager.getInstance(PrivacyDetailsActivity.this).getCountry().getCountry_id()
-                        , null, null, null),
-                new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        User user = ParseResponses.parseUser(mainObject);
-//                        etEmail.setText(user.getEmail());
-                        SharedPrefManager.getInstance(PrivacyDetailsActivity.this).saveUser(user);
-                        Toast.makeText(PrivacyDetailsActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    @Override
-                    public void handleAfterResponse() {
-                        dialogBuilder.hideLoadingDialog();
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        dialogBuilder.hideLoadingDialog();
-                        Snackbar.make(findViewById(R.id.privacy_details_Page), R.string.error_occurred, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                updateEmail();
-                            }
-                        }).show();
-                    }
-                }
-        );
     }
 
     // On Click Action

@@ -9,7 +9,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.AccessToken;
@@ -53,6 +52,7 @@ import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.util.TransHolder;
 import it_geeks.info.gawla_app.views.MainActivity;
 import it_geeks.info.gawla_app.views.account.MembershipActivity;
@@ -81,6 +81,9 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
     GoogleSignInClient mGoogleSignInClient;
 
     private DialogBuilder dialogBuilder;
+
+    private SnackBuilder snackBuilder;
+
     private String previousPageKey = "no key";
 
     @Override
@@ -121,6 +124,8 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
 
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
+
+        snackBuilder = new SnackBuilder(findViewById(R.id.sign_up_main_layout));
     }
 
     private void handleEvents() {
@@ -244,7 +249,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         // notify user
-                        Toast.makeText(CreateAccountActivity.this, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
                         // save user data locally
                         cacheUserData(mainObject, getResources().getString(R.string.app_name));
 
@@ -261,7 +266,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
-                        Toast.makeText(CreateAccountActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                        snackBuilder.setSnackText(errorMessage).showSnackbar();
                     }
                 });
     }
@@ -303,12 +308,12 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
 
             @Override
             public void onCancel() {
-                Toast.makeText(CreateAccountActivity.this, "canceled", Toast.LENGTH_SHORT).show();
+                snackBuilder.setSnackText(getString(R.string.canceled)).showSnackbar();
             }
 
             @Override
             public void onError(FacebookException exception) {
-                Toast.makeText(CreateAccountActivity.this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+                snackBuilder.setSnackText(getString(R.string.error_occurred)).showSnackbar();
             }
         });
 
@@ -340,6 +345,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
             Crashlytics.logException(e);
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -382,7 +388,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
     // google login
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(this, connectionResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
+        snackBuilder.setSnackText(connectionResult.getErrorMessage()).showSnackbar();
     }
 
     public void socialLogin(String id, final String name, final String email, final String image, final String provider) {

@@ -149,7 +149,7 @@ public class IntroActivity extends AppCompatActivity {
         {
             mDots[i] = new TextView(this);
             mDots[i].setText(Html.fromHtml("&#8226"));
-            mDots[i].setTextSize(25);
+            mDots[i].setTextSize(20);
             mDots[i].setTextColor(getResources().getColor(R.color.dots));
             mDotLayout.addView(mDots[i]);
         }

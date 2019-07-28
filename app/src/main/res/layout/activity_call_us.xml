@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/call_us_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -20,23 +21,30 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardCornerRadius="0dp"
                 app:cardElevation="@dimen/margin_small">
                 <!-- card main layout -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
-                    android:layoutDirection="rtl"
-                    android:padding="@dimen/margin_small">
+                    android:layoutDirection="rtl">
 
-                    <include layout="@layout/layout_back" />
+                    <include
+                        layout="@layout/layout_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="@dimen/margin_medium"
                         android:text="@string/call_us"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_large"
+                        android:textSize="@dimen/text_size_medium"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +63,7 @@
                 android:layout_marginStart="@dimen/margin_xlarge"
                 android:layout_marginTop="@dimen/margin_xlarge"
                 android:layout_marginEnd="@dimen/margin_xlarge"
-                android:layout_marginBottom="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_tiny"
                 android:textColorHint="@color/paleGrey2"
                 app:errorEnabled="true">
 
@@ -70,7 +78,7 @@
                     android:paddingTop="@dimen/margin_small"
                     android:paddingEnd="@dimen/margin_xlarge"
                     android:paddingBottom="@dimen/margin_small"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_xlarge"
                 android:layout_marginEnd="@dimen/margin_xlarge"
-                android:layout_marginBottom="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_tiny"
                 android:textColorHint="@color/paleGrey2"
                 app:errorEnabled="true">
 
@@ -97,7 +105,7 @@
                     android:paddingTop="@dimen/margin_small"
                     android:paddingEnd="@dimen/margin_xlarge"
                     android:paddingBottom="@dimen/margin_small"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -109,7 +117,7 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/margin_xlarge"
                 android:layout_marginEnd="@dimen/margin_xlarge"
-                android:layout_marginBottom="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:layout_weight="1"
                 android:textColorHint="@color/paleGrey2"
                 app:errorEnabled="true">
@@ -122,12 +130,12 @@
                     android:gravity="top|start"
                     android:hint="@string/text"
                     android:inputType="text|textAutoComplete|textMultiLine"
-                    android:lines="8"
+                    android:lines="6"
                     android:paddingStart="@dimen/margin_xlarge"
-                    android:paddingTop="@dimen/margin_small"
+                    android:paddingTop="@dimen/margin_medium"
                     android:paddingEnd="@dimen/margin_xlarge"
                     android:paddingBottom="@dimen/margin_small"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -139,7 +147,7 @@
                 android:layout_marginStart="@dimen/margin_xlarge"
                 android:layout_marginEnd="@dimen/margin_xlarge"
                 android:layout_marginBottom="@dimen/margin_small"
-                android:padding="@dimen/margin_large"
+                android:padding="@dimen/margin_small"
                 android:text="@string/send"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_medium"

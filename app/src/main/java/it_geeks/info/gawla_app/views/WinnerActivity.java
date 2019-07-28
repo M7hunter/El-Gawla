@@ -3,7 +3,6 @@ package it_geeks.info.gawla_app.views;
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
-import it_geeks.info.gawla_app.util.Common;
 
 import android.os.Bundle;
 import android.view.View;
