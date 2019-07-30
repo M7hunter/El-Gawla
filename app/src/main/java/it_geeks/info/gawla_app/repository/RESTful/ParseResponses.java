@@ -195,10 +195,11 @@ public class ParseResponses {
             JsonObject categoryObj = categoriesArray.get(i).getAsJsonObject();
             int category_id = categoryObj.get("category_id").getAsInt();
             String category_name = categoryObj.get("category_name").getAsString();
+            String category_image = categoryObj.get("category_image").getAsString();
             String category_color = categoryObj.get("category_color").getAsString();
 
             categories.add(
-                    new Category(category_id, category_name, category_color));
+                    new Category(category_id, category_name, category_color, category_image));
         }
 
         return categories;
@@ -216,10 +217,11 @@ public class ParseResponses {
             String card_name = cardObj.get("card_name").getAsString();
             String card_details = cardObj.get("card_details").getAsString();
             String card_color = cardObj.get("color_code").getAsString();
+            String card_type = cardObj.get("card_type").getAsString();
             String cost = cardObj.get("cost").getAsString();
 
             cardsList.add(
-                    new Card(card_id, card_name, card_details, card_color, cost));
+                    new Card(card_id, card_name, card_details, card_color, cost, card_type));
         }
 
         return cardsList;
@@ -389,7 +391,7 @@ public class ParseResponses {
         return votes;
     }
 
-    private static List<VoteChild>  parseVoteChildes(JsonObject voteObj) {
+    private static List<VoteChild> parseVoteChildes(JsonObject voteObj) {
         JsonArray childesArray = voteObj.get("votes").getAsJsonArray();
 
         List<VoteChild> childes = new ArrayList<>();

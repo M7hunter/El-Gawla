@@ -50,7 +50,7 @@
         <activity android:name=".views.VoteActivity" />
         <activity android:name=".views.WinnerActivity" />
         <activity android:name=".views.salon.AllSalonsActivity" />
-        <activity android:name=".views.card.CardActivity" />
+        <activity android:name=".views.card.CategoryCardsActivity" />
         <activity android:name=".views.card.BuyCardActivity" />
         <activity android:name=".views.intro.IntroActivity" />
         <activity android:name=".views.login.ForgetPasswordActivity" />

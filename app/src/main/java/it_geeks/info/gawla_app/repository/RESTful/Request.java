@@ -57,7 +57,7 @@ public class Request<T> {
                 this.join_time = t4;
                 this.left_time = t5;
             }
-            else if (action.equals("getSalonsByCategoryID"))
+            else if (action.equals("getSalonsByCategoryID") || action.equals(Constants.REQ_GET_CARDS_BY_CATEGORY))
             {
                 this.category_id = t3;
             }

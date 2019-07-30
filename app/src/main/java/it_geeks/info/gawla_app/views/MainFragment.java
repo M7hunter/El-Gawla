@@ -96,7 +96,7 @@ public class MainFragment extends Fragment {
 
         handleEvents();
 
-        getData();
+        getDataFromServer();
 
         return fragmentView;
     }
@@ -135,7 +135,7 @@ public class MainFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getData();
+                getDataFromServer();
             }
         });
 
@@ -165,7 +165,7 @@ public class MainFragment extends Fragment {
         });
     }
 
-    private void getData() {
+    private void getDataFromServer() {
         if (Common.Instance().isConnected(getContext()))
         {
             noConnectionLayout.setVisibility(View.GONE);

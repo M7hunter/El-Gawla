@@ -29,7 +29,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_xlarge"
                 android:gravity="center"
-                android:text="@string/cards_store"
+                android:text="@string/store"
                 android:textAllCaps="true"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/text_size_medium"

@@ -200,4 +200,6 @@
     <string name="app_sound">app sound</string>
     <string name="vote">vote</string>
     <string name="votes">(%1$s vote)</string>
+    <string name="category_cards">category cards</string>
+    <string name="no_cards_for_category">no cards for this category</string>
 </resources>

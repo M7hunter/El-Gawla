@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.util.Common;
-import it_geeks.info.gawla_app.views.card.CardActivity;
+import it_geeks.info.gawla_app.views.card.CategoryCardsActivity;
 
 public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> {
 
@@ -45,7 +45,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, CardActivity.class);
+                Intent i = new Intent(context, CategoryCardsActivity.class);
                 i.putExtra("card", card);
                 i.putExtra("card_list", (Serializable) cardList);
 

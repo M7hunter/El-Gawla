@@ -201,4 +201,6 @@
     <string name="app_sound">اصوات التطبيق</string>
     <string name="vote">التصويت</string>
     <string name="votes">(%1$s صوت)</string>
+    <string name="category_cards">كروت الفئة</string>
+    <string name="no_cards_for_category">لا يوجد كروت لهذه الفئة</string>
 </resources>

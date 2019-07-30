@@ -8,10 +8,8 @@ import it_geeks.info.gawla_app.util.Constants;
 import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.util.GooglePay;
 import it_geeks.info.gawla_app.repository.Models.Card;
-import it_geeks.info.gawla_app.repository.Models.Category;
 import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
-import it_geeks.info.gawla_app.repository.RESTful.ParseResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.SnackBuilder;
@@ -23,15 +21,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.ApiException;
@@ -50,11 +45,8 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_CATEGORIES;
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_PAYMENT_PAGE;
 
 public class BuyCardActivity extends AppCompatActivity {
@@ -65,17 +57,13 @@ public class BuyCardActivity extends AppCompatActivity {
     private ImageView ivIncreaseAmount, ivDecreaseAmount, ivVisa, ivMastercard, ivFawry, ivPaypal;
     private TextView tvAmount, tvHeader, tvTotalPrice;
     private Button btnBuy;
-    private Spinner spCategory;
     private LinearLayout llUseGooglePay;
     private RelativeLayout rlGooglePayBtn;
 
-    private List<Category> categoryList = new ArrayList<>();
-    private List<String> catNamesList = new ArrayList<>();
-    private Category selectedCategory;
     private Card card;
 
     private int amount = 1;
-    private int salonId = 0;
+    private int catId = 0;
     private String method;
 
     private DialogBuilder dialogBuilder;
@@ -110,10 +98,6 @@ public class BuyCardActivity extends AppCompatActivity {
         if (getCardData(savedInstanceState))
         {
             bindData();
-            if (categoryList.size() == 0)
-            {
-                getCategoriesFromServer();
-            }
         }
 
         handleEvents();
@@ -125,7 +109,6 @@ public class BuyCardActivity extends AppCompatActivity {
         tvHeader = findViewById(R.id.tv_buy_card_name);
         tvAmount = findViewById(R.id.tv_card_amount);
         tvTotalPrice = findViewById(R.id.tv_total_price);
-        spCategory = findViewById(R.id.sp_buy_card_category);
         btnBuy = findViewById(R.id.btn_buy_card_buy);
         llUseGooglePay = findViewById(R.id.ll_use_googlepay);
         rlGooglePayBtn = findViewById(R.id.googlepay);
@@ -145,22 +128,13 @@ public class BuyCardActivity extends AppCompatActivity {
             if (extras != null)
             {
                 card = (Card) extras.getSerializable("card_to_buy");
-                salonId = extras.getInt("salon_id_to_buy_card");
-                categoryList.addAll((List<Category>) extras.getSerializable("categories_to_buy_card"));
-
+                catId = extras.getInt("category_id_to_buy_card");
             }
-
         }
         else
         {
             card = (Card) savedInstanceState.getSerializable("card_to_buy");
-            salonId = savedInstanceState.getInt("salon_id_to_buy_card");
-            categoryList.addAll((List<Category>) savedInstanceState.getSerializable("categories_to_buy_card"));
-        }
-
-        if (categoryList.size() > 0)
-        {
-            selectedCategory = categoryList.get(0);
+            catId = savedInstanceState.getInt("category_id_to_buy_card");
         }
 
         return card != null;
@@ -169,13 +143,6 @@ public class BuyCardActivity extends AppCompatActivity {
     private void bindData() {
         tvHeader.setText(card.getCard_name());
         getTotalPrice();
-
-        for (Category category : categoryList)
-        {
-            catNamesList.add(category.getCategoryName());
-        }
-
-        initCategoriesSpinner();
     }
 
     private void handleEvents() {
@@ -228,9 +195,9 @@ public class BuyCardActivity extends AppCompatActivity {
         RetrofitClient.getInstance(BuyCardActivity.this).executeConnectionToServer(BuyCardActivity.this,
                 REQ_GET_PAYMENT_PAGE, new Request<>(REQ_GET_PAYMENT_PAGE, SharedPrefManager.getInstance(BuyCardActivity.this).getUser().getUser_id(),
                         SharedPrefManager.getInstance(BuyCardActivity.this).getUser().getApi_token(),
-                        salonId,
+                        catId,
                         card.getCard_id(),
-                        selectedCategory.getCategoryId(),
+                        catId,
                         method, null),
                 new HandleResponses() {
                     @Override
@@ -619,51 +586,5 @@ public class BuyCardActivity extends AppCompatActivity {
             default:
                 // Do nothing.
         }
-    }
-
-    private void initCategoriesSpinner() {
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, catNamesList);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spCategory.setAdapter(spinnerAdapter);
-
-        spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedCategory = categoryList.get(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
-    public void getCategoriesFromServer() {
-        RetrofitClient.getInstance(BuyCardActivity.this).executeConnectionToServer(BuyCardActivity.this,
-                REQ_GET_ALL_CATEGORIES, new Request<>(REQ_GET_ALL_CATEGORIES, SharedPrefManager.getInstance(BuyCardActivity.this).getUser().getUser_id(), SharedPrefManager.getInstance(BuyCardActivity.this).getUser().getApi_token(),
-                        null, null, null, null, null),
-                new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        categoryList = ParseResponses.parseCategories(mainObject);
-                        if (categoryList.size() > 0 && selectedCategory == null)
-                        {
-                            selectedCategory = categoryList.get(0);
-                        }
-                        bindData();
-                    }
-
-                    @Override
-                    public void handleAfterResponse() {
-
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
-                    }
-                });
     }
 }
