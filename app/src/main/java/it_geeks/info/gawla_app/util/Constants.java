@@ -22,6 +22,7 @@ public class Constants {
     public static final String REQ_GET_ALL_CATEGORIES = "getAllCategories";
     public static final String REQ_GET_ALL_COUNTRIES = "getAllCountries";
     public static final String REQ_GET_ALL_CARDS = "getAllCards";
+    public static final String REQ_GET_CARDS_BY_CATEGORY = "getCardByCategoryID";
     public static final String REQ_GET_ALL_PACKAGES = "getAllPackages";
     public static final String REQ_GET_PAYMENT_PAGE = "getPaymentPage";
     public static final String REQ_GET_SALON_BY_ID = "getSalonByID";
@@ -60,6 +61,8 @@ public class Constants {
     public static final String CAT_JEWELLERY = "Jewelery";
     public static final String CAT_REAL_STATE = "Real Estates";
     public static final String CAT_MATERIALS = "Consumption materials";
+
+    public static final String CAT_ID = "category selected from store";
     // endregion
 
     public static final int NULL_INT_VALUE = -111;

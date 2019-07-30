@@ -90,7 +90,7 @@
                 android:id="@+id/et_create_account_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
+                android:inputType="textPersonName"
                 android:paddingStart="@dimen/margin_xlarge"
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
