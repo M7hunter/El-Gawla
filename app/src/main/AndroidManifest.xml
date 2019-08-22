@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.MainActivity"
+            android:name=".views.main.MainActivity"
             android:clearTaskOnLaunch="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -33,7 +33,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.NotificationActivity">
+        <activity android:name=".views.main.NotificationActivity">
             <intent-filter>
                 <action android:name="notification_page" />
 
@@ -47,11 +47,11 @@
             android:name=".views.salon.SalonActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".views.VoteActivity" />
-        <activity android:name=".views.WinnerActivity" />
+        <activity android:name=".views.menu.VoteActivity" />
+        <activity android:name=".views.salon.WinnerActivity" />
         <activity android:name=".views.salon.AllSalonsActivity" />
-        <activity android:name=".views.card.CategoryCardsActivity" />
-        <activity android:name=".views.card.BuyCardActivity" />
+        <activity android:name=".views.store.CategoryCardsActivity" />
+        <activity android:name=".views.store.BuyCardActivity" />
         <activity android:name=".views.intro.IntroActivity" />
         <activity android:name=".views.login.ForgetPasswordActivity" />
         <activity android:name=".views.login.CreateAccountActivity" />

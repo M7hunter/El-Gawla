@@ -26,7 +26,7 @@ import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.SnackBuilder;
-import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.main.MainActivity;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
 import static it_geeks.info.gawla_app.repository.RESTful.ParseResponses.parseRoundByID;
@@ -112,7 +112,7 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         ((MainActivity) context).dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }

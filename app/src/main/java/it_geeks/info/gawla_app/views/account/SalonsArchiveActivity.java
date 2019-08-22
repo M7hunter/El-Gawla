@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.DialogBuilder;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_SALONS_ARCHIVE;
 
@@ -32,6 +34,7 @@ public class SalonsArchiveActivity extends AppCompatActivity {
     private List<SalonArchiveModel> salonArchiveList = new ArrayList<>();
 
     public DialogBuilder dialogBuilder;
+    private SnackBuilder snackBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,7 @@ public class SalonsArchiveActivity extends AppCompatActivity {
         dialogBuilder.createLoadingDialog(this);
         mySalonArchiveRecycler = findViewById(R.id.salons_archive_recycler);
         mySalonArchiveEmptyView = findViewById(R.id.salons_archive_empty_view);
+        snackBuilder = new SnackBuilder(findViewById(R.id.salons_archive_main_layout));
     }
 
     private void getSalonsArchiveFromServer() {
@@ -73,6 +77,7 @@ public class SalonsArchiveActivity extends AppCompatActivity {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                         initRecycler();
                     }
                 });
@@ -82,7 +87,7 @@ public class SalonsArchiveActivity extends AppCompatActivity {
         if (salonArchiveList.size() > 0)
         {
             mySalonArchiveRecycler.setHasFixedSize(true);
-            mySalonArchiveRecycler.setAdapter(new MySalonsArchiveAdapter(this, salonArchiveList, findViewById(R.id.salons_archive_main_layout)));
+            mySalonArchiveRecycler.setAdapter(new MySalonsArchiveAdapter(this, salonArchiveList, snackBuilder));
             mySalonArchiveEmptyView.setVisibility(View.GONE);
         }
         else

@@ -21,7 +21,7 @@ import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.SnackBuilder;
-import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.main.MainActivity;
 import it_geeks.info.gawla_app.R;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_PACKAGES;
@@ -69,7 +69,7 @@ public class MembershipActivity extends AppCompatActivity {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
-                        new SnackBuilder(findViewById(R.id.membership_main_layout)).setSnackText(errorMessage).showSnackbar();
+                        new SnackBuilder(findViewById(R.id.membership_main_layout)).setSnackText(errorMessage).showSnack();
                     }
                 });
     }

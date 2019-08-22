@@ -5,14 +5,24 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
 import it_geeks.info.gawla_app.repository.Models.Card;
+import it_geeks.info.gawla_app.repository.Models.Category;
 import it_geeks.info.gawla_app.repository.Models.Country;
 import it_geeks.info.gawla_app.repository.Models.Notification;
 import it_geeks.info.gawla_app.repository.Models.ProductSubImage;
 import it_geeks.info.gawla_app.repository.Models.Round;
 import it_geeks.info.gawla_app.repository.Models.Trans;
 
-@Database(entities = {Round.class, Country.class, Card.class, ProductSubImage.class, Trans.class, Notification.class}, version = 1, exportSchema = false)
+@Database(entities = {Round.class,
+        Card.class,
+        Trans.class,
+        Country.class,
+        Category.class,
+        Notification.class,
+        ProductSubImage.class,}, version = 2, exportSchema = false)
 public abstract class GawlaDataBse extends RoomDatabase {
 
     private static GawlaDataBse INSTANCE;
@@ -42,24 +52,41 @@ public abstract class GawlaDataBse extends RoomDatabase {
 //                    + "('id' INTEGER, 'key' TEXT not null , 'trans' TEXT, 'lang' TEXT, PRIMARY KEY ('id'))");
 //        }
 //    };
+//
+//    private static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+//        @Override
+//        public void migrate(SupportSQLiteDatabase database) {
+//            database.execSQL("CREATE TABLE 'Category' "
+//                    + "('CategoryId' INTEGER, 'CategoryName' TEXT, 'CategoryColor' TEXT, 'CategoryImage' TEXT, PRIMARY KEY ('id'))");
+//        }
+//    };
 
     // singleton initialization
     public static GawlaDataBse getInstance(Context context) {
-        if (INSTANCE == null) {
+        if (INSTANCE == null)
+        {
             INSTANCE = Room.databaseBuilder(context, GawlaDataBse.class, DB_NAME)
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration() // resolve this before release -> use migration <-
-//                    .addMigrations(MIGRATION_2_3)
+//                    .addMigrations(MIGRATION_1_2,MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                     .build();
         }
         return INSTANCE;
     }
 
     // DAOs
-    public abstract RoundDao roundDao();
-    public abstract CountryDao countryDao();
-    public abstract ProductImageDao productImageDao();
     public abstract CardDao cardDao();
+
+    public abstract RoundDao roundDao();
+
     public abstract TransDao transDao();
+
+    public abstract CountryDao countryDao();
+
+    public abstract CategoryDao categoryDao();
+
+    public abstract ProductImageDao productImageDao();
+
     public abstract NotificationDao notificationDao();
 }
+

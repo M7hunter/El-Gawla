@@ -53,8 +53,7 @@ import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.util.SnackBuilder;
-import it_geeks.info.gawla_app.util.TransHolder;
-import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.main.MainActivity;
 import it_geeks.info.gawla_app.views.account.MembershipActivity;
 import it_geeks.info.gawla_app.views.intro.IntroActivity;
 
@@ -189,42 +188,40 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
 
     private boolean checkEntries(String name, String email, String pass) {
         // check if empty
+        boolean bass = true;
         if (name.isEmpty())
         {
             tl_create_name.setError(getString(R.string.empty_hint));
             etName.requestFocus();
-            return false;
+            bass = false;
         }
-        else tl_create_name.setErrorEnabled(false);
-        // check validation
-        if (name.length() < 6)
+        else if (name.length() < 6)
         {
             tl_create_name.setError(getString(R.string.name_length_hint));
             etName.requestFocus();
-            return false;
+            bass = false;
         }
-        else tl_create_name.setErrorEnabled(false);
+        else tl_create_name.setError("");
 
         if (email.isEmpty())
         {
             tl_create_email.setError(getString(R.string.empty_hint));
             etEmail.requestFocus();
-            return false;
+            bass = false;
         }
-        else tl_create_email.setErrorEnabled(false);
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
         {
             tl_create_email.setError(getString(R.string.enter_valid_email));
             etEmail.requestFocus();
-            return false;
+            bass = false;
         }
-        else tl_create_email.setErrorEnabled(false);
+        else tl_create_email.setError("");
+
         if (pass.isEmpty())
         {
             tl_create_pass.setError(getString(R.string.empty_hint));
             etPass.requestFocus();
-            return false;
+            bass = false;
         }
         else
         {
@@ -232,13 +229,13 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
             {
                 tl_create_pass.setError(getResources().getString(R.string.name_length_hint));
                 etPass.requestFocus();
-                return false;
+                bass = false;
             }
 
-            tl_create_pass.setErrorEnabled(false);
+            tl_create_pass.setError("");
         }
 
-        return true;
+        return bass;
     }
 
     private void connectToServer(final User user, final int countryId) {
@@ -249,7 +246,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         // notify user
-                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
                         // save user data locally
                         cacheUserData(mainObject, getResources().getString(R.string.app_name));
 
@@ -266,7 +263,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }
@@ -308,12 +305,12 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
 
             @Override
             public void onCancel() {
-                snackBuilder.setSnackText(getString(R.string.canceled)).showSnackbar();
+                snackBuilder.setSnackText(getString(R.string.canceled)).showSnack();
             }
 
             @Override
             public void onError(FacebookException exception) {
-                snackBuilder.setSnackText(getString(R.string.error_occurred)).showSnackbar();
+                snackBuilder.setSnackText(getString(R.string.error_occurred)).showSnack();
             }
         });
 
@@ -388,7 +385,7 @@ public class CreateAccountActivity extends AppCompatActivity implements GoogleAp
     // google login
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        snackBuilder.setSnackText(connectionResult.getErrorMessage()).showSnackbar();
+        snackBuilder.setSnackText(connectionResult.getErrorMessage()).showSnack();
     }
 
     public void socialLogin(String id, final String name, final String email, final String image, final String provider) {

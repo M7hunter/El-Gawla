@@ -126,8 +126,8 @@ public class CallUsActivity extends AppCompatActivity {
                         null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
-                        messageCallUS.setText("");
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
+//                        messageCallUS.setText("");
                     }
 
                     @Override
@@ -138,7 +138,7 @@ public class CallUsActivity extends AppCompatActivity {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }

@@ -9,7 +9,7 @@
     android:background="@color/paleGrey"
     android:layoutDirection="ltr"
     android:orientation="vertical"
-    tools:context=".views.card.CategoryCardsActivity">
+    tools:context=".views.store.CategoryCardsActivity">
 
     <!-- header -->
     <androidx.cardview.widget.CardView

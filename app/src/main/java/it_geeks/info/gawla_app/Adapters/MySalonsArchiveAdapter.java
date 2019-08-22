@@ -39,10 +39,10 @@ public class MySalonsArchiveAdapter extends RecyclerView.Adapter<MySalonsArchive
     private List<SalonArchiveModel> salonArchiveList;
     private SnackBuilder snackBuilder;
 
-    public MySalonsArchiveAdapter(Context context, List<SalonArchiveModel> salonArchiveList, View parentView) {
+    public MySalonsArchiveAdapter(Context context, List<SalonArchiveModel> salonArchiveList, SnackBuilder snackBuilder) {
         this.context = context;
         this.salonArchiveList = salonArchiveList;
-        snackBuilder = new SnackBuilder(parentView);
+        this.snackBuilder = snackBuilder;
     }
 
     @NonNull
@@ -106,7 +106,7 @@ public class MySalonsArchiveAdapter extends RecyclerView.Adapter<MySalonsArchive
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         ((SalonsArchiveActivity) context).dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }

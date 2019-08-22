@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -18,35 +20,35 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.NotificationStatus;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.views.NotificationActivity;
+import it_geeks.info.gawla_app.views.main.NotificationActivity;
 
 public class AccountFragment extends Fragment {
 
     private TextView userName;
-    private CircleImageView userImage;
-    private String name, image;
     private Button btnRenewMemberShip;
+    private ImageView ivNotificationBell;
+    private CircleImageView userImage;
 
-    ImageView ivNotificationBell;
+    private String name, image;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_account, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_account, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         initViews(view);
 
-        getData();
-
         handleEvents(view);
-
-        return view;
     }
 
     @Override
     public void onResume() {
-        getData();
         super.onResume();
+        getData();
     }
 
     private void initViews(View view) {

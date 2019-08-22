@@ -25,8 +25,9 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.Common;
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.util.SnackBuilder;
-import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.main.MainActivity;
 import it_geeks.info.gawla_app.views.login.LoginActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_COUNTRIES;
@@ -41,8 +42,11 @@ public class SplashScreenActivity extends AppCompatActivity {
     private ProgressBar pbSplash;
     private boolean webPagesReady = false, countriesReady = false;
 
-    private String countriesToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
-    private String pagesToken = "T9hQoKYK7bGop5y6tuZq5S4RBH0dTNu0Lh6XuRzhyju8OVZ3Bz6TRDUJD4YH";
+    private SnackBuilder snackBuilder;
+    private ClickInterface.SnackAction snackAction;
+
+    private final String countriesToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
+    private final String pagesToken = "T9hQoKYK7bGop5y6tuZq5S4RBH0dTNu0Lh6XuRzhyju8OVZ3Bz6TRDUJD4YH";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +55,22 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        splashInstance = this;
-
-        pbSplash = findViewById(R.id.pb_splash);
+        init();
 
         checkConnection();
+    }
+
+    private void init() {
+        splashInstance = this;
+        pbSplash = findViewById(R.id.pb_splash);
+        snackBuilder = new SnackBuilder(findViewById(R.id.splash_screen_main_view));
+        snackAction = new ClickInterface.SnackAction() {
+            @Override
+            public void onClick() {
+                snackBuilder.hideSnack();
+                checkConnection();
+            }
+        };
     }
 
     private void checkConnection() {
@@ -66,14 +81,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
         else
         {
-            pbSplash.setVisibility(View.INVISIBLE);
-            Snackbar.make(findViewById(R.id.splash_screen_main_view), getString(R.string.check_connection), Snackbar.LENGTH_INDEFINITE)
-                    .setAction(getString(R.string.retry), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            checkConnection();
-                        }
-                    }).show();
+            retry(getString(R.string.check_connection));
         }
     }
 
@@ -94,9 +102,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        new SnackBuilder(findViewById(R.id.splash_screen_main_view)).setSnackText(errorMessage).showSnackbar();
-                        countriesReady = true;
-                        getWebPagesFromServer();
+                        countriesReady = false;
+                        retry(getString(R.string.check_connection));
                     }
                 });
     }
@@ -120,8 +127,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        webPagesReady = true;
-                        checkLoginState();
+                        webPagesReady = false;
+                        retry(getString(R.string.check_connection));
                     }
                 });
     }
@@ -152,5 +159,13 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void startActivity(Class target) {
         startActivity(new Intent(this, target)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+    }
+
+    private void retry(String message) {
+        pbSplash.setVisibility(View.INVISIBLE);
+        snackBuilder.setSnackText(message)
+                .setSnackDuration(Snackbar.LENGTH_INDEFINITE)
+                .setSnackAction(getString(R.string.retry), snackAction)
+                .showSnack();
     }
 }

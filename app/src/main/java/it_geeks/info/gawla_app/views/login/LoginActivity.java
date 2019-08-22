@@ -54,7 +54,7 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.SnackBuilder;
-import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.main.MainActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_SIGN_IN;
 import static it_geeks.info.gawla_app.util.Constants.REQ_SOCIAL_SIGN;
@@ -150,40 +150,37 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private boolean checkEntries(String email, String pass) {
+        boolean bass = true;
+
         if (email.isEmpty())
         {
             tlEmail.setError(getResources().getString(R.string.emptyMail));
             etEmail.requestFocus();
-            return false;
+            bass = false;
         }
-        else tlEmail.setErrorEnabled(false);
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
         {
             tlEmail.setError(getString(R.string.enter_valid_email));
             etEmail.requestFocus();
-            return false;
+            bass = false;
         }
-        else tlEmail.setErrorEnabled(false);
+        else tlEmail.setError("");
 
         if (pass.isEmpty())
         {
             tlPass.setError(getResources().getString(R.string.emptyPass));
             etPassword.requestFocus();
-            return false;
+            bass = false;
         }
-        else
+        else if (pass.length() < 6)
         {
-            if (pass.length() < 6)
-            {
-                tlPass.setError(getResources().getString(R.string.name_length_hint));
-                etPassword.requestFocus();
-                return false;
-            }
-
-            tlPass.setErrorEnabled(false);
+            tlPass.setError(getResources().getString(R.string.name_length_hint));
+            etPassword.requestFocus();
+            bass = false;
         }
-        return true;
+        else tlPass.setError("");
+
+        return bass;
     }
 
     public void login(String email, String pass) {
@@ -211,7 +208,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     public void handleConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         FirebaseAuth.getInstance().signOut();
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }
@@ -282,12 +279,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             @Override
             public void onCancel() {
-                snackBuilder.setSnackText(getString(R.string.canceled)).showSnackbar();
+                snackBuilder.setSnackText(getString(R.string.canceled)).showSnack();
             }
 
             @Override
             public void onError(FacebookException exception) {
-                snackBuilder.setSnackText(getString(R.string.error_occurred)).showSnackbar();
+                snackBuilder.setSnackText(getString(R.string.error_occurred)).showSnack();
             }
         });
 
@@ -341,7 +338,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     // google login
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        snackBuilder.setSnackText(connectionResult.getErrorMessage()).showSnackbar();
+        snackBuilder.setSnackText(connectionResult.getErrorMessage()).showSnack();
     }
 
     public void socialLogin(String id, final String name, final String email, final String image, final String provider) {
@@ -370,7 +367,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     public void handleConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         FirebaseAuth.getInstance().signOut();
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }

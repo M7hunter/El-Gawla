@@ -4,40 +4,54 @@ import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import it_geeks.info.gawla_app.util.Interfaces.ClickInterface.SnackAction;
+
 public class SnackBuilder {
 
-    private Snackbar mSnackbar;
+    private Snackbar snack;
 
     public SnackBuilder(View parent) {
-        initSnackbar(parent);
+        initSnack(parent);
     }
 
-    private void initSnackbar(View parent) {
-        if (mSnackbar == null)
-            mSnackbar = Snackbar.make(parent, "...", Snackbar.LENGTH_LONG);
+    private void initSnack(View parent) {
+        if (snack == null)
+            snack = Snackbar.make(parent, "...", Snackbar.LENGTH_LONG);
     }
 
     public SnackBuilder setSnackText(String text) {
-        if (mSnackbar != null)
-            mSnackbar.setText(text);
+        if (snack != null)
+            snack.setText(text);
 
         return this;
     }
 
     public SnackBuilder setSnackDuration(int duration) {
-        if (mSnackbar != null)
-            mSnackbar.setDuration(duration);
+        if (snack != null)
+            snack.setDuration(duration);
 
         return this;
     }
 
-    public void showSnackbar() {
-        if (mSnackbar != null && !mSnackbar.isShown())
-            mSnackbar.show();
+    public void showSnack() {
+        if (snack != null && !snack.isShown())
+            snack.show();
     }
 
-    public void hideSnackbar() {
-        if (mSnackbar != null && mSnackbar.isShown())
-            mSnackbar.dismiss();
+    public void hideSnack() {
+        if (snack != null && snack.isShown())
+            snack.dismiss();
+    }
+
+    public SnackBuilder setSnackAction(String actionLabel, final SnackAction snackAction) {
+        if (snack != null)
+            snack.setAction(actionLabel, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackAction.onClick();
+                }
+            });
+
+        return this;
     }
 }

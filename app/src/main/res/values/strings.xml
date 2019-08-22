@@ -43,7 +43,7 @@
     <string name="Minute">Minute</string>
     <string name="hour">Hour</string>
     <string name="Prod_price">Selling price : </string>
-    <string name="read_more">Read More</string>
+    <string name="more">more</string>
     <string name="next">Next</string>
     <string name="finish">Finish</string>
     <string name="Confirm_payment">Confirm Payment</string>
@@ -115,7 +115,7 @@
     <!--  TODO Will Delete This Strings Later -->
     <string name="mainNotiNews">You can customize your settings so that only the notifications you want appear when the device is locked</string>
     <string name="cards_empty_hint">No cards here yet</string>
-    <string name="no_salons">No salons right now \n try later</string>
+    <string name="no_salons">no salons right now \n try later</string>
     <string name="check_connection">check your connection</string>
     <string name="retry">Retry</string>
     <string name="category">"Category "</string>
@@ -202,4 +202,6 @@
     <string name="votes">(%1$s vote)</string>
     <string name="category_cards">category cards</string>
     <string name="no_cards_for_category">no cards for this category</string>
+    <string name="logged_from_other_device">other device has logged with this account</string>
+    <string name="confirm">confirm</string>
 </resources>

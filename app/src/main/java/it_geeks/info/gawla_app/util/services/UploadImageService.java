@@ -64,17 +64,11 @@ public class UploadImageService extends Service {
                             SharedPrefManager.getInstance(UploadImageService.this).saveUser(ParseResponses.parseUser(mainObject));
 
                             // notify user
-                            Toast.makeText(UploadImageService.this, getString(R.string.updated), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(UploadImageService.this, getString(R.string.updated), Toast.LENGTH_SHORT).show();
 
                             if (SharedPrefManager.getInstance(UploadImageService.this).isNotificationEnabled())
                             {
                                 notificationBuilder.displayMessage(getString(R.string.image_updated));
-                            }
-
-                            if (activity != null)
-                            {
-                                activity.setUIAfterUpdating();
-                                activity.hideUploadImageButton();
                             }
                         }
 
@@ -82,6 +76,12 @@ public class UploadImageService extends Service {
                         public void handleAfterResponse() {
                             if (!uploaded) {
                                 notificationBuilder.cancelNotification(UPLOAD_IMAGE_NOTIFICATION_ID);
+                            }
+
+                            if (activity != null)
+                            {
+                                activity.setUIAfterUpdating();
+                                activity.hideUploadImageButton();
                             }
                             stopSelf();
                         }

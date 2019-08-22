@@ -1,9 +1,14 @@
 package it_geeks.info.gawla_app.repository.Models;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity
 public class Category implements Serializable {
 
+    @PrimaryKey
     private int CategoryId;
 
     private String CategoryName;
@@ -11,6 +16,9 @@ public class Category implements Serializable {
     private String CategoryColor;
 
     private String CategoryImage;
+
+    public Category() {
+    }
 
     public Category(int categoryId, String categoryName, String categoryColor) {
         CategoryId = categoryId;

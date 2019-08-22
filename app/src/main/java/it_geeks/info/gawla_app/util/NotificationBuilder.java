@@ -14,8 +14,10 @@ import java.util.Random;
 import androidx.core.app.NotificationCompat;
 
 import it_geeks.info.gawla_app.R;
+import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.receivers.NotificationInteractionsReceiver;
-import it_geeks.info.gawla_app.views.NotificationActivity;
+import it_geeks.info.gawla_app.views.login.LoginActivity;
+import it_geeks.info.gawla_app.views.main.NotificationActivity;
 
 public class NotificationBuilder {
 
@@ -151,7 +153,26 @@ public class NotificationBuilder {
         bundle.putString("title", title);
         bundle.putString("body", body);
 
-        Intent intent = new Intent(context, NotificationActivity.class);
+        Intent intent = new Intent();
+        if (SharedPrefManager.getInstance(context).isLoggedIn())
+        {
+            if (context instanceof NotificationActivity)
+            {
+                ((NotificationActivity) context).recreate();
+            }
+            else
+            {
+                intent = new Intent(context, NotificationActivity.class);
+            }
+        }
+        else
+        {
+            if (!(context instanceof LoginActivity))
+            {
+                intent = new Intent(context, LoginActivity.class);
+            }
+        }
+
         intent.putExtras(bundle);
         return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }

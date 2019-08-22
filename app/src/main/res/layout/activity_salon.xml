@@ -571,9 +571,9 @@
             <!-- new messages counter -->
             <TextView
                 android:id="@+id/tv_new_chat_message_counter"
-                android:layout_width="@dimen/margin_medium"
-                android:layout_height="@dimen/margin_medium"
-                android:background="@drawable/bg_circle_green"
+                android:layout_width="@dimen/margin_large"
+                android:layout_height="@dimen/margin_large"
+                android:background="@drawable/bg_circle_red"
                 android:fontFamily="monospace"
                 android:gravity="center"
                 android:text="0"
@@ -653,7 +653,8 @@
                 android:gravity="center"
                 android:hint="@string/rOffer"
                 android:inputType="number"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_small"
+                android:textSize="@dimen/text_size_medium"
                 android:paddingBottom="@dimen/margin_small"
                 android:textColor="@color/battleshipGrey"
                 android:textColorHint="@color/editText_hint" />
@@ -665,7 +666,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_weight="1"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
                 android:text="@string/add_offer"
                 android:textColor="@android:color/white"

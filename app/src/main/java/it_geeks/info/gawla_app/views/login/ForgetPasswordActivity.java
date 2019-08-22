@@ -78,7 +78,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                         , null, null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
                     }
 
                     @Override
@@ -89,7 +89,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         displaySendBtn();
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }

@@ -245,7 +245,7 @@ public class ChatUtils {
             }
             else
             {
-                tvNewMessagesCounter.setText("+" + 10);
+                tvNewMessagesCounter.setText(10 + "+");
             }
             if (tvNewMessagesCounter.getVisibility() != View.VISIBLE)
                 tvNewMessagesCounter.setVisibility(View.VISIBLE);
@@ -254,13 +254,13 @@ public class ChatUtils {
 
     public void enableChat() {
         tvChatEmptyHint.setText(mContext.getString(R.string.chat_empty_hint));
-        etChatMessage.setEnabled(true);
-        btnSendMsg.setEnabled(true);
+        etChatMessage.setVisibility(View.VISIBLE);
+        btnSendMsg.setVisibility(View.VISIBLE);
     }
 
     public void disableChat() {
         tvChatEmptyHint.setText(mContext.getString(R.string.chat_is_closed));
-        etChatMessage.setEnabled(false);
-        btnSendMsg.setEnabled(false);
+        etChatMessage.setVisibility(View.GONE);
+        btnSendMsg.setVisibility(View.GONE);
     }
 }

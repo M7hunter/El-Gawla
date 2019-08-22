@@ -35,10 +35,10 @@ public class MyCardsAdapter extends RecyclerView.Adapter<MyCardsAdapter.ViewHold
     private List<MyCardModel> myCardsList;
     private SnackBuilder snackBuilder;
 
-    public MyCardsAdapter(Context context, List<MyCardModel> myCardsList, View parentView) {
+    public MyCardsAdapter(Context context, List<MyCardModel> myCardsList, SnackBuilder snackBuilder) {
         this.context = context;
         this.myCardsList = myCardsList;
-        snackBuilder = new SnackBuilder(parentView);
+        this.snackBuilder = snackBuilder;
     }
 
     @NonNull
@@ -97,7 +97,7 @@ public class MyCardsAdapter extends RecyclerView.Adapter<MyCardsAdapter.ViewHold
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         ((MyCardsActivity) context).dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }

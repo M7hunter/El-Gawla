@@ -73,8 +73,7 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.Adapters.SalonCardsAdapter;
 import it_geeks.info.gawla_app.Adapters.ProductSubImagesAdapter;
 import it_geeks.info.gawla_app.util.NotificationStatus;
-import it_geeks.info.gawla_app.views.NotificationActivity;
-import it_geeks.info.gawla_app.views.WinnerActivity;
+import it_geeks.info.gawla_app.views.main.NotificationActivity;
 import it_geeks.info.gawla_app.util.salonUtils.CountDown.CountDownController;
 import it_geeks.info.gawla_app.util.salonUtils.ChatUtils;
 import it_geeks.info.gawla_app.util.salonUtils.SocketUtils;
@@ -474,7 +473,7 @@ public class SalonActivity extends AppCompatActivity {
                             addOfferLayout.setVisibility(View.VISIBLE);
                             joinProgress.setVisibility(View.GONE);
                             etAddOffer.setEnabled(true);
-                            snackBuilder.setSnackText(errorMessage).showSnackbar();
+                            snackBuilder.setSnackText(errorMessage).showSnack();
                         }
                     });
         } catch (NumberFormatException e)
@@ -670,6 +669,7 @@ public class SalonActivity extends AppCompatActivity {
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
+                        Log.d("test_salon_time", mainObject.get("isToday").getAsBoolean() + "");
                         if (mainObject.get("isToday").getAsBoolean())
                         { // today ?
                             roundRemainingTime = ParseResponses.parseRoundRemainingTime(mainObject);
@@ -826,7 +826,7 @@ public class SalonActivity extends AppCompatActivity {
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                         pbTopTen.setVisibility(View.GONE);
                     }
                 });
@@ -1009,7 +1009,7 @@ public class SalonActivity extends AppCompatActivity {
                     public void handleConnectionErrors(String errorMessage) {
                         joinConfirmationProgress.setVisibility(View.GONE);
                         btnJoinConfirmation.setEnabled(true);
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }
@@ -1306,7 +1306,7 @@ public class SalonActivity extends AppCompatActivity {
                             , null, null, null, null), new HandleResponses() {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
-                            snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
+                            snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
 
                             btnUseGoldenCard.setEnabled(false);
                             getUserCardsForSalonFromServer();
@@ -1320,7 +1320,7 @@ public class SalonActivity extends AppCompatActivity {
                         @Override
                         public void handleConnectionErrors(String errorMessage) {
                             dialogBuilder.hideLoadingDialog();
-                            snackBuilder.setSnackText(errorMessage).showSnackbar();
+                            snackBuilder.setSnackText(errorMessage).showSnack();
                         }
                     });
         }
@@ -1336,7 +1336,7 @@ public class SalonActivity extends AppCompatActivity {
                             , null, null), new HandleResponses() {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
-                            snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
+                            snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
 
                             roundRemainingTime.setUserJoin(true);
                             goldenCard.setCount(goldenCardCount - 1);
@@ -1356,7 +1356,7 @@ public class SalonActivity extends AppCompatActivity {
                         public void handleConnectionErrors(String errorMessage) {
                             displayGoldenLayout();
                             dialogBuilder.hideLoadingDialog();
-                            snackBuilder.setSnackText(errorMessage).showSnackbar();
+                            snackBuilder.setSnackText(errorMessage).showSnack();
                         }
                     });
         }

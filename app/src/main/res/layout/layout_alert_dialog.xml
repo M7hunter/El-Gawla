@@ -69,7 +69,7 @@
                 android:layout_marginEnd="@dimen/margin_tiny"
                 android:layout_weight="1"
                 android:padding="@dimen/margin_small"
-                android:text="@string/continue_"
+                android:text="@string/confirm"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:visibility="visible" />

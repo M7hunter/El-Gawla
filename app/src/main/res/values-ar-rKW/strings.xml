@@ -45,7 +45,7 @@
     <string name="Minute">دقيقة</string>
     <string name="hour">ساعة</string>
     <string name="Prod_price">سعر البيع : </string>
-    <string name="read_more">المزيد</string>
+    <string name="more">المزيد</string>
     <string name="next">التالي</string>
     <string name="finish">انهاء</string>
     <string name="Confirm_payment">تاكيد الدفع</string>
@@ -203,4 +203,6 @@
     <string name="votes">(%1$s صوت)</string>
     <string name="category_cards">كروت الفئة</string>
     <string name="no_cards_for_category">لا يوجد كروت لهذه الفئة</string>
+    <string name="logged_from_other_device">تم تسجيل الدخول بهذا الحساب من قبل جهاز اخر</string>
+    <string name="confirm">تأكيد</string>
 </resources>

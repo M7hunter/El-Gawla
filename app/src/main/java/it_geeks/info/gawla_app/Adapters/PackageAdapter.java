@@ -23,9 +23,10 @@ import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.SnackBuilder;
-import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.main.MainActivity;
 import it_geeks.info.gawla_app.views.account.MembershipActivity;
 
+import static it_geeks.info.gawla_app.util.Constants.MEMBERSHIP_MSG;
 import static it_geeks.info.gawla_app.util.Constants.REQ_SET_MEMBERSHIP;
 
 public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHolder> {
@@ -70,9 +71,11 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
-                        context.startActivity(new Intent(context, MainActivity.class)
-                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
+
+                        Intent i = new Intent(context, MainActivity.class);
+                        i.putExtra(MEMBERSHIP_MSG, (mainObject.get("message").getAsString()));
+                        context.startActivity(i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                     }
 
                     @Override
@@ -83,7 +86,7 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         ((MembershipActivity) context).dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }

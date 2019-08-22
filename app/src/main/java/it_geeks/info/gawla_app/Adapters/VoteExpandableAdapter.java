@@ -22,7 +22,7 @@ import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.ImageLoader;
 import it_geeks.info.gawla_app.util.SnackBuilder;
-import it_geeks.info.gawla_app.views.VoteActivity;
+import it_geeks.info.gawla_app.views.menu.VoteActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_SET_VOTE;
 
@@ -170,7 +170,7 @@ public class VoteExpandableAdapter extends BaseExpandableListAdapter {
                         , voteId, voted, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
 
                         boolean voted = mainObject.get("voted").getAsBoolean();
 
@@ -192,7 +192,7 @@ public class VoteExpandableAdapter extends BaseExpandableListAdapter {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         ((VoteActivity) context).dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }

@@ -17,7 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.views.MainActivity;
+import it_geeks.info.gawla_app.views.main.MainActivity;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
 public class ConnectionChangeReceiver extends BroadcastReceiver {

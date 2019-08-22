@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_medium"
     android:layout_weight="1">
 
     <!-- 1st tap : details container -->
@@ -17,16 +18,22 @@
         android:visibility="visible">
 
         <!-- product image -->
-        <ImageView
-            android:id="@+id/salon_round_product_image"
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:layout_weight="1"
-            android:contentDescription="@string/product_details"
-            android:scaleType="fitXY"
-            android:src="@drawable/flodillus"
-            android:transitionName="transProductImage" />
+            app:cardCornerRadius="@dimen/margin_small">
+
+            <ImageView
+                android:id="@+id/salon_round_product_image"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:contentDescription="@string/product_details"
+                android:scaleType="fitXY"
+                android:src="@drawable/flodillus"
+                android:transitionName="transProductImage" />
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -91,9 +98,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_margin="@dimen/margin_tiny"
-                android:text="@string/read_more"
-                android:textColor="@color/colorPrimary" />
+                android:layout_margin="@dimen/margin_small"
+                android:text="@string/more"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -120,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:padding="@dimen/margin_medium"
+            android:layout_margin="@dimen/margin_medium"
             android:text="@string/activity_empty_hint"
             android:visibility="gone" />
 
@@ -184,12 +192,11 @@
                     android:id="@+id/et_chat_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
                     android:hint="@string/chat_message_hint"
                     android:inputType="textShortMessage"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:paddingTop="@dimen/margin_small"
-                    android:paddingBottom="@dimen/margin_tiny"
+                    android:paddingBottom="@dimen/margin_small"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -201,7 +208,6 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@drawable/selector_ripple_primary"
-                android:enabled="false"
                 android:padding="@dimen/margin_xTiny"
                 android:src="@drawable/ic_send_message" />
 

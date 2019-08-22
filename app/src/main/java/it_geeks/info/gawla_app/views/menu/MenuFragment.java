@@ -1,5 +1,7 @@
 package it_geeks.info.gawla_app.views.menu;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.PointF;
@@ -19,21 +21,24 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import it_geeks.info.gawla_app.Adapters.WebViewAdapter;
+import it_geeks.info.gawla_app.repository.Models.WebPage;
 import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.NotificationStatus;
-import it_geeks.info.gawla_app.views.MainActivity;
-import it_geeks.info.gawla_app.views.VoteActivity;
 import it_geeks.info.gawla_app.views.intro.SplashScreenActivity;
 import it_geeks.info.gawla_app.views.login.LoginActivity;
 import it_geeks.info.gawla_app.R;
-import it_geeks.info.gawla_app.views.NotificationActivity;
+import it_geeks.info.gawla_app.views.main.NotificationActivity;
 import it_geeks.info.gawla_app.views.intro.IntroActivity;
 import zendesk.core.AnonymousIdentity;
 import zendesk.core.Identity;
@@ -45,8 +50,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MenuFragment extends Fragment implements View.OnTouchListener {
 
-    private GoogleApiClient mGoogleApiClient;
-
+    private Context context;
     private RecyclerView webViewsRecycler;
     private ImageView imgNotification;
 
@@ -56,14 +60,31 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
 
     private int screenHeight, screenWidth;
 
+    private GoogleApiClient mGoogleApiClient;
     private DialogBuilder dialogBuilder;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_menu, container, false);
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        this.context = context;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext()).addApi(Auth.GOOGLE_SIGN_IN_API).build();
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_menu, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         initViews(view);
 
@@ -76,8 +97,6 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
         handleEvents(view);
 
         initWebViewRecycler();
-
-        return view;
     }
 
     private void initViews(View view) {
@@ -89,9 +108,15 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
         View bellIndicator = view.findViewById(R.id.bell_indicator);
 
         // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(), bellIndicator);
+        NotificationStatus.notificationStatus(context, bellIndicator);
 
-        Picasso.with(getContext()).load(SharedPrefManager.getInstance(getContext()).getCountry().getImage()).fit().into(imCountryIcon);
+        try
+        {
+            Picasso.with(context).load(SharedPrefManager.getInstance(context).getCountry().getImage()).fit().into(imCountryIcon);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         dialogBuilder = new DialogBuilder();
     }
 
@@ -122,7 +147,7 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
         view.findViewById(R.id.menu_option_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                startActivity(new Intent(context, SettingsActivity.class));
             }
         });
 
@@ -195,7 +220,7 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
 
                         disableNotification();
                         startActivity(new Intent(getActivity(), LoginActivity.class));
-                        MainActivity.mainInstance.finish();
+                        ((Activity) context).finish();
                     }
 
                     @Override
@@ -216,27 +241,27 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
     }
 
     private void disableNotification() {
-        FirebaseMessaging.getInstance().unsubscribeFromTopic("salon_" + SharedPrefManager.getInstance(MainActivity.mainInstance).getSubscribedSalonId());
-        SharedPrefManager.getInstance(MainActivity.mainInstance).clearSubscribedSalonId();
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("salon_" + SharedPrefManager.getInstance(context).getSubscribedSalonId());
+        SharedPrefManager.getInstance(context).clearSubscribedSalonId();
     }
 
     private void initWebViewRecycler() {
-        if (((SplashScreenActivity) SplashScreenActivity.splashInstance).webPageList.size() > 0)
+        List<WebPage> pages = ((SplashScreenActivity) SplashScreenActivity.splashInstance).webPageList;
+        if (pages != null && pages.size() > 0)
         {
             webViewsRecycler.setHasFixedSize(true);
             webViewsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-            webViewsRecycler.setAdapter(new WebViewAdapter(getContext(), ((SplashScreenActivity) SplashScreenActivity.splashInstance).webPageList));
+            webViewsRecycler.setAdapter(new WebViewAdapter(getContext(), pages));
         }
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-
         // just clicked
         if (gestureDetector.onTouchEvent(motionEvent))
         {
             // Customers Service
-            RequestActivity.builder().show(getContext());
+            RequestActivity.builder().show(context);
         }
 
         // moved
@@ -295,7 +320,7 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
     }
 
     private void screenDimensions() {
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         screenWidth = size.x;

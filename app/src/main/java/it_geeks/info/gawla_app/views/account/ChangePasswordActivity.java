@@ -31,6 +31,7 @@ import it_geeks.info.gawla_app.views.login.LoginActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_CHANGE_PASSWORD;
 import static it_geeks.info.gawla_app.util.Constants.REQ_DEACTIVATE_USER_ACCOUNT;
+import static it_geeks.info.gawla_app.util.Constants.SERVER_MSG;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
@@ -139,7 +140,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     private void sendPassToServer(String Pass) {
-        snackBuilder.setSnackText(getString(R.string.loading)).showSnackbar();
+        snackBuilder.setSnackText(getString(R.string.loading)).showSnack();
 
         RetrofitClient.getInstance(ChangePasswordActivity.this).executeConnectionToServer(
                 ChangePasswordActivity.this,
@@ -148,7 +149,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
+                        snackBuilder.setSnackText(mainObject.get(SERVER_MSG).getAsString()).showSnack();
+                        startActivity(new Intent(ChangePasswordActivity.this, LoginActivity.class)
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                     }
 
                     @Override
@@ -157,7 +160,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 }
         );
@@ -198,7 +201,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
+                        snackBuilder.setSnackText(mainObject.get(SERVER_MSG).getAsString()).showSnack();
                         disconnect();
                         SharedPrefManager.getInstance(ChangePasswordActivity.this).clearUser();
 
@@ -213,7 +216,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 }
         );

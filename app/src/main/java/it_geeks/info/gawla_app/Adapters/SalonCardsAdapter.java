@@ -35,7 +35,7 @@ import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.util.SnackBuilder;
-import it_geeks.info.gawla_app.views.card.BuyCardActivity;
+import it_geeks.info.gawla_app.views.store.BuyCardActivity;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_CATEGORIES;
@@ -175,7 +175,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                         , null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
 
                         ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
                         card.setCount(card.getCount() - 1);
@@ -203,7 +203,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }
@@ -279,7 +279,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }

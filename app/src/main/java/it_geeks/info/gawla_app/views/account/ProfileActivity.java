@@ -235,7 +235,6 @@ public class ProfileActivity extends AppCompatActivity {
     private void bindUserData() {
         User user = SharedPrefManager.getInstance(ProfileActivity.this).getUser();
 
-        Log.d("image_url:", user.getImage());
         Picasso.with(this).load(user.getImage()).placeholder(R.drawable.placeholder).into(ivUserImage);
         et_name.setText(user.getName());
         et_Email.setText(user.getEmail());
@@ -275,7 +274,7 @@ public class ProfileActivity extends AppCompatActivity {
                                     FirebaseMessaging.getInstance().subscribeToTopic("country_" + SharedPrefManager.getInstance(ProfileActivity.this).getCountry().getCountry_id());
 
                                     // notify user
-                                    snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnackbar();
+                                    snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
                                 }
 
                                 @Override
@@ -286,7 +285,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 @Override
                                 public void handleConnectionErrors(String errorMessage) {
                                     setUIAfterUpdating();
-                                    snackBuilder.setSnackText(errorMessage).showSnackbar();
+                                    snackBuilder.setSnackText(errorMessage).showSnack();
                                 }
                             });
         } catch (NullPointerException e)
@@ -385,14 +384,14 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        snackBuilder.setSnackText(getString(R.string.no_connection)).showSnackbar();
+                        snackBuilder.setSnackText(getString(R.string.no_connection)).showSnack();
                     }
                 }
             });
 
         } catch (Exception e)
         {
-            snackBuilder.setSnackText(e.getLocalizedMessage()).showSnackbar();
+            snackBuilder.setSnackText(e.getLocalizedMessage()).showSnack();
             Crashlytics.logException(e);
         }
     }

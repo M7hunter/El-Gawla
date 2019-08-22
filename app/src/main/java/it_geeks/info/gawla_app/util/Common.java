@@ -48,7 +48,8 @@ public class Common {
     private static final String TAG = "fireToken";
     private static Common common;
 
-    private Common() {}
+    private Common() {
+    }
 
     public static Common Instance() {
         if (common == null)
@@ -88,10 +89,11 @@ public class Common {
     // remove unneeded quotes
     public String removeQuotes(String s) {
         // check
-        if (s.startsWith("\""))
-        {
-            s = s.substring(1, s.length() - 1);
-        }
+        if (s != null)
+            if (s.startsWith("\""))
+            {
+                s = s.substring(1, s.length() - 1);
+            }
 
         return s;
     }

@@ -12,7 +12,7 @@ public class Constants {
 
     // region requests actions
     static final String REQ_SET_FIREBASE_TOKEN = "setUserFirebaseToken";
-    public static final String REQ_GET_USER_NOTIFICATION = "getAllUserNotification";
+    public static final String REQ_GET_ALL_NOTIFICATION = "getAllNotifications";
     public static final String REQ_GET_ALL_VOTES = "getAllVotes";
     public static final String REQ_SET_VOTE = "setVote";
     public static final String REQ_GET_ALL_PAGES = "getAllPages";
@@ -30,7 +30,7 @@ public class Constants {
     public static final String REQ_GET_MY_CARDS = "getMyCards";
 
     // salon
-    public static final String REQ_GET_SALON_BY_USER_ID = "getSalonByUserID";
+    public static final String REQ_GET_SALONS_BY_USER_ID = "getSalonsByUserID";
     public static final String REQ_GET_SALON_WITH_REALTIME = "getSalonWithRealTime";
     public static final String REQ_GET_USER_CARDS_BY_SALON = "getUserCardsBySalonId";
     public static final String REQ_GET_TOP_TEN = "getTopTen";
@@ -56,7 +56,7 @@ public class Constants {
     public static final String REQ_FORGOT_PASSWORD = "forgotPassword";
     // endregion
 
-    // region cats keys
+    // region cats
     public static final String CAT_ENGINES = "Engines";
     public static final String CAT_JEWELLERY = "Jewelery";
     public static final String CAT_REAL_STATE = "Real Estates";
@@ -70,4 +70,7 @@ public class Constants {
     public static final String CATEGORY_KEY = "cat_key";
     public static final String CATEGORY_NAME = "cat_name";
     public static final String PREVIOUS_PAGE_KEY = "previous_page";
+    public static final String MEMBERSHIP_MSG = "membership_msg";
+    public static final String SERVER_MSG = "message";
+
 }

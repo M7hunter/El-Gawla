@@ -26,7 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import it_geeks.info.gawla_app.Adapters.CategoryAdapter;
+import it_geeks.info.gawla_app.Adapters.CategoryFilterAdapter;
 import it_geeks.info.gawla_app.util.Constants;
 import it_geeks.info.gawla_app.util.DialogBuilder;
 import it_geeks.info.gawla_app.util.ImageLoader;
@@ -50,8 +50,7 @@ import it_geeks.info.gawla_app.repository.Storage.GawlaDataBse;
 import it_geeks.info.gawla_app.Adapters.DateAdapter;
 import it_geeks.info.gawla_app.Adapters.SalonsAdapter;
 import it_geeks.info.gawla_app.util.SnackBuilder;
-import it_geeks.info.gawla_app.views.MainActivity;
-import it_geeks.info.gawla_app.views.NotificationActivity;
+import it_geeks.info.gawla_app.views.main.NotificationActivity;
 import it_geeks.info.gawla_app.views.account.ProfileActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_ALL_CATEGORIES;
@@ -62,17 +61,13 @@ public class AllSalonsActivity extends AppCompatActivity {
     public static Activity allSalonsActivityInstance;
 
     private RecyclerView filterRecycler, salonsRecycler;
+    private TextView tvAllSalonsTitle;
+    private LinearLayout emptyViewLayout;
+    private BottomSheetDialog mBottomSheetDialogFilterBy;
 
     private List<Round> roundsList = new ArrayList<>();
     private List<Category> categoryList = new ArrayList<>();
     private List<SalonDate> dateList = new ArrayList<>();
-
-    private BottomSheetDialog mBottomSheetDialogFilterBy;
-
-    private ImageView ivNotificationBell;
-    private TextView tvAllSalonsTitle;
-
-    private LinearLayout emptyViewLayout;
 
     private int userId, catKey;
     private String apiToken;
@@ -147,15 +142,13 @@ public class AllSalonsActivity extends AppCompatActivity {
         // load user image
         ImageLoader.getInstance().loadUserImage(this, ((ImageView) findViewById(R.id.iv_user_image)));
 
-        // Notification icon
-        ivNotificationBell = findViewById(R.id.iv_notification_bell);
         View bellIndicator = findViewById(R.id.bell_indicator);
 
         // notification status LiveData
         NotificationStatus.notificationStatus(this, bellIndicator);
 
         // notification onClick
-        ivNotificationBell.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.iv_notification_bell).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(AllSalonsActivity.this, NotificationActivity.class));
@@ -188,7 +181,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
     private void getDatesAndRoundsFromServer() {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
+        RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
                 REQ_GET_ALL_SALONS, new Request<>(REQ_GET_ALL_SALONS, userId, apiToken, false,
                         null, null, null, null), new HandleResponses() {
                     @Override
@@ -219,14 +212,14 @@ public class AllSalonsActivity extends AppCompatActivity {
                     public void handleConnectionErrors(String errorMessage) {
                         initSalonsRecycler();
                         dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }
 
     private void getSalonsByCatFromServer() {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
+        RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
                 "getSalonsByCategoryID", new Request<>("getSalonsByCategoryID", userId, apiToken, catKey,
                         null, null, null, null), new HandleResponses() {
                     @Override
@@ -244,7 +237,7 @@ public class AllSalonsActivity extends AppCompatActivity {
                     public void handleConnectionErrors(String errorMessage) {
                         initSalonsRecycler();
                         dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }
@@ -318,7 +311,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
     private void getCategoriesAndRoundsFromServer() {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(MainActivity.mainInstance,
+        RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
                 REQ_GET_ALL_CATEGORIES, new Request<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
                         null, null, null, null, null), new HandleResponses() {
                     @Override
@@ -348,13 +341,13 @@ public class AllSalonsActivity extends AppCompatActivity {
                     public void handleConnectionErrors(String errorMessage) {
                         initSalonsRecycler();
                         dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }
 
-    private void initCategoriesAdapter() {
-        filterRecycler.setAdapter(new CategoryAdapter(categoryList, new ClickInterface.OnItemClickListener() {
+    private void initCategoriesAdapter() { // ......
+        filterRecycler.setAdapter(new CategoryFilterAdapter(categoryList, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Category category = categoryList.get(position);

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import it_geeks.info.gawla_app.repository.RESTful.Request;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.DialogBuilder;
+import it_geeks.info.gawla_app.util.SnackBuilder;
 
 import static it_geeks.info.gawla_app.util.Constants.REQ_GET_MY_CARDS;
 
@@ -32,6 +34,7 @@ public class MyCardsActivity extends AppCompatActivity {
     private List<MyCardModel> myCardsList = new ArrayList<>();
 
     public DialogBuilder dialogBuilder;
+    private SnackBuilder snackBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,7 @@ public class MyCardsActivity extends AppCompatActivity {
         dialogBuilder.createLoadingDialog(this);
         myCardsRecycler = findViewById(R.id.my_cards_recycler);
         myCardsEmptyView = findViewById(R.id.my_cards_empty_view);
+        snackBuilder = new SnackBuilder(findViewById(R.id.my_cards_main_layout));
     }
 
     private void getMyCardsFromServer() {
@@ -73,6 +77,7 @@ public class MyCardsActivity extends AppCompatActivity {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                         initRecycler();
                     }
                 });
@@ -82,7 +87,7 @@ public class MyCardsActivity extends AppCompatActivity {
         if (myCardsList.size() > 0)
         {
             myCardsRecycler.setHasFixedSize(true);
-            myCardsRecycler.setAdapter(new MyCardsAdapter(this, myCardsList, findViewById(R.id.my_cards_main_layout)));
+            myCardsRecycler.setAdapter(new MyCardsAdapter(this, myCardsList, snackBuilder));
             myCardsEmptyView.setVisibility(View.GONE);
             myCardsRecycler.setVisibility(View.VISIBLE);
         }
@@ -90,7 +95,6 @@ public class MyCardsActivity extends AppCompatActivity {
         {
             myCardsEmptyView.setVisibility(View.VISIBLE);
             myCardsRecycler.setVisibility(View.GONE);
-
         }
     }
 

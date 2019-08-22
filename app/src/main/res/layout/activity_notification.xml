@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:background="@color/paleGrey"
         android:orientation="vertical"
-        tools:context=".views.NotificationActivity">
+        tools:context=".views.main.NotificationActivity">
 
         <!-- header -->
         <androidx.cardview.widget.CardView

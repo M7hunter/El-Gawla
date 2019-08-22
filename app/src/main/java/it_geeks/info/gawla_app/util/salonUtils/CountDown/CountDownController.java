@@ -3,6 +3,7 @@ package it_geeks.info.gawla_app.util.salonUtils.CountDown;
 import android.content.Context;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
@@ -123,7 +124,6 @@ public class CountDownController {
         try {
             stopCountDown();
             countDownTimer = new CountDownTimer(value * 1000, 1000) {
-
                 public void onTick(final long millisUntilFinished) {
                     if (!pause) {
                         if (!AudioPlayer.getInstance().isPlaying()) {

@@ -15,4 +15,9 @@ public interface ClickInterface {
 
         void onNegativeCLick();
     }
+
+    interface SnackAction {
+
+        void onClick();
+    }
 }

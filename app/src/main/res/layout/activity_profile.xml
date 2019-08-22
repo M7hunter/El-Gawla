@@ -63,14 +63,19 @@
             </FrameLayout>
 
             <!-- save btn -->
-            <Button
+            <TextView
                 android:id="@+id/btn_update_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/margin_small"
-                android:backgroundTint="@color/colorSecondary"
+                android:background="@drawable/bg_circled_corners_c_secondary"
+                android:paddingStart="@dimen/margin_large"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_large"
+                android:paddingBottom="@dimen/margin_small"
                 android:text="@string/save"
+                android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
@@ -92,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_medium"
             android:layoutDirection="rtl">
 
             <!-- image -->
@@ -149,7 +154,7 @@
             android:layout_marginStart="@dimen/margin_xxx_large"
             android:layout_marginTop="@dimen/margin_xlarge"
             android:layout_marginEnd="@dimen/margin_xxx_large"
-            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
             android:textColorHint="@color/paleGrey2">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -160,9 +165,9 @@
                 android:hint="@string/name"
                 android:inputType="textPersonName"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_large"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_large"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -174,7 +179,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_xxx_large"
             android:layout_marginEnd="@dimen/margin_xxx_large"
-            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
             android:textColorHint="@color/paleGrey2">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -184,9 +189,9 @@
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_large"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_large"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -198,7 +203,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xxx_large"
             android:layout_marginRight="@dimen/margin_xxx_large"
-            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
             android:textColorHint="@color/paleGrey2">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -208,10 +213,11 @@
                 android:focusable="auto"
                 android:hint="@string/telephone_number"
                 android:inputType="phone"
+                android:maxLength="15"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_large"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_large"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -223,7 +229,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xxx_large"
             android:layout_marginRight="@dimen/margin_xxx_large"
-            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
             android:textColorHint="@color/paleGrey2">
 
             <EditText
@@ -235,9 +241,9 @@
                 android:hint="@string/country"
                 android:inputType="none"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_large"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_large"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -249,7 +255,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xxx_large"
             android:layout_marginRight="@dimen/margin_xxx_large"
-            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
             android:textColorHint="@color/paleGrey2">
 
             <EditText
@@ -261,9 +267,9 @@
                 android:hint="@string/gender"
                 android:inputType="none"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_large"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_large"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>

@@ -22,6 +22,8 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
     private List<Category> categoryList;
     private ClickInterface.OnItemClickListener clickListener;
 
+    private int selectedPosition = 0;
+
     public CategoryFilterAdapter(List<Category> categoryList, ClickInterface.OnItemClickListener clickListener) {
         this.categoryList = categoryList;
         this.clickListener = clickListener;
@@ -37,19 +39,40 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         final Category category = categoryList.get(i);
 
-        viewHolder.cat_layout.setBackgroundColor(Color.parseColor(category.getCategoryColor()));
         viewHolder.tvCategory.setText(category.getCategoryName());
-
         ImageLoader.getInstance().loadIcon(category.getCategoryImage(), viewHolder.ivCatIcon);
+        viewHolder.cat_layout.setBackgroundColor(Color.parseColor(category.getCategoryColor()));
 
+        // selected ?
+        if (selectedPosition == i)
+        { // selected
+            selectedUI(viewHolder, category);
+        }
+        else
+        { // !selected
+            unselectedUI(viewHolder);
+        }
+
+        // select
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickListener.onItemClick(v, category.getCategoryId());
+                clickListener.onItemClick(v, viewHolder.getAdapterPosition());
+
+                selectedPosition = viewHolder.getAdapterPosition();
+                notifyDataSetChanged();
             }
         });
     }
 
+
+    private void selectedUI(ViewHolder viewHolder, Category category) {
+        viewHolder.bottomLine.setBackgroundColor(Color.parseColor(category.getCategoryColor()));
+    }
+
+    private void unselectedUI(ViewHolder viewHolder) {
+        viewHolder.bottomLine.setBackgroundColor(Color.WHITE);
+    }
 
     @Override
     public int getItemCount() {
@@ -60,7 +83,7 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
 
         TextView tvCategory;
         ImageView ivCatIcon;
-        View cat_layout;
+        View cat_layout, bottomLine;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,6 +91,7 @@ public class CategoryFilterAdapter extends RecyclerView.Adapter<CategoryFilterAd
             tvCategory = itemView.findViewById(R.id.tv_cat_label);
             ivCatIcon = itemView.findViewById(R.id.iv_cat_icon);
             cat_layout = itemView.findViewById(R.id.cat_layout);
+            bottomLine = itemView.findViewById(R.id.v_selected_cat);
         }
     }
 }

@@ -24,8 +24,7 @@ import it_geeks.info.gawla_app.repository.RESTful.HandleResponses;
 import it_geeks.info.gawla_app.repository.RESTful.RetrofitClient;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.SnackBuilder;
-import it_geeks.info.gawla_app.views.MainActivity;
-import it_geeks.info.gawla_app.views.NotificationActivity;
+import it_geeks.info.gawla_app.views.main.NotificationActivity;
 import it_geeks.info.gawla_app.views.salon.SalonActivity;
 
 import static it_geeks.info.gawla_app.repository.RESTful.ParseResponses.parseRoundByID;
@@ -88,7 +87,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     private void getSalonDataFromServer(Notification notification) {
-        RetrofitClient.getInstance(context).executeConnectionToServer(MainActivity.mainInstance,
+        RetrofitClient.getInstance(context).executeConnectionToServer(context,
                 REQ_GET_SALON_BY_ID, new Request<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), notification.getId()
                         , null, null, null, null), new HandleResponses() {
                     @Override
@@ -108,7 +107,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        snackBuilder.setSnackText(errorMessage).showSnackbar();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                         ((NotificationActivity) context).dialogBuilder.hideLoadingDialog();
                     }
                 });
