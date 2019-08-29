@@ -79,7 +79,7 @@ public class MembershipActivity extends AppCompatActivity {
         {
             RecyclerView packagesRecycler = findViewById(R.id.packages_recycler);
             packagesRecycler.setHasFixedSize(true);
-            packagesRecycler.setAdapter(new PackageAdapter(this, packageList, findViewById(R.id.membership_main_layout)));
+            packagesRecycler.setAdapter(new PackageAdapter(this, packageList));
         }
     }
 }

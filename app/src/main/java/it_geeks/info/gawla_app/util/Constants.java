@@ -8,6 +8,7 @@ public class Constants {
     public static final String FAWRY = "fawry";
     public static final String PAYPAL = "paypal";
     public static final String GOOGLEPAY = "googlepay";
+    public static final String KNET = "knet";
     // endregion
 
     // region requests actions
@@ -71,6 +72,8 @@ public class Constants {
     public static final String CATEGORY_NAME = "cat_name";
     public static final String PREVIOUS_PAGE_KEY = "previous_page";
     public static final String MEMBERSHIP_MSG = "membership_msg";
+    public static final String PAYMENT_URL = "payment_url";
     public static final String SERVER_MSG = "message";
+    public static final String PACKAGE_ID = "package_id";
 
 }

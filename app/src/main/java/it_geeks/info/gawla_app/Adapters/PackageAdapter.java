@@ -25,20 +25,22 @@ import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.views.main.MainActivity;
 import it_geeks.info.gawla_app.views.account.MembershipActivity;
+import it_geeks.info.gawla_app.views.store.PaymentMethodsActivity;
+import it_geeks.info.gawla_app.views.store.PaymentURLActivity;
 
 import static it_geeks.info.gawla_app.util.Constants.MEMBERSHIP_MSG;
+import static it_geeks.info.gawla_app.util.Constants.PACKAGE_ID;
+import static it_geeks.info.gawla_app.util.Constants.PAYMENT_URL;
 import static it_geeks.info.gawla_app.util.Constants.REQ_SET_MEMBERSHIP;
 
 public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHolder> {
 
     private Context context;
     private List<Package> packageList;
-    private SnackBuilder snackBuilder;
 
-    public PackageAdapter(Context context, List<Package> packageList, View parentView) {
+    public PackageAdapter(Context context, List<Package> packageList) {
         this.context = context;
         this.packageList = packageList;
-        snackBuilder = new SnackBuilder(parentView);
     }
 
     @NonNull
@@ -59,36 +61,11 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateMembership(mPackage.getId());
+                Intent i = new Intent(context, PaymentMethodsActivity.class);
+                i.putExtra(PACKAGE_ID, mPackage.getId());
+                context.startActivity(i);
             }
         });
-    }
-
-    private void updateMembership(int packageId) {
-        ((MembershipActivity) context).dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(context).executeConnectionToServer(context,
-                REQ_SET_MEMBERSHIP, new Request<>(REQ_SET_MEMBERSHIP, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), packageId
-                        , null, null, null, null), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
-
-                        Intent i = new Intent(context, MainActivity.class);
-                        i.putExtra(MEMBERSHIP_MSG, (mainObject.get("message").getAsString()));
-                        context.startActivity(i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-                    }
-
-                    @Override
-                    public void handleAfterResponse() {
-                        ((MembershipActivity) context).dialogBuilder.hideLoadingDialog();
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        ((MembershipActivity) context).dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnack();
-                    }
-                });
     }
 
     @Override

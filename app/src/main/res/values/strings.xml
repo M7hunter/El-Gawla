@@ -204,4 +204,7 @@
     <string name="no_cards_for_category">no cards for this category</string>
     <string name="logged_from_other_device">other device has logged with this account</string>
     <string name="confirm">confirm</string>
+    <string name="offer_less_than_price">the offer should be less than product price</string>
+    <string name="offered">offered</string>
+    <string name="choose_payment_method">choose payment method :</string>
 </resources>

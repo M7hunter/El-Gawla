@@ -77,6 +77,7 @@ public class Request<T> {
             else if (action.equals(Constants.REQ_SET_MEMBERSHIP))
             {
                 this.package_id = t3;
+                this.payment_method = t4;
             }
             else if (action.equals("setUserFirebaseToken"))
             {

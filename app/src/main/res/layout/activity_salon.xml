@@ -642,22 +642,27 @@
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/leave_and_help_container">
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_weight="1"
+                android:textColorHint="@color/editText_hint"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <!-- add offer et -->
             <EditText
                 android:id="@+id/add_offer_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_small"
-                android:layout_weight="1"
-                android:background="@drawable/bg_circled_corners_bordered_white_pale_grey"
                 android:gravity="center"
                 android:hint="@string/rOffer"
                 android:inputType="number"
                 android:paddingTop="@dimen/margin_small"
                 android:textSize="@dimen/text_size_medium"
                 android:paddingBottom="@dimen/margin_small"
-                android:textColor="@color/battleshipGrey"
-                android:textColorHint="@color/editText_hint" />
+                android:textColor="@color/battleshipGrey" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- add offer btn -->
             <Button

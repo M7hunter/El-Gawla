@@ -3,7 +3,7 @@
     <!-- margin & padding -->
     <dimen name="margin_xTiny">1dp</dimen>
     <dimen name="margin_tiny">2dp</dimen>
-    <dimen name="margin_small">5dp</dimen>
+    <dimen name="margin_small">6dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
     <dimen name="margin_large">12dp</dimen>
     <dimen name="margin_xlarge">17dp</dimen>

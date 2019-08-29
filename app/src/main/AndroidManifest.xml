@@ -2,12 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it_geeks.info.gawla_app">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".views.store.PaymentMethodsActivity"></activity>
         <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
         <activity android:name=".views.intro.SplashScreenActivity">
             <intent-filter>
@@ -52,6 +47,7 @@
         <activity android:name=".views.salon.AllSalonsActivity" />
         <activity android:name=".views.store.CategoryCardsActivity" />
         <activity android:name=".views.store.BuyCardActivity" />
+        <activity android:name=".views.store.PaymentURLActivity" />
         <activity android:name=".views.intro.IntroActivity" />
         <activity android:name=".views.login.ForgetPasswordActivity" />
         <activity android:name=".views.login.CreateAccountActivity" />
@@ -71,6 +67,26 @@
         <activity
             android:name=".views.account.ChangePasswordActivity"
             android:windowSoftInputMode="adjustPan" /> <!-- receivers -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_remote_notification_channel_id" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_launcher" /> <!-- services -->
+        <!-- Firebase Services -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimary" />
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false" /> <!-- firebase -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
+
         <receiver android:name=".util.receivers.NotificationInteractionsReceiver" />
         <receiver
             android:name=".util.receivers.ConnectionChangeReceiver"
@@ -78,34 +94,21 @@
             <intent-filter>
                 <action android:name="android.net.com.CONNECTIVITY_CHANGE" />
             </intent-filter>
-        </receiver> <!-- services -->
-        <!-- Firebase Services -->
-        <service android:name=".util.services.UploadImageService" />
+        </receiver> <!-- facebook -->
+        <service android:name=".util.services.UploadImageService" /> <!-- pay -->
         <service
             android:name=".util.services.NotificationFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service> <!-- firebase -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/default_remote_notification_channel_id" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_launcher" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorPrimary" />
-        <meta-data
-            android:name="firebase_crashlytics_collection_enabled"
-            android:value="false" /> <!-- facebook -->
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" /> <!-- pay -->
-        <meta-data
-            android:name="com.google.android.gms.wallet.api.enabled"
-            android:value="true" />
+        </service>
     </application>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

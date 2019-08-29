@@ -11,7 +11,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -162,8 +164,7 @@ public class SalonActivity extends AppCompatActivity {
 
         initViews();
 
-        if (getRoundData(savedInstanceState))
-        {
+        if (getRoundData(savedInstanceState)) {
             initBottomSheetCardsBag();
             getRemainingTimeFromServer();
             bindProductMainViews();
@@ -193,12 +194,9 @@ public class SalonActivity extends AppCompatActivity {
             countDownController.setPause(false);
 
         if (roundRemainingTime != null)
-            if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_round_state())
-            {
+            if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_round_state()) {
                 socketUtils.connectSocket();
-            }
-            else
-            {
+            } else {
                 socketUtils.disconnectSocket();
             }
     }
@@ -223,11 +221,9 @@ public class SalonActivity extends AppCompatActivity {
         disconnectSalonSocket();
         unregisterReceiver(connectionChangeReceiver);
 
-        try
-        {
+        try {
             countDownController.stopCountDown();
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -285,17 +281,13 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     private boolean getRoundData(Bundle savedInstanceState) {
-        if (savedInstanceState == null)
-        {
+        if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
 
-            if (extras != null)
-            { // get data from previous page
+            if (extras != null) { // get data from previous page
                 round = (Round) extras.getSerializable("round");
             }
-        }
-        else
-        { // get data from saved state
+        } else { // get data from saved state
             round = (Round) savedInstanceState.getSerializable("round");
         }
 
@@ -323,12 +315,9 @@ public class SalonActivity extends AppCompatActivity {
         joinAlert.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                if (joinState == 2 || roundRemainingTime.isUserJoin())
-                {
+                if (joinState == 2 || roundRemainingTime.isUserJoin()) {
                     onSubscriptionConfirmed();
-                }
-                else
-                {
+                } else {
                     onSubscriptionCanceled();
                 }
             }
@@ -338,12 +327,9 @@ public class SalonActivity extends AppCompatActivity {
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mBottomSheetDialogProductDetails != null && mBottomSheetDialogProductDetails.isShowing())
-                { // close sheet
+                if (mBottomSheetDialogProductDetails != null && mBottomSheetDialogProductDetails.isShowing()) { // close sheet
                     mBottomSheetDialogProductDetails.dismiss();
-                }
-                else
-                {
+                } else {
                     mBottomSheetDialogProductDetails.show();
                 }
             }
@@ -353,8 +339,7 @@ public class SalonActivity extends AppCompatActivity {
         btnAddOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (roundRemainingTime.isUserJoin())
-                {
+                if (roundRemainingTime.isUserJoin()) {
                     sendOfferToServer();
                 }
             }
@@ -411,18 +396,38 @@ public class SalonActivity extends AppCompatActivity {
                 RequestActivity.builder().show(SalonActivity.this);
             }
         });
+
+        etAddOffer.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (Integer.parseInt(etAddOffer.getText().toString()) > Integer.parseInt(round.getProduct_commercial_price())) {
+                    etAddOffer.setError(getString(R.string.offer_less_than_price));
+                } else {
+                    if (etAddOffer.getError() != null)
+                        etAddOffer.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void sendOfferToServer() {
         etAddOffer.setEnabled(false);
         addOfferLayout.setVisibility(View.GONE);
         joinProgress.setVisibility(View.VISIBLE);
-        try
-        {
+        try {
             final String userOffer = etAddOffer.getText().toString();
 
-            if (userOffer.isEmpty() || userOffer.equals("0"))
-            {
+            if (userOffer.isEmpty() || userOffer.equals("0")) {
                 joinProgress.setVisibility(View.GONE);
                 addOfferLayout.setVisibility(View.VISIBLE);
                 etAddOffer.setEnabled(true);
@@ -430,9 +435,7 @@ public class SalonActivity extends AppCompatActivity {
                 etAddOffer.setHint(getString(R.string.no_content));
                 etAddOffer.setHintTextColor(getResources().getColor(R.color.paleRed));
                 return;
-            }
-            else if (userOffer.equals(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId)))
-            {
+            } else if (userOffer.equals(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId))) {
                 return;
             }
 
@@ -448,14 +451,12 @@ public class SalonActivity extends AppCompatActivity {
                             SharedPrefManager.getInstance(SalonActivity.this).saveUserOffer(String.valueOf(round.getSalon_id() + userId), userOffer);
                             updateLatestActivity(mainObject.get("message").getAsString());
 
-                            try
-                            {
+                            try {
                                 JSONObject obj = new JSONObject();
                                 obj.put("user", userName);
                                 obj.put("salon_id", round.getSalon_id());
                                 socketUtils.emitData("addOffer", obj);
-                            } catch (JSONException e)
-                            {
+                            } catch (JSONException e) {
                                 e.printStackTrace();
                                 Crashlytics.logException(e);
                             }
@@ -476,8 +477,7 @@ public class SalonActivity extends AppCompatActivity {
                             snackBuilder.setSnackText(errorMessage).showSnack();
                         }
                     });
-        } catch (NumberFormatException e)
-        {
+        } catch (NumberFormatException e) {
             addOfferLayout.setVisibility(View.VISIBLE);
             joinProgress.setVisibility(View.GONE);
             Crashlytics.logException(e);
@@ -491,32 +491,28 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     public RoundRemainingTime getRoundRemainingTime() {
-        if (roundRemainingTime == null)
-        {
+        if (roundRemainingTime == null) {
             getRemainingTimeFromServer();
         }
         return roundRemainingTime;
     }
 
     public ChatUtils getChatUtils() {
-        if (chatUtils == null)
-        {
+        if (chatUtils == null) {
             chatUtils = new ChatUtils(this, salonMainLayout);
         }
         return chatUtils;
     }
 
     public SocketUtils getSocketUtils() {
-        if (socketUtils == null)
-        {
+        if (socketUtils == null) {
             socketUtils = new SocketUtils(this);
         }
         return socketUtils;
     }
 
     public View getSnackBarContainer() {
-        if (salonMainContainer == null)
-        {
+        if (salonMainContainer == null) {
             salonMainContainer = findViewById(R.id.salon_main_layout);
         }
         return salonMainContainer;
@@ -546,17 +542,14 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     private void initTopTenRecycler(List<TopTen> topTens) {
-        if (topTens.size() > 0)
-        {
+        if (topTens.size() > 0) {
             tvTopTenEmptyHint.setVisibility(View.GONE);
             topTenRecycler.setVisibility(View.VISIBLE);
             topTenRecycler.setHasFixedSize(true);
             topTenRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
             topTenRecycler.setAdapter(new TopTenAdapter(topTens));
             Common.Instance().hideProgress(topTenRecycler, pbTopTen);
-        }
-        else
-        {
+        } else {
             tvTopTenEmptyHint.setVisibility(View.VISIBLE);
             tvTopTenEmptyHint.setText(getString(R.string.top_ten_empty));
             topTenRecycler.setVisibility(View.GONE);
@@ -584,11 +577,9 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     public void updateLatestActivity(String notificationMsg) {
-        try
-        {
+        try {
             tsRoundLatestActivity.setText(notificationMsg);
-        } catch (ArrayIndexOutOfBoundsException e)
-        {
+        } catch (ArrayIndexOutOfBoundsException e) {
             Log.e("RoundLastActivity: ", e.getMessage());
             Crashlytics.logException(e);
         }
@@ -613,22 +604,18 @@ public class SalonActivity extends AppCompatActivity {
         tvChatTab.setTextColor(Color.BLACK);
         tvTopTenTab.setTextColor(Color.BLACK);
 
-        if (activityList.size() > 0)
-        {
+        if (activityList.size() > 0) {
             tvActivityEmptyHint.setVisibility(View.GONE);
             activityRecycler.setVisibility(View.VISIBLE);
             activityRecycler.scrollToPosition(0);
-        }
-        else
-        {
+        } else {
             tvActivityEmptyHint.setVisibility(View.VISIBLE);
             activityRecycler.setVisibility(View.GONE);
         }
     }
 
     public void initActivityRecycler() {
-        if (activityList.size() > 0)
-        {
+        if (activityList.size() > 0) {
             tvActivityEmptyHint.setVisibility(View.GONE);
             activityRecycler.setVisibility(View.VISIBLE);
             activityRecycler.setHasFixedSize(true);
@@ -636,9 +623,7 @@ public class SalonActivity extends AppCompatActivity {
             activityAdapter = new ActivityAdapter(activityList);
             activityRecycler.setAdapter(activityAdapter);
 
-        }
-        else
-        {
+        } else {
             tvActivityEmptyHint.setVisibility(View.VISIBLE);
             activityRecycler.setVisibility(View.GONE);
         }
@@ -647,12 +632,9 @@ public class SalonActivity extends AppCompatActivity {
     public void updateActivityList(Activity activity) {
         activityList.add(0, activity);
 
-        if (activityAdapter != null)
-        {
+        if (activityAdapter != null) {
             activityAdapter.notifyItemInserted(0);
-        }
-        else
-        {
+        } else {
             initActivityRecycler();
         }
 
@@ -670,14 +652,11 @@ public class SalonActivity extends AppCompatActivity {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         Log.d("test_salon_time", mainObject.get("isToday").getAsBoolean() + "");
-                        if (mainObject.get("isToday").getAsBoolean())
-                        { // today ?
+                        if (mainObject.get("isToday").getAsBoolean()) { // today ?
                             roundRemainingTime = ParseResponses.parseRoundRemainingTime(mainObject);
                             round.setRound_id(roundRemainingTime.getLast_round_id());
                             initCountDown();
-                        }
-                        else
-                        { // !today
+                        } else { // !today
                             tvSalonMessage.setText(round.getMessage());
                         }
                     }
@@ -703,80 +682,57 @@ public class SalonActivity extends AppCompatActivity {
 
     private void initCountDown() {
         countDownController.setRoundRemainingTime(roundRemainingTime); // set round remaining time
-        if (roundRemainingTime.isUserJoin())
-        { // update join state
+        if (roundRemainingTime.isUserJoin()) { // update join state
             joinState = 2;
-        }
-        else
-        {
+        } else {
             joinState = 0;
         }
     }
 
     public void checkOnTime() {
-        if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isSecond_rest_state())
-        {
+        if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_round_state() || roundRemainingTime.isSecond_rest_state()) {
             socketUtils.connectSocket();
 
-            if (roundRemainingTime.isUserJoin())
-            { // member?
+            if (roundRemainingTime.isUserJoin()) { // member?
                 chatUtils.enableChat();
-            }
-            else
-            { // !member
+            } else { // !member
                 chatUtils.disableChat();
             }
-        }
-        else
-        {
+        } else {
             chatUtils.disableChat();
         }
 
-        if (roundRemainingTime.isUserJoin() && (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state()))
-        { // on join time & member
+        if (roundRemainingTime.isUserJoin() && (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state())) { // on join time & member
             btnLeaveRound.setVisibility(View.VISIBLE); // display leave salon btn
-        }
-        else
-        { // !join time
+        } else { // !join time
             btnLeaveRound.setVisibility(View.GONE); // hide leave salon btn
         }
 
-        if (!roundRemainingTime.isUserJoin() && roundRemainingTime.isPay_join_state())
-        { // display golden card layout
+        if (!roundRemainingTime.isUserJoin() && roundRemainingTime.isPay_join_state()) { // display golden card layout
             btnJoinRound.setVisibility(View.GONE);
-            if (goldenCard != null)
-            {
+            if (goldenCard != null) {
                 displayGoldenLayout();
-            }
-            else
-            {
+            } else {
                 Log.d("Golden_card:", "id: null");
             }
 
-        }
-        else
-        { // hide golden card layout
+        } else { // hide golden card layout
             hideGoldenLayout();
         }
 
-        if (roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state())
-        {
+        if (roundRemainingTime.isFirst_round_state() || roundRemainingTime.isSecond_round_state()) {
             topTenRecycler.setVisibility(View.GONE);// hide top ten views
             tvTopTenTab.setVisibility(View.GONE);
 
-            if (roundRemainingTime.isUserJoin())
-            { // member ?
+            if (roundRemainingTime.isUserJoin()) { // member ?
                 addOfferLayout.setVisibility(View.VISIBLE); // display add offer layout
                 displayUserOffer(); // get user last Offer
             }
-        }
-        else
-        {
+        } else {
             addOfferLayout.setVisibility(View.GONE); // hide add offer layout
         }
 
-        if (roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_rest_state())
-        {
+        if (roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_rest_state()) {
             // clear user offer
             SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(round.getSalon_id() + "" + userId);
             // display top ten
@@ -785,8 +741,7 @@ public class SalonActivity extends AppCompatActivity {
             selectTopTenTab();
         }
 
-        if (roundRemainingTime.isClose_hall_state() || roundRemainingTime.getRound_state().equals("close"))
-        {
+        if (roundRemainingTime.isClose_hall_state() || roundRemainingTime.getRound_state().equals("close")) {
             topTenRecycler.setVisibility(View.VISIBLE);
             tvTopTenTab.setVisibility(View.VISIBLE);
 
@@ -798,7 +753,7 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     private void displayUserOffer() {
-        etAddOffer.setText(String.valueOf(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId)));
+        etAddOffer.setHint(String.valueOf(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId)));
     }
 
     private void getTopTen() {
@@ -808,11 +763,9 @@ public class SalonActivity extends AppCompatActivity {
                         , null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        try
-                        {
+                        try {
                             initTopTenRecycler(ParseResponses.parseTopTen(mainObject));
-                        } catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             Log.e("getTopTen: ", e.getMessage());
                             Crashlytics.logException(e);
                         }
@@ -840,14 +793,12 @@ public class SalonActivity extends AppCompatActivity {
                         , null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        try
-                        {
+                        try {
                             String winnerName = mainObject.get("user_name").getAsString();
                             String message = mainObject.get("message").getAsString();
                             String offer = mainObject.get("offer").getAsString();
 
-                            if (userId == mainObject.get("user_id").getAsInt() && roundRemainingTime.isUserJoin())
-                            { // winner ?
+                            if (userId == mainObject.get("user_id").getAsInt() && roundRemainingTime.isUserJoin()) { // winner ?
                                 Intent i = new Intent(SalonActivity.this, WinnerActivity.class);
                                 i.putExtra("winner_name", winnerName);
                                 i.putExtra("offer", offer);
@@ -858,8 +809,7 @@ public class SalonActivity extends AppCompatActivity {
                             updateLatestActivity(activity.getBody());
                             updateActivityList(activity);
 
-                        } catch (NullPointerException e)
-                        {
+                        } catch (NullPointerException e) {
                             e.printStackTrace();
                             Crashlytics.logException(e);
                         }
@@ -895,8 +845,7 @@ public class SalonActivity extends AppCompatActivity {
         btnJoinConfirmation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (joinState)
-                {
+                switch (joinState) {
                     case 0:
                         displaySubscribeConfirmationLayout();
                         break;
@@ -1048,8 +997,7 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     private void subscribeUserToSalonNotification() {
-        if (SharedPrefManager.getInstance(this).isNotificationEnabled())
-        {
+        if (SharedPrefManager.getInstance(this).isNotificationEnabled()) {
             FirebaseMessaging.getInstance().subscribeToTopic("salon_" + round.getSalon_id());
         }
         SharedPrefManager.getInstance(this).saveSubscribedSalonId(round.getSalon_id());
@@ -1101,8 +1049,7 @@ public class SalonActivity extends AppCompatActivity {
 
     private void initProductImagesRecycler(View parent) {
         if (round != null)
-            if (round.getProduct_images() != null)
-            {
+            if (round.getProduct_images() != null) {
                 RecyclerView imagesRecycler = parent.findViewById(R.id.product_details_images_recycler);
                 imagesRecycler.setHasFixedSize(true);
                 imagesRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, LinearLayoutManager.HORIZONTAL, false));
@@ -1143,17 +1090,14 @@ public class SalonActivity extends AppCompatActivity {
     public void switchImageVideo(@NonNull String url, Drawable drawable) {
         SubImage.setImageUrl(url);
 
-        if (SubImage.getImageUrl().endsWith(".mp4") || SubImage.getImageUrl().endsWith(".3gp"))
-        {
+        if (SubImage.getImageUrl().endsWith(".mp4") || SubImage.getImageUrl().endsWith(".3gp")) {
 
             ivProductMainViewer.setVisibility(View.INVISIBLE);
             vpProductMainVideo.setVisibility(View.VISIBLE);
 
             setupVideoPlayer(SubImage.getImageUrl());
 
-        }
-        else
-        {
+        } else {
             vpProductMainVideo.setVisibility(View.INVISIBLE);
             ivProductMainViewer.setVisibility(View.VISIBLE);
 
@@ -1172,8 +1116,7 @@ public class SalonActivity extends AppCompatActivity {
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (btnPlayPause.getAlpha() == 1)
-                {
+                if (btnPlayPause.getAlpha() == 1) {
                     btnPlayPause.animate().alpha(0).setDuration(300).start();
                     btnPlayPause.setEnabled(false);
                 }
@@ -1188,8 +1131,7 @@ public class SalonActivity extends AppCompatActivity {
         vpProductMainVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (btnPlayPause.getAlpha() == 0)
-                {
+                if (btnPlayPause.getAlpha() == 0) {
                     btnPlayPause.animate().alpha(1).setDuration(300).start();
                     btnPlayPause.setEnabled(true);
                     hidePP(handler, runnable);
@@ -1201,19 +1143,15 @@ public class SalonActivity extends AppCompatActivity {
         btnPlayPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (vpProductMainVideo.isPlaying())
-                {
-                    if (vpProductMainVideo.canPause())
-                    {
+                if (vpProductMainVideo.isPlaying()) {
+                    if (vpProductMainVideo.canPause()) {
                         stopPosition = vpProductMainVideo.getCurrentPosition();
                         vpProductMainVideo.pause();
                         btnPlayPause.setImageDrawable(getResources().getDrawable(R.drawable.ic_play));
 
                         handler.removeCallbacks(runnable);
                     }
-                }
-                else
-                {
+                } else {
                     vpProductMainVideo.seekTo(stopPosition);
                     vpProductMainVideo.start();
 
@@ -1233,18 +1171,14 @@ public class SalonActivity extends AppCompatActivity {
 
     // region golden card
     private void calculateGoldenCard() {
-        for (int i = 0; i < round.getSalon_cards().size(); i++)
-        {
-            if (round.getSalon_cards().get(i).getCard_type().equals("gold"))
-            {
+        for (int i = 0; i < round.getSalon_cards().size(); i++) {
+            if (round.getSalon_cards().get(i).getCard_type().equals("gold")) {
                 goldenCard = round.getSalon_cards().get(i);
 
                 goldenCardCount = 0;
-                for (Card card : userCards)
-                {
+                for (Card card : userCards) {
                     if (goldenCard != null)
-                        if (card.getCard_type().equals(goldenCard.getCard_type()))
-                        {
+                        if (card.getCard_type().equals(goldenCard.getCard_type())) {
                             goldenCardCount = card.getCount();
                             goldenCard.setCount(card.getCount());
                             break;
@@ -1258,18 +1192,14 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     private void initGoldenCardView() {
-        if (goldenCard != null)
-        {
+        if (goldenCard != null) {
             btnUseGoldenCard.setBackgroundColor(Color.parseColor(goldenCard.getCard_color()));
         }
 
-        if (goldenCardCount > 0)
-        {
+        if (goldenCardCount > 0) {
             btnUseGoldenCard.setText(R.string.use_card_to_join);
 
-        }
-        else
-        {
+        } else {
             btnUseGoldenCard.setText(R.string.buy_card_to_join);
         }
 
@@ -1277,12 +1207,9 @@ public class SalonActivity extends AppCompatActivity {
         btnUseGoldenCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (goldenCardCount > 0)
-                {
+                if (goldenCardCount > 0) {
                     useGoldenCard();
-                }
-                else
-                {
+                } else {
                     buyGoldenCard();
                 }
             }
@@ -1298,8 +1225,7 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     private void buyGoldenCard() {
-        if (goldenCard != null)
-        {
+        if (goldenCard != null) {
             dialogBuilder.displayLoadingDialog();
             RetrofitClient.getInstance(this).executeConnectionToServer(this,
                     REQ_ADD_CARDS_TO_USER, new Request<>(REQ_ADD_CARDS_TO_USER, userId, apiToken, goldenCard.getCard_id()
@@ -1327,8 +1253,7 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     public void useGoldenCard() {
-        if (goldenCard != null)
-        {
+        if (goldenCard != null) {
             dialogBuilder.displayLoadingDialog();
             hideGoldenLayout();
             RetrofitClient.getInstance(this).executeConnectionToServer(this,
@@ -1375,14 +1300,12 @@ public class SalonActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 // just clicked
-                if (gestureDetector.onTouchEvent(motionEvent))
-                {
+                if (gestureDetector.onTouchEvent(motionEvent)) {
                     cardIconClicked();
                 }
 
                 // moved
-                switch (motionEvent.getAction())
-                {
+                switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         // reinitialize points
                         pointerPoint.set(motionEvent.getX(), motionEvent.getY());
@@ -1413,26 +1336,22 @@ public class SalonActivity extends AppCompatActivity {
 
     private void handleWithScreenBorders(View view) {
         // if x of the left border || in the left half of screen
-        if (view.getX() < 0 || (view.getX() + (view.getWidth() / 2)) < (screenWidth / 2))
-        {
+        if (view.getX() < 0 || (view.getX() + (view.getWidth() / 2)) < (screenWidth / 2)) {
             view.animate().translationX(0).setDuration(250).start();
         }
 
         // if x of the right border || in the right half of screen
-        if ((view.getX() + view.getWidth()) > screenWidth || (view.getX() + (view.getWidth() / 2)) > (screenWidth / 2))
-        {
+        if ((view.getX() + view.getWidth()) > screenWidth || (view.getX() + (view.getWidth() / 2)) > (screenWidth / 2)) {
             view.animate().translationX(screenWidth - view.getWidth()).setDuration(250).start();
         }
 
         // if y of the up border
-        if (view.getY() < 0)
-        {
+        if (view.getY() < 0) {
             view.animate().translationY(0).setDuration(200).start();
         }
 
         // if y of the bottom border
-        if (view.getY() > (screenHeight - (view.getHeight() / 2)))
-        {
+        if (view.getY() > (screenHeight - (view.getHeight() / 2))) {
             view.animate().translationY(screenHeight - view.getHeight()).setDuration(200).start();
         }
     }
@@ -1446,12 +1365,9 @@ public class SalonActivity extends AppCompatActivity {
 
     private void cardIconClicked() {
         // open sheet
-        if (mBottomSheetDialogCardsBag.isShowing())
-        {
+        if (mBottomSheetDialogCardsBag.isShowing()) {
             mBottomSheetDialogCardsBag.dismiss();
-        }
-        else
-        { // close sheet
+        } else { // close sheet
             mBottomSheetDialogCardsBag.show();
         }
     }
@@ -1461,12 +1377,10 @@ public class SalonActivity extends AppCompatActivity {
         View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_cards_bag, null);
 
         // init bottom sheet views
-        if (round != null && round.getSalon_cards() != null)
-        {
+        if (round != null && round.getSalon_cards() != null) {
             cardsRecycler = sheetView.findViewById(R.id.salon_cards_bottom_recycler);
             cardsRecycler.setHasFixedSize(true);
-            if (cardsRecycler.getLayoutManager() == null)
-            {
+            if (cardsRecycler.getLayoutManager() == null) {
                 cardsRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, RecyclerView.VERTICAL, false));
             }
 
@@ -1477,12 +1391,9 @@ public class SalonActivity extends AppCompatActivity {
         sheetView.findViewById(R.id.close_bottom_sheet_activate_cards).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mBottomSheetDialogCardsBag.isShowing())
-                {
+                if (mBottomSheetDialogCardsBag.isShowing()) {
                     mBottomSheetDialogCardsBag.dismiss();
-                }
-                else
-                {
+                } else {
                     mBottomSheetDialogCardsBag.show();
                 }
             }
@@ -1508,14 +1419,10 @@ public class SalonActivity extends AppCompatActivity {
                         userCards.addAll(ParseResponses.parseUserCardsBySalon(mainObject));
 
                         int allUserCardsCount = 0;
-                        if (round.getSalon_cards() != null)
-                        {
-                            for (Card userCard : userCards)
-                            {
-                                for (Card salonCard : round.getSalon_cards())
-                                {
-                                    if (userCard.getCard_type().equals(salonCard.getCard_type()))
-                                    {
+                        if (round.getSalon_cards() != null) {
+                            for (Card userCard : userCards) {
+                                for (Card salonCard : round.getSalon_cards()) {
+                                    if (userCard.getCard_type().equals(salonCard.getCard_type())) {
                                         salonCard.setCount(userCard.getCount());
                                         break;
                                     }
@@ -1528,21 +1435,15 @@ public class SalonActivity extends AppCompatActivity {
                         calculateGoldenCard();
 
                         // update store adapter
-                        if (cardsRecycler.getAdapter() == null)
-                        {
+                        if (cardsRecycler.getAdapter() == null) {
                             cardsRecycler.setAdapter(new SalonCardsAdapter(SalonActivity.this, round.getSalon_cards(), round.getSalon_id(), round.getRound_id(), salonMainLayout));
-                        }
-                        else
-                        {
+                        } else {
                             cardsRecycler.getAdapter().notifyDataSetChanged();
                         }
 
-                        if (userCards.size() > 0)
-                        {
+                        if (userCards.size() > 0) {
                             tvCardsCount.setBackground(getResources().getDrawable(R.drawable.bg_circle_green));
-                        }
-                        else
-                        {
+                        } else {
                             tvCardsCount.setBackground(getResources().getDrawable(R.drawable.bg_circle_red));
                         }
 
@@ -1566,10 +1467,8 @@ public class SalonActivity extends AppCompatActivity {
 
     // region extra
     private void disconnectSalonSocket() {
-        if (round != null)
-        {
-            try
-            {
+        if (round != null) {
+            try {
                 JSONObject obj = new JSONObject();
                 obj.put("user", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
                 obj.put("salon_id", round.getSalon_id());
@@ -1577,8 +1476,7 @@ public class SalonActivity extends AppCompatActivity {
                 socketUtils.emitData("leaveTyping", obj);
                 socketUtils.emitData("leave", obj);
                 chatUtils.sendTypingState = true;
-            } catch (JSONException e)
-            {
+            } catch (JSONException e) {
                 e.printStackTrace();
                 Crashlytics.logException(e);
             }

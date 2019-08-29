@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/payment_method_main_layout"
+    tools:context=".views.store.PaymentMethodsActivity">
+
+    <!-- header -->
+    <TextView
+        android:id="@+id/tv_forgot_pass_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:padding="@dimen/margin_medium"
+        android:text="@string/Payment_method"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
+
+    <!-- methods -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/margin_small"
+        android:background="@drawable/bg_rounded_corners_bordered_pale_grey"
+        android:padding="@dimen/margin_xlarge"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <!-- title -->
+        <TextView
+        android:layout_width="wrap_content"
+        android:text="@string/choose_payment_method"
+        android:textSize="@dimen/text_size_medium"
+        android:layout_height="wrap_content"/>
+
+        <!-- knet -->
+        <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:gravity="center">
+
+        <RadioButton
+            android:id="@+id/rb_knet"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/card_width"
+            android:layout_margin="@dimen/margin_tiny" />
+
+        <ImageView
+            android:id="@+id/iv_knet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:src="@drawable/knet" />
+    </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- continue -->
+    <Button
+        android:id="@+id/btn_payment_method_continue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_small"
+        android:layout_margin="@dimen/margin_xlarge"
+        android:text="@string/continue_"/>
+
+</LinearLayout>
