@@ -192,6 +192,7 @@
                     android:id="@+id/et_chat_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:hint="@string/chat_message_hint"
                     android:inputType="textShortMessage"
                     android:maxLines="2"
@@ -207,6 +208,7 @@
                 android:layout_width="@dimen/icon_back"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:visibility="gone"
                 android:background="@drawable/selector_ripple_primary"
                 android:padding="@dimen/margin_xTiny"
                 android:src="@drawable/ic_send_message" />

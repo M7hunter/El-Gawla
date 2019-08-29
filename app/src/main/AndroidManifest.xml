@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".views.store.PaymentMethodsActivity"></activity>
+        <activity android:name=".views.store.PaymentMethodsActivity"/>
         <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
         <activity android:name=".views.intro.SplashScreenActivity">
             <intent-filter>
