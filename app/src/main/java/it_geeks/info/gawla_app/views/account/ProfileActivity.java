@@ -32,6 +32,7 @@ import androidx.appcompat.view.ContextThemeWrapper;
 import it_geeks.info.gawla_app.repository.Models.Country;
 import it_geeks.info.gawla_app.util.Common;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.util.ImageLoader;
 import it_geeks.info.gawla_app.util.SnackBuilder;
 import it_geeks.info.gawla_app.util.services.UploadImageService;
 import it_geeks.info.gawla_app.R;
@@ -130,8 +131,7 @@ public class ProfileActivity extends AppCompatActivity {
         sp_country.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus)
-                {
+                if (hasFocus) {
                     countryPopupMenu();
                 }
             }
@@ -149,8 +149,7 @@ public class ProfileActivity extends AppCompatActivity {
         sp_gender.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus)
-                {
+                if (hasFocus) {
                     genderPopupMenu();
                 }
             }
@@ -170,8 +169,7 @@ public class ProfileActivity extends AppCompatActivity {
         PopupMenu countryPopup = new PopupMenu(wrapper, sp_country);
 
         List<String> countries = GawlaDataBse.getInstance(this).countryDao().getCountriesNames();
-        for (String country : countries)
-        {
+        for (String country : countries) {
             countryPopup.getMenu().add(country);
         }
 
@@ -190,11 +188,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        try
-        {
+        try {
             countryPopup.show();
-        } catch (RuntimeException e)
-        {
+        } catch (RuntimeException e) {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -222,11 +218,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        try
-        {
+        try {
             genderPopup.show();
-        } catch (RuntimeException e)
-        {
+        } catch (RuntimeException e) {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -235,7 +229,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void bindUserData() {
         User user = SharedPrefManager.getInstance(ProfileActivity.this).getUser();
 
-        Picasso.with(this).load(user.getImage()).placeholder(R.drawable.placeholder).into(ivUserImage);
+        ImageLoader.getInstance().load(user.getImage(), ivUserImage);
         et_name.setText(user.getName());
         et_Email.setText(user.getEmail());
         et_telephone.setText(user.getPhone());
@@ -247,8 +241,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void updateUserDataOnServer() {
-        try
-        {
+        try {
             setUIOnUpdating();
             final Country country = GawlaDataBse.getInstance(ProfileActivity.this).countryDao().getCountryByName(sp_country.getText().toString());
             RetrofitClient.getInstance(ProfileActivity.this)
@@ -288,8 +281,7 @@ public class ProfileActivity extends AppCompatActivity {
                                     snackBuilder.setSnackText(errorMessage).showSnack();
                                 }
                             });
-        } catch (NullPointerException e)
-        {
+        } catch (NullPointerException e) {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -339,10 +331,8 @@ public class ProfileActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         RetrofitClient.getInstance(this).cancelCall();
-        if (requestCode == 1 && resultCode == RESULT_OK)
-        {
-            if (data != null)
-            {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            if (data != null) {
                 getImageUri(data);
             }
         }
@@ -351,19 +341,9 @@ public class ProfileActivity extends AppCompatActivity {
     private void getImageUri(Intent data) {
         Uri imagePath = data.getData();
 
-        try
-        {
+        try {
             // display image before uploading
-            try
-            {
-                Picasso.with(this)
-                        .load(imagePath)
-                        .into(ivUserImage);
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-                Crashlytics.logException(e);
-            }
+            ImageLoader.getInstance().load(imagePath.toString(), ivUserImage);
 
             // transform image to bytes || string
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(ProfileActivity.this.getContentResolver(), imagePath);
@@ -377,20 +357,16 @@ public class ProfileActivity extends AppCompatActivity {
             btn_upload_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Common.Instance().isConnected(ProfileActivity.this))
-                    {
+                    if (Common.Instance().isConnected(ProfileActivity.this)) {
                         startUploadImageService();
                         setUIOnUpdating();
-                    }
-                    else
-                    {
+                    } else {
                         snackBuilder.setSnackText(getString(R.string.no_connection)).showSnack();
                     }
                 }
             });
 
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             snackBuilder.setSnackText(e.getLocalizedMessage()).showSnack();
             Crashlytics.logException(e);
         }

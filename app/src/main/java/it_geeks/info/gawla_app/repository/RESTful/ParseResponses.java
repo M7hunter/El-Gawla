@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it_geeks.info.gawla_app.repository.Models.Ad;
+import it_geeks.info.gawla_app.repository.Models.Invoice;
 import it_geeks.info.gawla_app.repository.Models.Card;
 import it_geeks.info.gawla_app.repository.Models.Category;
 import it_geeks.info.gawla_app.repository.Models.Country;
@@ -371,6 +372,26 @@ public class ParseResponses {
         return packages;
     }
 
+
+    public static List<Invoice> parseInvoices(JsonObject object) {
+        JsonArray packagesArray = object.get("invoices").getAsJsonArray();
+
+        List<Invoice> invoicesList = new ArrayList<>();
+        for (int i = 0; i < packagesArray.size(); i++)
+        {
+            JsonObject cardObj = packagesArray.get(i).getAsJsonObject();
+            int id = cardObj.get("id").getAsInt();
+            String total = cardObj.get("total").getAsString();
+            String option_type = cardObj.get("option_type").getAsString();
+            String status = cardObj.get("status").getAsString();
+            String created_at = cardObj.get("created_at").getAsString();
+
+            invoicesList.add(new Invoice(id, total, option_type, status, created_at));
+        }
+
+        return invoicesList;
+    }
+
     public static List<Vote> parseVotes(JsonObject object) {
         JsonArray votesArray = object.get("votes").getAsJsonArray();
 
@@ -379,13 +400,13 @@ public class ParseResponses {
         {
             JsonObject voteObj = votesArray.get(i).getAsJsonObject();
             int vote_id = voteObj.get("vote_id").getAsInt();
-            String vote_title = voteObj.get("vote_title").getAsString();
-            String vote_count = voteObj.get("vote_count").getAsString();
-            String icon = voteObj.get("icon").getAsString();
-            String color = voteObj.get("color").getAsString();
-            boolean voted = voteObj.get("voted").getAsBoolean();
+            String vote_title = voteObj.get("vote_name").getAsString();
+            String vote_count = voteObj.get("count").getAsString();
+//            String icon = voteObj.get("icon").getAsString();
+//            String color = voteObj.get("color").getAsString();
+//            boolean voted = voteObj.get("voted").getAsBoolean();
 
-            votes.add(new Vote(vote_id, color, icon, vote_title, vote_count, voted, parseVoteChildes(voteObj)));
+            votes.add(new Vote(vote_id, vote_title, vote_count));
         }
 
         return votes;

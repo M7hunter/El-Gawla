@@ -32,6 +32,7 @@ import java.util.List;
 import it_geeks.info.gawla_app.Adapters.WebViewAdapter;
 import it_geeks.info.gawla_app.repository.Models.WebPage;
 import it_geeks.info.gawla_app.util.DialogBuilder;
+import it_geeks.info.gawla_app.util.ImageLoader;
 import it_geeks.info.gawla_app.util.Interfaces.ClickInterface;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
 import it_geeks.info.gawla_app.util.NotificationStatus;
@@ -110,13 +111,8 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
         // notification status LiveData
         NotificationStatus.notificationStatus(context, bellIndicator);
 
-        try
-        {
-            Picasso.with(context).load(SharedPrefManager.getInstance(context).getCountry().getImage()).fit().into(imCountryIcon);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        ImageLoader.getInstance().load(SharedPrefManager.getInstance(context).getCountry().getImage(), imCountryIcon);
+
         dialogBuilder = new DialogBuilder();
     }
 
@@ -211,8 +207,7 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
                         SharedPrefManager.getInstance(getActivity()).clearUser();
                         SharedPrefManager.getInstance(getActivity()).clearProvider();
                         LoginManager.getInstance().logOut();
-                        if (mGoogleApiClient.isConnected())
-                        {
+                        if (mGoogleApiClient.isConnected()) {
                             Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                             mGoogleApiClient.disconnect();
                             mGoogleApiClient.connect();
@@ -246,27 +241,28 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
     }
 
     private void initWebViewRecycler() {
-        List<WebPage> pages = ((SplashScreenActivity) SplashScreenActivity.splashInstance).webPageList;
-        if (pages != null && pages.size() > 0)
-        {
-            webViewsRecycler.setHasFixedSize(true);
-            webViewsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-            webViewsRecycler.setAdapter(new WebViewAdapter(getContext(), pages));
+        try {
+            List<WebPage> pages = ((SplashScreenActivity) SplashScreenActivity.splashInstance).webPageList;
+            if (pages != null && pages.size() > 0) {
+                webViewsRecycler.setHasFixedSize(true);
+                webViewsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+                webViewsRecycler.setAdapter(new WebViewAdapter(getContext(), pages));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         // just clicked
-        if (gestureDetector.onTouchEvent(motionEvent))
-        {
+        if (gestureDetector.onTouchEvent(motionEvent)) {
             // Customers Service
             RequestActivity.builder().show(context);
         }
 
         // moved
-        switch (motionEvent.getAction())
-        {
+        switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_MOVE:
                 // move smoothly
                 view.setX((int) (staringPoint.x + motionEvent.getX() - pointerPoint.x));
@@ -295,26 +291,22 @@ public class MenuFragment extends Fragment implements View.OnTouchListener {
 
     private void handleWithScreenBorders(View view) {
         // if x of the left border || in the left half of screen
-        if (view.getX() < 0 || (view.getX() + (view.getWidth() / 2)) < (screenWidth / 2))
-        {
+        if (view.getX() < 0 || (view.getX() + (view.getWidth() / 2)) < (screenWidth / 2)) {
             view.animate().translationX(0).setDuration(250).start();
         }
 
         // if x of the right border || in the right half of screen
-        if ((view.getX() + view.getWidth()) > screenWidth || (view.getX() + (view.getWidth() / 2)) > (screenWidth / 2))
-        {
+        if ((view.getX() + view.getWidth()) > screenWidth || (view.getX() + (view.getWidth() / 2)) > (screenWidth / 2)) {
             view.animate().translationX(screenWidth - view.getWidth()).setDuration(250).start();
         }
 
         // if y of the up border
-        if (view.getY() < 0)
-        {
+        if (view.getY() < 0) {
             view.animate().translationY(0).setDuration(200).start();
         }
 
         // if y of the bottom border
-        if (view.getY() >= (screenHeight - (view.getHeight()) * 2))
-        {
+        if (view.getY() >= (screenHeight - (view.getHeight()) * 2)) {
             view.animate().translationY(screenHeight - (view.getHeight() * 2)).setDuration(200).start();
         }
     }

@@ -29,6 +29,7 @@ public class Constants {
     public static final String REQ_GET_SALON_BY_ID = "getSalonByID";
     public static final String REQ_GET_SALONS_ARCHIVE = "getSalonsArchive";
     public static final String REQ_GET_MY_CARDS = "getMyCards";
+    public static final String REQ_GET_MY_INVOICES = "getMyInvoices";
 
     // salon
     public static final String REQ_GET_SALONS_BY_USER_ID = "getSalonsByUserID";
@@ -49,6 +50,7 @@ public class Constants {
     public static final String REQ_CHANGE_PASSWORD = "changeUserPasswordByID";
     public static final String REQ_DEACTIVATE_USER_ACCOUNT = "deactivateUserAccountByID";
     public static final String REQ_SET_MEMBERSHIP = "setUserMembership";
+    public static final String REQ_CHECK_SUBSCRIPTION = "checkSubscribe";
 
     // sign
     public static final String REQ_SIGN_UP = "register";

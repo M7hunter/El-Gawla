@@ -19,7 +19,7 @@
     <string name="subscribe_later">"subscribe later"</string>
     <string name="buy_card_to_join">Buy card to join</string>
     <string name="profile">profile</string>
-    <string name="buying_processes">buying processes</string>
+    <string name="invoices">invoices</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="more_about_gawla">More about Gawla</string>
     <string name="terms_conditions">Terms and conditions</string>
@@ -84,7 +84,7 @@
     <string name="card_price_salon">Card price for this salon</string>
     <string name="what_is_Gawla">What is Gawla ?</string>
     <string name="text">Text</string>
-    <string name="processes">Processes</string>
+    <string name="process">Process</string>
     <string name="cost">Cost</string>
     <string name="date">Date</string>
     <string name="card">Card</string>
@@ -207,4 +207,9 @@
     <string name="offer_less_than_price">the offer should be less than product price</string>
     <string name="offered">offered</string>
     <string name="choose_payment_method">choose payment method :</string>
+    <string name="invoice_no">invoice no</string>
+    <string name="not_capturred">NOT CAPTURED</string>
+    <string name="captured">CAPTURED</string>
+    <string name="need_subscribe">Need Subscribe</string>
+    <string name="expiry_date">expiry date :</string>
 </resources>

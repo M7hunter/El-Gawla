@@ -22,6 +22,12 @@ public class Vote {
         this.voteChildList = voteChildList;
     }
 
+    public Vote(int vote_id, String vote_title, String vote_count) {
+        Id = vote_id;
+        Title = vote_title;
+        Count = vote_count;
+    }
+
     public int getId() {
         return Id;
     }

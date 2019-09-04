@@ -50,6 +50,7 @@ public class Request<T> {
             if (action.equals(Constants.REQ_ADD_CARDS_TO_USER))
             {
                 this.card_id = t3;
+                this.payment_method = t4;
             }
             else if (action.equals(Constants.REQ_SET_USER_SALON))
             {

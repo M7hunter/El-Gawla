@@ -73,10 +73,9 @@ public class PaymentURLActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (paymentWebView.canGoBack()) {
-            paymentWebView.goBack();
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
+//        Intent i = new Intent(this, InvoicesActivity.class);
+//        startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
     }
+
 }

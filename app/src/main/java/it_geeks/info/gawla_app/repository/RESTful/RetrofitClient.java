@@ -59,7 +59,6 @@ public class RetrofitClient {
                 .create();
 
         this.retrofit = new Retrofit.Builder()
-//                .baseUrl("http://192.168.1.7/elgawla/public/api/v1/en/")
                 .baseUrl(selectBaseUrl(context))
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))

@@ -3,6 +3,7 @@ package it_geeks.info.gawla_app.views.salon;
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Storage.SharedPrefManager;
+import it_geeks.info.gawla_app.util.ImageLoader;
 
 import android.os.Bundle;
 import android.view.View;
@@ -35,13 +36,13 @@ public class WinnerActivity extends AppCompatActivity {
 
     private void bindData() {
         tvWinnerName.setText(SharedPrefManager.getInstance(this).getUser().getName());
-        Picasso.with(this).load(SharedPrefManager.getInstance(this).getUser().getImage()).into(ivWinnerImage);
-        Picasso.with(this)
+        ImageLoader.getInstance().load(SharedPrefManager.getInstance(this).getUser().getImage(), ivWinnerImage);
+        Picasso.get()
                 .load(R.drawable.winner_image)
                 .resize(600, 1000)
                 .onlyScaleDown()
                 .centerInside()
-                .into(((ImageView)findViewById(R.id.winner_image)));
+                .into(((ImageView) findViewById(R.id.winner_image)));
     }
 
     private void handleEvents() {

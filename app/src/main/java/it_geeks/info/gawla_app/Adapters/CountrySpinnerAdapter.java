@@ -14,6 +14,7 @@ import java.util.List;
 
 import it_geeks.info.gawla_app.R;
 import it_geeks.info.gawla_app.repository.Models.Country;
+import it_geeks.info.gawla_app.util.ImageLoader;
 
 public class CountrySpinnerAdapter extends BaseAdapter {
 
@@ -51,7 +52,7 @@ public class CountrySpinnerAdapter extends BaseAdapter {
         tv.setText(country.getCountry_title());
         if (position != 0)
         {
-            Picasso.with(parent.getContext()).load(country.getImage()).into(iv);
+            ImageLoader.getInstance().load(country.getImage(), iv);
         }
 
         return convertView;

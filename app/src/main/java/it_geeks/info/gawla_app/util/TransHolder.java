@@ -253,7 +253,7 @@ public class TransHolder {
 
         buying_processes = transDao.getTransByKeyAndLang("buying_processes", lang);
         if (buying_processes == null || buying_processes.isEmpty()) {
-            buying_processes = context.getResources().getString(R.string.buying_processes);
+            buying_processes = context.getResources().getString(R.string.invoices);
         }
 
         privacy_details = transDao.getTransByKeyAndLang("privacy_details", lang);

@@ -129,6 +129,8 @@ public class CategoryCardsActivity extends AppCompatActivity {
                 i.putExtra("card_to_buy", card);
                 i.putExtra("category_id_to_buy_card", catId);
                 startActivity(i);
+
+//                buyCard();
             }
         });
     }
@@ -218,8 +220,8 @@ public class CategoryCardsActivity extends AppCompatActivity {
         tsCardDesc.setText(card.getCard_details());
     }
 
-    private void buyCard(final CardView btnConfirmBuying, final ProgressBar pbBuyCard) {
-        hideConfirmationBtn(btnConfirmBuying, pbBuyCard);
+    private void buyCard() {
+//        hideConfirmationBtn();
         int user_id = SharedPrefManager.getInstance(this).getUser().getUser_id();
         String api_token = SharedPrefManager.getInstance(this).getUser().getApi_token();
 
@@ -233,12 +235,12 @@ public class CategoryCardsActivity extends AppCompatActivity {
 
                     @Override
                     public void handleAfterResponse() {
-                        displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
+//                        displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
+//                        displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
@@ -247,16 +249,16 @@ public class CategoryCardsActivity extends AppCompatActivity {
     /**
      * this function is to show {@param btnConfirmBuying} and hide {@param pbBuyCard}
      */
-    private void displayConfirmationBtn(CardView btnConfirmBuying, ProgressBar pbBuyCard) {
-        btnConfirmBuying.setVisibility(View.VISIBLE);
-        pbBuyCard.setVisibility(View.GONE);
-    }
+//    private void displayConfirmationBtn(CardView btnConfirmBuying, ProgressBar pbBuyCard) {
+//        btnConfirmBuying.setVisibility(View.VISIBLE);
+//        pbBuyCard.setVisibility(View.GONE);
+//    }
 
     /**
      * this function is to hide {@param btnConfirmBuying} and show {@param pbBuyCard}
      */
-    private void hideConfirmationBtn(CardView btnConfirmBuying, ProgressBar pbBuyCard) {
-        btnConfirmBuying.setVisibility(View.GONE);
-        pbBuyCard.setVisibility(View.VISIBLE);
-    }
+//    private void hideConfirmationBtn(CardView btnConfirmBuying, ProgressBar pbBuyCard) {
+//        btnConfirmBuying.setVisibility(View.GONE);
+//        pbBuyCard.setVisibility(View.VISIBLE);
+//    }
 }

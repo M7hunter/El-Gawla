@@ -1024,7 +1024,8 @@ public class SalonActivity extends AppCompatActivity {
         tvProductPrice.setText(round.getProduct_commercial_price());
         tvSalonId.setText(String.valueOf(round.getSalon_id()));
 
-        Picasso.with(this)
+
+        Picasso.get()
                 .load(round.getProduct_image())
                 .resize(800, 800)
                 .onlyScaleDown()
@@ -1076,7 +1077,7 @@ public class SalonActivity extends AppCompatActivity {
         tvProductPrice.setText(round.getProduct_commercial_price());
         tvProductDescription.setText(round.getProduct_product_description());
 
-        Picasso.with(this)
+        Picasso.get()
                 .load(round.getProduct_image())
                 .resize(800, 800)
                 .onlyScaleDown()

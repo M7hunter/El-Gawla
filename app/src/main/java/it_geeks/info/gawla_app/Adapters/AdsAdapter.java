@@ -55,8 +55,7 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
         final Ad ad = adList.get(position);
 
         holder.pbAdLoading.setVisibility(View.VISIBLE);
-        Picasso.with(context)
-                .load(ad.getImage())
+        Picasso.get().load(ad.getImage())
                 .resize(800, 800)
                 .onlyScaleDown()
                 .into(holder.ivAdImage, new Callback() {
@@ -66,13 +65,12 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
                     }
 
                     @Override
-                    public void onError() {
+                    public void onError(Exception e) {
                         holder.pbAdLoading.setVisibility(View.GONE);
                     }
                 });
 
-        if (ad.getTitle() != null && ad.getBody() != null)
-        {
+        if (ad.getTitle() != null && ad.getBody() != null) {
             holder.tvAdTitle.setText(ad.getTitle());
             holder.tvAdBody.setText(ad.getBody());
         }
@@ -80,8 +78,7 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ad.isType())
-                {
+                if (ad.isType()) {
                     getSalonByID(ad.getSalonId());
                 }
             }

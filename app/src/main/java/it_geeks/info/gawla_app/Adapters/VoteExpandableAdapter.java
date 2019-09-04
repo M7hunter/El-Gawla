@@ -45,7 +45,7 @@ public class VoteExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return votes.get(groupPosition).getVoteChildList().size();
+        return votes.get(groupPosition).getVoteChildList() != null ? votes.get(groupPosition).getVoteChildList().size() : 0;
     }
 
     @Override
@@ -75,43 +75,36 @@ public class VoteExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        if (convertView == null)
-        {
+        if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_vote_cat_header, parent, false);
         }
 
         TextView tvHeaderTitle = convertView.findViewById(R.id.tv_vote_header_title);
         TextView tvHeaderCount = convertView.findViewById(R.id.tv_votes_header_count);
-        ImageView ivIcon = convertView.findViewById(R.id.iv_vote_header_icon);
+//        ImageView ivIcon = convertView.findViewById(R.id.iv_vote_header_icon);
         final ImageView ivHeaderVote = convertView.findViewById(R.id.iv_vote_header);
-        View line = convertView.findViewById(R.id.lv_vote);
+//        View line = convertView.findViewById(R.id.lv_vote);
 
         final Vote vote = votes.get(groupPosition);
 
-        line.setBackgroundColor(Color.parseColor(vote.getColor()));
-        ImageLoader.getInstance().loadIcon(vote.getIcon(), ivIcon);
-        tvHeaderTitle.setTextColor(Color.parseColor(vote.getColor()));
+//        line.setBackgroundColor(Color.parseColor(vote.getColor()));
+//        ImageLoader.getInstance().loadIcon(vote.getIcon(), ivIcon);
+//        tvHeaderTitle.setTextColor(Color.parseColor(vote.getColor()));
         tvHeaderTitle.setText(vote.getTitle());
         tvHeaderCount.setText(context.getString(R.string.votes, vote.getCount()));
 
-        if (vote.isVoted())
-        {
+        if (vote.isVoted()) {
             ivHeaderVote.setImageDrawable(context.getDrawable(R.drawable.voted));
-        }
-        else
-        {
+        } else {
             ivHeaderVote.setImageDrawable(context.getDrawable(R.drawable.unvoted));
         }
 
         ivHeaderVote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (vote.isVoted())
-                {
+                if (vote.isVoted()) {
                     sendVoteToServer(ivHeaderVote, vote.getId(), false);
-                }
-                else
-                {
+                } else {
                     sendVoteToServer(ivHeaderVote, vote.getId(), true);
                 }
             }
@@ -122,8 +115,7 @@ public class VoteExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        if (convertView == null)
-        {
+        if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_vote_cat_child, parent, false);
         }
 
@@ -136,24 +128,18 @@ public class VoteExpandableAdapter extends BaseExpandableListAdapter {
         tvChildTitle.setText(voteChild.getTitle());
         tvChildCount.setText(voteChild.getCount());
 
-        if (voteChild.isVoted())
-        {
+        if (voteChild.isVoted()) {
             ivChildVote.setImageDrawable(context.getDrawable(R.drawable.voted));
-        }
-        else
-        {
+        } else {
             ivChildVote.setImageDrawable(context.getDrawable(R.drawable.unvoted));
         }
 
         ivChildVote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (voteChild.isVoted())
-                {
+                if (voteChild.isVoted()) {
                     sendVoteToServer(ivChildVote, voteChild.getId(), false);
-                }
-                else
-                {
+                } else {
                     sendVoteToServer(ivChildVote, voteChild.getId(), true);
                 }
             }
@@ -174,12 +160,9 @@ public class VoteExpandableAdapter extends BaseExpandableListAdapter {
 
                         boolean voted = mainObject.get("voted").getAsBoolean();
 
-                        if (voted)
-                        {
+                        if (voted) {
                             ivVote.setImageDrawable(context.getDrawable(R.drawable.voted));
-                        }
-                        else
-                        {
+                        } else {
                             ivVote.setImageDrawable(context.getDrawable(R.drawable.unvoted));
                         }
                     }

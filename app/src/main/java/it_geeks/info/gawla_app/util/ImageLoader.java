@@ -1,7 +1,6 @@
 package it_geeks.info.gawla_app.util;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.crashlytics.android.Crashlytics;
@@ -14,9 +13,6 @@ public class ImageLoader {
 
     private static ImageLoader imageLoader;
 
-    private ImageLoader() {
-    }
-
     public static ImageLoader getInstance() {
         if (imageLoader == null) {
             imageLoader = new ImageLoader();
@@ -26,7 +22,7 @@ public class ImageLoader {
 
     public void loadImage(String imageUrl, ImageView imageView) {
         try {
-            Picasso.with(imageView.getContext())
+            Picasso.get()
                     .load(imageUrl)
                     .resize(800, 800)
                     .onlyScaleDown()
@@ -39,10 +35,9 @@ public class ImageLoader {
         }
     }
 
-
     public void loadIcon(String imageUrl, ImageView imageView) {
         try {
-            Picasso.with(imageView.getContext())
+            Picasso.get()
                     .load(imageUrl)
 //                    .resize(100, 100)
 //                    .onlyScaleDown()
@@ -57,7 +52,7 @@ public class ImageLoader {
 
     public void loadLandscapeImage(String imageUrl, ImageView imageView) {
         try {
-            Picasso.with(imageView.getContext())
+            Picasso.get()
                     .load(imageUrl)
                     .resize(900, 600)
                     .onlyScaleDown()
@@ -72,7 +67,7 @@ public class ImageLoader {
 
     public void loadFitImage(String imageUrl, ImageView imageView) {
         try {
-            Picasso.with(imageView.getContext())
+            Picasso.get()
                     .load(imageUrl)
                     .fit()
                     .centerInside()
@@ -87,5 +82,17 @@ public class ImageLoader {
     public void loadUserImage(Context context, ImageView imageView) {
         // load User Image
         ImageLoader.getInstance().loadFitImage(SharedPrefManager.getInstance(context).getUser().getImage(), imageView);
+    }
+
+    public void load(String imageUrl, ImageView imageView) {
+        try {
+            Picasso.get()
+                    .load(imageUrl)
+                    .placeholder(R.drawable.placeholder)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+        }
     }
 }
