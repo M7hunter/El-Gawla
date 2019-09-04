@@ -50,12 +50,10 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.ViewHo
 
         // status
         if (Integer.parseInt(invoice.getStatus()) == 0) {
-            viewHolder.status.setImageDrawable(context.getDrawable(R.drawable.ic_close));
-            viewHolder.status.setImageTintList(ColorStateList.valueOf(Color.RED));
+            viewHolder.status.setImageDrawable(context.getDrawable(R.drawable.false_icon));
 
         } else {
-            viewHolder.status.setImageDrawable(context.getDrawable(R.drawable.ic_check));
-            viewHolder.status.setImageTintList(ColorStateList.valueOf(Color.GREEN));
+            viewHolder.status.setImageDrawable(context.getDrawable(R.drawable.true_icon));
         }
     }
 
