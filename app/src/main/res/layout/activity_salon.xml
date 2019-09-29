@@ -643,6 +643,7 @@
             app:layout_constraintBottom_toTopOf="@id/leave_and_help_container">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_add_offer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_small"
@@ -651,11 +652,11 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <!-- add offer et -->
             <EditText
-                android:id="@+id/add_offer_et"
+                android:id="@+id/et_add_offer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_small"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:hint="@string/rOffer"
                 android:inputType="number"
                 android:paddingTop="@dimen/margin_small"
@@ -755,15 +756,15 @@
                 app:rippleColor="@color/darkPaleRed" />
 
             <!-- customer services -->
-            <ImageView
-                android:id="@+id/salon_help"
-                android:layout_width="@dimen/icon_notification"
-                android:layout_height="@dimen/icon_notification"
-                android:scaleType="fitXY"
-                android:src="@drawable/q_mark_in_circle"
-                android:tint="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+            <!--<ImageView-->
+            <!--    android:id="@+id/salon_help"-->
+            <!--    android:layout_width="@dimen/icon_notification"-->
+            <!--    android:layout_height="@dimen/icon_notification"-->
+            <!--    android:scaleType="fitXY"-->
+            <!--    android:src="@drawable/q_mark_in_circle"-->
+            <!--    android:tint="@color/colorPrimary"-->
+            <!--    app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--    app:layout_constraintEnd_toEndOf="parent" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/paleGrey"
     android:orientation="vertical"
     android:id="@+id/payment_method_main_layout"
     tools:context=".views.store.PaymentMethodsActivity">
@@ -48,85 +49,73 @@
     <!-- methods -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/margin_small"
-        android:background="@drawable/bg_rounded_corners_bordered_pale_grey"
-        android:padding="@dimen/margin_xlarge"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_medium"
+        android:padding="@dimen/margin_large"
+        android:background="@drawable/bg_rounded_corners_white"
+        android:orientation="vertical">
 
         <!-- title -->
         <TextView
-        android:layout_width="wrap_content"
-        android:text="@string/choose_payment_method"
-        android:textSize="@dimen/text_size_medium"
-        android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content"
+            android:text="@string/choose_payment_method"
+            android:textSize="@dimen/text_size_medium"
+            android:textColor="@color/colorPrimary"
+            android:layout_height="wrap_content"/>
 
         <!-- knet -->
         <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_xlarge"
-        android:gravity="start|center_vertical">
+        android:layout_marginTop="@dimen/margin_xx_large"
+        android:gravity="top">
 
         <RadioButton
             android:id="@+id/rb_knet"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/card_width"
-            android:layout_margin="@dimen/margin_small" />
+            android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/iv_knet"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/knet" />
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
     </LinearLayout>
 
         <!-- fawry -->
         <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_xlarge"
-        android:gravity="start|center_vertical">
+        android:layout_marginTop="@dimen/margin_xlarge">
 
         <RadioButton
             android:id="@+id/rb_fawry"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/card_width"
-            android:layout_margin="@dimen/margin_small" />
+            android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/iv_fawry"
-            android:layout_weight="1"
-            android:scaleType="fitXY"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_large"
             android:src="@drawable/fawry" />
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    </LinearLayout>
+        <!-- continue -->
+        <Button
+            android:id="@+id/btn_payment_method_continue"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:paddingStart="@dimen/margin_xxx_large"
+            android:paddingEnd="@dimen/margin_xxx_large"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingBottom="@dimen/margin_small"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xxx_large"
+            android:text="@string/continue_"/>
 
-    <!-- continue -->
-    <Button
-        android:id="@+id/btn_payment_method_continue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/margin_small"
-        android:layout_margin="@dimen/margin_xlarge"
-        android:text="@string/continue_"/>
+    </LinearLayout>
 
 </LinearLayout>

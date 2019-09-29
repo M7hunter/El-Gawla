@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="it_geeks.info.gawla_app">
+    package="it_geeks.info.elgawla">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -10,8 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".views.store.PaymentMethodsActivity"/>
-        <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
+        <activity android:name=".views.main.BlogActivity"/>
+        <activity android:name=".views.store.PaymentMethodsActivity" /> <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
         <activity android:name=".views.intro.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,13 +55,10 @@
         <activity android:name=".views.store.BuyCardActivity" />
         <activity android:name=".views.store.PaymentURLActivity" />
         <activity android:name=".views.intro.IntroActivity" />
-        <activity android:name=".views.login.ForgetPasswordActivity" />
-        <activity android:name=".views.login.CreateAccountActivity" />
-        <activity android:name=".views.login.LoginActivity" />
+        <activity android:name=".views.signing.ForgetPasswordActivity" />
+        <activity android:name=".views.signing.SignUpActivity" />
+        <activity android:name=".views.signing.SignInActivity" />
         <activity android:name=".views.menu.SettingsActivity" />
-        <activity android:name=".views.menu.MoreAboutGawlaActivity" />
-        <activity android:name=".views.menu.PrivacyPolicyActivity" />
-        <activity android:name=".views.menu.TermsAndConditionsActivity" />
         <activity android:name=".views.menu.CallUsActivity" />
         <activity android:name=".views.menu.LanguageActivity" />
         <activity android:name=".views.menu.WebPageActivity" />
@@ -104,11 +107,5 @@
             </intent-filter>
         </service>
     </application>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

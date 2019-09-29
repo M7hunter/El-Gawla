@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_tiny"
                 android:ellipsize="end"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:textColor="@color/duskBlue"
                 android:textSize="@dimen/text_size_medium"
                 tools:text="@tools:sample/full_names" />

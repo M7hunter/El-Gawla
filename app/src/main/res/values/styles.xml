@@ -23,6 +23,12 @@
         <item name="cornerSize">30dp</item>
     </style>
 
+
+    <style name="squareButtonStyle" parent="AppShapeAppearance.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">5dp</item>
+    </style>
+
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/text_size_x_small</item>

@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
                     android:background="@drawable/bg_circle_grey">
                     <!-- card icon -->
                     <View
@@ -113,7 +113,8 @@
                     android:id="@+id/btn_buy_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_xx_large"
+                    android:layout_marginTop="@dimen/margin_xlarge"
+                    android:layout_marginBottom="@dimen/margin_small"
                     android:paddingStart="@dimen/margin_xxxx_large"
                     android:paddingTop="@dimen/margin_small"
                     android:paddingEnd="@dimen/margin_xxxx_large"

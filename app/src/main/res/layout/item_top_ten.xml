@@ -12,8 +12,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_tiny"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -27,7 +27,7 @@
                 android:paddingBottom="@dimen/margin_tiny"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_small"
                  android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_medium"
                 android:background="@drawable/bg_circleed_c_white_borderd_c_primary"
@@ -37,11 +37,14 @@
 
             <!-- name -->
             <TextView
+                android:maxLines="1"
                 android:id="@+id/tv_top_ten_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:textSize="@dimen/text_size_large"
-                tools:text="@tools:sample/first_names" />
+                tools:text="dfdf" />
 
             <!-- offered label -->
             <TextView
@@ -54,15 +57,15 @@
 
             <!-- offer -->
             <TextView
+                android:maxLines="1"
                 android:id="@+id/tv_top_ten_offer"
                 android:layout_width="wrap_content"
-                android:layout_weight="1.5"
                 android:textColor="@color/colorPrimary"
                 android:gravity="start"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="@dimen/text_size_large"
-                tools:text="@tools:sample/us_zipcodes" />
+                tools:text="2545" />
 
             <!-- winner cup -->
             <ImageView

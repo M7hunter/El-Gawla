@@ -1,67 +1,45 @@
 {
   "project_info": {
-    "project_number": "129212834621",
-    "firebase_url": "https://elgawla-225111.firebaseio.com",
-    "project_id": "elgawla-225111",
-    "storage_bucket": "elgawla-225111.appspot.com"
+    "project_number": "631969021850",
+    "firebase_url": "https://elgawla-da2f7.firebaseio.com",
+    "project_id": "elgawla-da2f7",
+    "storage_bucket": "elgawla-da2f7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:129212834621:android:2995c75bbb2e2965",
+        "mobilesdk_app_id": "1:631969021850:android:553c1d172fb88da4",
         "android_client_info": {
-          "package_name": "it_geeks.info.gawla_app"
+          "package_name": "it_geeks.info.elgawla"
         }
       },
       "oauth_client": [
         {
-          "client_id": "129212834621-fijto12dd2gi9tvifih892ua2rsa3vlp.apps.googleusercontent.com",
+          "client_id": "631969021850-bukhk1r5ou3e9h5btrr99jdovpacdc04.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "it_geeks.info.gawla_app",
-            "certificate_hash": "6484b8f1966de199884850966f85b8d8fc9abca3"
-          }
-        },
-        {
-          "client_id": "129212834621-ia209hub7m0493g0ajmm0hq9up2u4mjr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "it_geeks.info.gawla_app",
+            "package_name": "it_geeks.info.elgawla",
             "certificate_hash": "f2b3ec82a95e8b84de6951407f9c56eee83a7922"
           }
         },
         {
-          "client_id": "129212834621-ntpf3okjbutvp5um90dl651bdoe812ll.apps.googleusercontent.com",
+          "client_id": "631969021850-obv6di7v9679vpulptqct1g76ntk87jc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB--zATg9Sc42antTA5QT0szJG-sV8FZgI"
+          "current_key": "AIzaSyCWP8DRCvEMT0Reeq3Rx6M7-NKM5LJ3KG8"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "129212834621-ntpf3okjbutvp5um90dl651bdoe812ll.apps.googleusercontent.com",
+              "client_id": "631969021850-obv6di7v9679vpulptqct1g76ntk87jc.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "129212834621-t9lir1bjdnu1oi0gijik6672125buvgs.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.ItGeeks.Gawlaaa"
-              }
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }
