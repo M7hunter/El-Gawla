@@ -74,14 +74,14 @@ public class SplashActivity extends AppCompatActivity {
         ivSAFlag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btnArabic.callOnClick();
+                btnArabic.performClick();
             }
         });
 
         ivUSFlag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btnEnglish.callOnClick();
+                btnEnglish.performClick();
             }
         });
     }
