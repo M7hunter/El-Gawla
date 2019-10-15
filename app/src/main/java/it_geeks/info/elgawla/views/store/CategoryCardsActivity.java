@@ -34,7 +34,6 @@ import java.util.List;
 
 import static it_geeks.info.elgawla.util.Constants.CATEGORY_NAME;
 import static it_geeks.info.elgawla.util.Constants.CAT_ID;
-import static it_geeks.info.elgawla.util.Constants.REQ_ADD_CARDS_TO_USER;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_CARDS_BY_CATEGORY;
 
 public class CategoryCardsActivity extends AppCompatActivity {
@@ -123,12 +122,10 @@ public class CategoryCardsActivity extends AppCompatActivity {
         btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CategoryCardsActivity.this, BuyCardActivity.class);
+                Intent i = new Intent(CategoryCardsActivity.this, PaymentMethodsActivity.class);
                 i.putExtra("card_to_buy", card);
-                i.putExtra("category_id_to_buy_card", catId);
+                i.putExtra("is_card", true);
                 startActivity(i);
-
-//                buyCard();
             }
         });
     }
@@ -217,46 +214,4 @@ public class CategoryCardsActivity extends AppCompatActivity {
         tsCardName.setText(card.getCard_name());
         tsCardDesc.setText(card.getCard_details());
     }
-
-    private void buyCard() {
-//        hideConfirmationBtn();
-        int user_id = SharedPrefManager.getInstance(this).getUser().getUser_id();
-        String api_token = SharedPrefManager.getInstance(this).getUser().getApi_token();
-
-        RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                REQ_ADD_CARDS_TO_USER, new Request<>(REQ_ADD_CARDS_TO_USER, user_id, api_token, card.getCard_id(),
-                        null, null, null, null), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
-                    }
-
-                    @Override
-                    public void handleAfterResponse() {
-//                        displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-//                        displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
-                        snackBuilder.setSnackText(errorMessage).showSnack();
-                    }
-                });
-    }
-
-    /**
-     * this function is to show {@param btnConfirmBuying} and hide {@param pbBuyCard}
-     */
-//    private void displayConfirmationBtn(CardView btnConfirmBuying, ProgressBar pbBuyCard) {
-//        btnConfirmBuying.setVisibility(View.VISIBLE);
-//        pbBuyCard.setVisibility(View.GONE);
-//    }
-
-    /**
-     * this function is to hide {@param btnConfirmBuying} and show {@param pbBuyCard}
-     */
-//    private void hideConfirmationBtn(CardView btnConfirmBuying, ProgressBar pbBuyCard) {
-//        btnConfirmBuying.setVisibility(View.GONE);
-//        pbBuyCard.setVisibility(View.VISIBLE);
-//    }
 }

@@ -35,8 +35,8 @@ import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Card;
 import it_geeks.info.elgawla.util.SnackBuilder;
-import it_geeks.info.elgawla.views.store.BuyCardActivity;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
+import it_geeks.info.elgawla.views.store.PaymentMethodsActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_CATEGORIES;
 import static it_geeks.info.elgawla.util.Constants.REQ_USE_CARD;
@@ -74,14 +74,11 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         viewHolder.tvCardCount.setText(String.valueOf(card.getCount()));
         Common.Instance().changeDrawableViewColor(viewHolder.cardIcon, card.getCard_color());
 
-        if (card.getCount() > 0)
-        { // use card state
+        if (card.getCount() > 0) { // use card state
             viewHolder.btn.setBackgroundColor(context.getResources().getColor(R.color.greenBlue));
             viewHolder.btn.setText(context.getString(R.string.use_card));
             viewHolder.tvCardCount.setBackground(context.getResources().getDrawable(R.drawable.bg_circle_green));
-        }
-        else
-        { // buy card  state
+        } else { // buy card  state
             viewHolder.btn.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
             viewHolder.btn.setText(context.getString(R.string.buy_card));
             viewHolder.tvCardCount.setBackground(context.getResources().getDrawable(R.drawable.bg_circle_red));
@@ -91,21 +88,15 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         viewHolder.btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (card.getCount() > 0)
-                {
-                    if (card.getCard_type().equals("gold"))
-                    {
+                if (card.getCount() > 0) {
+                    if (card.getCard_type().equals("gold")) {
                         ((SalonActivity) context).useGoldenCard();
                         ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
 
-                    }
-                    else
-                    {
+                    } else {
                         useCard(card, viewHolder.btn, viewHolder.pb);
                     }
-                }
-                else
-                {
+                } else {
                     initBottomSheetSingleCard(card).show();
                 }
             }
@@ -138,7 +129,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         btnConfirmBuying.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buyCard(card, btnConfirmBuying, pbBuyCard);
+                buyCard(card);
             }
         });
 
@@ -146,12 +137,9 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         sheetView.findViewById(R.id.close_bottom_sheet_single_card).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mBottomSheetDialogSingleCard.isShowing())
-                {
+                if (mBottomSheetDialogSingleCard.isShowing()) {
                     mBottomSheetDialogSingleCard.dismiss();
-                }
-                else
-                {
+                } else {
                     mBottomSheetDialogSingleCard.show();
                 }
             }
@@ -181,15 +169,13 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                         card.setCount(card.getCount() - 1);
                         ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the store list
 
-                        try
-                        {
+                        try {
                             JSONObject o = new JSONObject();
                             o.put("salon_id", salonId);
                             o.put("user", username);
                             o.put("type", card.getCard_type());
                             ((SalonActivity) context).getSocketUtils().emitData("use_card", o);
-                        } catch (JSONException e)
-                        {
+                        } catch (JSONException e) {
                             Log.e("socket use_card: ", e.getMessage());
                             Crashlytics.logException(e);
                         }
@@ -208,38 +194,11 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                 });
     }
 
-    private void buyCard(final Card card, final View btnConfirmBuying, final ProgressBar pbBuyCard) {
-        Intent i = new Intent(context, BuyCardActivity.class);
+    private void buyCard(final Card card) {
+        Intent i = new Intent(context, PaymentMethodsActivity.class);
         i.putExtra("card_to_buy", card);
-        i.putExtra("salon_id_to_buy_card", salonId);
-        i.putExtra("categories_to_buy_card", (Serializable) categoryList);
+        i.putExtra("is_card", true);
         context.startActivity(i);
-
-//        hideSingleConfirmationBtn(btnConfirmBuying, pbBuyCard);
-//        RetrofitClient.getInstance(context).executeConnectionToServer(context, "addCardsToUser",
-//                new Request(SharedPrefManager.getInstance(context).getUser().getUser_id(),
-//                        SharedPrefManager.getInstance(context).getUser().getApi_token(),
-//                        card.getCard_id()),
-//                new HandleResponses() {
-//                    @Override
-//                    public void handleTrueResponse(JsonObject mainObject) {
-//                        Toast.makeText(context, mainObject.get("message").getAsString(), Toast.LENGTH_SHORT).show();
-//                        mBottomSheetDialogSingleCard.dismiss();
-//                        ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
-//                        ((SalonActivity) context).getUserCardsForSalonFromServer(); // refresh the store list
-//                    }
-//
-//                    @Override
-//                    public void handleAfterResponse() {
-//                        displaySingleConfirmationBtn(btnConfirmBuying, pbBuyCard);
-//                    }
-//
-//                    @Override
-//                    public void handleConnectionErrors(String errorMessage) {
-//                        displaySingleConfirmationBtn(btnConfirmBuying, pbBuyCard);
-//                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
     }
 
     private void displayConfirmationBtn(View btn, ProgressBar pb) {
@@ -249,16 +208,6 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
 
     private void hideConfirmationBtn(View btnConfirmBuying, ProgressBar pbBuyCard) {
         btnConfirmBuying.setVisibility(View.INVISIBLE);
-        pbBuyCard.setVisibility(View.VISIBLE);
-    }
-
-    private void displaySingleConfirmationBtn(View btn, ProgressBar pb) {
-        btn.setVisibility(View.VISIBLE);
-        pb.setVisibility(View.GONE);
-    }
-
-    private void hideSingleConfirmationBtn(View btnConfirmBuying, ProgressBar pbBuyCard) {
-        btnConfirmBuying.setVisibility(View.GONE);
         pbBuyCard.setVisibility(View.VISIBLE);
     }
 

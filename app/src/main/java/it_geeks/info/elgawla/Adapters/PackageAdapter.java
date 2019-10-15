@@ -18,7 +18,7 @@ import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Package;
 import it_geeks.info.elgawla.views.store.PaymentMethodsActivity;
 
-import static it_geeks.info.elgawla.util.Constants.PACKAGE_ID;
+import static it_geeks.info.elgawla.util.Constants.PACKAGE;
 
 public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHolder> {
 
@@ -49,7 +49,8 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, PaymentMethodsActivity.class);
-                i.putExtra(PACKAGE_ID, mPackage.getId());
+                i.putExtra(PACKAGE, mPackage);
+                i.putExtra("is_card", false);
                 context.startActivity(i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
             }
         });

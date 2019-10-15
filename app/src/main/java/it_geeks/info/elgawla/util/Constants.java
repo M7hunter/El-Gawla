@@ -76,6 +76,6 @@ public class Constants {
     public static final String MEMBERSHIP_MSG = "membership_msg";
     public static final String PAYMENT_URL = "payment_url";
     public static final String SERVER_MSG = "message";
-    public static final String PACKAGE_ID = "package_id";
+    public static final String PACKAGE = "package";
 
 }

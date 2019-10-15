@@ -96,10 +96,11 @@ public class InvoicesActivity extends AppCompatActivity {
     private void initRecycler() {
         if (invoiceList.size() > 0) {
             buyingProcessRecycler.setHasFixedSize(true);
-            buyingProcessRecycler.setLayoutManager(new LinearLayoutManager(InvoicesActivity.this, RecyclerView.VERTICAL, false));
+            buyingProcessRecycler.setLayoutManager(new LinearLayoutManager(InvoicesActivity.this, RecyclerView.VERTICAL, true));
             buyingProcessRecycler.setAdapter(new InvoicesAdapter(this, invoiceList));
 
             tvEmptyView.setVisibility(View.GONE);
+            buyingProcessRecycler.scrollToPosition(invoiceList.size() - 1);
         } else {
             tvEmptyView.setVisibility(View.VISIBLE);
         }

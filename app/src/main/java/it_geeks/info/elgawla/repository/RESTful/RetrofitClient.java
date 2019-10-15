@@ -59,7 +59,7 @@ public class RetrofitClient {
                 .create();
 
         this.retrofit = new Retrofit.Builder()
-                .baseUrl(selectBaseUrl(context))
+                .baseUrl("http://elgawla.net/dev/public/api/v2/" + selectUrlLang(context) + "/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
@@ -74,27 +74,17 @@ public class RetrofitClient {
         return mInstance;
     }
 
-    private String selectBaseUrl(Context context) {
+    private String selectUrlLang(Context context) {
         // local host : http://192.168.1.7/elgawla/public/api/v1/en/
         // it geeks server : https://dev.itgeeks.info/api/v1/en/
         // gawla server : http://elgawla.net/dev/public/api/v1/en/
         // gawla server ip : http://134.209.0.250/dev/public/api/v1/en/
 
-        String BASE_URL;
-        switch (SharedPrefManager.getInstance(context).getSavedLang())
-        {
-            case "en":
-                BASE_URL = "http://elgawla.net/dev/public/api/v2/en/";
-                break;
-            case "ar":
-                BASE_URL = "http://elgawla.net/dev/public/api/v2/ar/";
-                break;
-            default:
-                BASE_URL = "http://elgawla.net/dev/public/api/v2/en/";
-                break;
+        if ("ar".equals(SharedPrefManager.getInstance(context).getSavedLang())) {
+            return  "ar";
+        } else {
+            return  "en";
         }
-
-        return BASE_URL;
     }
 
     public void executeConnectionToServer(Context context, String action, Request req, HandleResponses HandleResponses) {
@@ -115,25 +105,26 @@ public class RetrofitClient {
         return new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
-                // TODO: check codes
-//                /* case unKnown 1:
-//                   case somethingWrong 100:
-//                   case emailNotExist 104:
-//                   case accountAlreadyVerified 106:
-//                   case invalidApiToken 111:
-//                   case tokenNotFound 115:
-//                   case accountNotConfirmed 116:
-//                   case success 200:
-//                   case authFailed 203:
-//                   case invalidAccessToken 401:
-//                   case validationErrors 402:
-//                   case notAuthorized 402:
-//                   case notFound 404:
-//                   case wrongPhoneVerifyNum 405:
-//                   case wrongForgetPassVerifyNum 406:
-//                   case waitBeforeResend 410:
-//                   case doNotHavePermission 412:
-//                   case internalServerError 500: */
+                /**
+                 * --> review codes
+                 *   case unKnown 1:
+                 *   case somethingWrong 100:
+                 *   case emailNotExist 104:
+                 *   case accountAlreadyVerified 106:
+                 *   case invalidApiToken 111:
+                 *   case tokenNotFound 115:
+                 *   case accountNotConfirmed 116:
+                 *   case success 200:
+                 *   case authFailed 203:
+                 *   case invalidAccessToken 401:
+                 *   case validationErrors 402:
+                 *   case notAuthorized 402:
+                 *   case notFound 404:
+                 *   case wrongPhoneVerifyNum 405:
+                 *   case wrongForgetPassVerifyNum 406:
+                 *   case waitBeforeResend 410:
+                 *   case doNotHavePermission 412:
+                 *   case internalServerError 500: */
                 try
                 {
                     Log.d(TAG, "response_code: " + response.code());
@@ -147,12 +138,8 @@ public class RetrofitClient {
                                 // dynamic with each call
                                 HandleResponses.handleTrueResponse(mainObj);
 
-                            } catch (NullPointerException e)
+                            } catch (NullPointerException | UnsupportedOperationException e)
                             { // errors of response body 'maybe response body has been changed'
-                                e.printStackTrace();
-                                Crashlytics.logException(e);
-                            } catch (UnsupportedOperationException e)
-                            {
                                 e.printStackTrace();
                                 Crashlytics.logException(e);
                             }
@@ -175,7 +162,7 @@ public class RetrofitClient {
                             Toast.makeText(context, context.getString(R.string.logged_from_other_device), Toast.LENGTH_LONG).show();
 
                             break;
-                        default: // code != 200
+                        default: // code != (200 || 203)
                             try
                             {
                                 JsonObject errorObj = new JsonParser().parse(response.errorBody().string()).getAsJsonObject();
@@ -204,10 +191,6 @@ public class RetrofitClient {
                             break;
                     }
 
-                } catch (RuntimeException e)
-                {
-                    e.printStackTrace();
-                    Crashlytics.logException(e);
                 } catch (Exception e)
                 {
                     e.printStackTrace();

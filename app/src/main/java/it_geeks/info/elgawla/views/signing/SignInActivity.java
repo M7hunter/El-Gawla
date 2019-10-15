@@ -2,6 +2,8 @@ package it_geeks.info.elgawla.views.signing;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -103,6 +105,48 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         dialogBuilder.createLoadingDialog(this);
 
         snackBuilder = new SnackBuilder(findViewById(R.id.sign_in_main_layout));
+
+        initTextWatchers();
+    }
+
+    private void initTextWatchers() {
+        etEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (tlEmail.getError() != null) {
+                    tlEmail.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        etPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (tlPass.getError() != null) {
+                    tlPass.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void handleEvents() {
@@ -110,8 +154,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (checkEntries(etEmail.getText().toString(), etPassword.getText().toString()))
-                {
+                if (checkEntries(etEmail.getText().toString(), etPassword.getText().toString())) {
                     login(etEmail.getText().toString(), etPassword.getText().toString()); // Login ViewModel
                 }
             }
@@ -152,33 +195,25 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     private boolean checkEntries(String email, String pass) {
         boolean bass = true;
 
-        if (email.isEmpty())
-        {
+        if (email.isEmpty()) {
             tlEmail.setError(getResources().getString(R.string.emptyMail));
             etEmail.requestFocus();
             bass = false;
-        }
-        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
-        {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             tlEmail.setError(getString(R.string.enter_valid_email));
             etEmail.requestFocus();
             bass = false;
-        }
-        else tlEmail.setError("");
+        } else tlEmail.setError("");
 
-        if (pass.isEmpty())
-        {
+        if (pass.isEmpty()) {
             tlPass.setError(getResources().getString(R.string.emptyPass));
             etPassword.requestFocus();
             bass = false;
-        }
-        else if (pass.length() < 6)
-        {
+        } else if (pass.length() < 6) {
             tlPass.setError(getResources().getString(R.string.name_length_hint));
             etPassword.requestFocus();
             bass = false;
-        }
-        else tlPass.setError("");
+        } else tlPass.setError("");
 
         return bass;
     }
@@ -233,26 +268,22 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        String id = "", name = "", email = "", image = "";
-        try
-        {
+        String id, name, email, image;
+        try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             id = account.getId();
             name = account.getDisplayName();
             email = account.getEmail();
             image = "https://itgeeks.com/images/logo.png";
-            if (account.getPhotoUrl() != null)
-            {
+            if (account.getPhotoUrl() != null) {
                 image = account.getPhotoUrl().toString();
             }
 
             socialLogin(id, name, email, image, providerGoogle);
-        } catch (ApiException e)
-        {
+        } catch (ApiException e) {
             Log.w("signIn:failed code", "" + e.getStatusCode());
             Crashlytics.logException(e);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -288,8 +319,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
             }
         });
 
-        if (AccessToken.getCurrentAccessToken() != null)
-        {
+        if (AccessToken.getCurrentAccessToken() != null) {
             LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         }
     }
@@ -297,8 +327,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     // fb login
     private void getData(final JSONObject object) {
         String id = "", name = "", email = "", image = "";
-        try
-        {
+        try {
             URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/" + object.getString("id") + "/picture?type=normal");
 
             id = object.optString("id");
@@ -307,16 +336,13 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
             image = Profile_Picture.toString();
 
             socialLogin(id, name, email, image, providerFacebook);
-        } catch (MalformedURLException e)
-        {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
             Crashlytics.logException(e);
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
             Crashlytics.logException(e);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -328,8 +354,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         super.onActivityResult(requestCode, resultCode, data);
 
         // google login
-        if (requestCode == GOOGLE_REQUEST)
-        {
+        if (requestCode == GOOGLE_REQUEST) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }

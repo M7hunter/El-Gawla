@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it_geeks.info.elgawla">
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -16,8 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".views.main.BlogActivity"/>
-        <activity android:name=".views.store.PaymentMethodsActivity" /> <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
+        <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
         <activity android:name=".views.intro.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,20 +47,22 @@
             android:name=".views.salon.SalonActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".views.menu.VoteActivity" />
         <activity android:name=".views.salon.WinnerActivity" />
         <activity android:name=".views.salon.AllSalonsActivity" />
         <activity android:name=".views.store.CategoryCardsActivity" />
-        <activity android:name=".views.store.BuyCardActivity" />
+        <activity android:name=".views.store.PaymentReviewActivity" />
+        <activity android:name=".views.store.PaymentMethodsActivity" />
         <activity android:name=".views.store.PaymentURLActivity" />
         <activity android:name=".views.intro.IntroActivity" />
         <activity android:name=".views.signing.ForgetPasswordActivity" />
         <activity android:name=".views.signing.SignUpActivity" />
         <activity android:name=".views.signing.SignInActivity" />
+        <activity android:name=".views.menu.VoteActivity" />
         <activity android:name=".views.menu.SettingsActivity" />
         <activity android:name=".views.menu.CallUsActivity" />
         <activity android:name=".views.menu.LanguageActivity" />
         <activity android:name=".views.menu.WebPageActivity" />
+        <activity android:name=".views.main.BlogActivity" />
         <activity android:name=".views.account.MembershipActivity" />
         <activity android:name=".views.account.InvoicesActivity" />
         <activity android:name=".views.account.ProfileActivity" />

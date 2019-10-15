@@ -1,6 +1,7 @@
 package it_geeks.info.elgawla.views.account;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -83,15 +84,14 @@ public class MyCardsActivity extends AppCompatActivity {
     }
 
     private void initRecycler() {
-        if (myCardsList.size() > 0)
-        {
+        if (myCardsList.size() > 0) {
             myCardsRecycler.setHasFixedSize(true);
+            myCardsRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, true));
             myCardsRecycler.setAdapter(new MyCardsAdapter(this, myCardsList, snackBuilder));
             myCardsEmptyView.setVisibility(View.GONE);
             myCardsRecycler.setVisibility(View.VISIBLE);
-        }
-        else
-        {
+            myCardsRecycler.scrollToPosition(myCardsList.size() - 1);
+        } else {
             myCardsEmptyView.setVisibility(View.VISIBLE);
             myCardsRecycler.setVisibility(View.GONE);
         }

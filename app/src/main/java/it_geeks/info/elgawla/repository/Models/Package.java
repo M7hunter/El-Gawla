@@ -1,6 +1,8 @@
 package it_geeks.info.elgawla.repository.Models;
 
-public class Package {
+import java.io.Serializable;
+
+public class Package implements Serializable {
 
     private int Id;
     private String Title, Price, Body, Color;

@@ -127,7 +127,7 @@ public class CallUsActivity extends AppCompatActivity {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
-//                        messageCallUS.setText("");
+                        messageCallUS.setText("");
                     }
 
                     @Override

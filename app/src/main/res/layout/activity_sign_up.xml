@@ -176,7 +176,7 @@
 
         <!-- have account btn -->
         <Button
-            android:id="@+id/tv_already_have_account"
+            android:id="@+id/btn_already_have_account"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -187,6 +187,7 @@
             android:gravity="center"
             android:padding="@dimen/margin_small"
             android:text="@string/already_have_account"
+            android:textAllCaps="false"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
