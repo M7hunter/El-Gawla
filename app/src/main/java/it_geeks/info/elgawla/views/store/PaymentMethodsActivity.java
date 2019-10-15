@@ -245,7 +245,7 @@ public class PaymentMethodsActivity extends AppCompatActivity {
                         if (url != null && !url.isEmpty()) {
                             Intent i = new Intent(PaymentMethodsActivity.this, PaymentURLActivity.class);
                             i.putExtra(PAYMENT_URL, url);
-                            startActivity(i);
+                            startActivity(i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
                         }
                     }
 

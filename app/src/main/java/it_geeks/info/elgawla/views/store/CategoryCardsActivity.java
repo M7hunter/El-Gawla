@@ -125,15 +125,14 @@ public class CategoryCardsActivity extends AppCompatActivity {
                 Intent i = new Intent(CategoryCardsActivity.this, PaymentMethodsActivity.class);
                 i.putExtra("card_to_buy", card);
                 i.putExtra("is_card", true);
-                startActivity(i);
+                startActivity(i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
             }
         });
     }
 
     private void getCardData() {
         Bundle extras = getIntent().getExtras();
-        if (extras != null)
-        {
+        if (extras != null) {
             tvCategoryName.setText(extras.getString(CATEGORY_NAME));
             catId = extras.getInt(CAT_ID);
             getCategoryCardsFromServer(catId);
@@ -164,8 +163,7 @@ public class CategoryCardsActivity extends AppCompatActivity {
     }
 
     private void initCards() {
-        if (cardList.size() > 0)
-        { // have cards
+        if (cardList.size() > 0) { // have cards
             tvEmptyView.setVisibility(View.GONE);
             selectedCardLayout.setVisibility(View.VISIBLE);
 
@@ -173,21 +171,17 @@ public class CategoryCardsActivity extends AppCompatActivity {
             bindData(card);
 
             cardList.remove(0); // remove the main card from the list to display only the others at the bottom
-            if (cardList.size() > 0)
-            { // still have cards after removing the main one
+            if (cardList.size() > 0) { // still have cards after removing the main one
                 cardListLayout.setVisibility(View.VISIBLE);
                 initCardsRecycler();
             }
-        }
-        else
-        { // !have cards
+        } else { // !have cards
             cardListLayout.setVisibility(View.GONE);
             selectedCardLayout.setVisibility(View.GONE);
             tvEmptyView.setVisibility(View.VISIBLE);
         }
 
-        if (pb.getVisibility() == View.VISIBLE)
-        {
+        if (pb.getVisibility() == View.VISIBLE) {
             pb.setVisibility(View.GONE);
         }
     }
