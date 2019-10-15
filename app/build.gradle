@@ -8,7 +8,7 @@ android {
         applicationId "it_geeks.info.elgawla"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 4
+        versionCode 5
         versionName "1.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

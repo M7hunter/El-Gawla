@@ -1,10 +1,12 @@
 package it_geeks.info.elgawla.views.intro;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class SplashActivity extends AppCompatActivity {
     private boolean selected = false;
 
     private Button btnEnglish, btnArabic;
+    private ImageView ivSAFlag, ivUSFlag, ivSACheck, ivUSCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,10 @@ public class SplashActivity extends AppCompatActivity {
     private void initLang() {
         btnArabic = findViewById(R.id.btn_splash_arabic);
         btnEnglish = findViewById(R.id.btn_splash_english);
+        ivSAFlag = findViewById(R.id.sa_flag);
+        ivUSFlag = findViewById(R.id.us_flag);
+        ivSACheck = findViewById(R.id.sa_check);
+        ivUSCheck = findViewById(R.id.us_check);
 
         if ("ar".equals(SharedPrefManager.getInstance(this).getSavedLang())) {
             selectArabic();
@@ -63,16 +70,34 @@ public class SplashActivity extends AppCompatActivity {
                 Common.Instance().setLang(SplashActivity.this, "en");
             }
         });
+
+        ivSAFlag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnArabic.callOnClick();
+            }
+        });
+
+        ivUSFlag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnEnglish.callOnClick();
+            }
+        });
     }
 
     private void selectArabic() {
-        btnArabic.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check, 0, 0, 0);
-        btnEnglish.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        ivSACheck.setVisibility(View.VISIBLE);
+        ivUSCheck.setVisibility(View.GONE);
+        btnArabic.setTextColor(getResources().getColor(R.color.colorSecondary));
+        btnEnglish.setTextColor(Color.WHITE);
     }
 
     private void selectEnglish() {
-        btnEnglish.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check, 0, 0, 0);
-        btnArabic.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        ivSACheck.setVisibility(View.GONE);
+        ivUSCheck.setVisibility(View.VISIBLE);
+        btnArabic.setTextColor(Color.WHITE);
+        btnEnglish.setTextColor(getResources().getColor(R.color.colorSecondary));
     }
 
     private void initCountriesSpinner() {

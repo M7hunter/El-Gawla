@@ -20,7 +20,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_xx_large"
+        android:layout_marginStart="@dimen/margin_xx_large"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_xx_large"
+        android:layout_marginBottom="@dimen/margin_large"
         android:gravity="center"
         android:padding="@dimen/margin_tiny"
         android:text="@string/tit1e"
@@ -28,31 +31,53 @@
         android:textSize="@dimen/text_size_medium" />
 
     <!-- lang -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:background="@android:color/white"
-        android:gravity="center"
-        android:layoutDirection="ltr">
+        android:layout_marginBottom="@dimen/margin_medium">
 
-        <!-- en -->
-        <Button
-            android:id="@+id/btn_splash_english"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+        <!-- sa flag-->
+        <ImageView
+            android:id="@+id/sa_flag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/english"
-            android:textColor="@android:color/holo_red_light"
-            app:iconTint="@android:color/white" />
+            android:src="@drawable/sa_flag"
+            app:layout_constraintBottom_toTopOf="@id/btn_splash_arabic"
+            app:layout_constraintEnd_toEndOf="@id/btn_splash_arabic"
+            app:layout_constraintStart_toStartOf="@id/btn_splash_arabic"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- separator -->
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimary" />
+        <!-- us flag -->
+        <ImageView
+            android:id="@+id/us_flag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/us_flag"
+            app:layout_constraintBottom_toTopOf="@id/btn_splash_english"
+            app:layout_constraintEnd_toEndOf="@id/btn_splash_english"
+            app:layout_constraintStart_toStartOf="@id/btn_splash_english"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- sa check -->
+        <ImageView
+            android:id="@+id/sa_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/flag_check"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/sa_flag"
+            app:layout_constraintTop_toTopOf="@id/sa_flag" />
+
+        <!-- us check -->
+        <ImageView
+            android:id="@+id/us_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/flag_check"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/us_flag"
+            app:layout_constraintTop_toTopOf="@id/us_flag" />
 
         <!-- ar -->
         <Button
@@ -60,12 +85,25 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/arabic"
-            android:textColor="@android:color/holo_green_light"
-            app:iconTint="@android:color/white" />
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_splash_english"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    </LinearLayout>
+        <!-- en -->
+        <Button
+            android:id="@+id/btn_splash_english"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/english"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_splash_arabic" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- countries header -->
     <TextView
