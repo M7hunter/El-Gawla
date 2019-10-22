@@ -46,7 +46,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_medium"
-                            android:src="@drawable/gawla_logo"
+                            android:src="@drawable/gawla_logo_white"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -180,7 +180,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_medium"
                     android:layout_marginStart="8dp"
-                    android:src="@drawable/ic_lock2"
+                    android:src="@drawable/ic_lock"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -228,7 +228,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_medium"
-                    android:src="@drawable/ic_credit_card2"
+                    android:src="@drawable/ic_credit_card"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -326,7 +326,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_medium"
-                    android:src="@drawable/ic_date"
+                    android:src="@drawable/ic_s_archive"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -357,46 +357,46 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-                android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
-                android:gravity="center"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_tiny"
-                android:layout_height="wrap_content">
+                android:animateLayoutChanges="true"
+                android:gravity="center">
 
                 <!-- membership exp -->
                 <LinearLayout
                     android:id="@+id/ll_exp"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:visibility="gone"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:paddingTop="@dimen/margin_small"
-                    android:paddingBottom="@dimen/margin_small"
-                    android:paddingStart="@dimen/margin_small"
-                    android:paddingEnd="@dimen/margin_xTiny"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_weight="1"
                     android:background="@drawable/bg_rounded_corners_white"
-                    android:orientation="horizontal">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/margin_small"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingEnd="@dimen/margin_xTiny"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:visibility="gone">
 
                     <!-- label -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textSize="@dimen/text_size_small"
+                        android:text="@string/expiry_date"
                         android:textColor="@color/darkSkyBlue"
-                        android:text="@string/expiry_date"/>
+                        android:textSize="@dimen/text_size_small" />
 
                     <!-- date -->
                     <TextView
                         android:id="@+id/tv_subscription_exp"
-                        android:layout_weight="1"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="@color/darkSkyBlue"
-                        android:layout_height="wrap_content"
-                        tools:text="@tools:sample/date/mmddyy"/>
+                        tools:text="@tools:sample/date/mmddyy" />
 
                 </LinearLayout>
 
@@ -405,12 +405,12 @@
                     android:id="@+id/btn_renew_membership"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_weight="1"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     app:cardBackgroundColor="@color/colorSecondary"
-                    app:cardCornerRadius="@dimen/margin_small"
-                    android:layout_weight="1" >
+                    app:cardCornerRadius="@dimen/margin_small">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -418,9 +418,9 @@
                         android:gravity="center"
                         android:padding="@dimen/margin_small"
                         android:text="@string/renew_membership"
+                        android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_size_small"
-                        android:textAllCaps="true"
                         android:textStyle="bold" />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
@@ -428,7 +428,7 @@
             <ProgressBar
                 android:id="@+id/pb_exp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </ScrollView>

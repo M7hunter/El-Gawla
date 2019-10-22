@@ -7,74 +7,74 @@
     android:background="@drawable/bg_rounded_corners_white"
     app:cardCornerRadius="@dimen/margin_small"
     app:cardElevation="0dp">
-    <!-- card main layout -->
+  <!-- card main layout -->
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:orientation="vertical">
+
+    <!-- icon -->
+    <ImageView
+        android:id="@+id/join_alert_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:src="@drawable/q_mark_in_circle" />
+
+    <!-- message -->
+    <TextView
+        android:id="@+id/tv_alert_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_xx_large"
+        android:layout_marginRight="@dimen/margin_xx_large"
+        android:layout_marginBottom="@dimen/margin_large"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/margin_small"
+        android:text="@string/Attention_Details"
+        android:textColor="@color/blueGrey"
+        android:textSize="@dimen/text_size_medium" />
+
+    <!-- buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layoutDirection="ltr">
 
-        <!-- icon -->
-        <ImageView
-            android:id="@+id/join_alert_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:src="@drawable/q_mark_in_circle" />
+      <!-- negative btn -->
+      <Button
+          android:id="@+id/btn_alert_negative"
+          style="?android:attr/buttonBarButtonStyle"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="@dimen/margin_tiny"
+          android:layout_weight="1"
+          android:backgroundTint="@color/paleRed"
+          android:padding="@dimen/margin_small"
+          android:text="@string/cancel"
+          android:textColor="@android:color/white"
+          android:textStyle="bold"
+          android:visibility="visible" />
 
-        <!-- message -->
-        <TextView
-            android:id="@+id/tv_alert_body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xx_large"
-            android:layout_marginRight="@dimen/margin_xx_large"
-            android:layout_marginBottom="@dimen/margin_large"
-            android:gravity="center"
-            android:lineSpacingExtra="@dimen/margin_small"
-            android:text="@string/Attention_Details"
-            android:textColor="@color/blueGrey"
-            android:textSize="@dimen/text_size_medium" />
-
-        <!-- buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layoutDirection="ltr">
-
-            <!-- negative btn -->
-            <Button
-                android:id="@+id/btn_alert_negative"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_tiny"
-                android:layout_weight="1"
-                android:backgroundTint="@color/paleRed"
-                android:padding="@dimen/margin_small"
-                android:text="@string/cancel"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:visibility="visible" />
-
-            <!-- positive btn -->
-            <Button
-                android:id="@+id/btn_alert_positive"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
-                android:layout_weight="1"
-                android:padding="@dimen/margin_small"
-                android:text="@string/confirm"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:visibility="visible" />
-
-        </LinearLayout>
+      <!-- positive btn -->
+      <Button
+          android:id="@+id/btn_alert_positive"
+          style="?android:attr/buttonBarButtonStyle"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="@dimen/margin_tiny"
+          android:layout_marginEnd="@dimen/margin_tiny"
+          android:layout_weight="1"
+          android:padding="@dimen/margin_small"
+          android:text="@string/continue_"
+          android:textColor="@android:color/white"
+          android:textStyle="bold"
+          android:visibility="visible" />
 
     </LinearLayout>
+
+  </LinearLayout>
 </androidx.cardview.widget.CardView>

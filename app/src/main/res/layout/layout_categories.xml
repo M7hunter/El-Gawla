@@ -7,212 +7,212 @@
     android:gravity="center"
     android:visibility="visible">
 
-    <!-- vehicles -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_cat_vehicles"
-        android:layout_width="wrap_content"
+  <!-- vehicles -->
+  <androidx.cardview.widget.CardView
+      android:id="@+id/cv_cat_vehicles"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/margin_small"
+      android:layout_weight="1"
+      android:foreground="?attr/selectableItemBackground"
+      app:cardCornerRadius="@dimen/margin_small"
+      app:cardElevation="@dimen/margin_tiny">
+    <!-- card main layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_vehicles"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_small"
-        android:layout_weight="1"
-        android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="@dimen/margin_small"
-        app:cardElevation="@dimen/margin_tiny">
-        <!-- card main layout -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_vehicles"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/margin_tiny"
-            android:paddingEnd="@dimen/margin_tiny"
-            android:paddingBottom="@dimen/margin_tiny">
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/margin_tiny"
+        android:paddingEnd="@dimen/margin_tiny"
+        android:paddingBottom="@dimen/margin_tiny">
 
-            <ImageView
-                android:id="@+id/iv_cat_icon_vehicles"
-                android:layout_width="@dimen/cat_icon_dim"
-                android:layout_height="@dimen/cat_icon_dim"
-                android:layout_margin="@dimen/margin_tiny"
-                android:scaleType="centerInside"
-                android:src="@drawable/vehicles"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+      <ImageView
+          android:id="@+id/iv_cat_icon_vehicles"
+          android:layout_width="@dimen/cat_icon_dim"
+          android:layout_height="@dimen/cat_icon_dim"
+          android:layout_margin="@dimen/margin_tiny"
+          android:scaleType="centerInside"
+          android:src="@drawable/vehicles"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_cat_label_vehicles"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="@string/vehicles"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_cat_icon_vehicles" />
+      <TextView
+          android:id="@+id/tv_cat_label_vehicles"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/margin_tiny"
+          android:ellipsize="end"
+          android:gravity="center"
+          android:maxLines="1"
+          android:text="@string/vehicles"
+          android:textColor="@android:color/white"
+          android:textSize="@dimen/text_size_small"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/iv_cat_icon_vehicles" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.cardview.widget.CardView>
 
-    <!-- electronics -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_cat_electronics"
-        android:layout_width="wrap_content"
+  <!-- electronics -->
+  <androidx.cardview.widget.CardView
+      android:id="@+id/cv_cat_electronics"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="@dimen/margin_small"
+      android:layout_weight="1"
+      android:foreground="?attr/selectableItemBackground"
+      app:cardCornerRadius="@dimen/margin_small"
+      app:cardElevation="@dimen/margin_tiny">
+    <!-- card main layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_electronics"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_small"
-        android:layout_weight="1"
-        android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="@dimen/margin_small"
-        app:cardElevation="@dimen/margin_tiny">
-        <!-- card main layout -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_electronics"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/zs_avatar_view_color_15"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/margin_tiny"
-            android:paddingEnd="@dimen/margin_tiny"
-            android:paddingBottom="@dimen/margin_tiny">
+        android:background="@color/zs_avatar_view_color_15"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/margin_tiny"
+        android:paddingEnd="@dimen/margin_tiny"
+        android:paddingBottom="@dimen/margin_tiny">
 
-            <ImageView
-                android:id="@+id/iv_cat_icon_electronics"
-                android:layout_width="@dimen/cat_icon_dim"
-                android:layout_height="@dimen/cat_icon_dim"
-                android:layout_margin="@dimen/margin_tiny"
-                android:scaleType="centerInside"
-                android:src="@drawable/electronics"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+      <ImageView
+          android:id="@+id/iv_cat_icon_electronics"
+          android:layout_width="@dimen/cat_icon_dim"
+          android:layout_height="@dimen/cat_icon_dim"
+          android:layout_margin="@dimen/margin_tiny"
+          android:scaleType="centerInside"
+          android:src="@drawable/electronics"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_cat_label_electronics"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="@string/electronics"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_cat_icon_electronics" />
+      <TextView
+          android:id="@+id/tv_cat_label_electronics"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/margin_tiny"
+          android:ellipsize="end"
+          android:gravity="center"
+          android:maxLines="1"
+          android:text="@string/electronics"
+          android:textColor="@android:color/white"
+          android:textSize="@dimen/text_size_small"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/iv_cat_icon_electronics" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.cardview.widget.CardView>
 
-    <!-- real state -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_cat_real"
-        android:layout_width="wrap_content"
+  <!-- real state -->
+  <androidx.cardview.widget.CardView
+      android:id="@+id/cv_cat_real"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="@dimen/margin_small"
+      android:layout_weight="1"
+      android:foreground="?attr/selectableItemBackground"
+      app:cardCornerRadius="@dimen/margin_small"
+      app:cardElevation="@dimen/margin_tiny">
+    <!-- card main layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_real"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_small"
-        android:layout_weight="1"
-        android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="@dimen/margin_small"
-        app:cardElevation="@dimen/margin_tiny">
-        <!-- card main layout -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_real"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/design_default_color_primary"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/margin_tiny"
-            android:paddingEnd="@dimen/margin_tiny"
-            android:paddingBottom="@dimen/margin_tiny">
+        android:background="@color/design_default_color_primary"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/margin_tiny"
+        android:paddingEnd="@dimen/margin_tiny"
+        android:paddingBottom="@dimen/margin_tiny">
 
-            <ImageView
-                android:id="@+id/iv_cat_icon_real"
-                android:layout_width="@dimen/cat_icon_dim"
-                android:layout_height="@dimen/cat_icon_dim"
-                android:layout_margin="@dimen/margin_tiny"
-                android:scaleType="centerInside"
-                android:src="@drawable/real_state"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+      <ImageView
+          android:id="@+id/iv_cat_icon_real"
+          android:layout_width="@dimen/cat_icon_dim"
+          android:layout_height="@dimen/cat_icon_dim"
+          android:layout_margin="@dimen/margin_tiny"
+          android:scaleType="centerInside"
+          android:src="@drawable/real_state"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_cat_label_real"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="@string/real_state"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_cat_icon_real" />
+      <TextView
+          android:id="@+id/tv_cat_label_real"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/margin_tiny"
+          android:ellipsize="end"
+          android:gravity="center"
+          android:maxLines="1"
+          android:text="@string/real_state"
+          android:textColor="@android:color/white"
+          android:textSize="@dimen/text_size_small"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/iv_cat_icon_real" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.cardview.widget.CardView>
 
-    <!-- jewellery -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_cat_jewellery"
-        android:layout_width="wrap_content"
+  <!-- jewellery -->
+  <androidx.cardview.widget.CardView
+      android:id="@+id/cv_cat_jewellery"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="@dimen/margin_small"
+      android:layout_weight="1"
+      android:foreground="?attr/selectableItemBackground"
+      app:cardCornerRadius="@dimen/margin_small"
+      app:cardElevation="@dimen/margin_tiny">
+    <!-- card main layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_jewellery"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_small"
-        android:layout_weight="1"
-        android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="@dimen/margin_small"
-        app:cardElevation="@dimen/margin_tiny">
-        <!-- card main layout -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_jewellery"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorYellow"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/margin_tiny"
-            android:paddingEnd="@dimen/margin_tiny"
-            android:paddingBottom="@dimen/margin_tiny">
+        android:background="@color/colorYellow"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/margin_tiny"
+        android:paddingEnd="@dimen/margin_tiny"
+        android:paddingBottom="@dimen/margin_tiny">
 
-            <ImageView
-                android:id="@+id/iv_cat_icon_jewellery"
-                android:layout_width="@dimen/cat_icon_dim"
-                android:layout_height="@dimen/cat_icon_dim"
-                android:layout_margin="@dimen/margin_tiny"
-                android:scaleType="centerInside"
-                android:src="@drawable/jewellery"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+      <ImageView
+          android:id="@+id/iv_cat_icon_jewellery"
+          android:layout_width="@dimen/cat_icon_dim"
+          android:layout_height="@dimen/cat_icon_dim"
+          android:layout_margin="@dimen/margin_tiny"
+          android:scaleType="centerInside"
+          android:src="@drawable/jewellery"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_cat_label_jewellery"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="@string/jewellery"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_cat_icon_jewellery" />
+      <TextView
+          android:id="@+id/tv_cat_label_jewellery"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/margin_tiny"
+          android:ellipsize="end"
+          android:gravity="center"
+          android:maxLines="1"
+          android:text="@string/jewellery"
+          android:textColor="@android:color/white"
+          android:textSize="@dimen/text_size_small"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/iv_cat_icon_jewellery" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.cardview.widget.CardView>
 
 </LinearLayout>

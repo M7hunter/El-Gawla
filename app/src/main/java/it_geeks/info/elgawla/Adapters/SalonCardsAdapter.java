@@ -198,7 +198,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         Intent i = new Intent(context, PaymentMethodsActivity.class);
         i.putExtra("card_to_buy", card);
         i.putExtra("is_card", true);
-        context.startActivity(i);
+        context.startActivity(i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
     }
 
     private void displayConfirmationBtn(View btn, ProgressBar pb) {

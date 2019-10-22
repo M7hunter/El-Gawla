@@ -221,4 +221,5 @@
     <string name="created_at">Created At</string>
     <string name="arabic">العربية</string>
     <string name="english">english</string>
+    <string name="enter_valid_phone">enter valid phone number</string>
 </resources>

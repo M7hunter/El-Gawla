@@ -68,9 +68,9 @@ import static it_geeks.info.elgawla.views.signing.SignInActivity.providerGoogle;
 
 public class SignUpActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
-    private EditText etName, etEmail, etPass;
+    private EditText etName, etEmail, etPhone, etPass;
 
-    private TextInputLayout tl_create_name, tl_create_email, tl_create_pass;
+    private TextInputLayout tl_create_name, tl_create_email, tl_create_phone, tl_create_pass;
     private Button btnCreateAccount, btnAlreadyHaveAccount;
     private TextView tvGooglePlus, tvFacebook;
 
@@ -111,9 +111,11 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     private void initViews() {
         etName = findViewById(R.id.et_create_account_name);
         etEmail = findViewById(R.id.et_create_account_email);
+        etPhone = findViewById(R.id.et_create_account_phone);
         etPass = findViewById(R.id.et_create_account_pass);
         tl_create_name = findViewById(R.id.tl_create_name);
         tl_create_email = findViewById(R.id.tl_create_email);
+        tl_create_phone = findViewById(R.id.tl_create_phone);
         tl_create_pass = findViewById(R.id.tl_create_pass);
 
         tvGooglePlus = findViewById(R.id.tv_google_sign_up);
@@ -160,6 +162,25 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (tl_create_email.getError() != null) {
                     tl_create_email.setError(null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        etPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (tl_create_phone.getError() != null) {
+                    tl_create_phone.setError(null);
                 }
             }
 
@@ -236,17 +257,20 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     private void registerNewUser() {
         String name = etName.getText().toString();
         String email = etEmail.getText().toString();
+        String phone = etPhone.getText().toString();
         String pass = etPass.getText().toString();
         int countryId = SharedPrefManager.getInstance(SignUpActivity.this).getCountry().getCountry_id();
 
-        if (checkEntries(name, email, pass)) {
-            connectToServer(new User(name, email, pass), countryId);
+        if (checkEntries(name, email, phone, pass)) {
+            connectToServer(new User(name, email, phone, pass), countryId);
         }
     }
 
-    private boolean checkEntries(String name, String email, String pass) {
+    private boolean checkEntries(String name, String email, String phone, String pass) {
         // check if empty
         boolean bass = true;
+
+        // name
         if (name.isEmpty()) {
             tl_create_name.setError(getString(R.string.empty_hint));
             etName.requestFocus();
@@ -257,6 +281,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
             bass = false;
         } else tl_create_name.setError(null);
 
+        // email
         if (email.isEmpty()) {
             tl_create_email.setError(getString(R.string.empty_hint));
             etEmail.requestFocus();
@@ -267,6 +292,18 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
             bass = false;
         } else tl_create_email.setError(null);
 
+        // phone
+        if (phone.isEmpty()) {
+            tl_create_phone.setError(getString(R.string.empty_hint));
+            etPhone.requestFocus();
+            bass = false;
+        } else if (!Patterns.PHONE.matcher(phone).matches()) {
+            tl_create_phone.setError(getString(R.string.enter_valid_phone));
+            etPhone.requestFocus();
+            bass = false;
+        } else tl_create_phone.setError(null);
+
+        // pass
         if (pass.isEmpty()) {
             tl_create_pass.setError(getString(R.string.empty_hint));
             etPass.requestFocus();
@@ -285,8 +322,8 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     private void connectToServer(final User user, final int countryId) {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(SignUpActivity.this).executeConnectionToServer(SignUpActivity.this,
-                REQ_SIGN_UP, new Request<>(REQ_SIGN_UP, user.getName(), user.getEmail(), countryId, user.getPassword(),
-                        null, null, null), new HandleResponses() {
+                REQ_SIGN_UP, new Request<>(REQ_SIGN_UP, user.getName(), user.getEmail(), countryId, user.getPhone(), user.getPassword(),
+                        null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         // notify user

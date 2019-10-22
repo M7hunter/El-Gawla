@@ -22,8 +22,8 @@ public class Request<T> {
             this.name = t1;
             this.email = t2;
             this.country_id = t3;
-            this.password = t4;
-//            this.package_id = t5;
+            this.phone = t4;
+            this.password = t5;
         }
         else if (action.equals(Constants.REQ_SOCIAL_SIGN))
         {

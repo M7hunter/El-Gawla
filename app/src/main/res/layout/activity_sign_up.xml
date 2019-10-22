@@ -129,6 +129,33 @@
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- phone -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_create_phone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xx_large"
+            android:layout_marginEnd="@dimen/margin_xx_large"
+            android:layout_marginBottom="@dimen/margin_xTiny"
+            android:focusable="true"
+            android:hint="@string/telephone_number"
+            android:textColorHint="@color/paleGrey2"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_create_account_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:paddingStart="@dimen/margin_xlarge"
+                android:paddingTop="@dimen/margin_large"
+                android:paddingEnd="@dimen/margin_xlarge"
+                android:paddingBottom="@dimen/margin_large"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <!-- pass -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tl_create_pass"
