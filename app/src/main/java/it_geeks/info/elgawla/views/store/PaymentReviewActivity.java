@@ -23,9 +23,15 @@ public class PaymentReviewActivity extends AppCompatActivity {
 
         initViews();
 
-        getData();
-
-        bindData();
+        try
+        {
+            getData();
+            bindData();
+        }
+        catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
 
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +53,8 @@ public class PaymentReviewActivity extends AppCompatActivity {
     private void getData() {
         JSONObject paymentObj = MyJavaScriptInterface.paymentObj;
 
-        try {
+        try
+        {
             paymentId = paymentObj.getString("paymentid");
             result = paymentObj.getString("result");
             amount = paymentObj.getString("amt");
@@ -62,21 +69,19 @@ public class PaymentReviewActivity extends AppCompatActivity {
             Log.d("json_obj_HERE/trackId", trackId);
             Log.d("json_obj_HERE/createdAt", createdAt);
 
-        } catch (JSONException e) {
+        }
+        catch (JSONException e)
+        {
             e.printStackTrace();
         }
     }
 
     private void bindData() {
         tvPaymentId.setText(paymentId);
-        tvResult.setText(bindResult());
+        tvResult.setText("CAPTURED".equals(result) ? R.string.captured : R.string.not_capturred);
         tvAmount.setText(amount);
         tvTransId.setText(transactionId);
         tvTrackId.setText(trackId);
         tvCreatedAt.setText(createdAt);
-    }
-
-    private int bindResult() {
-        return result.equals("CAPTURED") ? R.string.captured : R.string.not_capturred;
     }
 }

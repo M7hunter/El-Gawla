@@ -330,10 +330,8 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                         snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
                         // save user data locally
                         cacheUserData(mainObject, getResources().getString(R.string.app_name));
-
-                        Common.Instance().updateFirebaseToken(SignUpActivity.this);
                         // goto next page
-                        startActivity(MembershipActivity.class);
+                        startActivity(ActivationActivity.class);
                     }
 
                     @Override

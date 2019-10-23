@@ -25,6 +25,9 @@ import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.repository.Models.Data;
 import it_geeks.info.elgawla.repository.Models.RequestMainBody;
 import it_geeks.info.elgawla.util.Common;
+import it_geeks.info.elgawla.util.DialogBuilder;
+import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
+import it_geeks.info.elgawla.views.account.MembershipActivity;
 import it_geeks.info.elgawla.views.signing.SignInActivity;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -80,10 +83,12 @@ public class RetrofitClient {
         // gawla server : http://elgawla.net/dev/public/api/v1/en/
         // gawla server ip : http://134.209.0.250/dev/public/api/v1/en/
 
-        if ("ar".equals(SharedPrefManager.getInstance(context).getSavedLang())) {
-            return  "ar";
-        } else {
-            return  "en";
+        if ("ar".equals(SharedPrefManager.getInstance(context).getSavedLang()))
+        {
+            return "ar";
+        } else
+        {
+            return "en";
         }
     }
 
@@ -138,7 +143,8 @@ public class RetrofitClient {
                                 // dynamic with each call
                                 HandleResponses.handleTrueResponse(mainObj);
 
-                            } catch (NullPointerException | UnsupportedOperationException e)
+                            }
+                            catch (NullPointerException | UnsupportedOperationException e)
                             { // errors of response body 'maybe response body has been changed'
                                 e.printStackTrace();
                                 Crashlytics.logException(e);
@@ -162,6 +168,22 @@ public class RetrofitClient {
                             Toast.makeText(context, context.getString(R.string.logged_from_other_device), Toast.LENGTH_LONG).show();
 
                             break;
+                        case 412:
+                            DialogBuilder dialogBuilder = new DialogBuilder();
+                            dialogBuilder.createAlertDialog(context, context.getString(R.string.must_renew_membership),
+                                    new ClickInterface.AlertButtonsClickListener() {
+                                        @Override
+                                        public void onPositiveClick() {
+                                            context.startActivity(new Intent(context, MembershipActivity.class));
+                                        }
+
+                                        @Override
+                                        public void onNegativeCLick() {
+
+                                        }
+                                    });
+
+                            break;
                         default: // code != (200 || 203)
                             try
                             {
@@ -176,13 +198,15 @@ public class RetrofitClient {
                                 Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "onResponse!successful: " + serverError);
 
-                            } catch (JsonSyntaxException e)
+                            }
+                            catch (JsonSyntaxException e)
                             {
                                 e.printStackTrace();
                                 Crashlytics.logException(e);
                                 Toast.makeText(context, context.getString(R.string.error_occurred), Toast.LENGTH_SHORT).show();
                                 Log.e(TAG, "JsonSyntaxException: " + e.getMessage());
-                            } catch (IOException e)
+                            }
+                            catch (IOException e)
                             {
                                 e.printStackTrace();
                                 Crashlytics.logException(e);
@@ -191,7 +215,8 @@ public class RetrofitClient {
                             break;
                     }
 
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     e.printStackTrace();
                     Crashlytics.logException(e);

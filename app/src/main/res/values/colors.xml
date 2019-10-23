@@ -9,6 +9,7 @@
 
   <color name="colorOverlay">#3E7A7A7A</color>
   <color name="colorOverlayLight">#167A7A7A</color>
+  <color name="ic_launcher_background">#3866D1</color>
 
   <!-- palette -->
   <color name="BlueDark">#23479c</color>
@@ -37,5 +38,4 @@
   <color name="azureTwo">#24aaf6</color>
   <color name="greenBlue">#21B594</color>
   <color name="paleGreyTwo">#dfe6ee</color>
-  <color name="ic_launcher_background">#FFFFFF</color>
 </resources>

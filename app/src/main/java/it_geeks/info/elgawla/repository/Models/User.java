@@ -22,6 +22,8 @@ public class User {
 
   private String password;
 
+  private boolean active;
+
   public User(String name, String email, String phone, String password) {
     this.name = name;
     this.email = email;
@@ -49,6 +51,18 @@ public class User {
     this.image = image;
     this.email = email;
     this.membership = membership;
+    this.gender = gender;
+    this.phone = phone;
+  }
+
+  public User(int user_id, String api_token, String name, int country_id, String image, String email, boolean active, String gender, String phone) {
+    this.user_id = user_id;
+    this.api_token = api_token;
+    this.name = name;
+    this.country_id = country_id;
+    this.image = image;
+    this.email = email;
+    this.active = active;
     this.gender = gender;
     this.phone = phone;
   }
@@ -131,5 +145,13 @@ public class User {
 
   public void setPhone(String phone) {
     this.phone = phone;
+  }
+
+  public boolean isActive() {
+    return active;
+  }
+
+  public void setActive(boolean active) {
+    this.active = active;
   }
 }

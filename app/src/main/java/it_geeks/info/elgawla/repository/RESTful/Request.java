@@ -4,7 +4,7 @@ import it_geeks.info.elgawla.util.Constants;
 
 public class Request<T> {
 
-    private T phone, gender, join_time, left_time, offer, package_id,
+    private T phone, gender, join_time, left_time, offer, package_id, code,
             provider, provider_id, provider_name, provider_email, provider_image, firebase_token, payment_method,
             name, api_token, image, password, email, message,
             category_id, salon_id, round_id, card_id, user_id, country_id,
@@ -37,6 +37,10 @@ public class Request<T> {
         else if (action.equals(Constants.REQ_FORGOT_PASSWORD))
         {
             this.email = t1;
+        }else if (action.equals(Constants.REQ_USER_ACTIVATION))
+        {
+            this.user_id = t1;
+            this.code = t2;
         }
         else if (action.equals(Constants.REQ_GET_ALL_COUNTRIES))
         {

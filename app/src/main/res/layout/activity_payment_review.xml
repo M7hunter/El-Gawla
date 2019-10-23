@@ -142,7 +142,7 @@
                     android:layout_weight="1.5"
                     android:gravity="start"
                     android:textSize="@dimen/text_size_medium"
-                    tools:text="cap" />
+                    tools:text="@string/captured" />
 
             </LinearLayout>
 
@@ -282,7 +282,7 @@
                     android:layout_weight="1.5"
                     android:gravity="start"
                     android:textSize="@dimen/text_size_medium"
-                    tools:text="69876234958" />
+                    tools:text="@tools:sample/date/mmddyy" />
 
             </LinearLayout>
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import it_geeks.info.elgawla.Adapters.MyCardsAdapter;
@@ -66,6 +67,7 @@ public class MyCardsActivity extends AppCompatActivity {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         myCardsList = ParseResponses.parseMyCards(mainObject);
+                        Collections.reverse(myCardsList);
                     }
 
                     @Override
@@ -86,11 +88,11 @@ public class MyCardsActivity extends AppCompatActivity {
     private void initRecycler() {
         if (myCardsList.size() > 0) {
             myCardsRecycler.setHasFixedSize(true);
-            myCardsRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, true));
+            myCardsRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
             myCardsRecycler.setAdapter(new MyCardsAdapter(this, myCardsList, snackBuilder));
+
             myCardsEmptyView.setVisibility(View.GONE);
             myCardsRecycler.setVisibility(View.VISIBLE);
-            myCardsRecycler.scrollToPosition(myCardsList.size() - 1);
         } else {
             myCardsEmptyView.setVisibility(View.VISIBLE);
             myCardsRecycler.setVisibility(View.GONE);

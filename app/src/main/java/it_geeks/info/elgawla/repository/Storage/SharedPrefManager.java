@@ -125,7 +125,7 @@ public class SharedPrefManager {
 
     public String getLastMethod() {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_PAY_METHOD, MODE_PRIVATE);
-        return sharedPreferences.getString("method", Constants.GOOGLEPAY);
+        return sharedPreferences.getString("method", Constants.KNET);
     }
     // endregion
 
@@ -168,7 +168,7 @@ public class SharedPrefManager {
         editor.putInt("country_id", user.getCountry_id());
         editor.putString("userImage", user.getImage());
         editor.putString("userEmail", user.getEmail());
-        editor.putString("membership", user.getMembership());
+        editor.putBoolean("userActive", user.isActive());
         editor.putString("gender", user.getGender());
         editor.putString("phone", user.getPhone());
 
@@ -192,7 +192,7 @@ public class SharedPrefManager {
                 sharedPreferences.getInt("country_id", NULL_INT_VALUE),
                 sharedPreferences.getString("userImage", null),
                 sharedPreferences.getString("userEmail", null),
-                sharedPreferences.getString("membership", null),
+                sharedPreferences.getBoolean("userActive", false),
                 sharedPreferences.getString("gender", null),
                 sharedPreferences.getString("phone", null)
         );

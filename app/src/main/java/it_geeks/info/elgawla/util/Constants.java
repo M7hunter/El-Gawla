@@ -51,6 +51,7 @@ public class Constants {
     public static final String REQ_DEACTIVATE_USER_ACCOUNT = "deactivateUserAccountByID";
     public static final String REQ_SET_MEMBERSHIP = "setUserMembership";
     public static final String REQ_CHECK_SUBSCRIPTION = "checkSubscribe";
+    public static final String REQ_USER_ACTIVATION = "userActivation";
 
     // sign
     public static final String REQ_SIGN_UP = "register";

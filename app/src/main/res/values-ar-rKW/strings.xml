@@ -222,4 +222,7 @@
     <string name="track_id">رقم التتبع</string>
     <string name="transaction_id">رقم المعاملة</string>
     <string name="enter_valid_phone">أدخل رقم هاتف صالح</string>
+    <string name="activation">التفعيل</string>
+    <string name="enter_activation_code">ادخل رمز التفعيل \n قد يأخد بعض الوقت للوصول إليك</string>
+    <string name="must_renew_membership">يجب تجديد عضويتك اولا</string>
 </resources>

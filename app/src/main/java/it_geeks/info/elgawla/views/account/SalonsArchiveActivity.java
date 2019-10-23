@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import it_geeks.info.elgawla.Adapters.MySalonsArchiveAdapter;
@@ -65,6 +66,7 @@ public class SalonsArchiveActivity extends AppCompatActivity {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         salonArchiveList = ParseResponses.parseSalonsArchive(mainObject);
+                        Collections.reverse(salonArchiveList);
                     }
 
                     @Override

@@ -187,6 +187,20 @@ public class ParseResponses {
                 userObj.get("phone").getAsString());
     }
 
+    public static User parseActiveUser(JsonObject object) {
+        JsonObject userObj = object.get("user").getAsJsonObject();
+
+        return new User(userObj.get("id").getAsInt(),
+                userObj.get("api_token").getAsString(),
+                userObj.get("name").getAsString(),
+                userObj.get("country_id").getAsInt(),
+                userObj.get("image").getAsString(),
+                userObj.get("email").getAsString(),
+                userObj.get("active").getAsBoolean(),
+                userObj.get("gender").getAsString(),
+                userObj.get("phone").getAsString());
+    }
+
     public static List<Category> parseCategories(JsonObject object) {
         List<Category> categories = new ArrayList<>();
         JsonArray categoriesArray = object.get("categories").getAsJsonArray();
@@ -245,7 +259,8 @@ public class ParseResponses {
             try
             {
                 salon_id = cardObj.get("salon_id").getAsInt();
-            } catch (UnsupportedOperationException e)
+            }
+            catch (UnsupportedOperationException e)
             {
                 salon_id = Constants.NULL_INT_VALUE;
             }
@@ -474,7 +489,8 @@ public class ParseResponses {
             {
                 error = errors.get(i).getAsString();
             }
-        } catch (NullPointerException e)
+        }
+        catch (NullPointerException e)
         {
             e.printStackTrace();
             Crashlytics.logException(e);

@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -66,6 +67,7 @@ public class InvoicesActivity extends AppCompatActivity {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         invoiceList = ParseResponses.parseInvoices(mainObject);
+                        Collections.reverse(invoiceList);
                     }
 
                     @Override
@@ -96,11 +98,10 @@ public class InvoicesActivity extends AppCompatActivity {
     private void initRecycler() {
         if (invoiceList.size() > 0) {
             buyingProcessRecycler.setHasFixedSize(true);
-            buyingProcessRecycler.setLayoutManager(new LinearLayoutManager(InvoicesActivity.this, RecyclerView.VERTICAL, true));
+            buyingProcessRecycler.setLayoutManager(new LinearLayoutManager(InvoicesActivity.this, RecyclerView.VERTICAL, false));
             buyingProcessRecycler.setAdapter(new InvoicesAdapter(this, invoiceList));
 
             tvEmptyView.setVisibility(View.GONE);
-            buyingProcessRecycler.scrollToPosition(invoiceList.size() - 1);
         } else {
             tvEmptyView.setVisibility(View.VISIBLE);
         }

@@ -55,8 +55,8 @@ class MyJavaScriptInterface {
                 }
             }
 
-//            for (String jo : jsonList)
-//                Log.d("json_obj", jo);
+            for (String jo : jsonList)
+                Log.d("json_obj", jo);
 
             try {
                 JSONObject jo = new JSONObject(jsonList.get(0));

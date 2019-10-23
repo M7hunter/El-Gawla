@@ -91,6 +91,7 @@
     <string name="save">Save</string>
     <string name="country">Country</string>
     <string name="renew_membership">Renew membership</string>
+    <string name="must_renew_membership">must renew your membership first</string>
     <string name="app_notification">App Notification</string>
     <string name="notification">Notification</string>
     <string name="all_salons">All salons</string>
@@ -222,4 +223,6 @@
     <string name="arabic">العربية</string>
     <string name="english">english</string>
     <string name="enter_valid_phone">enter valid phone number</string>
+    <string name="activation">activation</string>
+    <string name="enter_activation_code">enter activation code \n  it may take a while to reach you</string>
 </resources>
