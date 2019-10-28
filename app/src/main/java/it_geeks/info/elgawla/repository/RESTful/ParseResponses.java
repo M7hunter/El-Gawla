@@ -387,7 +387,6 @@ public class ParseResponses {
         return packages;
     }
 
-
     public static List<Invoice> parseInvoices(JsonObject object) {
         JsonArray packagesArray = object.get("invoices").getAsJsonArray();
 

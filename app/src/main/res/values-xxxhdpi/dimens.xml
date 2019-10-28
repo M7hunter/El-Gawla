@@ -10,14 +10,16 @@
     <dimen name="margin_xx_large">38dp</dimen>
     <dimen name="margin_xxx_large">55dp</dimen>
     <dimen name="margin_xxxx_large">65dp</dimen>
+    <dimen name="margin_xxxxx_large">90dp</dimen>
 
     <!-- text sizes -->
     <dimen name="text_size_tiny">12sp</dimen>
     <dimen name="text_size_small">15sp</dimen>
-    <dimen name="text_size_medium">18sp</dimen>
-    <dimen name="text_size_large">21sp</dimen>
-    <dimen name="text_size_xlarge">24sp</dimen>
-    <dimen name="text_size_xx_large">27sp</dimen>
+    <dimen name="text_size_x_small">17sp</dimen>
+    <dimen name="text_size_medium">19sp</dimen>
+    <dimen name="text_size_large">22sp</dimen>
+    <dimen name="text_size_xlarge">25sp</dimen>
+    <dimen name="text_size_xx_large">29sp</dimen>
 
     <!-- icons & images -->
     <dimen name="logo_width">170dp</dimen>

@@ -10,10 +10,12 @@
     <dimen name="margin_xx_large">32dp</dimen>
     <dimen name="margin_xxx_large">45dp</dimen>
     <dimen name="margin_xxxx_large">52dp</dimen>
+    <dimen name="margin_xxxxx_large">70dp</dimen>
 
     <!-- text sizes -->
     <dimen name="text_size_tiny">8sp</dimen>
     <dimen name="text_size_small">11sp</dimen>
+    <dimen name="text_size_x_small">12.5sp</dimen>
     <dimen name="text_size_medium">14sp</dimen>
     <dimen name="text_size_large">17sp</dimen>
     <dimen name="text_size_xlarge">20sp</dimen>
@@ -30,7 +32,6 @@
     <dimen name="image_news">70dp</dimen>
     <dimen name="image_account">100dp</dimen>
     <dimen name="image_cards_round_updates">60dp</dimen>
-    <!-- <<<< -->
 
     <!-- mix -->
     <dimen name="my_rounds_empty_view_min_height">400dp</dimen>
@@ -41,4 +42,5 @@
     <dimen name="single_card_width">85dp</dimen>
     <dimen name="cat_icon_dim">50dp</dimen>
     <dimen name="user_image">60dp</dimen>
+
 </resources>

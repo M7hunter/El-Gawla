@@ -8,12 +8,18 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 
+import java.util.List;
 import java.util.Random;
 
 import androidx.core.app.NotificationCompat;
 
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import it_geeks.info.elgawla.R;
+import it_geeks.info.elgawla.repository.Models.Notification;
+import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.receivers.NotificationInteractionsReceiver;
 import it_geeks.info.elgawla.views.signing.SignInActivity;
@@ -41,6 +47,23 @@ public class NotificationBuilder {
     public NotificationBuilder(Context context) {
         this.context = context;
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
+
+    public static void listenToNotificationStatus(final Context context, final View indicator) {
+        // notification status LiveData
+        if (SharedPrefManager.getInstance(context).isNotificationEnabled())
+            GawlaDataBse.getInstance(context).notificationDao().getStatusNotification(true).observe((LifecycleOwner) context, new Observer<List<Notification>>() {
+                @Override
+                public void onChanged(List<Notification> notifications) {
+                    if (notifications.size() > 0)
+                    {
+                        indicator.setVisibility(View.VISIBLE);
+                    } else
+                    {
+                        indicator.setVisibility(View.INVISIBLE);
+                    }
+                }
+            });
     }
 
     public void createRemoteChannel() {
@@ -159,13 +182,11 @@ public class NotificationBuilder {
             if (context instanceof NotificationActivity)
             {
                 ((NotificationActivity) context).recreate();
-            }
-            else
+            } else
             {
                 intent = new Intent(context, NotificationActivity.class);
             }
-        }
-        else
+        } else
         {
             if (!(context instanceof SignInActivity))
             {

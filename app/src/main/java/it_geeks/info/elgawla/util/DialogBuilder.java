@@ -15,27 +15,27 @@ import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 
 public class DialogBuilder {
 
-    private AlertDialog loadingDialog;
+    private AlertDialog loadingDialog, alertDialog;
+    private TextView tvAlertText;
     private Activity activity;
 
-    public void createAlertDialog(Context context, String message, final ClickInterface.AlertButtonsClickListener clickListener) {
+    public void createAlertDialog(Context context, final ClickInterface.AlertButtonsClickListener clickListener) {
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context, R.style.CustomAlertDialogStyle);
         View dialogView = LayoutInflater.from(context).inflate(R.layout.layout_alert_dialog, null);
 
-        ((TextView) dialogView.findViewById(R.id.tv_alert_body)).setText(message);
+        tvAlertText = dialogView.findViewById(R.id.tv_alert_body);
         Button btnPositive = dialogView.findViewById(R.id.btn_alert_positive);
         Button btnNegative = dialogView.findViewById(R.id.btn_alert_negative);
 
         dialogBuilder.setView(dialogView);
 
-        final AlertDialog dialog = dialogBuilder.create();
-
+        alertDialog = dialogBuilder.create();
 
         btnPositive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickListener.onPositiveClick();
-                dialog.dismiss();
+                alertDialog.dismiss();
             }
         });
 
@@ -43,11 +43,22 @@ public class DialogBuilder {
             @Override
             public void onClick(View v) {
                 clickListener.onNegativeCLick();
-                dialog.dismiss();
+                alertDialog.dismiss();
             }
         });
+    }
 
-        dialog.show();
+    public DialogBuilder setAlertText(String message) {
+        if (alertDialog != null && tvAlertText != null)
+        {
+            tvAlertText.setText(message);
+        }
+
+        return this;
+    }
+
+    public void displayAlertDialog() {
+        alertDialog.show();
     }
 
     public void createLoadingDialog(Context context) {

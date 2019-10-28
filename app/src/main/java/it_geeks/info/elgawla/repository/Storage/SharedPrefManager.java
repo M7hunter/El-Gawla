@@ -2,6 +2,9 @@ package it_geeks.info.elgawla.repository.Storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.os.Build;
+import android.webkit.WebView;
 
 import java.util.Locale;
 
@@ -131,6 +134,30 @@ public class SharedPrefManager {
 
     // region lang
     public void setLang(String lang) {
+        try
+        {
+            new WebView(context).destroy();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        Locale locale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            locale = new Locale(lang, "kw");
+        }
+        else
+        {
+            locale = new Locale(lang);
+        }
+
+        Configuration configuration = context.getResources().getConfiguration();
+        configuration.setLocale(locale);
+        Locale.setDefault(locale);
+
+        context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_LANG, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -141,17 +168,17 @@ public class SharedPrefManager {
         editor.apply();
     }
 
+    public String getSavedLang() {
+        String defaultLang =  Locale.getDefault().getLanguage();
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_LANG, MODE_PRIVATE);
+        return sharedPreferences.getString("lang", defaultLang != null ? defaultLang : "ar"); // if null return device default language || ar
+    }
+
     public boolean isLangChanged() {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_LANG, MODE_PRIVATE);
         boolean changed = sharedPreferences.getBoolean("langChanged", false);
         sharedPreferences.edit().putBoolean("langChanged", false).apply();
         return changed;
-    }
-
-    public String getSavedLang() {
-        String defaultLang =  Locale.getDefault().getLanguage();
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_LANG, MODE_PRIVATE);
-        return sharedPreferences.getString("lang", defaultLang != null ? defaultLang : "ar"); // if null return device default language
     }
     // endregion
 

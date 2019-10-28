@@ -23,7 +23,7 @@ import it_geeks.info.elgawla.repository.RESTful.Request;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.ImageLoader;
-import it_geeks.info.elgawla.util.NotificationStatus;
+import it_geeks.info.elgawla.util.NotificationBuilder;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
 
@@ -92,7 +92,7 @@ public class AccountFragment extends Fragment {
         View bellIndicator = view.findViewById(R.id.bell_indicator);
 
         // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(), bellIndicator);
+        NotificationBuilder.listenToNotificationStatus(context, bellIndicator);
     }
 
     private void handleEvents(View v) {

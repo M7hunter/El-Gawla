@@ -2,18 +2,15 @@ package it_geeks.info.elgawla.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
@@ -27,7 +24,6 @@ import com.google.gson.JsonObject;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -57,33 +53,6 @@ public class Common {
             common = new Common();
         }
         return common;
-    }
-
-    public void setLang(Context context, String lang) {
-        try
-        {
-            new WebView(context).destroy();
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        Locale locale;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            locale = new Locale(lang, "kw");
-        }
-        else
-        {
-            locale = new Locale(lang);
-        }
-
-        Configuration configuration = context.getResources().getConfiguration();
-        configuration.setLocale(locale);
-        Locale.setDefault(locale);
-
-        context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
-        SharedPrefManager.getInstance(context).setLang(lang);
     }
 
     // remove unneeded quotes

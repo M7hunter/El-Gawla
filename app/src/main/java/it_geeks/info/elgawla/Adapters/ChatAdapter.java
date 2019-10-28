@@ -43,14 +43,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.Holder> {
         if (chatModel.getId() == SharedPrefManager.getInstance(context).getUser().getUser_id())
         { // this user
             holder.chatUsername.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-            holder.chatMessage.setTextColor(context.getResources().getColor(R.color.ic_launcher_background));
+            holder.chatMessage.setTextColor(Color.WHITE);
             holder.messageTime.setTextColor(Color.GRAY);
             holder.chatMessage.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_bottom_corners_primary));
         }
         else
         { // others
-            holder.chatUsername.setTextColor(context.getResources().getColor(R.color.browser_actions_text_color));
-            holder.chatMessage.setTextColor(context.getResources().getColor(R.color.browser_actions_text_color));
+            holder.chatUsername.setTextColor(Color.BLACK);
+            holder.chatMessage.setTextColor(Color.BLACK);
             holder.messageTime.setTextColor(Color.GRAY);
             holder.chatMessage.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_bottom_corners_pale_grey));
         }

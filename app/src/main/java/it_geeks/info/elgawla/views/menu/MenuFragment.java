@@ -3,9 +3,7 @@ package it_geeks.info.elgawla.views.menu;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PointF;
 import android.os.Bundle;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +28,7 @@ import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
-import it_geeks.info.elgawla.util.NotificationStatus;
+import it_geeks.info.elgawla.util.NotificationBuilder;
 import it_geeks.info.elgawla.views.intro.SplashScreenActivity;
 import it_geeks.info.elgawla.views.signing.SignInActivity;
 import it_geeks.info.elgawla.R;
@@ -87,11 +85,35 @@ public class MenuFragment extends Fragment {
         View bellIndicator = view.findViewById(R.id.bell_indicator);
 
         // notification status LiveData
-        NotificationStatus.notificationStatus(context, bellIndicator);
+        NotificationBuilder.listenToNotificationStatus(context, bellIndicator);
 
         ImageLoader.getInstance().load(SharedPrefManager.getInstance(context).getCountry().getImage(), imCountryIcon);
 
         dialogBuilder = new DialogBuilder();
+        dialogBuilder.createAlertDialog(getContext(), new ClickInterface.AlertButtonsClickListener() {
+            @Override
+            public void onPositiveClick() {
+                SharedPrefManager.getInstance(getActivity()).clearUser();
+                SharedPrefManager.getInstance(getActivity()).clearProvider();
+                LoginManager.getInstance().logOut();
+                if (mGoogleApiClient.isConnected())
+                {
+                    Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                    mGoogleApiClient.disconnect();
+                    mGoogleApiClient.connect();
+                }
+
+                disableNotification();
+                startActivity(new Intent(getActivity(), SignInActivity.class));
+                ((Activity) context).finish();
+            }
+
+            @Override
+            public void onNegativeCLick() {
+
+            }
+        });
+        dialogBuilder.setAlertText(getString(R.string.sign_out_hint));
     }
 
     private void handleEvents(View view) {
@@ -133,28 +155,7 @@ public class MenuFragment extends Fragment {
         view.findViewById(R.id.menu_option_logout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogBuilder.createAlertDialog(getContext(), getString(R.string.sign_out_hint), new ClickInterface.AlertButtonsClickListener() {
-                    @Override
-                    public void onPositiveClick() {
-                        SharedPrefManager.getInstance(getActivity()).clearUser();
-                        SharedPrefManager.getInstance(getActivity()).clearProvider();
-                        LoginManager.getInstance().logOut();
-                        if (mGoogleApiClient.isConnected()) {
-                            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                            mGoogleApiClient.disconnect();
-                            mGoogleApiClient.connect();
-                        }
-
-                        disableNotification();
-                        startActivity(new Intent(getActivity(), SignInActivity.class));
-                        ((Activity) context).finish();
-                    }
-
-                    @Override
-                    public void onNegativeCLick() {
-
-                    }
-                });
+                dialogBuilder.displayAlertDialog();
             }
         });
 
@@ -173,14 +174,18 @@ public class MenuFragment extends Fragment {
     }
 
     private void initWebViewRecycler() {
-        try {
+        try
+        {
             List<WebPage> pages = ((SplashScreenActivity) SplashScreenActivity.splashInstance).webPageList;
-            if (pages != null && pages.size() > 0) {
+            if (pages != null && pages.size() > 0)
+            {
                 webViewsRecycler.setHasFixedSize(true);
                 webViewsRecycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
                 webViewsRecycler.setAdapter(new WebViewAdapter(getContext(), pages));
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
     }

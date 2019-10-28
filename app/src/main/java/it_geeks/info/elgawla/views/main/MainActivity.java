@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Common.Instance().setLang(this, SharedPrefManager.getInstance(this).getSavedLang());
+        SharedPrefManager.getInstance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

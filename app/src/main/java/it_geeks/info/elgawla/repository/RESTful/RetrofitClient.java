@@ -47,6 +47,8 @@ public class RetrofitClient {
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
 
+    private DialogBuilder dialogBuilder;
+
     private Call<JsonObject> call;
 
     private RetrofitClient(Context context) {
@@ -169,19 +171,11 @@ public class RetrofitClient {
 
                             break;
                         case 412:
-                            DialogBuilder dialogBuilder = new DialogBuilder();
-                            dialogBuilder.createAlertDialog(context, context.getString(R.string.must_renew_membership),
-                                    new ClickInterface.AlertButtonsClickListener() {
-                                        @Override
-                                        public void onPositiveClick() {
-                                            context.startActivity(new Intent(context, MembershipActivity.class));
-                                        }
+                            if (dialogBuilder == null) {
+                                initRenewMembershipAlert(context);
+                            }
 
-                                        @Override
-                                        public void onNegativeCLick() {
-
-                                        }
-                                    });
+                            dialogBuilder.displayAlertDialog();
 
                             break;
                         default: // code != (200 || 203)
@@ -240,6 +234,24 @@ public class RetrofitClient {
                 HandleResponses.handleConnectionErrors(t.getLocalizedMessage());
             }
         };
+    }
+
+    private void initRenewMembershipAlert(final Context context) {
+        dialogBuilder = new DialogBuilder();
+        dialogBuilder.createAlertDialog(context,
+                new ClickInterface.AlertButtonsClickListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        context.startActivity(new Intent(context, MembershipActivity.class));
+                    }
+
+                    @Override
+                    public void onNegativeCLick() {
+
+                    }
+                });
+
+        dialogBuilder.setAlertText(context.getString(R.string.must_renew_membership));
     }
 
     public void cancelCall() {

@@ -36,7 +36,7 @@ import it_geeks.info.elgawla.repository.Storage.ProductImageDao;
 import it_geeks.info.elgawla.repository.Storage.RoundDao;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.Interfaces.ConnectionInterface;
-import it_geeks.info.elgawla.util.NotificationStatus;
+import it_geeks.info.elgawla.util.NotificationBuilder;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Category;
@@ -145,7 +145,7 @@ public class AllSalonsActivity extends AppCompatActivity {
         View bellIndicator = findViewById(R.id.bell_indicator);
 
         // notification status LiveData
-        NotificationStatus.notificationStatus(this, bellIndicator);
+        NotificationBuilder.listenToNotificationStatus(this, bellIndicator);
 
         // notification onClick
         findViewById(R.id.iv_notification_bell).setOnClickListener(new View.OnClickListener() {

@@ -91,6 +91,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         initProvider();
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
+        initDisconnectDialog();
 
         snackBuilder = new SnackBuilder(findViewById(R.id.pass_main_layout));
     }
@@ -180,7 +181,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     private void deleteAccountDialog() {
-        dialogBuilder.createAlertDialog(this, getString(R.string.delete_account_hint), new ClickInterface.AlertButtonsClickListener() {
+        dialogBuilder.createAlertDialog(this, new ClickInterface.AlertButtonsClickListener() {
             @Override
             public void onPositiveClick() {
                 deleteAccount();
@@ -191,6 +192,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
             }
         });
+
+        dialogBuilder.setAlertText( getString(R.string.delete_account_hint));
     }
 
     private void deleteAccount() {
@@ -222,8 +225,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
         );
     }
 
-    private void disconnectDialog() {
-        dialogBuilder.createAlertDialog(this, getString(R.string.disconnect) + " ?", new ClickInterface.AlertButtonsClickListener() {
+    private void initDisconnectDialog() {
+        dialogBuilder.createAlertDialog(this, new ClickInterface.AlertButtonsClickListener() {
             @Override
             public void onPositiveClick() {
                 disconnect();
@@ -234,6 +237,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
             }
         });
+        dialogBuilder.setAlertText(getString(R.string.disconnect) + " ?");
     }
 
     private void disconnect() {
@@ -288,7 +292,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     break;
 
                 case R.id.social_out:
-                    disconnectDialog();
+                    dialogBuilder.displayAlertDialog();
                     break;
             }
         }

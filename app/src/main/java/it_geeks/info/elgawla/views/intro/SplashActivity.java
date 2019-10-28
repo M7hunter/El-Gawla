@@ -49,9 +49,11 @@ public class SplashActivity extends AppCompatActivity {
         ivSACheck = findViewById(R.id.sa_check);
         ivUSCheck = findViewById(R.id.us_check);
 
-        if ("ar".equals(SharedPrefManager.getInstance(this).getSavedLang())) {
+        if ("ar".equals(SharedPrefManager.getInstance(this).getSavedLang()))
+        {
             selectArabic();
-        } else {
+        } else
+        {
             selectEnglish();
         }
 
@@ -59,7 +61,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectArabic();
-                Common.Instance().setLang(SplashActivity.this, "ar");
+                SharedPrefManager.getInstance(SplashActivity.this).setLang("ar");
             }
         });
 
@@ -67,7 +69,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectEnglish();
-                Common.Instance().setLang(SplashActivity.this, "en");
+                SharedPrefManager.getInstance(SplashActivity.this).setLang("en");
             }
         });
 
@@ -107,10 +109,12 @@ public class SplashActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (selected) {
+                if (selected)
+                {
                     if (position != 0)
                         saveAndProceed(position);
-                } else {
+                } else
+                {
                     selected = true;
                 }
             }

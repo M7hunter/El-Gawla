@@ -34,7 +34,7 @@ import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.Constants;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
-import it_geeks.info.elgawla.util.NotificationStatus;
+import it_geeks.info.elgawla.util.NotificationBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
 import it_geeks.info.elgawla.views.account.ProfileActivity;
@@ -97,7 +97,7 @@ public class StoreFragment extends Fragment {
         View bellIndicator = fragmentView.findViewById(R.id.bell_indicator);
 
         // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(), bellIndicator);
+        NotificationBuilder.listenToNotificationStatus(getContext(), bellIndicator);
 
         snackBuilder = new SnackBuilder(fragmentView.findViewById(R.id.store_main_layout));
         // load user image
@@ -131,8 +131,7 @@ public class StoreFragment extends Fragment {
                 noConnectionLayout.setVisibility(View.GONE);
             }
             updateCategoriesFromServer();
-        }
-        else
+        } else
         {
             noConnectionLayout.setVisibility(View.VISIBLE);
             emptyViewLayout.setVisibility(View.GONE);
@@ -189,16 +188,14 @@ public class StoreFragment extends Fragment {
                         startActivity(i);
                     }
                 }));
-            }
-            else
+            } else
             {
                 categoriesRecycler.getAdapter().notifyDataSetChanged();
             }
 
             if (pbRecycler.getVisibility() == View.VISIBLE)
                 Common.Instance().hideProgress(categoriesRecycler, pbRecycler);
-        }
-        else
+        } else
         {
             emptyViewLayout.setVisibility(View.VISIBLE);
             pbRecycler.setVisibility(View.GONE);

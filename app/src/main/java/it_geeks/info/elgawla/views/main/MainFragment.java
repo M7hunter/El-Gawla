@@ -47,7 +47,7 @@ import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.Constants;
 import it_geeks.info.elgawla.util.ImageLoader;
-import it_geeks.info.elgawla.util.NotificationStatus;
+import it_geeks.info.elgawla.util.NotificationBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.account.ProfileActivity;
 import it_geeks.info.elgawla.views.salon.AllSalonsActivity;
@@ -140,7 +140,7 @@ public class MainFragment extends Fragment {
         View bellIndicator = fragmentView.findViewById(R.id.bell_indicator);
 
         // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(), bellIndicator);
+        NotificationBuilder.listenToNotificationStatus(context, bellIndicator);
 
         // load user image
         ImageLoader.getInstance().loadUserImage(context, ((ImageView) fragmentView.findViewById(R.id.iv_user_image)));

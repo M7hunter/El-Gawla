@@ -27,7 +27,7 @@ import it_geeks.info.elgawla.Adapters.SalonsAdapter;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.ImageLoader;
-import it_geeks.info.elgawla.util.NotificationStatus;
+import it_geeks.info.elgawla.util.NotificationBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.repository.RESTful.Request;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
@@ -105,7 +105,7 @@ public class MySalonsFragment extends Fragment {
         View bellIndicator = fragmentView.findViewById(R.id.bell_indicator);
 
         // notification status LiveData
-        NotificationStatus.notificationStatus(getContext(), bellIndicator);
+        NotificationBuilder.listenToNotificationStatus(getContext(), bellIndicator);
 
         // load user image
         ImageLoader.getInstance().loadUserImage(context, ((ImageView) fragmentView.findViewById(R.id.iv_user_image)));
