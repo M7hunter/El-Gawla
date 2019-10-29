@@ -1,19 +1,24 @@
 package it_geeks.info.elgawla.views.main;
 
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.util.SnackBuilder;
@@ -45,7 +50,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
+        initDynamicLinking();
+
+        if (savedInstanceState == null)
+        {
             displayFragment(fragment);
         }
 
@@ -56,10 +64,39 @@ public class MainActivity extends AppCompatActivity {
         initNavigation();
     }
 
+    private void initDynamicLinking() {
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                        // Get deep link from result (may be null if no link is found)
+                        Uri deepLink = null;
+                        if (pendingDynamicLinkData != null)
+                        {
+                            deepLink = pendingDynamicLinkData.getLink();
+                        }
+                        Log.d("dynamic-links", "getDynamicLink:onSuccess " + deepLink);
+
+                        // Handle the deep link. For example, open the linked
+                        // content, or apply promotional credit to the user's
+                        // account.
+
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("dynamic-links", "getDynamicLink:onFailure", e);
+                    }
+                });
+    }
+
     public void getExtras() {
         Bundle extras = getIntent().getExtras();
 
-        if (extras != null && extras.getString(MEMBERSHIP_MSG) != null) {
+        if (extras != null && extras.getString(MEMBERSHIP_MSG) != null)
+        {
             if (!extras.getString(MEMBERSHIP_MSG).isEmpty())
                 snackBuilder.setSnackText(extras.getString(MEMBERSHIP_MSG)).showSnack();
         }
@@ -79,9 +116,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateNotificationStatus() {
-        if (SharedPrefManager.getInstance(this).getNewNotification()) {
+        if (SharedPrefManager.getInstance(this).getNewNotification())
+        {
             GawlaDataBse.getInstance(this).notificationDao().updateStatusNotification(true);
-        } else {
+        } else
+        {
             GawlaDataBse.getInstance(this).notificationDao().updateStatusNotification(false);
         }
     }
@@ -104,7 +143,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public View getSnackBarContainer() {
-        if (snackContainer == null) {
+        if (snackContainer == null)
+        {
             snackContainer = findViewById(R.id.snackbar_container);
         }
         return snackContainer;
@@ -116,7 +156,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 fragment = null;
-                switch (menuItem.getItemId()) {
+                switch (menuItem.getItemId())
+                {
                     case R.id.navigation_main:
                         fragment = new MainFragment();
                         break;
@@ -134,7 +175,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
 
-                if (fragment != null) {
+                if (fragment != null)
+                {
                     displayFragment(fragment);
                     return true;
                 }
@@ -159,22 +201,28 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (navigation.getSelectedItemId() != R.id.navigation_main) { // back to main page
+        if (navigation.getSelectedItemId() != R.id.navigation_main)
+        { // back to main page
             displayFragment(new MainFragment());
             navigation.setSelectedItemId(R.id.navigation_main);
-        } else {
+        } else
+        {
             super.onBackPressed();
         }
     }
 
     @Override
     protected void onDestroy() {
-        try {
+        try
+        {
             unregisterReceiver(connectionChangeReceiver);
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
-        } finally {
+        } finally
+        {
             super.onDestroy();
         }
     }

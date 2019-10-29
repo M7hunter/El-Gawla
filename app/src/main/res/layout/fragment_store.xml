@@ -61,10 +61,10 @@
                     android:orientation="vertical"
                     android:visibility="gone">
 
-                    <!--<ImageView-->
-                    <!--    android:layout_width="match_parent"-->
-                    <!--    android:layout_height="wrap_content"-->
-                    <!--    android:src="@drawable/empty_view_cards" />-->
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/empty_view" />
 
                     <TextView
                         android:id="@+id/tv_cards_empty_hint"
@@ -82,8 +82,6 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <include layout="@layout/layout_no_connection" />
 
     <!-- store progress -->
     <ProgressBar

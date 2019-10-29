@@ -74,7 +74,7 @@
     <string name="no_content">No content available</string>
     <string name="choose_country">Choose country</string>
     <string name="gender">Gender</string>
-    <string name="telephone_number">Telephone number</string>
+    <string name="telephone_number">phone</string>
     <string name="privacy_details">Privacy Details</string>
     <string name="edit">Edit</string>
     <string name="disconnect">Disconnect</string>
@@ -225,4 +225,6 @@
     <string name="enter_valid_phone">enter valid phone number</string>
     <string name="activation">activation</string>
     <string name="enter_activation_code">enter activation code \n  it may take a while to reach you</string>
+    <string name="enter_phone_hint">enter your phone to receive activation code</string>
+    <string name="wrong_code">wrong code</string>
 </resources>

@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".views.signing.ActivationActivity"></activity>
+        <activity android:name=".views.signing.EnterPhoneActivity"></activity>
         <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
         <activity android:name=".views.intro.SplashScreenActivity">
             <intent-filter>
@@ -32,6 +32,11 @@
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="elgawla.page.link"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity android:name=".views.main.NotificationActivity">
@@ -55,9 +60,10 @@
         <activity android:name=".views.store.PaymentMethodsActivity" />
         <activity android:name=".views.store.PaymentURLActivity" />
         <activity android:name=".views.intro.IntroActivity" />
-        <activity android:name=".views.signing.ForgetPasswordActivity" />
         <activity android:name=".views.signing.SignUpActivity" />
         <activity android:name=".views.signing.SignInActivity" />
+        <activity android:name=".views.signing.ActivationActivity" />
+        <activity android:name=".views.signing.ForgetPasswordActivity" />
         <activity android:name=".views.menu.VoteActivity" />
         <activity android:name=".views.menu.SettingsActivity" />
         <activity android:name=".views.menu.CallUsActivity" />

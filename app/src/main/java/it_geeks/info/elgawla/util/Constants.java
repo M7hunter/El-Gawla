@@ -56,6 +56,7 @@ public class Constants {
     // sign
     public static final String REQ_SIGN_UP = "register";
     public static final String REQ_SIGN_IN = "login";
+    public static final String REQ_SEND_SMS = "sendSms";
     public static final String REQ_SOCIAL_SIGN = "loginOrRegisterWithSocial";
     public static final String REQ_FORGOT_PASSWORD = "forgotPassword";
     // endregion
@@ -69,7 +70,9 @@ public class Constants {
     public static final String CAT_ID = "category selected from store";
     // endregion
 
+
     public static final int NULL_INT_VALUE = -111;
+    public static final int REQ_CODE_BUY_CARD = 159;
     public static final String EMPTY_TOKEN = "empty";
     public static final String CATEGORY_KEY = "cat_key";
     public static final String CATEGORY_NAME = "cat_name";

@@ -34,10 +34,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.JsonObject;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 
@@ -64,7 +62,7 @@ import static it_geeks.info.elgawla.util.Constants.REQ_SOCIAL_SIGN;
 public class SignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private Button btnForgetPassword, btnLogin;
-    private TextView tvCreateAccount;
+    private TextView btnCreateAccount;
     private EditText etEmail, etPassword;
     private TextInputLayout tlEmail, tlPass;
 
@@ -73,6 +71,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     LoginButton btn_fb_login;
     public static final String providerFacebook = "facebook", providerGoogle = "google", providerNormalLogin = "gawla";
     public static int GOOGLE_REQUEST = 1000;
+    private String phone;
 
     private DialogBuilder dialogBuilder;
 
@@ -99,7 +98,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         tlPass = findViewById(R.id.tl_pass);
         btnLogin = findViewById(R.id.btn_login);
         btnForgetPassword = findViewById(R.id.btn_forget_password);
-        tvCreateAccount = findViewById(R.id.btn_Create_Account);
+        btnCreateAccount = findViewById(R.id.btn_Create_Account);
 
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
@@ -118,7 +117,8 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (tlEmail.getError() != null) {
+                if (tlEmail.getError() != null)
+                {
                     tlEmail.setError(null);
                 }
             }
@@ -137,7 +137,8 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (tlPass.getError() != null) {
+                if (tlPass.getError() != null)
+                {
                     tlPass.setError(null);
                 }
             }
@@ -154,7 +155,8 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (checkEntries(etEmail.getText().toString(), etPassword.getText().toString())) {
+                if (checkEntries(etEmail.getText().toString(), etPassword.getText().toString()))
+                {
                     login(etEmail.getText().toString(), etPassword.getText().toString()); // Login ViewModel
                 }
             }
@@ -168,10 +170,11 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         });
 
         // goto sign up
-        tvCreateAccount.setOnClickListener(new View.OnClickListener() {
+        btnCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
+                startActivity(new Intent(SignInActivity.this, EnterPhoneActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
             }
         });
 
@@ -195,25 +198,33 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     private boolean checkEntries(String email, String pass) {
         boolean bass = true;
 
-        if (email.isEmpty()) {
+        if (email.isEmpty())
+        {
             tlEmail.setError(getResources().getString(R.string.emptyMail));
             etEmail.requestFocus();
             bass = false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        }
+        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        {
             tlEmail.setError(getString(R.string.enter_valid_email));
             etEmail.requestFocus();
             bass = false;
-        } else tlEmail.setError("");
+        }
+        else tlEmail.setError("");
 
-        if (pass.isEmpty()) {
+        if (pass.isEmpty())
+        {
             tlPass.setError(getResources().getString(R.string.emptyPass));
             etPassword.requestFocus();
             bass = false;
-        } else if (pass.length() < 6) {
+        }
+        else if (pass.length() < 6)
+        {
             tlPass.setError(getResources().getString(R.string.name_length_hint));
             etPassword.requestFocus();
             bass = false;
-        } else tlPass.setError("");
+        }
+        else tlPass.setError("");
 
         return bass;
     }
@@ -269,21 +280,27 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         String id, name, email, image;
-        try {
+        try
+        {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             id = account.getId();
             name = account.getDisplayName();
             email = account.getEmail();
             image = "https://itgeeks.com/images/logo.png";
-            if (account.getPhotoUrl() != null) {
+            if (account.getPhotoUrl() != null)
+            {
                 image = account.getPhotoUrl().toString();
             }
 
             socialLogin(id, name, email, image, providerGoogle);
-        } catch (ApiException e) {
+        }
+        catch (ApiException e)
+        {
             Log.w("signIn:failed code", "" + e.getStatusCode());
             Crashlytics.logException(e);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -319,7 +336,8 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
             }
         });
 
-        if (AccessToken.getCurrentAccessToken() != null) {
+        if (AccessToken.getCurrentAccessToken() != null)
+        {
             LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         }
     }
@@ -327,7 +345,8 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     // fb login
     private void getData(final JSONObject object) {
         String id = "", name = "", email = "", image = "";
-        try {
+        try
+        {
             URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/" + object.getString("id") + "/picture?type=normal");
 
             id = object.optString("id");
@@ -336,13 +355,9 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
             image = Profile_Picture.toString();
 
             socialLogin(id, name, email, image, providerFacebook);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -354,7 +369,8 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         super.onActivityResult(requestCode, resultCode, data);
 
         // google login
-        if (requestCode == GOOGLE_REQUEST) {
+        if (requestCode == GOOGLE_REQUEST)
+        {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }

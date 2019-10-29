@@ -11,10 +11,6 @@ public class SnackBuilder {
     private Snackbar snack;
 
     public SnackBuilder(View parent) {
-        initSnack(parent);
-    }
-
-    private void initSnack(View parent) {
         if (snack == null)
             snack = Snackbar.make(parent, "...", Snackbar.LENGTH_LONG);
     }

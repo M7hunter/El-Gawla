@@ -46,7 +46,7 @@ public class MySalonsFragment extends Fragment {
     private SwipeRefreshLayout refreshLayout;
     private List<Round> salonsList = new ArrayList<>();
     private RecyclerView mySalonsRecycler;
-    private LinearLayout emptyViewLayout, noConnectionLayout;
+    private LinearLayout emptyViewLayout;
     private ProgressBar mySalonsProgress;
 
     private ImageView ivNotificationBell;
@@ -85,7 +85,7 @@ public class MySalonsFragment extends Fragment {
 
         handleEvents(fragmentView);
 
-        checkConnection();
+        getUsrSalonsFromServer();
     }
 
     private void initViews(View fragmentView) {
@@ -94,7 +94,6 @@ public class MySalonsFragment extends Fragment {
         mySalonsProgress = fragmentView.findViewById(R.id.pb_my_rounds);
         mySalonsRecycler = fragmentView.findViewById(R.id.my_rounds_recycler);
         emptyViewLayout = fragmentView.findViewById(R.id.my_rounds_empty_view);
-        noConnectionLayout = fragmentView.findViewById(R.id.no_connection);
 
         snackBuilder = new SnackBuilder(fragmentView.findViewById(R.id.my_salons_main_layout));
 
@@ -115,7 +114,7 @@ public class MySalonsFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                checkConnection();
+                getUsrSalonsFromServer();
             }
         });
 
@@ -133,21 +132,6 @@ public class MySalonsFragment extends Fragment {
                 startActivity(new Intent(context, ProfileActivity.class));
             }
         });
-    }
-
-    private void checkConnection() {
-        if (Common.Instance().isConnected(getActivity()))
-        {
-            noConnectionLayout.setVisibility(View.GONE);
-
-            getUsrSalonsFromServer();
-        }
-        else
-        {
-            noConnectionLayout.setVisibility(View.VISIBLE);
-            mySalonsProgress.setVisibility(View.GONE);
-            refreshLayout.setRefreshing(false);
-        }
     }
 
     private void getUsrSalonsFromServer() {

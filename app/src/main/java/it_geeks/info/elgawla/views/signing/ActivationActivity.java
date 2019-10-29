@@ -31,8 +31,8 @@ public class ActivationActivity extends AppCompatActivity {
 
     private EditText etCode;
     private Button btnConfirm;
-    private DialogBuilder dialogBuilder;
-    private SnackBuilder snackBuilder;
+
+    private String cashedCode, phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +41,25 @@ public class ActivationActivity extends AppCompatActivity {
 
         init();
 
+        getData();
+
         handleEvents();
+    }
+
+    private void getData() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+        {
+            cashedCode = extras.getString("activation_code");
+            phone = extras.getString("phone");
+
+            Log.d("activation", "code:" + cashedCode + ", phone: " + phone);
+        }
     }
 
     private void init() {
         etCode = findViewById(R.id.et_activation_code);
         btnConfirm = findViewById(R.id.btn_activation_confirm);
-
-        dialogBuilder = new DialogBuilder();
-        dialogBuilder.createLoadingDialog(this);
-
-        snackBuilder = new SnackBuilder(findViewById(R.id.activation_main_layout));
     }
 
     private void handleEvents() {
@@ -64,9 +72,19 @@ public class ActivationActivity extends AppCompatActivity {
                 {
                     etCode.setError(getString(R.string.empty_hint));
                     etCode.requestFocus();
-                } else
+                }
+                else
                 {
-                    connectToServer(code);
+                    if (cashedCode.equals(code))
+                    {
+                        startActivity(new Intent(ActivationActivity.this, SignUpActivity.class)
+                                .putExtra("phone", phone));
+                    }
+                    else
+                    {
+                        etCode.setError(getString(R.string.wrong_code));
+                        etCode.requestFocus();
+                    }
                 }
             }
         });
@@ -90,36 +108,5 @@ public class ActivationActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void connectToServer(String code) {
-        dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(ActivationActivity.this).executeConnectionToServer(this, REQ_USER_ACTIVATION
-                , new Request<>(REQ_USER_ACTIVATION, SharedPrefManager.getInstance(ActivationActivity.this).getUser().getUser_id(), code
-                        , null, null, null, null, null), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        User user = ParseResponses.parseActiveUser(mainObject);
-
-                        Log.d("OkHttp", "is-active:: " + user.isActive());
-                        if (user.isActive())
-                        {
-                            Common.Instance().updateFirebaseToken(ActivationActivity.this);
-                            startActivity(new Intent(ActivationActivity.this, MembershipActivity.class));
-                        }
-                    }
-
-                    @Override
-                    public void handleAfterResponse() {
-                        dialogBuilder.hideLoadingDialog();
-
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnack();
-                    }
-                });
     }
 }

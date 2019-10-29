@@ -120,7 +120,9 @@
                     android:focusable="true"
                     android:hint="@string/telephone_number"
                     android:textColorHint="@color/paleGrey2"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    app:layout_constraintBottom_toTopOf="@id/btn_phone_send"
+                    app:layout_constraintTop_toBottomOf="@id/phone_hint">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_create_account_phone"

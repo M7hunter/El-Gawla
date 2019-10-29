@@ -42,7 +42,7 @@
             android:textAllCaps="false"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
-            app:icon="@drawable/ic_s_archive"
+            app:icon="@drawable/ic_date"
             app:iconPadding="@dimen/margin_large" />
 
         <!-- category -->

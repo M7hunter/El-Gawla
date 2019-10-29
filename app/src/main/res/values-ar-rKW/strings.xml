@@ -225,4 +225,6 @@
     <string name="activation">التفعيل</string>
     <string name="enter_activation_code">ادخل رمز التفعيل \n قد يأخد بعض الوقت للوصول إليك</string>
     <string name="must_renew_membership">يجب تجديد عضويتك اولا</string>
+    <string name="enter_phone_hint">أدخل رقم هاتفك لإستقبال كود التفعيل</string>
+    <string name="wrong_code">كود خاطئ</string>
 </resources>

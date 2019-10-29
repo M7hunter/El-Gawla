@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+    android:fillViewport="true"
     android:orientation="vertical"
     tools:context=".views.account.ProfileActivity">
     <!-- scroll main layout -->
@@ -165,9 +166,9 @@
                 android:hint="@string/name"
                 android:inputType="textPersonName"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_large"
+                android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_large"
+                android:paddingBottom="@dimen/margin_medium"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -189,9 +190,9 @@
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_large"
+                android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_large"
+                android:paddingBottom="@dimen/margin_medium"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -215,9 +216,9 @@
                 android:inputType="phone"
                 android:maxLength="15"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_large"
+                android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_large"
+                android:paddingBottom="@dimen/margin_medium"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -241,9 +242,9 @@
                 android:hint="@string/country"
                 android:inputType="none"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_large"
+                android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_large"
+                android:paddingBottom="@dimen/margin_medium"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -267,9 +268,9 @@
                 android:hint="@string/gender"
                 android:inputType="none"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_large"
+                android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_large"
+                android:paddingBottom="@dimen/margin_medium"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>

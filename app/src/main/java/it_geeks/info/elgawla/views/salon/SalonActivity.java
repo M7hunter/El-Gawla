@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -81,6 +82,7 @@ import it_geeks.info.elgawla.util.salonUtils.CountDown.CountDownController;
 import it_geeks.info.elgawla.util.salonUtils.ChatUtils;
 import it_geeks.info.elgawla.util.salonUtils.SocketUtils;
 
+import static it_geeks.info.elgawla.util.Constants.REQ_CODE_BUY_CARD;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_WITH_REALTIME;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_USER_CARDS_BY_SALON;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_TOP_TEN;
@@ -199,6 +201,30 @@ public class SalonActivity extends AppCompatActivity {
             {
                 socketUtils.disconnectSocket();
             }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        getUserCardsForSalonFromServer();
+
+        try
+        {
+            if (cardsRecycler != null && cardsRecycler.getAdapter() != null)
+            {
+                ((SalonCardsAdapter) cardsRecycler.getAdapter()).mBottomSheetDialogSingleCard.dismiss();
+            }
+
+            if (mBottomSheetDialogCardsBag.isShowing())
+            {
+                mBottomSheetDialogCardsBag.dismiss();
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override

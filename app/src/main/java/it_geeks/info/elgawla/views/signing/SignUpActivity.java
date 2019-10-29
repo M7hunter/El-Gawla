@@ -55,8 +55,8 @@ import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.SnackBuilder;
-import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.account.MembershipActivity;
+import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.intro.IntroActivity;
 
 import static it_geeks.info.elgawla.util.Constants.PREVIOUS_PAGE_KEY;
@@ -85,7 +85,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
     private SnackBuilder snackBuilder;
 
-    private String previousPageKey = "no key";
+    private String previousPageKey = "no key", phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +93,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_sign_up);
 
-        getKey();
+        getData();
 
         initViews();
 
@@ -102,10 +102,14 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         handleEvents();
     }
 
-    private void getKey() {
+    private void getData() {
         Bundle extras = getIntent().getExtras();
         if (extras != null)
+        {
             previousPageKey = extras.getString(PREVIOUS_PAGE_KEY);
+            phone = extras.getString("phone");
+
+        }
     }
 
     private void initViews() {
@@ -129,6 +133,9 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
         snackBuilder = new SnackBuilder(findViewById(R.id.sign_up_main_layout));
 
+        etPhone.setText(phone);
+        etPhone.setEnabled(false);
+
         initTextWatchers();
     }
 
@@ -141,7 +148,8 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (tl_create_name.getError() != null) {
+                if (tl_create_name.getError() != null)
+                {
                     tl_create_name.setError(null);
                 }
             }
@@ -160,7 +168,8 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (tl_create_email.getError() != null) {
+                if (tl_create_email.getError() != null)
+                {
                     tl_create_email.setError(null);
                 }
             }
@@ -179,7 +188,8 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (tl_create_phone.getError() != null) {
+                if (tl_create_phone.getError() != null)
+                {
                     tl_create_phone.setError(null);
                 }
             }
@@ -198,7 +208,8 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (tl_create_pass.getError() != null) {
+                if (tl_create_pass.getError() != null)
+                {
                     tl_create_pass.setError(null);
                 }
             }
@@ -223,9 +234,12 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         btnAlreadyHaveAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (previousPageKey != null && previousPageKey.equals(IntroActivity.class.getSimpleName())) {
+                if (previousPageKey != null && previousPageKey.equals(IntroActivity.class.getSimpleName()))
+                {
                     startActivity(SignInActivity.class);
-                } else {
+                }
+                else
+                {
                     onBackPressed();
                 }
             }
@@ -261,7 +275,8 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         String pass = etPass.getText().toString();
         int countryId = SharedPrefManager.getInstance(SignUpActivity.this).getCountry().getCountry_id();
 
-        if (checkEntries(name, email, phone, pass)) {
+        if (checkEntries(name, email, phone, pass))
+        {
             connectToServer(new User(name, email, phone, pass), countryId);
         }
     }
@@ -271,49 +286,66 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         boolean bass = true;
 
         // name
-        if (name.isEmpty()) {
+        if (name.isEmpty())
+        {
             tl_create_name.setError(getString(R.string.empty_hint));
             etName.requestFocus();
             bass = false;
-        } else if (name.length() < 6) {
+        }
+        else if (name.length() < 6)
+        {
             tl_create_name.setError(getString(R.string.name_length_hint));
             etName.requestFocus();
             bass = false;
-        } else tl_create_name.setError(null);
+        }
+        else tl_create_name.setError(null);
 
         // email
-        if (email.isEmpty()) {
+        if (email.isEmpty())
+        {
             tl_create_email.setError(getString(R.string.empty_hint));
             etEmail.requestFocus();
             bass = false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        }
+        else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        {
             tl_create_email.setError(getString(R.string.enter_valid_email));
             etEmail.requestFocus();
             bass = false;
-        } else tl_create_email.setError(null);
+        }
+        else tl_create_email.setError(null);
 
         // phone
-        if (phone.isEmpty()) {
+        if (phone.isEmpty())
+        {
             tl_create_phone.setError(getString(R.string.empty_hint));
             etPhone.requestFocus();
             bass = false;
-        } else if (!Patterns.PHONE.matcher(phone).matches()) {
+        }
+        else if (!Patterns.PHONE.matcher(phone).matches())
+        {
             tl_create_phone.setError(getString(R.string.enter_valid_phone));
             etPhone.requestFocus();
             bass = false;
-        } else tl_create_phone.setError(null);
+        }
+        else tl_create_phone.setError(null);
 
         // pass
-        if (pass.isEmpty()) {
+        if (pass.isEmpty())
+        {
             tl_create_pass.setError(getString(R.string.empty_hint));
             etPass.requestFocus();
             bass = false;
-        } else {
-            if (pass.length() < 6) {
+        }
+        else
+        {
+            if (pass.length() < 6)
+            {
                 tl_create_pass.setError(getResources().getString(R.string.name_length_hint));
                 etPass.requestFocus();
                 bass = false;
-            } else tl_create_pass.setError(null);
+            }
+            else tl_create_pass.setError(null);
         }
 
         return bass;
@@ -331,7 +363,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                         // save user data locally
                         cacheUserData(mainObject, getResources().getString(R.string.app_name));
                         // goto next page
-                        startActivity(ActivationActivity.class);
+                        startActivity(MembershipActivity.class);
                     }
 
                     @Override
@@ -393,14 +425,16 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
             }
         });
 
-        if (AccessToken.getCurrentAccessToken() != null) {
+        if (AccessToken.getCurrentAccessToken() != null)
+        {
             LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         }
 
     }
 
     private void getFacebookData(final JSONObject object) {
-        try {
+        try
+        {
             URL Profile_Picture = new URL("https://graph.facebook.com/v3.0/" + object.getString("id") + "/picture?type=normal");
             String id = object.optString("id");
             String name = object.optString("name");
@@ -409,10 +443,14 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
             dialogBuilder.displayLoadingDialog();
             socialLogin(id, name, email, image, providerFacebook);
-        } catch (MalformedURLException e) {
+        }
+        catch (MalformedURLException e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
-        } catch (JSONException e) {
+        }
+        catch (JSONException e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -424,29 +462,36 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         super.onActivityResult(requestCode, resultCode, data);
 
         // google login
-        if (requestCode == GOOGLE_REQUEST) {
+        if (requestCode == GOOGLE_REQUEST)
+        {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             getGoogleData(task);
         }
     }
 
     private void getGoogleData(Task<GoogleSignInAccount> completedTask) {
-        try {
+        try
+        {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String id = account.getId();
             String name = account.getDisplayName();
             String email = account.getEmail();
             String image = "https://itgeeks.com/images/logo.png";
-            if (account.getPhotoUrl() != null) {
+            if (account.getPhotoUrl() != null)
+            {
                 image = account.getPhotoUrl().toString();
             }
 
             dialogBuilder.displayLoadingDialog();
             socialLogin(id, name, email, image, providerGoogle);
-        } catch (ApiException e) {
+        }
+        catch (ApiException e)
+        {
             Log.w("signIn:failed code", "" + e.getStatusCode());
             Crashlytics.logException(e);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }

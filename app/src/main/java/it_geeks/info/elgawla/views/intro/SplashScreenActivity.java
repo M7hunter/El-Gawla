@@ -67,7 +67,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         snackAction = new ClickInterface.SnackAction() {
             @Override
             public void onClick() {
-                snackBuilder.hideSnack();
+//                snackBuilder.hideSnack();
                 checkConnection();
             }
         };

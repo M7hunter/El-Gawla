@@ -48,7 +48,7 @@ public class StoreFragment extends Fragment {
     private RecyclerView categoriesRecycler;
     private ProgressBar pbRecycler;
     private ImageView imgNotification;
-    private LinearLayout noConnectionLayout, emptyViewLayout;
+    private LinearLayout emptyViewLayout;
 
     private SnackBuilder snackBuilder;
     private CategoryDao categoryDao;
@@ -91,7 +91,6 @@ public class StoreFragment extends Fragment {
         categoriesRecycler = fragmentView.findViewById(R.id.cards_recycler);
         categoriesRecycler.setHasFixedSize(true);
         emptyViewLayout = fragmentView.findViewById(R.id.cards_empty_view);
-        noConnectionLayout = fragmentView.findViewById(R.id.no_connection);
         //Notification icon
         imgNotification = fragmentView.findViewById(R.id.iv_notification_bell);
         View bellIndicator = fragmentView.findViewById(R.id.bell_indicator);
@@ -124,19 +123,9 @@ public class StoreFragment extends Fragment {
     }
 
     private void getDataFromServer() {
-        if (Common.Instance().isConnected(getContext()))
-        {
-            if (noConnectionLayout.getVisibility() == View.VISIBLE)
-            {
-                noConnectionLayout.setVisibility(View.GONE);
-            }
+//        if (Common.Instance().isConnected(context))
             updateCategoriesFromServer();
-        } else
-        {
-            noConnectionLayout.setVisibility(View.VISIBLE);
-            emptyViewLayout.setVisibility(View.GONE);
-            pbRecycler.setVisibility(View.GONE);
-        }
+
     }
 
     private void updateCategoriesFromServer() {
