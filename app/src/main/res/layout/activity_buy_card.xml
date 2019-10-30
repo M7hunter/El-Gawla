@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".views.card.BuyCardActivity">
+    tools:context=".views.store.BuyCardActivity">
 
     <!-- header -->
     <androidx.cardview.widget.CardView
@@ -69,62 +69,6 @@
                 android:background="@drawable/bg_rounded_corners_white"
                 android:orientation="vertical">
 
-                <!-- amount label -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_xlarge"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginEnd="@dimen/margin_xlarge"
-                    android:layout_marginBottom="@dimen/margin_tiny"
-                    android:text="@string/amount"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <!-- amount container -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_xlarge"
-                    android:layout_marginEnd="@dimen/margin_xlarge"
-                    android:background="@drawable/bg_circled_corners_bordered_white_pale_grey"
-                    android:gravity="center"
-                    android:padding="@dimen/margin_tiny">
-
-                    <!-- plus -->
-                    <ImageView
-                        android:id="@+id/iv_increase_amount"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="@dimen/margin_tiny"
-                        android:src="@drawable/ic_add_circle" />
-
-                    <!-- count -->
-                    <TextView
-                        android:id="@+id/tv_card_amount"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_small"
-                        android:layout_marginEnd="@dimen/margin_small"
-                        android:layout_weight="2"
-                        android:fontFamily="monospace"
-                        android:gravity="center"
-                        android:text="1"
-                        android:textSize="@dimen/text_size_large"
-                        android:textStyle="bold" />
-
-                    <!-- minus -->
-                    <ImageView
-                        android:id="@+id/iv_decrease_amount"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="@dimen/margin_tiny"
-                        android:src="@drawable/ic_remove_circle" />
-
-                </LinearLayout>
-
                 <!-- method label -->
                 <TextView
                     android:layout_width="match_parent"
@@ -134,6 +78,7 @@
                     android:layout_marginEnd="@dimen/margin_xlarge"
                     android:layout_marginBottom="@dimen/margin_tiny"
                     android:text="@string/Payment_method"
+                    android:textStyle="bold"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_size_medium" />
 
@@ -144,110 +89,45 @@
                     android:layout_marginStart="@dimen/margin_xlarge"
                     android:layout_marginEnd="@dimen/margin_xlarge"
                     android:background="@drawable/bg_rounded_corners_bordered_pale_grey"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
                     android:orientation="vertical"
-                    android:padding="@dimen/margin_small">
+                    android:padding="@dimen/margin_medium">
 
-                    <!-- 1st row -->
+                    <!-- knet -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center">
+                        android:layout_marginTop="@dimen/margin_small">
 
                         <RadioButton
-                            android:id="@+id/rb_visa"
+                            android:id="@+id/rb_knet"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/card_width"
-                            android:layout_margin="@dimen/margin_tiny" />
+                            android:layout_height="wrap_content"/>
 
                         <ImageView
-                            android:id="@+id/iv_visa"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="@dimen/margin_large"
-                            android:layout_weight="1"
-                            android:src="@drawable/visa" />
-
-                        <RadioButton
-                            android:id="@+id/rb_mastercard"
+                            android:id="@+id/iv_knet"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/card_width"
-                            android:layout_margin="@dimen/margin_tiny" />
-
-                        <ImageView
-                            android:id="@+id/iv_mastercard"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:src="@drawable/mastercard" />
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/knet" />
 
                     </LinearLayout>
 
-                    <!-- 2nd row -->
+                    <!-- fawry -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center">
+                        android:layout_marginTop="@dimen/margin_xlarge">
 
                         <RadioButton
                             android:id="@+id/rb_fawry"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/card_width"
-                            android:layout_margin="@dimen/margin_tiny" />
+                            android:layout_height="wrap_content" />
 
                         <ImageView
                             android:id="@+id/iv_fawry"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="@dimen/margin_large"
-                            android:layout_weight="1"
-                            android:src="@drawable/fawry" />
-
-                        <RadioButton
-                            android:id="@+id/rb_paypal"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/card_width"
-                            android:layout_margin="@dimen/margin_tiny" />
-
-                        <ImageView
-                            android:id="@+id/iv_paypal"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:src="@drawable/paypal" />
-
-                    </LinearLayout>
-
-                    <!-- 3rd row -->
-                    <LinearLayout
-                        android:id="@+id/ll_use_googlepay"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_tiny"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/rb_googlepay"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/card_width"
-                            android:layout_margin="@dimen/margin_tiny" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/icon_notification"
-                            android:adjustViewBounds="true"
-                            android:contentDescription="@string/googlepay_button_content_description"
-                            android:src="@drawable/googlepay_mark_800_gray_3x" />
-
-                        <TextView
-                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="visa - paypal - mastercard" />
+                            android:src="@drawable/fawry" />
 
                     </LinearLayout>
 
@@ -294,16 +174,20 @@
                     <!-- app btn -->
                     <Button
                         android:id="@+id/btn_buy_card_buy"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/margin_small"
-                        android:text="@string/buy_card"
+                        android:layout_centerInParent="true"
+                        android:paddingStart="@dimen/margin_xxx_large"
+                        android:paddingEnd="@dimen/margin_xxx_large"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingBottom="@dimen/margin_small"
+                        android:text="@string/continue_"
                         android:textSize="@dimen/text_size_medium" />
 
                     <!-- google pay btn -->
-                    <include
-                        layout="@layout/googlepay_button"
-                        android:visibility="gone" />
+                    <!--<include-->
+                    <!--    layout="@layout/googlepay_button"-->
+                    <!--    android:visibility="gone" />-->
 
                 </RelativeLayout>
 

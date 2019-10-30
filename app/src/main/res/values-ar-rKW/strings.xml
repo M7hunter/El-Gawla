@@ -35,7 +35,7 @@
     <string name="how_gawla_works">كيف تعمل الجولة</string>
     <string name="joined_salons">الصالات المشترك بها</string>
     <string name="privacy_policy">سياسة الخصوصية</string>
-    <string name="buying_processes">عمليات الشراء</string>
+    <string name="invoices">عمليات الشراء</string>
     <string name="profile">البروفايل</string>
     <string name="add_offer">إضافة عرض</string>
     <string name="salons_winners">رابحين الصالات</string>
@@ -45,7 +45,7 @@
     <string name="Minute">دقيقة</string>
     <string name="hour">ساعة</string>
     <string name="Prod_price">سعر البيع : </string>
-    <string name="read_more">المزيد</string>
+    <string name="more">المزيد</string>
     <string name="next">التالي</string>
     <string name="finish">انهاء</string>
     <string name="Confirm_payment">تاكيد الدفع</string>
@@ -76,7 +76,7 @@
     <string name="card_price_salon">سعر الكارت للصالة</string>
     <string name="what_is_Gawla">ما هي الجولة ؟</string>
     <string name="text">نص الرسالة</string>
-    <string name="processes">العمليات</string>
+    <string name="process">العملية</string>
     <string name="cost">التكاليف</string>
     <string name="date">التاريخ</string>
     <string name="card">الكارت</string>
@@ -160,7 +160,7 @@
     <string name="first_round_time">الجولة الاولي</string>
     <string name="top_ten_empty">لا يوجد أحد في القائمة</string>
     <string name="activity_empty_hint">لا يوجد أنشطة في هذه الجولة</string>
-    <string name="enter_valid_email">" أدخل ايميل صالح"</string>
+    <string name="enter_valid_email">"أدخل ايميل صالح"</string>
     <string name="buying_processes_empty_hint">هنا يوجد مشترياتك السابقة</string>
     <string name="chat_empty_hint">يمكنك محادثة اعضاء الصالة هنا</string>
     <string name="not_joined">انت لست منضم</string>
@@ -203,4 +203,28 @@
     <string name="votes">(%1$s صوت)</string>
     <string name="category_cards">كروت الفئة</string>
     <string name="no_cards_for_category">لا يوجد كروت لهذه الفئة</string>
+    <string name="logged_from_other_device">تم تسجيل الدخول بهذا الحساب من قبل جهاز اخر</string>
+    <string name="confirm">تأكيد</string>
+    <string name="offered">قدم عرض</string>
+    <string name="offer_less_than_price">يجب ان يكون العرض اقل من سعر المنتج</string>
+    <string name="choose_payment_method">اختر وسيلة الدفع</string>
+    <string name="invoice_no">رقم الفاتورة</string>
+    <string name="not_capturred">غير مقبولة</string>
+    <string name="captured">مقبولة</string>
+    <string name="expiry_date">ينتهي في :</string>
+    <string name="need_subscribe">يجب الاشتراك</string>
+    <string name="payment_information">معلومات الدفع</string>
+    <string name="arabic">العربية</string>
+    <string name="english">english</string>
+    <string name="created_at">التاريخ</string>
+    <string name="payment_id">رقم العملية</string>
+    <string name="result">حالة العملية</string>
+    <string name="track_id">رقم التتبع</string>
+    <string name="transaction_id">رقم المعاملة</string>
+    <string name="enter_valid_phone">أدخل رقم هاتف صالح</string>
+    <string name="activation">التفعيل</string>
+    <string name="enter_activation_code">ادخل رمز التفعيل \n قد يأخد بعض الوقت للوصول إليك</string>
+    <string name="must_renew_membership">يجب تجديد عضويتك اولا</string>
+    <string name="enter_phone_hint">أدخل رقم هاتفك لإستقبال كود التفعيل</string>
+    <string name="wrong_code">كود خاطئ</string>
 </resources>

@@ -8,26 +8,26 @@
     android:padding="@dimen/margin_xTiny"
     tools:showIn="@layout/activity_salon">
 
-    <!-- icon -->
-    <ImageView
-        android:layout_width="@dimen/image_cards_round_updates"
-        android:layout_height="@dimen/image_cards_round_updates"
-        android:background="@drawable/bg_circleed_c_white_borderd_c_primary"
-        android:padding="@dimen/margin_large"
-        android:src="@drawable/ic_cards"
-        android:tint="@color/colorPrimary" />
+  <!-- icon -->
+  <ImageView
+      android:layout_width="@dimen/image_cards_round_updates"
+      android:layout_height="@dimen/image_cards_round_updates"
+      android:background="@drawable/bg_circleed_c_white_borderd_c_primary"
+      android:padding="@dimen/margin_large"
+      android:src="@drawable/ic_store"
+      android:tint="@color/colorPrimary" />
 
-    <!-- store count -->
-    <TextView
-        android:id="@+id/tv_cards_count"
-        android:layout_width="@dimen/margin_xlarge"
-        android:layout_height="@dimen/margin_xlarge"
-        android:background="@drawable/bg_circle_red"
-        android:fontFamily="monospace"
-        android:gravity="center"
-        android:text="0"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_small"
-        android:textStyle="bold" />
+  <!-- store count -->
+  <TextView
+      android:id="@+id/tv_cards_count"
+      android:layout_width="@dimen/margin_xlarge"
+      android:layout_height="@dimen/margin_xlarge"
+      android:background="@drawable/bg_circle_red"
+      android:fontFamily="monospace"
+      android:gravity="center"
+      android:text="0"
+      android:textColor="@android:color/white"
+      android:textSize="@dimen/text_size_small"
+      android:textStyle="bold" />
 
 </RelativeLayout>

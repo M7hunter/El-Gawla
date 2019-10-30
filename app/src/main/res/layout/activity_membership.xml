@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/membership_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
     android:scrollbars="none"
     tools:context=".views.account.MembershipActivity">
 
@@ -16,32 +14,41 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="0dp"
         app:cardElevation="@dimen/margin_medium">
         <!-- card main layout -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layoutDirection="rtl"
+            android:gravity="center_vertical"
+            android:layoutDirection="ltr"
             android:padding="@dimen/margin_small">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <!-- logo -->
             <ImageView
                 android:id="@+id/membership_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/g_logo"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:scaleType="fitEnd"
+                android:src="@drawable/g_logo" />
 
             <!-- later -->
             <Button
+                android:layoutDirection="rtl"
                 android:id="@+id/btn_pay_later"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:fontFamily="sans-serif"
                 android:text="@string/subscribe_later"
                 android:textColor="@color/colorSecondary"
@@ -49,47 +56,58 @@
                 android:textStyle="bold"
                 app:icon="@drawable/ic_arrow_right"
                 app:iconTint="@color/colorSecondary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@id/membership_logo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:rippleColor="@android:color/white" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- congrats -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_xlarge"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:text="@string/Congratulations"
-        android:textColor="@color/midBlue"
-        android:textSize="@dimen/text_size_large"
-        android:textStyle="bold" />
-
-    <!-- hint -->
-    <TextView
+    <!-- content -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_xx_large"
-        android:layout_marginEnd="@dimen/margin_xx_large"
-        android:layout_marginBottom="@dimen/margin_large"
-        android:gravity="center"
-        android:lineSpacingExtra="@dimen/margin_small"
-        android:padding="@dimen/margin_small"
-        android:text="@string/payment_enjoy"
-        android:textSize="@dimen/text_size_small"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/header">
+        <!-- scroll main layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-    <!-- packages -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/packages_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="3"
-        tools:listitem="@layout/item_package" />
+            <!-- congrats -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_xlarge"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:text="@string/Congratulations"
+                android:textColor="@color/midBlue"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold" />
 
-</LinearLayout>
+            <!-- hint -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_xx_large"
+                android:layout_marginEnd="@dimen/margin_xx_large"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:gravity="center"
+                android:lineSpacingExtra="@dimen/margin_small"
+                android:padding="@dimen/margin_small"
+                android:text="@string/payment_enjoy"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
+
+            <!-- packages -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/packages_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_package" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

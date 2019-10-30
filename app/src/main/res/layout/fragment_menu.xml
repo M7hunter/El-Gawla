@@ -7,390 +7,270 @@
     android:background="@color/paleGrey"
     tools:context=".views.menu.MenuFragment">
 
-    <androidx.core.widget.NestedScrollView
+  <androidx.core.widget.NestedScrollView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:scrollbars="none">
+    <!-- main layout -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
-        <!-- main layout -->
-        <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical">
+
+      <!-- header -->
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layoutDirection="ltr"
+          android:orientation="horizontal">
+
+        <include layout="@layout/layout_header" />
+
+        <!-- country -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/menu_country_icon"
+            android:layout_width="@dimen/icon_notification"
+            android:layout_height="@dimen/icon_notification"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_medium" />
+
+      </RelativeLayout>
+
+      <!-- 1st option -->
+      <androidx.constraintlayout.widget.ConstraintLayout
+          android:id="@+id/menu_option_settings"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="@dimen/margin_small"
+          android:background="@drawable/bg_rounded_corners_white"
+          android:foreground="?android:attr/selectableItemBackground"
+          android:padding="@dimen/margin_medium">
+
+        <!-- icon -->
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_tiny"
+            android:src="@drawable/ic_settings"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- label -->
+        <TextView
+            android:id="@+id/tv_app_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:text="@string/app_settings"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageView8"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- icon -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow"
+            android:tint="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
+      <!-- vote option -->
+      <androidx.constraintlayout.widget.ConstraintLayout
+          android:id="@+id/vote_option_settings"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="@dimen/margin_small"
+          android:layout_marginTop="@dimen/margin_xTiny"
+          android:layout_marginEnd="@dimen/margin_small"
+          android:layout_marginBottom="@dimen/margin_xTiny"
+          android:background="@drawable/bg_rounded_corners_white"
+          android:foreground="?android:attr/selectableItemBackground"
+          android:padding="@dimen/margin_medium">
+
+        <!-- icon -->
+        <ImageView
+            android:id="@+id/imageView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_tiny"
+            android:src="@drawable/ic_stare"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- label -->
+        <TextView
+            android:id="@+id/tv_vote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:text="@string/vote"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageView14"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- icon -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow"
+            android:tint="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="@dimen/margin_small"
+          android:background="@drawable/bg_rounded_corners_white"
+          android:orientation="vertical">
+
+        <!-- 5th option -->
+        <RelativeLayout
+            android:id="@+id/menu_option_call_us"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:background="@drawable/bg_rounded_corners_white"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="@dimen/margin_medium">
 
-            <!-- header -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layoutDirection="ltr"
-                android:orientation="horizontal">
+          <!-- label -->
+          <TextView
+              android:id="@+id/tv_call_us"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentStart="true"
+              android:layout_centerVertical="true"
+              android:layout_marginStart="@dimen/margin_medium"
+              android:text="@string/call_us"
+              android:textColor="@android:color/black"
+              android:textSize="@dimen/text_size_medium" />
 
-                <include layout="@layout/layout_header" />
+          <!-- icon -->
+          <ImageView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentEnd="true"
+              android:layout_centerVertical="true"
+              android:src="@drawable/ic_arrow"
+              android:tint="@android:color/black" />
 
-                <!-- country -->
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/menu_country_icon"
-                    android:layout_width="@dimen/icon_notification"
-                    android:layout_height="@dimen/icon_notification"
-                    android:layout_marginStart="@dimen/margin_large"
-                    android:layout_marginTop="@dimen/margin_medium" />
+        </RelativeLayout>
 
-            </RelativeLayout>
+        <!-- separator -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/margin_xx_large"
+            android:layout_marginEnd="@dimen/margin_xx_large"
+            android:background="@color/paleGrey2" />
 
-            <!-- 1st option -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/menu_option_settings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:background="@drawable/bg_rounded_corners_white"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:padding="@dimen/margin_medium">
+        <!-- 6th option -->
+        <RelativeLayout
+            android:id="@+id/menu_option_how_gawla_works"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_corners_white"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="@dimen/margin_medium">
 
-                <!-- icon -->
-                <ImageView
-                    android:id="@+id/imageView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:src="@drawable/ic_settings"
-                    android:tint="@color/colorPrimary"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+          <!-- label -->
+          <TextView
+              android:id="@+id/tv_how_gawla_works"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentStart="true"
+              android:layout_centerVertical="true"
+              android:layout_marginStart="@dimen/margin_medium"
+              android:text="@string/how_gawla_works"
+              android:textColor="@android:color/black"
+              android:textSize="@dimen/text_size_medium" />
 
-                <!-- label -->
-                <TextView
-                    android:id="@+id/tv_app_settings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:text="@string/app_settings"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_medium"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imageView8"
-                    app:layout_constraintTop_toTopOf="parent" />
+          <!-- icon -->
+          <ImageView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentEnd="true"
+              android:layout_centerVertical="true"
+              android:src="@drawable/ic_arrow"
+              android:tint="@android:color/black" />
 
-                <!-- icon -->
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow"
-                    android:tint="@android:color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        </RelativeLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- web views recycler -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/web_views_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_web_page_label" />
 
-            <!-- vote option -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/vote_option_settings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginTop="@dimen/margin_xTiny"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:layout_marginBottom="@dimen/margin_xTiny"
-                android:background="@drawable/bg_rounded_corners_white"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:padding="@dimen/margin_medium">
+      </LinearLayout>
 
-                <!-- icon -->
-                <ImageView
-                    android:id="@+id/imageView14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:src="@drawable/ic_stare"
-                    android:tint="@color/colorPrimary"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+      <!-- 8th option 'sign out' -->
+      <RelativeLayout
+          android:id="@+id/menu_option_logout"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="@dimen/margin_small"
+          android:background="@drawable/bg_rounded_corners_white"
+          android:foreground="?android:attr/selectableItemBackground"
+          android:padding="@dimen/margin_medium">
 
-                <!-- label -->
-                <TextView
-                    android:id="@+id/tv_vote"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:text="@string/vote"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_medium"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imageView14"
-                    app:layout_constraintTop_toTopOf="parent" />
+        <!-- label -->
+        <TextView
+            android:id="@+id/tv_sign_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:text="@string/sign_out"
+            android:textColor="@color/paleRed"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
 
-                <!-- icon -->
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_arrow"
-                    android:tint="@android:color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        <!-- icon -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_exit"
+            android:tint="@color/paleRed" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+      </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:background="@drawable/bg_rounded_corners_white"
-                android:orientation="vertical">
+    </LinearLayout>
+  </androidx.core.widget.NestedScrollView>
 
-                <!-- 2nd option -->
-                <RelativeLayout
-                    android:id="@+id/menu_option_more_about_gawla"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_corners_white"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="@dimen/margin_medium">
-
-                    <!-- label -->
-                    <TextView
-                        android:id="@+id/tv_more_about_gawla"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:text="@string/more_about_gawla"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <!-- icon -->
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_arrow"
-                        android:tint="@android:color/black" />
-
-                </RelativeLayout>
-
-                <!-- separator -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="@dimen/margin_xx_large"
-                    android:layout_marginEnd="@dimen/margin_xx_large"
-                    android:background="@color/paleGrey2" />
-
-                <!-- 3rd option -->
-                <RelativeLayout
-                    android:id="@+id/menu_option_privacy_policy"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_corners_white"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="@dimen/margin_medium">
-
-                    <!-- label -->
-                    <TextView
-                        android:id="@+id/tv_privacy_policy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:text="@string/privacy_policy"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <!-- icon -->
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_arrow"
-                        android:tint="@android:color/black" />
-
-                </RelativeLayout>
-
-                <!-- separator -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="@dimen/margin_xx_large"
-                    android:layout_marginEnd="@dimen/margin_xx_large"
-                    android:background="@color/paleGrey2" />
-
-                <!-- 4th option -->
-                <RelativeLayout
-                    android:id="@+id/menu_option_terms_conditions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_corners_white"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="@dimen/margin_medium">
-
-                    <!-- label -->
-                    <TextView
-                        android:id="@+id/tv_terms_and_conditions"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:text="@string/terms_conditions"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <!-- icon -->
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_arrow"
-                        android:tint="@android:color/black" />
-
-                </RelativeLayout>
-
-                <!-- separator -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="@dimen/margin_xx_large"
-                    android:layout_marginEnd="@dimen/margin_xx_large"
-                    android:background="@color/paleGrey2" />
-
-                <!-- 5th option -->
-                <RelativeLayout
-                    android:id="@+id/menu_option_call_us"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_corners_white"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="@dimen/margin_medium">
-
-                    <!-- label -->
-                    <TextView
-                        android:id="@+id/tv_call_us"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:text="@string/call_us"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <!-- icon -->
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_arrow"
-                        android:tint="@android:color/black" />
-
-                </RelativeLayout>
-
-                <!-- separator -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="@dimen/margin_xx_large"
-                    android:layout_marginEnd="@dimen/margin_xx_large"
-                    android:background="@color/paleGrey2" />
-
-                <!-- 6th option -->
-                <RelativeLayout
-                    android:id="@+id/menu_option_how_gawla_works"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_rounded_corners_white"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="@dimen/margin_medium">
-
-                    <!-- label -->
-                    <TextView
-                        android:id="@+id/tv_how_gawla_works"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/margin_medium"
-                        android:text="@string/how_gawla_works"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_medium" />
-
-                    <!-- icon -->
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_arrow"
-                        android:tint="@android:color/black" />
-
-                </RelativeLayout>
-
-                <!-- web views recycler -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/web_views_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/item_web_page_label" />
-
-            </LinearLayout>
-
-            <!-- 8th option 'sign out' -->
-            <RelativeLayout
-                android:id="@+id/menu_option_logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:background="@drawable/bg_rounded_corners_white"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:padding="@dimen/margin_medium">
-
-                <!-- label -->
-                <TextView
-                    android:id="@+id/tv_sign_out"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:text="@string/sign_out"
-                    android:textColor="@color/paleRed"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textStyle="bold" />
-
-                <!-- icon -->
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_exit"
-                    android:tint="@color/paleRed" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-
-    <!-- customer service btn container -->
-    <include layout="@layout/layout_customer_service_btn" />
+  <!-- customer service btn container -->
+  <!--<include layout="@layout/layout_customer_service_btn" />-->
 
 </FrameLayout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_tiny"
+    android:foreground="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    tools:showIn="@layout/activity_invoices">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small">
+
+        <!-- no/id -->
+        <TextView
+            android:id="@+id/item_invoice_no"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_weight="1"
+            android:textSize="@dimen/text_size_small"
+            tools:text="@tools:sample/us_zipcodes" />
+
+        <!-- process -->
+        <ImageView
+            android:id="@+id/item_invoice_process"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:src="@drawable/subscribe_icon"
+            android:layout_marginStart="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_tiny" />
+
+        <!-- status -->
+        <ImageView
+            android:id="@+id/item_invoice_status"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:src="@drawable/true_icon"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_tiny" />
+
+        <!-- date -->
+        <TextView
+            android:id="@+id/item_invoice_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_small"
+            tools:text="@tools:sample/date/mmddyy" />
+
+        <!-- cost -->
+        <TextView
+            android:id="@+id/item_invoice_cost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_small"
+            tools:text="@tools:sample/us_zipcodes" />
+
+    </LinearLayout>
+
+    <!-- separator -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/margin_small"
+        android:background="@color/paleGrey" />
+
+</LinearLayout>

@@ -6,43 +6,43 @@
     android:layout_height="wrap_content"
     android:foreground="?attr/selectableItemBackground">
 
-    <!-- cat title -->
-    <TextView
-        android:id="@+id/tv_vote_child_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tv_votes_child_count"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/vehicles" />
+  <!-- cat title -->
+  <TextView
+      android:id="@+id/tv_vote_child_title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/tv_votes_child_count"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="@string/vehicles" />
 
-    <!-- votes count -->
-    <TextView
-        android:id="@+id/tv_votes_child_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_medium"
-        android:text="@string/votes"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/iv_vote_child"
-        app:layout_constraintStart_toEndOf="@id/tv_vote_child_title"
-        app:layout_constraintTop_toTopOf="parent" />
+  <!-- votes count -->
+  <TextView
+      android:id="@+id/tv_votes_child_count"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/margin_medium"
+      android:text="@string/votes"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/iv_vote_child"
+      app:layout_constraintStart_toEndOf="@id/tv_vote_child_title"
+      app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- vote -->
-    <ImageView
-        android:id="@+id/iv_vote_child"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:foreground="?attr/selectableItemBackground"
-        android:padding="@dimen/margin_tiny"
-        android:scaleType="centerInside"
-        android:src="@drawable/unvoted"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tv_votes_child_count"
-        app:layout_constraintTop_toTopOf="parent" />
+  <!-- vote -->
+  <ImageView
+      android:id="@+id/iv_vote_child"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/margin_medium"
+      android:foreground="?attr/selectableItemBackground"
+      android:padding="@dimen/margin_tiny"
+      android:scaleType="centerInside"
+      android:src="@drawable/unvoted"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toEndOf="@id/tv_votes_child_count"
+      app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

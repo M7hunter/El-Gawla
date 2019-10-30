@@ -571,9 +571,9 @@
             <!-- new messages counter -->
             <TextView
                 android:id="@+id/tv_new_chat_message_counter"
-                android:layout_width="@dimen/margin_medium"
-                android:layout_height="@dimen/margin_medium"
-                android:background="@drawable/bg_circle_green"
+                android:layout_width="@dimen/margin_large"
+                android:layout_height="@dimen/margin_large"
+                android:background="@drawable/bg_circle_red"
                 android:fontFamily="monospace"
                 android:gravity="center"
                 android:text="0"
@@ -642,21 +642,28 @@
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/leave_and_help_container">
 
-            <!-- add offer et -->
-            <EditText
-                android:id="@+id/add_offer_et"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_add_offer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:layout_weight="1"
-                android:background="@drawable/bg_circled_corners_bordered_white_pale_grey"
-                android:gravity="center"
+                android:textColorHint="@color/editText_hint"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <!-- add offer et -->
+            <EditText
+                android:id="@+id/et_add_offer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:gravity="center_vertical"
                 android:hint="@string/rOffer"
                 android:inputType="number"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_small"
+                android:textSize="@dimen/text_size_medium"
                 android:paddingBottom="@dimen/margin_small"
-                android:textColor="@color/battleshipGrey"
-                android:textColorHint="@color/editText_hint" />
+                android:textColor="@color/battleshipGrey" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- add offer btn -->
             <Button
@@ -665,7 +672,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_weight="1"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
                 android:text="@string/add_offer"
                 android:textColor="@android:color/white"
@@ -747,17 +754,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:rippleColor="@color/darkPaleRed" />
-
-            <!-- customer services -->
-            <ImageView
-                android:id="@+id/salon_help"
-                android:layout_width="@dimen/icon_notification"
-                android:layout_height="@dimen/icon_notification"
-                android:scaleType="fitXY"
-                android:src="@drawable/q_mark_in_circle"
-                android:tint="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

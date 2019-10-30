@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sign_up_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/paleGrey"
+    tools:context=".views.signing.SignUpActivity">
+
+    <!-- header -->
+    <TextView
+        android:id="@+id/tv_sign_up_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:padding="@dimen/margin_medium"
+        android:text="@string/create_account"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
+
+    <!-- content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_sign_up_header"
+        android:fillViewport="true">
+        <!-- scroll main layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <!-- logo -->
+            <ImageView
+                android:id="@+id/su_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:src="@drawable/gawla_logo_blue" />
+
+            <!-- middle ets & btns -->
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <!-- name -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_create_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_xx_large"
+                    android:layout_marginEnd="@dimen/margin_xx_large"
+                    android:layout_marginBottom="@dimen/margin_xTiny"
+                    android:focusable="true"
+                    android:hint="@string/name"
+                    android:textColorHint="@color/paleGrey2"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_create_account_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:paddingStart="@dimen/margin_xlarge"
+                        android:paddingTop="@dimen/margin_medium"
+                        android:paddingEnd="@dimen/margin_xlarge"
+                        android:paddingBottom="@dimen/margin_medium"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- email -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_create_email"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_xx_large"
+                    android:layout_marginEnd="@dimen/margin_xx_large"
+                    android:layout_marginBottom="@dimen/margin_xTiny"
+                    android:focusable="true"
+                    android:hint="@string/email"
+                    android:textColorHint="@color/paleGrey2"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_create_account_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:paddingStart="@dimen/margin_xlarge"
+                        android:paddingTop="@dimen/margin_medium"
+                        android:paddingEnd="@dimen/margin_xlarge"
+                        android:paddingBottom="@dimen/margin_medium"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- phone -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_create_phone"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_xx_large"
+                    android:layout_marginEnd="@dimen/margin_xx_large"
+                    android:layout_marginBottom="@dimen/margin_xTiny"
+                    android:focusable="true"
+                    android:hint="@string/telephone_number"
+                    android:textColorHint="@color/paleGrey2"
+                    app:errorEnabled="true"
+                    app:layout_constraintBottom_toTopOf="@id/btn_phone_send"
+                    app:layout_constraintTop_toBottomOf="@id/phone_hint">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_create_account_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:paddingStart="@dimen/margin_xlarge"
+                        android:paddingTop="@dimen/margin_medium"
+                        android:paddingEnd="@dimen/margin_xlarge"
+                        android:paddingBottom="@dimen/margin_medium"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- pass -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tl_create_pass"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_xx_large"
+                    android:layout_marginEnd="@dimen/margin_xx_large"
+                    android:layout_marginBottom="@dimen/margin_xTiny"
+                    android:hint="@string/password"
+                    android:textColorHint="@color/paleGrey2"
+                    app:errorEnabled="true"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/colorPrimary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_create_account_pass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:paddingStart="@dimen/margin_xlarge"
+                        android:paddingTop="@dimen/margin_medium"
+                        android:paddingEnd="@dimen/margin_xlarge"
+                        android:paddingBottom="@dimen/margin_medium"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        app:counterMaxLength="26" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- sign up btn -->
+                <Button
+                    android:id="@+id/btn_create_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_xlarge"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_xlarge"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:padding="@dimen/margin_small"
+                    android:text="@string/create_account"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    app:cornerRadius="30dp" />
+
+                <!-- have account btn -->
+                <Button
+                    android:id="@+id/btn_already_have_account"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_xlarge"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_xlarge"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_small"
+                    android:text="@string/already_have_account"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- or container -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small">
+
+                <!-- separator -->
+                <View
+                    android:id="@+id/su_separator"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/margin_xlarge"
+                    android:layout_marginEnd="@dimen/margin_xlarge"
+                    android:background="@color/blueyGrey"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- or -->
+                <TextView
+                    android:id="@+id/su_or"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/paleGrey"
+                    android:paddingStart="@dimen/margin_large"
+                    android:paddingTop="@dimen/margin_tiny"
+                    android:paddingEnd="@dimen/margin_large"
+                    android:paddingBottom="@dimen/margin_tiny"
+                    android:text="@string/or"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- social bar -->
+            <LinearLayout
+                android:id="@+id/su_social_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl">
+
+                <!-- facebook -->
+                <TextView
+                    android:id="@+id/tv_facebook_sign_up"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_rounded_right_corner_c_facebook"
+                    android:drawableEnd="@drawable/facebook"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_small"
+                    android:text="@string/facebook"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <!-- google plus -->
+                <TextView
+                    android:id="@+id/tv_google_sign_up"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_rounded_left_corner_c_google"
+                    android:drawableEnd="@drawable/google_plus"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_medium"
+                    android:text="@string/google_plus"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <!-- actual facebook btn -->
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="65dp"
+                    android:layout_height="66dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

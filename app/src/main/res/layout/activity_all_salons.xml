@@ -2,15 +2,16 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/all_salons_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/all_salons_main_layout"
     android:background="@color/paleGrey"
     tools:context=".views.salon.AllSalonsActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
         <!-- scroll main layout -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_xlarge"
+                android:layout_margin="@dimen/margin_large"
                 android:gravity="center"
                 android:text="@string/all_salons"
                 android:textAllCaps="true"
@@ -46,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_tiny"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="3"
                     tools:listitem="@layout/item_salon_date"
@@ -56,25 +57,25 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/margin_xlarge">
+                    android:layout_marginTop="@dimen/margin_small">
 
                     <!-- salons recycler -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/all_salons_recycler"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
+                        android:layout_centerHorizontal="true"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="3"
+                        tools:itemCount="2"
                         tools:listitem="@layout/item_salon"
                         tools:orientation="horizontal" />
 
                     <!-- empty view -->
                     <LinearLayout
                         android:id="@+id/all_salons_empty_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentTop="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:visibility="gone">
@@ -83,7 +84,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:src="@drawable/empty_view_salons" />
+                            android:src="@drawable/empty_view" />
 
                         <TextView
                             android:layout_width="wrap_content"

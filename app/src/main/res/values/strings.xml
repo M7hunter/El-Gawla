@@ -19,16 +19,16 @@
     <string name="subscribe_later">"subscribe later"</string>
     <string name="buy_card_to_join">Buy card to join</string>
     <string name="profile">profile</string>
-    <string name="buying_processes">buying processes</string>
+    <string name="invoices">invoices</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="more_about_gawla">More about Gawla</string>
     <string name="terms_conditions">Terms and conditions</string>
     <string name="call_us">Call us</string>
     <string name="how_gawla_works">How Gawla works</string>
     <string name="joined_salons">Joined salons</string>
-    <string name="create_account">Create account</string>
+    <string name="create_account">create account</string>
     <string name="send">Send</string>
-    <string name="already_have_account">Already have an account</string>
+    <string name="already_have_account">already have an account</string>
     <string name="forgetPassword">Forget password ?</string>
     <string name="email">E-mail</string>
     <string name="facebook">Via Facebook</string>
@@ -43,7 +43,7 @@
     <string name="Minute">Minute</string>
     <string name="hour">Hour</string>
     <string name="Prod_price">Selling price : </string>
-    <string name="read_more">Read More</string>
+    <string name="more">more</string>
     <string name="next">Next</string>
     <string name="finish">Finish</string>
     <string name="Confirm_payment">Confirm Payment</string>
@@ -74,23 +74,24 @@
     <string name="no_content">No content available</string>
     <string name="choose_country">Choose country</string>
     <string name="gender">Gender</string>
-    <string name="telephone_number">Telephone number</string>
+    <string name="telephone_number">phone</string>
     <string name="privacy_details">Privacy Details</string>
     <string name="edit">Edit</string>
     <string name="disconnect">Disconnect</string>
     <string name="connect_with">Connected With </string>
     <string name="delete_account">Delete Your Account</string>
-    <string name="facebook_app_id" translatable="false">1076557455858728</string>
+    <string name="facebook_app_id" translatable="false">743534032757372</string>
     <string name="card_price_salon">Card price for this salon</string>
     <string name="what_is_Gawla">What is Gawla ?</string>
     <string name="text">Text</string>
-    <string name="processes">Processes</string>
+    <string name="process">Process</string>
     <string name="cost">Cost</string>
     <string name="date">Date</string>
     <string name="card">Card</string>
     <string name="save">Save</string>
     <string name="country">Country</string>
     <string name="renew_membership">Renew membership</string>
+    <string name="must_renew_membership">must renew your membership first</string>
     <string name="app_notification">App Notification</string>
     <string name="notification">Notification</string>
     <string name="all_salons">All salons</string>
@@ -115,7 +116,7 @@
     <!--  TODO Will Delete This Strings Later -->
     <string name="mainNotiNews">You can customize your settings so that only the notifications you want appear when the device is locked</string>
     <string name="cards_empty_hint">No cards here yet</string>
-    <string name="no_salons">No salons right now \n try later</string>
+    <string name="no_salons">no salons right now \n try later</string>
     <string name="check_connection">check your connection</string>
     <string name="retry">Retry</string>
     <string name="category">"Category "</string>
@@ -202,4 +203,28 @@
     <string name="votes">(%1$s vote)</string>
     <string name="category_cards">category cards</string>
     <string name="no_cards_for_category">no cards for this category</string>
+    <string name="logged_from_other_device">other device has logged with this account</string>
+    <string name="confirm">confirm</string>
+    <string name="offer_less_than_price">the offer should be less than product price</string>
+    <string name="offered">offered</string>
+    <string name="choose_payment_method">choose payment method</string>
+    <string name="invoice_no">invoice no</string>
+    <string name="not_capturred">NOT CAPTURED</string>
+    <string name="captured">CAPTURED</string>
+    <string name="need_subscribe">Need Subscribe</string>
+    <string name="expiry_date">expiry date :</string>
+    <string name="payment_information">payment information</string>
+    <string name="payment_id">Payment Id</string>
+    <string name="result">Result</string>
+    <string name="transaction_id">Transaction Id</string>
+    <string name="track_id">Track Id</string>
+    <string name="itgeeks" translatable="false">ITGEEKS</string>
+    <string name="created_at">Created At</string>
+    <string name="arabic">العربية</string>
+    <string name="english">english</string>
+    <string name="enter_valid_phone">enter valid phone number</string>
+    <string name="activation">activation</string>
+    <string name="enter_activation_code">enter activation code \n  it may take a while to reach you</string>
+    <string name="enter_phone_hint">enter your phone to receive activation code</string>
+    <string name="wrong_code">wrong code</string>
 </resources>

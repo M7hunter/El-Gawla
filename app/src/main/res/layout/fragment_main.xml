@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".views.MainFragment">
+    tools:context=".views.main.MainFragment">
     <!-- main layout -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -180,7 +180,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/empty_view_salons" />
+                        android:src="@drawable/empty_view" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -225,18 +225,21 @@
                     android:layout_weight="1"
                     android:gravity="start"
                     android:text="@string/salons_winners"
-                    android:textSize="@dimen/text_size_large"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
 
                 <!-- btn see all -->
-                <TextView
+                <Button
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:padding="@dimen/margin_small"
+                    android:visibility="gone"
                     android:text="@string/see_more"
                     android:textColor="@color/midBlue"
-                    android:textSize="@dimen/text_size_large" />
+                    android:textSize="@dimen/text_size_medium" />
 
             </LinearLayout>
 

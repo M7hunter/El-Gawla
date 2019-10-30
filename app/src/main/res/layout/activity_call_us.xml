@@ -75,9 +75,9 @@
                     android:hint="@string/full_name"
                     android:inputType="textPersonName"
                     android:paddingStart="@dimen/margin_xlarge"
-                    android:paddingTop="@dimen/margin_small"
+                    android:paddingTop="@dimen/margin_large"
                     android:paddingEnd="@dimen/margin_xlarge"
-                    android:paddingBottom="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_large"
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -102,9 +102,9 @@
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:paddingStart="@dimen/margin_xlarge"
-                    android:paddingTop="@dimen/margin_small"
+                    android:paddingTop="@dimen/margin_large"
                     android:paddingEnd="@dimen/margin_xlarge"
-                    android:paddingBottom="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_large"
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -132,7 +132,7 @@
                     android:inputType="text|textAutoComplete|textMultiLine"
                     android:lines="6"
                     android:paddingStart="@dimen/margin_xlarge"
-                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingTop="@dimen/margin_large"
                     android:paddingEnd="@dimen/margin_xlarge"
                     android:paddingBottom="@dimen/margin_small"
                     android:textSize="@dimen/text_size_medium"

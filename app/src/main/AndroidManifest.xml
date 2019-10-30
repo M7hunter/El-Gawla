@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="it_geeks.info.gawla_app">
+    package="it_geeks.info.elgawla">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".views.signing.EnterPhoneActivity"></activity>
         <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
         <activity android:name=".views.intro.SplashScreenActivity">
             <intent-filter>
@@ -25,15 +26,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.MainActivity"
+            android:name=".views.main.MainActivity"
             android:clearTaskOnLaunch="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="elgawla.page.link"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.NotificationActivity">
+        <activity android:name=".views.main.NotificationActivity">
             <intent-filter>
                 <action android:name="notification_page" />
 
@@ -47,30 +53,51 @@
             android:name=".views.salon.SalonActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".views.VoteActivity" />
-        <activity android:name=".views.WinnerActivity" />
+        <activity android:name=".views.salon.WinnerActivity" />
         <activity android:name=".views.salon.AllSalonsActivity" />
-        <activity android:name=".views.card.CategoryCardsActivity" />
-        <activity android:name=".views.card.BuyCardActivity" />
+        <activity android:name=".views.store.CategoryCardsActivity" />
+        <activity android:name=".views.store.PaymentReviewActivity" />
+        <activity android:name=".views.store.PaymentMethodsActivity" />
+        <activity android:name=".views.store.PaymentURLActivity" />
         <activity android:name=".views.intro.IntroActivity" />
-        <activity android:name=".views.login.ForgetPasswordActivity" />
-        <activity android:name=".views.login.CreateAccountActivity" />
-        <activity android:name=".views.login.LoginActivity" />
+        <activity android:name=".views.signing.SignUpActivity" />
+        <activity android:name=".views.signing.SignInActivity" />
+        <activity android:name=".views.signing.ActivationActivity" />
+        <activity android:name=".views.signing.ForgetPasswordActivity" />
+        <activity android:name=".views.menu.VoteActivity" />
         <activity android:name=".views.menu.SettingsActivity" />
-        <activity android:name=".views.menu.MoreAboutGawlaActivity" />
-        <activity android:name=".views.menu.PrivacyPolicyActivity" />
-        <activity android:name=".views.menu.TermsAndConditionsActivity" />
         <activity android:name=".views.menu.CallUsActivity" />
         <activity android:name=".views.menu.LanguageActivity" />
         <activity android:name=".views.menu.WebPageActivity" />
+        <activity android:name=".views.main.BlogActivity" />
         <activity android:name=".views.account.MembershipActivity" />
-        <activity android:name=".views.account.BuyingProcessesActivity" />
+        <activity android:name=".views.account.InvoicesActivity" />
         <activity android:name=".views.account.ProfileActivity" />
         <activity android:name=".views.account.SalonsArchiveActivity" />
         <activity android:name=".views.account.MyCardsActivity" />
         <activity
             android:name=".views.account.ChangePasswordActivity"
             android:windowSoftInputMode="adjustPan" /> <!-- receivers -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_remote_notification_channel_id" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/gawla_logo_white" /> <!-- services -->
+        <!-- Firebase Services -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimary" />
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false" /> <!-- firebase -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
+
         <receiver android:name=".util.receivers.NotificationInteractionsReceiver" />
         <receiver
             android:name=".util.receivers.ConnectionChangeReceiver"
@@ -78,34 +105,15 @@
             <intent-filter>
                 <action android:name="android.net.com.CONNECTIVITY_CHANGE" />
             </intent-filter>
-        </receiver> <!-- services -->
-        <!-- Firebase Services -->
-        <service android:name=".util.services.UploadImageService" />
+        </receiver> <!-- facebook -->
+        <service android:name=".util.services.UploadImageService" /> <!-- pay -->
         <service
             android:name=".util.services.NotificationFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service> <!-- firebase -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/default_remote_notification_channel_id" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_launcher" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorPrimary" />
-        <meta-data
-            android:name="firebase_crashlytics_collection_enabled"
-            android:value="false" /> <!-- facebook -->
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" /> <!-- pay -->
-        <meta-data
-            android:name="com.google.android.gms.wallet.api.enabled"
-            android:value="true" />
+        </service>
     </application>
 
 </manifest>

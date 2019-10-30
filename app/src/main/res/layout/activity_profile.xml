@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+    android:fillViewport="true"
     android:orientation="vertical"
     tools:context=".views.account.ProfileActivity">
     <!-- scroll main layout -->
@@ -63,14 +64,19 @@
             </FrameLayout>
 
             <!-- save btn -->
-            <Button
+            <TextView
                 android:id="@+id/btn_update_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/margin_small"
-                android:backgroundTint="@color/colorSecondary"
+                android:background="@drawable/bg_circled_corners_c_secondary"
+                android:paddingStart="@dimen/margin_large"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_large"
+                android:paddingBottom="@dimen/margin_small"
                 android:text="@string/save"
+                android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
@@ -92,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_medium"
             android:layoutDirection="rtl">
 
             <!-- image -->
@@ -149,7 +155,7 @@
             android:layout_marginStart="@dimen/margin_xxx_large"
             android:layout_marginTop="@dimen/margin_xlarge"
             android:layout_marginEnd="@dimen/margin_xxx_large"
-            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
             android:textColorHint="@color/paleGrey2">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -174,7 +180,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_xxx_large"
             android:layout_marginEnd="@dimen/margin_xxx_large"
-            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
             android:textColorHint="@color/paleGrey2">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -198,7 +204,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xxx_large"
             android:layout_marginRight="@dimen/margin_xxx_large"
-            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
             android:textColorHint="@color/paleGrey2">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -208,6 +214,7 @@
                 android:focusable="auto"
                 android:hint="@string/telephone_number"
                 android:inputType="phone"
+                android:maxLength="15"
                 android:paddingStart="@dimen/margin_xlarge"
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_xlarge"
@@ -223,7 +230,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xxx_large"
             android:layout_marginRight="@dimen/margin_xxx_large"
-            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
             android:textColorHint="@color/paleGrey2">
 
             <EditText
@@ -249,7 +256,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xxx_large"
             android:layout_marginRight="@dimen/margin_xxx_large"
-            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
             android:textColorHint="@color/paleGrey2">
 
             <EditText

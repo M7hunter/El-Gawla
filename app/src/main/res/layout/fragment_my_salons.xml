@@ -8,6 +8,7 @@
     tools:context=".views.salon.MySalonsFragment">
 
     <RelativeLayout
+        android:id="@+id/my_salons_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -18,7 +19,8 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/header">
+            android:layout_below="@id/header"
+            android:fillViewport="true">
             <!-- scroll main layout -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,12 +59,11 @@
                     <!-- empty view -->
                     <LinearLayout
                         android:id="@+id/my_rounds_empty_view"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:gravity="center"
-                        android:minHeight="@dimen/my_rounds_empty_view_min_height"
                         android:orientation="vertical"
                         android:visibility="gone">
 
@@ -72,7 +73,7 @@
                             android:layout_marginStart="@dimen/margin_xx_large"
                             android:layout_marginEnd="@dimen/margin_xx_large"
                             android:layout_weight="1"
-                            android:src="@drawable/empty_view_my_rounds" />
+                            android:src="@drawable/empty_view" />
 
                         <TextView
                             android:id="@+id/tv_my_rounds_empty_hint"
@@ -89,9 +90,6 @@
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
-        <!-- no connection view -->
-        <include layout="@layout/layout_no_connection" />
 
         <ProgressBar
             android:id="@+id/pb_my_rounds"
