@@ -1,33 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/phone_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/phone_main_layout"
     tools:context=".views.signing.EnterPhoneActivity">
 
     <!-- header -->
-    <TextView
+    <androidx.cardview.widget.CardView
         android:id="@+id/tv_phone_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:padding="@dimen/margin_medium"
-        android:text="@string/telephone_number"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:cardCornerRadius="0dp"
+        app:cardElevation="@dimen/margin_small">
+        <!-- card main layout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:layoutDirection="rtl">
 
+            <!-- back -->
+            <include
+                layout="@layout/layout_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_medium"
+                android:text="@string/phone_number"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- content -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_phone_header">
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_phone_header"
+        android:fillViewport="true">
         <!-- scroll main layout -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -38,8 +62,7 @@
                 android:id="@+id/phone_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginBottom="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_xxx_large"
                 android:src="@drawable/gawla_logo_blue"
                 app:layout_constraintBottom_toTopOf="@id/phone_hint"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -51,8 +74,7 @@
                 android:id="@+id/phone_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginBottom="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_xx_large"
                 android:text="@string/enter_phone_hint"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/text_size_medium"
@@ -69,9 +91,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_xx_large"
                 android:layout_marginEnd="@dimen/margin_xx_large"
-                android:layout_marginBottom="@dimen/margin_xTiny"
+                android:layout_marginTop="@dimen/margin_xx_large"
                 android:focusable="true"
-                android:hint="@string/telephone_number"
+                android:hint="@string/phone_number"
                 android:textColorHint="@color/paleGrey2"
                 app:errorEnabled="true"
                 app:layout_constraintBottom_toTopOf="@id/btn_phone_send"
@@ -100,10 +122,9 @@
                 android:paddingBottom="@dimen/margin_small"
                 android:text="@string/send"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tl_phone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

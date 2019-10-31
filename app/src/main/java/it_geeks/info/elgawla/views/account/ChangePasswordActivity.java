@@ -2,25 +2,23 @@ package it_geeks.info.elgawla.views.account;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.crashlytics.android.Crashlytics;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import it_geeks.info.elgawla.util.DialogBuilder;
-import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.RESTful.Request;
@@ -30,30 +28,18 @@ import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.signing.SignInActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_CHANGE_PASSWORD;
-import static it_geeks.info.elgawla.util.Constants.REQ_DEACTIVATE_USER_ACCOUNT;
 import static it_geeks.info.elgawla.util.Constants.SERVER_MSG;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
-    TextView socialUsername, socialProvider, socialOut;
-    Button btnEditPassword, btnDeleteAccount;
-    ImageView providerImage;
-    LinearLayout socialDiv;
-    private GoogleApiClient mGoogleApiClient;
+    private TextInputLayout tlOldPass, tlNewPass, tlRenterPass;
+    private EditText etOldPass, etNewPass, etRenterPass;
+    private Button btnChange;
 
-    private SnackBuilder snackBuilder;
-
-    String Provider;
-
-    private int id;
-    private String api_token;
-
-    private EditText etPass;
-    private TextInputLayout tlPass;
-
-    private boolean editPass = false;
+    private String oldPass, newPass, rePass;
 
     private DialogBuilder dialogBuilder;
+    private SnackBuilder snackBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,240 +47,208 @@ public class ChangePasswordActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_change_password);
 
-        id = SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getUser_id();
-        api_token = SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getApi_token();
-
         init();
 
-        handleEvents();
+        initTextWatchers();
 
-        // Logout Disconnect
-        socialOut.setOnClickListener(click);
-        // arrow back
-        findViewById(R.id.back).setOnClickListener(click);
+        handleEvents();
     }
 
     private void init() {
-        socialUsername = findViewById(R.id.social_username);
-        socialProvider = findViewById(R.id.social_provider);
-        providerImage = findViewById(R.id.social_image);
-        socialDiv = findViewById(R.id.social_div);
-        socialOut = findViewById(R.id.social_out);
-        etPass = findViewById(R.id.et_account_pass);
+        tlOldPass = findViewById(R.id.tl_old_pass);
+        tlNewPass = findViewById(R.id.tl_new_pass);
+        tlRenterPass = findViewById(R.id.tl_renter_new_pass);
+        etOldPass = findViewById(R.id.et_old_pass);
+        etNewPass = findViewById(R.id.et_new_pass);
+        etRenterPass = findViewById(R.id.et_renter_new_pass);
+        btnChange = findViewById(R.id.btn_change_pass);
 
-        tlPass = findViewById(R.id.tl_privacy_details_pass);
-        btnEditPassword = findViewById(R.id.btn_edit_password);
-        btnDeleteAccount = findViewById(R.id.btn_delete_account);
-
-        socialUsername.setText(SharedPrefManager.getInstance(this).getUser().getName());
-
-        initProvider();
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
-        initDisconnectDialog();
 
         snackBuilder = new SnackBuilder(findViewById(R.id.pass_main_layout));
     }
 
+    private void initTextWatchers() {
+        etOldPass.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (tlOldPass.getError() != null)
+                    tlOldPass.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        etNewPass.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (tlNewPass.getError() != null)
+                    tlNewPass.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        etRenterPass.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (tlRenterPass.getError() != null)
+                    tlRenterPass.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
     private void handleEvents() {
-        // edit pass
-        btnEditPassword.setOnClickListener(new View.OnClickListener() {
+        btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!editPass)
+                oldPass = etOldPass.getText().toString();
+                newPass = etNewPass.getText().toString();
+                rePass = etRenterPass.getText().toString();
+
+                if (checkPass())
                 {
-                    passEditMode();
-                }
-                else
-                { // check user entry & send it to the server
-                    String pass = etPass.getText().toString();
-                    if (checkPass(pass))
-                    {
-                        sendPassToServer(pass);
-                    }
-
-                    passDefaultMode();
+                    sendPassToServer();
                 }
             }
         });
 
-        // delete account 'deactivate'
-        btnDeleteAccount.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteAccountDialog();
+                onBackPressed();
             }
         });
     }
 
-    private boolean checkPass(String pass) {
-        if (pass.isEmpty())
-        { // empty ?
-            tlPass.setError(getResources().getString(R.string.emptyPass));
-            etPass.requestFocus();
-            return false;
+    private boolean checkPass() {
+        boolean _continue = true;
+        if (rePass.isEmpty())
+        {
+            tlRenterPass.setError(getString(R.string.empty_hint));
+            etRenterPass.requestFocus();
+            _continue = false;
         }
-        else
-        { // !empty
-            return true;
+
+        if (newPass.isEmpty())
+        {
+            tlNewPass.setError(getString(R.string.empty_hint));
+            etNewPass.requestFocus();
+            _continue = false;
         }
+
+        if (oldPass.isEmpty())
+        {
+            tlOldPass.setError(getString(R.string.empty_hint));
+            etOldPass.requestFocus();
+            _continue = false;
+        }
+
+        if (_continue)
+        {
+            if (oldPass.equals(newPass))
+            {
+                tlOldPass.setError(getString(R.string.match));
+
+                tlNewPass.setError(getString(R.string.match));
+                etNewPass.requestFocus();
+                _continue = false;
+            }
+
+            if (!newPass.equals(rePass))
+            {
+                tlNewPass.setError(getString(R.string.no_match));
+
+                tlRenterPass.setError(getString(R.string.no_match));
+                etRenterPass.requestFocus();
+                _continue = false;
+            }
+        }
+        return _continue;
     }
 
-    private void sendPassToServer(String Pass) {
-        snackBuilder.setSnackText(getString(R.string.loading)).showSnack();
-
+    private void sendPassToServer() {
+        dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(ChangePasswordActivity.this).executeConnectionToServer(
                 ChangePasswordActivity.this,
-                REQ_CHANGE_PASSWORD, new Request<>(REQ_CHANGE_PASSWORD, id, api_token, Pass
+                REQ_CHANGE_PASSWORD, new Request<>(REQ_CHANGE_PASSWORD, SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getUser_id(),
+                        SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getApi_token(), newPass
                         , null, null, null, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         snackBuilder.setSnackText(mainObject.get(SERVER_MSG).getAsString()).showSnack();
-                        startActivity(new Intent(ChangePasswordActivity.this, SignInActivity.class)
-                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+
+                        signOut();
                     }
 
                     @Override
                     public void handleAfterResponse() {
+                        dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
+                        dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 }
         );
     }
 
-    private void passEditMode() {
-        btnEditPassword.setText(getResources().getString(R.string.save));
-        etPass.setEnabled(true);
-        tlPass.setError(null);
-        editPass = true;
-    }
+    private void signOut() {
+        // local
+        SharedPrefManager.getInstance(ChangePasswordActivity.this).clearUser();
+        SharedPrefManager.getInstance(ChangePasswordActivity.this).clearProvider();
 
-    private void passDefaultMode() {
-        btnEditPassword.setText(getResources().getString(R.string.edit));
-        etPass.setEnabled(false);
-        editPass = false;
-    }
+        // facebook
+        LoginManager.getInstance().logOut();
 
-    private void deleteAccountDialog() {
-        dialogBuilder.createAlertDialog(this, new ClickInterface.AlertButtonsClickListener() {
-            @Override
-            public void onPositiveClick() {
-                deleteAccount();
-            }
-
-            @Override
-            public void onNegativeCLick() {
-
-            }
-        });
-
-        dialogBuilder.setAlertText( getString(R.string.delete_account_hint));
-    }
-
-    private void deleteAccount() {
-        RetrofitClient.getInstance(ChangePasswordActivity.this).executeConnectionToServer(
-                ChangePasswordActivity.this,
-                REQ_DEACTIVATE_USER_ACCOUNT, new Request<>(REQ_DEACTIVATE_USER_ACCOUNT, id, api_token
-                        , null, null, null, null, null),
-                new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        snackBuilder.setSnackText(mainObject.get(SERVER_MSG).getAsString()).showSnack();
-                        disconnect();
-                        SharedPrefManager.getInstance(ChangePasswordActivity.this).clearUser();
-
-                        startActivity(new Intent(ChangePasswordActivity.this, SignInActivity.class)
-                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                    }
-
-                    @Override
-                    public void handleAfterResponse() {
-
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        snackBuilder.setSnackText(errorMessage).showSnack();
-                    }
-                }
-        );
-    }
-
-    private void initDisconnectDialog() {
-        dialogBuilder.createAlertDialog(this, new ClickInterface.AlertButtonsClickListener() {
-            @Override
-            public void onPositiveClick() {
-                disconnect();
-            }
-
-            @Override
-            public void onNegativeCLick() {
-
-            }
-        });
-        dialogBuilder.setAlertText(getString(R.string.disconnect) + " ?");
-    }
-
-    private void disconnect() {
-        try
+        // google
+        GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(ChangePasswordActivity.this).addApi(Auth.GOOGLE_SIGN_IN_API).build();
+        if (mGoogleApiClient.isConnected())
         {
-            SharedPrefManager.getInstance(this).clearUser();
-            startActivity(new Intent(this, SignInActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            SharedPrefManager.getInstance(this).clearProvider();
-            LoginManager.getInstance().logOut();
-            if (mGoogleApiClient.isConnected())
-            {
-                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                mGoogleApiClient.disconnect();
-                mGoogleApiClient.connect();
-            }
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            Crashlytics.logException(e);
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+            mGoogleApiClient.disconnect();
         }
+
+        // firebase
+        disableNotification();
+
+        // redirect to sign in
+        startActivity(new Intent(ChangePasswordActivity.this, SignInActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
-    private void initProvider() {
-        Provider = SharedPrefManager.getInstance(ChangePasswordActivity.this).getProvider();
-        switch (Provider)
-        {
-            case SignInActivity.providerFacebook:
-                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.com_facebook_button_icon_blue));
-                socialProvider.setText(SignInActivity.providerFacebook);
-                break;
-            case SignInActivity.providerGoogle:
-                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.googleg_standard_color_18));
-                socialProvider.setText(SignInActivity.providerGoogle);
-                break;
-            default:
-                socialProvider.setText(SignInActivity.providerNormalLogin);
-                providerImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_gawla_logo_two));
-                break;
-        }
+    private void disableNotification() {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("salon_" + SharedPrefManager.getInstance(ChangePasswordActivity.this).getSubscribedSalonId());
+        SharedPrefManager.getInstance(ChangePasswordActivity.this).clearSubscribedSalonId();
     }
-
-    // On Click Action
-    private View.OnClickListener click = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId())
-            {
-                // back
-                case R.id.back:
-                    onBackPressed();
-                    break;
-
-                case R.id.social_out:
-                    dialogBuilder.displayAlertDialog();
-                    break;
-            }
-        }
-    };
 }

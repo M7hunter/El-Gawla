@@ -16,18 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".views.signing.EnterPhoneActivity"></activity>
-        <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
         <activity android:name=".views.intro.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".views.main.MainActivity"
-            android:clearTaskOnLaunch="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -35,33 +28,38 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="elgawla.page.link"
+                    android:host="elgawlaapp.page.link"
                     android:scheme="https" />
+                <data
+                    android:host="elgawlaapp.page.link"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
+        <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
+        <activity android:name=".views.signing.ResetPasswordActivity" />
+        <activity
+            android:name=".views.main.MainActivity"
+            android:clearTaskOnLaunch="true" />
         <activity android:name=".views.main.NotificationActivity">
             <intent-filter>
                 <action android:name="notification_page" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.intro.SplashActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".views.salon.SalonActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:screenOrientation="portrait" />
         <activity android:name=".views.salon.WinnerActivity" />
         <activity android:name=".views.salon.AllSalonsActivity" />
         <activity android:name=".views.store.CategoryCardsActivity" />
         <activity android:name=".views.store.PaymentReviewActivity" />
         <activity android:name=".views.store.PaymentMethodsActivity" />
         <activity android:name=".views.store.PaymentURLActivity" />
+        <activity android:name=".views.intro.SplashActivity" />
         <activity android:name=".views.intro.IntroActivity" />
         <activity android:name=".views.signing.SignUpActivity" />
         <activity android:name=".views.signing.SignInActivity" />
+        <activity android:name=".views.signing.EnterPhoneActivity" />
         <activity android:name=".views.signing.ActivationActivity" />
         <activity android:name=".views.signing.ForgetPasswordActivity" />
         <activity android:name=".views.menu.VoteActivity" />
@@ -75,9 +73,9 @@
         <activity android:name=".views.account.ProfileActivity" />
         <activity android:name=".views.account.SalonsArchiveActivity" />
         <activity android:name=".views.account.MyCardsActivity" />
-        <activity
-            android:name=".views.account.ChangePasswordActivity"
-            android:windowSoftInputMode="adjustPan" /> <!-- receivers -->
+        <activity android:name=".views.account.ChangePasswordActivity" />
+
+        <!-- receivers -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_remote_notification_channel_id" />
@@ -105,8 +103,9 @@
             <intent-filter>
                 <action android:name="android.net.com.CONNECTIVITY_CHANGE" />
             </intent-filter>
-        </receiver> <!-- facebook -->
-        <service android:name=".util.services.UploadImageService" /> <!-- pay -->
+        </receiver>
+
+        <service android:name=".util.services.UploadImageService" />
         <service
             android:name=".util.services.NotificationFirebaseMessagingService"
             android:exported="false">

@@ -55,8 +55,8 @@ public class RetrofitClient {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .connectTimeout(18, TimeUnit.SECONDS)
-                .readTimeout(18, TimeUnit.SECONDS)
                 .writeTimeout(18, TimeUnit.SECONDS)
+                .readTimeout(18, TimeUnit.SECONDS)
                 .build();
 
         Gson gson = new GsonBuilder()
@@ -84,11 +84,13 @@ public class RetrofitClient {
         // it geeks server : https://dev.itgeeks.info/api/v1/en/
         // gawla server : http://elgawla.net/dev/public/api/v1/en/
         // gawla server ip : http://134.209.0.250/dev/public/api/v1/en/
+        // gawla publish server : http://elgawla.com/api/v2/en/
 
         if ("ar".equals(SharedPrefManager.getInstance(context).getSavedLang()))
         {
             return "ar";
-        } else
+        }
+        else
         {
             return "en";
         }
@@ -171,7 +173,8 @@ public class RetrofitClient {
 
                             break;
                         case 412:
-                            if (dialogBuilder == null) {
+                            if (dialogBuilder == null)
+                            {
                                 initRenewMembershipAlert(context);
                             }
 

@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initDynamicLinking();
-
         if (savedInstanceState == null)
         {
             displayFragment(fragment);
@@ -62,34 +60,6 @@ public class MainActivity extends AppCompatActivity {
         getExtras();
 
         initNavigation();
-    }
-
-    private void initDynamicLinking() {
-        FirebaseDynamicLinks.getInstance()
-                .getDynamicLink(getIntent())
-                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
-                    @Override
-                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
-                        // Get deep link from result (may be null if no link is found)
-                        Uri deepLink = null;
-                        if (pendingDynamicLinkData != null)
-                        {
-                            deepLink = pendingDynamicLinkData.getLink();
-                        }
-                        Log.d("dynamic-links", "getDynamicLink:onSuccess " + deepLink);
-
-                        // Handle the deep link. For example, open the linked
-                        // content, or apply promotional credit to the user's
-                        // account.
-
-                    }
-                })
-                .addOnFailureListener(this, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("dynamic-links", "getDynamicLink:onFailure", e);
-                    }
-                });
     }
 
     public void getExtras() {

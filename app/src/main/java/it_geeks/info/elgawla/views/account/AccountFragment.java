@@ -173,9 +173,12 @@ public class AccountFragment extends Fragment {
                     public void handleTrueResponse(JsonObject mainObject) {
                         String subscription = mainObject.get("subscribe_end").getAsString();
                         if (subscription != null)
-                            if (subscription.equals("Need Subscribe") || subscription.equals("0")) {
+                            if (subscription.equals("Need Subscribe") || subscription.equals("0"))
+                            {
                                 llExp.setVisibility(View.GONE);
-                            } else {
+                            }
+                            else
+                            {
                                 llExp.setVisibility(View.VISIBLE);
                                 tvSubscriptionExp.setText(subscription);
                             }

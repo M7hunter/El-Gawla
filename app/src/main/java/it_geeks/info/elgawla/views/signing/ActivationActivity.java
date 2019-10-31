@@ -2,35 +2,37 @@ package it_geeks.info.elgawla.views.signing;
 
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.repository.Models.User;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
-import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.Request;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
-import it_geeks.info.elgawla.util.Common;
-import it_geeks.info.elgawla.util.DialogBuilder;
-import it_geeks.info.elgawla.util.SnackBuilder;
-import it_geeks.info.elgawla.views.account.MembershipActivity;
-import it_geeks.info.elgawla.views.main.MainActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
-import static it_geeks.info.elgawla.util.Constants.REQ_USER_ACTIVATION;
+import static it_geeks.info.elgawla.util.Constants.REQ_SEND_SMS;
 
 public class ActivationActivity extends AppCompatActivity {
 
+    private TextInputLayout tlCode;
     private EditText etCode;
     private Button btnConfirm;
+    private FloatingActionButton fbtnResend;
+    private TextView tvExTimer;
+    private CountDownTimer countDownTimer;
+    private int timeValue = 60;
 
     private String cashedCode, phone;
 
@@ -58,8 +60,32 @@ public class ActivationActivity extends AppCompatActivity {
     }
 
     private void init() {
+        tlCode = findViewById(R.id.tl_code);
         etCode = findViewById(R.id.et_activation_code);
         btnConfirm = findViewById(R.id.btn_activation_confirm);
+        tvExTimer = findViewById(R.id.tv_activation_ex_time);
+        fbtnResend = findViewById(R.id.fbtn_resend_code);
+        fbtnResend.setEnabled(false);
+
+        countDownTimer = new CountDownTimer(timeValue * 1000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tvExTimer.setText("00:" + (millisUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                fbtnResend.setEnabled(true);
+            }
+        }.start();
+
+        fbtnResend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestCodeByPhoneFromServer(phone);
+            }
+        });
     }
 
     private void handleEvents() {
@@ -70,7 +96,7 @@ public class ActivationActivity extends AppCompatActivity {
 
                 if (code.isEmpty())
                 {
-                    etCode.setError(getString(R.string.empty_hint));
+                    tlCode.setError(getString(R.string.empty_hint));
                     etCode.requestFocus();
                 }
                 else
@@ -82,7 +108,7 @@ public class ActivationActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        etCode.setError(getString(R.string.wrong_code));
+                        tlCode.setError(getString(R.string.wrong_code));
                         etCode.requestFocus();
                     }
                 }
@@ -97,9 +123,9 @@ public class ActivationActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (etCode.getError() != null)
+                if (tlCode.getError() != null)
                 {
-                    etCode.setError(null);
+                    tlCode.setError(null);
                 }
             }
 
@@ -109,4 +135,28 @@ public class ActivationActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void requestCodeByPhoneFromServer(final String phone) {
+        RetrofitClient.getInstance(this).executeConnectionToServer(this
+                , REQ_SEND_SMS, new Request<>(REQ_SEND_SMS, phone, SharedPrefManager.getInstance(ActivationActivity.this).getCountry().getCountry_id()
+                        , null, null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        countDownTimer.start();
+                        fbtnResend.setEnabled(false);
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+
+                    }
+                });
+    }
+
 }
+

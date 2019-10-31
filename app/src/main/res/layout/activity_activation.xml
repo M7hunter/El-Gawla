@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activation_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
+    android:backgroundTint="@color/paleGrey"
     tools:context=".views.signing.ActivationActivity">
-    <!-- scroll main layout -->
-    <RelativeLayout
+
+    <!-- header -->
+    <TextView
+        android:id="@+id/tv_activation_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:padding="@dimen/margin_medium"
+        android:text="@string/activation"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
 
-        <!-- header -->
-        <TextView
-            android:id="@+id/tv_activation_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:padding="@dimen/margin_medium"
-            android:text="@string/activation"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
-
-        <!-- content -->
+    <!-- content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_activation_header"
+        android:fillViewport="true">
+        <!-- scroll main layout -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/tv_activation_header"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <!-- logo -->
@@ -39,7 +41,7 @@
                 android:id="@+id/activation_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xx_large"
+                android:layout_marginTop="@dimen/margin_xxx_large"
                 android:src="@drawable/gawla_logo_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +52,7 @@
                 android:id="@+id/activation_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xlarge"
+                android:layout_marginTop="@dimen/margin_xx_large"
                 android:gravity="center"
                 android:text="@string/enter_activation_code"
                 android:textColor="@android:color/black"
@@ -59,26 +61,41 @@
                 app:layout_constraintTop_toBottomOf="@id/activation_logo" />
 
             <!-- code -->
-            <EditText
-                android:id="@+id/et_activation_code"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tl_code"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xxxx_large"
+                android:layout_marginStart="@dimen/margin_xxx_large"
                 android:layout_marginTop="@dimen/margin_xx_large"
-                android:layout_marginEnd="@dimen/margin_xxxx_large"
-                android:gravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activation_hint" />
+                android:layout_marginEnd="@dimen/margin_xxx_large"
+                android:focusable="true"
+                android:textColorHint="@color/paleGrey2"
+                app:errorEnabled="true"
+                app:layout_constraintBottom_toTopOf="@id/btn_phone_send"
+                app:layout_constraintTop_toBottomOf="@id/phone_hint">
+
+                <EditText
+                    android:id="@+id/et_activation_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/activation_hint" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- confirm -->
             <Button
                 android:id="@+id/btn_activation_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xxxx_large"
-                android:layout_marginTop="@dimen/margin_xx_large"
-                android:layout_marginEnd="@dimen/margin_xxxx_large"
+                android:layout_marginStart="@dimen/margin_xxx_large"
+                android:layout_marginTop="@dimen/margin_xlarge"
+                android:layout_marginEnd="@dimen/margin_xxx_large"
+                android:layout_marginBottom="@dimen/margin_xxx_large"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
                 android:text="@string/confirm"
@@ -86,7 +103,44 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/et_activation_code" />
 
-        </LinearLayout>
+            <!-- expiry -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-    </RelativeLayout>
-</ScrollView>
+                <!-- expiry label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/resend_after"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <!-- time -->
+                <TextView
+                    android:id="@+id/tv_activation_ex_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_tiny"
+                    android:layout_marginEnd="@dimen/margin_tiny"
+                    android:text="01:00"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="@dimen/text_size_medium" />
+
+            </LinearLayout>
+
+            <!-- resend -->
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fbtn_resend_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:src="@drawable/ic_refresh"
+                app:backgroundTint="@android:color/white"
+                app:elevation="@dimen/margin_small"
+                app:tint="@color/grey" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

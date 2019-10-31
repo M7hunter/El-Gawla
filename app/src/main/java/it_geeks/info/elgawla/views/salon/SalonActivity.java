@@ -26,15 +26,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.VideoView;
 import android.widget.ViewSwitcher;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
@@ -77,10 +84,12 @@ import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.Adapters.SalonCardsAdapter;
 import it_geeks.info.elgawla.Adapters.ProductSubImagesAdapter;
+import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
 import it_geeks.info.elgawla.util.salonUtils.CountDown.CountDownController;
 import it_geeks.info.elgawla.util.salonUtils.ChatUtils;
 import it_geeks.info.elgawla.util.salonUtils.SocketUtils;
+import it_geeks.info.elgawla.views.store.PaymentMethodsActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_CODE_BUY_CARD;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_WITH_REALTIME;
@@ -91,7 +100,6 @@ import static it_geeks.info.elgawla.util.Constants.REQ_SET_USER_OFFER;
 import static it_geeks.info.elgawla.util.Constants.REQ_SET_USER_SALON;
 import static it_geeks.info.elgawla.util.Constants.REQ_SET_ROUND_LEAVE;
 import static it_geeks.info.elgawla.util.Constants.REQ_USE_GOLDEN_CARD;
-import static it_geeks.info.elgawla.util.Constants.REQ_ADD_CARDS_TO_USER;
 
 public class SalonActivity extends AppCompatActivity {
 
@@ -106,6 +114,7 @@ public class SalonActivity extends AppCompatActivity {
     private ImageView btnPlayPause, imgNotification, joinIcon, ivProductImage;
     public Button btnJoinRound, btnAddOffer;
     private Button btnJoinConfirmation, btnUseGoldenCard;
+    private FloatingActionButton fbtnShare;
     private TextSwitcher tsRoundLatestActivity;
     public TextView tvChatEmptyHint, joinHeader, joinText, tvSalonMessage, tvProductDetailsTab, tvSalonActivityTab, tvChatTab, tvTopTenTab;
     private TextView tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound;
@@ -113,7 +122,8 @@ public class SalonActivity extends AppCompatActivity {
     private TextInputLayout tilAddOffer;
     private View salonMainContainer, detailsSheetView, salonMainLayout;
     public View lastActivity;
-    public LinearLayout addOfferLayout, activityContainer, chatContainer, topTenContainer, more;
+    public LinearLayout addOfferLayout, chatContainer, topTenContainer, more;
+    public RelativeLayout activityContainer;
     private RecyclerView activityRecycler, topTenRecycler, cardsRecycler;
     // endregion
 
@@ -182,8 +192,6 @@ public class SalonActivity extends AppCompatActivity {
         }
 
         handleEvents();
-
-//        initHelp();
     }
 
     @Override
@@ -197,7 +205,8 @@ public class SalonActivity extends AppCompatActivity {
             if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isFirst_round_state() || roundRemainingTime.isFirst_rest_state() || roundRemainingTime.isSecond_round_state())
             {
                 socketUtils.connectSocket();
-            } else
+            }
+            else
             {
                 socketUtils.disconnectSocket();
             }
@@ -238,17 +247,26 @@ public class SalonActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         AudioPlayer.getInstance().play(SalonActivity.this, R.raw.exit);
-        setResult(RESULT_OK, new Intent());
-        super.onBackPressed();
+
+        if (getIntent().getBooleanExtra("salon_from_link", false))
+        {
+            startActivity(new Intent(SalonActivity.this, MainActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+            finish();
+        }
+        else
+        {
+            setResult(RESULT_OK, new Intent());
+            super.onBackPressed();
+        }
     }
 
     @Override
     protected void onDestroy() {
-        disconnectSalonSocket();
-        unregisterReceiver(connectionChangeReceiver);
-
         try
         {
+            disconnectSalonSocket();
+            unregisterReceiver(connectionChangeReceiver);
             countDownController.stopCountDown();
         }
         catch (Exception e)
@@ -278,6 +296,7 @@ public class SalonActivity extends AppCompatActivity {
         btnJoinRound = findViewById(R.id.btn_join_round);
         btnUseGoldenCard = findViewById(R.id.btn_use_golden_card);
         btnLeaveRound = findViewById(R.id.btn_leave_round);
+        fbtnShare = findViewById(R.id.fbtn_share_salon);
 
         etAddOffer = findViewById(R.id.et_add_offer);
         tilAddOffer = findViewById(R.id.til_add_offer);
@@ -300,7 +319,6 @@ public class SalonActivity extends AppCompatActivity {
         imgNotification = findViewById(R.id.iv_notification_bell);
         View bellIndicator = findViewById(R.id.bell_indicator);
 
-        // notification status LiveData
         NotificationBuilder.listenToNotificationStatus(this, bellIndicator);
 
         initActivitySwitcher();
@@ -319,7 +337,8 @@ public class SalonActivity extends AppCompatActivity {
             { // get data from previous page
                 round = (Round) extras.getSerializable("round");
             }
-        } else
+        }
+        else
         { // get data from saved state
             round = (Round) savedInstanceState.getSerializable("round");
         }
@@ -353,7 +372,8 @@ public class SalonActivity extends AppCompatActivity {
                 if (joinState == 2 || roundRemainingTime.isUserJoin())
                 {
                     onSubscriptionConfirmed();
-                } else
+                }
+                else
                 {
                     onSubscriptionCanceled();
                 }
@@ -367,7 +387,8 @@ public class SalonActivity extends AppCompatActivity {
                 if (mBottomSheetDialogProductDetails != null && mBottomSheetDialogProductDetails.isShowing())
                 { // close sheet
                     mBottomSheetDialogProductDetails.dismiss();
-                } else
+                }
+                else
                 {
                     mBottomSheetDialogProductDetails.show();
                 }
@@ -443,7 +464,8 @@ public class SalonActivity extends AppCompatActivity {
                     {
                         tilAddOffer.setError(getString(R.string.offer_less_than_price));
                         btnAddOffer.setEnabled(false);
-                    } else
+                    }
+                    else
                     {
                         btnAddOffer.setEnabled(true);
                         if (tilAddOffer.getError() != null)
@@ -461,6 +483,44 @@ public class SalonActivity extends AppCompatActivity {
 
             }
         });
+
+        fbtnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createDynamicLinkAndShareSalon();
+            }
+        });
+    }
+
+    private void createDynamicLinkAndShareSalon() {
+        FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(buildUri())
+                .setDomainUriPrefix("https://elgawlaapp.page.link/")
+                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
+                .buildShortDynamicLink()
+                .addOnCompleteListener(new OnCompleteListener<ShortDynamicLink>() {
+                    @Override
+                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+                        if (task.isSuccessful())
+                        {
+                            // share
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, task.getResult().getShortLink().toString());
+                            Intent intent = Intent.createChooser(shareIntent, getString(R.string.share_salon));
+                            startActivity(intent);
+                        }
+                    }
+                });
+    }
+
+    private Uri buildUri() {
+        return new Uri.Builder()
+                .scheme("https")
+                .authority("elgawlaapp.page.link")
+                .appendPath("salons")
+                .appendQueryParameter("salon_id", String.valueOf(round.getSalon_id()))
+                .build();
     }
 
     private void sendOfferToServer() {
@@ -480,7 +540,8 @@ public class SalonActivity extends AppCompatActivity {
                 etAddOffer.setHint(getString(R.string.no_content));
                 etAddOffer.setHintTextColor(getResources().getColor(R.color.paleRed));
                 return;
-            } else if (userOffer.equals(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId)))
+            }
+            else if (userOffer.equals(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId)))
             {
                 return;
             }
@@ -607,7 +668,8 @@ public class SalonActivity extends AppCompatActivity {
             topTenRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
             topTenRecycler.setAdapter(new TopTenAdapter(topTens));
             Common.Instance().hideProgress(topTenRecycler, pbTopTen);
-        } else
+        }
+        else
         {
             tvTopTenEmptyHint.setVisibility(View.VISIBLE);
             tvTopTenEmptyHint.setText(getString(R.string.top_ten_empty));
@@ -671,7 +733,8 @@ public class SalonActivity extends AppCompatActivity {
             tvActivityEmptyHint.setVisibility(View.GONE);
             activityRecycler.setVisibility(View.VISIBLE);
             activityRecycler.scrollToPosition(0);
-        } else
+        }
+        else
         {
             tvActivityEmptyHint.setVisibility(View.VISIBLE);
             activityRecycler.setVisibility(View.GONE);
@@ -688,7 +751,8 @@ public class SalonActivity extends AppCompatActivity {
             activityAdapter = new ActivityAdapter(activityList);
             activityRecycler.setAdapter(activityAdapter);
 
-        } else
+        }
+        else
         {
             tvActivityEmptyHint.setVisibility(View.VISIBLE);
             activityRecycler.setVisibility(View.GONE);
@@ -701,7 +765,8 @@ public class SalonActivity extends AppCompatActivity {
         if (activityAdapter != null)
         {
             activityAdapter.notifyItemInserted(0);
-        } else
+        }
+        else
         {
             initActivityRecycler();
         }
@@ -725,7 +790,8 @@ public class SalonActivity extends AppCompatActivity {
                             roundRemainingTime = ParseResponses.parseRoundRemainingTime(mainObject);
                             round.setRound_id(roundRemainingTime.getLast_round_id());
                             initCountDown();
-                        } else
+                        }
+                        else
                         { // !today
                             tvSalonMessage.setText(round.getMessage());
                         }
@@ -755,7 +821,8 @@ public class SalonActivity extends AppCompatActivity {
         if (roundRemainingTime.isUserJoin())
         { // update join state
             joinState = 2;
-        } else
+        }
+        else
         {
             joinState = 0;
         }
@@ -769,11 +836,13 @@ public class SalonActivity extends AppCompatActivity {
             if (roundRemainingTime.isUserJoin())
             { // member?
                 chatUtils.enableChat();
-            } else
+            }
+            else
             { // !member
                 chatUtils.disableChat();
             }
-        } else
+        }
+        else
         {
             chatUtils.disableChat();
         }
@@ -781,7 +850,8 @@ public class SalonActivity extends AppCompatActivity {
         if (roundRemainingTime.isUserJoin() && (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state()))
         { // on join time & member
             btnLeaveRound.setVisibility(View.VISIBLE); // display leave salon btn
-        } else
+        }
+        else
         { // !join time
             btnLeaveRound.setVisibility(View.GONE); // hide leave salon btn
         }
@@ -792,12 +862,14 @@ public class SalonActivity extends AppCompatActivity {
             if (goldenCard != null)
             {
                 displayGoldenLayout();
-            } else
+            }
+            else
             {
                 Log.d("Golden_card:", "id: null");
             }
 
-        } else
+        }
+        else
         { // hide golden card layout
             hideGoldenLayout();
         }
@@ -812,7 +884,8 @@ public class SalonActivity extends AppCompatActivity {
                 addOfferLayout.setVisibility(View.VISIBLE); // display add offer layout
                 displayUserOffer(); // get user last Offer
             }
-        } else
+        }
+        else
         {
             addOfferLayout.setVisibility(View.GONE); // hide add offer layout
         }
@@ -1196,7 +1269,8 @@ public class SalonActivity extends AppCompatActivity {
 
             setupVideoPlayer(SubImage.getImageUrl());
 
-        } else
+        }
+        else
         {
             vpProductMainVideo.setVisibility(View.INVISIBLE);
             ivProductMainViewer.setVisibility(View.VISIBLE);
@@ -1255,7 +1329,8 @@ public class SalonActivity extends AppCompatActivity {
 
                         handler.removeCallbacks(runnable);
                     }
-                } else
+                }
+                else
                 {
                     vpProductMainVideo.seekTo(stopPosition);
                     vpProductMainVideo.start();
@@ -1310,7 +1385,8 @@ public class SalonActivity extends AppCompatActivity {
         {
             btnUseGoldenCard.setText(R.string.use_card_to_join);
 
-        } else
+        }
+        else
         {
             btnUseGoldenCard.setText(R.string.buy_card_to_join);
         }
@@ -1322,7 +1398,8 @@ public class SalonActivity extends AppCompatActivity {
                 if (goldenCardCount > 0)
                 {
                     useGoldenCard();
-                } else
+                }
+                else
                 {
                     buyGoldenCard();
                 }
@@ -1341,30 +1418,12 @@ public class SalonActivity extends AppCompatActivity {
     private void buyGoldenCard() {
         if (goldenCard != null)
         {
-            dialogBuilder.displayLoadingDialog();
-            RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                    REQ_ADD_CARDS_TO_USER, new Request<>(REQ_ADD_CARDS_TO_USER, userId, apiToken, goldenCard.getCard_id()
-                            , null, null, null, null), new HandleResponses() {
-                        @Override
-                        public void handleTrueResponse(JsonObject mainObject) {
-                            snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
-
-                            btnUseGoldenCard.setEnabled(false);
-                            getUserCardsForSalonFromServer();
-                        }
-
-                        @Override
-                        public void handleAfterResponse() {
-                            dialogBuilder.hideLoadingDialog();
-                        }
-
-                        @Override
-                        public void handleConnectionErrors(String errorMessage) {
-                            dialogBuilder.hideLoadingDialog();
-                            snackBuilder.setSnackText(errorMessage).showSnack();
-                        }
-                    });
+            Intent i = new Intent(this, PaymentMethodsActivity.class);
+            i.putExtra("card_to_buy", goldenCard);
+            i.putExtra("is_card", true);
+            startActivityForResult(i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY), REQ_CODE_BUY_CARD);
         }
+
     }
 
     public void useGoldenCard() {
@@ -1490,7 +1549,8 @@ public class SalonActivity extends AppCompatActivity {
         if (mBottomSheetDialogCardsBag.isShowing())
         {
             mBottomSheetDialogCardsBag.dismiss();
-        } else
+        }
+        else
         { // close sheet
             mBottomSheetDialogCardsBag.show();
         }
@@ -1520,7 +1580,8 @@ public class SalonActivity extends AppCompatActivity {
                 if (mBottomSheetDialogCardsBag.isShowing())
                 {
                     mBottomSheetDialogCardsBag.dismiss();
-                } else
+                }
+                else
                 {
                     mBottomSheetDialogCardsBag.show();
                 }
@@ -1570,7 +1631,8 @@ public class SalonActivity extends AppCompatActivity {
                         if (cardsRecycler.getAdapter() == null)
                         {
                             cardsRecycler.setAdapter(new SalonCardsAdapter(SalonActivity.this, round.getSalon_cards(), round.getSalon_id(), round.getRound_id(), salonMainLayout));
-                        } else
+                        }
+                        else
                         {
                             cardsRecycler.getAdapter().notifyDataSetChanged();
                         }
@@ -1578,7 +1640,8 @@ public class SalonActivity extends AppCompatActivity {
                         if (userCards.size() > 0)
                         {
                             tvCardsCount.setBackground(getResources().getDrawable(R.drawable.bg_circle_green));
-                        } else
+                        }
+                        else
                         {
                             tvCardsCount.setBackground(getResources().getDrawable(R.drawable.bg_circle_red));
                         }

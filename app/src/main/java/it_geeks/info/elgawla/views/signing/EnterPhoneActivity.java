@@ -84,6 +84,13 @@ public class EnterPhoneActivity extends AppCompatActivity {
 
             }
         });
+
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private boolean checkPhone(String phone) {

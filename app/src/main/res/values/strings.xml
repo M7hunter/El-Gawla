@@ -14,7 +14,7 @@
     <string name="join_round">Join round</string>
     <string name="see_more">See more</string>
     <string name="recent_salons">Recent salons</string>
-    <string name="password">Password</string>
+    <string name="password">password</string>
     <string name="full_name">"Full name"</string>
     <string name="subscribe_later">"subscribe later"</string>
     <string name="buy_card_to_join">Buy card to join</string>
@@ -74,13 +74,13 @@
     <string name="no_content">No content available</string>
     <string name="choose_country">Choose country</string>
     <string name="gender">Gender</string>
-    <string name="telephone_number">phone</string>
+    <string name="phone_number">phone</string>
     <string name="privacy_details">Privacy Details</string>
     <string name="edit">Edit</string>
     <string name="disconnect">Disconnect</string>
     <string name="connect_with">Connected With </string>
     <string name="delete_account">Delete Your Account</string>
-    <string name="facebook_app_id" translatable="false">743534032757372</string>
+    <string name="facebook_app_id" translatable="false">2818974111446935</string>
     <string name="card_price_salon">Card price for this salon</string>
     <string name="what_is_Gawla">What is Gawla ?</string>
     <string name="text">Text</string>
@@ -227,4 +227,14 @@
     <string name="enter_activation_code">enter activation code \n  it may take a while to reach you</string>
     <string name="enter_phone_hint">enter your phone to receive activation code</string>
     <string name="wrong_code">wrong code</string>
+    <string name="reset_password">reset password</string>
+    <string name="reset">reset</string>
+    <string name="renter_password">renter password</string>
+    <string name="enter_new_pass_hint">enter new password and confirm</string>
+    <string name="no_match">no match</string>
+    <string name="old_password">old password</string>
+    <string name="new_password">new password</string>
+    <string name="match">match</string>
+    <string name="share_salon">Share Salon</string>
+    <string name="resend_after">resend after :</string>
 </resources>

@@ -644,25 +644,25 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_add_offer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:layout_weight="1"
-                android:textColorHint="@color/editText_hint"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <!-- add offer et -->
-            <EditText
-                android:id="@+id/et_add_offer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:gravity="center_vertical"
-                android:hint="@string/rOffer"
-                android:inputType="number"
-                android:paddingTop="@dimen/margin_small"
-                android:textSize="@dimen/text_size_medium"
-                android:paddingBottom="@dimen/margin_small"
-                android:textColor="@color/battleshipGrey" />
+                android:textColorHint="@color/editText_hint">
+                <!-- add offer et -->
+                <EditText
+                    android:id="@+id/et_add_offer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:gravity="center_vertical"
+                    android:hint="@string/rOffer"
+                    android:inputType="number"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:textColor="@color/battleshipGrey"
+                    android:textSize="@dimen/text_size_medium" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- add offer btn -->
@@ -724,19 +724,19 @@
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/leave_and_help_container" />
 
-        <!-- leave & help -->
+        <!-- leave & share -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/leave_and_help_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_tiny"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_tiny"
             android:layoutDirection="ltr"
+            android:paddingTop="@dimen/margin_tiny"
+            android:paddingBottom="@dimen/margin_tiny"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <!-- leave btn -->
+            <!-- leave -->
             <Button
                 android:id="@+id/btn_leave_round"
                 android:layout_width="wrap_content"
@@ -753,7 +753,21 @@
                 app:iconTint="@android:color/holo_red_light"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:rippleColor="@color/darkPaleRed" />
+
+            <!-- share -->
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fbtn_share_salon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_share"
+                app:backgroundTint="@android:color/white"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/colorPrimary" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -118,7 +118,7 @@
                     android:layout_marginEnd="@dimen/margin_xx_large"
                     android:layout_marginBottom="@dimen/margin_xTiny"
                     android:focusable="true"
-                    android:hint="@string/telephone_number"
+                    android:hint="@string/phone_number"
                     android:textColorHint="@color/paleGrey2"
                     app:errorEnabled="true"
                     app:layout_constraintBottom_toTopOf="@id/btn_phone_send"

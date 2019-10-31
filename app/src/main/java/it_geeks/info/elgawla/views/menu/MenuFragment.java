@@ -100,7 +100,6 @@ public class MenuFragment extends Fragment {
                 {
                     Auth.GoogleSignInApi.signOut(mGoogleApiClient);
                     mGoogleApiClient.disconnect();
-                    mGoogleApiClient.connect();
                 }
 
                 disableNotification();

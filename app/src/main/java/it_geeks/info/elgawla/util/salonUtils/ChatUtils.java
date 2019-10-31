@@ -145,7 +145,8 @@ public class ChatUtils {
                             sendTypingState = true;
                         }
                     }
-                } catch (JSONException e)
+                }
+                catch (JSONException e)
                 {
                     sendTypingState = true;
                     e.printStackTrace();
@@ -180,7 +181,8 @@ public class ChatUtils {
                                 obj.put("user_name", userName);
                                 obj.put("message", message);
                                 obj.put("salon_id", round.getSalon_id());
-                            } catch (JSONException e)
+                            }
+                            catch (JSONException e)
                             {
                                 e.printStackTrace();
                                 Crashlytics.logException(e);
@@ -199,7 +201,8 @@ public class ChatUtils {
                         Toast.makeText(mContext, mContext.getString(R.string.not_joined), Toast.LENGTH_SHORT).show();
                     }
 
-                } catch (NullPointerException e)
+                }
+                catch (NullPointerException e)
                 {
                     Log.e("chat_send_message: ", e.getMessage());
                     Crashlytics.logException(e);
@@ -232,6 +235,12 @@ public class ChatUtils {
         }
         chatRecycler.scrollToPosition(0);
         updateCounter();
+
+        // decrease list size
+        if (chatList.size() > 500)
+        {
+            chatList.removeAll(chatList.subList(499, chatList.size() - 1));
+        }
     }
 
     private void updateCounter() {

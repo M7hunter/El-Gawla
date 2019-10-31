@@ -85,7 +85,7 @@
     <string name="app_notification">اشعارات التطبيق</string>
     <string name="notification">الاشعارات</string>
     <string name="gender">الجنس</string>
-    <string name="telephone_number">رقم الهاتف</string>
+    <string name="phone_number">رقم الهاتف</string>
     <string name="edit">تعديل</string>
     <string name="disconnect">الغاء الاتصال</string>
     <string name="connect_with">"متصل بأستخدام "</string>
@@ -227,4 +227,14 @@
     <string name="must_renew_membership">يجب تجديد عضويتك اولا</string>
     <string name="enter_phone_hint">أدخل رقم هاتفك لإستقبال كود التفعيل</string>
     <string name="wrong_code">كود خاطئ</string>
+    <string name="enter_new_pass_hint">ادخل كلمة المرور</string>
+    <string name="match">متطابق</string>
+    <string name="new_password">كلمة السر الجديدة</string>
+    <string name="no_match">غير متطابق</string>
+    <string name="old_password">كلمة السر القديمة</string>
+    <string name="renter_password">اعد كتابة كلمة السر</string>
+    <string name="reset_password">إعادة تعييم كلمة السر</string>
+    <string name="reset">إعادة تعيين</string>
+    <string name="share_salon">مشاركة الصالة</string>
+    <string name="resend_after">إعادة ارسال بعد :</string>
 </resources>

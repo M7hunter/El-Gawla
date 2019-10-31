@@ -44,6 +44,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import it_geeks.info.elgawla.R;
+import it_geeks.info.elgawla.repository.Models.Round;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.repository.RESTful.Request;
@@ -54,8 +55,12 @@ import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.SnackBuilder;
+import it_geeks.info.elgawla.views.intro.SplashScreenActivity;
 import it_geeks.info.elgawla.views.main.MainActivity;
+import it_geeks.info.elgawla.views.salon.SalonActivity;
 
+import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseRoundByID;
+import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_BY_ID;
 import static it_geeks.info.elgawla.util.Constants.REQ_SIGN_IN;
 import static it_geeks.info.elgawla.util.Constants.REQ_SOCIAL_SIGN;
 
@@ -71,7 +76,6 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     LoginButton btn_fb_login;
     public static final String providerFacebook = "facebook", providerGoogle = "google", providerNormalLogin = "gawla";
     public static int GOOGLE_REQUEST = 1000;
-    private String phone;
 
     private DialogBuilder dialogBuilder;
 
@@ -236,11 +240,17 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
                         null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        startActivity(new Intent(SignInActivity.this, MainActivity.class));
-
                         cacheUserData(mainObject, SignInActivity.providerNormalLogin); // with normal provider
                         Common.Instance().updateFirebaseToken(SignInActivity.this);
 
+                        if (getIntent().getBooleanExtra("salon_from_link", false))
+                        {
+                            getSalonDataFromServer(getIntent().getStringExtra("salon_id"));
+                        }
+                        else
+                        {
+                            startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                        }
                         finish();
                     }
 
@@ -390,11 +400,17 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
                         null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        startActivity(new Intent(SignInActivity.this, MainActivity.class));
-
                         cacheUserData(mainObject, provider);
                         Common.Instance().updateFirebaseToken(SignInActivity.this);
 
+                        if (getIntent().getBooleanExtra("salon_from_link", false))
+                        {
+                            getSalonDataFromServer(getIntent().getStringExtra("salon_id"));
+                        }
+                        else
+                        {
+                            startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                        }
                         finish();
                     }
 
@@ -421,5 +437,32 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         // save || update country
         SharedPrefManager.getInstance(SignInActivity.this)
                 .setCountry(GawlaDataBse.getInstance(SignInActivity.this).countryDao().getCountryByID(user.getCountry_id()));
+    }
+
+    private void getSalonDataFromServer(String salonId) {
+        dialogBuilder.displayLoadingDialog();
+        RetrofitClient.getInstance(SignInActivity.this).executeConnectionToServer(SignInActivity.this,
+                REQ_GET_SALON_BY_ID, new Request<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(SignInActivity.this).getUser().getUser_id()
+                        , SharedPrefManager.getInstance(SignInActivity.this).getUser().getApi_token(), salonId
+                        , null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        startActivity(new Intent(SignInActivity.this, SalonActivity.class)
+                                .putExtra("round", parseRoundByID(mainObject))
+                                .putExtra("salon_from_link", getIntent().getBooleanExtra("salon_from_link", false)));
+                        finish();
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                        dialogBuilder.hideLoadingDialog();
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        dialogBuilder.hideLoadingDialog();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    }
+                });
     }
 }

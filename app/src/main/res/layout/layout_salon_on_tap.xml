@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/margin_medium"
-    android:layout_weight="1">
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/margin_tiny">
 
     <!-- 1st tap : details container -->
     <LinearLayout
@@ -108,31 +107,34 @@
     </LinearLayout>
 
     <!-- 2nd tap : activity container -->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/activity_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_rounded_corners_white"
-        android:orientation="vertical"
         android:visibility="gone">
 
+        <!-- activities -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/salon_activity_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            tools:itemCount="8"
+            tools:listitem="@layout/item_activity" />
 
+        <!-- empty hint -->
         <TextView
             android:id="@+id/tv_activity_empty_hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
             android:layout_margin="@dimen/margin_medium"
+            android:gravity="center"
             android:text="@string/activity_empty_hint"
             android:visibility="gone" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <!-- 3rd tap : chat container -->
     <LinearLayout
@@ -192,14 +194,14 @@
                     android:id="@+id/et_chat_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:hint="@string/chat_message_hint"
-                    android:inputType="textShortMessage"
+                    android:inputType="text|textMultiLine"
                     android:maxLines="2"
-                    android:paddingTop="@dimen/margin_small"
-                    android:paddingBottom="@dimen/margin_small"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
                     android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- btn send message -->
@@ -208,10 +210,10 @@
                 android:layout_width="@dimen/icon_back"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:visibility="gone"
                 android:background="@drawable/selector_ripple_primary"
-                android:padding="@dimen/margin_xTiny"
-                android:src="@drawable/ic_send_message" />
+                android:padding="@dimen/margin_tiny"
+                android:src="@drawable/ic_send_message"
+                android:visibility="gone" />
 
         </LinearLayout>
 

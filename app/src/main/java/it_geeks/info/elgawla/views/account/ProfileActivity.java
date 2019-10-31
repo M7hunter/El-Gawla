@@ -57,11 +57,12 @@ public class ProfileActivity extends AppCompatActivity {
     public String encodedImage;
 
     private SnackBuilder snackBuilder;
+    private PopupMenu countryPopup, genderPopup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_profile);
         accountDetailsInstance = this;
 
@@ -125,49 +126,54 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void initCountriesMaterialSpinner() {
+        initCountryPopupMenu();
         sp_country.setInputType(InputType.TYPE_NULL);
         sp_country.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    countryPopupMenu();
+                if (hasFocus)
+                {
+                    displayCountryPopup();
                 }
             }
         });
         sp_country.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                countryPopupMenu();
+                displayCountryPopup();
             }
         });
     }
 
     private void initGenderMaterialSpinner() {
+        initGenderPopupMenu();
         sp_gender.setInputType(InputType.TYPE_NULL);
         sp_gender.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    genderPopupMenu();
+                if (hasFocus)
+                {
+                    displayGenderPopup();
                 }
             }
         });
         sp_gender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                genderPopupMenu();
+                displayGenderPopup();
             }
         });
     }
 
-    private void countryPopupMenu() {
+    private void initCountryPopupMenu() {
         sp_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_up), null);
 
         Context wrapper = new ContextThemeWrapper(this, R.style.PopupMenuTheme);
-        PopupMenu countryPopup = new PopupMenu(wrapper, sp_country);
+        countryPopup = new PopupMenu(wrapper, sp_country);
 
         List<String> countries = GawlaDataBse.getInstance(this).countryDao().getCountriesNames();
-        for (String country : countries) {
+        for (String country : countries)
+        {
             countryPopup.getMenu().add(country);
         }
 
@@ -185,20 +191,13 @@ public class ProfileActivity extends AppCompatActivity {
                 sp_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_down), null);
             }
         });
-
-        try {
-            countryPopup.show();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        }
     }
 
-    private void genderPopupMenu() {
+    private void initGenderPopupMenu() {
         sp_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_up), null);
 
         Context wrapper = new ContextThemeWrapper(this, R.style.PopupMenuTheme);
-        PopupMenu genderPopup = new PopupMenu(wrapper, sp_gender);
+        genderPopup = new PopupMenu(wrapper, sp_gender);
         genderPopup.getMenuInflater().inflate(R.menu.gender_menu, genderPopup.getMenu());
 
         genderPopup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -215,10 +214,29 @@ public class ProfileActivity extends AppCompatActivity {
                 sp_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_down), null);
             }
         });
+    }
 
-        try {
+    private void displayCountryPopup() {
+        try
+        {
+//            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            countryPopup.show();
+        }
+        catch (RuntimeException e)
+        {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+        }
+    }
+
+    private void displayGenderPopup() {
+        try
+        {
+//            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             genderPopup.show();
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -239,7 +257,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void updateUserDataOnServer() {
-        try {
+        try
+        {
             setUIOnUpdating();
             final Country country = GawlaDataBse.getInstance(ProfileActivity.this).countryDao().getCountryByName(sp_country.getText().toString());
             RetrofitClient.getInstance(ProfileActivity.this)
@@ -279,7 +298,9 @@ public class ProfileActivity extends AppCompatActivity {
                                     snackBuilder.setSnackText(errorMessage).showSnack();
                                 }
                             });
-        } catch (NullPointerException e) {
+        }
+        catch (NullPointerException e)
+        {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
@@ -329,8 +350,10 @@ public class ProfileActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         RetrofitClient.getInstance(this).cancelCall();
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            if (data != null) {
+        if (requestCode == 1 && resultCode == RESULT_OK)
+        {
+            if (data != null)
+            {
                 getImageUri(data);
             }
         }
@@ -339,7 +362,8 @@ public class ProfileActivity extends AppCompatActivity {
     private void getImageUri(Intent data) {
         Uri imagePath = data.getData();
 
-        try {
+        try
+        {
             // display image before uploading
             ImageLoader.getInstance().load(imagePath.toString(), ivUserImage);
 
@@ -355,16 +379,21 @@ public class ProfileActivity extends AppCompatActivity {
             btn_upload_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Common.Instance().isConnected(ProfileActivity.this)) {
+                    if (Common.Instance().isConnected(ProfileActivity.this))
+                    {
                         startUploadImageService();
                         setUIOnUpdating();
-                    } else {
+                    }
+                    else
+                    {
                         snackBuilder.setSnackText(getString(R.string.no_connection)).showSnack();
                     }
                 }
             });
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             snackBuilder.setSnackText(e.getLocalizedMessage()).showSnack();
             Crashlytics.logException(e);
         }
