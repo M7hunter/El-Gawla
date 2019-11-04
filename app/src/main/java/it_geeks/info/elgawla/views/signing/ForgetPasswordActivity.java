@@ -1,19 +1,22 @@
 package it_geeks.info.elgawla.views.signing;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.R;
@@ -27,6 +30,10 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     private EditText etEmail;
     private TextInputLayout tlEmail;
     private ProgressBar pbForgetPass;
+    private TextView tvMail, tvPhone;
+    private ImageView ivMail, ivPhone;
+    private View llMail, llPhone;
+    private boolean isMail = true;
 
     private SnackBuilder snackBuilder;
 
@@ -42,6 +49,13 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        llMail = findViewById(R.id.ll_forget_pass_mail);
+        llPhone = findViewById(R.id.ll_forget_pass_phone);
+        tvMail = findViewById(R.id.tv_forget_pass_mail);
+        tvPhone = findViewById(R.id.tv_forget_pass_phone);
+        ivMail = findViewById(R.id.iv_forget_pass_mail);
+        ivPhone = findViewById(R.id.iv_forget_pass_phone);
+
         etEmail = findViewById(R.id.et_email_fp);
 
         btnSend = findViewById(R.id.btn_send_fp);
@@ -64,6 +78,32 @@ public class ForgetPasswordActivity extends AppCompatActivity {
             }
         });
 
+        View.OnClickListener clickListener =
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        switch (v.getId())
+                        {
+                            case R.id.ll_forget_pass_mail:
+                                if (!isMail)
+                                {
+                                    selectMail();
+                                    isMail = true;
+                                }
+                                break;
+                            case R.id.ll_forget_pass_phone:
+                                if (isMail)
+                                {
+                                    selectPhone();
+                                    isMail = false;
+                                }
+                        }
+                    }
+                };
+
+        llMail.setOnClickListener(clickListener);
+        llPhone.setOnClickListener(clickListener);
+
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,9 +112,31 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         });
     }
 
+    private void selectMail() {
+        llMail.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        llPhone.setBackgroundColor(Color.WHITE);
+        tvMail.setTextColor(Color.WHITE);
+        tvPhone.setTextColor(getResources().getColor(R.color.colorPrimary));
+        ivMail.setImageDrawable(getDrawable(R.drawable.ic_mail_white));
+        ivPhone.setImageDrawable(getDrawable(R.drawable.ic_phone_blue));
+
+        tlEmail.setHint(getString(R.string.email));
+    }
+
+    private void selectPhone() {
+        llPhone.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        llMail.setBackgroundColor(Color.WHITE);
+        tvPhone.setTextColor(Color.WHITE);
+        tvMail.setTextColor(getResources().getColor(R.color.colorPrimary));
+        ivPhone.setImageDrawable(getDrawable(R.drawable.ic_phone_white));
+        ivMail.setImageDrawable(getDrawable(R.drawable.ic_mail_blue));
+
+        tlEmail.setHint(getString(R.string.phone_number));
+    }
+
     private void sendEmail(String email) {
         RetrofitClient.getInstance(ForgetPasswordActivity.this).executeConnectionToServer(ForgetPasswordActivity.this,
-                REQ_FORGOT_PASSWORD, new Request<>(REQ_FORGOT_PASSWORD, email
+                REQ_FORGOT_PASSWORD, new RequestModel<>(REQ_FORGOT_PASSWORD, email
                         , null, null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

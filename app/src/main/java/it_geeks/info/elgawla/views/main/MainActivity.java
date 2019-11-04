@@ -1,24 +1,19 @@
 package it_geeks.info.elgawla.views.main;
 
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
-import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import androidx.fragment.app.FragmentManager;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.util.SnackBuilder;
@@ -35,7 +30,8 @@ import static it_geeks.info.elgawla.util.Constants.MEMBERSHIP_MSG;
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView navigation;
-    private Fragment fragment = new MainFragment();
+    private FragmentManager fragmentManager = getSupportFragmentManager();
+    private Fragment mainFragment, mySalonsFragment, storeFragment, accountFragment, menuFragment;
 
     private ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
 
@@ -52,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null)
         {
-            displayFragment(fragment);
+            displayFragment(selectMainFragment());
         }
 
         init();
@@ -89,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
         if (SharedPrefManager.getInstance(this).getNewNotification())
         {
             GawlaDataBse.getInstance(this).notificationDao().updateStatusNotification(true);
-        } else
+        }
+        else
         {
             GawlaDataBse.getInstance(this).notificationDao().updateStatusNotification(false);
         }
@@ -125,29 +122,30 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                fragment = null;
+
+                Fragment selectedFragment = null;
                 switch (menuItem.getItemId())
                 {
                     case R.id.navigation_main:
-                        fragment = new MainFragment();
+                        selectedFragment = selectMainFragment();
                         break;
                     case R.id.navigation_my_salons:
-                        fragment = new MySalonsFragment();
+                        selectedFragment = selectMySalonsFragment();
                         break;
                     case R.id.navigation_store:
-                        fragment = new StoreFragment();
+                        selectedFragment = selectStoreFragment();
                         break;
                     case R.id.navigation_account:
-                        fragment = new AccountFragment();
+                        selectedFragment = selectAccountFragment();
                         break;
                     case R.id.navigation_menu:
-                        fragment = new MenuFragment();
+                        selectedFragment = selectMenuFragment();
                         break;
                 }
 
-                if (fragment != null)
+                if (selectedFragment != null)
                 {
-                    displayFragment(fragment);
+                    displayFragment(selectedFragment);
                     return true;
                 }
 
@@ -164,9 +162,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
+        fragmentManager.beginTransaction()
                 .replace(R.id.main_frame, fragment)
                 .commit();
+    }
+
+    private Fragment selectMainFragment() {
+//        if (mainFragment == null)
+//        {
+//            mainFragment = new MainFragment();
+//        }
+        return new MainFragment();
+    }
+
+    private Fragment selectMySalonsFragment() {
+        if (mySalonsFragment == null)
+        {
+            mySalonsFragment = new MySalonsFragment();
+        }
+        return mySalonsFragment;
+    }
+
+    private Fragment selectStoreFragment() {
+        if (storeFragment == null)
+        {
+            storeFragment = new StoreFragment();
+        }
+        return storeFragment;
+    }
+
+    private Fragment selectAccountFragment() {
+        if (accountFragment == null)
+        {
+            accountFragment = new AccountFragment();
+        }
+        return accountFragment;
+    }
+
+    private Fragment selectMenuFragment() {
+        if (menuFragment == null)
+        {
+            menuFragment = new MenuFragment();
+        }
+        return menuFragment;
     }
 
     @Override
@@ -175,7 +213,8 @@ public class MainActivity extends AppCompatActivity {
         { // back to main page
             displayFragment(new MainFragment());
             navigation.setSelectedItemId(R.id.navigation_main);
-        } else
+        }
+        else
         {
             super.onBackPressed();
         }

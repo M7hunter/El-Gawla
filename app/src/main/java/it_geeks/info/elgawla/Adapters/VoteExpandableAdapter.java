@@ -16,7 +16,7 @@ import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Vote;
 import it_geeks.info.elgawla.repository.Models.VoteChild;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.SnackBuilder;
@@ -150,7 +150,7 @@ public class VoteExpandableAdapter extends BaseExpandableListAdapter {
         ((VoteActivity) context).dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(context).executeConnectionToServer(
                 context,
-                REQ_SET_VOTE, new Request<>(REQ_SET_VOTE, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token()
+                REQ_SET_VOTE, new RequestModel<>(REQ_SET_VOTE, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token()
                         , voteId, voted, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

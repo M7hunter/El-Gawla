@@ -1,6 +1,5 @@
 package it_geeks.info.elgawla.views.account;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,23 +8,19 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.SnackBuilder;
-import it_geeks.info.elgawla.views.signing.SignInActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_CHANGE_PASSWORD;
 import static it_geeks.info.elgawla.util.Constants.SERVER_MSG;
@@ -171,26 +166,24 @@ public class ChangePasswordActivity extends AppCompatActivity {
             _continue = false;
         }
 
-        if (_continue)
+        if (_continue && oldPass.equals(newPass))
         {
-            if (oldPass.equals(newPass))
-            {
-                tlOldPass.setError(getString(R.string.match));
+            tlOldPass.setError(getString(R.string.match));
 
-                tlNewPass.setError(getString(R.string.match));
-                etNewPass.requestFocus();
-                _continue = false;
-            }
-
-            if (!newPass.equals(rePass))
-            {
-                tlNewPass.setError(getString(R.string.no_match));
-
-                tlRenterPass.setError(getString(R.string.no_match));
-                etRenterPass.requestFocus();
-                _continue = false;
-            }
+            tlNewPass.setError(getString(R.string.match));
+            etNewPass.requestFocus();
+            _continue = false;
         }
+
+        if (_continue && !newPass.equals(rePass))
+        {
+            tlNewPass.setError(getString(R.string.no_match));
+
+            tlRenterPass.setError(getString(R.string.no_match));
+            etRenterPass.requestFocus();
+            _continue = false;
+        }
+
         return _continue;
     }
 
@@ -198,15 +191,14 @@ public class ChangePasswordActivity extends AppCompatActivity {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(ChangePasswordActivity.this).executeConnectionToServer(
                 ChangePasswordActivity.this,
-                REQ_CHANGE_PASSWORD, new Request<>(REQ_CHANGE_PASSWORD, SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getUser_id(),
+                REQ_CHANGE_PASSWORD, new RequestModel<>(REQ_CHANGE_PASSWORD, SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getUser_id(),
                         SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getApi_token(), newPass
                         , null, null, null, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         snackBuilder.setSnackText(mainObject.get(SERVER_MSG).getAsString()).showSnack();
-
-                        signOut();
+                        Common.Instance().signOut(ChangePasswordActivity.this);
                     }
 
                     @Override
@@ -221,34 +213,5 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     }
                 }
         );
-    }
-
-    private void signOut() {
-        // local
-        SharedPrefManager.getInstance(ChangePasswordActivity.this).clearUser();
-        SharedPrefManager.getInstance(ChangePasswordActivity.this).clearProvider();
-
-        // facebook
-        LoginManager.getInstance().logOut();
-
-        // google
-        GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(ChangePasswordActivity.this).addApi(Auth.GOOGLE_SIGN_IN_API).build();
-        if (mGoogleApiClient.isConnected())
-        {
-            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-            mGoogleApiClient.disconnect();
-        }
-
-        // firebase
-        disableNotification();
-
-        // redirect to sign in
-        startActivity(new Intent(ChangePasswordActivity.this, SignInActivity.class)
-                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-    }
-
-    private void disableNotification() {
-        FirebaseMessaging.getInstance().unsubscribeFromTopic("salon_" + SharedPrefManager.getInstance(ChangePasswordActivity.this).getSubscribedSalonId());
-        SharedPrefManager.getInstance(ChangePasswordActivity.this).clearSubscribedSalonId();
     }
 }

@@ -18,7 +18,7 @@ import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.SalonArchiveModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.DialogBuilder;
@@ -60,7 +60,7 @@ public class SalonsArchiveActivity extends AppCompatActivity {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(this).executeConnectionToServer(
                 this,
-                REQ_GET_SALONS_ARCHIVE, new Request<>(REQ_GET_SALONS_ARCHIVE, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token(),
+                REQ_GET_SALONS_ARCHIVE, new RequestModel<>(REQ_GET_SALONS_ARCHIVE, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token(),
                         null, null, null, null, null),
                 new HandleResponses() {
                     @Override

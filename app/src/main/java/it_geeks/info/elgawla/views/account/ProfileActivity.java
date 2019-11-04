@@ -34,7 +34,7 @@ import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.util.services.UploadImageService;
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.Models.User;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
@@ -263,7 +263,7 @@ public class ProfileActivity extends AppCompatActivity {
             final Country country = GawlaDataBse.getInstance(ProfileActivity.this).countryDao().getCountryByName(sp_country.getText().toString());
             RetrofitClient.getInstance(ProfileActivity.this)
                     .executeConnectionToServer(ProfileActivity.this,
-                            REQ_UPDATE_USER_DATA, new Request<>(REQ_UPDATE_USER_DATA,
+                            REQ_UPDATE_USER_DATA, new RequestModel<>(REQ_UPDATE_USER_DATA,
                                     user_id,
                                     api_token,
                                     et_name.getText().toString(),

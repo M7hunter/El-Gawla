@@ -50,7 +50,7 @@ import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.repository.Models.User;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
@@ -354,7 +354,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     private void connectToServer(final User user, final int countryId) {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(SignUpActivity.this).executeConnectionToServer(SignUpActivity.this,
-                REQ_SIGN_UP, new Request<>(REQ_SIGN_UP, user.getName(), user.getEmail(), countryId, user.getPhone(), user.getPassword(),
+                REQ_SIGN_UP, new RequestModel<>(REQ_SIGN_UP, user.getName(), user.getEmail(), countryId, user.getPhone(), user.getPassword(),
                         null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -382,14 +382,13 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     private void firebaseInit() {
         //fb login
         callbackManager = CallbackManager.Factory.create();
-        callbackManager = CallbackManager.Factory.create();
-        btn_fb_login = (LoginButton) findViewById(R.id.login_button);
+        btn_fb_login = findViewById(R.id.login_button);
         facebookLogin();
 
         // google login
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        GoogleSignIn.getLastSignedInAccount(this);
     }
 
     // fb login
@@ -398,8 +397,6 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         btn_fb_login.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                String accesstoken = loginResult.getAccessToken().getToken();
-
                 GraphRequest mGraphRequest = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
@@ -506,7 +503,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     public void socialLogin(String id, final String name, final String email, final String image, final String provider) {
         int countryId = SharedPrefManager.getInstance(SignUpActivity.this).getCountry().getCountry_id();
         RetrofitClient.getInstance(SignUpActivity.this).executeConnectionToServer(SignUpActivity.this,
-                REQ_SOCIAL_SIGN, new Request<>(REQ_SOCIAL_SIGN, provider, id, name, email, image, countryId,
+                REQ_SOCIAL_SIGN, new RequestModel<>(REQ_SOCIAL_SIGN, provider, id, name, email, image, countryId,
                         null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

@@ -18,7 +18,7 @@ import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.Adapters.NotificationAdapter;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.repository.Models.Notification;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
@@ -92,7 +92,7 @@ public class NotificationActivity extends AppCompatActivity {
         RetrofitClient.getInstance(NotificationActivity.this).executeConnectionToServer(
                 NotificationActivity.this,
                 REQ_GET_ALL_NOTIFICATION,
-                new Request<>(REQ_GET_ALL_NOTIFICATION, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()
+                new RequestModel<>(REQ_GET_ALL_NOTIFICATION, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

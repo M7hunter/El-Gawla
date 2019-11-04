@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.util.NotificationBuilder;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
@@ -52,7 +52,7 @@ public class UploadImageService extends Service {
             }
 
             RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                    REQ_UPDATE_USER_DATA, new Request<>("updateUserImage", SharedPrefManager.getInstance(this).getUser().getUser_id(),
+                    REQ_UPDATE_USER_DATA, new RequestModel<>("updateUserImage", SharedPrefManager.getInstance(this).getUser().getUser_id(),
                             SharedPrefManager.getInstance(this).getUser().getApi_token(),
                             SharedPrefManager.getInstance(this).getCountry().getCountry_id(),
                             activity.encodedImage

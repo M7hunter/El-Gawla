@@ -29,7 +29,7 @@ import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.NotificationBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Models.Round;
@@ -136,7 +136,7 @@ public class MySalonsFragment extends Fragment {
 
     private void getUsrSalonsFromServer() {
         RetrofitClient.getInstance(getActivity()).executeConnectionToServer(context,
-                REQ_GET_SALONS_BY_USER_ID, new Request<>(REQ_GET_SALONS_BY_USER_ID, userId, apiToken
+                REQ_GET_SALONS_BY_USER_ID, new RequestModel<>(REQ_GET_SALONS_BY_USER_ID, userId, apiToken
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

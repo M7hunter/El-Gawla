@@ -2,7 +2,6 @@ package it_geeks.info.elgawla.views.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -23,7 +22,6 @@ import java.util.TimerTask;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +29,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import it_geeks.info.elgawla.Adapters.AdsAdapter;
+import it_geeks.info.elgawla.Adapters.CategoryAdapter;
 import it_geeks.info.elgawla.Adapters.SalonsAdapter;
 import it_geeks.info.elgawla.Adapters.WinnersNewsAdapter;
 import it_geeks.info.elgawla.repository.Models.Ad;
@@ -39,7 +38,7 @@ import it_geeks.info.elgawla.repository.Models.Data;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.repository.Models.WinnerNews;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.Models.Round;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
@@ -47,6 +46,7 @@ import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.Constants;
 import it_geeks.info.elgawla.util.ImageLoader;
+import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.util.NotificationBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.account.ProfileActivity;
@@ -61,11 +61,11 @@ public class MainFragment extends Fragment {
     // region fields
     private Context context;
     private SwipeRefreshLayout refreshLayout;
-    private RecyclerView recentSalonsRecycler, winnersNewsRecycler;
+    private RecyclerView recentSalonsRecycler, winnersNewsRecycler, rvCats;
     private ViewPager2 adsPager;
     private ProgressBar recentSalonsProgress, winnersNewsProgress, pbAds;
-    private LinearLayout emptyViewLayout, winnersHeader, adsEmptyView, noConnectionLayout;
-    private TextView btnRecentSalonsSeeAll;
+    private LinearLayout emptyViewLayout, winnersHeader, adsEmptyView;
+    private TextView btnSeeMoreSalons, noConnectionLayout;
     private ImageView imgNotification;
 
     private SalonsAdapter recentSalonsPagedAdapter;
@@ -74,6 +74,7 @@ public class MainFragment extends Fragment {
     private List<Ad> adsList = new ArrayList<>();
     private List<Round> salonList = new ArrayList<>();
     private List<WinnerNews> winnerNewsList = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
 
     private int page = 1, last_page = 1, userId, currentAd = 0;
     private String apiToken;
@@ -83,8 +84,6 @@ public class MainFragment extends Fragment {
     private Runnable updateCurrentAd;
 
     private SnackBuilder snackBuilder;
-
-    private Category catVehicles, catElectronics, catRealState, catJewellery;
     // endregion
 
     @Override
@@ -111,14 +110,11 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View fragmentView, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(fragmentView, savedInstanceState);
 
-//        if (savedInstanceState == null)
-//        {
-            initViews(fragmentView);
+        initViews(fragmentView);
 
-            handleEvents(fragmentView);
+        handleEvents(fragmentView);
 
-            getDataFromServer(fragmentView);
-//        }
+        getDataFromServer();
     }
 
     private void initViews(View fragmentView) {
@@ -134,6 +130,7 @@ public class MainFragment extends Fragment {
         emptyViewLayout = fragmentView.findViewById(R.id.recent_salons_empty_view);
         adsEmptyView = fragmentView.findViewById(R.id.ads_empty_view);
         noConnectionLayout = fragmentView.findViewById(R.id.no_connection);
+        rvCats = fragmentView.findViewById(R.id.rv_home_cats);
 
         //Notification icon
         imgNotification = fragmentView.findViewById(R.id.iv_notification_bell);
@@ -145,7 +142,7 @@ public class MainFragment extends Fragment {
         // load user image
         ImageLoader.getInstance().loadUserImage(context, ((ImageView) fragmentView.findViewById(R.id.iv_user_image)));
 
-        btnRecentSalonsSeeAll = fragmentView.findViewById(R.id.recent_salons_see_all_btn);
+        btnSeeMoreSalons = fragmentView.findViewById(R.id.recent_salons_see_all_btn);
 
         snackBuilder = new SnackBuilder(fragmentView.findViewById(R.id.main_snack_view));
     }
@@ -155,12 +152,12 @@ public class MainFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getDataFromServer(fragmentView);
+                getDataFromServer();
             }
         });
 
         // open all salons page
-        btnRecentSalonsSeeAll.setOnClickListener(new View.OnClickListener() {
+        btnSeeMoreSalons.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), AllSalonsActivity.class);
@@ -185,12 +182,12 @@ public class MainFragment extends Fragment {
         });
     }
 
-    private void getDataFromServer(View fragmentView) {
-        if (Common.Instance().isConnected(getContext()))
+    private void getDataFromServer() {
+        if (Common.Instance().isConnected(context))
         {
             noConnectionLayout.setVisibility(View.GONE);
 
-            getAdsAndCatsFromServer(fragmentView);
+            getAdsAndCatsFromServer();
 
             getSalonsFirstPageFromServer();
 
@@ -212,10 +209,10 @@ public class MainFragment extends Fragment {
         refreshLayout.setRefreshing(false);
     }
 
-    private void getAdsAndCatsFromServer(final View fragmentView) {
+    private void getAdsAndCatsFromServer() {
         pbAds.setVisibility(View.VISIBLE);
         RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(),
-                REQ_GET_ALL_SLIDERS, new Request<>(REQ_GET_ALL_SLIDERS, userId, apiToken
+                REQ_GET_ALL_SLIDERS, new RequestModel<>(REQ_GET_ALL_SLIDERS, userId, apiToken
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -223,16 +220,14 @@ public class MainFragment extends Fragment {
                         adsList.addAll(ParseResponses.parseAds(mainObject));
 
                         // parse cats
-                        catVehicles = ParseResponses.parseHomeCategories(mainObject, Constants.CAT_ENGINES);
-                        catElectronics = ParseResponses.parseHomeCategories(mainObject, Constants.CAT_MATERIALS);
-                        catRealState = ParseResponses.parseHomeCategories(mainObject, Constants.CAT_REAL_STATE);
-                        catJewellery = ParseResponses.parseHomeCategories(mainObject, Constants.CAT_JEWELLERY);
+                        if (categories.isEmpty())
+                            categories = ParseResponses.parseHomeCategories(mainObject);
                     }
 
                     @Override
                     public void handleAfterResponse() {
                         initAdsRecycler();
-                        initCategories(fragmentView);
+                        initCatsRecycler();
                     }
 
                     @Override
@@ -240,6 +235,22 @@ public class MainFragment extends Fragment {
                         initAdsRecycler();
                     }
                 });
+    }
+
+    private void initCatsRecycler() {
+        if (categories.size() > 0)
+        {
+            rvCats.setHasFixedSize(true);
+
+            if (rvCats.getAdapter() == null)
+                rvCats.setAdapter(new CategoryAdapter(categories, context, new ClickInterface.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Category cat = categories.get(position);
+                        openFilterByCat(cat.getCategoryId(), cat.getCategoryName());
+                    }
+                }));
+        }
     }
 
     private void initAdsRecycler() {
@@ -295,115 +306,6 @@ public class MainFragment extends Fragment {
         }, 0, 2500);
     }
 
-    private void initCategories(View fragmentView) {
-        fragmentView.findViewById(R.id.cats_layout).setVisibility(View.VISIBLE);
-        // init views
-        CardView cvCatVehicles = fragmentView.findViewById(R.id.cv_cat_vehicles),
-                cvCatElectronics = fragmentView.findViewById(R.id.cv_cat_electronics),
-                cvCatRealState = fragmentView.findViewById(R.id.cv_cat_real),
-                cvCatJewellery = fragmentView.findViewById(R.id.cv_cat_jewellery);
-
-        View layoutCatVehicles = fragmentView.findViewById(R.id.layout_vehicles),
-                layoutCatElectronics = fragmentView.findViewById(R.id.layout_electronics),
-                layoutCatRealState = fragmentView.findViewById(R.id.layout_real),
-                layoutCatJewellery = fragmentView.findViewById(R.id.layout_jewellery);
-
-        ImageView ivCatVehicles = fragmentView.findViewById(R.id.iv_cat_icon_vehicles),
-                ivCatElectronics = fragmentView.findViewById(R.id.iv_cat_icon_electronics),
-                ivCatRealState = fragmentView.findViewById(R.id.iv_cat_icon_real),
-                ivCatJewellery = fragmentView.findViewById(R.id.iv_cat_icon_jewellery);
-
-        TextView tvCatVehicles = fragmentView.findViewById(R.id.tv_cat_label_vehicles),
-                tvCatElectronics = fragmentView.findViewById(R.id.tv_cat_label_electronics),
-                tvCatRealState = fragmentView.findViewById(R.id.tv_cat_label_real),
-                tvCatJewellery = fragmentView.findViewById(R.id.tv_cat_label_jewellery);
-
-        // bind cats data
-        if (catVehicles != null)
-        {
-            // background color
-            layoutCatVehicles.setBackgroundColor(Color.parseColor(catVehicles.getCategoryColor()));
-            // icon
-            ImageLoader.getInstance().loadIcon(catVehicles.getCategoryImage(), ivCatVehicles);
-            // title
-            tvCatVehicles.setText(catVehicles.getCategoryName());
-            // clicks
-            cvCatVehicles.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openFilterByCat(catVehicles.getCategoryId(), catVehicles.getCategoryName());
-                }
-            });
-        }
-        else
-        {
-            cvCatVehicles.setVisibility(View.GONE);
-        }
-
-        if (catElectronics != null)
-        {
-            // background color
-            layoutCatElectronics.setBackgroundColor(Color.parseColor(catElectronics.getCategoryColor()));
-            // icon
-            ImageLoader.getInstance().loadIcon(catElectronics.getCategoryImage(), ivCatElectronics);
-            // title
-            tvCatElectronics.setText(catElectronics.getCategoryName());
-            // clicks
-            cvCatElectronics.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openFilterByCat(catElectronics.getCategoryId(), catElectronics.getCategoryName());
-                }
-            });
-        }
-        else
-        {
-            cvCatElectronics.setVisibility(View.GONE);
-        }
-
-        if (catRealState != null)
-        {
-            // background color
-            layoutCatRealState.setBackgroundColor(Color.parseColor(catRealState.getCategoryColor()));
-            // icon
-            ImageLoader.getInstance().loadIcon(catRealState.getCategoryImage(), ivCatRealState);
-            // title
-            tvCatRealState.setText(catRealState.getCategoryName());
-            // clicks
-            cvCatRealState.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openFilterByCat(catRealState.getCategoryId(), catRealState.getCategoryName());
-                }
-            });
-        }
-        else
-        {
-            cvCatRealState.setVisibility(View.GONE);
-        }
-
-        if (catJewellery != null)
-        {
-            // background color
-            layoutCatJewellery.setBackgroundColor(Color.parseColor(catJewellery.getCategoryColor()));
-            // icon
-            ImageLoader.getInstance().loadIcon(catJewellery.getCategoryImage(), ivCatJewellery);
-            // title
-            tvCatJewellery.setText(catJewellery.getCategoryName());
-            // clicks
-            cvCatJewellery.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openFilterByCat(catJewellery.getCategoryId(), catJewellery.getCategoryName());
-                }
-            });
-        }
-        else
-        {
-            cvCatJewellery.setVisibility(View.GONE);
-        }
-    }
-
     private void openFilterByCat(int catId, String categoryName) {
         Intent i = new Intent(context, AllSalonsActivity.class);
         i.putExtra(Constants.CATEGORY_KEY, catId);
@@ -413,7 +315,7 @@ public class MainFragment extends Fragment {
 
     private void getSalonsFirstPageFromServer() {
         RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-                new Data(REQ_GET_ALL_SALONS, 1), new Request<>(REQ_GET_ALL_SALONS, userId, apiToken, true
+                new Data(REQ_GET_ALL_SALONS, 1), new RequestModel<>(REQ_GET_ALL_SALONS, userId, apiToken, true
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -443,7 +345,7 @@ public class MainFragment extends Fragment {
 
     private void getSalonsNextPageFromServer() {
         RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
-                new Data(REQ_GET_ALL_SALONS, ++page), new Request<>(REQ_GET_ALL_SALONS, userId, apiToken, true
+                new Data(REQ_GET_ALL_SALONS, ++page), new RequestModel<>(REQ_GET_ALL_SALONS, userId, apiToken, true
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -532,7 +434,7 @@ public class MainFragment extends Fragment {
         winnersNewsProgress.setVisibility(View.GONE);
         winnersNewsRecycler.setVisibility(View.GONE);
         RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(),
-                REQ_GET_ALL_BLOGS, new Request<>(REQ_GET_ALL_BLOGS, userId, apiToken
+                REQ_GET_ALL_BLOGS, new RequestModel<>(REQ_GET_ALL_BLOGS, userId, apiToken
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -558,7 +460,7 @@ public class MainFragment extends Fragment {
             winnersNewsRecycler.setHasFixedSize(true);
             if (winnersNewsRecycler.getAdapter() == null)
             {
-                winnersNewsRecycler.setAdapter(new WinnersNewsAdapter(context ,winnerNewsList));
+                winnersNewsRecycler.setAdapter(new WinnersNewsAdapter(context, winnerNewsList));
             }
 
             // to remove progress bar

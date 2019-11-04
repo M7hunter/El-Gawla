@@ -16,7 +16,7 @@ import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Vote;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.DialogBuilder;
@@ -57,7 +57,7 @@ public class VoteActivity extends AppCompatActivity {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(VoteActivity.this).executeConnectionToServer(
                 VoteActivity.this,
-                REQ_GET_ALL_VOTES, new Request<>(REQ_GET_ALL_VOTES, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()
+                REQ_GET_ALL_VOTES, new RequestModel<>(REQ_GET_ALL_VOTES, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

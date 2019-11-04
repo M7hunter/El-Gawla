@@ -2,7 +2,9 @@ package it_geeks.info.elgawla.repository.RESTful;
 
 import it_geeks.info.elgawla.util.Constants;
 
-public class Request<T> {
+import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALONS_BY_CAT_ID;
+
+public class RequestModel<T> {
 
     private T phone, gender, join_time, left_time, offer, package_id, code,
             provider, provider_id, provider_name, provider_email, provider_image, firebase_token, payment_method,
@@ -10,7 +12,7 @@ public class Request<T> {
             category_id, salon_id, round_id, card_id, user_id, country_id,
             isHome;
 
-    public Request(String action, T t1, T t2, T t3, T t4, T t5, T t6, T t7) {
+    public RequestModel(String action, T t1, T t2, T t3, T t4, T t5, T t6, T t7) {
 
         if (action.equals(Constants.REQ_SIGN_IN))
         {
@@ -62,7 +64,7 @@ public class Request<T> {
                 this.join_time = t4;
                 this.left_time = t5;
             }
-            else if (action.equals("getSalonsByCategoryID") || action.equals(Constants.REQ_GET_CARDS_BY_CATEGORY))
+            else if (action.equals(REQ_GET_SALONS_BY_CAT_ID) || action.equals(Constants.REQ_GET_CARDS_BY_CATEGORY))
             {
                 this.category_id = t3;
             }

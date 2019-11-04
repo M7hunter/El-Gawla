@@ -97,5 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
 
+        <include layout="@layout/layout_no_connection" />
+
     </RelativeLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -12,12 +12,12 @@ import android.widget.ProgressBar;
 
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import it_geeks.info.elgawla.Adapters.StoreCategoryAdapter;
@@ -28,7 +28,7 @@ import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.Constants;
@@ -53,8 +53,6 @@ public class StoreFragment extends Fragment {
     private SnackBuilder snackBuilder;
     private CategoryDao categoryDao;
 
-    private List<Category> categoryList = new ArrayList<>();
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -67,7 +65,6 @@ public class StoreFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         categoryDao = GawlaDataBse.getInstance(context).categoryDao();
-        categoryList = categoryDao.getCategories();
     }
 
     @Override
@@ -81,9 +78,11 @@ public class StoreFragment extends Fragment {
 
         initViews(fragmentView);
 
+        initCategoriesRecycler();
+
         handleEvents(fragmentView);
 
-        getDataFromServer();
+        updateCategoriesFromServer();
     }
 
     private void initViews(View fragmentView) {
@@ -101,8 +100,6 @@ public class StoreFragment extends Fragment {
         snackBuilder = new SnackBuilder(fragmentView.findViewById(R.id.store_main_layout));
         // load user image
         ImageLoader.getInstance().loadUserImage(context, ((ImageView) fragmentView.findViewById(R.id.iv_user_image)));
-
-        initCategoriesRecycler();
     }
 
     private void handleEvents(View fragmentView) {
@@ -122,14 +119,9 @@ public class StoreFragment extends Fragment {
         });
     }
 
-    private void getDataFromServer() {
-//        if (Common.Instance().isConnected(context))
-            updateCategoriesFromServer();
-
-    }
-
     private void updateCategoriesFromServer() {
-        if (categoryList.isEmpty())
+        List<Category> checkList = categoryDao.getCategories().getValue();
+        if (checkList != null && checkList.size() > 0)
         {
             pbRecycler.setVisibility(View.VISIBLE);
             emptyViewLayout.setVisibility(View.GONE);
@@ -139,55 +131,52 @@ public class StoreFragment extends Fragment {
         String apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
         RetrofitClient.getInstance(getActivity()).executeConnectionToServer(context,
-                REQ_GET_ALL_CATEGORIES, new Request<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
+                REQ_GET_ALL_CATEGORIES, new RequestModel<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
                         null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         categoryDao.insertCategories(ParseResponses.parseCategories(mainObject));
-                        categoryList = categoryDao.getCategories();
                     }
 
                     @Override
                     public void handleAfterResponse() {
-                        initCategoriesRecycler();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        initCategoriesRecycler();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }
 
     private void initCategoriesRecycler() {
-        if (categoryList.size() > 0)
-        {
-            emptyViewLayout.setVisibility(View.GONE);
-            if (categoriesRecycler.getAdapter() == null)
-            {
-                categoriesRecycler.setAdapter(new StoreCategoryAdapter(categoryList, new ClickInterface.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Category category = categoryList.get(position);
+        categoryDao.getCategories().observe(this, new Observer<List<Category>>() {
+            @Override
+            public void onChanged(final List<Category> categories) {
+                if (categories.size() > 0)
+                {
+                    emptyViewLayout.setVisibility(View.GONE);
+                    categoriesRecycler.setAdapter(new StoreCategoryAdapter(categories, new ClickInterface.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            Category category = categories.get(position);
 
-                        Intent i = new Intent(context, CategoryCardsActivity.class);
-                        i.putExtra(CATEGORY_NAME, category.getCategoryName());
-                        i.putExtra(Constants.CAT_ID, category.getCategoryId());
-                        startActivity(i);
-                    }
-                }));
-            } else
-            {
-                categoriesRecycler.getAdapter().notifyDataSetChanged();
+                            Intent i = new Intent(context, CategoryCardsActivity.class);
+                            i.putExtra(CATEGORY_NAME, category.getCategoryName());
+                            i.putExtra(Constants.CAT_ID, category.getCategoryId());
+                            startActivity(i);
+                        }
+                    }));
+
+                    if (pbRecycler.getVisibility() == View.VISIBLE)
+                        Common.Instance().hideProgress(categoriesRecycler, pbRecycler);
+                }
+                else
+                { // empty
+                    emptyViewLayout.setVisibility(View.VISIBLE);
+                    pbRecycler.setVisibility(View.GONE);
+                }
             }
-
-            if (pbRecycler.getVisibility() == View.VISIBLE)
-                Common.Instance().hideProgress(categoriesRecycler, pbRecycler);
-        } else
-        {
-            emptyViewLayout.setVisibility(View.VISIBLE);
-            pbRecycler.setVisibility(View.GONE);
-        }
+        });
     }
 }

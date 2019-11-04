@@ -293,18 +293,26 @@ public class ParseResponses {
         return salonsList;
     }
 
-    public static Category parseHomeCategories(JsonObject object, String catKey) {
+    public static List<Category> parseHomeCategories(JsonObject object) {
         JsonObject homeObj = object.get("home").getAsJsonObject();
-        JsonObject categoriesObj = homeObj.get("categories").getAsJsonObject();
+        JsonArray categoriesArr = homeObj.get("categories").getAsJsonArray();
 
-        JsonObject catObj = categoriesObj.get(catKey).getAsJsonObject();
+        List<Category> categories = new ArrayList<>();
 
-        int category_id = catObj.get("category_id").getAsInt();
-        String category_name = catObj.get("category_name").getAsString();
-        String category_color = catObj.get("category_color").getAsString();
-        String category_image = catObj.get("category_image").getAsString();
+        for (int i = 0; i < categoriesArr.size(); i++)
+        {
+            JsonObject catObj = categoriesArr.get(i).getAsJsonObject();
 
-        return new Category(category_id, category_name, category_color, category_image);
+            int category_id = catObj.get("category_id").getAsInt();
+            String category_name = catObj.get("category_name").getAsString();
+            String category_color = catObj.get("category_color").getAsString();
+            String category_image = catObj.get("category_image").getAsString();
+
+            categories.add(new Category(category_id, category_name, category_color, category_image));
+        }
+
+
+        return categories;
     }
 
     public static List<Ad> parseAds(JsonObject object) {

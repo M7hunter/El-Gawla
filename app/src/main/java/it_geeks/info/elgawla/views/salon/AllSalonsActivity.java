@@ -26,7 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import it_geeks.info.elgawla.Adapters.CategoryFilterAdapter;
+import it_geeks.info.elgawla.Adapters.CategoryAdapter;
 import it_geeks.info.elgawla.util.Constants;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.ImageLoader;
@@ -40,7 +40,7 @@ import it_geeks.info.elgawla.util.NotificationBuilder;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Category;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.Models.Round;
 import it_geeks.info.elgawla.repository.Models.SalonDate;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
@@ -55,6 +55,7 @@ import it_geeks.info.elgawla.views.account.ProfileActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_CATEGORIES;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_SALONS;
+import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALONS_BY_CAT_ID;
 
 public class AllSalonsActivity extends AppCompatActivity {
 
@@ -64,16 +65,17 @@ public class AllSalonsActivity extends AppCompatActivity {
     private TextView tvAllSalonsTitle;
     private LinearLayout emptyViewLayout;
     private BottomSheetDialog mBottomSheetDialogFilterBy;
+    private FloatingActionButton fbtnFilter;
 
     private List<Round> roundsList = new ArrayList<>();
     private List<Category> categoryList = new ArrayList<>();
     private List<SalonDate> dateList = new ArrayList<>();
 
     private int userId, catKey;
+    private boolean isDateFilter = true;
     private String apiToken;
     private DialogBuilder dialogBuilder;
     private SnackBuilder snackBuilder;
-    private FloatingActionButton fbtnFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,7 +184,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     private void getDatesAndRoundsFromServer() {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
-                REQ_GET_ALL_SALONS, new Request<>(REQ_GET_ALL_SALONS, userId, apiToken, false,
+                REQ_GET_ALL_SALONS, new RequestModel<>(REQ_GET_ALL_SALONS, userId, apiToken, false,
                         null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -195,7 +197,8 @@ public class AllSalonsActivity extends AppCompatActivity {
                         try
                         {
                             roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(dateList.get(0).getsDate()));
-                        } catch (IndexOutOfBoundsException e)
+                        }
+                        catch (IndexOutOfBoundsException e)
                         {
                             e.printStackTrace();
                             Crashlytics.logException(e);
@@ -220,7 +223,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     private void getSalonsByCatFromServer() {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
-                "getSalonsByCategoryID", new Request<>("getSalonsByCategoryID", userId, apiToken, catKey,
+                REQ_GET_SALONS_BY_CAT_ID, new RequestModel<>(REQ_GET_SALONS_BY_CAT_ID, userId, apiToken, catKey,
                         null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -289,7 +292,8 @@ public class AllSalonsActivity extends AppCompatActivity {
         try
         {
             date = new SimpleDateFormat("dd-MM-yyyy").parse(sDate);
-        } catch (ParseException e)
+        }
+        catch (ParseException e)
         {
             e.printStackTrace();
         }
@@ -312,7 +316,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     private void getCategoriesAndRoundsFromServer() {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
-                REQ_GET_ALL_CATEGORIES, new Request<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
+                REQ_GET_ALL_CATEGORIES, new RequestModel<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
                         null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -324,7 +328,8 @@ public class AllSalonsActivity extends AppCompatActivity {
                         try
                         {
                             roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
-                        } catch (IndexOutOfBoundsException e)
+                        }
+                        catch (IndexOutOfBoundsException e)
                         {
                             e.printStackTrace();
                             Crashlytics.logException(e);
@@ -347,7 +352,7 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initCategoriesAdapter() { // ......
-        filterRecycler.setAdapter(new CategoryFilterAdapter(categoryList, new ClickInterface.OnItemClickListener() {
+        filterRecycler.setAdapter(new CategoryAdapter(categoryList, this, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Category category = categoryList.get(position);
@@ -383,7 +388,20 @@ public class AllSalonsActivity extends AppCompatActivity {
         sheetView.findViewById(R.id.btn_filter_by_date).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getDatesAndRoundsFromServer();
+                if (!isDateFilter)
+                {
+                    if (dateList.isEmpty())
+                    {// query from server
+                        getDatesAndRoundsFromServer();
+                    }
+                    else
+                    {// get locally
+                        initDatesAdapter();
+                        roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(dateList.get(0).getsDate()));
+                        initSalonsRecycler();
+                    }
+                    isDateFilter = true;
+                }
                 mBottomSheetDialogFilterBy.dismiss();
             }
         });
@@ -391,7 +409,20 @@ public class AllSalonsActivity extends AppCompatActivity {
         sheetView.findViewById(R.id.btn_filter_by_category).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getCategoriesAndRoundsFromServer();
+                if (isDateFilter)
+                {
+                    if (categoryList.isEmpty())
+                    {// query from server
+                        getCategoriesAndRoundsFromServer();
+                    }
+                    else
+                    {// get locally
+                        initCategoriesAdapter();
+                        roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
+                        initSalonsRecycler();
+                    }
+                    isDateFilter = false;
+                }
                 mBottomSheetDialogFilterBy.dismiss();
             }
         });
@@ -403,7 +434,6 @@ public class AllSalonsActivity extends AppCompatActivity {
                 if (mBottomSheetDialogFilterBy.isShowing())
                 {
                     mBottomSheetDialogFilterBy.dismiss();
-
                 }
                 else
                 {

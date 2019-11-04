@@ -19,7 +19,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.ImageLoader;
@@ -166,7 +166,7 @@ public class AccountFragment extends Fragment {
 
     private void checkSubscriptionOnServer() {
         RetrofitClient.getInstance(context).executeConnectionToServer(context, REQ_CHECK_SUBSCRIPTION
-                , new Request<>(REQ_CHECK_SUBSCRIPTION, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(),
+                , new RequestModel<>(REQ_CHECK_SUBSCRIPTION, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(),
                         null, null, null, null, null),
                 new HandleResponses() {
                     @Override

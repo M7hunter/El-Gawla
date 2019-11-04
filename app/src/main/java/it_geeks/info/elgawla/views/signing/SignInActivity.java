@@ -44,10 +44,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.repository.Models.Round;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.DialogBuilder;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.Models.User;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
@@ -55,7 +54,6 @@ import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.SnackBuilder;
-import it_geeks.info.elgawla.views.intro.SplashScreenActivity;
 import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 
@@ -236,7 +234,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     public void login(String email, String pass) {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(SignInActivity.this).executeConnectionToServer(SignInActivity.this,
-                REQ_SIGN_IN, new Request<>(REQ_SIGN_IN, email, pass,
+                REQ_SIGN_IN, new RequestModel<>(REQ_SIGN_IN, email, pass,
                         null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -288,35 +286,8 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         startActivityForResult(signInIntent, GOOGLE_REQUEST);
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        String id, name, email, image;
-        try
-        {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            id = account.getId();
-            name = account.getDisplayName();
-            email = account.getEmail();
-            image = "https://itgeeks.com/images/logo.png";
-            if (account.getPhotoUrl() != null)
-            {
-                image = account.getPhotoUrl().toString();
-            }
-
-            socialLogin(id, name, email, image, providerGoogle);
-        }
-        catch (ApiException e)
-        {
-            Log.w("signIn:failed code", "" + e.getStatusCode());
-            Crashlytics.logException(e);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        }
-    }
-
     // fb login
+
     private void facebookLogin() {
         btn_fb_login.setReadPermissions(Arrays.asList("public_profile", "email"));
         btn_fb_login.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -351,8 +322,8 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
             LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
         }
     }
-
     // fb login
+
     private void getData(final JSONObject object) {
         String id = "", name = "", email = "", image = "";
         try
@@ -386,6 +357,36 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         }
     }
 
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        String id, name, email, image;
+        try
+        {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            if (account != null)
+            {
+                id = account.getId();
+                name = account.getDisplayName();
+                email = account.getEmail();
+                image = "https://itgeeks.com/images/logo.png";
+                if (account.getPhotoUrl() != null)
+                {
+                    image = account.getPhotoUrl().toString();
+                }
+                socialLogin(id, name, email, image, providerGoogle);
+            }
+        }
+        catch (ApiException e)
+        {
+            Log.w("signIn:failed code", "" + e.getStatusCode());
+            Crashlytics.logException(e);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+        }
+    }
+
     // google login
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -396,7 +397,7 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
         dialogBuilder.displayLoadingDialog();
         int countryId = SharedPrefManager.getInstance(SignInActivity.this).getCountry().getCountry_id();
         RetrofitClient.getInstance(SignInActivity.this).executeConnectionToServer(SignInActivity.this,
-                REQ_SOCIAL_SIGN, new Request<>(REQ_SOCIAL_SIGN, provider, id, name, email, image, countryId,
+                REQ_SOCIAL_SIGN, new RequestModel<>(REQ_SOCIAL_SIGN, provider, id, name, email, image, countryId,
                         null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -442,15 +443,15 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
     private void getSalonDataFromServer(String salonId) {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(SignInActivity.this).executeConnectionToServer(SignInActivity.this,
-                REQ_GET_SALON_BY_ID, new Request<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(SignInActivity.this).getUser().getUser_id()
+                REQ_GET_SALON_BY_ID, new RequestModel<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(SignInActivity.this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(SignInActivity.this).getUser().getApi_token(), salonId
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         startActivity(new Intent(SignInActivity.this, SalonActivity.class)
                                 .putExtra("round", parseRoundByID(mainObject))
-                                .putExtra("salon_from_link", getIntent().getBooleanExtra("salon_from_link", false)));
-                        finish();
+                                .putExtra("salon_from_link", getIntent().getBooleanExtra("salon_from_link", false))
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     }
 
                     @Override

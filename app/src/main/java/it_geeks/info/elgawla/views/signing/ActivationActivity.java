@@ -3,7 +3,7 @@ package it_geeks.info.elgawla.views.signing;
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 
@@ -30,7 +30,7 @@ public class ActivationActivity extends AppCompatActivity {
     private EditText etCode;
     private Button btnConfirm;
     private FloatingActionButton fbtnResend;
-    private TextView tvExTimer;
+    private TextView tvResendTimer;
     private CountDownTimer countDownTimer;
     private int timeValue = 60;
 
@@ -63,7 +63,7 @@ public class ActivationActivity extends AppCompatActivity {
         tlCode = findViewById(R.id.tl_code);
         etCode = findViewById(R.id.et_activation_code);
         btnConfirm = findViewById(R.id.btn_activation_confirm);
-        tvExTimer = findViewById(R.id.tv_activation_ex_time);
+        tvResendTimer = findViewById(R.id.tv_resend_activation_time);
         fbtnResend = findViewById(R.id.fbtn_resend_code);
         fbtnResend.setEnabled(false);
 
@@ -71,7 +71,7 @@ public class ActivationActivity extends AppCompatActivity {
 
             @Override
             public void onTick(long millisUntilFinished) {
-                tvExTimer.setText("00:" + (millisUntilFinished / 1000));
+                tvResendTimer.setText("00:" + (millisUntilFinished / 1000));
             }
 
             @Override
@@ -103,6 +103,7 @@ public class ActivationActivity extends AppCompatActivity {
                 {
                     if (cashedCode.equals(code))
                     {
+                        // todo: activate user on server
                         startActivity(new Intent(ActivationActivity.this, SignUpActivity.class)
                                 .putExtra("phone", phone));
                     }
@@ -138,7 +139,7 @@ public class ActivationActivity extends AppCompatActivity {
 
     private void requestCodeByPhoneFromServer(final String phone) {
         RetrofitClient.getInstance(this).executeConnectionToServer(this
-                , REQ_SEND_SMS, new Request<>(REQ_SEND_SMS, phone, SharedPrefManager.getInstance(ActivationActivity.this).getCountry().getCountry_id()
+                , REQ_SEND_SMS, new RequestModel<>(REQ_SEND_SMS, phone, SharedPrefManager.getInstance(ActivationActivity.this).getCountry().getCountry_id()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

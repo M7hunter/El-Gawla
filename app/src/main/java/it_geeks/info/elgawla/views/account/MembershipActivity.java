@@ -16,7 +16,7 @@ import it_geeks.info.elgawla.Adapters.PackageAdapter;
 import it_geeks.info.elgawla.repository.Models.Package;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.util.DialogBuilder;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
@@ -53,7 +53,7 @@ public class MembershipActivity extends AppCompatActivity {
     private void getPackagesFromServer() {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(MembershipActivity.this).executeConnectionToServer(MembershipActivity.this,
-                REQ_GET_ALL_PACKAGES, new Request<>(REQ_GET_ALL_PACKAGES, SharedPrefManager.getInstance(MembershipActivity.this).getUser().getUser_id(), SharedPrefManager.getInstance(MembershipActivity.this).getUser().getApi_token()
+                REQ_GET_ALL_PACKAGES, new RequestModel<>(REQ_GET_ALL_PACKAGES, SharedPrefManager.getInstance(MembershipActivity.this).getUser().getUser_id(), SharedPrefManager.getInstance(MembershipActivity.this).getUser().getApi_token()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

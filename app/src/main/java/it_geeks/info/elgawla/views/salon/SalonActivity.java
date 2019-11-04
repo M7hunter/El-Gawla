@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,10 +13,8 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -64,6 +60,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.elgawla.Adapters.ActivityAdapter;
 import it_geeks.info.elgawla.Adapters.TopTenAdapter;
 import it_geeks.info.elgawla.util.DialogBuilder;
+import it_geeks.info.elgawla.util.Floating.Dynamic;
+import it_geeks.info.elgawla.util.Floating.FloatingView;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.util.AudioPlayer;
 import it_geeks.info.elgawla.repository.Models.Activity;
@@ -75,7 +73,7 @@ import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.util.receivers.ConnectionChangeReceiver;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.repository.Models.ProductSubImage;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.Models.Round;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.RoundRemainingTime;
@@ -121,7 +119,7 @@ public class SalonActivity extends AppCompatActivity {
     private EditText etAddOffer;
     private TextInputLayout tilAddOffer;
     private View salonMainContainer, detailsSheetView, salonMainLayout;
-    public View lastActivity;
+    public View lastActivity, cardsBag;
     public LinearLayout addOfferLayout, chatContainer, topTenContainer, more;
     public RelativeLayout activityContainer;
     private RecyclerView activityRecycler, topTenRecycler, cardsRecycler;
@@ -136,12 +134,8 @@ public class SalonActivity extends AppCompatActivity {
     private ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
 
     public int userId;
-    private int goldenCardCount = 0, stopPosition = 0, screenHeight, screenWidth, joinState; // 0 = watcher, 1 = want to join, 2 = joined
+    private int goldenCardCount = 0, stopPosition = 0, joinState; // 0 = watcher, 1 = want to join, 2 = joined
     private String userName, apiToken;
-
-    private PointF staringPoint = new PointF();
-    private PointF pointerPoint = new PointF();
-    private GestureDetector gestureDetector;
 
     private CountDownController countDownController;
     private RoundRemainingTime roundRemainingTime;
@@ -181,8 +175,6 @@ public class SalonActivity extends AppCompatActivity {
             initBottomSheetProductDetails();
 
             initJoinConfirmationDialog();
-
-            getScreenDimensions();
 
             initCardsBagIcon();
 
@@ -309,6 +301,8 @@ public class SalonActivity extends AppCompatActivity {
         tvProductDetailsTab = findViewById(R.id.tv_product_details);
         tvSalonActivityTab = findViewById(R.id.tv_salon_activity);
         tvChatTab = findViewById(R.id.tv_salon_chat);
+
+        cardsBag = findViewById(R.id.cards_bag_btn_container);
 
         detailsSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_product_details, null);
         ivProductMainViewer = detailsSheetView.findViewById(R.id.product_details_main_image);
@@ -450,6 +444,13 @@ public class SalonActivity extends AppCompatActivity {
             }
         });
 
+        fbtnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createDynamicLinkAndShareSalon();
+            }
+        });
+
         etAddOffer.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -465,6 +466,11 @@ public class SalonActivity extends AppCompatActivity {
                         tilAddOffer.setError(getString(R.string.offer_less_than_price));
                         btnAddOffer.setEnabled(false);
                     }
+                    else if (Integer.parseInt(etAddOffer.getText().toString()) <= 0)
+                    {
+                        tilAddOffer.setError(getString(R.string.offer_more_than_zero));
+                        btnAddOffer.setEnabled(false);
+                    }
                     else
                     {
                         btnAddOffer.setEnabled(true);
@@ -472,7 +478,7 @@ public class SalonActivity extends AppCompatActivity {
                             tilAddOffer.setError(null);
                     }
                 }
-                catch (NumberFormatException e)
+                catch (Exception e)
                 {
                     e.printStackTrace();
                 }
@@ -481,13 +487,6 @@ public class SalonActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
-            }
-        });
-
-        fbtnShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createDynamicLinkAndShareSalon();
             }
         });
     }
@@ -531,7 +530,7 @@ public class SalonActivity extends AppCompatActivity {
         {
             final String userOffer = etAddOffer.getText().toString();
 
-            if (userOffer.isEmpty() || userOffer.equals("0"))
+            if (userOffer.isEmpty())
             {
                 joinProgress.setVisibility(View.GONE);
                 addOfferLayout.setVisibility(View.VISIBLE);
@@ -547,7 +546,7 @@ public class SalonActivity extends AppCompatActivity {
             }
 
             RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
-                    REQ_SET_USER_OFFER, new Request<>(REQ_SET_USER_OFFER, SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
+                    REQ_SET_USER_OFFER, new RequestModel<>(REQ_SET_USER_OFFER, SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
                             , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
                             , round.getSalon_id()
                             , userOffer
@@ -780,7 +779,7 @@ public class SalonActivity extends AppCompatActivity {
         dialogBuilder.displayLoadingDialog();
         Log.d(TAG, "getRemainingTimeFromServer: doing");
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
-                REQ_GET_SALON_WITH_REALTIME, new Request<>(REQ_GET_SALON_WITH_REALTIME, userId, apiToken, round.getSalon_id()
+                REQ_GET_SALON_WITH_REALTIME, new RequestModel<>(REQ_GET_SALON_WITH_REALTIME, userId, apiToken, round.getSalon_id()
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -913,13 +912,13 @@ public class SalonActivity extends AppCompatActivity {
     }
 
     private void displayUserOffer() {
-        etAddOffer.setHint(String.valueOf(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId)));
+        tilAddOffer.setHint(String.valueOf(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId)));
     }
 
     private void getTopTen() {
         Log.d(TAG, "getTopTen: doing");
         RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                REQ_GET_TOP_TEN, new Request<>(REQ_GET_TOP_TEN, userId, apiToken, round.getSalon_id(), round.getRound_id()
+                REQ_GET_TOP_TEN, new RequestModel<>(REQ_GET_TOP_TEN, userId, apiToken, round.getSalon_id(), round.getRound_id()
                         , null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -952,7 +951,7 @@ public class SalonActivity extends AppCompatActivity {
         dialogBuilder.displayLoadingDialog();
         Log.d(TAG, "getWinner: doing");
         RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                REQ_GET_WINNER, new Request<>(REQ_GET_WINNER, userId, apiToken, round.getSalon_id(), round.getRound_id()
+                REQ_GET_WINNER, new RequestModel<>(REQ_GET_WINNER, userId, apiToken, round.getSalon_id(), round.getRound_id()
                         , null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -1046,6 +1045,7 @@ public class SalonActivity extends AppCompatActivity {
     private void displaySubscribeConfirmationLayout() {
         joinState = 1;
         countDownController.setUserJoin(false);
+        ImageViewCompat.setImageTintList(joinIcon, ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorPrimary)));
 
         // display confirmation layout
         btnJoinRound.setVisibility(View.GONE);
@@ -1103,7 +1103,7 @@ public class SalonActivity extends AppCompatActivity {
         btnJoinConfirmation.setEnabled(false);
         joinConfirmationProgress.setVisibility(View.VISIBLE);
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
-                REQ_SET_USER_SALON, new Request<>(REQ_SET_USER_SALON
+                REQ_SET_USER_SALON, new RequestModel<>(REQ_SET_USER_SALON
                         , SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
                         , round.getSalon_id()
@@ -1134,7 +1134,7 @@ public class SalonActivity extends AppCompatActivity {
     private void unSubscribeUserFromSalonOnServer() {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
-                REQ_SET_ROUND_LEAVE, new Request<>(REQ_SET_ROUND_LEAVE, userId, apiToken, round.getSalon_id()
+                REQ_SET_ROUND_LEAVE, new RequestModel<>(REQ_SET_ROUND_LEAVE, userId, apiToken, round.getSalon_id()
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -1432,7 +1432,7 @@ public class SalonActivity extends AppCompatActivity {
             dialogBuilder.displayLoadingDialog();
             hideGoldenLayout();
             RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                    REQ_USE_GOLDEN_CARD, new Request<>(REQ_USE_GOLDEN_CARD, userId, apiToken, round.getSalon_id(), goldenCard.getCard_id(), round.getRound_id()
+                    REQ_USE_GOLDEN_CARD, new RequestModel<>(REQ_USE_GOLDEN_CARD, userId, apiToken, round.getSalon_id(), goldenCard.getCard_id(), round.getRound_id()
                             , null, null), new HandleResponses() {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
@@ -1464,84 +1464,12 @@ public class SalonActivity extends AppCompatActivity {
     // endregion
 
     private void initCardsBagIcon() {
-        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+        new FloatingView(cardsBag, this).initViewListeners(new ClickInterface.SnackAction() {
             @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return true;
+            public void onClick() {
+                cardIconClicked();
             }
         });
-
-        findViewById(R.id.cards_bag_btn_container).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                // just clicked
-                if (gestureDetector.onTouchEvent(motionEvent))
-                {
-                    cardIconClicked();
-                }
-
-                // moved
-                switch (motionEvent.getAction())
-                {
-                    case MotionEvent.ACTION_DOWN:
-                        // reinitialize points
-                        pointerPoint.set(motionEvent.getX(), motionEvent.getY());
-                        staringPoint.set(view.getX(), view.getY());
-
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        // move smoothly
-                        view.setX((int) (staringPoint.x + motionEvent.getX() - pointerPoint.x));
-                        view.setY((int) (staringPoint.y + motionEvent.getY() - pointerPoint.y));
-                        staringPoint.set(view.getX(), view.getY());
-
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        // checks
-                        handleWithScreenBorders(view);
-                        view.performClick();
-
-                        break;
-                    default:
-                        break;
-                }
-
-                return true;
-            }
-        });
-    }
-
-    private void handleWithScreenBorders(View view) {
-        // if x of the left border || in the left half of screen
-        if (view.getX() < 0 || (view.getX() + (view.getWidth() / 2)) < (screenWidth / 2))
-        {
-            view.animate().translationX(0).setDuration(250).start();
-        }
-
-        // if x of the right border || in the right half of screen
-        if ((view.getX() + view.getWidth()) > screenWidth || (view.getX() + (view.getWidth() / 2)) > (screenWidth / 2))
-        {
-            view.animate().translationX(screenWidth - view.getWidth()).setDuration(250).start();
-        }
-
-        // if y of the up border
-        if (view.getY() < 0)
-        {
-            view.animate().translationY(0).setDuration(200).start();
-        }
-
-        // if y of the bottom border
-        if (view.getY() > (screenHeight - (view.getHeight() / 2)))
-        {
-            view.animate().translationY(screenHeight - view.getHeight()).setDuration(200).start();
-        }
-    }
-
-    private void getScreenDimensions() {
-        Point size = new Point();
-        getWindowManager().getDefaultDisplay().getSize(size);
-        screenWidth = size.x;
-        screenHeight = size.y;
     }
 
     private void cardIconClicked() {
@@ -1600,7 +1528,7 @@ public class SalonActivity extends AppCompatActivity {
         String apiToken = SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token();
 
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
-                REQ_GET_USER_CARDS_BY_SALON, new Request<>(REQ_GET_USER_CARDS_BY_SALON, userId, apiToken, round.getSalon_id()
+                REQ_GET_USER_CARDS_BY_SALON, new RequestModel<>(REQ_GET_USER_CARDS_BY_SALON, userId, apiToken, round.getSalon_id()
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

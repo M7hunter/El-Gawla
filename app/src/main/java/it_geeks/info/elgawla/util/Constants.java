@@ -23,6 +23,7 @@ public class Constants {
     public static final String REQ_GET_ALL_CATEGORIES = "getAllCategories";
     public static final String REQ_GET_ALL_COUNTRIES = "getAllCountries";
     public static final String REQ_GET_ALL_CARDS = "getAllCards";
+    public static final String REQ_GET_SALONS_BY_CAT_ID = "getSalonsByCategoryID";
     public static final String REQ_GET_CARDS_BY_CATEGORY = "getCardByCategoryID";
     public static final String REQ_GET_ALL_PACKAGES = "getAllPackages";
     public static final String REQ_GET_PAYMENT_PAGE = "getPaymentPage";

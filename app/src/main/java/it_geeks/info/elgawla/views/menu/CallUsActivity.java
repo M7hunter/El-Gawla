@@ -11,10 +11,10 @@ import com.google.gson.JsonObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.repository.RESTful.Request;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.SnackBuilder;
@@ -122,7 +122,7 @@ public class CallUsActivity extends AppCompatActivity {
         tlEmail.setError(null);
 
         RetrofitClient.getInstance(CallUsActivity.this).executeConnectionToServer(CallUsActivity.this,
-                REQ_SET_USER_MESSAGE, new Request<>(REQ_SET_USER_MESSAGE, userID, apiToken, username, email, message,
+                REQ_SET_USER_MESSAGE, new RequestModel<>(REQ_SET_USER_MESSAGE, userID, apiToken, username, email, message,
                         null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

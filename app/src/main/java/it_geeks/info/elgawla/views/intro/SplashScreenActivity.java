@@ -26,11 +26,10 @@ import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.repository.Models.Round;
 import it_geeks.info.elgawla.repository.Models.WebPage;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
@@ -165,7 +164,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void getSalonDataFromServer(String salonId) {
         pbSplash.setVisibility(View.VISIBLE);
         RetrofitClient.getInstance(SplashScreenActivity.this).executeConnectionToServer(SplashScreenActivity.this,
-                REQ_GET_SALON_BY_ID, new Request<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(SplashScreenActivity.this).getUser().getUser_id()
+                REQ_GET_SALON_BY_ID, new RequestModel<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(SplashScreenActivity.this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(SplashScreenActivity.this).getUser().getApi_token(), salonId
                         , null, null, null, null), new HandleResponses() {
                     @Override
@@ -191,7 +190,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void getCountriesFromSever() {
         final String countriesToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
         RetrofitClient.getInstance(SplashScreenActivity.this).executeConnectionToServer(SplashScreenActivity.this,
-                REQ_GET_ALL_COUNTRIES, new Request<>(REQ_GET_ALL_COUNTRIES, countriesToken
+                REQ_GET_ALL_COUNTRIES, new RequestModel<>(REQ_GET_ALL_COUNTRIES, countriesToken
                         , null, null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -217,7 +216,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         final String pagesToken = "T9hQoKYK7bGop5y6tuZq5S4RBH0dTNu0Lh6XuRzhyju8OVZ3Bz6TRDUJD4YH";
 
         RetrofitClient.getInstance(SplashScreenActivity.this).executeConnectionToServer(SplashScreenActivity.this,
-                REQ_GET_ALL_PAGES, new Request<>(REQ_GET_ALL_PAGES, user_id, pagesToken
+                REQ_GET_ALL_PAGES, new RequestModel<>(REQ_GET_ALL_PAGES, user_id, pagesToken
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

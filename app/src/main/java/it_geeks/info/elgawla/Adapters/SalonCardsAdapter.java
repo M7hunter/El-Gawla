@@ -23,7 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
@@ -162,7 +162,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         final String username = SharedPrefManager.getInstance(context).getUser().getName();
         String apiToken = SharedPrefManager.getInstance(context).getUser().getApi_token();
         RetrofitClient.getInstance(context).executeConnectionToServer(context,
-                REQ_USE_CARD, new Request<>(REQ_USE_CARD, userId, apiToken, salonId, card.getCard_id(), round_id
+                REQ_USE_CARD, new RequestModel<>(REQ_USE_CARD, userId, apiToken, salonId, card.getCard_id(), round_id
                         , null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

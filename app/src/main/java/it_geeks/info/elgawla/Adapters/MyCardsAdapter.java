@@ -18,7 +18,7 @@ import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.MyCardModel;
 import it_geeks.info.elgawla.repository.Models.Round;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.Common;
@@ -70,23 +70,18 @@ public class MyCardsAdapter extends RecyclerView.Adapter<MyCardsAdapter.ViewHold
             holder.tvStatus.setText(context.getString(R.string.unused));
             holder.tvStatus.setTextColor(context.getResources().getColor(R.color.greenBlue));
         }
-
     }
 
     private void getSalonByID(int salonId) {
         ((MyCardsActivity) context).dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(context).executeConnectionToServer(
                 context,
-                REQ_GET_SALON_BY_ID, new Request<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), salonId,
+                REQ_GET_SALON_BY_ID, new RequestModel<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), salonId,
                         null, null, null, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Round round = parseRoundByID(mainObject);
-
-                        Intent i = new Intent(context, SalonActivity.class);
-                        i.putExtra("round", round);
-                        context.startActivity(i);
+                        context.startActivity(new Intent(context, SalonActivity.class).putExtra("round", parseRoundByID(mainObject)));
                     }
 
                     @Override

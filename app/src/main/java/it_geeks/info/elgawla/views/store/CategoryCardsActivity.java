@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import it_geeks.info.elgawla.Adapters.CardListAdapter;
 import it_geeks.info.elgawla.R;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.repository.Models.Card;
-import it_geeks.info.elgawla.repository.RESTful.Request;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
@@ -88,7 +88,7 @@ public class CategoryCardsActivity extends AppCompatActivity {
                 tv.setTextSize(15);
                 tv.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
                 tv.setTextColor(getResources().getColor(R.color.blueGrey));
-                tv.setTypeface(Typeface.DEFAULT_BOLD);
+                tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
                 tv.setText(getString(R.string.no_content));
                 return tv;
             }
@@ -104,7 +104,6 @@ public class CategoryCardsActivity extends AppCompatActivity {
                 return tv;
             }
         });
-
         tsCardName.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_bottom_up));
         tsCardDesc.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_bottom_up));
     }
@@ -132,7 +131,8 @@ public class CategoryCardsActivity extends AppCompatActivity {
 
     private void getCardData() {
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
+        if (extras != null)
+        {
             tvCategoryName.setText(extras.getString(CATEGORY_NAME));
             catId = extras.getInt(CAT_ID);
             getCategoryCardsFromServer(catId);
@@ -141,7 +141,7 @@ public class CategoryCardsActivity extends AppCompatActivity {
 
     private void getCategoryCardsFromServer(int catId) {
         RetrofitClient.getInstance(CategoryCardsActivity.this).executeConnectionToServer(CategoryCardsActivity.this,
-                REQ_GET_CARDS_BY_CATEGORY, new Request<>(REQ_GET_CARDS_BY_CATEGORY, SharedPrefManager.getInstance(CategoryCardsActivity.this).getUser().getUser_id(), SharedPrefManager.getInstance(CategoryCardsActivity.this).getUser().getApi_token(),
+                REQ_GET_CARDS_BY_CATEGORY, new RequestModel<>(REQ_GET_CARDS_BY_CATEGORY, SharedPrefManager.getInstance(CategoryCardsActivity.this).getUser().getUser_id(), SharedPrefManager.getInstance(CategoryCardsActivity.this).getUser().getApi_token(),
                         catId, null, null, null, null),
                 new HandleResponses() {
                     @Override
@@ -163,7 +163,8 @@ public class CategoryCardsActivity extends AppCompatActivity {
     }
 
     private void initCards() {
-        if (cardList.size() > 0) { // have cards
+        if (cardList.size() > 0)
+        { // have cards
             tvEmptyView.setVisibility(View.GONE);
             selectedCardLayout.setVisibility(View.VISIBLE);
 
@@ -171,17 +172,21 @@ public class CategoryCardsActivity extends AppCompatActivity {
             bindData(card);
 
             cardList.remove(0); // remove the main card from the list to display only the others at the bottom
-            if (cardList.size() > 0) { // still have cards after removing the main one
+            if (cardList.size() > 0)
+            { // still have cards after removing the main one
                 cardListLayout.setVisibility(View.VISIBLE);
                 initCardsRecycler();
             }
-        } else { // !have cards
+        }
+        else
+        { // !have cards
             cardListLayout.setVisibility(View.GONE);
             selectedCardLayout.setVisibility(View.GONE);
             tvEmptyView.setVisibility(View.VISIBLE);
         }
 
-        if (pb.getVisibility() == View.VISIBLE) {
+        if (pb.getVisibility() == View.VISIBLE)
+        {
             pb.setVisibility(View.GONE);
         }
     }

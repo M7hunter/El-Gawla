@@ -33,18 +33,25 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
 
         initSnackBar(context);
 
-        if (activeNetInfo != null) {
+        if (activeNetInfo != null)
+        {
             connectedSnack(context);
-        } else {
+        }
+        else
+        {
             unConnectedSnack(context);
         }
     }
 
     public void initSnackBar(Context context) {
-        if (snackbar == null) {
-            if (context.getClass().equals(MainActivity.class)) {
+        if (snackbar == null)
+        {
+            if (context.getClass().equals(MainActivity.class))
+            {
                 snackbar = Snackbar.make(((MainActivity) context).getSnackBarContainer(), context.getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
-            } else if (context.getClass().equals(SalonActivity.class)) {
+            }
+            else if (context.getClass().equals(SalonActivity.class))
+            {
                 snackbar = Snackbar.make(((SalonActivity) context).getSnackBarContainer(), context.getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
             }
 
@@ -59,22 +66,29 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
             TextView tv = (TextView) snackBarView.findViewById(R.id.snackbar_text);
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimension(R.dimen.text_size_small));
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
                 tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            } else {
+            }
+            else
+            {
                 tv.setGravity(Gravity.CENTER_HORIZONTAL);
             }
         }
     }
 
     private void connectedSnack(Context context) {
-        if (snackbar.isShown()) {
+        if (snackbar.isShown())
+        {
             snackbar.getView().setBackgroundColor(context.getResources().getColor(R.color.greenBlue));
-            snackbar.setText("CONNECTED");
+            snackbar.setText(context.getString(R.string.connected));
             snackbar.setDuration(500).show();
-            try {
+            try
+            {
                 ((MainActivity) context).recreate();
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
                 Crashlytics.logException(e);
             }
@@ -83,7 +97,7 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
 
     private void unConnectedSnack(Context context) {
         snackbar.getView().setBackgroundColor(context.getResources().getColor(R.color.paleRed));
-        snackbar.setText("NO CONNECTION");
+        snackbar.setText(context.getString(R.string.no_connection));
         snackbar.setDuration(BaseTransientBottomBar.LENGTH_INDEFINITE).show();
     }
 }

@@ -3,7 +3,7 @@ package it_geeks.info.elgawla.views.signing;
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.DialogBuilder;
@@ -114,7 +114,7 @@ public class EnterPhoneActivity extends AppCompatActivity {
     private void requestCodeByPhoneFromServer(final String phone) {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(this).executeConnectionToServer(this
-                , REQ_SEND_SMS, new Request<>(REQ_SEND_SMS, phone, SharedPrefManager.getInstance(EnterPhoneActivity.this).getCountry().getCountry_id()
+                , REQ_SEND_SMS, new RequestModel<>(REQ_SEND_SMS, phone, SharedPrefManager.getInstance(EnterPhoneActivity.this).getCountry().getCountry_id()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

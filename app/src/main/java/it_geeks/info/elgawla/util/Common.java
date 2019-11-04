@@ -2,6 +2,7 @@ package it_geeks.info.elgawla.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
@@ -13,12 +14,21 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 
 import java.util.Collections;
@@ -31,11 +41,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.util.Interfaces.ConnectionInterface;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.Models.SalonDate;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
+import it_geeks.info.elgawla.views.signing.SignInActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_SET_FIREBASE_TOKEN;
 
@@ -43,9 +54,6 @@ public class Common {
 
     private static final String TAG = "fireToken";
     private static Common common;
-
-    private Common() {
-    }
 
     public static Common Instance() {
         if (common == null)
@@ -126,7 +134,7 @@ public class Common {
     }
 
     public void ApplyOnConnection(Context context, ConnectionInterface connectionInterface) {
-        LinearLayout noConnectionLayout = ((Activity) context).findViewById(R.id.no_connection);
+        TextView noConnectionLayout = ((Activity) context).findViewById(R.id.no_connection);
 
         if (isConnected(context))
         { // connected
@@ -156,6 +164,27 @@ public class Common {
     public void setAnimation(Context context, View viewToAnimate) {
         Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
         viewToAnimate.startAnimation(animation);
+    }
+
+
+    public void signOut(Context context) {
+        // local
+        SharedPrefManager.getInstance(context).clearUser();
+        SharedPrefManager.getInstance(context).clearProvider();
+
+        // facebook
+        LoginManager.getInstance().logOut();
+
+        // google
+        GoogleSignIn.getClient(context, new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()).signOut();
+
+        // firebase
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("salon_" + SharedPrefManager.getInstance(context).getSubscribedSalonId());
+        SharedPrefManager.getInstance(context).clearSubscribedSalonId();
+
+        // redirect to sign in
+        context.startActivity(new Intent(context, SignInActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
     }
 
     public void updateFirebaseToken(final Context context) {
@@ -194,7 +223,7 @@ public class Common {
 
     private void updateTokenOnServer(Context context, int user_id, String apiToken, String token) {
         RetrofitClient.getInstance(context).executeConnectionToServer(context,
-                REQ_SET_FIREBASE_TOKEN, new Request<>(REQ_SET_FIREBASE_TOKEN, user_id, apiToken, token,
+                REQ_SET_FIREBASE_TOKEN, new RequestModel<>(REQ_SET_FIREBASE_TOKEN, user_id, apiToken, token,
                         null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

@@ -3,7 +3,7 @@ package it_geeks.info.elgawla.views.signing;
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
@@ -144,7 +144,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(ResetPasswordActivity.this).executeConnectionToServer(
                 ResetPasswordActivity.this,
-                REQ_CHANGE_PASSWORD, new Request<>(REQ_CHANGE_PASSWORD, null, null, pass
+                REQ_CHANGE_PASSWORD, new RequestModel<>(REQ_CHANGE_PASSWORD, null, null, pass
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

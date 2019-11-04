@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_tiny"
         android:foreground="?attr/selectableItemBackground"
@@ -16,7 +16,7 @@
         <!-- card main layout -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cat_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:background="@color/colorYellow">
 
@@ -25,9 +25,9 @@
                 android:id="@+id/iv_cat_icon"
                 android:layout_width="@dimen/cat_icon_dim"
                 android:layout_height="@dimen/cat_icon_dim"
-                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_xTiny"
                 android:scaleType="centerInside"
                 app:layout_constraintBottom_toTopOf="@id/tv_cat_label"
@@ -41,16 +41,13 @@
                 android:id="@+id/tv_cat_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xTiny"
-                android:layout_marginBottom="@dimen/margin_tiny"
-                android:layout_marginStart="@dimen/margin_xTiny"
-                android:layout_marginEnd="@dimen/margin_xTiny"
-                android:gravity="center"
-                android:textStyle="bold"
+                android:layout_margin="@dimen/margin_tiny"
                 android:ellipsize="end"
+                android:gravity="center"
                 android:maxLines="1"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_tiny"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +60,7 @@
     <View
         android:id="@+id/v_selected_cat"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="3dp"
         android:layout_margin="@dimen/margin_xTiny"
         android:background="@color/colorYellow" />
 

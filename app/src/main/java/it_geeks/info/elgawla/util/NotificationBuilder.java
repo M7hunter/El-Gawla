@@ -38,7 +38,7 @@ public class NotificationBuilder {
 
     private static final String UPLOAD_IMAGE_CHANNEL_ID = "upload_image_channel";
     public static final int UPLOAD_IMAGE_NOTIFICATION_ID = 1;
-    private static final int NOTIFICATION_ICON = R.mipmap.ic_launcher;
+    private static final int NOTIFICATION_ICON = R.drawable.g_logo;
 
     private Context context;
     private NotificationManager notificationManager;
@@ -58,7 +58,8 @@ public class NotificationBuilder {
                     if (notifications.size() > 0)
                     {
                         indicator.setVisibility(View.VISIBLE);
-                    } else
+                    }
+                    else
                     {
                         indicator.setVisibility(View.INVISIBLE);
                     }
@@ -182,11 +183,13 @@ public class NotificationBuilder {
             if (context instanceof NotificationActivity)
             {
                 ((NotificationActivity) context).recreate();
-            } else
+            }
+            else
             {
                 intent = new Intent(context, NotificationActivity.class);
             }
-        } else
+        }
+        else
         {
             if (!(context instanceof SignInActivity))
             {

@@ -30,13 +30,13 @@
     <string name="send">Send</string>
     <string name="already_have_account">already have an account</string>
     <string name="forgetPassword">Forget password ?</string>
-    <string name="email">E-mail</string>
+    <string name="email">e-mail</string>
     <string name="facebook">Via Facebook</string>
     <string name="google_plus">Via Google</string>
     <string name="slide_descs1"> Sign up now so you can join your favorite tours </string>
     <string name="slide_descs2">Choose your favorite room and join it and then watch the bidding time</string>
     <string name="slide_descs3">Provide the best favorable price to buy inside the lounge to win the tour</string>
-    <string name="tit1e">A tour is an interactive application that enables you to buy products based on the best offer offer for the price of the product, now join</string>
+    <string name="tit1e">A tour is an interactive application that enables you to buy products based on the best offer for the price of the product, now join</string>
     <string name="wile_send_password">The email will be sent for password renewal</string>
     <string name="salon_number">Salon No: </string>
     <string name="second">Second</string>
@@ -62,7 +62,7 @@
     <string name="Attention">Attention</string>
     <string name="Attention_Details">Do you really want to join the Round You have one chance to participate every day ?</string>
     <string name="Congratulations_Attention">Congratulations, you are now a member of the lounge</string>
-    <string name="Congratulations_Attention_Details">Add the best offer to win the mobile and follow the card card and use your cards</string>
+    <string name="Congratulations_Attention_Details">Add the best offer to win the mobile and follow the card and use your cards</string>
     <string name="show">Show</string>
     <string name="app_settings">App settings</string>
     <string name="language">Language</string>
@@ -101,19 +101,7 @@
     <string name="empty_message">Message Empty</string>
     <string name="rOffer">The Offer</string>
     <string name="use_card_to_join">Use card to join</string>
-    <string name="privacy_text">Create a reseller account for a selected country: As instructed in the site, you must create
-             If you are an individual, you must be a resident of that selected country. In the case of companies, the company must have the ability to do business in the selected country
-             In accordance with the laws in force in that chosen State. We may assist you in creating an account in each of the selected countries after receiving the necessary information
-              From you and you must identify yourself to the process contained in the site and also identify all the conditions of the site. You must not register with a pseudonym and / or impersonate any other vendor\'s login credentials or password (s), as this fraudulent behavior results in violation of laws
-             And applicable federal, national, regional or international regulations .</string>
-    <string name="about_gawla_text">A brief description of the price of the product displayed and the price of the offer of the winner of the tour or something related to the tour, a brief description of the price of the product displayed and the price of the offer of the winner of the tour or something related to the tour, a brief description of the price of the product displayed and the price of the offer of the winning round or something A brief description of the price of the product displayed and the price of the offer from the winner of the tour or something related to the tour</string>
-    <string name="terms_text">Create a reseller account for a selected country: As instructed in the site, you must create
-             If you are an individual, you must be a resident of that selected country. In the case of companies, the company must have the ability to do business in the selected country
-             In accordance with the laws in force in that chosen State. We may assist you in creating an account in each of the selected countries after receiving the necessary information
-              From you and you must identify yourself to the process contained in the site and also identify all the conditions of the site.</string>
-    <!--  Arr For Test and will delete later .-->
 
-    <!--  TODO Will Delete This Strings Later -->
     <string name="mainNotiNews">You can customize your settings so that only the notifications you want appear when the device is locked</string>
     <string name="cards_empty_hint">No cards here yet</string>
     <string name="no_salons">no salons right now \n try later</string>
@@ -237,4 +225,7 @@
     <string name="match">match</string>
     <string name="share_salon">Share Salon</string>
     <string name="resend_after">resend after :</string>
+    <string name="offer_more_than_zero">the offer must be more than a zero</string>
+    <string name="connected">CONNECTED</string>
+    <string name="reset_password_hint">activation code will be sent to reset your password</string>
 </resources>

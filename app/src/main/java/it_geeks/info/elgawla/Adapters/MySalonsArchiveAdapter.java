@@ -22,7 +22,7 @@ import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Round;
 import it_geeks.info.elgawla.repository.Models.SalonArchiveModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.ImageLoader;
@@ -84,7 +84,7 @@ public class MySalonsArchiveAdapter extends RecyclerView.Adapter<MySalonsArchive
         ((SalonsArchiveActivity) context).dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(context).executeConnectionToServer(
                 context,
-                REQ_GET_SALON_BY_ID, new Request<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), salonId,
+                REQ_GET_SALON_BY_ID, new RequestModel<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), salonId,
                         null, null, null, null),
                 new HandleResponses() {
                     @Override

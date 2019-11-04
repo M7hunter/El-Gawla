@@ -130,7 +130,18 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <include layout="@layout/layout_categories" />
+            <!--<include layout="@layout/layout_categories" />-->
+
+            <!-- cats -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_home_cats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_tiny"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_category" />
 
             <!-- recent salons header -->
             <TextView
@@ -236,10 +247,10 @@
                     android:layout_height="wrap_content"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:padding="@dimen/margin_small"
-                    android:visibility="gone"
                     android:text="@string/see_more"
                     android:textColor="@color/midBlue"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

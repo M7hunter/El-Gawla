@@ -1,32 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/no_connection"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_centerInParent="true"
     android:layout_gravity="center"
+    android:layout_margin="@dimen/margin_medium"
+    android:drawableTop="@drawable/empty_view"
+    android:drawablePadding="@dimen/margin_medium"
     android:gravity="center"
-    android:orientation="vertical"
-    android:visibility="gone"
-    tools:visibility="gone">
-
-    <!--<ImageView-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="0dp"-->
-    <!--    android:layout_marginStart="@dimen/margin_xx_large"-->
-    <!--    android:layout_marginEnd="@dimen/margin_xx_large"-->
-    <!--    android:layout_weight="1"-->
-    <!--    android:contentDescription="@string/no_connection"-->
-    <!--    android:src="@drawable/no_connection" />-->
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_medium"
-        android:gravity="center"
-        android:text="@string/no_connection"
-        android:textColor="@color/blueGrey"
-        android:textSize="@dimen/text_size_medium" />
-
-</LinearLayout>
+    android:text="@string/no_connection"
+    android:textColor="@color/blueGrey"
+    android:textSize="@dimen/text_size_medium"
+    android:visibility="gone" />

@@ -8,16 +8,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.crashlytics.android.Crashlytics;
-import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import it_geeks.info.elgawla.R;
@@ -28,7 +24,6 @@ import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.views.account.MembershipActivity;
-import it_geeks.info.elgawla.views.signing.SignInActivity;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -37,7 +32,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseServerErrors;
 
 public class RetrofitClient {
@@ -96,12 +90,12 @@ public class RetrofitClient {
         }
     }
 
-    public void executeConnectionToServer(Context context, String action, Request req, HandleResponses HandleResponses) {
+    public void executeConnectionToServer(Context context, String action, RequestModel req, HandleResponses HandleResponses) {
         call = getInstance(context).getAPI().request(new RequestMainBody(new Data(action), req));
         call.enqueue(createWebserviceCallback(HandleResponses, context));
     }
 
-    public void getSalonsPerPageFromServer(Context context, Data data, Request req, HandleResponses HandleResponses) {
+    public void getSalonsPerPageFromServer(Context context, Data data, RequestModel req, HandleResponses HandleResponses) {
         call = getInstance(context).getAPI().request(new RequestMainBody(data, req));
         call.enqueue(createWebserviceCallback(HandleResponses, context));
     }
@@ -114,7 +108,7 @@ public class RetrofitClient {
         return new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
-                /**
+                /*
                  * --> review codes
                  *   case unKnown 1:
                  *   case somethingWrong 100:
@@ -156,20 +150,8 @@ public class RetrofitClient {
 
                             break;
                         case 203:
-                            context.startActivity(new Intent(context, SignInActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            SharedPrefManager.getInstance(context).clearUser();
-                            SharedPrefManager.getInstance(context).clearProvider();
-                            LoginManager.getInstance().logOut();
-
-                            GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext()).addApi(Auth.GOOGLE_SIGN_IN_API).build();
-                            if (mGoogleApiClient.isConnected())
-                            {
-                                Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                                mGoogleApiClient.disconnect();
-                            }
-
-                            Toast.makeText(context, context.getString(R.string.logged_from_other_device), Toast.LENGTH_LONG).show();
+                            displayServerError(null != response.errorBody() ? response.errorBody().string() : context.getString(R.string.error_occurred), context);
+                            Common.Instance().signOut(context);
 
                             break;
                         case 412:
@@ -177,37 +159,11 @@ public class RetrofitClient {
                             {
                                 initRenewMembershipAlert(context);
                             }
-
                             dialogBuilder.displayAlertDialog();
 
                             break;
-                        default: // code != (200 || 203)
-                            try
-                            {
-                                JsonObject errorObj = new JsonParser().parse(response.errorBody().string()).getAsJsonObject();
-                                String serverError = parseServerErrors(errorObj);
-                                if (serverError.isEmpty())
-                                {
-                                    serverError = context.getString(R.string.error_occurred);
-                                }
-
-                                // notify user
-                                Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
-                                Log.d(TAG, "onResponse!successful: " + serverError);
-
-                            }
-                            catch (JsonSyntaxException e)
-                            {
-                                e.printStackTrace();
-                                Crashlytics.logException(e);
-                                Toast.makeText(context, context.getString(R.string.error_occurred), Toast.LENGTH_SHORT).show();
-                                Log.e(TAG, "JsonSyntaxException: " + e.getMessage());
-                            }
-                            catch (IOException e)
-                            {
-                                e.printStackTrace();
-                                Crashlytics.logException(e);
-                            }
+                        default: // code != (200 || 203 || 412)
+                            displayServerError(null != response.errorBody() ? response.errorBody().string() : context.getString(R.string.error_occurred), context);
 
                             break;
                     }
@@ -237,6 +193,29 @@ public class RetrofitClient {
                 HandleResponses.handleConnectionErrors(t.getLocalizedMessage());
             }
         };
+    }
+
+    private void displayServerError(String responseBody, Context context) {
+        try
+        {
+            JsonObject errorObj = new JsonParser().parse(responseBody).getAsJsonObject();
+            String serverError = parseServerErrors(errorObj);
+            if (serverError.isEmpty())
+            {
+                serverError = context.getString(R.string.error_occurred);
+            }
+
+            // notify user
+            Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onResponse!successful: " + serverError);
+        }
+        catch (JsonSyntaxException e)
+        {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+            Toast.makeText(context, context.getString(R.string.error_occurred), Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "JsonSyntaxException: " + e.getMessage());
+        }
     }
 
     private void initRenewMembershipAlert(final Context context) {

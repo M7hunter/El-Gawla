@@ -5,7 +5,7 @@ import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Card;
 import it_geeks.info.elgawla.repository.Models.Package;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
-import it_geeks.info.elgawla.repository.RESTful.Request;
+import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.DialogBuilder;
@@ -25,7 +25,6 @@ import com.google.gson.JsonObject;
 
 import static it_geeks.info.elgawla.util.Constants.FAWRY;
 import static it_geeks.info.elgawla.util.Constants.KNET;
-import static it_geeks.info.elgawla.util.Constants.NULL_INT_VALUE;
 import static it_geeks.info.elgawla.util.Constants.PACKAGE;
 import static it_geeks.info.elgawla.util.Constants.PAYMENT_URL;
 import static it_geeks.info.elgawla.util.Constants.REQ_ADD_CARDS_TO_USER;
@@ -204,7 +203,7 @@ public class PaymentMethodsActivity extends AppCompatActivity {
     private void updateMembership() {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                REQ_SET_MEMBERSHIP, new Request<>(REQ_SET_MEMBERSHIP, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token(), mPackage.getId(), method
+                REQ_SET_MEMBERSHIP, new RequestModel<>(REQ_SET_MEMBERSHIP, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token(), mPackage.getId(), method
                         , null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -233,7 +232,7 @@ public class PaymentMethodsActivity extends AppCompatActivity {
     private void buyCard() {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(PaymentMethodsActivity.this).executeConnectionToServer(PaymentMethodsActivity.this, REQ_ADD_CARDS_TO_USER
-                , new Request<>(REQ_ADD_CARDS_TO_USER, SharedPrefManager.getInstance(PaymentMethodsActivity.this).getUser().getUser_id(),
+                , new RequestModel<>(REQ_ADD_CARDS_TO_USER, SharedPrefManager.getInstance(PaymentMethodsActivity.this).getUser().getUser_id(),
                         SharedPrefManager.getInstance(PaymentMethodsActivity.this).getUser().getApi_token(),
                         card.getCard_id(), method
                         , null, null, null),
