@@ -31,7 +31,7 @@ public class WinnersNewsAdapter extends RecyclerView.Adapter<WinnersNewsAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_news, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_winner, viewGroup, false));
     }
 
     @Override
@@ -48,9 +48,9 @@ public class WinnersNewsAdapter extends RecyclerView.Adapter<WinnersNewsAdapter.
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, BlogActivity.class);
-                i.putExtra("news_image", news.getBog_title());
-                i.putExtra("news_title", news.getBlog_description());
-                i.putExtra("news_body", news.getBlog_imagesArr().get(0));
+                i.putExtra("news_image", news.getBlog_imagesArr().get(0));
+                i.putExtra("news_title", news.getBog_title());
+                i.putExtra("news_body", news.getBlog_description());
 
                 context.startActivity(i);
             }

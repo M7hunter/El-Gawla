@@ -123,7 +123,7 @@
             android:text="@string/choose_country"
             android:textAllCaps="true"
             android:textColor="@color/colorSecondary"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
         <!-- countries container -->

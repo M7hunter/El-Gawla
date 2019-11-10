@@ -29,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:contentDescription="@string/product_details"
-                android:scaleType="fitXY"
+                android:scaleType="centerInside"
                 android:src="@drawable/flodillus"
                 android:transitionName="transProductImage" />
         </androidx.cardview.widget.CardView>

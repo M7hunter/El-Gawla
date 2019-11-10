@@ -1,6 +1,6 @@
 package it_geeks.info.elgawla.repository.Models;
 
-import com.emeint.android.fawryplugin.Plugininterfacing.PayableItem;
+//import com.emeint.android.fawryplugin.Plugininterfacing.PayableItem;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Card implements PayableItem, Serializable {
+public class Card implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -163,24 +163,24 @@ public class Card implements PayableItem, Serializable {
     public void setPosition(int position) {
         this.position = position;
     }
-
-    @Override
-    public String getFawryItemDescription() {
-        return card_details;
-    }
-
-    @Override
-    public String getFawryItemSKU() {
-        return String.valueOf(card_id);
-    }
-
-    @Override
-    public String getFawryItemPrice() {
-        return card_cost;
-    }
-
-    @Override
-    public String getFawryItemQuantity() {
-        return "1";
-    }
+//
+//    @Override
+//    public String getFawryItemDescription() {
+//        return card_details;
+//    }
+//
+//    @Override
+//    public String getFawryItemSKU() {
+//        return String.valueOf(card_id);
+//    }
+//
+//    @Override
+//    public String getFawryItemPrice() {
+//        return card_cost;
+//    }
+//
+//    @Override
+//    public String getFawryItemQuantity() {
+//        return "1";
+//    }
 }

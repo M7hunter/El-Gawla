@@ -86,7 +86,7 @@
                 android:id="@+id/round_product_image"
                 android:layout_width="@dimen/image_width_round"
                 android:layout_height="@dimen/image_height_round"
-                android:scaleType="fitXY"
+                android:scaleType="centerInside"
                 android:transitionName="transProductImage"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

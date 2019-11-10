@@ -56,6 +56,15 @@ public class MainActivity extends AppCompatActivity {
         getExtras();
 
         initNavigation();
+
+        if (getIntent().getStringExtra("type") != null)
+        {
+            if (getIntent().getStringExtra("type").equals("cards"))
+            {
+                displayFragment(selectStoreFragment());
+                navigation.setSelectedItemId(R.id.navigation_store);
+            }
+        }
     }
 
     public void getExtras() {

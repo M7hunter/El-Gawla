@@ -223,4 +223,8 @@
     <string name="share_salon">مشاركة الصالة</string>
     <string name="resend_after">إعادة ارسال بعد :</string>
     <string name="offer_more_than_zero">يجب ان يزيد العرض عن صفر</string>
+    <string name="reset_password_hint">سيتم ارسال كود التفعيل الاعادة تعين كلمة المرور</string>
+    <string name="empty_digit">حقل فارغ</string>
+    <string name="connected">متصل</string>
+    <string name="time_up">انتهى الوقت, اعد ارسال الكو</string>
 </resources>

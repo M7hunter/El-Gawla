@@ -17,7 +17,7 @@ public class BlogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_blog);
+        setContentView(R.layout.activity_winners);
 
         initViews();
 

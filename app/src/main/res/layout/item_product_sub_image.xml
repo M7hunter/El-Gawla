@@ -8,6 +8,6 @@
     android:background="@drawable/bg_rectangle_transparent_rounded_palegrey"
     android:foreground="?android:attr/selectableItemBackground"
     android:padding="@dimen/margin_small"
-    android:scaleType="centerCrop"
+    android:scaleType="centerInside"
     tools:showIn="@layout/bottom_sheet_product_details"
     tools:src="@tools:sample/backgrounds/scenic" />

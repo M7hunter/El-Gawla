@@ -90,7 +90,7 @@ public class ActivationActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                setError("time resend code again");
+                setError(getString(R.string.time_up));
                 fbtnResend.setEnabled(true);
             }
         }.start();
@@ -278,6 +278,7 @@ public class ActivationActivity extends AppCompatActivity {
     }
 
     private void requestCodeByPhoneFromServer() {
+        btnConfirm.setEnabled(false);
         RetrofitClient.getInstance(this).executeConnectionToServer(this
                 , REQ_SEND_SMS, new RequestModel<>(REQ_SEND_SMS, receiver, SharedPrefManager.getInstance(ActivationActivity.this).getCountry().getCountry_id()
                         , null, null, null, null, null), new HandleResponses() {
@@ -290,17 +291,19 @@ public class ActivationActivity extends AppCompatActivity {
 
                     @Override
                     public void handleAfterResponse() {
-
+                        btnConfirm.setEnabled(true);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
+                        btnConfirm.setEnabled(true);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }
 
     private void sendCodeToServer(String code) {
+        btnConfirm.setEnabled(false);
         RetrofitClient.getInstance(this).executeConnectionToServer(this
                 , REQ_CONFIRM_CODE, new RequestModel<>(REQ_CONFIRM_CODE, code, receiver,
                         null, null, null, null, null), new HandleResponses() {
@@ -314,11 +317,12 @@ public class ActivationActivity extends AppCompatActivity {
 
                     @Override
                     public void handleAfterResponse() {
-
+                        btnConfirm.setEnabled(true);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
+                        btnConfirm.setEnabled(true);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });

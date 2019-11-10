@@ -54,6 +54,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.ImageViewCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -272,6 +273,8 @@ public class SalonActivity extends AppCompatActivity {
         salonMainLayout = findViewById(R.id.salon_main_layout);
         activityRecycler = findViewById(R.id.salon_activity_recycler);
         topTenRecycler = findViewById(R.id.top_ten_recycler);
+
+        activityRecycler.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
 
         joinProgress = findViewById(R.id.join_progress);
         pbTopTen = findViewById(R.id.pb_top_ten);

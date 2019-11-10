@@ -130,14 +130,14 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!--<include layout="@layout/layout_categories" />-->
-
             <!-- cats -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_home_cats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_tiny"
+                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="4"
@@ -148,7 +148,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_margin="@dimen/margin_large"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:text="@string/recent_salons"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/text_size_medium"
@@ -226,7 +228,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium">
 
                 <!-- header -->
@@ -269,7 +270,7 @@
                     android:layout_marginEnd="@dimen/margin_tiny"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="3"
-                    tools:listitem="@layout/item_news" />
+                    tools:listitem="@layout/item_winner" />
 
                 <!-- winners news progress -->
                 <ProgressBar

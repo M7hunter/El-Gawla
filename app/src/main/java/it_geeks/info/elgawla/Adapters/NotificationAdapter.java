@@ -68,7 +68,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 {
                     ((NotificationActivity) context).dialogBuilder.displayLoadingDialog();
                     getSalonDataFromServer(notification);
-
                 }
                 else
                 {
@@ -88,7 +87,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     private void getSalonDataFromServer(Notification notification) {
         RetrofitClient.getInstance(context).executeConnectionToServer(context,
-                REQ_GET_SALON_BY_ID, new RequestModel<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), notification.getId()
+                REQ_GET_SALON_BY_ID, new RequestModel<>(REQ_GET_SALON_BY_ID
+                        , SharedPrefManager.getInstance(context).getUser().getUser_id()
+                        , SharedPrefManager.getInstance(context).getUser().getApi_token()
+                        , notification.getId()
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

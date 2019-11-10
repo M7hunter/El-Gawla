@@ -10,11 +10,11 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.emeint.android.fawryplugin.Plugininterfacing.FawrySdk;
-import com.emeint.android.fawryplugin.Plugininterfacing.PayableItem;
-import com.emeint.android.fawryplugin.interfaces.FawrySdkCallback;
-import com.emeint.android.fawryplugin.managers.FawryPluginAppClass;
+//
+//import com.emeint.android.fawryplugin.Plugininterfacing.FawrySdk;
+//import com.emeint.android.fawryplugin.Plugininterfacing.PayableItem;
+//import com.emeint.android.fawryplugin.interfaces.FawrySdkCallback;
+//import com.emeint.android.fawryplugin.managers.FawryPluginAppClass;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class PaymentMethodsActivity extends AppCompatActivity {
 
         initViews();
 
-        initFawrySDK();
+//        initFawrySDK();
 
         bindData();
 
@@ -266,55 +266,55 @@ public class PaymentMethodsActivity extends AppCompatActivity {
                 });
     }
 
-    private void initFawrySDK() {
-        List<PayableItem> cards = new ArrayList<>();
-        cards.add(card);
-
-        try
-        {
-            FawrySdk.initialize(this
-                    , "https://itgeeks.info"
-                    , new FawrySdkCallback() {
-                        @Override
-                        public void onSuccess(String s, Object o) {
-                            Log.d("FawrySDK:", "onSuccess: " + s);
-                            Toast.makeText(PaymentMethodsActivity.this, "success", Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void onFailure(String s) {
-                            Log.d("FawrySDK:", "onFailure: " + s);
-                            Toast.makeText(PaymentMethodsActivity.this, "failure", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    , "1tSa6uxz2nQ4QRwvZcfgRQ=="
-                    , "798346d9175a4998b28f1da3a9c7ad56"
-                    , cards
-                    , FawrySdk.Language.EN
-                    , 123
-                    , null
-                    , UUID.randomUUID());
-
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        dialogBuilder.hideLoadingDialog();
-        if (requestCode == 123)
-            Log.d("FawrySDK:", "onActivityResult: \n" +
-                    "REQUEST_RESULT:: " +
-                    FawryPluginAppClass.REQUEST_RESULT + "\n" +
-                    "TRX_ID_KEY:: " +
-                    FawryPluginAppClass.TRX_ID_KEY + "\n" +
-                    "EXPIRY_DATE_KEY:: " +
-                    FawryPluginAppClass.EXPIRY_DATE_KEY);
-
-    }
+//    private void initFawrySDK() {
+//        List<PayableItem> cards = new ArrayList<>();
+//        cards.add(card);
+//
+//        try
+//        {
+//            FawrySdk.initialize(this
+//                    , "https://itgeeks.info"
+//                    , new FawrySdkCallback() {
+//                        @Override
+//                        public void onSuccess(String s, Object o) {
+//                            Log.d("FawrySDK:", "onSuccess: " + s);
+//                            Toast.makeText(PaymentMethodsActivity.this, "success", Toast.LENGTH_LONG).show();
+//                        }
+//
+//                        @Override
+//                        public void onFailure(String s) {
+//                            Log.d("FawrySDK:", "onFailure: " + s);
+//                            Toast.makeText(PaymentMethodsActivity.this, "failure", Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                    , "1tSa6uxz2nQ4QRwvZcfgRQ=="
+//                    , "798346d9175a4998b28f1da3a9c7ad56"
+//                    , cards
+//                    , FawrySdk.Language.EN
+//                    , 123
+//                    , null
+//                    , UUID.randomUUID());
+//
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        dialogBuilder.hideLoadingDialog();
+//        if (requestCode == 123)
+//            Log.d("FawrySDK:", "onActivityResult: \n" +
+//                    "REQUEST_RESULT:: " +
+//                    FawryPluginAppClass.REQUEST_RESULT + "\n" +
+//                    "TRX_ID_KEY:: " +
+//                    FawryPluginAppClass.TRX_ID_KEY + "\n" +
+//                    "EXPIRY_DATE_KEY:: " +
+//                    FawryPluginAppClass.EXPIRY_DATE_KEY);
+//
+//    }
 }

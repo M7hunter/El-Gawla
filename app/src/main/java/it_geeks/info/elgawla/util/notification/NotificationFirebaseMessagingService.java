@@ -36,7 +36,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
 
                         if (!title.isEmpty() && !body.isEmpty())
                         {
-                            NotificationBuilder.displayRemoteMessage(title, body, getApplicationContext());
+                            NotificationBuilder.displayRemoteMessage(title, body, title, body, getApplicationContext());
                         }
                     }
                 }
@@ -44,10 +44,14 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
                 {
                     Map<String, String> data = remoteMessage.getData();
 
-//                  data.get("");
-//                  data.get("");
-//                  NotificationBuilder.displayRemoteMessage(, , getApplicationContext());
+                    Log.d("notify", "data:: " + data.toString());
 
+                    String title = data.get("title");
+                    String body = data.get("body");
+                    String type = data.get("type");
+                    String id = data.get("id");
+
+                    NotificationBuilder.displayRemoteMessage(title, body, type, id, getApplicationContext());
                 }
             }
             catch (Exception e)

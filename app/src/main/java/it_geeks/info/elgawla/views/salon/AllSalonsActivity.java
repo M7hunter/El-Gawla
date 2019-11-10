@@ -61,7 +61,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
     public static Activity allSalonsActivityInstance;
 
-    private RecyclerView filterRecycler, salonsRecycler;
+    private RecyclerView filterRecycler, rvCats, salonsRecycler;
     private TextView tvAllSalonsTitle;
     private LinearLayout emptyViewLayout;
     private BottomSheetDialog mBottomSheetDialogFilterBy;
@@ -132,9 +132,14 @@ public class AllSalonsActivity extends AppCompatActivity {
         salonsRecycler = findViewById(R.id.all_salons_recycler);
         emptyViewLayout = findViewById(R.id.all_salons_empty_view);
         tvAllSalonsTitle = findViewById(R.id.tv_all_salon_title);
+
         filterRecycler = findViewById(R.id.filter_recycler);
+        rvCats = findViewById(R.id.rv_cats);
         filterRecycler.setHasFixedSize(true);
-        filterRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
+        rvCats.setHasFixedSize(true);
+
+        filterRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        rvCats.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
 
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
@@ -302,6 +307,8 @@ public class AllSalonsActivity extends AppCompatActivity {
     }
 
     private void initDatesAdapter() {
+        rvCats.setVisibility(View.GONE);
+        filterRecycler.setVisibility(View.VISIBLE);
         filterRecycler.setAdapter(new DateAdapter(AllSalonsActivity.this, dateList, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -320,10 +327,7 @@ public class AllSalonsActivity extends AppCompatActivity {
                         null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-
                         categoryList = ParseResponses.parseCategories(mainObject);
-
-                        initCategoriesAdapter();
 
                         try
                         {
@@ -338,6 +342,7 @@ public class AllSalonsActivity extends AppCompatActivity {
 
                     @Override
                     public void handleAfterResponse() {
+                        initCategoriesAdapter();
                         initSalonsRecycler();
                         dialogBuilder.hideLoadingDialog();
                     }
@@ -351,8 +356,10 @@ public class AllSalonsActivity extends AppCompatActivity {
                 });
     }
 
-    private void initCategoriesAdapter() { // ......
-        filterRecycler.setAdapter(new CategoryAdapter(categoryList, this, new ClickInterface.OnItemClickListener() {
+    private void initCategoriesAdapter() {
+        filterRecycler.setVisibility(View.GONE);
+        rvCats.setVisibility(View.VISIBLE);
+        rvCats.setAdapter(new CategoryAdapter(categoryList, this, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Category category = categoryList.get(position);

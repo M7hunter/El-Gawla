@@ -88,7 +88,7 @@ public class RetrofitClient {
         return retrofit.create(APIs.class);
     }
 
-    private Callback<JsonObject> createWebserviceCallback(final HandleResponses HandleResponses, final Context context) {
+    private Callback<JsonObject> createWebserviceCallback(final HandleResponses handleResponses, final Context context) {
         return new Callback<JsonObject>() {
             @Override
             public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
@@ -123,7 +123,7 @@ public class RetrofitClient {
                                 JsonObject mainObj = response.body().getAsJsonObject();
 
                                 // dynamic with each call
-                                HandleResponses.handleTrueResponse(mainObj);
+                                handleResponses.handleTrueResponse(mainObj);
                             }
                             catch (NullPointerException | UnsupportedOperationException e)
                             { // errors of response body 'maybe response body has been changed'
@@ -159,7 +159,7 @@ public class RetrofitClient {
                 }
 
                 // dynamic with each call
-                HandleResponses.handleAfterResponse();
+                handleResponses.handleAfterResponse();
             }
 
             @Override
@@ -169,11 +169,11 @@ public class RetrofitClient {
 
                 if (!Common.Instance().isConnected(context))
                 {
-                    HandleResponses.handleConnectionErrors(context.getString(R.string.check_connection));
+                    handleResponses.handleConnectionErrors(context.getString(R.string.check_connection));
                     return;
                 }
 
-                HandleResponses.handleConnectionErrors(t.getLocalizedMessage());
+                handleResponses.handleConnectionErrors(t.getLocalizedMessage());
             }
         };
     }

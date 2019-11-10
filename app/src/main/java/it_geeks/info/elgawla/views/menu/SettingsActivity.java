@@ -21,11 +21,7 @@ import it_geeks.info.elgawla.util.notification.NotificationBuilder;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private TextView tvLang, tvNotificationOptions;
-    private SwitchMaterial notificationSwitch, soundSwitch;
-    private RelativeLayout rlAppNotification;
-
-    private NotificationBuilder notificationBuilder;
+    private TextView tvLang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +40,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void initViews() {
         tvLang = findViewById(R.id.app_settings_language);
-        tvNotificationOptions = findViewById(R.id.tv_notification_options);
-        notificationSwitch = findViewById(R.id.notification_switch);
-        soundSwitch = findViewById(R.id.sound_switch);
-        rlAppNotification = findViewById(R.id.rl_app_notification);
+        TextView tvNotificationOptions = findViewById(R.id.tv_notification_options);
+        SwitchMaterial notificationSwitch = findViewById(R.id.notification_switch);
+        SwitchMaterial soundSwitch = findViewById(R.id.sound_switch);
+        RelativeLayout rlAppNotification = findViewById(R.id.rl_app_notification);
 
         if (SharedPrefManager.getInstance(SettingsActivity.this).isNotificationEnabled())
         {
@@ -69,9 +65,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT > 26)
         {
-            notificationBuilder = new NotificationBuilder(this);
+            NotificationBuilder notificationBuilder = new NotificationBuilder(this);
             notificationBuilder.createUploadImageChannel();
-            notificationBuilder.createRemoteChannel();
+            NotificationBuilder.createRemoteChannel(this);
 
             rlAppNotification.setOnClickListener(new View.OnClickListener() {
                 @Override

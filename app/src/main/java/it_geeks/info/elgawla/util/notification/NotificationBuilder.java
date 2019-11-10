@@ -22,6 +22,8 @@ import it_geeks.info.elgawla.repository.Models.Notification;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.receivers.NotificationInteractionsReceiver;
+import it_geeks.info.elgawla.util.services.GetSalonDataService;
+import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.signing.SignInActivity;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
 
@@ -46,7 +48,6 @@ public class NotificationBuilder {
 
     public NotificationBuilder(Context context) {
         this.context = context;
-        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     public static void listenToNotificationStatus(final Context context, final View indicator) {
@@ -67,10 +68,10 @@ public class NotificationBuilder {
             });
     }
 
-    public static void createRemoteChannel() {
+    public static void createRemoteChannel(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
-            for (NotificationChannel channel : notificationManager.getNotificationChannels())
+            for (NotificationChannel channel : getNotificationManager(context).getNotificationChannels())
             {
                 if (channel.getId().equals(REMOTE_NOTIFICATION_CHANNEL_ID))
                 {
@@ -83,14 +84,14 @@ public class NotificationBuilder {
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.BLUE);
 
-            notificationManager.createNotificationChannel(notificationChannel);
+            getNotificationManager(context).createNotificationChannel(notificationChannel);
         }
     }
 
     public void createUploadImageChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
-            for (NotificationChannel channel : notificationManager.getNotificationChannels())
+            for (NotificationChannel channel : getNotificationManager(context).getNotificationChannels())
             {
                 if (channel.getId().equals(UPLOAD_IMAGE_CHANNEL_ID))
                 {
@@ -101,14 +102,14 @@ public class NotificationBuilder {
             NotificationChannel notificationChannel = new NotificationChannel(UPLOAD_IMAGE_CHANNEL_ID, LOCALE_NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.setDescription(LOCALE_NOTIFICATION_CHANNEL_DESC);
 
-            notificationManager.createNotificationChannel(notificationChannel);
+            getNotificationManager(context).createNotificationChannel(notificationChannel);
         }
     }
 
     public void deleteChannel(String channelId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
-            notificationManager.deleteNotificationChannel(channelId);
+            getNotificationManager(context).deleteNotificationChannel(channelId);
         }
     }
 
@@ -127,7 +128,7 @@ public class NotificationBuilder {
 
         createUploadImageChannel();
         notificationBuilder.setChannelId(UPLOAD_IMAGE_CHANNEL_ID);
-        notificationManager.notify(UPLOAD_IMAGE_NOTIFICATION_ID, notificationBuilder.build());
+        getNotificationManager(context).notify(UPLOAD_IMAGE_NOTIFICATION_ID, notificationBuilder.build());
     }
 
     public void displayMessage(String message) {
@@ -136,11 +137,11 @@ public class NotificationBuilder {
                 .setSmallIcon(NOTIFICATION_ICON)
                 .setAutoCancel(true);
 
-        notificationManager.notify(UPLOAD_IMAGE_NOTIFICATION_ID, notificationBuilder.build());
+        getNotificationManager(context).notify(UPLOAD_IMAGE_NOTIFICATION_ID, notificationBuilder.build());
     }
 
-    static void displayRemoteMessage(String title, String body, Context context) {
-        PendingIntent pendingIntent = initRemoteMessageIntent(title, body, context);
+    static void displayRemoteMessage(String title, String body, String type, String id, Context context) {
+        PendingIntent pendingIntent = initRemoteMessageIntent(title, body, type, id, context);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, REMOTE_NOTIFICATION_CHANNEL_ID);
         builder.setAutoCancel(true)
@@ -156,9 +157,17 @@ public class NotificationBuilder {
                 .setContentInfo("Info")
                 .setGroup(REMOTE_NOTIFICATION_GROUP_ID);
 
-        createRemoteChannel();
+        createRemoteChannel(context);
         builder.setChannelId(REMOTE_NOTIFICATION_CHANNEL_ID);
-        notificationManager.notify(new Random().nextInt(), builder.build());
+        getNotificationManager(context).notify(new Random().nextInt(), builder.build());
+    }
+
+    private static NotificationManager getNotificationManager(Context context) {
+        if (notificationManager == null)
+        {
+            notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        }
+        return notificationManager;
     }
 
     public void cancelNotification(int notificationId) {
@@ -171,16 +180,30 @@ public class NotificationBuilder {
         return PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
-    private static PendingIntent initRemoteMessageIntent(String title, String body, Context context) {
+    private static PendingIntent initRemoteMessageIntent(String title, String body, String type, String id, Context context) {
         Bundle bundle = new Bundle();
 
         bundle.putString("title", title);
         bundle.putString("body", body);
+        bundle.putString("type", type);
+        bundle.putInt("id", Integer.valueOf(id));
 
         Intent intent = new Intent();
         if (SharedPrefManager.getInstance(context).isLoggedIn())
         {
-            if (context instanceof NotificationActivity)
+
+            if (type.equals("salons"))
+            {
+                intent = new Intent(context, GetSalonDataService.class);
+
+                intent.putExtras(bundle);
+                return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            }
+            else if (type.equals("cards"))
+            {
+                intent = new Intent(context, MainActivity.class); // redirect to store fragment
+            }
+            else if (context instanceof NotificationActivity)
             {
                 ((NotificationActivity) context).recreate();
             }

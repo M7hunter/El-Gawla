@@ -457,6 +457,7 @@ public class MainFragment extends Fragment {
         if (winnerNewsList.size() > 0)
         {
             winnersNewsRecycler.setVisibility(View.VISIBLE);
+            winnersHeader.setVisibility(View.VISIBLE);
             winnersNewsRecycler.setHasFixedSize(true);
             if (winnersNewsRecycler.getAdapter() == null)
             {
