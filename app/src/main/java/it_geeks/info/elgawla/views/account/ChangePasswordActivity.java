@@ -192,8 +192,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
         RetrofitClient.getInstance(ChangePasswordActivity.this).executeConnectionToServer(
                 ChangePasswordActivity.this,
                 REQ_CHANGE_PASSWORD, new RequestModel<>(REQ_CHANGE_PASSWORD, SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getUser_id(),
-                        SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getApi_token(), newPass
-                        , null, null, null, null),
+                        SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getApi_token(), oldPass, newPass
+                        , null, null, null),
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

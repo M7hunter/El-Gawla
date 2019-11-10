@@ -34,7 +34,7 @@ import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.Constants;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
-import it_geeks.info.elgawla.util.NotificationBuilder;
+import it_geeks.info.elgawla.util.notification.NotificationBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
 import it_geeks.info.elgawla.views.account.ProfileActivity;
@@ -135,6 +135,7 @@ public class StoreFragment extends Fragment {
                         null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
+                        categoryDao.deleteCats(categoryDao.getCategoriesList());
                         categoryDao.insertCategories(ParseResponses.parseCategories(mainObject));
                     }
 

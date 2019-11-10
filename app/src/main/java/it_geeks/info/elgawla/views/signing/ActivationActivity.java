@@ -3,9 +3,11 @@ package it_geeks.info.elgawla.views.signing;
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
+import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
+import it_geeks.info.elgawla.util.SnackBuilder;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,22 +21,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
+import static it_geeks.info.elgawla.util.Constants.REQ_CONFIRM_CODE;
 import static it_geeks.info.elgawla.util.Constants.REQ_SEND_SMS;
 
 public class ActivationActivity extends AppCompatActivity {
 
-    private TextInputLayout tlCode;
-    private EditText etCode;
+    private EditText et1stD, et2ndD, et3rdD, et4thD;
     private Button btnConfirm;
     private FloatingActionButton fbtnResend;
-    private TextView tvResendTimer;
+    private TextView tvResendTimer, tvDigitsErr;
     private CountDownTimer countDownTimer;
     private int timeValue = 60;
 
-    private String cashedCode, phone;
+    private boolean isNew = true;
+    private String cashedCode, receiver;
+
+    private SnackBuilder snackBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,20 +56,30 @@ public class ActivationActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null)
         {
-            cashedCode = extras.getString("activation_code");
-            phone = extras.getString("phone");
-
-            Log.d("activation", "code:" + cashedCode + ", phone: " + phone);
+            receiver = extras.getString("receiver");
+            isNew = extras.getBoolean("newUser");
+            if (isNew)
+            {
+                cashedCode = extras.getString("activation_code");
+                Log.d("activation", "code:" + cashedCode + ", phone: " + receiver);
+            }
         }
     }
 
     private void init() {
-        tlCode = findViewById(R.id.tl_code);
-        etCode = findViewById(R.id.et_activation_code);
+        et1stD = findViewById(R.id.et_1st_digit);
+        et2ndD = findViewById(R.id.et_2nd_digit);
+        et3rdD = findViewById(R.id.et_3rd_digit);
+        et4thD = findViewById(R.id.et_4th_digit);
         btnConfirm = findViewById(R.id.btn_activation_confirm);
+        tvDigitsErr = findViewById(R.id.tv_digits_err);
         tvResendTimer = findViewById(R.id.tv_resend_activation_time);
         fbtnResend = findViewById(R.id.fbtn_resend_code);
         fbtnResend.setEnabled(false);
+
+        et1stD.requestFocus();
+
+        snackBuilder = new SnackBuilder(findViewById(R.id.activation_main_layout));
 
         countDownTimer = new CountDownTimer(timeValue * 1000, 1000) {
 
@@ -76,6 +90,7 @@ public class ActivationActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                setError("time resend code again");
                 fbtnResend.setEnabled(true);
             }
         }.start();
@@ -83,40 +98,43 @@ public class ActivationActivity extends AppCompatActivity {
         fbtnResend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestCodeByPhoneFromServer(phone);
+                requestCodeByPhoneFromServer();
             }
         });
+    }
+
+    private void setError(String error) {
+        if (tvDigitsErr.getVisibility() != View.VISIBLE)
+        {
+            tvDigitsErr.setVisibility(View.VISIBLE);
+        }
+        tvDigitsErr.setText(error);
+    }
+
+    private void removeError() {
+        if (tvDigitsErr.getVisibility() != View.INVISIBLE)
+        {
+            tvDigitsErr.setVisibility(View.INVISIBLE);
+        }
+        tvDigitsErr.setText(null);
     }
 
     private void handleEvents() {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String code = etCode.getText().toString();
-
-                if (code.isEmpty())
+                if (checkDigits())
                 {
-                    tlCode.setError(getString(R.string.empty_hint));
-                    etCode.requestFocus();
-                }
-                else
-                {
-                    if (cashedCode.equals(code))
-                    {
-                        // todo: activate user on server
-                        startActivity(new Intent(ActivationActivity.this, SignUpActivity.class)
-                                .putExtra("phone", phone));
-                    }
-                    else
-                    {
-                        tlCode.setError(getString(R.string.wrong_code));
-                        etCode.requestFocus();
-                    }
+                    checkCode();
                 }
             }
         });
 
-        etCode.addTextChangedListener(new TextWatcher() {
+        initTextWatchers();
+    }
+
+    private void initTextWatchers() {
+        et1stD.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -124,9 +142,73 @@ public class ActivationActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (tlCode.getError() != null)
+                removeError();
+                if (s.length() > 0)
                 {
-                    tlCode.setError(null);
+                    et2ndD.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        et2ndD.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                removeError();
+                if (s.length() > 0)
+                {
+                    et3rdD.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        et3rdD.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                removeError();
+                if (s.length() > 0)
+                {
+                    et4thD.requestFocus();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        et4thD.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                removeError();
+                if (s.length() > 0)
+                {
+                    checkCode();
                 }
             }
 
@@ -137,12 +219,71 @@ public class ActivationActivity extends AppCompatActivity {
         });
     }
 
-    private void requestCodeByPhoneFromServer(final String phone) {
+    private void checkCode() {
+        String digits = et1stD.getText().toString()
+                + et2ndD.getText().toString()
+                + et3rdD.getText().toString()
+                + et4thD.getText().toString();
+
+        if (isNew)
+        {
+            if (cashedCode.equals(digits))
+            {
+                startActivity(new Intent(ActivationActivity.this, SignUpActivity.class)
+                        .putExtra("phone", receiver));
+            }
+            else
+            {
+                setError(getString(R.string.wrong_code));
+            }
+        }
+        else
+        {
+            sendCodeToServer(digits);
+        }
+    }
+
+    private boolean checkDigits() {
+        boolean _continue = true;
+
+        if (et4thD.getText().toString().isEmpty())
+        {
+            setError(getString(R.string.empty_digit));
+            et4thD.requestFocus();
+            _continue = false;
+        }
+
+        if (et3rdD.getText().toString().isEmpty())
+        {
+            setError(getString(R.string.empty_digit));
+            et3rdD.requestFocus();
+            _continue = false;
+        }
+
+        if (et2ndD.getText().toString().isEmpty())
+        {
+            setError(getString(R.string.empty_digit));
+            et2ndD.requestFocus();
+            _continue = false;
+        }
+
+        if (et1stD.getText().toString().isEmpty())
+        {
+            setError(getString(R.string.empty_digit));
+            et1stD.requestFocus();
+            _continue = false;
+        }
+
+        return _continue;
+    }
+
+    private void requestCodeByPhoneFromServer() {
         RetrofitClient.getInstance(this).executeConnectionToServer(this
-                , REQ_SEND_SMS, new RequestModel<>(REQ_SEND_SMS, phone, SharedPrefManager.getInstance(ActivationActivity.this).getCountry().getCountry_id()
+                , REQ_SEND_SMS, new RequestModel<>(REQ_SEND_SMS, receiver, SharedPrefManager.getInstance(ActivationActivity.this).getCountry().getCountry_id()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
+                        removeError();
                         countDownTimer.start();
                         fbtnResend.setEnabled(false);
                     }
@@ -154,7 +295,31 @@ public class ActivationActivity extends AppCompatActivity {
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    }
+                });
+    }
 
+    private void sendCodeToServer(String code) {
+        RetrofitClient.getInstance(this).executeConnectionToServer(this
+                , REQ_CONFIRM_CODE, new RequestModel<>(REQ_CONFIRM_CODE, code, receiver,
+                        null, null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
+
+                        SharedPrefManager.getInstance(ActivationActivity.this).saveUser(ParseResponses.parseUser(mainObject));
+                        startActivity(new Intent(ActivationActivity.this, ResetPasswordActivity.class));
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }

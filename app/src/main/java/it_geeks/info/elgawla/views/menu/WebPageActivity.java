@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
@@ -39,13 +40,17 @@ public class WebPageActivity extends AppCompatActivity {
     }
 
     private void getData(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null)
+        {
             Bundle extras = getIntent().getExtras();
-            if (extras != null) {
+            if (extras != null)
+            {
                 url = extras.getString("web_page_url");
                 title = extras.getString("web_page_title");
             }
-        } else {
+        }
+        else
+        {
             url = savedInstanceState.getString("web_page_url");
             title = savedInstanceState.getString("web_page_title");
         }
@@ -81,6 +86,15 @@ public class WebPageActivity extends AppCompatActivity {
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setSupportZoom(false);
 
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+        {
+            CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
+        }
+        else
+        {
+            CookieManager.getInstance().setAcceptCookie(true);
+        }
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -110,9 +124,12 @@ public class WebPageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (webView.canGoBack()) {
+        if (webView.canGoBack())
+        {
             webView.goBack();
-        } else {
+        }
+        else
+        {
             super.onBackPressed();
         }
     }

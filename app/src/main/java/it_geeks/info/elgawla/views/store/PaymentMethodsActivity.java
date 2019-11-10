@@ -1,5 +1,27 @@
 package it_geeks.info.elgawla.views.store;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.emeint.android.fawryplugin.Plugininterfacing.FawrySdk;
+import com.emeint.android.fawryplugin.Plugininterfacing.PayableItem;
+import com.emeint.android.fawryplugin.interfaces.FawrySdkCallback;
+import com.emeint.android.fawryplugin.managers.FawryPluginAppClass;
+import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Card;
@@ -10,18 +32,6 @@ import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.TextView;
-
-import com.google.gson.JsonObject;
 
 import static it_geeks.info.elgawla.util.Constants.FAWRY;
 import static it_geeks.info.elgawla.util.Constants.KNET;
@@ -35,6 +45,7 @@ public class PaymentMethodsActivity extends AppCompatActivity {
     private RadioButton rbKnet, rbFawry;
     private ImageView ivKnet, ivFawry;
     private Button btnContinue;
+    //    private FawryButton fawry_button;
     private TextView tvHeader, tvTotalPrice;
     private DialogBuilder dialogBuilder;
     private SnackBuilder snackBuilder;
@@ -53,6 +64,8 @@ public class PaymentMethodsActivity extends AppCompatActivity {
 
         initViews();
 
+        initFawrySDK();
+
         bindData();
 
         initMethods();
@@ -60,13 +73,18 @@ public class PaymentMethodsActivity extends AppCompatActivity {
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (method != null && !method.isEmpty()) {
-                    if (isCard) {
-                        if (card != null) {
-                            buyCard();
+                if (method != null && !method.isEmpty())
+                {
+                    if (isCard)
+                    {
+                        if (card != null)
+                        {
+                            buy(REQ_ADD_CARDS_TO_USER, card.getCard_id());
                         }
-                    } else if (mPackage != null) {
-                        updateMembership();
+                    }
+                    else if (mPackage != null)
+                    {
+                        buy(REQ_SET_MEMBERSHIP, mPackage.getId());
                     }
                 }
             }
@@ -74,23 +92,33 @@ public class PaymentMethodsActivity extends AppCompatActivity {
     }
 
     private void getData(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null)
+        {
             Bundle extras = getIntent().getExtras();
-            if (extras != null) {
+            if (extras != null)
+            {
                 isCard = extras.getBoolean("is_card");
 
-                if (isCard) {
+                if (isCard)
+                {
                     card = (Card) extras.getSerializable("card_to_buy");
-                } else {
+                }
+                else
+                {
                     mPackage = (Package) extras.getSerializable(PACKAGE);
                 }
             }
-        } else {
+        }
+        else
+        {
             isCard = savedInstanceState.getBoolean("is_card");
 
-            if (isCard) {
+            if (isCard)
+            {
                 card = (Card) savedInstanceState.getSerializable("card_to_buy");
-            } else {
+            }
+            else
+            {
                 mPackage = (Package) savedInstanceState.getSerializable(PACKAGE);
             }
         }
@@ -105,6 +133,7 @@ public class PaymentMethodsActivity extends AppCompatActivity {
 
     private void initViews() {
         btnContinue = findViewById(R.id.btn_payment_method_continue);
+//        fawry_button = findViewById(R.id.fawry_button);
         tvHeader = findViewById(R.id.tv_payment_method_header);
         tvTotalPrice = findViewById(R.id.tv_payment_method_price);
 
@@ -128,7 +157,8 @@ public class PaymentMethodsActivity extends AppCompatActivity {
         ivFawry = findViewById(R.id.iv_fawry);
 
         // initialization
-        switch (SharedPrefManager.getInstance(this).getLastMethod()) {
+        switch (SharedPrefManager.getInstance(this).getLastMethod())
+        {
             case KNET:
                 checkKnet();
                 break;
@@ -140,18 +170,19 @@ public class PaymentMethodsActivity extends AppCompatActivity {
         CompoundButton.OnCheckedChangeListener checkListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                switch (buttonView.getId()) {
+                switch (buttonView.getId())
+                {
                     case R.id.rb_knet:
-                        if (isChecked) {
+                        if (isChecked)
+                        {
                             checkKnet();
                         }
-
                         break;
                     case R.id.rb_fawry:
-                        if (isChecked) {
+                        if (isChecked)
+                        {
                             checkFawry();
                         }
-
                         break;
                 }
             }
@@ -160,18 +191,19 @@ public class PaymentMethodsActivity extends AppCompatActivity {
         View.OnClickListener imageClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()) {
+                switch (v.getId())
+                {
                     case R.id.iv_knet:
-                        if (!rbKnet.isChecked()) {
+                        if (!rbKnet.isChecked())
+                        {
                             checkKnet();
                         }
-
                         break;
                     case R.id.iv_fawry:
-                        if (!rbFawry.isChecked()) {
+                        if (!rbFawry.isChecked())
+                        {
                             checkFawry();
                         }
-
                         break;
                 }
             }
@@ -200,16 +232,21 @@ public class PaymentMethodsActivity extends AppCompatActivity {
         SharedPrefManager.getInstance(this).setLastMethod(newMethod);
     }
 
-    private void updateMembership() {
+    private void buy(String request, int id) {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(this).executeConnectionToServer(this,
-                REQ_SET_MEMBERSHIP, new RequestModel<>(REQ_SET_MEMBERSHIP, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token(), mPackage.getId(), method
+                request, new RequestModel<>(request
+                        , SharedPrefManager.getInstance(this).getUser().getUser_id()
+                        , SharedPrefManager.getInstance(this).getUser().getApi_token()
+                        , id
+                        , method
                         , null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         String url = (mainObject.get("url").getAsString());
 
-                        if (url != null && !url.isEmpty()) {
+                        if (url != null && !url.isEmpty())
+                        {
                             Intent i = new Intent(PaymentMethodsActivity.this, PaymentURLActivity.class);
                             i.putExtra(PAYMENT_URL, url);
                             startActivity(i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
@@ -229,35 +266,55 @@ public class PaymentMethodsActivity extends AppCompatActivity {
                 });
     }
 
-    private void buyCard() {
-        dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(PaymentMethodsActivity.this).executeConnectionToServer(PaymentMethodsActivity.this, REQ_ADD_CARDS_TO_USER
-                , new RequestModel<>(REQ_ADD_CARDS_TO_USER, SharedPrefManager.getInstance(PaymentMethodsActivity.this).getUser().getUser_id(),
-                        SharedPrefManager.getInstance(PaymentMethodsActivity.this).getUser().getApi_token(),
-                        card.getCard_id(), method
-                        , null, null, null),
-                new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        String url = (mainObject.get("url").getAsString());
+    private void initFawrySDK() {
+        List<PayableItem> cards = new ArrayList<>();
+        cards.add(card);
 
-                        if (url != null && !url.isEmpty()) {
-                            Intent i = new Intent(PaymentMethodsActivity.this, PaymentURLActivity.class);
-                            i.putExtra(PAYMENT_URL, url);
-                            startActivity(i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+        try
+        {
+            FawrySdk.initialize(this
+                    , "https://itgeeks.info"
+                    , new FawrySdkCallback() {
+                        @Override
+                        public void onSuccess(String s, Object o) {
+                            Log.d("FawrySDK:", "onSuccess: " + s);
+                            Toast.makeText(PaymentMethodsActivity.this, "success", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onFailure(String s) {
+                            Log.d("FawrySDK:", "onFailure: " + s);
+                            Toast.makeText(PaymentMethodsActivity.this, "failure", Toast.LENGTH_LONG).show();
                         }
                     }
+                    , "1tSa6uxz2nQ4QRwvZcfgRQ=="
+                    , "798346d9175a4998b28f1da3a9c7ad56"
+                    , cards
+                    , FawrySdk.Language.EN
+                    , 123
+                    , null
+                    , UUID.randomUUID());
 
-                    @Override
-                    public void handleAfterResponse() {
-                        dialogBuilder.hideLoadingDialog();
-                    }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnack();
-                    }
-                });
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        dialogBuilder.hideLoadingDialog();
+        if (requestCode == 123)
+            Log.d("FawrySDK:", "onActivityResult: \n" +
+                    "REQUEST_RESULT:: " +
+                    FawryPluginAppClass.REQUEST_RESULT + "\n" +
+                    "TRX_ID_KEY:: " +
+                    FawryPluginAppClass.TRX_ID_KEY + "\n" +
+                    "EXPIRY_DATE_KEY:: " +
+                    FawryPluginAppClass.EXPIRY_DATE_KEY);
+
     }
 }

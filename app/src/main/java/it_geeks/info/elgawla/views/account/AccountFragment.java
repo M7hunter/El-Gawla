@@ -23,7 +23,7 @@ import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.ImageLoader;
-import it_geeks.info.elgawla.util.NotificationBuilder;
+import it_geeks.info.elgawla.util.notification.NotificationBuilder;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
 

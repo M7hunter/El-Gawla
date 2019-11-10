@@ -1,5 +1,6 @@
 package it_geeks.info.elgawla.views.signing;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -20,6 +21,7 @@ import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.R;
+import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.util.SnackBuilder;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_FORGOT_PASSWORD;
@@ -27,13 +29,14 @@ import static it_geeks.info.elgawla.util.Constants.REQ_FORGOT_PASSWORD;
 public class ForgetPasswordActivity extends AppCompatActivity {
 
     private Button btnSend;
-    private EditText etEmail;
-    private TextInputLayout tlEmail;
+    private EditText etReceiver;
+    private TextInputLayout tlReceiver;
     private ProgressBar pbForgetPass;
     private TextView tvMail, tvPhone;
     private ImageView ivMail, ivPhone;
     private View llMail, llPhone;
     private boolean isMail = true;
+    private String receiver;
 
     private SnackBuilder snackBuilder;
 
@@ -56,10 +59,10 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         ivMail = findViewById(R.id.iv_forget_pass_mail);
         ivPhone = findViewById(R.id.iv_forget_pass_phone);
 
-        etEmail = findViewById(R.id.et_email_fp);
+        etReceiver = findViewById(R.id.et_email_fp);
 
         btnSend = findViewById(R.id.btn_send_fp);
-        tlEmail = findViewById(R.id.tl_email_fp);
+        tlReceiver = findViewById(R.id.tl_email_fp);
         pbForgetPass = findViewById(R.id.pb_forget_pass);
 
         snackBuilder = new SnackBuilder(findViewById(R.id.forget_main_layout));
@@ -69,11 +72,11 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = etEmail.getText().toString();
-                if (checkEntries(email))
+                receiver = etReceiver.getText().toString();
+                if (checkEntries(receiver))
                 {
                     hideSendBtn();
-                    sendEmail(email);
+                    sendEmail();
                 }
             }
         });
@@ -120,7 +123,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         ivMail.setImageDrawable(getDrawable(R.drawable.ic_mail_white));
         ivPhone.setImageDrawable(getDrawable(R.drawable.ic_phone_blue));
 
-        tlEmail.setHint(getString(R.string.email));
+        tlReceiver.setHint(getString(R.string.email));
     }
 
     private void selectPhone() {
@@ -131,16 +134,19 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         ivPhone.setImageDrawable(getDrawable(R.drawable.ic_phone_white));
         ivMail.setImageDrawable(getDrawable(R.drawable.ic_mail_blue));
 
-        tlEmail.setHint(getString(R.string.phone_number));
+        tlReceiver.setHint(getString(R.string.phone_number));
     }
 
-    private void sendEmail(String email) {
+    private void sendEmail() {
         RetrofitClient.getInstance(ForgetPasswordActivity.this).executeConnectionToServer(ForgetPasswordActivity.this,
-                REQ_FORGOT_PASSWORD, new RequestModel<>(REQ_FORGOT_PASSWORD, email
+                REQ_FORGOT_PASSWORD, new RequestModel<>(REQ_FORGOT_PASSWORD, receiver
                         , null, null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
+                        startActivity(new Intent(ForgetPasswordActivity.this, ActivationActivity.class)
+                                .putExtra("receiver", receiver)
+                                .putExtra("newUser", false));
                     }
 
                     @Override
@@ -156,29 +162,26 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                 });
     }
 
-    private boolean checkEntries(String email) {
-        if (email.isEmpty())
+    private boolean checkEntries(String receiver) {
+        boolean _continue = true;
+        if (receiver.isEmpty())
         { // empty ?
-            tlEmail.setError(getString(R.string.emptyMail));
-            etEmail.requestFocus();
-            return false;
-
+            tlReceiver.setError(getString(R.string.empty_hint));
+            etReceiver.requestFocus();
+            _continue = false;
         }
         else
         { // !empty
-            if (Patterns.EMAIL_ADDRESS.matcher(email).matches())
-            { // valid email ?
-                tlEmail.setError(null);
-                return true;
-
-            }
-            else
-            { //!valid
-                tlEmail.setError(getString(R.string.enter_valid_email));
-                etEmail.requestFocus();
-                return false;
-            }
+            if (isMail)
+                if (!Patterns.EMAIL_ADDRESS.matcher(receiver).matches())
+                { //!valid
+                    tlReceiver.setError(getString(R.string.enter_valid_email));
+                    etReceiver.requestFocus();
+                    _continue = false;
+                }
         }
+
+        return _continue;
     }
 
     private void displaySendBtn() {

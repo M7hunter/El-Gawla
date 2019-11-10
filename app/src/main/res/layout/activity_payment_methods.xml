@@ -164,6 +164,13 @@
                 android:paddingBottom="@dimen/margin_small"
                 android:text="@string/continue_" />
 
+            <com.emeint.android.fawryplugin.views.cutomviews.FawryButton
+                android:id="@+id/fawry_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible" />
+
         </LinearLayout>
     </ScrollView>
 

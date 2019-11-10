@@ -5,6 +5,7 @@ import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
+import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
 
@@ -19,7 +20,7 @@ import android.widget.EditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
-import static it_geeks.info.elgawla.util.Constants.REQ_CHANGE_PASSWORD;
+import static it_geeks.info.elgawla.util.Constants.REQ_RESET_PASSWORD;
 import static it_geeks.info.elgawla.util.Constants.SERVER_MSG;
 
 public class ResetPasswordActivity extends AppCompatActivity {
@@ -144,11 +145,13 @@ public class ResetPasswordActivity extends AppCompatActivity {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(ResetPasswordActivity.this).executeConnectionToServer(
                 ResetPasswordActivity.this,
-                REQ_CHANGE_PASSWORD, new RequestModel<>(REQ_CHANGE_PASSWORD, null, null, pass
-                        , null, null, null, null), new HandleResponses() {
+                REQ_RESET_PASSWORD, new RequestModel<>(REQ_RESET_PASSWORD, SharedPrefManager.getInstance(ResetPasswordActivity.this).getUser().getUser_id()
+                        , SharedPrefManager.getInstance(ResetPasswordActivity.this).getUser().getUser_id(), pass, rePass
+                        , null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         snackBuilder.setSnackText(mainObject.get(SERVER_MSG).getAsString()).showSnack();
+
                         startActivity(new Intent(ResetPasswordActivity.this, SignInActivity.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                     }

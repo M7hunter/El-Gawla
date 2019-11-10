@@ -5,7 +5,7 @@
     android:id="@+id/activation_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/paleGrey"
+    android:background="@color/paleGrey"
     tools:context=".views.signing.ActivationActivity">
 
     <!-- header -->
@@ -60,32 +60,59 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/activation_logo" />
 
-            <!-- code -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tl_code"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
+            <!-- digits -->
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xxx_large"
-                android:layout_marginTop="@dimen/margin_xx_large"
-                android:layout_marginEnd="@dimen/margin_xxx_large"
-                android:focusable="true"
-                android:textColorHint="@color/paleGrey2"
-                app:errorEnabled="true"
-                app:layout_constraintBottom_toTopOf="@id/btn_phone_send"
-                app:layout_constraintTop_toBottomOf="@id/phone_hint">
+                android:layout_margin="@dimen/margin_medium"
+                android:layoutDirection="ltr">
 
+                <!-- first digit -->
                 <EditText
-                    android:id="@+id/et_activation_code"
-                    android:layout_width="match_parent"
+                    android:id="@+id/et_1st_digit"
+                    style="@style/pin_view_style"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/margin_medium"
-                    android:paddingBottom="@dimen/margin_medium"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/activation_hint" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:focusable="true"
+                    android:gravity="center" />
+
+                <!-- second digit -->
+                <EditText
+                    android:id="@+id/et_2nd_digit"
+                    style="@style/pin_view_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:gravity="center" />
+
+                <!-- third digit -->
+                <EditText
+                    android:id="@+id/et_3rd_digit"
+                    style="@style/pin_view_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:gravity="center" />
+
+                <!-- fourth digit -->
+                <EditText
+                    android:id="@+id/et_4th_digit"
+                    style="@style/pin_view_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <!-- error -->
+            <TextView
+                android:id="@+id/tv_digits_err"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_red_light"
+                android:visibility="invisible" />
 
             <!-- confirm -->
             <Button
@@ -98,10 +125,7 @@
                 android:layout_marginBottom="@dimen/margin_xxx_large"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
-                android:text="@string/confirm"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/et_activation_code" />
+                android:text="@string/confirm" />
 
             <!-- expiry -->
             <LinearLayout

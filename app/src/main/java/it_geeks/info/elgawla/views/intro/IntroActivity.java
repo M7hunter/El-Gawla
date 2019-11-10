@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import it_geeks.info.elgawla.Adapters.SliderAdapter;
-import it_geeks.info.elgawla.views.signing.SignUpActivity;
+import it_geeks.info.elgawla.views.signing.EnterPhoneActivity;
 import it_geeks.info.elgawla.views.signing.SignInActivity;
 import it_geeks.info.elgawla.R;
 
@@ -74,7 +74,7 @@ public class IntroActivity extends AppCompatActivity {
         tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(IntroActivity.this, SignUpActivity.class);
+                Intent i = new Intent(IntroActivity.this, EnterPhoneActivity.class);
                 i.putExtra(PREVIOUS_PAGE_KEY, IntroActivity.this.getClass().getSimpleName());
                 startActivity(i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }

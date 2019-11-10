@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
+import com.emeint.android.fawryplugin.Plugininterfacing.FawrySdk;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,6 +67,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         SharedPrefManager.getInstance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        FawrySdk.init(FawrySdk.Styles.STYLE1);
 
         init();
 

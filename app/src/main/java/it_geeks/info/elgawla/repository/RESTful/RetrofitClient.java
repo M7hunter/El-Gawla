@@ -16,6 +16,7 @@ import com.google.gson.JsonSyntaxException;
 
 import java.util.concurrent.TimeUnit;
 
+import it_geeks.info.elgawla.BuildConfig;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.repository.Models.Data;
@@ -58,7 +59,7 @@ public class RetrofitClient {
                 .create();
 
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("http://elgawla.net/dev/public/api/v2/" + selectUrlLang(context) + "/")
+                .baseUrl(BuildConfig.SERVER_URL + SharedPrefManager.getInstance(context).getSavedLang() + "/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
@@ -71,23 +72,6 @@ public class RetrofitClient {
             mInstance = new RetrofitClient(context);
         }
         return mInstance;
-    }
-
-    private String selectUrlLang(Context context) {
-        // local host : http://192.168.1.7/elgawla/public/api/v1/en/
-        // it geeks server : https://dev.itgeeks.info/api/v1/en/
-        // gawla server : http://elgawla.net/dev/public/api/v1/en/
-        // gawla server ip : http://134.209.0.250/dev/public/api/v1/en/
-        // gawla publish server : http://elgawla.com/api/v2/en/
-
-        if ("ar".equals(SharedPrefManager.getInstance(context).getSavedLang()))
-        {
-            return "ar";
-        }
-        else
-        {
-            return "en";
-        }
     }
 
     public void executeConnectionToServer(Context context, String action, RequestModel req, HandleResponses HandleResponses) {
@@ -140,7 +124,6 @@ public class RetrofitClient {
 
                                 // dynamic with each call
                                 HandleResponses.handleTrueResponse(mainObj);
-
                             }
                             catch (NullPointerException | UnsupportedOperationException e)
                             { // errors of response body 'maybe response body has been changed'
@@ -195,10 +178,10 @@ public class RetrofitClient {
         };
     }
 
-    private void displayServerError(String responseBody, Context context) {
+    private void displayServerError(String errorBody, Context context) {
         try
         {
-            JsonObject errorObj = new JsonParser().parse(responseBody).getAsJsonObject();
+            JsonObject errorObj = new JsonParser().parse(errorBody).getAsJsonObject();
             String serverError = parseServerErrors(errorObj);
             if (serverError.isEmpty())
             {

@@ -11,7 +11,7 @@ import com.google.gson.JsonObject;
 import androidx.annotation.Nullable;
 
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.util.NotificationBuilder;
+import it_geeks.info.elgawla.util.notification.NotificationBuilder;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
@@ -20,7 +20,7 @@ import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.views.account.ProfileActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_UPDATE_USER_DATA;
-import static it_geeks.info.elgawla.util.NotificationBuilder.UPLOAD_IMAGE_NOTIFICATION_ID;
+import static it_geeks.info.elgawla.util.notification.NotificationBuilder.UPLOAD_IMAGE_NOTIFICATION_ID;
 
 public class UploadImageService extends Service {
 

@@ -8,7 +8,7 @@ public class RequestModel<T> {
 
     private T phone, gender, join_time, left_time, offer, package_id, code,
             provider, provider_id, provider_name, provider_email, provider_image, firebase_token, payment_method,
-            name, api_token, image, password, email, message,
+            name, api_token, image, old_password, password, password_confirmation, email, message, receiver,
             category_id, salon_id, round_id, card_id, user_id, country_id,
             isHome;
 
@@ -38,11 +38,17 @@ public class RequestModel<T> {
         }
         else if (action.equals(Constants.REQ_FORGOT_PASSWORD))
         {
-            this.email = t1;
-        }else if (action.equals(Constants.REQ_USER_ACTIVATION))
+            this.receiver = t1;
+        }
+        else if (action.equals(Constants.REQ_USER_ACTIVATION))
         {
             this.user_id = t1;
             this.code = t2;
+        }
+        else if (action.equals(Constants.REQ_CONFIRM_CODE))
+        {
+            this.code = t1;
+            this.receiver = t2;
         }
         else if (action.equals(Constants.REQ_GET_ALL_COUNTRIES))
         {
@@ -64,6 +70,11 @@ public class RequestModel<T> {
                 this.join_time = t4;
                 this.left_time = t5;
             }
+            else if (action.equals(Constants.REQ_RESET_PASSWORD))
+            {
+                this.password = t3;
+                this.password_confirmation = t4;
+            }
             else if (action.equals(REQ_GET_SALONS_BY_CAT_ID) || action.equals(Constants.REQ_GET_CARDS_BY_CATEGORY))
             {
                 this.category_id = t3;
@@ -79,6 +90,7 @@ public class RequestModel<T> {
             }
             else if (action.equals(Constants.REQ_CHANGE_PASSWORD))
             {
+                this.old_password = t3;
                 this.password = t3;
             }
             else if (action.equals(Constants.REQ_SET_MEMBERSHIP))

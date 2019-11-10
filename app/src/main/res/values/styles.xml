@@ -29,6 +29,16 @@
         <item name="cornerSize">5dp</item>
     </style>
 
+    <style name="pin_view_style">
+        <item name="android:gravity">center</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:minEms">1</item>
+        <item name="android:inputType">number</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+    </style>
+
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/text_size_x_small</item>

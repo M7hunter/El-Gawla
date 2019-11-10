@@ -22,6 +22,17 @@ public class SnackBuilder {
         return this;
     }
 
+    public void onDismiss(final SnackAction action) {
+        snack.addCallback(new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar transientBottomBar, int event) {
+                super.onDismissed(transientBottomBar, event);
+                action.onClick();
+                snack.removeCallback(this);
+            }
+        });
+    }
+
     public SnackBuilder setSnackDuration(int duration) {
         if (snack != null)
             snack.setDuration(duration);

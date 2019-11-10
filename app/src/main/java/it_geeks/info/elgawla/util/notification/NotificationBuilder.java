@@ -1,4 +1,4 @@
-package it_geeks.info.elgawla.util;
+package it_geeks.info.elgawla.util.notification;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -41,7 +41,7 @@ public class NotificationBuilder {
     private static final int NOTIFICATION_ICON = R.drawable.g_logo;
 
     private Context context;
-    private NotificationManager notificationManager;
+    private static NotificationManager notificationManager;
     private NotificationCompat.Builder notificationBuilder;
 
     public NotificationBuilder(Context context) {
@@ -67,7 +67,7 @@ public class NotificationBuilder {
             });
     }
 
-    public void createRemoteChannel() {
+    public static void createRemoteChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
             for (NotificationChannel channel : notificationManager.getNotificationChannels())
@@ -139,8 +139,8 @@ public class NotificationBuilder {
         notificationManager.notify(UPLOAD_IMAGE_NOTIFICATION_ID, notificationBuilder.build());
     }
 
-    public void displayRemoteMessage(String title, String body) {
-        PendingIntent pendingIntent = initRemoteMessageIntent(title, body);
+    static void displayRemoteMessage(String title, String body, Context context) {
+        PendingIntent pendingIntent = initRemoteMessageIntent(title, body, context);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, REMOTE_NOTIFICATION_CHANNEL_ID);
         builder.setAutoCancel(true)
@@ -171,7 +171,7 @@ public class NotificationBuilder {
         return PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
-    private PendingIntent initRemoteMessageIntent(String title, String body) {
+    private static PendingIntent initRemoteMessageIntent(String title, String body, Context context) {
         Bundle bundle = new Bundle();
 
         bundle.putString("title", title);

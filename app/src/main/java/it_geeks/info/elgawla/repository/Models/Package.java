@@ -1,8 +1,10 @@
 package it_geeks.info.elgawla.repository.Models;
 
+import com.emeint.android.fawryplugin.Plugininterfacing.PayableItem;
+
 import java.io.Serializable;
 
-public class Package implements Serializable {
+public class Package implements Serializable, PayableItem {
 
     private int Id;
     private String Title, Price, Body, Color;
@@ -53,5 +55,25 @@ public class Package implements Serializable {
 
     public void setColor(String color) {
         Color = color;
+    }
+
+    @Override
+    public String getFawryItemDescription() {
+        return Body;
+    }
+
+    @Override
+    public String getFawryItemSKU() {
+        return String.valueOf(Id);
+    }
+
+    @Override
+    public String getFawryItemPrice() {
+        return Price;
+    }
+
+    @Override
+    public String getFawryItemQuantity() {
+        return "1";
     }
 }

@@ -49,6 +49,7 @@ public class Constants {
     // account
     public static final String REQ_UPDATE_USER_DATA = "updateUserData";
     public static final String REQ_CHANGE_PASSWORD = "changeUserPasswordByID";
+    public static final String REQ_RESET_PASSWORD = "resetPassword";
     public static final String REQ_DEACTIVATE_USER_ACCOUNT = "deactivateUserAccountByID";
     public static final String REQ_SET_MEMBERSHIP = "setUserMembership";
     public static final String REQ_CHECK_SUBSCRIPTION = "checkSubscribe";
@@ -58,6 +59,7 @@ public class Constants {
     public static final String REQ_SIGN_UP = "register";
     public static final String REQ_SIGN_IN = "login";
     public static final String REQ_SEND_SMS = "sendSms";
+    public static final String REQ_CONFIRM_CODE = "confirmCode";
     public static final String REQ_SOCIAL_SIGN = "loginOrRegisterWithSocial";
     public static final String REQ_FORGOT_PASSWORD = "forgotPassword";
     // endregion

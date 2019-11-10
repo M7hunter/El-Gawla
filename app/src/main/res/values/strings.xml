@@ -228,4 +228,5 @@
     <string name="offer_more_than_zero">the offer must be more than a zero</string>
     <string name="connected">CONNECTED</string>
     <string name="reset_password_hint">activation code will be sent to reset your password</string>
+    <string name="empty_digit">empty digit</string>
 </resources>

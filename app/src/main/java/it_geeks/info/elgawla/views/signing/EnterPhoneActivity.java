@@ -120,7 +120,8 @@ public class EnterPhoneActivity extends AppCompatActivity {
                     public void handleTrueResponse(JsonObject mainObject) {
                         startActivity(new Intent(EnterPhoneActivity.this, ActivationActivity.class)
                                 .putExtra("activation_code", mainObject.get("code").getAsString())
-                                .putExtra("phone", phone)
+                                .putExtra("newUser", true)
+                                .putExtra("receiver", phone)
                                 .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
                     }
 

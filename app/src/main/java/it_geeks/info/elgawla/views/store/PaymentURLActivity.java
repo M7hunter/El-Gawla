@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -53,8 +54,16 @@ public class PaymentURLActivity extends AppCompatActivity {
         paymentWebView.getSettings().setSupportZoom(false);
         paymentWebView.addJavascriptInterface(mj, "HTMLOUT");
 
-        paymentWebView.setWebViewClient(new WebViewClient() {
+        if (android.os.Build.VERSION.SDK_INT >= 21)
+        {
+            CookieManager.getInstance().setAcceptThirdPartyCookies(paymentWebView, true);
+        }
+        else
+        {
+            CookieManager.getInstance().setAcceptCookie(true);
+        }
 
+        paymentWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 dialogBuilder.displayLoadingDialog();
@@ -79,7 +88,8 @@ public class PaymentURLActivity extends AppCompatActivity {
                     dialogBuilder.hideLoadingDialog();
 
                 paymentWebView.loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
-                if (url.contains("success")) {
+                if (url.contains("success"))
+                {
                     startActivity(new Intent(PaymentURLActivity.this, PaymentReviewActivity.class));
                 }
 
@@ -87,12 +97,5 @@ public class PaymentURLActivity extends AppCompatActivity {
         });
 
         paymentWebView.loadUrl(paymentUrl);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-//        Intent i = new Intent(this, InvoicesActivity.class);
-//        startActivity(i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 }

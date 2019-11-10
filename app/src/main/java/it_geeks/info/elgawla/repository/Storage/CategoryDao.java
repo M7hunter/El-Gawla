@@ -2,6 +2,7 @@ package it_geeks.info.elgawla.repository.Storage;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -16,6 +17,12 @@ public interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCategories(List<Category> CategoriesList);
 
+    @Delete
+    void deleteCats(List<Category> categories);
+
     @Query("SELECT * FROM Category")
     LiveData<List<Category>> getCategories();
+
+    @Query("SELECT * FROM Category")
+    List<Category> getCategoriesList();
 }
