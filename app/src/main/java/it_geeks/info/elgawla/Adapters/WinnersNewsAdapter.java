@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.repository.Models.WinnerNews;
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.views.main.BlogActivity;
+import it_geeks.info.elgawla.views.main.WinnersActivity;
 
 public class WinnersNewsAdapter extends RecyclerView.Adapter<WinnersNewsAdapter.ViewHolder> {
 
@@ -31,7 +31,7 @@ public class WinnersNewsAdapter extends RecyclerView.Adapter<WinnersNewsAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_winner, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_winners, viewGroup, false));
     }
 
     @Override
@@ -47,10 +47,13 @@ public class WinnersNewsAdapter extends RecyclerView.Adapter<WinnersNewsAdapter.
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, BlogActivity.class);
-                i.putExtra("news_image", news.getBlog_imagesArr().get(0));
+                Intent i = new Intent(context, WinnersActivity.class);
                 i.putExtra("news_title", news.getBog_title());
                 i.putExtra("news_body", news.getBlog_description());
+                if (news.getBlog_imagesArr().size() > 0)
+                {
+                    i.putExtra("news_image", news.getBlog_imagesArr().get(0));
+                }
 
                 context.startActivity(i);
             }

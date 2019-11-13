@@ -40,7 +40,9 @@
         <activity
             android:name=".views.main.MainActivity"
             android:clearTaskOnLaunch="true" />
-        <activity android:name=".views.main.NotificationActivity">
+        <activity
+            android:name=".views.main.NotificationActivity"
+            android:parentActivityName=".views.main.MainActivity">
             <intent-filter>
                 <action android:name="notification_page" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -48,6 +50,7 @@
         </activity>
         <activity
             android:name=".views.salon.SalonActivity"
+            android:parentActivityName=".views.main.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".views.salon.WinnerActivity" />
@@ -63,18 +66,18 @@
         <activity android:name=".views.signing.EnterPhoneActivity" />
         <activity android:name=".views.signing.ActivationActivity" />
         <activity android:name=".views.signing.ForgetPasswordActivity" />
-        <activity android:name=".views.menu.VoteActivity" />
         <activity android:name=".views.menu.SettingsActivity" />
         <activity android:name=".views.menu.CallUsActivity" />
         <activity android:name=".views.menu.LanguageActivity" />
         <activity android:name=".views.menu.WebPageActivity" />
-        <activity android:name=".views.main.BlogActivity" />
         <activity android:name=".views.account.MembershipActivity" />
         <activity android:name=".views.account.InvoicesActivity" />
         <activity android:name=".views.account.ProfileActivity" />
         <activity android:name=".views.account.SalonsArchiveActivity" />
         <activity android:name=".views.account.MyCardsActivity" />
         <activity android:name=".views.account.ChangePasswordActivity" />
+        <activity android:name=".views.main.WinnersActivity" />
+        <activity android:name=".views.BaseActivity" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
@@ -82,7 +85,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/gawla_logo_blue" />
+            android:resource="@drawable/g_round" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
@@ -120,7 +123,8 @@
 
         <service
             android:name=".util.services.GetSalonDataService"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".views.main.MainActivity" />
 
     </application>
 

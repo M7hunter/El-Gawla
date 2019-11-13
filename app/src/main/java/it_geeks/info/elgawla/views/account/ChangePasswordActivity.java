@@ -11,8 +11,6 @@ import android.widget.EditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
@@ -21,11 +19,12 @@ import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.SnackBuilder;
+import it_geeks.info.elgawla.views.BaseActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_CHANGE_PASSWORD;
 import static it_geeks.info.elgawla.util.Constants.SERVER_MSG;
 
-public class ChangePasswordActivity extends AppCompatActivity {
+public class ChangePasswordActivity extends BaseActivity {
 
     private TextInputLayout tlOldPass, tlNewPass, tlRenterPass;
     private EditText etOldPass, etNewPass, etRenterPass;

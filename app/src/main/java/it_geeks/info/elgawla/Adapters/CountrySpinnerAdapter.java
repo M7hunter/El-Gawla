@@ -19,9 +19,7 @@ public class CountrySpinnerAdapter extends BaseAdapter {
     private List<Country> countryList;
 
     public CountrySpinnerAdapter(List<Country> countryList, Context context) {
-        countryList.add(0, new Country(-178, context.getString(R.string.countries), "-000", "eg", "000", "000"));
         this.countryList = countryList;
-
     }
 
     @Override
@@ -48,10 +46,7 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 
         Country country = countryList.get(position);
         tv.setText(country.getCountry_title());
-        if (position != 0)
-        {
-            ImageLoader.getInstance().load(country.getImage(), iv);
-        }
+        ImageLoader.getInstance().load(country.getImage(), iv);
 
         return convertView;
     }

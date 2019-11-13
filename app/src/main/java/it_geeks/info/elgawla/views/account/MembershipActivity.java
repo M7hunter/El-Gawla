@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.google.gson.JsonObject;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -21,12 +20,13 @@ import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.SnackBuilder;
+import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.R;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_PACKAGES;
 
-public class MembershipActivity extends AppCompatActivity {
+public class MembershipActivity extends BaseActivity {
 
     private List<Package> packageList = new ArrayList<>();
     public DialogBuilder dialogBuilder;

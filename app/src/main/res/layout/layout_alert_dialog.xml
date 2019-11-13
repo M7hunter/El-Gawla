@@ -34,7 +34,6 @@
             android:layout_marginRight="@dimen/margin_xx_large"
             android:layout_marginBottom="@dimen/margin_large"
             android:gravity="center"
-            android:lineSpacingExtra="@dimen/margin_small"
             android:text="@string/confirm"
             android:textColor="@color/blueGrey"
             android:textSize="@dimen/text_size_medium" />

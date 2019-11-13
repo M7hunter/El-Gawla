@@ -169,7 +169,7 @@ public class MySalonsFragment extends Fragment {
             mySalonsRecycler.setVisibility(View.VISIBLE);
 
             mySalonsRecycler.setHasFixedSize(true);
-            mySalonsRecycler.setLayoutManager(new LinearLayoutManager(context));
+            mySalonsRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
             mySalonsRecycler.setAdapter(new SalonsAdapter(getActivity(), salonsList));
 
         }

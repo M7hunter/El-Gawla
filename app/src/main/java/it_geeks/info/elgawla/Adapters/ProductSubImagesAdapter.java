@@ -22,6 +22,7 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
 
     private Context context;
     private List<ProductSubImage> imagesList;
+    private int selectedPosition = 0;
 
     public ProductSubImagesAdapter(Context context, List<ProductSubImage> imagesList) {
         this.context = context;
@@ -46,17 +47,23 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
             setPlayIcon(holder);
         }
 
+        if (selectedPosition == i)
+        {
+            holder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rectangle_transparent_rounded_primary));
+        }
+        else
+        {
+            holder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rectangle_transparent_rounded_palegrey));
+        }
+
         // events
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // swap links & images
-                String oldUrl = subImage.getImageUrl();
-                subImage.setImageUrl(((SalonActivity) context).SubImage.getImageUrl());
-
-                Drawable drawable = ((SalonActivity) context).ivProductMainViewer.getDrawable();
-                ((SalonActivity) context).switchImageVideo(oldUrl, holder.productSubImage.getDrawable());
-                holder.productSubImage.setImageDrawable(drawable);
+                ((SalonActivity) context).switchImageVideo(subImage.getImageUrl(), holder.productSubImage.getDrawable());
+                selectedPosition = holder.getAdapterPosition();
+                notifyDataSetChanged();
             }
         });
     }

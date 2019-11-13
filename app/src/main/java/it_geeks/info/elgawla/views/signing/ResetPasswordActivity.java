@@ -1,6 +1,5 @@
 package it_geeks.info.elgawla.views.signing;
 
-import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
@@ -8,6 +7,7 @@ import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
+import it_geeks.info.elgawla.views.BaseActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,7 +23,7 @@ import com.google.gson.JsonObject;
 import static it_geeks.info.elgawla.util.Constants.REQ_RESET_PASSWORD;
 import static it_geeks.info.elgawla.util.Constants.SERVER_MSG;
 
-public class ResetPasswordActivity extends AppCompatActivity {
+public class ResetPasswordActivity extends BaseActivity {
 
     private TextInputLayout tlPass, tlRePass;
     private EditText etPass, etRePass;

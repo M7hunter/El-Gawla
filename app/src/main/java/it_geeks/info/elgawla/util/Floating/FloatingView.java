@@ -42,8 +42,8 @@ public class FloatingView {
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                dynamic.flingAnimationX.setMinValue(0f).setMaxValue(screenWidth - view.getWidth());
-                dynamic.flingAnimationY.setMinValue(0f).setMaxValue(screenHeight - view.getHeight());
+                dynamic.flingAnimationX.setMinValue(0f - view.getWidth()).setMaxValue(screenWidth + view.getWidth());
+                dynamic.flingAnimationY.setMinValue(0f - view.getHeight()).setMaxValue(screenHeight + view.getHeight());
                 view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });

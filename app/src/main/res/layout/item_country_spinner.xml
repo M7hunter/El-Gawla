@@ -1,33 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorLightPrimary"
-    android:gravity="center"
+    android:gravity="center_vertical"
     android:padding="@dimen/margin_tiny">
-
-    <!-- arrow -->
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/margin_tiny"
-        android:src="@drawable/ic_arrow_down" />
-
-    <!-- country label -->
-    <TextView
-        android:id="@+id/tv_country_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_xlarge"
-        android:layout_marginEnd="@dimen/margin_xlarge"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:hint="@string/country"
-        android:maxLines="1"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_medium"
-        tools:text="county" />
 
     <!-- country flag-->
     <de.hdodenhof.circleimageview.CircleImageView
@@ -35,6 +14,28 @@
         android:layout_width="@dimen/icon_notification"
         android:layout_height="@dimen/icon_notification"
         android:layout_margin="@dimen/margin_tiny"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/flag_egypt" />
 
-</LinearLayout>
+    <!-- country label -->
+    <TextView
+        android:id="@+id/tv_country_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_xlarge"
+        android:layout_marginEnd="@dimen/margin_xlarge"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:hint="@string/country"
+        android:maxLines="1"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="county" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

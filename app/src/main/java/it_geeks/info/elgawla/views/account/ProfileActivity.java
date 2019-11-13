@@ -24,7 +24,6 @@ import com.google.gson.JsonObject;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
 
 import it_geeks.info.elgawla.repository.Models.Country;
@@ -40,10 +39,11 @@ import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
+import it_geeks.info.elgawla.views.BaseActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_UPDATE_USER_DATA;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends BaseActivity {
 
     public static ProfileActivity accountDetailsInstance;
     private EditText et_Email, et_name, et_telephone, sp_gender, sp_country;

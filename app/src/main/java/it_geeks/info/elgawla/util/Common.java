@@ -3,15 +3,18 @@ package it_geeks.info.elgawla.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -34,6 +37,7 @@ import com.google.gson.JsonObject;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -46,6 +50,7 @@ import it_geeks.info.elgawla.repository.Models.SalonDate;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
+import it_geeks.info.elgawla.views.intro.SplashScreenActivity;
 import it_geeks.info.elgawla.views.signing.SignInActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_SET_FIREBASE_TOKEN;
@@ -61,6 +66,35 @@ public class Common {
             common = new Common();
         }
         return common;
+    }
+
+    public static void setLang(Context context, String lang) {
+        try
+        {
+            new WebView(context).destroy();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        Locale locale;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+//        {
+//            locale = new Locale(lang, "kw");
+//        }
+//        else
+//        {
+        locale = new Locale(lang);
+//        }
+        Locale.setDefault(locale);
+        Configuration configuration = context.getResources().getConfiguration();
+        configuration.setLocale(locale);
+        configuration.locale = locale;
+        context.createConfigurationContext(configuration);
+        context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+
+        SharedPrefManager.getInstance(context).setLang(lang);
     }
 
     // remove unneeded quotes

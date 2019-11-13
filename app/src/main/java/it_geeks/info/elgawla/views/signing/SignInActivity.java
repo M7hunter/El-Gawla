@@ -41,7 +41,6 @@ import java.util.Arrays;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.util.Common;
@@ -54,6 +53,7 @@ import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.SnackBuilder;
+import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 
@@ -62,7 +62,7 @@ import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_BY_ID;
 import static it_geeks.info.elgawla.util.Constants.REQ_SIGN_IN;
 import static it_geeks.info.elgawla.util.Constants.REQ_SOCIAL_SIGN;
 
-public class SignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class SignInActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private Button btnForgetPassword, btnLogin;
     private TextView btnCreateAccount;

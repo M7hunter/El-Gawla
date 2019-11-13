@@ -26,33 +26,45 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-
-        initSnackBar(context);
-
-        if (activeNetInfo != null)
+        try
         {
-            connectedSnack(context);
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+
+
+            initSnackBar(context);
+
+            if (activeNetInfo != null)
+            {
+                connectedSnack(context);
+            }
+            else
+            {
+                unConnectedSnack(context);
+            }
+
         }
-        else
+        catch (Exception e)
         {
-            unConnectedSnack(context);
+            e.printStackTrace();
         }
     }
 
     public void initSnackBar(Context context) {
         if (snackbar == null)
         {
-            if (context.getClass().equals(MainActivity.class))
+            if (context instanceof MainActivity)
             {
                 snackbar = Snackbar.make(((MainActivity) context).getSnackBarContainer(), context.getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
             }
             else if (context.getClass().equals(SalonActivity.class))
             {
                 snackbar = Snackbar.make(((SalonActivity) context).getSnackBarContainer(), context.getString(R.string.no_connection), Snackbar.LENGTH_INDEFINITE);
+            }
+            else
+            {
+                return;
             }
 
             View snackBarView = snackbar.getView();

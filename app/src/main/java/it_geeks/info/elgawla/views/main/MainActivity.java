@@ -10,15 +10,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
 import androidx.fragment.app.FragmentManager;
+
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.util.receivers.ConnectionChangeReceiver;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
+import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.account.AccountFragment;
 import it_geeks.info.elgawla.views.store.StoreFragment;
 import it_geeks.info.elgawla.views.menu.MenuFragment;
@@ -27,7 +27,7 @@ import it_geeks.info.elgawla.R;
 
 import static it_geeks.info.elgawla.util.Constants.MEMBERSHIP_MSG;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private BottomNavigationView navigation;
     private FragmentManager fragmentManager = getSupportFragmentManager();
@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPrefManager.getInstance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

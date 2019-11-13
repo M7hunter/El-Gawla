@@ -1,8 +1,8 @@
 package it_geeks.info.elgawla.views.menu;
 
-import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.util.DialogBuilder;
+import it_geeks.info.elgawla.views.BaseActivity;
 
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -13,7 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
-public class WebPageActivity extends AppCompatActivity {
+public class WebPageActivity extends BaseActivity {
 
     private WebView webView;
     private TextView tvTitle;

@@ -9,8 +9,6 @@ import android.widget.EditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
@@ -18,10 +16,11 @@ import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.SnackBuilder;
+import it_geeks.info.elgawla.views.BaseActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_SET_USER_MESSAGE;
 
-public class CallUsActivity extends AppCompatActivity {
+public class CallUsActivity extends BaseActivity {
 
     private EditText usernameCallUS, emailCallUS, messageCallUS;
     private Button btnSendCallUs;

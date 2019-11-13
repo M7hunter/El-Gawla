@@ -9,23 +9,24 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import it_geeks.info.elgawla.Adapters.SliderAdapter;
+import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
+import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.signing.EnterPhoneActivity;
 import it_geeks.info.elgawla.views.signing.SignInActivity;
 import it_geeks.info.elgawla.R;
 
 import static it_geeks.info.elgawla.util.Constants.PREVIOUS_PAGE_KEY;
 
-public class IntroActivity extends AppCompatActivity {
+public class IntroActivity extends BaseActivity {
 
     private ViewPager2 mViewPager;
     private LinearLayout mDotLayout;
     private Button btnSkip, btnNext;
     private ImageButton ibPrevious;
-    private TextView tvSignIn, tvSignUp;
+    private TextView tvSignIn, tvSignUp, dot1, dot2, dot3, dots[];
     private View introSignBar;
 
     private int mCurrentPage;
@@ -33,6 +34,7 @@ public class IntroActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPrefManager.getInstance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
@@ -41,8 +43,6 @@ public class IntroActivity extends AppCompatActivity {
         initPager();
 
         handleEvents();
-
-        addDots(0);
     }
 
     private void initViews() {
@@ -60,6 +60,9 @@ public class IntroActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.intro_view_pager);
         mViewPager.setAdapter(new SliderAdapter(IntroActivity.this));
         mDotLayout = findViewById(R.id.dots);
+
+        initDots();
+        updateDots(0);
     }
 
     private void handleEvents() {
@@ -85,7 +88,7 @@ public class IntroActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
 
-                addDots(position);
+                updateDots(position);
                 mCurrentPage = position;
                 if (position == 0)
                 {
@@ -142,18 +145,26 @@ public class IntroActivity extends AppCompatActivity {
         }
     }
 
-    public void addDots(int position) {
-        TextView[] mDots = new TextView[3];
-        mDotLayout.removeAllViews();
-        for (int i = 0; i < mDots.length; i++)
-        {
-            mDots[i] = new TextView(this);
-            mDots[i].setText(Html.fromHtml("&#8226"));
-            mDots[i].setTextSize(20);
-            mDots[i].setTextColor(getResources().getColor(R.color.dots));
-            mDotLayout.addView(mDots[i]);
-        }
+    public void initDots() {
+        dot1 = new TextView(this);
+        dot2 = new TextView(this);
+        dot3 = new TextView(this);
+        dots = new TextView[]{dot1, dot2, dot3};
 
-        mDots[position].setTextColor(getResources().getColor(R.color.babyBlue));
+        for (TextView dot : dots)
+        {
+            dot.setText(Html.fromHtml("&#8226"));
+            dot.setTextSize(20);
+            mDotLayout.addView(dot);
+        }
+    }
+
+
+    public void updateDots(int position) {
+        for (TextView dot : dots)
+        {
+            dot.setTextColor(getResources().getColor(R.color.dots));
+        }
+        dots[position].setTextColor(getResources().getColor(R.color.babyBlue));
     }
 }

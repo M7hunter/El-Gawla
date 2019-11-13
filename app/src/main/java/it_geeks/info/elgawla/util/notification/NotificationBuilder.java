@@ -15,6 +15,7 @@ import java.util.Random;
 
 import androidx.core.app.NotificationCompat;
 
+import androidx.core.app.TaskStackBuilder;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import it_geeks.info.elgawla.R;
@@ -30,17 +31,17 @@ import it_geeks.info.elgawla.views.main.NotificationActivity;
 public class NotificationBuilder {
 
     private static final String REMOTE_NOTIFICATION_CHANNEL_ID = "GAWLA_CHANNEL_ID";
-    private static final String REMOTE_NOTIFICATION_CHANNEL_NAME = "salons updates";
+    private static final String REMOTE_NOTIFICATION_CHANNEL_NAME = "salon updates";
     private static final String REMOTE_NOTIFICATION_CHANNEL_DESC = "latest updates of subscribed salons & if there is a new salon in your country";
     private static final String REMOTE_NOTIFICATION_GROUP_ID = "remote_group";
 
     private static final String LOCALE_NOTIFICATION_CHANNEL_NAME = "updating user image";
-    private static final String LOCALE_NOTIFICATION_CHANNEL_DESC = "uploading user account image states";
+    private static final String LOCALE_NOTIFICATION_CHANNEL_DESC = "uploading user account image";
     private static final String LOCALE_NOTIFICATION_GROUP_ID = "locale_group";
 
     private static final String UPLOAD_IMAGE_CHANNEL_ID = "upload_image_channel";
     public static final int UPLOAD_IMAGE_NOTIFICATION_ID = 1;
-    private static final int NOTIFICATION_ICON = R.drawable.g_logo;
+    private static final int NOTIFICATION_ICON = R.drawable.g_round;
 
     private Context context;
     private static NotificationManager notificationManager;
@@ -51,7 +52,6 @@ public class NotificationBuilder {
     }
 
     public static void listenToNotificationStatus(final Context context, final View indicator) {
-        // notification status LiveData
         if (SharedPrefManager.getInstance(context).isNotificationEnabled())
             GawlaDataBse.getInstance(context).notificationDao().getStatusNotification(true).observe((LifecycleOwner) context, new Observer<List<Notification>>() {
                 @Override
@@ -140,8 +140,30 @@ public class NotificationBuilder {
         getNotificationManager(context).notify(UPLOAD_IMAGE_NOTIFICATION_ID, notificationBuilder.build());
     }
 
-    static void displayRemoteMessage(String title, String body, String type, String id, Context context) {
-        PendingIntent pendingIntent = initRemoteMessageIntent(title, body, type, id, context);
+    static void displayRemoteMessage(String title, String body, Context context) {
+        PendingIntent pendingIntent = initRemoteMessageIntent(title, body, context);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, REMOTE_NOTIFICATION_CHANNEL_ID);
+        builder.setAutoCancel(true)
+                .setSmallIcon(NOTIFICATION_ICON)
+                .setContentTitle(title)
+                .setColor(context.getResources().getColor(R.color.greenBlue))
+                .setContentIntent(pendingIntent)
+                .setContentText(body)
+                .setAutoCancel(true)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(body)
+                        .setBigContentTitle(title))
+                .setContentInfo("Info")
+                .setGroup(REMOTE_NOTIFICATION_GROUP_ID);
+
+        createRemoteChannel(context);
+        builder.setChannelId(REMOTE_NOTIFICATION_CHANNEL_ID);
+        getNotificationManager(context).notify(new Random().nextInt(), builder.build());
+    }
+
+    static void displayRemoteMessageData(String title, String body, String type, String id, Context context) {
+        PendingIntent pendingIntent = initRemoteMessageDataIntent(title, body, type, id, context);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, REMOTE_NOTIFICATION_CHANNEL_ID);
         builder.setAutoCancel(true)
@@ -180,7 +202,41 @@ public class NotificationBuilder {
         return PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
-    private static PendingIntent initRemoteMessageIntent(String title, String body, String type, String id, Context context) {
+    private static PendingIntent initRemoteMessageIntent(String title, String body, Context context) {
+        Bundle bundle = new Bundle();
+
+        bundle.putString("title", title);
+        bundle.putString("body", body);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        Intent intent = new Intent();
+
+        if (SharedPrefManager.getInstance(context).isLoggedIn())
+        {
+            if (context instanceof NotificationActivity)
+            {
+                ((NotificationActivity) context).recreate();
+            }
+            else
+            {
+                intent = new Intent(context, NotificationActivity.class);
+                stackBuilder.addNextIntentWithParentStack(intent);
+            }
+        }
+        else
+        {
+            if (!(context instanceof SignInActivity))
+            {
+                intent = new Intent(context, SignInActivity.class);
+                stackBuilder.addNextIntentWithParentStack(intent);
+            }
+        }
+
+        intent.putExtras(bundle);
+        return stackBuilder.getPendingIntent(123456, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private static PendingIntent initRemoteMessageDataIntent(String title, String body, String type, String id, Context context) {
         Bundle bundle = new Bundle();
 
         bundle.putString("title", title);
@@ -188,20 +244,21 @@ public class NotificationBuilder {
         bundle.putString("type", type);
         bundle.putInt("id", Integer.valueOf(id));
 
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         Intent intent = new Intent();
+
         if (SharedPrefManager.getInstance(context).isLoggedIn())
         {
-
             if (type.equals("salons"))
             {
                 intent = new Intent(context, GetSalonDataService.class);
-
                 intent.putExtras(bundle);
                 return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             }
             else if (type.equals("cards"))
             {
                 intent = new Intent(context, MainActivity.class); // redirect to store fragment
+                stackBuilder.addNextIntentWithParentStack(intent);
             }
             else if (context instanceof NotificationActivity)
             {
@@ -210,6 +267,7 @@ public class NotificationBuilder {
             else
             {
                 intent = new Intent(context, NotificationActivity.class);
+                stackBuilder.addNextIntentWithParentStack(intent);
             }
         }
         else
@@ -217,10 +275,11 @@ public class NotificationBuilder {
             if (!(context instanceof SignInActivity))
             {
                 intent = new Intent(context, SignInActivity.class);
+                stackBuilder.addNextIntentWithParentStack(intent);
             }
         }
 
         intent.putExtras(bundle);
-        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return stackBuilder.getPendingIntent(123456, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 }

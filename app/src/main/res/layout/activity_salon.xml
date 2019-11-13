@@ -594,9 +594,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_small"
-                android:background="@drawable/bg_rounded_corners_white"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:visibility="visible"
+                app:cardBackgroundColor="@android:color/white"
                 app:cardCornerRadius="@dimen/margin_small"
                 app:layout_constraintTop_toBottomOf="@id/tabs_and_on_tabs_container">
                 <!-- card main layout -->
@@ -636,44 +636,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_tiny"
             android:layout_marginEnd="@dimen/margin_medium"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/leave_and_help_container">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_add_offer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_xTiny"
                 android:layout_weight="1"
-                android:textColorHint="@color/editText_hint">
-                <!-- add offer et -->
-                <EditText
+                android:focusable="true"
+                android:textColorHint="@color/paleGrey2">
+
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_add_offer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:gravity="center_vertical"
-                    android:hint="@string/rOffer"
-                    android:inputType="number"
-                    android:paddingTop="@dimen/margin_small"
-                    android:paddingBottom="@dimen/margin_small"
-                    android:textColor="@color/battleshipGrey"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:inputType="numberDecimal"
+                    android:paddingStart="@dimen/margin_xlarge"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingEnd="@dimen/margin_xlarge"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- add offer btn -->
             <Button
                 android:id="@+id/add_offer_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_weight="1"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small"
                 android:text="@string/add_offer"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_medium"

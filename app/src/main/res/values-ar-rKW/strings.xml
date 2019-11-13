@@ -44,7 +44,9 @@
     <string name="second">ثانية</string>
     <string name="Minute">دقيقة</string>
     <string name="hour">ساعة</string>
-    <string name="Prod_price">سعر البيع : </string>
+    <string name="initial_value">القيمة الإبتدائية : </string>
+    <string name="one_pound">1 جنية</string>
+    <string name="commercial_price">السعر التجاري : </string>
     <string name="more">المزيد</string>
     <string name="next">التالي</string>
     <string name="finish">انهاء</string>
@@ -53,7 +55,7 @@
     <string name="payment_enjoy">لتتمتع بمزايا الانضمام  للصالة و تقدم العروض و ربح الجولات</string>
     <string name="Monthly_membership2">عضوية شهرية</string>
     <string name="Paying_up">تدفع مقدماً  84EGP سنويا</string>
-    <string name="offer">توفير</string>
+    <string name="offer">العرض</string>
     <string name="Monthly">شهريا / %1$s</string>
     <string name="Monthly17">17 EGP / شهريا</string>
     <string name="One_lounge1">يمكن دخول صالة واحدة يومياً</string>
@@ -191,7 +193,7 @@
     <string name="logged_from_other_device">تم تسجيل الدخول بهذا الحساب من قبل جهاز اخر</string>
     <string name="confirm">تأكيد</string>
     <string name="offered">قدم عرض</string>
-    <string name="offer_less_than_price">يجب ان يكون العرض اقل من سعر المنتج</string>
+    <string name="offer_less_than_price">يجب ان يكون العرض اقل من السعر التجاري</string>
     <string name="choose_payment_method">اختر وسيلة الدفع</string>
     <string name="invoice_no">رقم الفاتورة</string>
     <string name="not_capturred">غير مقبولة</string>
@@ -222,9 +224,11 @@
     <string name="reset">إعادة تعيين</string>
     <string name="share_salon">مشاركة الصالة</string>
     <string name="resend_after">إعادة ارسال بعد :</string>
-    <string name="offer_more_than_zero">يجب ان يزيد العرض عن صفر</string>
+    <string name="offer_more_than_one">يجب ان لا يقل العرض عن القيمة الابتدائية</string>
     <string name="reset_password_hint">سيتم ارسال كود التفعيل الاعادة تعين كلمة المرور</string>
     <string name="empty_digit">حقل فارغ</string>
     <string name="connected">متصل</string>
     <string name="time_up">انتهى الوقت, اعد ارسال الكو</string>
+    <string name="choose_language">اختر اللغة</string>
+    <string name="price">السعر</string>
 </resources>

@@ -15,18 +15,16 @@ import android.widget.TextView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.util.SnackBuilder;
+import it_geeks.info.elgawla.views.BaseActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_FORGOT_PASSWORD;
 
-public class ForgetPasswordActivity extends AppCompatActivity {
+public class ForgetPasswordActivity extends BaseActivity {
 
     private Button btnSend;
     private EditText etReceiver;

@@ -1,7 +1,7 @@
 package it_geeks.info.elgawla.views.store;
 
-import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.elgawla.R;
+import it_geeks.info.elgawla.views.BaseActivity;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PaymentReviewActivity extends AppCompatActivity {
+public class PaymentReviewActivity extends BaseActivity {
 
     private TextView tvPaymentId, tvResult, tvAmount, tvTransId, tvTrackId, tvCreatedAt;
     private String paymentId, result, amount, transactionId, trackId, createdAt;

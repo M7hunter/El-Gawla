@@ -220,7 +220,8 @@
                 android:layout_margin="@dimen/margin_small"
                 android:text="@string/see_more"
                 android:textColor="@color/midBlue"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
 
             <!-- winners news header -->
             <LinearLayout
@@ -270,7 +271,7 @@
                     android:layout_marginEnd="@dimen/margin_tiny"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="3"
-                    tools:listitem="@layout/item_winner" />
+                    tools:listitem="@layout/item_winners" />
 
                 <!-- winners news progress -->
                 <ProgressBar

@@ -1,6 +1,5 @@
 package it_geeks.info.elgawla.views.store;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +14,7 @@ import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.SnackBuilder;
+import it_geeks.info.elgawla.views.BaseActivity;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -36,7 +36,7 @@ import static it_geeks.info.elgawla.util.Constants.CATEGORY_NAME;
 import static it_geeks.info.elgawla.util.Constants.CAT_ID;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_CARDS_BY_CATEGORY;
 
-public class CategoryCardsActivity extends AppCompatActivity {
+public class CategoryCardsActivity extends BaseActivity {
 
     private View vCardIcon, cardListLayout, selectedCardLayout, pb, tvEmptyView;
     private TextSwitcher tsCardName, tsCardDesc;
@@ -171,7 +171,7 @@ public class CategoryCardsActivity extends AppCompatActivity {
             card = cardList.get(0); // get first card's data as main card
             bindData(card);
 
-            cardList.remove(0); // remove the main card from the list to display only the others at the bottom
+//            cardList.remove(0); // remove the main card from the list to display only the others at the bottom
             if (cardList.size() > 0)
             { // still have cards after removing the main one
                 cardListLayout.setVisibility(View.VISIBLE);
@@ -194,13 +194,10 @@ public class CategoryCardsActivity extends AppCompatActivity {
     private void initCardsRecycler() {
         cardsListRecycler.setHasFixedSize(true);
         cardsListRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-        cardsListRecycler.setAdapter(new CardListAdapter(cardList, new ClickInterface.OnItemClickListener() {
+        cardsListRecycler.setAdapter(new CardListAdapter(cardList, this, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                newCard = cardList.get(position); // get new card from the list
-                bindData(newCard); // bind the new data
-                cardList.set(position, card); // swap cards
-                card = newCard; // after swapping act normal
+                bindData(cardList.get(position));
             }
         }));
     }

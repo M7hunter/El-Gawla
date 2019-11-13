@@ -25,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 import android.widget.ViewSwitcher;
 
@@ -51,8 +52,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -82,6 +83,7 @@ import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.Adapters.SalonCardsAdapter;
 import it_geeks.info.elgawla.Adapters.ProductSubImagesAdapter;
+import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
 import it_geeks.info.elgawla.util.salonUtils.CountDown.CountDownController;
@@ -99,7 +101,7 @@ import static it_geeks.info.elgawla.util.Constants.REQ_SET_USER_SALON;
 import static it_geeks.info.elgawla.util.Constants.REQ_SET_ROUND_LEAVE;
 import static it_geeks.info.elgawla.util.Constants.REQ_USE_GOLDEN_CARD;
 
-public class SalonActivity extends AppCompatActivity {
+public class SalonActivity extends BaseActivity {
 
     // region fields
     private static final String TAG = "salon_connection_order";
@@ -128,7 +130,6 @@ public class SalonActivity extends AppCompatActivity {
     // region objects
     private Round round;
     private Card goldenCard;
-    public ProductSubImage SubImage = new ProductSubImage();
     public BottomSheetDialog mBottomSheetDialogCardsBag;
     private BottomSheetDialog mBottomSheetDialogProductDetails;
     private ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
@@ -158,32 +159,39 @@ public class SalonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salon);
 
-        userName = SharedPrefManager.getInstance(SalonActivity.this).getUser().getName();
-        registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
-        countDownController = new CountDownController(SalonActivity.this, findViewById(R.id.time_container));
-
-        // entering sound
-        AudioPlayer.getInstance().play(SalonActivity.this, R.raw.enter);
-
-        initViews();
-
-        if (getRoundData(savedInstanceState))
+        try
         {
-            initBottomSheetCardsBag();
-            getRemainingTimeFromServer();
-            bindProductMainViews();
-            initBottomSheetProductDetails();
+            userName = SharedPrefManager.getInstance(SalonActivity.this).getUser().getName();
+            registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+            countDownController = new CountDownController(SalonActivity.this, findViewById(R.id.time_container));
 
-            initJoinConfirmationDialog();
+            // entering sound
+            AudioPlayer.getInstance().play(SalonActivity.this, R.raw.enter);
 
-            initCardsBagIcon();
+            initViews();
 
-            getChatUtils();
+            if (getRoundData(savedInstanceState))
+            {
+                initBottomSheetCardsBag();
+                getRemainingTimeFromServer();
+                bindProductMainViews();
+                initBottomSheetProductDetails();
 
-            getSocketUtils();
+                initJoinConfirmationDialog();
+
+                initCardsBagIcon();
+
+                getChatUtils();
+
+                getSocketUtils();
+            }
+
+            handleEvents();
         }
-
-        handleEvents();
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -431,7 +439,7 @@ public class SalonActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.round_latest_activity).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.cv_round_activity_container).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectActivityTab();
@@ -463,21 +471,23 @@ public class SalonActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 try
                 {
-                    if (Integer.parseInt(etAddOffer.getText().toString()) > Integer.parseInt(round.getProduct_commercial_price()))
+                    if (Float.parseFloat(etAddOffer.getText().toString()) > Float.parseFloat(round.getProduct_commercial_price()))
                     {
-                        tilAddOffer.setError(getString(R.string.offer_less_than_price));
+                        displayOfferError(getString(R.string.offer_less_than_price));
+//                        etAddOffer.setError(getString(R.string.offer_less_than_price));
                         btnAddOffer.setEnabled(false);
                     }
-                    else if (Integer.parseInt(etAddOffer.getText().toString()) <= 0)
+                    else if (Float.parseFloat(etAddOffer.getText().toString()) < 1)
                     {
-                        tilAddOffer.setError(getString(R.string.offer_more_than_zero));
+                        displayOfferError(getString(R.string.offer_more_than_one));
+//                        etAddOffer.setError(getString(R.string.offer_more_than_zero));
                         btnAddOffer.setEnabled(false);
                     }
                     else
                     {
                         btnAddOffer.setEnabled(true);
-                        if (tilAddOffer.getError() != null)
-                            tilAddOffer.setError(null);
+                        if (etAddOffer.getError() != null)
+                            etAddOffer.setError(null);
                     }
                 }
                 catch (Exception e)
@@ -538,13 +548,30 @@ public class SalonActivity extends AppCompatActivity {
                 addOfferLayout.setVisibility(View.VISIBLE);
                 etAddOffer.setEnabled(true);
                 etAddOffer.setText("");
-                etAddOffer.setHint(getString(R.string.no_content));
-                etAddOffer.setHintTextColor(getResources().getColor(R.color.paleRed));
+                displayOfferError(getString(R.string.no_content));
+//                etAddOffer.setError(getString(R.string.no_content));
                 return;
             }
             else if (userOffer.equals(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId)))
             {
                 return;
+            }
+            else
+            {
+                if (Float.parseFloat(userOffer) > Float.parseFloat(round.getProduct_commercial_price()))
+                {
+                    displayOfferError(getString(R.string.offer_less_than_price));
+//                    etAddOffer.setError(getString(R.string.offer_less_than_price));
+                    etAddOffer.requestFocus();
+                    btnAddOffer.setEnabled(false);
+                }
+                else if (Float.parseFloat(userOffer) < 1)
+                {
+                    displayOfferError(getString(R.string.offer_more_than_one));
+//                    etAddOffer.setError(getString(R.string.offer_more_than_zero));
+                    etAddOffer.requestFocus();
+                    btnAddOffer.setEnabled(false);
+                }
             }
 
             RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
@@ -556,7 +583,7 @@ public class SalonActivity extends AppCompatActivity {
                         @Override
                         public void handleTrueResponse(JsonObject mainObject) {
                             //Save user Offer
-                            SharedPrefManager.getInstance(SalonActivity.this).saveUserOffer(String.valueOf(round.getSalon_id() + userId), userOffer);
+                            SharedPrefManager.getInstance(SalonActivity.this).saveUserOffer(round.getSalon_id() + "" + userId, userOffer);
                             updateLatestActivity(mainObject.get("message").getAsString());
 
                             displayUserOffer();
@@ -566,6 +593,7 @@ public class SalonActivity extends AppCompatActivity {
                                 JSONObject obj = new JSONObject();
                                 obj.put("user", userName);
                                 obj.put("salon_id", round.getSalon_id());
+                                obj.put("lang", SharedPrefManager.getInstance(SalonActivity.this).getSavedLang());
                                 socketUtils.emitData("addOffer", obj);
                             }
                             catch (JSONException e)
@@ -917,6 +945,10 @@ public class SalonActivity extends AppCompatActivity {
         tilAddOffer.setHint(String.valueOf(SharedPrefManager.getInstance(SalonActivity.this).getUserOffer(round.getSalon_id() + "" + userId)));
     }
 
+    private void displayOfferError(String error) {
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
     private void getTopTen() {
         Log.d(TAG, "getTopTen: doing");
         RetrofitClient.getInstance(this).executeConnectionToServer(this,
@@ -1226,7 +1258,10 @@ public class SalonActivity extends AppCompatActivity {
                 RecyclerView imagesRecycler = parent.findViewById(R.id.product_details_images_recycler);
                 imagesRecycler.setHasFixedSize(true);
                 imagesRecycler.setLayoutManager(new LinearLayoutManager(SalonActivity.this, LinearLayoutManager.HORIZONTAL, false));
-                imagesRecycler.setAdapter(new ProductSubImagesAdapter(this, round.getProduct_images()));
+
+                List<ProductSubImage> subImages = round.getProduct_images();
+                subImages.add(0, new ProductSubImage(round.getProduct_id(), round.getProduct_image()));
+                imagesRecycler.setAdapter(new ProductSubImagesAdapter(this, subImages));
             }
     }
 
@@ -1247,7 +1282,7 @@ public class SalonActivity extends AppCompatActivity {
         tvProductName.setText(round.getProduct_name());
         tvProductCategory.setText(round.getCategory_name());
         tvProductPrice.setText(round.getProduct_commercial_price());
-        tvProductDescription.setText(round.getProduct_product_description());
+        tvProductDescription.setText(HtmlCompat.fromHtml(round.getProduct_product_description(), HtmlCompat.FROM_HTML_MODE_COMPACT));
 
         Picasso.get()
                 .load(round.getProduct_image())
@@ -1256,21 +1291,15 @@ public class SalonActivity extends AppCompatActivity {
                 .centerInside()
                 .placeholder(R.drawable.placeholder)
                 .into(ivProductMainViewer);
-
-        SubImage.setImageUrl(round.getProduct_image());
     }
 
-    public void switchImageVideo(@NonNull String url, Drawable drawable) {
-        SubImage.setImageUrl(url);
-
-        if (SubImage.getImageUrl().endsWith(".mp4") || SubImage.getImageUrl().endsWith(".3gp"))
+    public void switchImageVideo(String url, Drawable drawable) {
+        if (url.endsWith(".mp4") || url.endsWith(".3gp"))
         {
-
             ivProductMainViewer.setVisibility(View.INVISIBLE);
             vpProductMainVideo.setVisibility(View.VISIBLE);
 
-            setupVideoPlayer(SubImage.getImageUrl());
-
+            setupVideoPlayer(url);
         }
         else
         {
@@ -1469,21 +1498,16 @@ public class SalonActivity extends AppCompatActivity {
         new FloatingView(cardsBag, this).initViewListeners(new ClickInterface.SnackAction() {
             @Override
             public void onClick() {
-                cardIconClicked();
+                if (mBottomSheetDialogCardsBag.isShowing())
+                {
+                    mBottomSheetDialogCardsBag.dismiss();
+                }
+                else
+                {
+                    mBottomSheetDialogCardsBag.show();
+                }
             }
         });
-    }
-
-    private void cardIconClicked() {
-        // open sheet
-        if (mBottomSheetDialogCardsBag.isShowing())
-        {
-            mBottomSheetDialogCardsBag.dismiss();
-        }
-        else
-        { // close sheet
-            mBottomSheetDialogCardsBag.show();
-        }
     }
 
     public void initBottomSheetCardsBag() {
@@ -1603,6 +1627,7 @@ public class SalonActivity extends AppCompatActivity {
                 JSONObject obj = new JSONObject();
                 obj.put("user", SharedPrefManager.getInstance(SalonActivity.this).getUser().getName());
                 obj.put("salon_id", round.getSalon_id());
+                obj.put("lang", SharedPrefManager.getInstance(SalonActivity.this).getSavedLang());
 
                 socketUtils.emitData("leaveTyping", obj);
                 socketUtils.emitData("leave", obj);
@@ -1636,15 +1661,5 @@ public class SalonActivity extends AppCompatActivity {
         tsRoundLatestActivity.setInAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left));
         tsRoundLatestActivity.setOutAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right));
     }
-
-//    private void initHelp() {
-//        //Customers Service
-//        Zendesk.INSTANCE.init(getApplicationContext(), "https://itgeeks.zendesk.com",
-//                "6d1749c16b1fa13aaf7a96a39614131f8eba1e5d27ed37bb",
-//                "mobile_sdk_client_e65a598574b57edaf2e8");
-//        Identity identity = new AnonymousIdentity();
-//        Zendesk.INSTANCE.setIdentity(identity);
-//        Support.INSTANCE.init(Zendesk.INSTANCE);
-//    }
     // endregion
 }

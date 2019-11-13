@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,6 +49,7 @@ import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.Adapters.DateAdapter;
 import it_geeks.info.elgawla.Adapters.SalonsAdapter;
 import it_geeks.info.elgawla.util.SnackBuilder;
+import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
 import it_geeks.info.elgawla.views.account.ProfileActivity;
 
@@ -57,7 +57,7 @@ import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_CATEGORIES;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_SALONS;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALONS_BY_CAT_ID;
 
-public class AllSalonsActivity extends AppCompatActivity {
+public class AllSalonsActivity extends BaseActivity {
 
     public static Activity allSalonsActivityInstance;
 

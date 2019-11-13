@@ -13,13 +13,12 @@ import android.widget.TextView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.util.notification.NotificationBuilder;
+import it_geeks.info.elgawla.views.BaseActivity;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
 
     private TextView tvLang;
 

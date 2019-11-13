@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?><!-- icon container -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="@dimen/margin_medium"
     android:background="@drawable/bg_circle_grey"
-    android:foreground="?android:attr/selectableItemBackgroundBorderless"
-    tools:showIn="@layout/activity_category_cards">
+    android:foreground="?android:attr/selectableItemBackgroundBorderless">
     <!-- card icon -->
     <View
         android:id="@+id/v_card_icon_cardList"

@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.crashlytics.android.Crashlytics;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -34,15 +32,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     private Context context;
     private List<Notification> notificationList;
-    private BottomSheetDialog bottomSheet;
-    private TextView messageTitle, messageBody;
     private SnackBuilder snackBuilder;
 
     public NotificationAdapter(Context context, List<Notification> notificationList, View parentView) {
         this.context = context;
         this.notificationList = notificationList;
         snackBuilder = new SnackBuilder(parentView);
-        initBottomSheet();
     }
 
     @NonNull
@@ -53,14 +48,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int i) {
-        Notification notification = notificationList.get(i);
+        final Notification notification = notificationList.get(i);
 
-        bind(holder, notification);
+        holder.tvTitle.setText(notification.getTitle());
+        holder.tvBody.setText(notification.getBody());
+        holder.tvDate.setText(notification.getDate());
 
-        handleEvents(holder, notification);
-    }
-
-    private void handleEvents(Holder holder, final Notification notification) {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,20 +62,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     ((NotificationActivity) context).dialogBuilder.displayLoadingDialog();
                     getSalonDataFromServer(notification);
                 }
-                else
-                {
-                    try
-                    {
-                        updateBottomSheet(notification);
-
-                    } catch (Exception e)
-                    {
-                        e.printStackTrace();
-                        Crashlytics.logException(e);
-                    }
-                }
             }
         });
+    }
+
+    @Override
+    public int getItemCount() {
+        return notificationList.size();
     }
 
     private void getSalonDataFromServer(Notification notification) {
@@ -109,35 +95,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        snackBuilder.setSnackText(errorMessage).showSnack();
                         ((NotificationActivity) context).dialogBuilder.hideLoadingDialog();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
-    }
-
-    private void bind(final Holder holder, final Notification notification) {
-        holder.tvTitle.setText(notification.getTitle());
-        holder.tvBody.setText(notification.getBody());
-        holder.tvDate.setText(notification.getDate());
-    }
-
-    private void initBottomSheet() {
-        View v = LayoutInflater.from(context).inflate(R.layout.layout_message_notification, null);
-        messageTitle = v.findViewById(R.id.message_title);
-        messageBody = v.findViewById(R.id.message_body);
-        bottomSheet = new BottomSheetDialog(context);
-        bottomSheet.setContentView(v);
-    }
-
-    private void updateBottomSheet(Notification notification) {
-        messageTitle.setText(notification.getTitle());
-        messageBody.setText(notification.getBody());
-        bottomSheet.show();
-    }
-
-    @Override
-    public int getItemCount() {
-        return notificationList.size();
     }
 
     class Holder extends RecyclerView.ViewHolder {

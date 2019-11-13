@@ -9,13 +9,13 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.Adapters.NotificationAdapter;
+import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.repository.Models.Notification;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
@@ -26,10 +26,11 @@ import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.repository.Storage.NotificationDao;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.SnackBuilder;
+import it_geeks.info.elgawla.views.BaseActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_NOTIFICATION;
 
-public class NotificationActivity extends AppCompatActivity {
+public class NotificationActivity extends BaseActivity {
 
     private SwipeRefreshLayout refreshLayout;
     private List<Notification> notificationList = new ArrayList<>();
@@ -42,6 +43,7 @@ public class NotificationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Common.setLang(this, SharedPrefManager.getInstance(this).getSavedLang());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 

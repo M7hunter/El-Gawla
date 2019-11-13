@@ -1,14 +1,15 @@
 package it_geeks.info.elgawla.util.services;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.TaskStackBuilder;
 import it_geeks.info.elgawla.repository.Models.Round;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
@@ -16,7 +17,6 @@ import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseRoundByID;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_BY_ID;
 
@@ -38,8 +38,6 @@ public class GetSalonDataService extends Service {
         {
             e.printStackTrace();
         }
-
-//        Log.d("salon_id", intent.getExtras().getInt("id") + "");
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -53,9 +51,13 @@ public class GetSalonDataService extends Service {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         Round round = parseRoundByID(mainObject);
+                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+
                         Intent i = new Intent(GetSalonDataService.this, SalonActivity.class);
                         i.putExtra("round", round);
-                        startActivity(i.addFlags(FLAG_ACTIVITY_NEW_TASK));
+
+                        stackBuilder.addNextIntentWithParentStack(i);
+                        stackBuilder.startActivities();
                     }
 
                     @Override

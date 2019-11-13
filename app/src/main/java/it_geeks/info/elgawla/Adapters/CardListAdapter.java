@@ -1,5 +1,6 @@
 package it_geeks.info.elgawla.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,14 @@ import it_geeks.info.elgawla.util.Common;
 
 public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHolder> {
 
+    private Context context;
     private List<Card> cardList;
     private ClickInterface.OnItemClickListener itemClickListener;
+    private int selectedPosition = 0;
 
-    public CardListAdapter(List<Card> cardList, ClickInterface.OnItemClickListener itemClickListener) {
+    public CardListAdapter(List<Card> cardList, Context context, ClickInterface.OnItemClickListener itemClickListener) {
         this.cardList = cardList;
+        this.context = context;
         this.itemClickListener = itemClickListener;
     }
 
@@ -30,17 +34,27 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final Card card = cardList.get(position);
 
-        // bind
         Common.Instance().changeDrawableViewColor(holder.vCardIcon, card.getCard_color());
+
+        if (selectedPosition == position)
+        {
+            holder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_circle_grey_border_primary));
+        }
+        else
+        {
+            holder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_circle_grey));
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 itemClickListener.onItemClick(v, holder.getAdapterPosition());
-                notifyItemChanged(position);
+
+                selectedPosition = holder.getAdapterPosition();
+                notifyDataSetChanged();
             }
         });
     }

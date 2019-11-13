@@ -9,20 +9,9 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
-//
-//import com.emeint.android.fawryplugin.Plugininterfacing.FawrySdk;
-//import com.emeint.android.fawryplugin.Plugininterfacing.PayableItem;
-//import com.emeint.android.fawryplugin.interfaces.FawrySdkCallback;
-//import com.emeint.android.fawryplugin.managers.FawryPluginAppClass;
+
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Card;
 import it_geeks.info.elgawla.repository.Models.Package;
@@ -32,6 +21,7 @@ import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
+import it_geeks.info.elgawla.views.BaseActivity;
 
 import static it_geeks.info.elgawla.util.Constants.FAWRY;
 import static it_geeks.info.elgawla.util.Constants.KNET;
@@ -40,7 +30,7 @@ import static it_geeks.info.elgawla.util.Constants.PAYMENT_URL;
 import static it_geeks.info.elgawla.util.Constants.REQ_ADD_CARDS_TO_USER;
 import static it_geeks.info.elgawla.util.Constants.REQ_SET_MEMBERSHIP;
 
-public class PaymentMethodsActivity extends AppCompatActivity {
+public class PaymentMethodsActivity extends BaseActivity {
 
     private RadioButton rbKnet, rbFawry;
     private ImageView ivKnet, ivFawry;

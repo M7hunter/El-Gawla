@@ -62,6 +62,7 @@
                     tools:text="@string/no_content" />
 
                 <!-- price container -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -71,7 +72,34 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/Prod_price"
+                        android:text="@string/initial_value"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_small" />
+
+                    <!-- price -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_tiny"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:text="@string/one_pound"
+                        android:textColor="@color/colorSecondary"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_tiny">
+
+                    <!-- price label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/commercial_price"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_small" />
 
@@ -97,7 +125,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_margin="@dimen/margin_small"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
                 android:text="@string/more"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />

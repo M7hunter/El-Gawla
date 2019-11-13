@@ -130,6 +130,7 @@ public class ChatUtils {
                         obj.put("salon_id", round.getSalon_id());
                         obj.put("user", userName);
                         obj.put("user_id", userId);
+                        obj.put("lang", SharedPrefManager.getInstance(mContext).getSavedLang());
 
                         if (s.length() > 0)
                         {
@@ -181,6 +182,7 @@ public class ChatUtils {
                                 obj.put("user_name", userName);
                                 obj.put("message", message);
                                 obj.put("salon_id", round.getSalon_id());
+                                obj.put("lang", SharedPrefManager.getInstance(mContext).getSavedLang());
                             }
                             catch (JSONException e)
                             {

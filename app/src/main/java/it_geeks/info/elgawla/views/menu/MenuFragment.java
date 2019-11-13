@@ -124,15 +124,6 @@ public class MenuFragment extends Fragment {
             }
         });
 
-
-        // open vote page
-        view.findViewById(R.id.vote_option_settings).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), VoteActivity.class));
-            }
-        });
-
         // call us page
         view.findViewById(R.id.menu_option_call_us).setOnClickListener(new View.OnClickListener() {
             @Override

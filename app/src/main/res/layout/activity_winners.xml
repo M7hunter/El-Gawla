@@ -6,17 +6,15 @@
     android:layout_height="match_parent"
     android:background="@color/paleGrey"
     android:fillViewport="true"
-    tools:context=".views.main.BlogActivity">
-
+    tools:context=".views.main.WinnersActivity">
+    <!-- scroll mai layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
         <!-- header -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/buy_card_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="0dp"
@@ -53,6 +51,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- content -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -79,7 +78,7 @@
             <!-- title -->
             <TextView
                 android:id="@+id/tv_news_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
                 android:ellipsize="end"

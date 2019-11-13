@@ -5,12 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.RadioButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.elgawla.Adapters.LangAdapter;
@@ -19,9 +17,10 @@ import it_geeks.info.elgawla.repository.Models.Language;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
+import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.intro.SplashScreenActivity;
 
-public class LanguageActivity extends AppCompatActivity {
+public class LanguageActivity extends BaseActivity {
 
     private RecyclerView rvLang;
     private List<Language> langList = new ArrayList<>();

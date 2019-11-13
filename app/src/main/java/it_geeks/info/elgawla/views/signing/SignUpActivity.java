@@ -43,7 +43,6 @@ import java.util.Arrays;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
@@ -55,6 +54,7 @@ import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.SnackBuilder;
+import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.account.MembershipActivity;
 import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.intro.IntroActivity;
@@ -66,7 +66,7 @@ import static it_geeks.info.elgawla.views.signing.SignInActivity.GOOGLE_REQUEST;
 import static it_geeks.info.elgawla.views.signing.SignInActivity.providerFacebook;
 import static it_geeks.info.elgawla.views.signing.SignInActivity.providerGoogle;
 
-public class SignUpActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class SignUpActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private EditText etName, etEmail, etPhone, etPass;
 

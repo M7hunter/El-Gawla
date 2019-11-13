@@ -178,6 +178,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                             o.put("salon_id", salonId);
                             o.put("user", username);
                             o.put("type", card.getCard_type());
+                            o.put("lang", SharedPrefManager.getInstance(context).getSavedLang());
                             ((SalonActivity) context).getSocketUtils().emitData("use_card", o);
                         }
                         catch (JSONException e)

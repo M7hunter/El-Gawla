@@ -11,12 +11,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
-import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Activity;
 import it_geeks.info.elgawla.repository.Models.Round;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
@@ -31,7 +29,6 @@ public class SocketUtils {
 
     private Round round;
     private ChatUtils chatUtils;
-    private ArrayList<String> names = new ArrayList<>();
     private boolean isOn = false;
 
     public SocketUtils(Context context) {
@@ -68,10 +65,17 @@ public class SocketUtils {
     }
 
     public void emitData(String event, JSONObject obj) {
-        if (socket != null && socket.connected())
+        try
         {
-            socket.emit(event, obj);
-            Log.d(TAG, "emitData: " + event);
+            if (socket != null)
+            {
+                socket.emit(event, obj);
+                Log.d(TAG, "emitData: " + event);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -86,7 +90,23 @@ public class SocketUtils {
 
     private void handleSocketEvents() {
         Log.d(TAG, "handleSocketEvents: connected::" + socket.connected());
-        socket.emit("allActivity", round.getSalon_id()); // what action triggers this emit ?!
+        socket.emit("allActivity", round.getSalon_id());
+        socket.emit("allMessages", round.getSalon_id());
+
+//        try
+//        {
+//            JSONObject obj = new JSONObject();
+//            obj.put("salon_id", round.getSalon_id());
+//            obj.put("lang", SharedPrefManager.getInstance(mContext).getSavedLang());
+
+//            emitData("allActivity", obj);
+//            emitData("allMessages", obj);
+//        }
+//        catch (JSONException e)
+//        {
+//            e.printStackTrace();
+//        }
+
         ((SalonActivity) mContext).initActivityRecycler();
 
         try
@@ -94,7 +114,9 @@ public class SocketUtils {
             JSONObject o = new JSONObject();
             o.put("room", round.getSalon_id());
             o.put("user", SharedPrefManager.getInstance(mContext).getUser().getName());
-            socket.emit("joinRoom", o);
+            o.put("lang", SharedPrefManager.getInstance(mContext).getSavedLang());
+//            socket.emit("joinRoom", o);
+            emitData("joinRoom", o);
         }
         catch (JSONException e)
         {
@@ -237,25 +259,9 @@ public class SocketUtils {
                         {
                             JSONObject obj = (JSONObject) args[0];
                             String user = obj.getString("user_name");
-//                            int user_id = obj.getInt("user_id");
-//                            Log.d(TAG, "user_id: " + user_id);
 
-                            if (!names.contains(user))
-                            {
-                                names.add(user);
-                            }
-
-//                            if (user_id != SharedPrefManager.getInstance(mContext).getUser().getUser_id()) {
-                            if (names.size() > 1)
-                            {
-                                chatUtils.tvChatTypingState.setText(mContext.getString(R.string.is_typing_others, names.get(0)));
-                            }
-                            else
-                            {
-                                chatUtils.tvChatTypingState.setText(mContext.getString(R.string.is_typing, names.get(0)));
-                            }
+                            chatUtils.tvChatTypingState.setText(user);
                             chatUtils.tvChatTypingState.setVisibility(View.VISIBLE);
-//                            }
                         }
                         catch (JSONException e)
                         {
@@ -271,38 +277,8 @@ public class SocketUtils {
                 ((SalonActivity) mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        try
-                        {
-                            JSONObject data = (JSONObject) args[0];
-                            String user = data.getString("user_name");
-
-                            if (names.contains(user))
-                            {
-                                names.remove(user);
-                                if (names.size() == 0)
-                                {
-                                    chatUtils.tvChatTypingState.setVisibility(View.GONE);
-                                    chatUtils.tvChatTypingState.setText("");
-                                }
-                                else
-                                {
-                                    if (names.size() > 1)
-                                    {
-                                        chatUtils.tvChatTypingState.setText(mContext.getString(R.string.is_typing, names.get(0)));
-                                    }
-                                    else
-                                    {
-                                        chatUtils.tvChatTypingState.setText(mContext.getString(R.string.is_typing, names.get(0)));
-                                    }
-                                }
-                            }
-
-                        }
-                        catch (JSONException e)
-                        {
-                            Log.e("socket SendTypingState", e.getMessage());
-                            Crashlytics.logException(e);
-                        }
+                        chatUtils.tvChatTypingState.setVisibility(View.GONE);
+                        chatUtils.tvChatTypingState.setText("");
                     }
                 });
             }
@@ -325,6 +301,39 @@ public class SocketUtils {
                             message = data.getString("message");
                             date = data.getString("date");
                             chatUtils.addMessageToChat(user_id, user_name, message, date);
+                            ((SalonActivity) mContext).tvChatEmptyHint.setVisibility(View.GONE);
+                        }
+                        catch (JSONException e)
+                        {
+                            Log.e("socket message", e.getMessage());
+                            Crashlytics.logException(e);
+                        }
+                    }
+                });
+            }
+        }).on("messages", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                ((SalonActivity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try
+                        {
+                            JSONArray mainArr = (JSONArray) args[0];
+                            Log.d(TAG, "allMessages:: " + mainArr.toString());
+
+                            for (int i = 0; i < mainArr.length(); i++)
+                            {
+                                JSONObject obj = mainArr.getJSONObject(i);
+                                JSONObject msgObj = obj.getJSONObject("message");
+
+                                int user_id = msgObj.getInt("user_id");
+                                String user_name = msgObj.getString("user_name");
+                                String message = msgObj.getString("message");
+                                String date = msgObj.getString("date");
+                                chatUtils.addMessageToChat(user_id, user_name, message, date);
+                            }
+
                             ((SalonActivity) mContext).tvChatEmptyHint.setVisibility(View.GONE);
                         }
                         catch (JSONException e)

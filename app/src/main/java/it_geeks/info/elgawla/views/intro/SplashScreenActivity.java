@@ -1,7 +1,6 @@
 package it_geeks.info.elgawla.views.intro;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.crashlytics.android.Crashlytics;
-//import com.emeint.android.fawryplugin.Plugininterfacing.FawrySdk;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,6 +35,7 @@ import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.util.SnackBuilder;
+import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 import it_geeks.info.elgawla.views.signing.ResetPasswordActivity;
@@ -47,7 +46,7 @@ import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_COUNTRIES;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_PAGES;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_BY_ID;
 
-public class SplashScreenActivity extends AppCompatActivity {
+public class SplashScreenActivity extends BaseActivity {
 
     public static Activity splashInstance;
 
@@ -67,8 +66,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         SharedPrefManager.getInstance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-
-//        FawrySdk.init(FawrySdk.Styles.STYLE1);
 
         init();
 

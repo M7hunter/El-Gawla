@@ -1,9 +1,9 @@
 package it_geeks.info.elgawla.views.salon;
 
-import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.ImageLoader;
+import it_geeks.info.elgawla.views.BaseActivity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-public class WinnerActivity extends AppCompatActivity {
+public class WinnerActivity extends BaseActivity {
 
     private TextView tvWinnerName;
     private ImageView ivWinnerImage;

@@ -17,12 +17,17 @@ import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 
 public class NotificationFirebaseMessagingService extends FirebaseMessagingService {
 
+    private static final String TAG = "Notification";
+
     @Override
     public void onMessageReceived(@NotNull RemoteMessage remoteMessage) {
         if (SharedPrefManager.getInstance(this).isNotificationEnabled())
         {
             super.onMessageReceived(remoteMessage);
             FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+
+            Log.d(TAG, "data:: " + remoteMessage.toString());
+            Log.d(TAG, "salon_id:: " + SharedPrefManager.getInstance(getApplicationContext()).getSubscribedSalonId());
 
             try
             {
@@ -36,7 +41,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
 
                         if (!title.isEmpty() && !body.isEmpty())
                         {
-                            NotificationBuilder.displayRemoteMessage(title, body, title, body, getApplicationContext());
+                            NotificationBuilder.displayRemoteMessage(title, body, getApplicationContext());
                         }
                     }
                 }
@@ -44,14 +49,14 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
                 {
                     Map<String, String> data = remoteMessage.getData();
 
-                    Log.d("notify", "data:: " + data.toString());
+                    Log.d(TAG, "data:: " + data.toString());
 
                     String title = data.get("title");
                     String body = data.get("body");
                     String type = data.get("type");
                     String id = data.get("id");
 
-                    NotificationBuilder.displayRemoteMessage(title, body, type, id, getApplicationContext());
+                    NotificationBuilder.displayRemoteMessageData(title, body, type, id, getApplicationContext());
                 }
             }
             catch (Exception e)
@@ -70,7 +75,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
     public void onNewToken(@NotNull String token) {
         super.onNewToken(token);
 
-        Log.d("on_fire", "onNew-firebaseToken:: " + token);
+        Log.d(TAG, "onNew-firebaseToken:: " + token);
         SharedPrefManager.getInstance(this).setFirebaseToken(token);
         Common.Instance().updateFirebaseToken(this);
     }

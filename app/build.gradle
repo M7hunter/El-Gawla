@@ -8,22 +8,22 @@ android {
         applicationId "it_geeks.info.elgawla"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 6
-        versionName "1.0.4"
+        versionCode 7
+        versionName "1.0.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        resConfigs "en", "ar"
+//        resConfigs "en", "ar"
     }
 
     buildTypes {
-        // noura local ip :              http://192.168.1.9:9000/
-        // gawla development server :    http://elgawla.net/dev/public/
-        // gawla publish server :        http://elgawla.com/api/
         debug {
+//            buildConfigField "String", "SERVER_URL", '"http://192.168.1.9:9000/api/v2/"'
             buildConfigField "String", "SERVER_URL", '"http://elgawla.net/dev/public/api/v2/"'
+//            buildConfigField "String", "SERVER_URL", '"http://elgawla.com/api/v2/"'
         }
         release {
             buildConfigField "String", "SERVER_URL", '"http://elgawla.net/dev/public/api/v2/"'
+//            buildConfigField "String", "SERVER_URL", '"http://elgawla.com/api/v2/"'
         }
     }
 
@@ -83,5 +83,4 @@ dependencies {
 
     // crashlytics
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-//    implementation project(':FawrySDK')
 }

@@ -7,14 +7,14 @@ import androidx.dynamicanimation.animation.FlingAnimation;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
 
-public class Dynamic {
+class Dynamic {
 
     private View view;
     private SpringForce springForce;
-    public SpringAnimation springAnimationX, springAnimationY;
-    public FlingAnimation flingAnimationX, flingAnimationY;
+    SpringAnimation springAnimationX, springAnimationY;
+    FlingAnimation flingAnimationX, flingAnimationY;
 
-    public Dynamic(View view) {
+    Dynamic(View view) {
         this.view = view;
         springForce = new SpringForce(0f)
                 .setStiffness(SpringForce.STIFFNESS_MEDIUM)
