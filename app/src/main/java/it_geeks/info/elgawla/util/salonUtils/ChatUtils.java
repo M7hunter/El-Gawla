@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.elgawla.Adapters.ChatAdapter;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.ChatModel;
-import it_geeks.info.elgawla.repository.Models.Round;
+import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 
@@ -44,7 +44,7 @@ public class ChatUtils {
     private RecyclerView chatRecycler;
 
     private List<ChatModel> chatList = new ArrayList<>();
-    private Round round;
+    private Salon salon;
 
     public boolean sendTypingState = true;
     private int messCounter = 0;
@@ -52,7 +52,7 @@ public class ChatUtils {
     public ChatUtils(Context context, View salonMainLayout) {
         mContext = context;
         salonMainView = salonMainLayout;
-        round = ((SalonActivity) mContext).getRound();
+        salon = ((SalonActivity) mContext).getSalon();
 
         initViews();
 
@@ -124,10 +124,10 @@ public class ChatUtils {
                 Log.d("onTextChanged", "s:: " + s);
                 try
                 {
-                    if (round != null)
+                    if (salon != null)
                     {
                         JSONObject obj = new JSONObject();
-                        obj.put("salon_id", round.getSalon_id());
+                        obj.put("salon_id", salon.getSalon_id());
                         obj.put("user", userName);
                         obj.put("user_id", userId);
                         obj.put("lang", SharedPrefManager.getInstance(mContext).getSavedLang());
@@ -166,7 +166,7 @@ public class ChatUtils {
             public void onClick(View v) {
                 try
                 {
-                    if (((SalonActivity) mContext).getRoundRemainingTime().isUserJoin() && !((SalonActivity) mContext).getRoundRemainingTime().getRound_state().equals("close"))
+                    if (((SalonActivity) mContext).getRoundRemainingTime().isUserJoin() && !((SalonActivity) mContext).getRoundRemainingTime().getRound_status().equals("close"))
                     {
                         if (etChatMessage.getText().toString().trim().isEmpty())
                         {
@@ -181,7 +181,7 @@ public class ChatUtils {
                                 obj.put("user_id", userId);
                                 obj.put("user_name", userName);
                                 obj.put("message", message);
-                                obj.put("salon_id", round.getSalon_id());
+                                obj.put("salon_id", salon.getSalon_id());
                                 obj.put("lang", SharedPrefManager.getInstance(mContext).getSavedLang());
                             }
                             catch (JSONException e)
@@ -194,7 +194,7 @@ public class ChatUtils {
                             etChatMessage.setText("");
                         }
                     }
-                    else if (((SalonActivity) mContext).getRoundRemainingTime().getRound_state().equals("close"))
+                    else if (((SalonActivity) mContext).getRoundRemainingTime().getRound_status().equals("close"))
                     {
                         Toast.makeText(mContext, mContext.getString(R.string.closed), Toast.LENGTH_SHORT).show();
                     }

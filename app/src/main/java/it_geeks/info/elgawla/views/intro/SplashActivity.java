@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import it_geeks.info.elgawla.Adapters.CountrySpinnerAdapter;
@@ -28,7 +29,7 @@ public class SplashActivity extends BaseActivity {
     private String selectedLang;
 
     private Button btnContinue;
-    private LinearLayout llAR, llEN;
+    private View llAR, llEN;
     private ImageView ivARCheck, ivENCheck, ivSpinnerArrow;
     private TextView tvAR, tvEN;
     private Spinner spinner;
@@ -120,6 +121,21 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void initCountriesSpinner() {
+        String localeCountryCode = getResources().getConfiguration().locale.getCountry();
+
+        for (Country country : countries)
+        {
+            if (localeCountryCode.equals(country.getCount_code()))
+            {
+//                countries.sort(new Comparator<Country>() {
+//                    @Override
+//                    public int compare(Country o1, Country o2) {
+//                        return o1.getCountry_id();
+//                    }
+//                });
+            }
+        }
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -137,7 +153,6 @@ public class SplashActivity extends BaseActivity {
                 spinner.performClick();
             }
         });
-
     }
 
     private void saveAndProceed() {

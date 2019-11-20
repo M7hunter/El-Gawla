@@ -55,6 +55,7 @@ import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.BaseActivity;
+import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.views.account.MembershipActivity;
 import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.intro.IntroActivity;
@@ -362,6 +363,7 @@ public class SignUpActivity extends BaseActivity implements GoogleApiClient.OnCo
                         snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
                         // save user data locally
                         cacheUserData(mainObject, getResources().getString(R.string.app_name));
+                        EventsManager.sendSignUpEvent(SignUpActivity.this, "sign up");
                         // goto next page
                         startActivity(MembershipActivity.class);
                     }
@@ -509,6 +511,7 @@ public class SignUpActivity extends BaseActivity implements GoogleApiClient.OnCo
                     public void handleTrueResponse(JsonObject mainObject) {
                         cacheUserData(mainObject, provider);
                         Common.Instance().updateFirebaseToken(SignUpActivity.this);
+                        EventsManager.sendSignUpEvent(SignUpActivity.this, "sign up");
                         startActivity(MainActivity.class);
                     }
 

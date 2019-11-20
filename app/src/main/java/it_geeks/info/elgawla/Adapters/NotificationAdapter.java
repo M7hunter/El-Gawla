@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Notification;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
-import it_geeks.info.elgawla.repository.Models.Round;
+import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
@@ -27,6 +27,7 @@ import it_geeks.info.elgawla.views.salon.SalonActivity;
 
 import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseRoundByID;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_BY_ID;
+import static it_geeks.info.elgawla.util.Constants.SALON;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.Holder> {
 
@@ -80,10 +81,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Round round = parseRoundByID(mainObject);
+                        Salon salon = parseRoundByID(mainObject);
                         Intent i = new Intent(context, SalonActivity.class);
 
-                        i.putExtra("round", round);
+                        i.putExtra(SALON, salon);
 
                         context.startActivity(i);
                     }

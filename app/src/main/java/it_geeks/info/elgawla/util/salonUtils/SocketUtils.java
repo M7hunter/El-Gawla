@@ -16,7 +16,7 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import it_geeks.info.elgawla.repository.Models.Activity;
-import it_geeks.info.elgawla.repository.Models.Round;
+import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 
@@ -27,14 +27,14 @@ public class SocketUtils {
     private Socket socket;
     private Context mContext;
 
-    private Round round;
+    private Salon salon;
     private ChatUtils chatUtils;
     private boolean isOn = false;
 
     public SocketUtils(Context context) {
         Log.d(TAG, "getInstance: new");
         mContext = context;
-        round = ((SalonActivity) mContext).getRound();
+        salon = ((SalonActivity) mContext).getSalon();
         chatUtils = ((SalonActivity) mContext).getChatUtils();
     }
 
@@ -90,32 +90,20 @@ public class SocketUtils {
 
     private void handleSocketEvents() {
         Log.d(TAG, "handleSocketEvents: connected::" + socket.connected());
-        socket.emit("allActivity", round.getSalon_id());
-        socket.emit("allMessages", round.getSalon_id());
-
-//        try
-//        {
-//            JSONObject obj = new JSONObject();
-//            obj.put("salon_id", round.getSalon_id());
-//            obj.put("lang", SharedPrefManager.getInstance(mContext).getSavedLang());
-
-//            emitData("allActivity", obj);
-//            emitData("allMessages", obj);
-//        }
-//        catch (JSONException e)
-//        {
-//            e.printStackTrace();
-//        }
-
-        ((SalonActivity) mContext).initActivityRecycler();
+        socket.emit("allMessages", salon.getSalon_id());
 
         try
         {
+            JSONObject obj = new JSONObject();
+            obj.put("salon_id", salon.getSalon_id());
+            obj.put("lang", SharedPrefManager.getInstance(mContext).getSavedLang());
+            emitData("allActivity", obj);
+            ((SalonActivity) mContext).initActivityRecycler();
+
             JSONObject o = new JSONObject();
-            o.put("room", round.getSalon_id());
+            o.put("room", salon.getSalon_id());
             o.put("user", SharedPrefManager.getInstance(mContext).getUser().getName());
             o.put("lang", SharedPrefManager.getInstance(mContext).getSavedLang());
-//            socket.emit("joinRoom", o);
             emitData("joinRoom", o);
         }
         catch (JSONException e)
@@ -213,6 +201,7 @@ public class SocketUtils {
                         try
                         {
                             JSONArray main = (JSONArray) args[0];
+//                            Log.d(TAG,"activity :" + main.toString());
                             for (int i = 0; i < main.length(); i++)
                             {
                                 JSONObject jsonObject = main.getJSONObject(i);

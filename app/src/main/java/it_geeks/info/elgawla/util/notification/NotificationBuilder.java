@@ -24,6 +24,7 @@ import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.receivers.NotificationInteractionsReceiver;
 import it_geeks.info.elgawla.util.services.GetSalonDataService;
+import it_geeks.info.elgawla.views.account.ProfileActivity;
 import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.signing.SignInActivity;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
@@ -122,6 +123,7 @@ public class NotificationBuilder {
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setOngoing(true)
                 .setAutoCancel(true)
+                .setContentIntent(initUploadingImageIntent())
                 .addAction(new NotificationCompat.Action(0, context.getString(R.string.cancel), cancelIntent))
                 .setProgress(0, 0, true)
                 .setGroup(LOCALE_NOTIFICATION_GROUP_ID);
@@ -135,6 +137,7 @@ public class NotificationBuilder {
         notificationBuilder = new NotificationCompat.Builder(context, UPLOAD_IMAGE_CHANNEL_ID);
         notificationBuilder.setContentText(message)
                 .setSmallIcon(NOTIFICATION_ICON)
+                .setContentIntent(initCancelUploadingImageIntent())
                 .setAutoCancel(true);
 
         getNotificationManager(context).notify(UPLOAD_IMAGE_NOTIFICATION_ID, notificationBuilder.build());
@@ -198,6 +201,12 @@ public class NotificationBuilder {
 
     private PendingIntent initCancelUploadingImageIntent() {
         Intent i = new Intent(context, NotificationInteractionsReceiver.class);
+        i.putExtra("notify_id", UPLOAD_IMAGE_NOTIFICATION_ID);
+        return PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
+    }
+
+    private PendingIntent initUploadingImageIntent() {
+        Intent i = new Intent(context, ProfileActivity.class);
         i.putExtra("notify_id", UPLOAD_IMAGE_NOTIFICATION_ID);
         return PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
     }

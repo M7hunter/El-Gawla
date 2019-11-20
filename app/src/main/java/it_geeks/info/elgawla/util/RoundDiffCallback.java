@@ -4,13 +4,13 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
-import it_geeks.info.elgawla.repository.Models.Round;
+import it_geeks.info.elgawla.repository.Models.Salon;
 
 public class RoundDiffCallback extends DiffUtil.Callback{
 
-        private List<Round> oldRoundsList, newRoundsList;
+        private List<Salon> oldRoundsList, newRoundsList;
 
-        public RoundDiffCallback(List<Round> newPersons, List<Round> oldPersons) {
+        public RoundDiffCallback(List<Salon> newPersons, List<Salon> oldPersons) {
             this.newRoundsList = newPersons;
             this.oldRoundsList = oldPersons;
         }

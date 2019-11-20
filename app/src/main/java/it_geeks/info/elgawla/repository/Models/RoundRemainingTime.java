@@ -2,29 +2,29 @@ package it_geeks.info.elgawla.repository.Models;
 
 public class RoundRemainingTime {
 
-    private  String round_state;
-    private int open_hall_value, free_join_value, pay_join_value, first_round_value, first_rest_value, second_round_value, second_rest_value, last_round_id;
-    private boolean open_hall_state, free_join_state, pay_join_state, first_round_state, first_rest_state, second_round_state, second_rest_state, close_hall_state, isUserJoin;
+    private String round_status, round_count, round_date, message;
+    private int open_hall_value, free_join_value, pay_join_value, round_value, rest_value, last_round_id;
+    private boolean open_hall_state, free_join_state, pay_join_state, round_state, rest_state, close_hall_state, isUserJoin, isToday;
 
-    public RoundRemainingTime(boolean open_hall_state, int open_hall_value, boolean free_join_state, int free_join_value, boolean pay_join_state, int pay_join_value, boolean first_round_state, int first_round_value, boolean first_rest_state, int first_rest_value, boolean second_round_state, int second_round_value, boolean second_rest_state, int second_rest_value, boolean close_hall_state, String round_state, boolean isUserJoin, int last_round_id) {
+    public RoundRemainingTime(boolean open_hall_state, int open_hall_value, boolean free_join_state, int free_join_value, boolean pay_join_state, int pay_join_value, boolean close_hall_state, boolean round_state, int round_value, boolean rest_state, int rest_value, String round_count, String status, String msg, String round_date, boolean isToday, int last_round_id, boolean isUserJoin) {
         this.open_hall_state = open_hall_state;
         this.open_hall_value = open_hall_value;
         this.free_join_state = free_join_state;
         this.free_join_value = free_join_value;
         this.pay_join_state = pay_join_state;
         this.pay_join_value = pay_join_value;
-        this.first_round_state = first_round_state;
-        this.first_round_value = first_round_value;
-        this.first_rest_state = first_rest_state;
-        this.first_rest_value = first_rest_value;
-        this.second_round_state = second_round_state;
-        this.second_round_value = second_round_value;
-        this.second_rest_state = second_rest_state;
-        this.second_rest_value = second_rest_value;
         this.close_hall_state = close_hall_state;
         this.round_state = round_state;
-        this.isUserJoin = isUserJoin;
+        this.round_value = round_value;
+        this.rest_state = rest_state;
+        this.rest_value = rest_value;
+        this.round_count = round_count;
+        this.round_status = status;
+        this.message = msg;
+        this.isToday = isToday;
+        this.round_date = round_date;
         this.last_round_id = last_round_id;
+        this.isUserJoin = isUserJoin;
     }
 
     public int getLast_round_id() {
@@ -39,8 +39,8 @@ public class RoundRemainingTime {
         isUserJoin = userJoin;
     }
 
-    public String getRound_state() {
-        return round_state;
+    public String getRound_status() {
+        return round_status;
     }
 
     public boolean isOpen_hall_state() {
@@ -67,36 +67,68 @@ public class RoundRemainingTime {
         return pay_join_value;
     }
 
-    public boolean isFirst_round_state() {
-        return first_round_state;
+    public int getRound_value() {
+        return round_value;
     }
 
-    public int getFirst_round_value() {
-        return first_round_value;
+    public void setRound_value(int round_value) {
+        this.round_value = round_value;
     }
 
-    public boolean isFirst_rest_state() {
-        return first_rest_state;
+    public int getRest_value() {
+        return rest_value;
     }
 
-    public int getFirst_rest_value() {
-        return first_rest_value;
+    public void setRest_value(int rest_value) {
+        this.rest_value = rest_value;
     }
 
-    public boolean isSecond_round_state() {
-        return second_round_state;
+    public boolean isRound_state() {
+        return round_state;
     }
 
-    public int getSecond_round_value() {
-        return second_round_value;
+    public void setRound_state(boolean round_state) {
+        this.round_state = round_state;
     }
 
-    public boolean isSecond_rest_state() {
-        return second_rest_state;
+    public boolean isRest_state() {
+        return rest_state;
     }
 
-    public int getSecond_rest_value() {
-        return second_rest_value;
+    public void setRest_state(boolean rest_state) {
+        this.rest_state = rest_state;
+    }
+
+    public String getRound_count() {
+        return round_count;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setRound_count(String round_count) {
+        this.round_count = round_count;
+    }
+
+    public String getRound_date() {
+        return round_date;
+    }
+
+    public void setRound_date(String round_date) {
+        this.round_date = round_date;
+    }
+
+    public boolean isToday() {
+        return isToday;
+    }
+
+    public void setToday(boolean today) {
+        isToday = today;
     }
 
     public boolean isClose_hall_state() {

@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Ad;
+import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
-import it_geeks.info.elgawla.repository.Models.Round;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
@@ -94,10 +94,10 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Round round = parseRoundByID(mainObject);
+                        Salon salon = parseRoundByID(mainObject);
 
                         Intent i = new Intent(context, SalonActivity.class);
-                        i.putExtra("round", round);
+                        i.putExtra("salon", salon);
                         context.startActivity(i);
                     }
 

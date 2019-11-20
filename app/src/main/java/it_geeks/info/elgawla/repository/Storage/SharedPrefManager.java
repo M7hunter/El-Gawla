@@ -24,6 +24,7 @@ public class SharedPrefManager {
 
     private static final String SHARED_PREF_LANG = "lang_shared_pref";
     private static final String SHARED_PREF_USER = "user_shared_pref";
+    private static final String SHARED_PREF_TOUR = "tour";
     private static final String SHARED_PREF_COUNTRY = "country_shared_pref";
     private static final String SHARED_PREF_LAST_REQUEST = "last_request_shared_pref";
     private static final String SHARED_PREF_USER_PROVIDER = "user_socialMedia_Provider";
@@ -157,6 +158,32 @@ public class SharedPrefManager {
         boolean changed = sharedPreferences.getBoolean("langChanged", false);
         sharedPreferences.edit().putBoolean("langChanged", false).apply();
         return changed;
+    }
+    // endregion
+
+    // region tour
+    public void setSalonPageTourFinished(boolean isFinished) {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_TOUR, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("salon_page__tour_finished", isFinished);
+        editor.apply();
+    }
+
+    public void setMainPageTourFinished(boolean isFinished) {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_TOUR, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("main_page_tour_finished", isFinished);
+        editor.apply();
+    }
+
+    public boolean isSalonPageTourFinished() {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_TOUR, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("salon_page__tour_finished", false);
+    }
+
+    public boolean isMainPageTourFinished() {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_TOUR, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("main_page_tour_finished", false);
     }
     // endregion
 

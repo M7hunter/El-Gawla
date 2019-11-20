@@ -27,19 +27,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
-
 import it_geeks.info.elgawla.Adapters.AdsAdapter;
 import it_geeks.info.elgawla.Adapters.CategoryAdapter;
 import it_geeks.info.elgawla.Adapters.SalonsAdapter;
-import it_geeks.info.elgawla.Adapters.WinnersNewsAdapter;
 import it_geeks.info.elgawla.repository.Models.Ad;
 import it_geeks.info.elgawla.repository.Models.Category;
 import it_geeks.info.elgawla.repository.Models.Data;
 import it_geeks.info.elgawla.util.Common;
-import it_geeks.info.elgawla.repository.Models.WinnerNews;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
-import it_geeks.info.elgawla.repository.Models.Round;
+import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
@@ -47,36 +44,36 @@ import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.Constants;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
+import it_geeks.info.elgawla.util.TourManager;
 import it_geeks.info.elgawla.util.notification.NotificationBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.account.ProfileActivity;
 import it_geeks.info.elgawla.views.salon.AllSalonsActivity;
 
+import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_FINISHED_SALONS;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_SLIDERS;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_SALONS;
-import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_BLOGS;
 
 public class MainFragment extends Fragment {
 
     // region fields
     private Context context;
     private SwipeRefreshLayout refreshLayout;
-    private RecyclerView recentSalonsRecycler, winnersNewsRecycler, rvCats;
+    private RecyclerView recentSalonsRecycler, finishedSalonsRecycler, rvCats;
     private ViewPager2 adsPager;
-    private ProgressBar recentSalonsProgress, winnersNewsProgress, pbAds;
-    private LinearLayout emptyViewLayout, winnersHeader, adsEmptyView;
-    private TextView btnSeeMoreSalons, noConnectionLayout;
-    private ImageView imgNotification;
+    private ProgressBar recentSalonsProgress, finishedSalonsProgress, pbAds;
+    private LinearLayout emptyViewLayout, finishedEmptyViewLayout, adsEmptyView;
+    private TextView btnSeeMoreSalons, btnSeeMoreFinishedSalons, noConnectionLayout;
+    private ImageView imgNotification, ivUserImage;
 
-    private SalonsAdapter recentSalonsPagedAdapter;
-    private LinearLayoutManager layoutManager;
+    private SalonsAdapter recentSalonsPagedAdapter, finishedSalonsPagedAdapter;
+    private LinearLayoutManager layoutManager, finishedLayoutManager;
 
     private List<Ad> adsList = new ArrayList<>();
-    private List<Round> salonList = new ArrayList<>();
-    private List<WinnerNews> winnerNewsList = new ArrayList<>();
+    private List<Salon> salonList = new ArrayList<>(), finishedSalonList = new ArrayList<>();
     private List<Category> categories = new ArrayList<>();
 
-    private int page = 1, last_page = 1, userId, currentAd = 0;
+    private int page = 1, page_finished = 1, last_page = 1, last_page_finished = 1, userId, currentAd = 0;
     private String apiToken;
 
     private Timer timer;
@@ -112,25 +109,34 @@ public class MainFragment extends Fragment {
 
         initViews(fragmentView);
 
-        handleEvents(fragmentView);
+        handleEvents();
 
         getDataFromServer();
+
+        TourManager.mainPageSequence(getActivity(), imgNotification, ivUserImage);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SalonsAdapter.clickable = true;
     }
 
     private void initViews(View fragmentView) {
         refreshLayout = fragmentView.findViewById(R.id.main_refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.paleRed, R.color.colorYellow, R.color.niceBlue, R.color.azure);
         recentSalonsRecycler = fragmentView.findViewById(R.id.recent_salons_recycler);
-        winnersNewsRecycler = fragmentView.findViewById(R.id.winners_news_recycler);
+        finishedSalonsRecycler = fragmentView.findViewById(R.id.finished_salons_recycler);
         adsPager = fragmentView.findViewById(R.id.ads_viewpager);
         recentSalonsProgress = fragmentView.findViewById(R.id.recent_salons_progress);
-        winnersNewsProgress = fragmentView.findViewById(R.id.winners_news_progress);
+        finishedSalonsProgress = fragmentView.findViewById(R.id.finished_salons_progress);
         pbAds = fragmentView.findViewById(R.id.pb_ads);
-        winnersHeader = fragmentView.findViewById(R.id.winners_header);
         emptyViewLayout = fragmentView.findViewById(R.id.recent_salons_empty_view);
+        finishedEmptyViewLayout = fragmentView.findViewById(R.id.finished_salons_empty_view);
         adsEmptyView = fragmentView.findViewById(R.id.ads_empty_view);
         noConnectionLayout = fragmentView.findViewById(R.id.no_connection);
         rvCats = fragmentView.findViewById(R.id.rv_home_cats);
+        ivUserImage = fragmentView.findViewById(R.id.iv_user_image);
 
         //Notification icon
         imgNotification = fragmentView.findViewById(R.id.iv_notification_bell);
@@ -140,14 +146,15 @@ public class MainFragment extends Fragment {
         NotificationBuilder.listenToNotificationStatus(context, bellIndicator);
 
         // load user image
-        ImageLoader.getInstance().loadUserImage(context, ((ImageView) fragmentView.findViewById(R.id.iv_user_image)));
+        ImageLoader.getInstance().loadUserImage(context, ivUserImage);
 
         btnSeeMoreSalons = fragmentView.findViewById(R.id.recent_salons_see_all_btn);
+//        btnSeeMoreFinishedSalons = fragmentView.findViewById(R.id.finished_salons_see_all_btn);
 
         snackBuilder = new SnackBuilder(fragmentView.findViewById(R.id.main_snack_view));
     }
 
-    private void handleEvents(final View fragmentView) {
+    private void handleEvents() {
         // refresh page
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -174,7 +181,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        fragmentView.findViewById(R.id.iv_user_image).setOnClickListener(new View.OnClickListener() {
+        ivUserImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(context, ProfileActivity.class));
@@ -191,7 +198,7 @@ public class MainFragment extends Fragment {
 
             getSalonsFirstPageFromServer();
 
-            getWinnersFromServer();
+            getFinishedSalonsFirstPageFromServer();
         }
         else
         {
@@ -203,7 +210,8 @@ public class MainFragment extends Fragment {
         noConnectionLayout.setVisibility(View.VISIBLE);
         recentSalonsRecycler.setVisibility(View.GONE);
         recentSalonsProgress.setVisibility(View.GONE);
-        winnersNewsProgress.setVisibility(View.GONE);
+        finishedSalonsRecycler.setVisibility(View.GONE);
+        finishedSalonsProgress.setVisibility(View.GONE);
         adsPager.setVisibility(View.GONE);
         adsEmptyView.setVisibility(View.VISIBLE);
         refreshLayout.setRefreshing(false);
@@ -413,10 +421,10 @@ public class MainFragment extends Fragment {
         });
     }
 
-    private void initSalonsEmptyView(List<Round> roundList) {
+    private void initSalonsEmptyView(List<Salon> salonList) {
         recentSalonsProgress.setVisibility(View.GONE);
 
-        if (roundList.size() > 0)
+        if (salonList.size() > 0)
         {
             emptyViewLayout.setVisibility(View.GONE);
             recentSalonsRecycler.setVisibility(View.VISIBLE);
@@ -425,48 +433,120 @@ public class MainFragment extends Fragment {
         else
         {
             emptyViewLayout.setVisibility(View.VISIBLE);
-            recentSalonsRecycler.setVisibility(View.INVISIBLE);
+            recentSalonsRecycler.setVisibility(View.GONE);
         }
     }
 
-    private void getWinnersFromServer() {
-        winnersHeader.setVisibility(View.GONE);
-        winnersNewsProgress.setVisibility(View.GONE);
-        winnersNewsRecycler.setVisibility(View.GONE);
-        RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(),
-                REQ_GET_ALL_BLOGS, new RequestModel<>(REQ_GET_ALL_BLOGS, userId, apiToken
-                        , null, null, null, null, null), new HandleResponses() {
+    private void getFinishedSalonsFirstPageFromServer() {
+        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
+                new Data(REQ_GET_ALL_FINISHED_SALONS, 1), new RequestModel<>(REQ_GET_ALL_FINISHED_SALONS, userId, apiToken, true
+                        , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        winnerNewsList = ParseResponses.parseWinners(mainObject);
+                        finishedSalonList.clear();
+                        finishedSalonList.addAll(ParseResponses.parseRounds(mainObject));
+                        initFinishedSalonsRecycler();
+
+                        last_page_finished = mainObject.get("last_page").getAsInt();
                     }
 
                     @Override
                     public void handleAfterResponse() {
-                        initWinnersRecycler();
+                        initFinishedSalonsEmptyView(finishedSalonList);
+                        refreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        initWinnersRecycler();
+                        initFinishedSalonsEmptyView(finishedSalonList);
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                        refreshLayout.setRefreshing(false);
                     }
                 });
     }
 
-    private void initWinnersRecycler() {
-        if (winnerNewsList.size() > 0)
-        {
-            winnersNewsRecycler.setVisibility(View.VISIBLE);
-            winnersHeader.setVisibility(View.VISIBLE);
-            winnersNewsRecycler.setHasFixedSize(true);
-            if (winnersNewsRecycler.getAdapter() == null)
-            {
-                winnersNewsRecycler.setAdapter(new WinnersNewsAdapter(context, winnerNewsList));
-            }
+    private void getFinishedSalonsNextPageFromServer() {
+        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
+                new Data(REQ_GET_ALL_FINISHED_SALONS, ++page_finished), new RequestModel<>(REQ_GET_ALL_FINISHED_SALONS, userId, apiToken, true
+                        , null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        int nextFirstPosition = finishedSalonList.size();
+                        finishedSalonList.addAll(ParseResponses.parseRounds(mainObject));
+                        for (int i = nextFirstPosition; i < finishedSalonList.size(); i++)
+                        {
+                            finishedSalonsPagedAdapter.notifyItemInserted(i);
+                        }
 
-            // to remove progress bar
-            if (winnersNewsProgress.getVisibility() == View.VISIBLE)
-                Common.Instance().hideProgress(winnersNewsRecycler, winnersNewsProgress);
+                        finishedSalonsRecycler.smoothScrollToPosition(nextFirstPosition);
+
+                        if (page_finished < last_page_finished)
+                            addScrollListenerToFinishedRecycler();
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    }
+                });
+    }
+
+    private void initFinishedSalonsRecycler() {
+        if (finishedSalonsRecycler.getVisibility() == View.GONE)
+        {
+            finishedSalonsRecycler.setVisibility(View.VISIBLE);
+        }
+        if (finishedLayoutManager == null)
+        {
+            finishedLayoutManager = new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false);
+            finishedSalonsRecycler.setLayoutManager(finishedLayoutManager);
+        }
+
+        finishedSalonsRecycler.setHasFixedSize(true);
+        finishedSalonsPagedAdapter = new SalonsAdapter(context, finishedSalonList);
+        finishedSalonsRecycler.setAdapter(finishedSalonsPagedAdapter);
+
+        Common.Instance().hideProgress(finishedSalonsRecycler, finishedSalonsProgress);
+
+        if (page_finished < last_page_finished)
+        {
+            addScrollListenerToFinishedRecycler();
+        }
+    }
+
+    private void addScrollListenerToFinishedRecycler() {
+        finishedSalonsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (finishedLayoutManager.findLastCompletelyVisibleItemPosition() == finishedSalonsPagedAdapter.getItemCount() - 1)
+                {
+                    getFinishedSalonsNextPageFromServer();
+                    Toast.makeText(getContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();
+
+                    finishedSalonsRecycler.removeOnScrollListener(this);
+                }
+            }
+        });
+    }
+
+    private void initFinishedSalonsEmptyView(List<Salon> salonList) {
+        finishedSalonsProgress.setVisibility(View.GONE);
+
+        if (salonList.size() > 0)
+        {
+            finishedEmptyViewLayout.setVisibility(View.GONE);
+            finishedSalonsRecycler.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            finishedEmptyViewLayout.setVisibility(View.VISIBLE);
+            finishedSalonsRecycler.setVisibility(View.GONE);
         }
     }
 }

@@ -4,20 +4,20 @@ import java.util.List;
 
 public class Salons {
 
-    private List<Round> rounds;
+    private List<Salon> salons;
     private List<SalonDate> salonDates;
 
-    public Salons(List<Round> rounds, List<SalonDate> salonDates) {
-        this.rounds = rounds;
+    public Salons(List<Salon> salons, List<SalonDate> salonDates) {
+        this.salons = salons;
         this.salonDates = salonDates;
     }
 
-    public List<Round> getRounds() {
-        return rounds;
+    public List<Salon> getSalons() {
+        return salons;
     }
 
-    public void setRounds(List<Round> rounds) {
-        this.rounds = rounds;
+    public void setSalons(List<Salon> salons) {
+        this.salons = salons;
     }
 
     public List<SalonDate> getSalonDates() {

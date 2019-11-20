@@ -19,6 +19,7 @@ public class Constants {
     public static final String REQ_GET_ALL_PAGES = "getAllPages";
     public static final String REQ_GET_ALL_SLIDERS = "getAllSliders";
     public static final String REQ_GET_ALL_SALONS = "getAllSalons";
+    public static final String REQ_GET_ALL_FINISHED_SALONS = "getAllSalonsFinished";
     public static final String REQ_GET_ALL_BLOGS = "getAllBlogs";
     public static final String REQ_GET_ALL_CATEGORIES = "getAllCategories";
     public static final String REQ_GET_ALL_COUNTRIES = "getAllCountries";
@@ -84,5 +85,6 @@ public class Constants {
     public static final String PAYMENT_URL = "payment_url";
     public static final String SERVER_MSG = "message";
     public static final String PACKAGE = "package";
+    public static final String SALON = "salon";
 
 }

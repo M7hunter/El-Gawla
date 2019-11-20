@@ -39,19 +39,33 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.ViewHo
         viewHolder.cost.setText(invoice.getTotal());
 
         // process
-        if (invoice.getOption_type().equals("subscribe")) {
+        if (invoice.getOption_type().equals("subscribe"))
+        {
             viewHolder.process.setImageDrawable(context.getDrawable(R.drawable.subscribe_icon));
 
-        } else if (invoice.getOption_type().equals("card")) {
+        }
+        else if (invoice.getOption_type().equals("card"))
+        {
             viewHolder.process.setImageDrawable(context.getDrawable(R.drawable.card_icon));
         }
 
         // status
-        if (Integer.parseInt(invoice.getStatus()) == 0) {
-            viewHolder.status.setImageDrawable(context.getDrawable(R.drawable.false_icon));
-
-        } else {
-            viewHolder.status.setImageDrawable(context.getDrawable(R.drawable.true_icon));
+        switch (Integer.parseInt(invoice.getStatus()))
+        {
+            case 0:
+                viewHolder.status.setText(context.getString(R.string.not_completed));
+                viewHolder.status.setTextColor(context.getResources().getColor(R.color.colorSecondary));
+                break;
+            case 1:
+                viewHolder.status.setText(context.getString(R.string.captured));
+                viewHolder.status.setTextColor(context.getResources().getColor(R.color.greenBlue));
+                break;
+            case 2:
+                viewHolder.status.setText(context.getString(R.string.not_capturred));
+                viewHolder.status.setTextColor(context.getResources().getColor(R.color.paleRed));
+                break;
+            default:
+                break;
         }
     }
 
@@ -62,8 +76,8 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView no, date, cost;
-        ImageView process, status;
+        TextView no, date, cost, status;
+        ImageView process;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

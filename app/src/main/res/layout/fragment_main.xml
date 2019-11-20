@@ -144,22 +144,47 @@
                 tools:listitem="@layout/item_category" />
 
             <!-- recent salons header -->
-            <TextView
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
                 android:layout_marginStart="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_large"
                 android:layout_marginBottom="@dimen/margin_medium"
-                android:text="@string/recent_salons"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+                android:gravity="center_vertical">
+
+                <!-- recent salons header -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recent_salons"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- btn see more -->
+                <Button
+                    android:id="@+id/recent_salons_see_all_btn"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/see_more"
+                    android:textColor="@color/midBlue"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- recent salons container -->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_medium">
 
                 <!-- recent salons recycler -->
                 <androidx.recyclerview.widget.RecyclerView
@@ -211,75 +236,96 @@
 
             </RelativeLayout>
 
-            <!-- btn see more -->
-            <Button
-                android:id="@+id/recent_salons_see_all_btn"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:text="@string/see_more"
-                android:textColor="@color/midBlue"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
-
-            <!-- winners news header -->
-            <LinearLayout
-                android:id="@+id/winners_header"
+            <!-- finished salons header -->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_medium">
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:gravity="center_vertical">
 
                 <!-- header -->
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:text="@string/salons_winners"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textStyle="bold" />
-
-                <!-- btn see all -->
-                <Button
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="@dimen/margin_small"
-                    android:text="@string/see_more"
-                    android:textColor="@color/midBlue"
+                    android:text="@string/finished_salons"
+                    android:textColor="@android:color/black"
                     android:textSize="@dimen/text_size_medium"
-                    android:visibility="gone" />
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+                <!--&lt;!&ndash; btn see more &ndash;&gt;-->
+                <!--<Button-->
+                <!--    android:id="@+id/finished_salons_see_all_btn"-->
+                <!--    style="@style/Widget.MaterialComponents.Button.TextButton"-->
+                <!--    android:layout_width="wrap_content"-->
+                <!--    android:layout_height="wrap_content"-->
+                <!--    android:text="@string/see_more"-->
+                <!--    android:textColor="@color/midBlue"-->
+                <!--    android:textSize="@dimen/text_size_medium"-->
+                <!--    android:textStyle="bold"-->
+                <!--    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--    app:layout_constraintTop_toTopOf="parent" />-->
 
-            <!-- winners news container -->
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- finished salons container -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny">
+                android:layout_marginBottom="@dimen/margin_medium">
 
-                <!-- winners news recycler -->
+                <!-- recycler -->
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/winners_news_recycler"
-                    android:layout_width="match_parent"
+                    android:id="@+id/finished_salons_recycler"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginStart="@dimen/margin_tiny"
                     android:layout_marginEnd="@dimen/margin_tiny"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/item_winners" />
+                    tools:orientation="horizontal" />
 
-                <!-- winners news progress -->
+                <!-- progress -->
                 <ProgressBar
-                    android:id="@+id/winners_news_progress"
+                    android:id="@+id/finished_salons_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:layout_margin="@dimen/margin_large"
                     tools:visibility="gone" />
+
+                <!-- empty view -->
+                <LinearLayout
+                    android:id="@+id/finished_salons_empty_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/empty_view" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:gravity="center"
+                        android:text="@string/no_salons"
+                        android:textColor="@color/blueGrey"
+                        android:textSize="@dimen/text_size_medium" />
+
+                </LinearLayout>
+
+                <!-- no connection view -->
+                <include layout="@layout/layout_no_connection" />
 
             </RelativeLayout>
 

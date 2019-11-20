@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".views.intro.SplashScreenActivity">
+        <activity
+            android:name=".views.intro.SplashScreenActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -36,12 +38,13 @@
             </intent-filter>
         </activity>
         <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
-        <activity android:name=".views.signing.ResetPasswordActivity" />
         <activity
             android:name=".views.main.MainActivity"
-            android:clearTaskOnLaunch="true" />
+            android:clearTaskOnLaunch="true"
+            android:launchMode="singleTop" />
         <activity
             android:name=".views.main.NotificationActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".views.main.MainActivity">
             <intent-filter>
                 <action android:name="notification_page" />
@@ -50,33 +53,86 @@
         </activity>
         <activity
             android:name=".views.salon.SalonActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".views.main.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".views.salon.WinnerActivity" />
-        <activity android:name=".views.salon.AllSalonsActivity" />
-        <activity android:name=".views.store.CategoryCardsActivity" />
-        <activity android:name=".views.store.PaymentReviewActivity" />
-        <activity android:name=".views.store.PaymentMethodsActivity" />
-        <activity android:name=".views.store.PaymentURLActivity" />
-        <activity android:name=".views.intro.SplashActivity" />
-        <activity android:name=".views.intro.IntroActivity" />
-        <activity android:name=".views.signing.SignUpActivity" />
-        <activity android:name=".views.signing.SignInActivity" />
-        <activity android:name=".views.signing.EnterPhoneActivity" />
-        <activity android:name=".views.signing.ActivationActivity" />
-        <activity android:name=".views.signing.ForgetPasswordActivity" />
-        <activity android:name=".views.menu.SettingsActivity" />
-        <activity android:name=".views.menu.CallUsActivity" />
-        <activity android:name=".views.menu.LanguageActivity" />
-        <activity android:name=".views.menu.WebPageActivity" />
-        <activity android:name=".views.account.MembershipActivity" />
-        <activity android:name=".views.account.InvoicesActivity" />
-        <activity android:name=".views.account.ProfileActivity" />
-        <activity android:name=".views.account.SalonsArchiveActivity" />
-        <activity android:name=".views.account.MyCardsActivity" />
-        <activity android:name=".views.account.ChangePasswordActivity" />
-        <activity android:name=".views.main.WinnersActivity" />
+        <activity
+            android:name=".views.salon.WinnerActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.salon.AllSalonsActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.store.CategoryCardsActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.store.PaymentReviewActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.store.PaymentMethodsActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.store.PaymentURLActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.intro.SplashActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.intro.IntroActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.signing.SignUpActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.signing.SignInActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.signing.ResetPasswordActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.signing.EnterPhoneActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.signing.ActivationActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.signing.ForgetPasswordActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.menu.SettingsActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.menu.CallUsActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.menu.LanguageActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.menu.WebPageActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.account.MembershipActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.account.InvoicesActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.account.ProfileActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".views.main.MainActivity" />
+        <activity
+            android:name=".views.account.SalonsArchiveActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.account.MyCardsActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.account.ChangePasswordActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".views.main.WinnersActivity"
+            android:launchMode="singleTop" />
         <activity android:name=".views.BaseActivity" />
 
         <meta-data

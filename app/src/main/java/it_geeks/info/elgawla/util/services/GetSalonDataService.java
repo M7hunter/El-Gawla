@@ -1,6 +1,5 @@
 package it_geeks.info.elgawla.util.services;
 
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -10,15 +9,17 @@ import com.google.gson.JsonObject;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.TaskStackBuilder;
-import it_geeks.info.elgawla.repository.Models.Round;
+import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
+import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 
 import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseRoundByID;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_BY_ID;
+import static it_geeks.info.elgawla.util.Constants.SALON;
 
 public class GetSalonDataService extends Service {
 
@@ -50,11 +51,12 @@ public class GetSalonDataService extends Service {
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Round round = parseRoundByID(mainObject);
+                        Salon salon = parseRoundByID(mainObject);
+                        EventsManager.sendNotificationInteractionEvent(GetSalonDataService.this, salon.getCategory_name(), String.valueOf(salon.getSalon_id()), salon.getProduct_name());
                         TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
 
                         Intent i = new Intent(GetSalonDataService.this, SalonActivity.class);
-                        i.putExtra("round", round);
+                        i.putExtra(SALON, salon);
 
                         stackBuilder.addNextIntentWithParentStack(i);
                         stackBuilder.startActivities();

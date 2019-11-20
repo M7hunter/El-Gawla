@@ -19,7 +19,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -32,7 +31,7 @@ import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
-import it_geeks.info.elgawla.repository.Models.Round;
+import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
 import it_geeks.info.elgawla.views.account.ProfileActivity;
@@ -44,7 +43,7 @@ public class MySalonsFragment extends Fragment {
 
     private Context context;
     private SwipeRefreshLayout refreshLayout;
-    private List<Round> salonsList = new ArrayList<>();
+    private List<Salon> salonsList = new ArrayList<>();
     private RecyclerView mySalonsRecycler;
     private LinearLayout emptyViewLayout;
     private ProgressBar mySalonsProgress;
@@ -86,6 +85,13 @@ public class MySalonsFragment extends Fragment {
         handleEvents(fragmentView);
 
         getUsrSalonsFromServer();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        SalonsAdapter.clickable = true;
     }
 
     private void initViews(View fragmentView) {
@@ -169,9 +175,7 @@ public class MySalonsFragment extends Fragment {
             mySalonsRecycler.setVisibility(View.VISIBLE);
 
             mySalonsRecycler.setHasFixedSize(true);
-            mySalonsRecycler.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
             mySalonsRecycler.setAdapter(new SalonsAdapter(getActivity(), salonsList));
-
         }
         else
         {

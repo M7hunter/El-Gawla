@@ -6,14 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layoutDirection="rtl"
-    android:padding="@dimen/margin_small"
+    android:paddingStart="@dimen/margin_small"
+    android:paddingEnd="@dimen/margin_small"
     tools:showIn="@layout/fragment_main">
 
     <!-- logo -->
     <ImageView
         android:layout_width="@dimen/logo_width"
         android:layout_height="@dimen/logo_height"
-        android:padding="@dimen/margin_large"
+        android:padding="@dimen/margin_medium"
         android:src="@drawable/gawla_logo_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,8 +44,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_user_image"
-        android:layout_width="@dimen/user_image"
-        android:layout_height="@dimen/user_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/margin_tiny"
         app:layout_constraintBottom_toBottomOf="parent"

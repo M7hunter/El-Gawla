@@ -9,7 +9,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_tiny"
+        android:layout_margin="@dimen/margin_small"
         android:foreground="?attr/selectableItemBackground"
         app:cardCornerRadius="@dimen/margin_small"
         app:cardElevation="@dimen/margin_tiny">
@@ -47,7 +47,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_x_small"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +62,10 @@
         android:id="@+id/v_selected_cat"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:layout_margin="@dimen/margin_xTiny"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_xTiny"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_xTiny"
         android:background="@color/colorYellow" />
 
 </LinearLayout>

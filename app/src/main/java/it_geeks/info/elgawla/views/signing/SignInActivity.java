@@ -52,6 +52,7 @@ import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
+import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.main.MainActivity;
@@ -248,6 +249,7 @@ public class SignInActivity extends BaseActivity implements GoogleApiClient.OnCo
                         else
                         {
                             startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                            EventsManager.sendSignInEvent(SignInActivity.this, "sign in");
                         }
                         finish();
                     }
@@ -411,6 +413,7 @@ public class SignInActivity extends BaseActivity implements GoogleApiClient.OnCo
                         else
                         {
                             startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                            EventsManager.sendSignInEvent(SignInActivity.this, "sign in");
                         }
                         finish();
                     }
