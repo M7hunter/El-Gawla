@@ -27,11 +27,11 @@ public class AudioPlayer {
         return audioPlayer;
     }
 
-    public void play(Context c, int rid) {
+    public void play(Context context, int mediaResId) {
         stop();
 
-        if (SharedPrefManager.getInstance(c).isSoundEnabled()) {
-            mMediaPlayer = MediaPlayer.create(c, rid);
+        if (SharedPrefManager.getInstance(context).isSoundEnabled()) {
+            mMediaPlayer = MediaPlayer.create(context, mediaResId);
             mMediaPlayer.setOnCompletionListener(listener);
 
             mMediaPlayer.start();

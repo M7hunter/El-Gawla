@@ -26,8 +26,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import it_geeks.info.elgawla.Adapters.CategoryAdapter;
+import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.util.Constants;
 import it_geeks.info.elgawla.util.DialogBuilder;
+import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.repository.Storage.CardDao;
@@ -40,7 +42,6 @@ import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Category;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
-import it_geeks.info.elgawla.repository.Models.Round;
 import it_geeks.info.elgawla.repository.Models.SalonDate;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
@@ -67,7 +68,7 @@ public class AllSalonsActivity extends BaseActivity {
     private BottomSheetDialog mBottomSheetDialogFilterBy;
     private FloatingActionButton fbtnFilter;
 
-    private List<Round> roundsList = new ArrayList<>();
+    private List<Salon> roundsList = new ArrayList<>();
     private List<Category> categoryList = new ArrayList<>();
     private List<SalonDate> dateList = new ArrayList<>();
 
@@ -111,6 +112,13 @@ public class AllSalonsActivity extends BaseActivity {
                 dialogBuilder.hideLoadingDialog();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SalonsAdapter.clickable = true;
     }
 
     private void getExtraData() {
@@ -250,20 +258,20 @@ public class AllSalonsActivity extends BaseActivity {
                 });
     }
 
-    private void updateDatabaseList(List<Round> rounds) {
+    private void updateDatabaseList(List<Salon> salons) {
         RoundDao roundDao = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao();
         roundDao.removeRounds(roundDao.getRounds());
-        roundDao.insertRoundList(rounds);
+        roundDao.insertRoundList(salons);
 
         ProductImageDao productImageDao = GawlaDataBse.getInstance(AllSalonsActivity.this).productImageDao();
         productImageDao.removeSubImages(productImageDao.getSubImages());
         CardDao cardDao = GawlaDataBse.getInstance(AllSalonsActivity.this).cardDao();
         cardDao.removeCards(cardDao.getCards());
 
-        for (int i = 0; i < rounds.size(); i++)
+        for (int i = 0; i < salons.size(); i++)
         {
-            productImageDao.insertSubImages(rounds.get(i).getProduct_images());
-            cardDao.insertCards(rounds.get(i).getSalon_cards());
+            productImageDao.insertSubImages(salons.get(i).getProduct_images());
+            cardDao.insertCards(salons.get(i).getSalon_cards());
         }
     }
 
@@ -282,9 +290,9 @@ public class AllSalonsActivity extends BaseActivity {
 
     public SalonDate transformDateToNames(String sDate) {
         String[] dateParts = sDate.split("-"); // separate date
-        String day = dateParts[0];
+        String day = dateParts[2];
         String month = dateParts[1];
-        String year = dateParts[2];
+        String year = dateParts[0];
 
         String monthName = new DateFormatSymbols(new Locale(SharedPrefManager.getInstance(AllSalonsActivity.this).getSavedLang())).getMonths()[Integer.parseInt(month) - 1]; // month from num to nam
 
@@ -316,6 +324,7 @@ public class AllSalonsActivity extends BaseActivity {
                 roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(salonDate.getsDate()));
 
                 initSalonsRecycler();
+                EventsManager.sendSearchEvent(AllSalonsActivity.this, String.valueOf(salonDate.getsDate()));
             }
         }));
     }
@@ -366,6 +375,7 @@ public class AllSalonsActivity extends BaseActivity {
                 roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(category.getCategoryName());
 
                 initSalonsRecycler();
+                EventsManager.sendSearchEvent(AllSalonsActivity.this, String.valueOf(category.getCategoryName()));
             }
         }));
     }
@@ -376,9 +386,7 @@ public class AllSalonsActivity extends BaseActivity {
             emptyViewLayout.setVisibility(View.GONE);
             salonsRecycler.setVisibility(View.VISIBLE);
             salonsRecycler.setHasFixedSize(true);
-            salonsRecycler.setLayoutManager(new LinearLayoutManager(AllSalonsActivity.this, RecyclerView.HORIZONTAL, false));
             salonsRecycler.setAdapter(new SalonsAdapter(AllSalonsActivity.this, roundsList));
-
         }
         else
         {  // empty ?

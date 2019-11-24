@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_small"
+    android:layout_margin="@dimen/margin_tiny"
     android:background="@drawable/bg_rounded_corners_white"
+    android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/margin_small"
     app:cardElevation="@dimen/margin_tiny">
     <!-- main layout -->
@@ -15,66 +16,42 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <!-- time & store container -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:gravity="center_vertical"
-            android:paddingStart="@dimen/margin_tiny"
-            android:paddingEnd="@dimen/margin_tiny">
+            android:layout_height="wrap_content">
 
-            <!-- icon -->
-            <ImageView
+            <!-- category -->
+            <TextView
+                android:id="@+id/round_product_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_tiny"
-                android:src="@drawable/ic_alarm"
-                android:tint="@android:color/white" />
-
-            <!-- separator -->
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_xTiny"
-                android:background="@color/azure" />
-
-            <TextView
-                android:id="@+id/round_start_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginBottom="@dimen/margin_tiny"
-                android:layout_weight="1"
-                android:ellipsize="end"
                 android:gravity="center"
-                android:lines="2"
-                android:maxLines="2"
+                android:padding="@dimen/margin_small"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_small"
-                android:textStyle="bold"
-                tools:text="@string/no_content" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@color/colorSecondary"
+                tools:text="@string/electronics" />
 
-            <!-- separator -->
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/margin_xTiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
-                android:background="@color/azure" />
-
-            <!-- store -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/salon_cards_recycler"
+            <!-- category -->
+            <TextView
+                android:id="@+id/tv_salon_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_xTiny"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_salon_card" />
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_small"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@tools:sample/us_zipcodes" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- image & cat container -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -92,25 +69,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/backgrounds/scenic" />
-
-            <!-- category -->
-            <TextView
-                android:id="@+id/round_product_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="@dimen/margin_tiny"
-                android:background="@drawable/bg_rounded_corners_orange"
-                android:paddingStart="@dimen/margin_small"
-                android:paddingTop="@dimen/margin_tiny"
-                android:paddingEnd="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_tiny"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/electronics" />
+                tools:src="@drawable/flodillus" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -121,62 +80,78 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_tiny"
-            android:layout_marginBottom="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_small"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
             android:textColor="@color/BlueDark"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
-            tools:text="test" />
+            tools:text="@string/no_content" />
 
-        <!-- price container -->
+        <!-- time & store container -->
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <!-- price label -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_tiny"
-                android:text="@string/sell_price"
-                android:textColor="@color/blueyGrey"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold" />
-
-            <!-- price -->
-            <TextView
-                android:id="@+id/round_product_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_small"
-                android:maxLines="1"
-                android:textColor="@color/colorSecondary"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold"
-                tools:text="000" />
-        </LinearLayout>
-
-        <!-- see -->
-        <Button
-            android:id="@+id/btn_enter_round"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:layout_marginBottom="@dimen/margin_tiny"
-            android:gravity="center"
-            android:padding="@dimen/margin_small"
-            android:text="@string/show"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
+            android:background="@color/colorPrimary"
+            android:gravity="center_vertical">
+
+            <!-- time -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:orientation="vertical"
+                android:padding="@dimen/margin_xTiny">
+
+                <!-- label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/time"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold" />
+
+                <!-- value -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="00:00"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- separator -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/babyBlue" />
+
+            <!-- salon state -->
+            <TextView
+                android:id="@+id/tv_salon_time_state"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_tiny"
+                android:layout_marginBottom="@dimen/margin_tiny"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:lines="2"
+                android:maxLines="2"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_x_small"
+                android:textStyle="bold"
+                tools:text="@string/no_content" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -84,7 +84,7 @@ public class RequestModel<T> {
                 this.salon_id = t3;
                 this.round_id = t4;
             }
-            else if (action.equals(Constants.REQ_GET_ALL_SALONS))
+            else if (action.equals(Constants.REQ_GET_ALL_SALONS) || action.equals(Constants.REQ_GET_ALL_FINISHED_SALONS))
             {
                 this.isHome = t3;
             }

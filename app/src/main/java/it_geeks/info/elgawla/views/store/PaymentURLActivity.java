@@ -3,6 +3,7 @@ package it_geeks.info.elgawla.views.store;
 import androidx.appcompat.app.AppCompatActivity;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.util.DialogBuilder;
+import it_geeks.info.elgawla.util.EventsManager;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -38,6 +39,8 @@ public class PaymentURLActivity extends AppCompatActivity {
         dialogBuilder.displayLoadingDialog();
 
         initWebView();
+
+        EventsManager.sendOpenPaymentEvent(this);
     }
 
     private void initWebView() {

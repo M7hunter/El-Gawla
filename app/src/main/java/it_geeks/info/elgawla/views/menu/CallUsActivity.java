@@ -15,6 +15,7 @@ import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
+import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.BaseActivity;
 
@@ -114,12 +115,13 @@ public class CallUsActivity extends BaseActivity {
         String apiToken = SharedPrefManager.getInstance(CallUsActivity.this).getUser().getApi_token();
         String username = usernameCallUS.getText().toString();
         String email = emailCallUS.getText().toString();
-        String message = messageCallUS.getText().toString();
+        final String message = messageCallUS.getText().toString();
 
         tlText.setError(null);
         tlName.setError(null);
         tlEmail.setError(null);
 
+        EventsManager.sendSendMessageToCallUsEvent(CallUsActivity.this, message, 0);
         RetrofitClient.getInstance(CallUsActivity.this).executeConnectionToServer(CallUsActivity.this,
                 REQ_SET_USER_MESSAGE, new RequestModel<>(REQ_SET_USER_MESSAGE, userID, apiToken, username, email, message,
                         null, null), new HandleResponses() {

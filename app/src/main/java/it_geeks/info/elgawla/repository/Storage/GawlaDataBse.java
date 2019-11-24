@@ -6,27 +6,37 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 import it_geeks.info.elgawla.repository.Models.Card;
 import it_geeks.info.elgawla.repository.Models.Category;
 import it_geeks.info.elgawla.repository.Models.Country;
 import it_geeks.info.elgawla.repository.Models.Notification;
 import it_geeks.info.elgawla.repository.Models.ProductSubImage;
-import it_geeks.info.elgawla.repository.Models.Round;
+import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.repository.Models.Trans;
 
-@Database(entities = {Round.class,
+@Database(entities = {
+        Salon.class,
         Card.class,
         Trans.class,
         Country.class,
         Category.class,
         Notification.class,
-        ProductSubImage.class,}, version = 2, exportSchema = false)
+        ProductSubImage.class,}, version = 3)
 public abstract class GawlaDataBse extends RoomDatabase {
 
     private static GawlaDataBse INSTANCE;
     private static final String DB_NAME = "Gawla_Database.db";
 
     // migrations
+    private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE round RENAME TO salon");
+        }
+    };
+//
 //    private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
 //        @Override
 //        public void migrate(SupportSQLiteDatabase database) {
@@ -36,10 +46,10 @@ public abstract class GawlaDataBse extends RoomDatabase {
 //
 //            database.execSQL("INSERT INTO Round2 (product_id, salon_id, round_id, product_name, category_name, category_color, country_name, product_commercial_price, product_product_description, product_image, round_date, status, message)" +
 //                    " SELECT product_id, salon_id, round_id, product_name, category_name, category_color, country_name, product_commercial_price, product_product_description, product_image, round_date, status, message" +
-//                    " FROM Round");
+//                    " FROM Salon");
 //
-//            database.execSQL("DROP TABLE Round");
-//            database.execSQL("ALTER TABLE Round2 RENAME TO Round");
+//            database.execSQL("DROP TABLE Salon");
+//            database.execSQL("ALTER TABLE Round2 RENAME TO Salon");
 //        }
 //    };
 //
@@ -66,7 +76,7 @@ public abstract class GawlaDataBse extends RoomDatabase {
             INSTANCE = Room.databaseBuilder(context, GawlaDataBse.class, DB_NAME)
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration() // resolve this before release -> use migration <-
-//                    .addMigrations(MIGRATION_1_2,MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                    .addMigrations(MIGRATION_1_2)
                     .build();
         }
         return INSTANCE;

@@ -16,7 +16,6 @@ import java.util.List;
 
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.MyCardModel;
-import it_geeks.info.elgawla.repository.Models.Round;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;

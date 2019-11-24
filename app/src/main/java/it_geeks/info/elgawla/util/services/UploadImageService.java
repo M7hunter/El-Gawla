@@ -63,9 +63,6 @@ public class UploadImageService extends Service {
                             // save updated user data
                             SharedPrefManager.getInstance(UploadImageService.this).saveUser(ParseResponses.parseUser(mainObject));
 
-                            // notify user
-//                            Toast.makeText(UploadImageService.this, getString(R.string.updated), Toast.LENGTH_SHORT).show();
-
                             if (SharedPrefManager.getInstance(UploadImageService.this).isNotificationEnabled())
                             {
                                 notificationBuilder.displayMessage(getString(R.string.image_updated));

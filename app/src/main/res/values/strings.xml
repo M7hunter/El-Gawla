@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">El Gawla</string>
     <string name="slide_heading1">Subscribe now</string>
-    <string name="slide_heading2">Join round</string>
+    <string name="slide_heading2">Join salon</string>
     <string name="slide_heading3">Offer best price</string>
     <string name="salons_winners">salons winners</string>
     <string name="add_offer">Add offer</string>
@@ -11,7 +11,7 @@
     <string name="account">my account</string>
     <string name="menu">menu</string>
     <string name="sell_price">Sell price</string>
-    <string name="join_round">Join round</string>
+    <string name="join_round">Join salon</string>
     <string name="see_more">See more</string>
     <string name="recent_salons">Recent salons</string>
     <string name="password">password</string>
@@ -147,7 +147,7 @@
     <string name="closed">Closed</string>
     <string name="first_round_time">First Round Time</string>
     <string name="top_ten_empty">no one in this list</string>
-    <string name="activity_empty_hint">no activities in this round</string>
+    <string name="activity_empty_hint">no activities in this salon</string>
     <string name="buying_processes_empty_hint">Here is your buying history</string>
     <string name="my_cards_empty_hint">Here is your cards</string>
     <string name="used">used</string>
@@ -234,4 +234,17 @@
     <string name="empty_digit">empty digit</string>
     <string name="time_up">time is up, resend code again</string>
     <string name="choose_language">choose language</string>
+    <string name="time">time</string>
+    <string name="tt_salon_level_title">salon level</string>
+    <string name="tt_salon_level_description">the current level of this salon</string>
+    <string name="tt_salon_countdown_title">countdown</string>
+    <string name="tt_salon_countdown_description">the countdown of the current level</string>
+    <string name="tt_notification_title">notification</string>
+    <string name="tt_notitfication_description">stay alert to latest updates and salons</string>
+    <string name="tt_see_more_title">see more salons</string>
+    <string name="tt_user_image_title">user image</string>
+    <string name="tt_see_more_description">explore more salons filtered as you want</string>
+    <string name="tt_user_image_description">user image is a fast way to take you to your profile page</string>
+    <string name="finished_salons">finished salons</string>
+    <string name="not_completed">NOT COMPLETED</string>
 </resources>

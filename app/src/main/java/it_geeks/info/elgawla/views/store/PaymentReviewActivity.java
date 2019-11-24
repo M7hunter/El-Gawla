@@ -1,6 +1,7 @@
 package it_geeks.info.elgawla.views.store;
 
 import it_geeks.info.elgawla.R;
+import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.views.BaseActivity;
 
 import android.os.Bundle;
@@ -39,6 +40,8 @@ public class PaymentReviewActivity extends BaseActivity {
                 onBackPressed();
             }
         });
+
+        EventsManager.sendPaymentReviewEvent(this, "", "", 0, 0, "", 0);
     }
 
     private void initViews() {

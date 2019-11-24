@@ -18,7 +18,7 @@ import it_geeks.info.elgawla.repository.Models.Package;
 import it_geeks.info.elgawla.repository.Models.SalonArchiveModel;
 import it_geeks.info.elgawla.repository.Models.TopTen;
 import it_geeks.info.elgawla.repository.Models.ProductSubImage;
-import it_geeks.info.elgawla.repository.Models.Round;
+import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.repository.Models.RoundRemainingTime;
 import it_geeks.info.elgawla.repository.Models.User;
 import it_geeks.info.elgawla.repository.Models.Vote;
@@ -29,8 +29,8 @@ import it_geeks.info.elgawla.util.Constants;
 
 public class ParseResponses {
 
-    public static List<Round> parseRounds(JsonObject object) {
-        List<Round> rounds = new ArrayList<>();
+    public static List<Salon> parseRounds(JsonObject object) {
+        List<Salon> salons = new ArrayList<>();
         JsonArray roundsArray = object.get("salons").getAsJsonArray();
 
         for (int i = 0; i < roundsArray.size(); i++)
@@ -40,8 +40,8 @@ public class ParseResponses {
             int salon_id = roundObj.get("salon_id").getAsInt();
             JsonObject salon_statusObj = roundObj.get("salon_status").getAsJsonObject();
 
-            rounds.add(
-                    new Round(product_id,
+            salons.add(
+                    new Salon(product_id,
                             salon_id,
                             roundObj.get("round_id").getAsInt(),
                             roundObj.get("product_name").getAsString(),
@@ -58,17 +58,17 @@ public class ParseResponses {
                             salon_statusObj.get("message").getAsString()));
         }
 
-        return rounds;
+        return salons;
     }
 
-    public static Round parseRoundByID(JsonObject object) {
+    public static Salon parseRoundByID(JsonObject object) {
         JsonObject roundObj = object.get("salons").getAsJsonObject();
 
         int product_id = roundObj.get("product_id").getAsInt();
         int salon_id = roundObj.get("salon_id").getAsInt();
         JsonObject salon_statusObj = roundObj.get("salon_status").getAsJsonObject();
 
-        return new Round(product_id,
+        return new Salon(product_id,
                 salon_id,
                 roundObj.get("round_id").getAsInt(),
                 roundObj.get("product_name").getAsString(),
@@ -121,16 +121,14 @@ public class ParseResponses {
     }
 
     public static RoundRemainingTime parseRoundRemainingTime(JsonObject roundObj) {
-        JsonObject roundTime = roundObj.get("hall").getAsJsonObject();
+        JsonObject states = roundObj.get("hall").getAsJsonObject();
 
-        JsonObject open_hall = roundTime.get("open_hall").getAsJsonObject();
-        JsonObject free_join = roundTime.get("free_join").getAsJsonObject();
-        JsonObject pay_join = roundTime.get("pay_join").getAsJsonObject();
-        JsonObject first_round = roundTime.get("first_round").getAsJsonObject();
-        JsonObject first_rest = roundTime.get("first_rest").getAsJsonObject();
-        JsonObject second_round = roundTime.get("seconed_round").getAsJsonObject();
-        JsonObject second_rest = roundTime.get("seconed_rest").getAsJsonObject();
-        JsonObject close_hall = roundTime.get("close_hall").getAsJsonObject();
+        JsonObject open_hall = states.get("open_hall").getAsJsonObject();
+        JsonObject free_join = states.get("free_join").getAsJsonObject();
+        JsonObject pay_join = states.get("pay_join").getAsJsonObject();
+        JsonObject close_hall = states.get("close_hall").getAsJsonObject();
+        JsonObject round_time = states.get("round_time").getAsJsonObject();
+        JsonObject round_rest = states.get("round_rest").getAsJsonObject();
 
         return new RoundRemainingTime(
                 open_hall.get("status").getAsBoolean(),
@@ -139,18 +137,18 @@ public class ParseResponses {
                 free_join.get("value").getAsInt(),
                 pay_join.get("status").getAsBoolean(),
                 pay_join.get("value").getAsInt(),
-                first_round.get("status").getAsBoolean(),
-                first_round.get("value").getAsInt(),
-                first_rest.get("status").getAsBoolean(),
-                first_rest.get("value").getAsInt(),
-                second_round.get("status").getAsBoolean(),
-                second_round.get("value").getAsInt(),
-                second_rest.get("status").getAsBoolean(),
-                second_rest.get("value").getAsInt(),
                 close_hall.get("status").getAsBoolean(),
-                roundTime.get("status").getAsString(),
-                roundObj.get("isUserJoin").getAsBoolean(),
-                roundObj.get("last_round_id").getAsInt());
+                round_time.get("status").getAsBoolean(),
+                round_time.get("value").getAsInt(),
+                round_rest.get("status").getAsBoolean(),
+                round_rest.get("value").getAsInt(),
+                states.get("round_count").getAsString(),
+                states.get("status").getAsString(),
+                states.get("round_msg").getAsString(),
+                roundObj.get("round_date").getAsString(),
+                roundObj.get("isToday").getAsBoolean(),
+                roundObj.get("last_round_id").getAsInt(),
+                roundObj.get("isUserJoin").getAsBoolean());
     }
 
     public static List<Country> parseCountries(JsonObject object) {
@@ -186,20 +184,6 @@ public class ParseResponses {
                 userObj.get("gender").getAsString(),
                 userObj.get("phone").getAsString());
     }
-
-//    public static User parseActiveUser(JsonObject object) {
-//        JsonObject userObj = object.get("user").getAsJsonObject();
-//
-//        return new User(userObj.get("id").getAsInt(),
-//                userObj.get("api_token").getAsString(),
-//                userObj.get("name").getAsString(),
-//                userObj.get("country_id").getAsInt(),
-//                userObj.get("image").getAsString(),
-//                userObj.get("email").getAsString(),
-//                userObj.get("active").getAsBoolean(),
-//                userObj.get("gender").getAsString(),
-//                userObj.get("phone").getAsString());
-//    }
 
     public static List<Category> parseCategories(JsonObject object) {
         List<Category> categories = new ArrayList<>();

@@ -20,6 +20,7 @@ import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.DialogBuilder;
+import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.BaseActivity;
 
@@ -54,8 +55,6 @@ public class PaymentMethodsActivity extends BaseActivity {
 
         initViews();
 
-//        initFawrySDK();
-
         bindData();
 
         initMethods();
@@ -79,6 +78,8 @@ public class PaymentMethodsActivity extends BaseActivity {
                 }
             }
         });
+
+        EventsManager.sendChoosePaymentMethodEvent(this, "", "", 0);
     }
 
     private void getData(Bundle savedInstanceState) {

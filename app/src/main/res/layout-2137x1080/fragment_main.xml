@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".views.main.MainFragment">
+    <!-- main layout -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+        <!-- scroll main layout -->
+        <LinearLayout
+            android:id="@+id/main_snack_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <!-- main header & ads -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- blue background -->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="@dimen/margin_xxxxx_large"
+                    android:src="@drawable/bg_bottom_round_c_primary"
+                    app:layout_constraintBottom_toBottomOf="@id/cv_main_Ads"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- header -->
+                <include layout="@layout/layout_main_header" />
+
+                <!-- Ads card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_main_Ads"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    app:cardCornerRadius="@dimen/margin_small"
+                    app:cardElevation="@dimen/margin_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/main_header">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!-- ads -->
+                        <androidx.viewpager2.widget.ViewPager2
+                            android:id="@+id/ads_viewpager"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/image_width_main_fragment"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <!-- ads main/empty layout -->
+                        <LinearLayout
+                            android:id="@+id/ads_empty_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:layoutDirection="ltr"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="@dimen/image_width_main_fragment"
+                                android:layout_height="@dimen/image_width_main_fragment"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/flodillus" />
+
+                            <!-- texts -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_small"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@string/more_gawla_main_page"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/text_size_large"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/margin_small"
+                                    android:gravity="center"
+                                    android:text="@string/ads"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/text_size_small" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <ProgressBar
+                            android:id="@+id/pb_ads"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- cats -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_home_cats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_tiny"
+                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_category" />
+
+            <!-- recent salons header -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:gravity="center_vertical">
+
+                <!-- recent salons header -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recent_salons"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- btn see more -->
+                <Button
+                    android:id="@+id/recent_salons_see_all_btn"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/see_more"
+                    android:textColor="@color/midBlue"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- recent salons container -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_medium">
+
+                <!-- recent salons recycler -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recent_salons_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="@dimen/margin_tiny"
+                    android:layout_marginEnd="@dimen/margin_tiny"
+                    tools:orientation="horizontal" />
+
+                <!-- recent salons progress -->
+                <ProgressBar
+                    android:id="@+id/recent_salons_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="@dimen/margin_large"
+                    tools:visibility="gone" />
+
+                <!-- empty view -->
+                <LinearLayout
+                    android:id="@+id/recent_salons_empty_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/empty_view" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:gravity="center"
+                        android:text="@string/no_salons"
+                        android:textColor="@color/blueGrey"
+                        android:textSize="@dimen/text_size_medium" />
+
+                </LinearLayout>
+
+                <!-- no connection view -->
+                <include layout="@layout/layout_no_connection" />
+
+            </RelativeLayout>
+
+            <!-- finished salons header -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:gravity="center_vertical">
+
+                <!-- header -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/finished_salons"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!--&lt;!&ndash; btn see more &ndash;&gt;-->
+                <!--<Button-->
+                <!--    android:id="@+id/finished_salons_see_all_btn"-->
+                <!--    style="@style/Widget.MaterialComponents.Button.TextButton"-->
+                <!--    android:layout_width="wrap_content"-->
+                <!--    android:layout_height="wrap_content"-->
+                <!--    android:text="@string/see_more"-->
+                <!--    android:textColor="@color/midBlue"-->
+                <!--    android:textSize="@dimen/text_size_medium"-->
+                <!--    android:textStyle="bold"-->
+                <!--    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--    app:layout_constraintTop_toTopOf="parent" />-->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- finished salons container -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_medium">
+
+                <!-- recycler -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/finished_salons_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="@dimen/margin_tiny"
+                    android:layout_marginEnd="@dimen/margin_tiny"
+                    tools:orientation="horizontal" />
+
+                <!-- progress -->
+                <ProgressBar
+                    android:id="@+id/finished_salons_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="@dimen/margin_large"
+                    tools:visibility="gone" />
+
+                <!-- empty view -->
+                <LinearLayout
+                    android:id="@+id/finished_salons_empty_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/empty_view" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:gravity="center"
+                        android:text="@string/no_salons"
+                        android:textColor="@color/blueGrey"
+                        android:textSize="@dimen/text_size_medium" />
+
+                </LinearLayout>
+
+                <!-- no connection view -->
+                <include layout="@layout/layout_no_connection" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

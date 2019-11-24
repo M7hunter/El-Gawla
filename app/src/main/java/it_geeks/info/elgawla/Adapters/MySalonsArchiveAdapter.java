@@ -19,7 +19,7 @@ import com.google.gson.JsonObject;
 import java.util.List;
 
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.repository.Models.Round;
+import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.repository.Models.SalonArchiveModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
@@ -89,10 +89,10 @@ public class MySalonsArchiveAdapter extends RecyclerView.Adapter<MySalonsArchive
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Round round = parseRoundByID(mainObject);
+                        Salon salon = parseRoundByID(mainObject);
 
                         Intent i = new Intent(context, SalonActivity.class);
-                        i.putExtra("round", round);
+                        i.putExtra("salon", salon);
 
                         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), new Pair<View, String>(holder.ivProductImage, "transProductImage"));
                         context.startActivity(i, options.toBundle());

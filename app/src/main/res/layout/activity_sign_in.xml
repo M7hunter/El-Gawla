@@ -41,7 +41,8 @@
                 android:id="@+id/si_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xx_large"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:src="@drawable/gawla_logo_blue" />
 
             <!-- middle ets & btns -->

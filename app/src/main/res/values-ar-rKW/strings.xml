@@ -231,4 +231,17 @@
     <string name="time_up">انتهى الوقت, اعد ارسال الكو</string>
     <string name="choose_language">اختر اللغة</string>
     <string name="price">السعر</string>
+    <string name="time">الوقت</string>
+    <string name="finished_salons">الصالات المنتهية</string>
+    <string name="not_completed">غير مكتملة</string>
+    <string name="tt_notification_title">الاشعارات</string>
+    <string name="tt_salon_level_title">مرحلة الصالة</string>
+    <string name="tt_see_more_title">المزيد من الصالات</string>
+    <string name="tt_user_image_title">صورة المستخدم</string>
+    <string name="tt_salon_countdown_title">العد التنازلي</string>
+    <string name="tt_user_image_description">هى وسيلة سريعة للوصول لصفحة المستخدم</string>
+    <string name="tt_see_more_description">تصفح مزيد من الصالات مع امكانية التصنيف والفلترة</string>
+    <string name="tt_salon_level_description">تعبر عن المرحلة الحالية للصالة</string>
+    <string name="tt_salon_countdown_description">عبارة عن عد تنازلي للمرحلة الحالية</string>
+    <string name="tt_notitfication_description">كن يقظا لاخر التحديثات والصالات</string>
 </resources>
