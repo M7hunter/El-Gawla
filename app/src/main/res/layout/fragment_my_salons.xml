@@ -29,19 +29,52 @@
                 android:fitsSystemWindows="true"
                 android:orientation="vertical">
 
-                <!-- title -->
-                <TextView
-                    android:id="@+id/tv_my_rounds_header"
-                    android:layout_width="wrap_content"
+                <!-- recent / finished -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_xlarge"
-                    android:gravity="center"
-                    android:text="@string/joined_salons"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textStyle="bold" />
+                    android:layout_marginStart="@dimen/margin_xx_large"
+                    android:layout_marginTop="@dimen/margin_xlarge"
+                    android:layout_marginEnd="@dimen/margin_xx_large"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="25dp"
+                    app:cardElevation="@dimen/margin_small">
+                    <!-- card main layout -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!-- my recent salon -->
+                        <TextView
+                            android:id="@+id/tv_my_recent_salons"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/colorPrimary"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:padding="@dimen/margin_small"
+                            android:text="@string/recent_salons"
+                            android:textColor="@android:color/white" />
+
+                        <!-- my finished salons -->
+                        <TextView
+                            android:id="@+id/tv_my_finished_salons"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@android:color/white"
+                            android:foreground="?attr/selectableItemBackgroundBorderless"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:padding="@dimen/margin_small"
+                            android:text="@string/salons_archive"
+                            android:textColor="@color/colorPrimary" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <!-- main content -->
                 <RelativeLayout
@@ -49,18 +82,43 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center">
 
+                    <!-- load animation -->
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/sh_my_salons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:duration="750">
+                        <!-- shimmer main layout -->
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:columnCount="2"
+                            android:orientation="vertical"
+                            android:rowCount="2"
+                            android:useDefaultMargins="true">
+
+                            <include layout="@layout/item_shimmer_salon_mini" />
+
+                            <include layout="@layout/item_shimmer_salon_mini" />
+
+                            <include layout="@layout/item_shimmer_salon_mini" />
+
+                        </GridLayout>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
                     <!-- list -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/my_rounds_recycler"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:orientation="horizontal"
-                        android:visibility="visible"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:orientation="vertical"
+                        android:visibility="gone"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="2"
                         tools:itemCount="4"
-                        tools:listitem="@layout/item_salon" />
+                        tools:listitem="@layout/item_salon_mini" />
 
                     <!-- empty view -->
                     <LinearLayout
@@ -96,12 +154,6 @@
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
-        <ProgressBar
-            android:id="@+id/pb_my_rounds"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
 
         <include layout="@layout/layout_no_connection" />
 

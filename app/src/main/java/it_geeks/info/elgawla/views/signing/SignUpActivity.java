@@ -44,6 +44,7 @@ import java.util.Arrays;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import androidx.core.app.TaskStackBuilder;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.util.Common;
@@ -109,7 +110,6 @@ public class SignUpActivity extends BaseActivity implements GoogleApiClient.OnCo
         {
             previousPageKey = extras.getString(PREVIOUS_PAGE_KEY);
             phone = extras.getString("phone");
-
         }
     }
 
@@ -365,7 +365,10 @@ public class SignUpActivity extends BaseActivity implements GoogleApiClient.OnCo
                         cacheUserData(mainObject, getResources().getString(R.string.app_name));
                         EventsManager.sendSignUpEvent(SignUpActivity.this, "sign up");
                         // goto next page
-                        startActivity(MembershipActivity.class);
+                        TaskStackBuilder
+                                .create(getApplicationContext())
+                                .addNextIntentWithParentStack(new Intent(SignUpActivity.this, MembershipActivity.class))
+                                .startActivities();
                     }
 
                     @Override

@@ -40,10 +40,10 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Package mPackage = packageList.get(position);
 
-        holder.tvTitle.setText(mPackage.getTitle());
-        holder.tvPrice.setText(context.getString(R.string.Monthly, mPackage.getPrice()));
-        holder.tvBody.setText(mPackage.getBody());
-        ((CardView) holder.itemView).setCardBackgroundColor(Color.parseColor(mPackage.getColor()));
+        holder.tvTitle.setText(mPackage.getPackage_name());
+        holder.tvPrice.setText(context.getString(R.string.Monthly, mPackage.getPackage_cost()));
+        holder.tvBody.setText(mPackage.getPackage_description());
+        ((CardView) holder.itemView).setCardBackgroundColor(Color.parseColor(mPackage.getPackage_color()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,9 +68,9 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvTitle = itemView.findViewById(R.id.tv_package_title);
-            tvPrice = itemView.findViewById(R.id.tv_package_price);
-            tvBody = itemView.findViewById(R.id.tv_package_body);
+            tvTitle = itemView.findViewById(R.id.tv_title);
+            tvPrice = itemView.findViewById(R.id.tv_price);
+            tvBody = itemView.findViewById(R.id.tv_body);
         }
     }
 }

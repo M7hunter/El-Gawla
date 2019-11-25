@@ -43,6 +43,12 @@ public class EventsManager {
         getFirebaseAnalytics(context).logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
     }
 
+    public static void sendSearchResultsEvent(Context context, String searchTerm) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, searchTerm);
+        getFirebaseAnalytics(context).logEvent(FirebaseAnalytics.Event.VIEW_SEARCH_RESULTS, bundle);
+    }
+
     public static void sendSendMessageToCallUsEvent(Context context, String currency, double value) {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.CURRENCY, currency);
@@ -123,5 +129,12 @@ public class EventsManager {
 
     static void sendTutorialCompleteEvent(Context context) {
         getFirebaseAnalytics(context).logEvent(FirebaseAnalytics.Event.TUTORIAL_COMPLETE, null);
+    }
+
+    public static void SendCustomEvent(Context context, String p1, String p2) {
+        Bundle params = new Bundle();
+        params.putString("HAWAS", p1);
+        params.putString("WAHEED", p2);
+        getFirebaseAnalytics(context).logEvent("open_store_WM", params);
     }
 }

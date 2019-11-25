@@ -2,7 +2,7 @@
     <string name="app_name">El Gawla</string>
     <string name="slide_heading1">Subscribe now</string>
     <string name="slide_heading2">Join salon</string>
-    <string name="slide_heading3">Offer best price</string>
+    <string name="slide_heading3">Offer best package_cost</string>
     <string name="salons_winners">salons winners</string>
     <string name="add_offer">Add offer</string>
     <string name="the_salons">salons</string>
@@ -10,7 +10,7 @@
     <string name="cards">Cards</string>
     <string name="account">my account</string>
     <string name="menu">menu</string>
-    <string name="sell_price">Sell price</string>
+    <string name="sell_price">Sell package_cost</string>
     <string name="join_round">Join salon</string>
     <string name="see_more">See more</string>
     <string name="recent_salons">Recent salons</string>
@@ -35,8 +35,8 @@
     <string name="google_plus">Via Google</string>
     <string name="slide_descs1"> Sign up now so you can join your favorite tours </string>
     <string name="slide_descs2">Choose your favorite room and join it and then watch the bidding time</string>
-    <string name="slide_descs3">Provide the best favorable price to buy inside the lounge to win the tour</string>
-    <string name="tit1e">A tour is an interactive application that enables you to buy products based on the best offer for the price of the product, now join</string>
+    <string name="slide_descs3">Provide the best favorable package_cost to buy inside the lounge to win the tour</string>
+    <string name="tit1e">A tour is an interactive application that enables you to buy products based on the best offer for the package_cost of the product, now join</string>
     <string name="wile_send_password">The email will be sent for password renewal</string>
     <string name="salon_number">Salon No: </string>
     <string name="second">Second</string>
@@ -44,7 +44,7 @@
     <string name="hour">Hour</string>
     <string name="initial_value">Initial value : </string>
     <string name="one_pound">One pound</string>
-    <string name="commercial_price">Commercial price : </string>
+    <string name="commercial_price">Commercial package_cost : </string>
     <string name="more">more</string>
     <string name="next">Next</string>
     <string name="finish">Finish</string>
@@ -83,7 +83,7 @@
     <string name="connect_with">Connected With </string>
     <string name="delete_account">Delete Your Account</string>
     <string name="facebook_app_id" translatable="false">2818974111446935</string>
-    <string name="card_price_salon">Card price for this salon</string>
+    <string name="card_price_salon">Card package_cost for this salon</string>
     <string name="what_is_Gawla">What is Gawla ?</string>
     <string name="text">Text</string>
     <string name="process">Process</string>
@@ -168,7 +168,7 @@
     <string name="amount">Amount</string>
     <string name="Payment_method">Payment method</string>
     <string name="total_price">Total Price</string>
-    <string name="price">Price</string>
+    <string name="package_cost">Price</string>
     <string name="click_for_more_options">click for more options</string>
     <string name="no_connection">no connection</string>
     <string name="countries">countries</string>
@@ -182,7 +182,7 @@
     <string name="my_cards">my cards</string>
     <string name="salons_archive">salons archive</string>
     <string name="status">status</string>
-    <string name="card_color">card color</string>
+    <string name="card_color">card package_color</string>
     <string name="cards_store">cards store</string>
     <string name="image">image</string>
     <string name="name">name</string>
@@ -196,7 +196,7 @@
     <string name="no_cards_for_category">no cards for this category</string>
     <string name="logged_from_other_device">other device has logged with this account</string>
     <string name="confirm">confirm</string>
-    <string name="offer_less_than_price">the offer should be less than commercial price</string>
+    <string name="offer_less_than_price">the offer should be less than commercial package_cost</string>
     <string name="offered">offered</string>
     <string name="choose_payment_method">choose payment method</string>
     <string name="invoice_no">invoice no</string>
@@ -245,6 +245,8 @@
     <string name="tt_user_image_title">user image</string>
     <string name="tt_see_more_description">explore more salons filtered as you want</string>
     <string name="tt_user_image_description">user image is a fast way to take you to your profile page</string>
-    <string name="finished_salons">finished salons</string>
+    <string name="previous_salons">previous salons</string>
     <string name="not_completed">NOT COMPLETED</string>
+    <string name="standard_packages">standard packages</string>
+    <string name="special_packages">special packages</string>
 </resources>

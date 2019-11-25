@@ -166,7 +166,7 @@
 
                 <!-- btn see more -->
                 <Button
-                    android:id="@+id/recent_salons_see_all_btn"
+                    android:id="@+id/btn_recent_salons_see_more"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -186,6 +186,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_medium">
 
+                <!-- load animation -->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/sh_salons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:duration="750">
+                    <!-- shimmer main layout -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <include layout="@layout/item_shimmer_salon" />
+
+                        <include layout="@layout/item_shimmer_salon" />
+
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
                 <!-- recent salons recycler -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recent_salons_recycler"
@@ -194,16 +212,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginStart="@dimen/margin_tiny"
                     android:layout_marginEnd="@dimen/margin_tiny"
+                    android:visibility="gone"
                     tools:orientation="horizontal" />
-
-                <!-- recent salons progress -->
-                <ProgressBar
-                    android:id="@+id/recent_salons_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_margin="@dimen/margin_large"
-                    tools:visibility="gone" />
 
                 <!-- empty view -->
                 <LinearLayout
@@ -249,7 +259,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/finished_salons"
+                    android:text="@string/previous_salons"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold"
@@ -257,19 +267,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <!--&lt;!&ndash; btn see more &ndash;&gt;-->
-                <!--<Button-->
-                <!--    android:id="@+id/finished_salons_see_all_btn"-->
-                <!--    style="@style/Widget.MaterialComponents.Button.TextButton"-->
-                <!--    android:layout_width="wrap_content"-->
-                <!--    android:layout_height="wrap_content"-->
-                <!--    android:text="@string/see_more"-->
-                <!--    android:textColor="@color/midBlue"-->
-                <!--    android:textSize="@dimen/text_size_medium"-->
-                <!--    android:textStyle="bold"-->
-                <!--    app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--    app:layout_constraintEnd_toEndOf="parent"-->
-                <!--    app:layout_constraintTop_toTopOf="parent" />-->
+                <!-- btn see more -->
+                <Button
+                    android:id="@+id/btn_finished_salons_see_more"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/see_more"
+                    android:textColor="@color/midBlue"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -279,6 +289,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_medium">
 
+                <!-- load animation -->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/sh_finished_salons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:duration="750">
+                    <!-- shimmer main layout -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <include layout="@layout/item_shimmer_salon" />
+
+                        <include layout="@layout/item_shimmer_salon" />
+
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
                 <!-- recycler -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/finished_salons_recycler"
@@ -287,16 +315,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginStart="@dimen/margin_tiny"
                     android:layout_marginEnd="@dimen/margin_tiny"
+                    android:visibility="gone"
                     tools:orientation="horizontal" />
-
-                <!-- progress -->
-                <ProgressBar
-                    android:id="@+id/finished_salons_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_margin="@dimen/margin_large"
-                    tools:visibility="gone" />
 
                 <!-- empty view -->
                 <LinearLayout

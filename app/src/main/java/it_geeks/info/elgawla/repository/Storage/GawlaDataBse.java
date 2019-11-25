@@ -23,7 +23,7 @@ import it_geeks.info.elgawla.repository.Models.Trans;
         Country.class,
         Category.class,
         Notification.class,
-        ProductSubImage.class,}, version = 3)
+        ProductSubImage.class,}, version = 4, exportSchema = false)
 public abstract class GawlaDataBse extends RoomDatabase {
 
     private static GawlaDataBse INSTANCE;
@@ -34,6 +34,13 @@ public abstract class GawlaDataBse extends RoomDatabase {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE round RENAME TO salon");
+        }
+    };
+
+    private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE salon ADD COLUMN isWinner INTEGER DEFAULT 0");
         }
     };
 //
@@ -76,7 +83,7 @@ public abstract class GawlaDataBse extends RoomDatabase {
             INSTANCE = Room.databaseBuilder(context, GawlaDataBse.class, DB_NAME)
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration() // resolve this before release -> use migration <-
-                    .addMigrations(MIGRATION_1_2)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                     .build();
         }
         return INSTANCE;

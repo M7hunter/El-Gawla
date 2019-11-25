@@ -43,13 +43,13 @@
 
             <!-- later -->
             <Button
-                android:layoutDirection="rtl"
                 android:id="@+id/btn_pay_later"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
+                android:layoutDirection="rtl"
                 android:text="@string/subscribe_later"
                 android:textColor="@color/colorSecondary"
                 android:textSize="@dimen/text_size_small"
@@ -68,44 +68,68 @@
         android:layout_below="@id/header">
         <!-- scroll main layout -->
         <LinearLayout
+            android:id="@+id/membership_content_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <!-- congrats -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xlarge"
-                android:layout_marginBottom="@dimen/margin_medium"
-                android:text="@string/Congratulations"
-                android:textColor="@color/midBlue"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
+            <!--<TextView-->
+            <!--    android:layout_width="wrap_content"-->
+            <!--    android:layout_height="wrap_content"-->
+            <!--    android:layout_marginTop="@dimen/margin_xlarge"-->
+            <!--    android:layout_marginBottom="@dimen/margin_small"-->
+            <!--    android:text="@string/standard_packages"-->
+            <!--    android:textColor="@color/azureTwo"-->
+            <!--    android:textSize="@dimen/text_size_large"-->
+            <!--    android:textStyle="bold" />-->
 
             <!-- hint -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xx_large"
-                android:layout_marginEnd="@dimen/margin_xx_large"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:gravity="center"
-                android:lineSpacingExtra="@dimen/margin_small"
-                android:padding="@dimen/margin_small"
-                android:text="@string/payment_enjoy"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold" />
+            <!--<TextView-->
+            <!--    android:layout_width="match_parent"-->
+            <!--    android:layout_height="wrap_content"-->
+            <!--    android:layout_marginStart="@dimen/margin_xx_large"-->
+            <!--    android:layout_marginEnd="@dimen/margin_xx_large"-->
+            <!--    android:layout_marginBottom="@dimen/margin_large"-->
+            <!--    android:gravity="center"-->
+            <!--    android:lineSpacingExtra="@dimen/margin_small"-->
+            <!--    android:padding="@dimen/margin_small"-->
+            <!--    android:text="@string/payment_enjoy"-->
+            <!--    android:textSize="@dimen/text_size_small"-->
+            <!--    android:textStyle="bold" />-->
 
             <!-- packages -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/packages_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_package" />
+            <!--<androidx.recyclerview.widget.RecyclerView-->
+            <!--    android:id="@+id/packages_recycler"-->
+            <!--    android:layout_width="match_parent"-->
+            <!--    android:layout_height="wrap_content"-->
+            <!--    app:spanCount="2"-->
+            <!--    tools:itemCount="3"-->
+            <!--    tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
+            <!--    tools:listitem="@layout/item_package" />-->
+
+            <!-- special header-->
+            <!--<TextView-->
+            <!--    android:id="@+id/tv_special_header"-->
+            <!--    android:layout_width="wrap_content"-->
+            <!--    android:layout_height="wrap_content"-->
+            <!--    android:layout_marginTop="@dimen/margin_xlarge"-->
+            <!--    android:layout_marginBottom="@dimen/margin_medium"-->
+            <!--    android:text="@string/special_packages"-->
+            <!--    android:textColor="@color/colorSecondary"-->
+            <!--    android:textSize="@dimen/text_size_large"-->
+            <!--    android:textStyle="bold" />-->
+
+            <!--&lt;!&ndash; packages &ndash;&gt;-->
+            <!--<androidx.recyclerview.widget.RecyclerView-->
+            <!--    android:id="@+id/rv_golden_packages_recycler"-->
+            <!--    android:layout_width="match_parent"-->
+            <!--    android:layout_height="wrap_content"-->
+            <!--    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
+            <!--    app:spanCount="2"-->
+            <!--    tools:itemCount="3"-->
+            <!--    tools:listitem="@layout/item_package" />-->
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

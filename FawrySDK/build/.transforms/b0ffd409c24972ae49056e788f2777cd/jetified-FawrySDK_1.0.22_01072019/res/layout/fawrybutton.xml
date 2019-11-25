@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <ImageButton
-        android:id="@+id/fawry_sdk_image_view"
+        android:package_id="@+package_id/fawry_sdk_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

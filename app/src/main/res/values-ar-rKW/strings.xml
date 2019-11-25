@@ -230,9 +230,9 @@
     <string name="connected">متصل</string>
     <string name="time_up">انتهى الوقت, اعد ارسال الكو</string>
     <string name="choose_language">اختر اللغة</string>
-    <string name="price">السعر</string>
+    <string name="package_cost">السعر</string>
     <string name="time">الوقت</string>
-    <string name="finished_salons">الصالات المنتهية</string>
+    <string name="previous_salons">الصالات السابقة</string>
     <string name="not_completed">غير مكتملة</string>
     <string name="tt_notification_title">الاشعارات</string>
     <string name="tt_salon_level_title">مرحلة الصالة</string>

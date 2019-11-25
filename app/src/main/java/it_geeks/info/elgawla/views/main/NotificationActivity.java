@@ -52,11 +52,6 @@ public class NotificationActivity extends BaseActivity {
         initViews();
 
         handleEvent();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
 
         getNotificationListFromServer();
     }
@@ -82,12 +77,12 @@ public class NotificationActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 getNotificationListFromServer();
-                refreshLayout.setRefreshing(false);
             }
         });
     }
 
     private void getNotificationListFromServer() {
+        refreshLayout.setRefreshing(false);
         notificationLoading.setText(getString(R.string.loading));
         notificationLoading.setVisibility(View.VISIBLE);
 

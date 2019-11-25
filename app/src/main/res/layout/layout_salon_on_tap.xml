@@ -61,14 +61,14 @@
                     android:textStyle="bold"
                     tools:text="@string/no_content" />
 
-                <!-- price container -->
+                <!-- cost container -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_tiny">
 
-                    <!-- price label -->
+                    <!-- cost label -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_small" />
 
-                    <!-- price -->
+                    <!-- cost -->
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_tiny">
 
-                    <!-- price label -->
+                    <!-- cost label -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_small" />
 
-                    <!-- price -->
+                    <!-- cost -->
                     <TextView
                         android:id="@+id/salon_round_product_price"
                         android:layout_width="0dp"
@@ -261,8 +261,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/top_ten_recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_xTiny" />
+            android:layout_height="wrap_content" />
 
         <!-- top ten empty hint -->
         <TextView

@@ -6,7 +6,7 @@
     android:layout_marginTop="@dimen/unit_2x">
 
     <LinearLayout
-        android:id="@+id/sub_total_amounts_container"
+        android:package_id="@+package_id/sub_total_amounts_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -38,11 +38,11 @@
 
 
     <RelativeLayout
-        android:id="@+id/total_view_container"
+        android:package_id="@+package_id/total_view_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/sub_total_amounts_container"
+        android:layout_below="@package_id/sub_total_amounts_container"
         android:layout_marginTop="@dimen/unit_5x"
         android:gravity="center">
 

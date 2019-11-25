@@ -1,6 +1,5 @@
 package it_geeks.info.elgawla.views.salon;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -55,12 +54,11 @@ import it_geeks.info.elgawla.views.main.NotificationActivity;
 import it_geeks.info.elgawla.views.account.ProfileActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_CATEGORIES;
+import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_FINISHED_SALONS;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_SALONS;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALONS_BY_CAT_ID;
 
 public class AllSalonsActivity extends BaseActivity {
-
-    public static Activity allSalonsActivityInstance;
 
     private RecyclerView filterRecycler, rvCats, salonsRecycler;
     private TextView tvAllSalonsTitle;
@@ -73,7 +71,7 @@ public class AllSalonsActivity extends BaseActivity {
     private List<SalonDate> dateList = new ArrayList<>();
 
     private int userId, catKey;
-    private boolean isDateFilter = true;
+    private boolean isDateFilter = true, isFinishedSalons = false;
     private String apiToken;
     private DialogBuilder dialogBuilder;
     private SnackBuilder snackBuilder;
@@ -82,8 +80,6 @@ public class AllSalonsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_salons);
-
-        allSalonsActivityInstance = this;
 
         userId = SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getUser_id();
         apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getApi_token());
@@ -125,6 +121,7 @@ public class AllSalonsActivity extends BaseActivity {
         Bundle extra = getIntent().getExtras();
         if (extra != null)
         {
+            isFinishedSalons = extra.getBoolean(Constants.FINISHED);
             catKey = extra.getInt(Constants.CATEGORY_KEY);
             String catName = extra.getString(Constants.CATEGORY_NAME);
             if (catName != null && !catName.isEmpty())
@@ -194,10 +191,35 @@ public class AllSalonsActivity extends BaseActivity {
         });
     }
 
+    private void getSalonsByCatFromServer() {
+        dialogBuilder.displayLoadingDialog();
+        RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
+                REQ_GET_SALONS_BY_CAT_ID, new RequestModel<>(REQ_GET_SALONS_BY_CAT_ID, userId, apiToken, catKey,
+                        null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        roundsList = ParseResponses.parseRounds(mainObject);
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                        initSalonsRecycler();
+                        dialogBuilder.hideLoadingDialog();
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        initSalonsRecycler();
+                        dialogBuilder.hideLoadingDialog();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    }
+                });
+    }
+
     private void getDatesAndRoundsFromServer() {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
-                REQ_GET_ALL_SALONS, new RequestModel<>(REQ_GET_ALL_SALONS, userId, apiToken, false,
+                isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, new RequestModel<>(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, userId, apiToken, false,
                         null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -216,31 +238,6 @@ public class AllSalonsActivity extends BaseActivity {
                             e.printStackTrace();
                             Crashlytics.logException(e);
                         }
-                    }
-
-                    @Override
-                    public void handleAfterResponse() {
-                        initSalonsRecycler();
-                        dialogBuilder.hideLoadingDialog();
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        initSalonsRecycler();
-                        dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnack();
-                    }
-                });
-    }
-
-    private void getSalonsByCatFromServer() {
-        dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
-                REQ_GET_SALONS_BY_CAT_ID, new RequestModel<>(REQ_GET_SALONS_BY_CAT_ID, userId, apiToken, catKey,
-                        null, null, null, null), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        roundsList = ParseResponses.parseRounds(mainObject);
                     }
 
                     @Override
@@ -381,6 +378,7 @@ public class AllSalonsActivity extends BaseActivity {
     }
 
     private void initSalonsRecycler() {
+        EventsManager.sendSearchResultsEvent(this, "");
         if (roundsList.size() > 0)
         { // !empty ?
             emptyViewLayout.setVisibility(View.GONE);

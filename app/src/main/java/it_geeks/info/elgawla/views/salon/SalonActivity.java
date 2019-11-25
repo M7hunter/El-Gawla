@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -49,22 +50,30 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.activity.OnBackPressedDispatcher;
+import androidx.activity.OnBackPressedDispatcherOwner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.core.widget.ImageViewCompat;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import it_geeks.info.elgawla.Adapters.ActivityAdapter;
 import it_geeks.info.elgawla.Adapters.TopTenAdapter;
 import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.util.Floating.FloatingView;
+import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.util.AudioPlayer;
 import it_geeks.info.elgawla.repository.Models.Activity;
@@ -114,20 +123,21 @@ public class SalonActivity extends BaseActivity {
     private ProgressBar joinProgress, joinConfirmationProgress, pbTopTen;
     public VideoView vpProductMainVideo;
     public ImageView ivProductMainViewer;
-    private ImageView btnPlayPause, imgNotification, joinIcon, ivProductImage;
+    private ImageView btnPlayPause, imgNotification, joinIcon, ivProductImage, ivWinnerImage;
     public Button btnJoinRound, btnAddOffer;
     private Button btnJoinConfirmation, btnUseGoldenCard;
     private FloatingActionButton fbtnShare;
     private TextSwitcher tsRoundLatestActivity;
     public TextView tvChatEmptyHint, joinHeader, joinText, tvSalonMessage, tvProductDetailsTab, tvSalonActivityTab, tvChatTab, tvTopTenTab;
-    private TextView tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound;
+    private TextView tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound, tvWinnerName, tvWinnerLabel;
     private EditText etAddOffer;
     private TextInputLayout tilAddOffer;
     private View salonMainContainer, detailsSheetView, salonMainLayout;
-    public View lastActivity, cardsBag;
+    public View lastActivity, cardsBag, timeContainer;
     public LinearLayout addOfferLayout, chatContainer, topTenContainer, more;
     public RelativeLayout activityContainer;
     private RecyclerView activityRecycler, topTenRecycler, cardsRecycler;
+    private SwipeRefreshLayout refreshLayout;
     // endregion
 
     // region objects
@@ -149,6 +159,7 @@ public class SalonActivity extends BaseActivity {
     private SnackBuilder snackBuilder;
 
     private ActivityAdapter activityAdapter;
+    private MutableLiveData<String> winner = new MutableLiveData<>(), winnerImageUrl = new MutableLiveData<>();
     // endregion
 
     // region lists
@@ -176,17 +187,12 @@ public class SalonActivity extends BaseActivity {
             if (getRoundData(savedInstanceState))
             {
                 initBottomSheetCardsBag();
-                getRemainingTimeFromServer();
                 bindProductMainViews();
                 initBottomSheetProductDetails();
-
                 initJoinConfirmationDialog();
-
                 initCardsBagIcon();
 
-                getChatUtils();
-
-                getSocketUtils();
+                requests();
             }
 
             handleEvents();
@@ -196,6 +202,10 @@ public class SalonActivity extends BaseActivity {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
+    }
+
+    private void requests() {
+        getRemainingTimeFromServer();
     }
 
     @Override
@@ -213,11 +223,11 @@ public class SalonActivity extends BaseActivity {
         if (roundRemainingTime != null)
             if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isRound_state() || roundRemainingTime.isRest_state())
             {
-                socketUtils.connectSocket();
+                getSocketUtils().connectSocket();
             }
             else
             {
-                socketUtils.disconnectSocket();
+                getSocketUtils().disconnectSocket();
             }
     }
 
@@ -288,15 +298,23 @@ public class SalonActivity extends BaseActivity {
 
     public void initViews() {
         salonMainLayout = findViewById(R.id.salon_main_layout);
+        timeContainer = findViewById(R.id.time_container);
         activityRecycler = findViewById(R.id.salon_activity_recycler);
         topTenRecycler = findViewById(R.id.top_ten_recycler);
 
+        tvWinnerName = findViewById(R.id.tv_salon_winner_name);
+        tvWinnerLabel = findViewById(R.id.tv_salon_winner_label);
+        ivWinnerImage = findViewById(R.id.iv_salon_winner_image);
+
         activityRecycler.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
+        topTenRecycler.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
 
         joinProgress = findViewById(R.id.join_progress);
         pbTopTen = findViewById(R.id.pb_top_ten);
 
         more = findViewById(R.id.cv_more);
+        refreshLayout = findViewById(R.id.salon_refresh_layout);
+        refreshLayout.setColorSchemeResources(R.color.paleRed, R.color.colorYellow, R.color.niceBlue, R.color.azure);
         addOfferLayout = findViewById(R.id.add_offer_layout);
         topTenContainer = findViewById(R.id.top_ten_container);
         activityContainer = findViewById(R.id.activity_container);
@@ -368,6 +386,13 @@ public class SalonActivity extends BaseActivity {
     }
 
     private void handleEvents() {
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requests();
+            }
+        });
+
         // join
         btnJoinRound.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -414,7 +439,15 @@ public class SalonActivity extends BaseActivity {
                     else
                     {
                         mBottomSheetDialogProductDetails.show();
-                        EventsManager.sendViewItemEvent(SalonActivity.this, "", String.valueOf(salon.getProduct_id()), "", 0);
+                        try
+                        {
+                            EventsManager.sendViewItemEvent(SalonActivity.this, "", salon.getProduct_id() + "", "", Double.parseDouble(salon.getProduct_commercial_price()));
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                            Crashlytics.logException(e);
+                        }
                     }
                 }
             }
@@ -456,11 +489,11 @@ public class SalonActivity extends BaseActivity {
         tvChatTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chatUtils.selectChatTab();
+                getChatUtils().selectChatTab();
             }
         });
 
-        findViewById(R.id.cv_round_activity_container).setOnClickListener(new View.OnClickListener() {
+        lastActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectActivityTab();
@@ -608,7 +641,7 @@ public class SalonActivity extends BaseActivity {
                                 obj.put("user", userName);
                                 obj.put("salon_id", salon.getSalon_id());
                                 obj.put("lang", SharedPrefManager.getInstance(SalonActivity.this).getSavedLang());
-                                socketUtils.emitData("addOffer", obj);
+                                getSocketUtils().emitData("addOffer", obj);
                             }
                             catch (JSONException e)
                             {
@@ -692,6 +725,9 @@ public class SalonActivity extends BaseActivity {
     // region tabs
     private void selectTopTenTab() {
         getTopTen();
+        topTenRecycler.setVisibility(View.VISIBLE);
+        tvTopTenTab.setVisibility(View.VISIBLE);
+
         more.setVisibility(View.GONE);
         lastActivity.setVisibility(View.GONE);
         activityContainer.setVisibility(View.GONE);
@@ -802,7 +838,6 @@ public class SalonActivity extends BaseActivity {
             activityRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
             activityAdapter = new ActivityAdapter(activityList);
             activityRecycler.setAdapter(activityAdapter);
-
         }
         else
         {
@@ -830,35 +865,41 @@ public class SalonActivity extends BaseActivity {
     // region salon time
     public void getRemainingTimeFromServer() {
         dialogBuilder.displayLoadingDialog();
-        Log.d(TAG, "getRemainingTimeFromServer: doing");
         RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
                 REQ_GET_SALON_WITH_REALTIME, new RequestModel<>(REQ_GET_SALON_WITH_REALTIME, userId, apiToken, salon.getSalon_id()
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Log.d("test_salon_time", mainObject.get("isToday").getAsBoolean() + "");
-                        if (mainObject.get("isToday").getAsBoolean())
-                        { // today ?
-                            roundRemainingTime = ParseResponses.parseRoundRemainingTime(mainObject);
-                            salon.setRound_id(roundRemainingTime.getLast_round_id());
-                            initCountDown();
+                        if (!mainObject.get("is_closed").getAsBoolean())
+                        {
+                            if (mainObject.get("isToday").getAsBoolean())
+                            { // today ?
+                                roundRemainingTime = ParseResponses.parseRoundRemainingTime(mainObject);
+                                salon.setRound_id(roundRemainingTime.getLast_round_id());
+                                initCountDown();
+                            }
+                            else
+                            { // !today
+                                tvSalonMessage.setText(salon.getMessage());
+                            }
                         }
                         else
-                        { // !today
-                            tvSalonMessage.setText(salon.getMessage());
+                        {
+                            onSalonClosedState();
                         }
                     }
 
                     @Override
                     public void handleAfterResponse() {
                         dialogBuilder.hideLoadingDialog();
+                        refreshLayout.setRefreshing(false);
                         TourManager.salonPageSequence(SalonActivity.this, findViewById(R.id.salon_message), findViewById(R.id.ll_salon_countdown));
-                        Log.d(TAG, "getRemainingTimeFromServer: done");
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
+                        refreshLayout.setRefreshing(false);
                         Snackbar.make(findViewById(R.id.salon_main_layout), errorMessage, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -884,23 +925,23 @@ public class SalonActivity extends BaseActivity {
     public void checkOnTime() {
         if (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state() || roundRemainingTime.isRound_state() || roundRemainingTime.isRest_state())
         {
-            socketUtils.connectSocket();
+            getSocketUtils().connectSocket();
 
             if (roundRemainingTime.isUserJoin())
             { // member?
-                chatUtils.enableChat();
+                getChatUtils().enableChat();
             }
             else
             { // !member
-                chatUtils.disableChat();
+                getChatUtils().disableChat();
             }
         }
         else
         {
-            chatUtils.disableChat();
+            getChatUtils().disableChat();
         }
 
-        if (roundRemainingTime.isUserJoin() && (roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state()))
+        if ((roundRemainingTime.isFree_join_state() || roundRemainingTime.isPay_join_state()) && roundRemainingTime.isUserJoin())
         { // on join time & member
             btnLeaveRound.setVisibility(View.VISIBLE); // display leave salon btn
         }
@@ -909,7 +950,7 @@ public class SalonActivity extends BaseActivity {
             btnLeaveRound.setVisibility(View.GONE); // hide leave salon btn
         }
 
-        if (!roundRemainingTime.isUserJoin() && roundRemainingTime.isPay_join_state())
+        if (roundRemainingTime.isPay_join_state() && !roundRemainingTime.isUserJoin())
         { // display golden card layout
             btnJoinRound.setVisibility(View.GONE);
             if (goldenCard != null)
@@ -948,21 +989,59 @@ public class SalonActivity extends BaseActivity {
             // clear user offer
             SharedPrefManager.getInstance(SalonActivity.this).clearUserOffer(salon.getSalon_id() + "" + userId);
             // display top ten
-            tvTopTenTab.setVisibility(View.VISIBLE);
-            topTenRecycler.setVisibility(View.VISIBLE);
             selectTopTenTab();
+            addOfferLayout.setVisibility(View.GONE);
         }
 
         if (roundRemainingTime.isClose_hall_state() || roundRemainingTime.getRound_status().equals("close"))
         {
-            topTenRecycler.setVisibility(View.VISIBLE);
-            tvTopTenTab.setVisibility(View.VISIBLE);
-
-            selectTopTenTab();
-            getWinner();
-            socketUtils.disconnectSocket();
-            chatUtils.disableChat();
+            addOfferLayout.setVisibility(View.GONE);
+            onSalonClosedState();
         }
+    }
+
+    private void onSalonClosedState() {
+        selectTopTenTab();
+        displayWinner();
+        getSocketUtils().disconnectSocket();
+        getChatUtils().disableChat();
+    }
+
+    private void displayWinner() {
+        getWinner();
+        tvWinnerLabel.setVisibility(View.VISIBLE);
+        tvWinnerName.setVisibility(View.VISIBLE);
+        ivWinnerImage.setVisibility(View.VISIBLE);
+
+        findViewById(R.id.ll_salon_countdown).setVisibility(View.GONE);
+        tvSalonMessage.setVisibility(View.GONE);
+        tvChatTab.setVisibility(View.GONE);
+        tvSalonActivityTab.setVisibility(View.GONE);
+        cardsBag.setVisibility(View.GONE);
+
+        ((ConstraintLayout.LayoutParams) timeContainer.getLayoutParams()).setMargins(0, 135, 0, 0);
+        lastActivity.setOnClickListener(null);
+
+        winner.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                tvWinnerName.setText(s);
+            }
+        });
+
+        winnerImageUrl.observe(SalonActivity.this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if (s.equals("no_winner"))
+                {
+                    ImageLoader.getInstance().loadDrawable(R.drawable.g_round, ivWinnerImage);
+                }
+                else
+                {
+                    ImageLoader.getInstance().loadFitImage(s, ivWinnerImage);
+                }
+            }
+        });
     }
 
     private void displayUserOffer() {
@@ -1007,7 +1086,6 @@ public class SalonActivity extends BaseActivity {
 
     private void getWinner() {
         dialogBuilder.displayLoadingDialog();
-        Log.d(TAG, "getWinner: doing");
         RetrofitClient.getInstance(this).executeConnectionToServer(this,
                 REQ_GET_WINNER, new RequestModel<>(REQ_GET_WINNER, userId, apiToken, salon.getSalon_id(), salon.getRound_id()
                         , null, null, null), new HandleResponses() {
@@ -1017,23 +1095,31 @@ public class SalonActivity extends BaseActivity {
                         {
                             String message = mainObject.get("message").getAsString();
                             snackBuilder.setSnackText(message).showSnack();
-                            String winnerName = mainObject.get("user_name").getAsString();
-                            String offer = mainObject.get("offer").getAsString();
 
+                            if (mainObject.get("is_winner").getAsBoolean())
+                            {
+                                winner.setValue(mainObject.get("user_name").getAsString());
+                                winnerImageUrl.setValue(mainObject.get("user_image").getAsString());
+                                String offer = mainObject.get("offer").getAsString();
 
-                            if (userId == mainObject.get("user_id").getAsInt() && roundRemainingTime.isUserJoin())
-                            { // winner ?
-                                EventsManager.sendSalonWinnerEvent(SalonActivity.this, Long.parseLong(offer), salon.getSalon_id(), userName);
-                                Intent i = new Intent(SalonActivity.this, WinnerActivity.class);
-                                i.putExtra("winner_name", winnerName);
-                                i.putExtra("offer", offer);
-                                startActivity(i);
+                                if (userId == mainObject.get("user_id").getAsInt() && roundRemainingTime.isUserJoin())
+                                { // winner ?
+                                    EventsManager.sendSalonWinnerEvent(SalonActivity.this, Long.parseLong(offer), salon.getSalon_id(), userName);
+                                    Intent i = new Intent(SalonActivity.this, WinnerActivity.class);
+                                    i.putExtra("winner_name", winner.getValue());
+                                    i.putExtra("offer", offer);
+                                    startActivity(i);
+                                }
+
+                                Activity activity = new Activity(winner.getValue() + " " + message + offer, "");
+                                updateLatestActivity(activity.getBody());
+                                updateActivityList(activity);
                             }
-
-                            Activity activity = new Activity(winnerName + " " + message + offer, "");
-                            updateLatestActivity(activity.getBody());
-                            updateActivityList(activity);
-
+                            else
+                            {
+                                winner.setValue(message);
+                                winnerImageUrl.setValue("no_winner");
+                            }
                         }
                         catch (NullPointerException e)
                         {
@@ -1044,7 +1130,6 @@ public class SalonActivity extends BaseActivity {
                     @Override
                     public void handleAfterResponse() {
                         dialogBuilder.hideLoadingDialog();
-                        Log.d(TAG, "getWinner: done");
                     }
 
                     @Override
@@ -1173,7 +1258,7 @@ public class SalonActivity extends BaseActivity {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         congratsSubscribing();
-                        chatUtils.enableChat();
+                        getChatUtils().enableChat();
                         EventsManager.sendSubscribeToSalonEvent(SalonActivity.this, String.valueOf(salon.getSalon_id()));
                     }
 
@@ -1305,19 +1390,26 @@ public class SalonActivity extends BaseActivity {
         btnPlayPause = detailsSheetView.findViewById(R.id.btn_play_pause);
 
         // set data
-        tvCategoryLabel.setText(getResources().getString(R.string.category) + ":");
-        tvProductName.setText(salon.getProduct_name());
-        tvProductCategory.setText(salon.getCategory_name());
-        tvProductPrice.setText(salon.getProduct_commercial_price());
-        tvProductDescription.setText(HtmlCompat.fromHtml(salon.getProduct_product_description(), HtmlCompat.FROM_HTML_MODE_COMPACT));
+        try
+        {
+            Picasso.get()
+                    .load(salon.getProduct_image())
+                    .resize(800, 800)
+                    .onlyScaleDown()
+                    .centerInside()
+                    .placeholder(R.drawable.placeholder)
+                    .into(ivProductMainViewer);
 
-        Picasso.get()
-                .load(salon.getProduct_image())
-                .resize(800, 800)
-                .onlyScaleDown()
-                .centerInside()
-                .placeholder(R.drawable.placeholder)
-                .into(ivProductMainViewer);
+            tvCategoryLabel.setText(getResources().getString(R.string.category) + ":");
+            tvProductName.setText(salon.getProduct_name());
+            tvProductCategory.setText(salon.getCategory_name());
+            tvProductPrice.setText(salon.getProduct_commercial_price());
+            tvProductDescription.setText(HtmlCompat.fromHtml(salon.getProduct_product_description(), HtmlCompat.FROM_HTML_MODE_COMPACT));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void switchImageVideo(String url, Drawable drawable) {
@@ -1656,9 +1748,9 @@ public class SalonActivity extends BaseActivity {
                 obj.put("salon_id", salon.getSalon_id());
                 obj.put("lang", SharedPrefManager.getInstance(SalonActivity.this).getSavedLang());
 
-                socketUtils.emitData("leaveTyping", obj);
-                socketUtils.emitData("leave", obj);
-                chatUtils.sendTypingState = true;
+                getSocketUtils().emitData("leaveTyping", obj);
+                getSocketUtils().emitData("leave", obj);
+                getChatUtils().sendTypingState = true;
             }
             catch (JSONException e)
             {
@@ -1666,7 +1758,7 @@ public class SalonActivity extends BaseActivity {
                 Crashlytics.logException(e);
             }
         }
-        socketUtils.disconnectSocket();
+        getSocketUtils().disconnectSocket();
     }
 
     private void initActivitySwitcher() {

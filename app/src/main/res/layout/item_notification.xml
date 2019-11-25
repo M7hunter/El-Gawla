@@ -7,15 +7,6 @@
     android:orientation="vertical"
     tools:showIn="@layout/activity_notification">
 
-    <!-- time -->
-    <TextView
-        android:id="@+id/tv_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="@dimen/text_size_tiny"
-        tools:text="@tools:sample/date/hhmm" />
-
     <!-- content -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -38,13 +29,13 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="@dimen/margin_small"
-                android:src="@drawable/notification"
+                android:src="@drawable/ic_notify_bell"
                 app:layout_constraintBottom_toTopOf="@id/tv_body"
                 app:layout_constraintEnd_toStartOf="@id/tv_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
-            <!-- title -->
+            <!-- name -->
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="0dp"
@@ -54,12 +45,26 @@
                 android:textDirection="locale"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_date"
                 app:layout_constraintStart_toEndOf="@id/notify_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@tools:sample/lorem" />
 
-            <!-- body -->
+            <!-- time -->
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/margin_xTiny"
+                android:textSize="@dimen/text_size_tiny"
+                app:layout_constraintBottom_toBottomOf="@id/tv_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_title"
+                app:layout_constraintTop_toTopOf="@id/tv_title"
+                tools:text="@tools:sample/date/hhmm" />
+
+            <!-- description -->
             <TextView
                 android:id="@+id/tv_body"
                 android:layout_width="0dp"

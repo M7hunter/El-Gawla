@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_medium"
     android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/colorLightPrimary"
+    app:cardBackgroundColor="@color/azureTwo"
     app:cardCornerRadius="@dimen/margin_small"
     app:cardElevation="@dimen/margin_tiny">
     <!-- card main layout -->
@@ -16,24 +16,24 @@
         android:layout_margin="@dimen/margin_medium"
         android:layoutDirection="rtl">
 
-        <!-- title -->
+        <!-- name -->
         <TextView
-            android:id="@+id/tv_package_title"
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_small"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tv_package_price"
+            app:layout_constraintBottom_toTopOf="@id/tv_price"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="kjaklsjdadsfsad" />
 
-        <!-- price label -->
+        <!-- cost label -->
         <TextView
-            android:id="@+id/tv_package_price"
+            android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_small"
@@ -41,14 +41,14 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tv_package_body"
+            app:layout_constraintBottom_toTopOf="@id/tv_body"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_package_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
-        <!-- body -->
+        <!-- description -->
         <TextView
-            android:id="@+id/tv_package_body"
+            android:id="@+id/tv_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_tiny"
@@ -58,7 +58,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_package_price"
+            app:layout_constraintTop_toBottomOf="@id/tv_price"
             tools:text="dfdsfdsfdsfdsfdsf" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,7 +21,7 @@
             <!-- header -->
             <include layout="@layout/layout_header" />
 
-            <!-- title -->
+            <!-- package_name -->
             <TextView
                 android:id="@+id/tv_all_salon_title"
                 android:layout_width="wrap_content"

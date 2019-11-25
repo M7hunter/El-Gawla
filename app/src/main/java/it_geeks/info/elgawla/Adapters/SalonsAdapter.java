@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -23,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.util.ImageLoader;
-import it_geeks.info.elgawla.util.RoundDiffCallback;
+import it_geeks.info.elgawla.util.DiffUtils.RoundDiffCallback;
 import it_geeks.info.elgawla.repository.Models.Card;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
@@ -58,11 +57,8 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
         {
             ImageLoader.getInstance().loadImage(salon.getProduct_image(), viewHolder.imgProductImage);
             viewHolder.tvProductName.setText(Common.Instance().removeEmptyLines(salon.getProduct_name()));
-            viewHolder.tvProductCategory.setText(Common.Instance().removeEmptyLines(salon.getCategory_name()));
             viewHolder.tvSalonId.setText(Common.Instance().removeEmptyLines(String.valueOf(salon.getSalon_id())));
             viewHolder.tvStartTime.setText(Common.Instance().removeEmptyLines(salon.getMessage()));
-
-            viewHolder.tvProductCategory.setBackgroundColor(Color.parseColor(salon.getCategory_color()));
 
             if (salon.getSalon_cards() == null)
             {
@@ -105,6 +101,10 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
 
     public void updateRoundsList(List<Salon> newList) {
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new RoundDiffCallback(salons, newList));
+
+        salons.clear();
+        salons.addAll(newList);
+
         diffResult.dispatchUpdatesTo(this);
     }
 
@@ -115,7 +115,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvProductName, tvProductCategory, tvStartTime, tvSalonId;
+        TextView tvProductName, tvStartTime, tvSalonId;
         ImageView imgProductImage;
 
         private ViewHolder(@NonNull View itemView) {
@@ -123,7 +123,6 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
 
             imgProductImage = itemView.findViewById(R.id.round_product_image);
             tvProductName = itemView.findViewById(R.id.round_product_name);
-            tvProductCategory = itemView.findViewById(R.id.round_product_category);
             tvStartTime = itemView.findViewById(R.id.tv_salon_time_state);
             tvSalonId = itemView.findViewById(R.id.tv_salon_id);
         }

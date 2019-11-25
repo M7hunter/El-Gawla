@@ -128,14 +128,6 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        // my victories page
-        v.findViewById(R.id.cv_my_victories).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), SalonsArchiveActivity.class));
-            }
-        });
-
         ivNotificationBell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

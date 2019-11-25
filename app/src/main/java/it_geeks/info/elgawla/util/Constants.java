@@ -79,6 +79,7 @@ public class Constants {
     public static final int REQ_CODE_BUY_CARD = 159;
     public static final String EMPTY_TOKEN = "empty";
     public static final String CATEGORY_KEY = "cat_key";
+    public static final String FINISHED = "is_finished_salons";
     public static final String CATEGORY_NAME = "cat_name";
     public static final String PREVIOUS_PAGE_KEY = "previous_page";
     public static final String MEMBERSHIP_MSG = "membership_msg";

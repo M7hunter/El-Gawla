@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.util.Constants;
+import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.util.notification.NotificationBuilder;
@@ -46,12 +48,14 @@ public class StoreFragment extends Fragment {
 
     private Context context;
     private RecyclerView categoriesRecycler;
+    private StoreCategoryAdapter storeAdapter;
     private ProgressBar pbRecycler;
     private ImageView imgNotification;
     private LinearLayout emptyViewLayout;
 
     private SnackBuilder snackBuilder;
     private CategoryDao categoryDao;
+    private List<Category> checkList;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -65,6 +69,7 @@ public class StoreFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         categoryDao = GawlaDataBse.getInstance(context).categoryDao();
+        checkList = new ArrayList<>();
     }
 
     @Override
@@ -83,6 +88,8 @@ public class StoreFragment extends Fragment {
         handleEvents(fragmentView);
 
         updateCategoriesFromServer();
+
+        EventsManager.SendCustomEvent(context, "hello", "events");
     }
 
     private void initViews(View fragmentView) {
@@ -100,6 +107,32 @@ public class StoreFragment extends Fragment {
         snackBuilder = new SnackBuilder(fragmentView.findViewById(R.id.store_main_layout));
         // load user image
         ImageLoader.getInstance().loadUserImage(context, ((ImageView) fragmentView.findViewById(R.id.iv_user_image)));
+    }
+
+    private void initCategoriesRecycler() {
+        emptyViewLayout.setVisibility(View.GONE);
+        storeAdapter = new StoreCategoryAdapter(checkList, new ClickInterface.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Category category = checkList.get(position);
+
+                Intent i = new Intent(context, CategoryCardsActivity.class);
+                i.putExtra(CATEGORY_NAME, category.getCategoryName());
+                i.putExtra(Constants.CAT_ID, category.getCategoryId());
+                startActivity(i);
+            }
+        });
+
+        categoriesRecycler.setAdapter(storeAdapter);
+        if (pbRecycler.getVisibility() == View.VISIBLE)
+            Common.Instance().hideProgress(categoriesRecycler, pbRecycler);
+
+        categoryDao.getCategories().observe(this, new Observer<List<Category>>() {
+            @Override
+            public void onChanged(final List<Category> categories) {
+                    storeAdapter.updateCatsList(categories);
+            }
+        });
     }
 
     private void handleEvents(View fragmentView) {
@@ -120,13 +153,6 @@ public class StoreFragment extends Fragment {
     }
 
     private void updateCategoriesFromServer() {
-        List<Category> checkList = categoryDao.getCategories().getValue();
-        if (checkList != null && checkList.size() > 0)
-        {
-            pbRecycler.setVisibility(View.VISIBLE);
-            emptyViewLayout.setVisibility(View.GONE);
-        }
-
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
         String apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
@@ -148,36 +174,5 @@ public class StoreFragment extends Fragment {
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
-    }
-
-    private void initCategoriesRecycler() {
-        categoryDao.getCategories().observe(this, new Observer<List<Category>>() {
-            @Override
-            public void onChanged(final List<Category> categories) {
-                if (categories.size() > 0)
-                {
-                    emptyViewLayout.setVisibility(View.GONE);
-                    categoriesRecycler.setAdapter(new StoreCategoryAdapter(categories, new ClickInterface.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, int position) {
-                            Category category = categories.get(position);
-
-                            Intent i = new Intent(context, CategoryCardsActivity.class);
-                            i.putExtra(CATEGORY_NAME, category.getCategoryName());
-                            i.putExtra(Constants.CAT_ID, category.getCategoryId());
-                            startActivity(i);
-                        }
-                    }));
-
-                    if (pbRecycler.getVisibility() == View.VISIBLE)
-                        Common.Instance().hideProgress(categoriesRecycler, pbRecycler);
-                }
-                else
-                { // empty
-                    emptyViewLayout.setVisibility(View.VISIBLE);
-                    pbRecycler.setVisibility(View.GONE);
-                }
-            }
-        });
     }
 }

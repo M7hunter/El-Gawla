@@ -75,7 +75,7 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- title -->
+            <!-- name -->
             <TextView
                 android:id="@+id/tv_news_title"
                 android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                 android:textSize="@dimen/text_size_medium"
                 tools:text="@tools:sample/full_names" />
 
-            <!-- body -->
+            <!-- description -->
             <TextView
                 android:id="@+id/tv_news_body"
                 android:layout_width="wrap_content"

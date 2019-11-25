@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -61,10 +62,13 @@ public class MainFragment extends Fragment {
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recentSalonsRecycler, finishedSalonsRecycler, rvCats;
     private ViewPager2 adsPager;
-    private ProgressBar recentSalonsProgress, finishedSalonsProgress, pbAds;
+    private ProgressBar pbAds;
+    //    ,recentSalonsProgress, finishedSalonsProgress;
     private LinearLayout emptyViewLayout, finishedEmptyViewLayout, adsEmptyView;
     private TextView btnSeeMoreSalons, btnSeeMoreFinishedSalons, noConnectionLayout;
     private ImageView imgNotification, ivUserImage;
+
+    private ShimmerFrameLayout salonsShimmerLayout, finishedSalonsShimmerLayout;
 
     private SalonsAdapter recentSalonsPagedAdapter, finishedSalonsPagedAdapter;
     private LinearLayoutManager layoutManager, finishedLayoutManager;
@@ -79,7 +83,6 @@ public class MainFragment extends Fragment {
     private Timer timer;
     private Handler handler;
     private Runnable updateCurrentAd;
-
     private SnackBuilder snackBuilder;
     // endregion
 
@@ -128,8 +131,8 @@ public class MainFragment extends Fragment {
         recentSalonsRecycler = fragmentView.findViewById(R.id.recent_salons_recycler);
         finishedSalonsRecycler = fragmentView.findViewById(R.id.finished_salons_recycler);
         adsPager = fragmentView.findViewById(R.id.ads_viewpager);
-        recentSalonsProgress = fragmentView.findViewById(R.id.recent_salons_progress);
-        finishedSalonsProgress = fragmentView.findViewById(R.id.finished_salons_progress);
+//        recentSalonsProgress = fragmentView.findViewById(R.id.recent_salons_progress);
+//        finishedSalonsProgress = fragmentView.findViewById(R.id.finished_salons_progress);
         pbAds = fragmentView.findViewById(R.id.pb_ads);
         emptyViewLayout = fragmentView.findViewById(R.id.recent_salons_empty_view);
         finishedEmptyViewLayout = fragmentView.findViewById(R.id.finished_salons_empty_view);
@@ -137,6 +140,8 @@ public class MainFragment extends Fragment {
         noConnectionLayout = fragmentView.findViewById(R.id.no_connection);
         rvCats = fragmentView.findViewById(R.id.rv_home_cats);
         ivUserImage = fragmentView.findViewById(R.id.iv_user_image);
+        salonsShimmerLayout = fragmentView.findViewById(R.id.sh_salons);
+        finishedSalonsShimmerLayout = fragmentView.findViewById(R.id.sh_finished_salons);
 
         //Notification icon
         imgNotification = fragmentView.findViewById(R.id.iv_notification_bell);
@@ -148,8 +153,8 @@ public class MainFragment extends Fragment {
         // load user image
         ImageLoader.getInstance().loadUserImage(context, ivUserImage);
 
-        btnSeeMoreSalons = fragmentView.findViewById(R.id.recent_salons_see_all_btn);
-//        btnSeeMoreFinishedSalons = fragmentView.findViewById(R.id.finished_salons_see_all_btn);
+        btnSeeMoreSalons = fragmentView.findViewById(R.id.btn_recent_salons_see_more);
+        btnSeeMoreFinishedSalons = fragmentView.findViewById(R.id.btn_finished_salons_see_more);
 
         snackBuilder = new SnackBuilder(fragmentView.findViewById(R.id.main_snack_view));
     }
@@ -164,14 +169,18 @@ public class MainFragment extends Fragment {
         });
 
         // open all salons page
-        btnSeeMoreSalons.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener seeMoreClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), AllSalonsActivity.class);
                 i.putExtra(Constants.CATEGORY_KEY, Constants.NULL_INT_VALUE);
+                i.putExtra(Constants.FINISHED, v.getId() == R.id.btn_finished_salons_see_more);
                 startActivity(i);
             }
-        });
+        };
+
+        btnSeeMoreSalons.setOnClickListener(seeMoreClickListener);
+        btnSeeMoreFinishedSalons.setOnClickListener(seeMoreClickListener);
 
         // notification onClick
         imgNotification.setOnClickListener(new View.OnClickListener() {
@@ -209,9 +218,9 @@ public class MainFragment extends Fragment {
     private void onNoConnection() {
         noConnectionLayout.setVisibility(View.VISIBLE);
         recentSalonsRecycler.setVisibility(View.GONE);
-        recentSalonsProgress.setVisibility(View.GONE);
         finishedSalonsRecycler.setVisibility(View.GONE);
-        finishedSalonsProgress.setVisibility(View.GONE);
+//        recentSalonsProgress.setVisibility(View.GONE);
+//        finishedSalonsProgress.setVisibility(View.GONE);
         adsPager.setVisibility(View.GONE);
         adsEmptyView.setVisibility(View.VISIBLE);
         refreshLayout.setRefreshing(false);
@@ -322,6 +331,7 @@ public class MainFragment extends Fragment {
     }
 
     private void getSalonsFirstPageFromServer() {
+        startSalonsShimmer();
         RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
                 new Data(REQ_GET_ALL_SALONS, 1), new RequestModel<>(REQ_GET_ALL_SALONS, userId, apiToken, true
                         , null, null, null, null), new HandleResponses() {
@@ -329,22 +339,20 @@ public class MainFragment extends Fragment {
                     public void handleTrueResponse(JsonObject mainObject) {
                         salonList.clear();
                         salonList.addAll(ParseResponses.parseRounds(mainObject));
-                        initSalonsRecycler();
 
                         last_page = mainObject.get("last_page").getAsInt();
                     }
 
                     @Override
                     public void handleAfterResponse() {
+                        initSalonsRecycler();
                         initSalonsEmptyView(salonList);
-                        recentSalonsProgress.setVisibility(View.GONE);
                         refreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         initSalonsEmptyView(salonList);
-                        recentSalonsProgress.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                         refreshLayout.setRefreshing(false);
                     }
@@ -396,7 +404,7 @@ public class MainFragment extends Fragment {
         recentSalonsPagedAdapter = new SalonsAdapter(getContext(), salonList);
         recentSalonsRecycler.setAdapter(recentSalonsPagedAdapter);
 
-        Common.Instance().hideProgress(recentSalonsRecycler, recentSalonsProgress);
+//        Common.Instance().hideProgress(recentSalonsRecycler, recentSalonsProgress);
 
         if (page < last_page)
         {
@@ -422,7 +430,7 @@ public class MainFragment extends Fragment {
     }
 
     private void initSalonsEmptyView(List<Salon> salonList) {
-        recentSalonsProgress.setVisibility(View.GONE);
+        stopSalonsShimmer();
 
         if (salonList.size() > 0)
         {
@@ -437,7 +445,21 @@ public class MainFragment extends Fragment {
         }
     }
 
+    private void startSalonsShimmer() {
+        if (salonsShimmerLayout.getVisibility() == View.VISIBLE)
+            salonsShimmerLayout.startShimmerAnimation();
+    }
+
+    private void stopSalonsShimmer() {
+        if (salonsShimmerLayout.getVisibility() == View.VISIBLE)
+        {
+            salonsShimmerLayout.stopShimmerAnimation();
+            salonsShimmerLayout.setVisibility(View.GONE);
+        }
+    }
+
     private void getFinishedSalonsFirstPageFromServer() {
+        startFinishedSalonsShimmer();
         RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
                 new Data(REQ_GET_ALL_FINISHED_SALONS, 1), new RequestModel<>(REQ_GET_ALL_FINISHED_SALONS, userId, apiToken, true
                         , null, null, null, null), new HandleResponses() {
@@ -445,13 +467,13 @@ public class MainFragment extends Fragment {
                     public void handleTrueResponse(JsonObject mainObject) {
                         finishedSalonList.clear();
                         finishedSalonList.addAll(ParseResponses.parseRounds(mainObject));
-                        initFinishedSalonsRecycler();
 
                         last_page_finished = mainObject.get("last_page").getAsInt();
                     }
 
                     @Override
                     public void handleAfterResponse() {
+                        initFinishedSalonsRecycler();
                         initFinishedSalonsEmptyView(finishedSalonList);
                         refreshLayout.setRefreshing(false);
                     }
@@ -479,9 +501,6 @@ public class MainFragment extends Fragment {
                         }
 
                         finishedSalonsRecycler.smoothScrollToPosition(nextFirstPosition);
-
-                        if (page_finished < last_page_finished)
-                            addScrollListenerToFinishedRecycler();
                     }
 
                     @Override
@@ -510,15 +529,15 @@ public class MainFragment extends Fragment {
         finishedSalonsPagedAdapter = new SalonsAdapter(context, finishedSalonList);
         finishedSalonsRecycler.setAdapter(finishedSalonsPagedAdapter);
 
-        Common.Instance().hideProgress(finishedSalonsRecycler, finishedSalonsProgress);
+//        Common.Instance().hideProgress(finishedSalonsRecycler, finishedSalonsProgress);
 
         if (page_finished < last_page_finished)
         {
-            addScrollListenerToFinishedRecycler();
+            addFinishedScrollListener();
         }
     }
 
-    private void addScrollListenerToFinishedRecycler() {
+    private void addFinishedScrollListener() {
         finishedSalonsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -526,17 +545,18 @@ public class MainFragment extends Fragment {
 
                 if (finishedLayoutManager.findLastCompletelyVisibleItemPosition() == finishedSalonsPagedAdapter.getItemCount() - 1)
                 {
-                    getFinishedSalonsNextPageFromServer();
-                    Toast.makeText(getContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();
-
-                    finishedSalonsRecycler.removeOnScrollListener(this);
+                    if (page_finished < last_page_finished)
+                    {
+                        getFinishedSalonsNextPageFromServer();
+                        Toast.makeText(getContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
     }
 
     private void initFinishedSalonsEmptyView(List<Salon> salonList) {
-        finishedSalonsProgress.setVisibility(View.GONE);
+        stopFinishedSalonsShimmer();
 
         if (salonList.size() > 0)
         {
@@ -548,5 +568,15 @@ public class MainFragment extends Fragment {
             finishedEmptyViewLayout.setVisibility(View.VISIBLE);
             finishedSalonsRecycler.setVisibility(View.GONE);
         }
+    }
+
+    private void startFinishedSalonsShimmer() {
+        if (finishedSalonsShimmerLayout.getVisibility() == View.VISIBLE)
+            finishedSalonsShimmerLayout.startShimmerAnimation();
+    }
+
+    private void stopFinishedSalonsShimmer() {
+        finishedSalonsShimmerLayout.stopShimmerAnimation();
+        finishedSalonsShimmerLayout.setVisibility(View.GONE);
     }
 }

@@ -64,7 +64,7 @@
             android:background="@drawable/bg_rounded_top_corners_c_primary"
             android:padding="@dimen/margin_medium">
 
-            <!-- color -->
+            <!-- package_color -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
