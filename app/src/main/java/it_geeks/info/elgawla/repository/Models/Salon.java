@@ -55,6 +55,9 @@ public class Salon implements Serializable {
     private boolean status;
 
     @ColumnInfo
+    private boolean isWinner;
+
+    @ColumnInfo
     private String message;
 
     // constructors
@@ -77,6 +80,15 @@ public class Salon implements Serializable {
         this.salon_date = salon_date;
         this.status = status;
         this.message = message;
+    }
+
+    @Ignore
+    public Salon(String product_image, String product_name, String salon_date, boolean isWinner, int salon_id) {
+        this.product_image = product_image;
+        this.product_name = product_name;
+        this.salon_date = salon_date;
+        this.isWinner = isWinner;
+        this.salon_id = salon_id;
     }
 
     // getters & setters
@@ -150,6 +162,14 @@ public class Salon implements Serializable {
 
     public void setProduct_product_description(String product_product_description) {
         this.product_product_description = product_product_description;
+    }
+
+    public boolean isWinner() {
+        return isWinner;
+    }
+
+    public void setWinner(boolean winner) {
+        isWinner = winner;
     }
 
     public String getProduct_image() {

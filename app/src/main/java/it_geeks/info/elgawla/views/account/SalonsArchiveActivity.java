@@ -57,31 +57,31 @@ public class SalonsArchiveActivity extends BaseActivity {
     }
 
     private void getSalonsArchiveFromServer() {
-        dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(this).executeConnectionToServer(
-                this,
-                REQ_GET_SALONS_ARCHIVE, new RequestModel<>(REQ_GET_SALONS_ARCHIVE, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token(),
-                        null, null, null, null, null),
-                new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        salonArchiveList = ParseResponses.parseSalonsArchive(mainObject);
-                        Collections.reverse(salonArchiveList);
-                    }
-
-                    @Override
-                    public void handleAfterResponse() {
-                        dialogBuilder.hideLoadingDialog();
-                        initRecycler();
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        dialogBuilder.hideLoadingDialog();
-                        snackBuilder.setSnackText(errorMessage).showSnack();
-                        initRecycler();
-                    }
-                });
+//        dialogBuilder.displayLoadingDialog();
+//        RetrofitClient.getInstance(this).executeConnectionToServer(
+//                this,
+//                REQ_GET_SALONS_ARCHIVE, new RequestModel<>(REQ_GET_SALONS_ARCHIVE, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token(),
+//                        null, null, null, null, null),
+//                new HandleResponses() {
+//                    @Override
+//                    public void handleTrueResponse(JsonObject mainObject) {
+//                        salonArchiveList = ParseResponses.parseSalonsArchive(mainObject);
+//                        Collections.reverse(salonArchiveList);
+//                    }
+//
+//                    @Override
+//                    public void handleAfterResponse() {
+//                        dialogBuilder.hideLoadingDialog();
+//                        initRecycler();
+//                    }
+//
+//                    @Override
+//                    public void handleConnectionErrors(String errorMessage) {
+//                        dialogBuilder.hideLoadingDialog();
+//                        snackBuilder.setSnackText(errorMessage).showSnack();
+//                        initRecycler();
+//                    }
+//                });
     }
 
     private void initRecycler() {

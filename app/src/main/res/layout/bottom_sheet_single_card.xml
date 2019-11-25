@@ -42,7 +42,7 @@
                     android:padding="@dimen/margin_large" />
             </FrameLayout>
 
-            <!-- card title -->
+            <!-- card name -->
             <TextView
                 android:id="@+id/single_card_title"
                 android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <!-- card price container -->
+                    <!-- card cost container -->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                             android:textColor="@color/babyBlue"
                             android:textSize="@dimen/text_size_small" />
 
-                        <!-- price -->
+                        <!-- cost -->
                         <TextView
                             android:id="@+id/single_card_cost"
                             android:layout_width="wrap_content"

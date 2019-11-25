@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_tiny"
+    android:layout_margin="@dimen/margin_small"
     android:background="@drawable/bg_rounded_corners_white"
     android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/margin_small"
@@ -16,119 +16,27 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <!-- category -->
-            <TextView
-                android:id="@+id/round_product_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/margin_small"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:background="@color/colorSecondary"
-                tools:text="@string/electronics" />
-
-            <!-- category -->
-            <TextView
-                android:id="@+id/tv_salon_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:gravity="center"
-                android:paddingStart="@dimen/margin_medium"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_medium"
-                android:paddingBottom="@dimen/margin_small"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@tools:sample/us_zipcodes" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!-- image & cat container -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <!-- image -->
-            <ImageView
-                android:id="@+id/round_product_image"
-                android:layout_width="@dimen/image_width_round"
-                android:layout_height="155dp"
-                android:scaleType="centerInside"
-                android:transitionName="transProductImage"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/flodillus" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!-- name -->
-        <TextView
-            android:id="@+id/round_product_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_tiny"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="1"
-            android:textColor="@color/BlueDark"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold"
-            tools:text="@string/no_content" />
-
-        <!-- time & store container -->
+        <!-- time & id container -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:gravity="center_vertical">
 
-            <!-- time -->
-            <LinearLayout
+            <!-- salon id -->
+            <TextView
+                android:id="@+id/tv_salon_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_small"
+                android:background="@color/colorPrimary"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_xTiny">
-
-                <!-- label -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/time"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_x_small"
-                    android:textStyle="bold" />
-
-                <!-- value -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="00:00"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_x_small"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+                android:paddingStart="@dimen/margin_large"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_large"
+                android:paddingBottom="@dimen/margin_small"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_small"
+                tools:text="@tools:sample/us_zipcodes" />
 
             <!-- separator -->
             <View
@@ -147,12 +55,42 @@
                 android:gravity="center"
                 android:lines="2"
                 android:maxLines="2"
+                android:paddingStart="@dimen/margin_tiny"
+                android:paddingEnd="@dimen/margin_tiny"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_x_small"
                 android:textStyle="bold"
                 tools:text="@string/no_content" />
 
         </LinearLayout>
+
+        <!-- image -->
+        <ImageView
+            android:id="@+id/round_product_image"
+            android:layout_width="@dimen/image_width_round"
+            android:layout_height="@dimen/image_height_round"
+            android:layout_marginTop="@dimen/margin_xTiny"
+            android:scaleType="centerInside"
+            android:transitionName="transProductImage"
+            tools:src="@drawable/flodillus" />
+
+        <!-- name -->
+        <TextView
+            android:id="@+id/round_product_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/margin_tiny"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/BlueDark"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            tools:text="@string/no_content" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

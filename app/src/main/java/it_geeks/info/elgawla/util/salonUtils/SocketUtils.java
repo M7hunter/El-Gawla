@@ -108,7 +108,7 @@ public class SocketUtils {
         }
         catch (JSONException e)
         {
-            Log.e("socket joinRoom: ", e.getMessage());
+            Log.e("socket joinRoom: ", e.getCause().toString());
             Crashlytics.logException(e);
         }
 

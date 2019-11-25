@@ -121,13 +121,13 @@
 
             </LinearLayout>
 
-            <!-- price container -->
+            <!-- package_cost container -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_xlarge">
 
-                <!-- price label -->
+                <!-- package_cost label -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
 
-                <!-- price -->
+                <!-- package_cost -->
                 <TextView
                     android:id="@+id/tv_payment_method_price"
                     android:layout_width="0dp"
@@ -163,13 +163,6 @@
                 android:paddingEnd="@dimen/margin_xxx_large"
                 android:paddingBottom="@dimen/margin_small"
                 android:text="@string/continue_" />
-
-            <!--<com.emeint.android.fawryplugin.views.cutomviews.FawryButton-->
-            <!--    android:id="@+id/fawry_button"-->
-            <!--    android:layout_width="wrap_content"-->
-            <!--    android:layout_height="wrap_content"-->
-            <!--    android:layout_gravity="center"-->
-            <!--    android:visibility="visible" />-->
 
         </LinearLayout>
     </ScrollView>

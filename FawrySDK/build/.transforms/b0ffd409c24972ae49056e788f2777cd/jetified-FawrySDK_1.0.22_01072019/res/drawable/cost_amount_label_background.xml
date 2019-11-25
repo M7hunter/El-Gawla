@@ -6,10 +6,10 @@
 
 
 
-<solid android:color="@color/cost_label_background" />
+<solid android:package_color="@package_color/cost_label_background" />
     <stroke
         android:width="0dp"
-        android:color="@color/cost_label_background" />
+        android:package_color="@package_color/cost_label_background" />
     <!--<padding-->
         <!--android:bottom="1dp"-->
         <!--android:left="1dp"-->

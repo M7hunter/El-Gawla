@@ -5,86 +5,80 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_tiny"
     android:gravity="center"
-    android:padding="@dimen/margin_xTiny"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingStart="@dimen/margin_xTiny"
+    android:paddingTop="@dimen/margin_small"
+    android:paddingEnd="@dimen/margin_xTiny"
+    android:paddingBottom="@dimen/margin_small">
 
     <!-- main layout -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <!-- number -->
-            <TextView
-                android:id="@+id/tv_top_ten_number"
-                android:layout_width="wrap_content"
-                android:paddingStart="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_small"
-                android:paddingTop="@dimen/margin_tiny"
-                android:paddingBottom="@dimen/margin_tiny"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginEnd="@dimen/margin_small"
-                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/text_size_medium"
-                android:background="@drawable/bg_circleed_c_white_borderd_c_primary"
-                android:textStyle="bold"
-                android:fontFamily="serif"
-                tools:text="1" />
-
-            <!-- name -->
-            <TextView
-                android:maxLines="1"
-                android:id="@+id/tv_top_ten_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="@dimen/text_size_large"
-                tools:text="dfdf" />
-
-            <!-- offered label -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:textSize="@dimen/text_size_large"
-                android:text="@string/offered" />
-
-            <!-- offer -->
-            <TextView
-                android:maxLines="1"
-                android:id="@+id/tv_top_ten_offer"
-                android:layout_width="wrap_content"
-                android:textColor="@color/colorPrimary"
-                android:gravity="start"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_size_large"
-                tools:text="2545" />
-
-            <!-- winner cup -->
-            <ImageView
-                android:id="@+id/iv_winner_cup"
-                android:paddingTop="@dimen/margin_tiny"
-                android:paddingBottom="@dimen/margin_tiny"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/cup"/>
-
-        </LinearLayout>
-
-    <!-- separator -->
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginStart="@dimen/margin_xlarge"
-        android:layout_marginEnd="@dimen/margin_xlarge"
-        android:background="@color/paleGrey" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_tiny"
+        android:layout_marginEnd="@dimen/margin_tiny"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- number -->
+        <TextView
+            android:id="@+id/tv_top_ten_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:background="@drawable/bg_circleed_c_white_borderd_c_primary"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:paddingStart="@dimen/margin_small"
+            android:paddingTop="@dimen/margin_tiny"
+            android:paddingEnd="@dimen/margin_small"
+            android:paddingBottom="@dimen/margin_tiny"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            tools:text="1" />
+
+        <!-- name -->
+        <TextView
+            android:id="@+id/tv_top_ten_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textSize="@dimen/text_size_large"
+            tools:text="dfdf" />
+
+        <!-- offered label -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:text="@string/offered"
+            android:textSize="@dimen/text_size_large" />
+
+        <!-- offer -->
+        <TextView
+            android:id="@+id/tv_top_ten_offer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:maxLines="1"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
+            tools:text="2545" />
+
+        <!-- winner cup -->
+        <ImageView
+            android:id="@+id/iv_winner_cup"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/margin_tiny"
+            android:paddingBottom="@dimen/margin_tiny"
+            android:src="@drawable/cup" />
+
+    </LinearLayout>
 
 </LinearLayout>

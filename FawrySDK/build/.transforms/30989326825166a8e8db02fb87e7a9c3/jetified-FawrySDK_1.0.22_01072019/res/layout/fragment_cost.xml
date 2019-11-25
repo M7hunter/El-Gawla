@@ -5,7 +5,7 @@
     tools:context="com.emeint.android.fawryplugin.views.fragments.CostFragment">
 
     <TableLayout
-        android:id="@+id/cost_table_view"
+        android:package_id="@+package_id/cost_table_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:showDividers="beginning"

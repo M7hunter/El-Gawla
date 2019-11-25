@@ -4,8 +4,10 @@ import com.crashlytics.android.Crashlytics;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.JarEntry;
 
 import it_geeks.info.elgawla.repository.Models.Ad;
 import it_geeks.info.elgawla.repository.Models.Invoice;
@@ -256,10 +258,10 @@ public class ParseResponses {
         return cardsList;
     }
 
-    public static List<SalonArchiveModel> parseSalonsArchive(JsonObject object) {
+    public static List<Salon> parseSalonsArchive(JsonObject object) {
         JsonArray dataArray = object.get("salons").getAsJsonArray();
 
-        List<SalonArchiveModel> salonsList = new ArrayList<>();
+        List<Salon> salonsList = new ArrayList<>();
 
         for (int i = 0; i < dataArray.size(); i++)
         {
@@ -270,8 +272,7 @@ public class ParseResponses {
             boolean isWinner = cardObj.get("isWinner").getAsBoolean();
             int salon_id = cardObj.get("salon_id").getAsInt();
 
-            salonsList.add(
-                    new SalonArchiveModel(product_image, product_name, salon_date, isWinner, salon_id));
+            salonsList.add(new Salon(product_image, product_name, salon_date, isWinner, salon_id));
         }
 
         return salonsList;
@@ -360,23 +361,36 @@ public class ParseResponses {
         return blog_images;
     }
 
-    public static List<Package> parsePackages(JsonObject object) {
+    public static ArrayList<List<Package>> parsePackages(JsonObject object) {
         JsonArray packagesArray = object.get("packages").getAsJsonArray();
+        ArrayList<List<Package>> lists = new ArrayList<>();
 
-        List<Package> packages = new ArrayList<>();
         for (int i = 0; i < packagesArray.size(); i++)
         {
-            JsonObject cardObj = packagesArray.get(i).getAsJsonObject();
-            int package_id = cardObj.get("package_id").getAsInt();
-            String package_name = cardObj.get("package_name").getAsString();
-            String package_description = cardObj.get("package_description").getAsString();
-            String package_color = cardObj.get("package_color").getAsString();
-            String package_cost = cardObj.get("package_cost").getAsString();
+            List<Package> packages = new ArrayList<>();
+            JsonArray packagesCatArr = packagesArray.get(i).getAsJsonArray();
+            for (int j = 0; j < packagesCatArr.size(); j++)
+            {
+                JsonObject packageObj = packagesCatArr.get(j).getAsJsonObject();
 
-            packages.add(new Package(package_id, package_name, package_cost, package_description, package_color));
+                int package_id = packageObj.get("package_id").getAsInt();
+                String package_name = packageObj.get("package_name").getAsString();
+                String package_category_name = packageObj.get("package_category_name").getAsString();
+                String package_description = packageObj.get("package_description").getAsString();
+                String package_color = packageObj.get("package_color").getAsString();
+                String package_cost = packageObj.get("package_cost").getAsString();
+                boolean package_is_discount = packageObj.get("package_is_discount").getAsBoolean();
+                int package_salons_no = packageObj.get("package_salons_no").getAsInt();
+                String package_discount = packageObj.get("package_discount").getAsString();
+                String package_discount_date_from = packageObj.get("package_discount_date_from").getAsString();
+                String package_discount_date_to = packageObj.get("package_discount_date_to").getAsString();
+
+                packages.add(new Package(package_id, package_name, package_category_name, package_description, package_color, package_cost, package_is_discount, package_salons_no, package_discount, package_discount_date_from, package_discount_date_to));
+            }
+            lists.add(packages);
         }
 
-        return packages;
+        return lists;
     }
 
     public static List<Invoice> parseInvoices(JsonObject object) {

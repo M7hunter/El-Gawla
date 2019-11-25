@@ -10,7 +10,7 @@
     android:orientation="horizontal">
     <!--android:background="@drawable/list_selector"-->
     <ImageView
-        android:id="@+id/list_item_icon"
+        android:package_id="@+package_id/list_item_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -22,23 +22,23 @@
         tools:src="@drawable/combobox_arrow" />
 
     <com.emeint.android.fawryplugin.views.cutomviews.FawryPluginCustomTextView
-        android:id="@+id/list_item_title"
+        android:package_id="@+package_id/list_item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_gravity="start|center_vertical"
         android:layout_marginEnd="@dimen/unit_1x"
         android:layout_marginStart="@dimen/unit_1x"
-        android:layout_toEndOf="@+id/list_item_icon"
-        android:layout_toRightOf="@+id/list_item_icon"
-        android:layout_toStartOf="@+id/selected_icon"
-        android:layout_toLeftOf="@+id/selected_icon"
+        android:layout_toEndOf="@+package_id/list_item_icon"
+        android:layout_toRightOf="@+package_id/list_item_icon"
+        android:layout_toStartOf="@+package_id/selected_icon"
+        android:layout_toLeftOf="@+package_id/selected_icon"
         style="@style/gravity_style"
         android:maxLines="2"
         tools:text="@string/sdk_name" />
 
     <ImageView
-        android:id="@+id/selected_icon"
+        android:package_id="@+package_id/selected_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

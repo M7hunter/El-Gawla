@@ -73,7 +73,7 @@ public class PaymentMethodsActivity extends BaseActivity {
                     }
                     else if (mPackage != null)
                     {
-                        buy(REQ_SET_MEMBERSHIP, mPackage.getId());
+                        buy(REQ_SET_MEMBERSHIP, mPackage.getPackage_id());
                     }
                 }
             }
@@ -118,8 +118,8 @@ public class PaymentMethodsActivity extends BaseActivity {
     }
 
     private void bindData() {
-        tvHeader.setText(isCard ? card.getCard_name() : mPackage.getTitle());
-        tvTotalPrice.setText(String.valueOf(Float.parseFloat(isCard ? card.getCard_cost() : mPackage.getPrice())));
+        tvHeader.setText(isCard ? card.getCard_name() : mPackage.getPackage_name());
+        tvTotalPrice.setText(String.valueOf(Float.parseFloat(isCard ? card.getCard_cost() : mPackage.getPackage_cost())));
     }
 
     private void initViews() {

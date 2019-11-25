@@ -27,6 +27,7 @@ import it_geeks.info.elgawla.views.salon.SalonActivity;
 
 import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseRoundByID;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_BY_ID;
+import static it_geeks.info.elgawla.util.Constants.SALON;
 
 public class MyCardsAdapter extends RecyclerView.Adapter<MyCardsAdapter.ViewHolder> {
 
@@ -80,7 +81,7 @@ public class MyCardsAdapter extends RecyclerView.Adapter<MyCardsAdapter.ViewHold
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        context.startActivity(new Intent(context, SalonActivity.class).putExtra("round", parseRoundByID(mainObject)));
+                        context.startActivity(new Intent(context, SalonActivity.class).putExtra(SALON, parseRoundByID(mainObject)));
                     }
 
                     @Override

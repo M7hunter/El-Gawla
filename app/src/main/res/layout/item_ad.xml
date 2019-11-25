@@ -36,7 +36,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <!-- title -->
+            <!-- name -->
             <TextView
                 android:id="@+id/tv_ad_title"
                 android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
                 android:textStyle="bold"
                 tools:text="@tools:sample/lorem" />
 
-            <!-- body -->
+            <!-- description -->
             <TextView
                 android:id="@+id/tv_ad_body"
                 android:layout_width="wrap_content"

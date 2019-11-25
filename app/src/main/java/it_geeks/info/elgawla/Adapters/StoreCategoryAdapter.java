@@ -8,12 +8,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Category;
+import it_geeks.info.elgawla.util.DiffUtils.CatDiffCallback;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 
@@ -48,6 +50,15 @@ public class StoreCategoryAdapter extends RecyclerView.Adapter<StoreCategoryAdap
                 clickListener.onItemClick(v, viewHolder.getAdapterPosition());
             }
         });
+    }
+
+    public void updateCatsList(List<Category> newList) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new CatDiffCallback(categoryList, newList));
+
+        categoryList.clear();
+        categoryList.addAll(newList);
+
+        diffResult.dispatchUpdatesTo(this);
     }
 
     @Override

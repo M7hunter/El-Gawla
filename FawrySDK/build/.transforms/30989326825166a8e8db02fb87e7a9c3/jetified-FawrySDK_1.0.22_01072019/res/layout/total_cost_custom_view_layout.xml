@@ -4,12 +4,12 @@
     style="@style/total_cost_container_layout_style">
 
     <com.emeint.android.fawryplugin.views.cutomviews.FawryPluginCustomTextView
-        android:id="@+id/amount_label_text_view"
+        android:package_id="@+package_id/amount_label_text_view"
         style="@style/total_cost_layout_label"
         tools:text="Total Amount" />
 
     <com.emeint.android.fawryplugin.views.cutomviews.FawryPluginCustomTextView
-        android:id="@+id/amount_value_text_view"
+        android:package_id="@+package_id/amount_value_text_view"
         style="@style/cost_layout_value"
         tools:text="30 EGP" />
 </LinearLayout><!--</merge>--><!--</LinearLayout>-->

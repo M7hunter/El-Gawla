@@ -8,9 +8,9 @@
         <shape android:shape="rectangle" >
             <stroke
                 android:width="1px"
-                android:color="#a9a9a9" />
+                android:package_color="#a9a9a9" />
 
-            <solid android:color="#00FFFFFF" />
+            <solid android:package_color="#00FFFFFF" />
 
             <padding
                 android:bottom="5dp"

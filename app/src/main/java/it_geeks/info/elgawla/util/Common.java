@@ -111,7 +111,11 @@ public class Common {
 
     // remove empty lines
     public String removeEmptyLines(String s) {
-        return s.replaceAll("(?m)^[ \t]*\r?\n", "");
+        if (s != null)
+        {
+            return s.replaceAll("(?m)^[ \t]*\r?\n", "");
+        }
+        return "";
     }
 
     // hide progress after recycler finish loading

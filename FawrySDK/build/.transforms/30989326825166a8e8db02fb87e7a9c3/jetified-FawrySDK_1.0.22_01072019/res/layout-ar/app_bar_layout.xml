@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:package_id="@+package_id/toolbar"
         style="@style/toolBarStyle"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
@@ -15,7 +15,7 @@
             android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/action_back_imageView"
+                android:package_id="@+package_id/action_back_imageView"
                 style="@style/header_action_style"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="-10dp"
@@ -26,17 +26,17 @@
                 android:src="@drawable/back_arrow"></ImageButton>
 
             <ImageView
-                android:id="@+id/target_icon"
+                android:package_id="@+package_id/target_icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/action_back_imageView"
-                android:layout_toStartOf="@+id/button_secondary_action"
+                android:layout_toEndOf="@package_id/action_back_imageView"
+                android:layout_toStartOf="@+package_id/button_secondary_action"
                 android:layout_centerInParent="true"
                 android:src="@drawable/header_logo"
                 android:gravity="center" />
 
             <com.emeint.android.fawryplugin.views.cutomviews.FawryPluginCustomButton
-                android:id="@+id/button_secondary_action"
+                android:package_id="@+package_id/button_secondary_action"
                 style="@style/header_action_style"
                 android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"

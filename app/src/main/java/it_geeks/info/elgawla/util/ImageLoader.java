@@ -95,4 +95,15 @@ public class ImageLoader {
             Crashlytics.logException(e);
         }
     }
+
+    public void loadDrawable(int resDrawable, ImageView imageView) {
+        try {
+            Picasso.get()
+                    .load(resDrawable)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+        }
+    }
 }

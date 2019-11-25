@@ -3,58 +3,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_small"
-    android:orientation="vertical">
+    android:layout_margin="@dimen/margin_small">
 
-    <!-- main layout -->
+    <!-- image -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_activity_image"
+        android:layout_width="@dimen/icon_notification"
+        android:layout_height="@dimen/icon_notification"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:src="@drawable/notification" />
+
+    <!-- texts -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:orientation="vertical">
 
-        <!-- image -->
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_activity_image"
-            android:layout_width="@dimen/icon_notification"
-            android:layout_height="@dimen/icon_notification"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:src="@drawable/notification" />
-
-        <!-- texts -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <!-- description -->
+        <TextView
+            android:id="@+id/tv_activity_body"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
-            android:orientation="vertical">
+            android:layout_margin="@dimen/margin_xTiny"
+            android:textColor="@color/battleshipGrey"
+            android:textSize="@dimen/text_size_small"
+            tools:text="@tools:sample/lorem" />
 
-            <!-- body -->
-            <TextView
-                android:id="@+id/tv_activity_body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_xTiny"
-                android:textColor="@color/battleshipGrey"
-                android:textSize="@dimen/text_size_small"
-                tools:text="@tools:sample/lorem" />
-
-            <!-- time -->
-            <TextView
-                android:id="@+id/tv_activity_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:textSize="@dimen/text_size_tiny"
-                tools:text="@tools:sample/lorem" />
-
-        </LinearLayout>
+        <!-- time -->
+        <TextView
+            android:id="@+id/tv_activity_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textSize="@dimen/text_size_tiny"
+            tools:text="@tools:sample/lorem" />
 
     </LinearLayout>
-
-    <!-- separator -->
-    <!--<View-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="1dp"-->
-    <!--    android:layout_marginStart="@dimen/margin_xxx_large"-->
-    <!--    android:layout_marginEnd="@dimen/margin_xlarge"-->
-    <!--    android:background="@color/paleGrey" />-->
 
 </LinearLayout>

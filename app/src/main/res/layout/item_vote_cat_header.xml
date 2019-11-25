@@ -34,7 +34,7 @@
             android:tint="@color/colorPrimary"
             tools:src="@drawable/vehicles" />
 
-        <!-- cat title -->
+        <!-- cat name -->
         <TextView
             android:id="@+id/tv_vote_header_title"
             android:layout_width="0dp"

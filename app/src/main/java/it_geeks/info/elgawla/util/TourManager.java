@@ -37,8 +37,8 @@ public class TourManager {
                 .listener(new TapTargetSequence.Listener() {
                     @Override
                     public void onSequenceFinish() {
-                        EventsManager.sendTutorialCompleteEvent(activity);
                         SharedPrefManager.getInstance(activity).setSalonPageTourFinished(true);
+                        EventsManager.sendTutorialCompleteEvent(activity);
                     }
 
                     @Override
