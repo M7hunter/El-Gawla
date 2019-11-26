@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/notification_swipe_refresh"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/paleGrey"
+    tools:context=".views.main.NotificationActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/notification_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/paleGrey"
         android:orientation="vertical"
         tools:context=".views.main.NotificationActivity">
 
@@ -52,38 +53,33 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- scroll main layout -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <!-- loading -->
+        <TextView
+            android:id="@+id/notification_loading"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/notification_header"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/margin_small"
+            android:text="@string/loading"
+            tools:visibility="visible" />
+
+        <include
+            android:id="@+id/sh_notification"
+            layout="@layout/layout_shimmer_notification" />
+
+        <!-- NotificationDao List -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notification_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
-            android:descendantFocusability="blocksDescendants"
-            android:orientation="vertical">
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_notification" />
 
-
-            <!-- loading -->
-            <TextView
-                android:id="@+id/notification_loading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="@dimen/margin_small"
-                android:text="@string/loading"
-                tools:visibility="visible" />
-
-            <!-- NotificationDao List -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/notification_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_notification" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
+    </LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

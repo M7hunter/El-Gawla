@@ -25,6 +25,7 @@ import it_geeks.info.elgawla.views.menu.MenuFragment;
 import it_geeks.info.elgawla.views.salon.MySalonsFragment;
 import it_geeks.info.elgawla.R;
 
+import static it_geeks.info.elgawla.util.Constants.CARDS_OFFER;
 import static it_geeks.info.elgawla.util.Constants.MEMBERSHIP_MSG;
 
 public class MainActivity extends BaseActivity {
@@ -52,27 +53,21 @@ public class MainActivity extends BaseActivity {
 
         init();
 
-        getExtras();
-
         initNavigation();
 
-        if (getIntent().getStringExtra("type") != null)
-        {
-            if (getIntent().getStringExtra("type").equals("cards"))
-            {
-                displayFragment(selectStoreFragment());
-                navigation.setSelectedItemId(R.id.navigation_store);
-            }
-        }
+        getExtras();
     }
 
     public void getExtras() {
         Bundle extras = getIntent().getExtras();
 
-        if (extras != null && extras.getString(MEMBERSHIP_MSG) != null)
+        if (extras != null)
         {
-            if (!extras.getString(MEMBERSHIP_MSG).isEmpty())
-                snackBuilder.setSnackText(extras.getString(MEMBERSHIP_MSG)).showSnack();
+            if (extras.getBoolean(CARDS_OFFER))
+            {
+                displayFragment(selectStoreFragment());
+                navigation.setSelectedItemId(R.id.navigation_store);
+            }
         }
     }
 

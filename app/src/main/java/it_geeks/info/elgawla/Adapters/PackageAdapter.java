@@ -40,8 +40,7 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Package mPackage = packageList.get(position);
 
-        holder.tvTitle.setText(mPackage.getPackage_name());
-        holder.tvPrice.setText(context.getString(R.string.Monthly, mPackage.getPackage_cost()));
+        holder.tvPrice.setText(mPackage.getPackage_cost());
         holder.tvBody.setText(mPackage.getPackage_description());
         ((CardView) holder.itemView).setCardBackgroundColor(Color.parseColor(mPackage.getPackage_color()));
 
@@ -63,12 +62,11 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvTitle, tvPrice, tvBody;
+        TextView tvPrice, tvBody;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvTitle = itemView.findViewById(R.id.tv_title);
             tvPrice = itemView.findViewById(R.id.tv_price);
             tvBody = itemView.findViewById(R.id.tv_body);
         }

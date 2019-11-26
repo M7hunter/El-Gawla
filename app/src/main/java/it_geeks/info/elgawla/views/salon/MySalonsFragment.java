@@ -61,7 +61,7 @@ public class MySalonsFragment extends Fragment {
 
     private int userId;
     private String apiToken;
-    private boolean isRecent = true;
+    private boolean isRecent;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -76,6 +76,7 @@ public class MySalonsFragment extends Fragment {
 
         userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
         apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
+        isRecent = true;
     }
 
     @Override
@@ -163,7 +164,6 @@ public class MySalonsFragment extends Fragment {
                             case R.id.tv_my_recent_salons:
                                 if (!isRecent)
                                 {
-                                    isRecent = true;
                                     selectRecent();
                                     loadSalonsUI();
                                     getRecentSalonsFromServer();
@@ -172,7 +172,6 @@ public class MySalonsFragment extends Fragment {
                             case R.id.tv_my_finished_salons:
                                 if (isRecent)
                                 {
-                                    isRecent = false;
                                     selectFinished();
                                     loadSalonsUI();
                                     getFinishedSalonsFromServer();
@@ -187,6 +186,7 @@ public class MySalonsFragment extends Fragment {
     }
 
     private void selectRecent() {
+        isRecent = true;
         tvMyRecentSalons.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         tvMyFinishedSalons.setBackgroundColor(Color.WHITE);
         tvMyRecentSalons.setTextColor(Color.WHITE);
@@ -194,6 +194,7 @@ public class MySalonsFragment extends Fragment {
     }
 
     private void selectFinished() {
+        isRecent = false;
         tvMyFinishedSalons.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         tvMyRecentSalons.setBackgroundColor(Color.WHITE);
         tvMyFinishedSalons.setTextColor(Color.WHITE);

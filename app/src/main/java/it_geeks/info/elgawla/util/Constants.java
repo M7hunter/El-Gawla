@@ -83,6 +83,7 @@ public class Constants {
     public static final String CATEGORY_NAME = "cat_name";
     public static final String PREVIOUS_PAGE_KEY = "previous_page";
     public static final String MEMBERSHIP_MSG = "membership_msg";
+    public static final String CARDS_OFFER = "cards_offer";
     public static final String PAYMENT_URL = "payment_url";
     public static final String SERVER_MSG = "message";
     public static final String PACKAGE = "package";

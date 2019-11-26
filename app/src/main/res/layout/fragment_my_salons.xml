@@ -83,28 +83,9 @@
                     android:layout_gravity="center">
 
                     <!-- load animation -->
-                    <com.facebook.shimmer.ShimmerFrameLayout
+                    <include
                         android:id="@+id/sh_my_salons"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:duration="750">
-                        <!-- shimmer main layout -->
-                        <GridLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:columnCount="2"
-                            android:orientation="vertical"
-                            android:rowCount="2"
-                            android:useDefaultMargins="true">
-
-                            <include layout="@layout/item_shimmer_salon_mini" />
-
-                            <include layout="@layout/item_shimmer_salon_mini" />
-
-                            <include layout="@layout/item_shimmer_salon_mini" />
-
-                        </GridLayout>
-                    </com.facebook.shimmer.ShimmerFrameLayout>
+                        layout="@layout/layout_shimmer_mini_salons" />
 
                     <!-- list -->
                     <androidx.recyclerview.widget.RecyclerView

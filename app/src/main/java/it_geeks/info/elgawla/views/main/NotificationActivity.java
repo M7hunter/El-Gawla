@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class NotificationActivity extends BaseActivity {
     private List<Notification> notificationList = new ArrayList<>();
 
     private TextView notificationLoading;
+    private ShimmerFrameLayout salonsShimmerLayout;
 
     private NotificationDao notificationDao;
 
@@ -53,12 +55,15 @@ public class NotificationActivity extends BaseActivity {
 
         handleEvent();
 
+        startShimmer();
+
         getNotificationListFromServer();
     }
 
     private void initViews() {
         refreshLayout = findViewById(R.id.notification_swipe_refresh);
         notificationLoading = findViewById(R.id.notification_loading);
+        salonsShimmerLayout = findViewById(R.id.sh_notification);
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
 
@@ -108,18 +113,36 @@ public class NotificationActivity extends BaseActivity {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         notificationLoading.setText(errorMessage);
+                        stopShimmer();
                         new SnackBuilder(findViewById(R.id.notification_swipe_refresh)).setSnackText(errorMessage).showSnack();
                     }
                 });
     }
 
+    private void startShimmer() {
+        if (salonsShimmerLayout.getVisibility() != View.VISIBLE)
+            salonsShimmerLayout.setVisibility(View.VISIBLE);
+
+        salonsShimmerLayout.startShimmerAnimation();
+    }
+
+    private void stopShimmer() {
+        if (salonsShimmerLayout.getVisibility() == View.VISIBLE)
+        {
+            salonsShimmerLayout.stopShimmerAnimation();
+            salonsShimmerLayout.setVisibility(View.GONE);
+        }
+    }
+
     private void initNotifyRecycler() {
-        if (notificationList.size() > 0)
+        stopShimmer();
+        if (!notificationList.isEmpty())
         {
             notificationLoading.setVisibility(View.GONE);
             SharedPrefManager.getInstance(this).setNewNotification(false);
 
             RecyclerView notificationRecycler = findViewById(R.id.notification_recycler);
+            notificationRecycler.setVisibility(View.VISIBLE);
             notificationRecycler.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
             notificationRecycler.setAdapter(new NotificationAdapter(NotificationActivity.this, notificationList, findViewById(R.id.notification_main_layout)));
         }
@@ -128,6 +151,5 @@ public class NotificationActivity extends BaseActivity {
             notificationLoading.setVisibility(View.VISIBLE);
             notificationLoading.setText(getString(R.string.no_notifications));
         }
-
     }
 }
