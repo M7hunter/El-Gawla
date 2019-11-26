@@ -53,12 +53,13 @@ public class StoreCategoryAdapter extends RecyclerView.Adapter<StoreCategoryAdap
     }
 
     public void updateCatsList(List<Category> newList) {
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new CatDiffCallback(categoryList, newList));
+//        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new CatDiffCallback(categoryList, newList));
 
         categoryList.clear();
         categoryList.addAll(newList);
+        notifyDataSetChanged();
 
-        diffResult.dispatchUpdatesTo(this);
+//        diffResult.dispatchUpdatesTo(this);
     }
 
     @Override

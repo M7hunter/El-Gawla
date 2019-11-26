@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -50,8 +49,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.activity.OnBackPressedDispatcher;
-import androidx.activity.OnBackPressedDispatcherOwner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -59,7 +56,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.core.widget.ImageViewCompat;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -189,7 +185,6 @@ public class SalonActivity extends BaseActivity {
                 initBottomSheetCardsBag();
                 bindProductMainViews();
                 initBottomSheetProductDetails();
-                initJoinConfirmationDialog();
                 initCardsBagIcon();
 
                 requests();
@@ -412,7 +407,7 @@ public class SalonActivity extends BaseActivity {
         });
 
         // cancel confirmation
-        joinAlert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        getJoinAlert().setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 if (joinState == 2 || roundRemainingTime.isUserJoin())
@@ -720,6 +715,14 @@ public class SalonActivity extends BaseActivity {
         }
         return salonMainContainer;
     }
+
+    private AlertDialog getJoinAlert() {
+        if (joinAlert == null)
+        {
+            joinAlert = initJoinConfirmationDialog();
+        }
+        return joinAlert;
+    }
     // endregion
 
     // region tabs
@@ -1009,7 +1012,6 @@ public class SalonActivity extends BaseActivity {
 
     private void displayWinner() {
         getWinner();
-        tvWinnerLabel.setVisibility(View.VISIBLE);
         tvWinnerName.setVisibility(View.VISIBLE);
         ivWinnerImage.setVisibility(View.VISIBLE);
 
@@ -1034,11 +1036,13 @@ public class SalonActivity extends BaseActivity {
             public void onChanged(String s) {
                 if (s.equals("no_winner"))
                 {
-                    ImageLoader.getInstance().loadDrawable(R.drawable.g_round, ivWinnerImage);
+                    ImageLoader.getInstance().loadDrawable(R.drawable.g_blue, ivWinnerImage);
+                    tvWinnerLabel.setVisibility(View.INVISIBLE);
                 }
                 else
                 {
                     ImageLoader.getInstance().loadFitImage(s, ivWinnerImage);
+                    tvWinnerLabel.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -1143,7 +1147,7 @@ public class SalonActivity extends BaseActivity {
     // region subscribe to salon
 
     // region subscription layout
-    private void initJoinConfirmationDialog() {
+    private AlertDialog initJoinConfirmationDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.CustomAlertDialogStyle);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.layout_salon_join_round_confirmation, null);
 
@@ -1175,7 +1179,7 @@ public class SalonActivity extends BaseActivity {
         });
 
         dialogBuilder.setView(dialogView);
-        joinAlert = dialogBuilder.create();
+        return dialogBuilder.create();
     }
 
     private void initSubscribeConfirmationViews() {
@@ -1194,7 +1198,7 @@ public class SalonActivity extends BaseActivity {
 
         // display confirmation layout
         btnJoinRound.setVisibility(View.GONE);
-        joinAlert.show();
+        getJoinAlert().show();
     }
 
     private void congratsSubscribing() { // Congratulation Screen to Join Salon
@@ -1218,7 +1222,7 @@ public class SalonActivity extends BaseActivity {
         addOfferLayout.setVisibility(View.GONE);
         btnUseGoldenCard.setVisibility(View.GONE);
         btnLeaveRound.setVisibility(View.VISIBLE);
-        joinAlert.dismiss();
+        getJoinAlert().dismiss();
     }
 
     private void onSubscriptionCanceled() {
@@ -1226,7 +1230,7 @@ public class SalonActivity extends BaseActivity {
 
         // hide confirmation layout
         btnJoinRound.setVisibility(View.VISIBLE);
-        joinAlert.dismiss();
+        getJoinAlert().dismiss();
     }
 
     private void initUnsubscribeDialog() {
@@ -1594,7 +1598,7 @@ public class SalonActivity extends BaseActivity {
                             getRemainingTimeFromServer();
 
                             congratsSubscribing();
-                            joinAlert.show();
+                            getJoinAlert().show();
                         }
 
                         @Override

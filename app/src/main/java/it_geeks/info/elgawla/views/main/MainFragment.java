@@ -63,12 +63,11 @@ public class MainFragment extends Fragment {
     private RecyclerView recentSalonsRecycler, finishedSalonsRecycler, rvCats;
     private ViewPager2 adsPager;
     private ProgressBar pbAds;
-    //    ,recentSalonsProgress, finishedSalonsProgress;
     private LinearLayout emptyViewLayout, finishedEmptyViewLayout, adsEmptyView;
     private TextView btnSeeMoreSalons, btnSeeMoreFinishedSalons, noConnectionLayout;
     private ImageView imgNotification, ivUserImage;
 
-    private ShimmerFrameLayout salonsShimmerLayout, finishedSalonsShimmerLayout;
+    private ShimmerFrameLayout salonsShimmerLayout, finishedSalonsShimmerLayout, catsShimmerLayout;
 
     private SalonsAdapter recentSalonsPagedAdapter, finishedSalonsPagedAdapter;
     private LinearLayoutManager layoutManager, finishedLayoutManager;
@@ -131,8 +130,6 @@ public class MainFragment extends Fragment {
         recentSalonsRecycler = fragmentView.findViewById(R.id.recent_salons_recycler);
         finishedSalonsRecycler = fragmentView.findViewById(R.id.finished_salons_recycler);
         adsPager = fragmentView.findViewById(R.id.ads_viewpager);
-//        recentSalonsProgress = fragmentView.findViewById(R.id.recent_salons_progress);
-//        finishedSalonsProgress = fragmentView.findViewById(R.id.finished_salons_progress);
         pbAds = fragmentView.findViewById(R.id.pb_ads);
         emptyViewLayout = fragmentView.findViewById(R.id.recent_salons_empty_view);
         finishedEmptyViewLayout = fragmentView.findViewById(R.id.finished_salons_empty_view);
@@ -142,6 +139,7 @@ public class MainFragment extends Fragment {
         ivUserImage = fragmentView.findViewById(R.id.iv_user_image);
         salonsShimmerLayout = fragmentView.findViewById(R.id.sh_salons);
         finishedSalonsShimmerLayout = fragmentView.findViewById(R.id.sh_finished_salons);
+        catsShimmerLayout = fragmentView.findViewById(R.id.sh_home_category);
 
         //Notification icon
         imgNotification = fragmentView.findViewById(R.id.iv_notification_bell);
@@ -219,15 +217,17 @@ public class MainFragment extends Fragment {
         noConnectionLayout.setVisibility(View.VISIBLE);
         recentSalonsRecycler.setVisibility(View.GONE);
         finishedSalonsRecycler.setVisibility(View.GONE);
-//        recentSalonsProgress.setVisibility(View.GONE);
-//        finishedSalonsProgress.setVisibility(View.GONE);
         adsPager.setVisibility(View.GONE);
         adsEmptyView.setVisibility(View.VISIBLE);
         refreshLayout.setRefreshing(false);
+        stopCatsShimmer();
+        stopSalonsShimmer();
+        stopFinishedSalonsShimmer();
     }
 
     private void getAdsAndCatsFromServer() {
         pbAds.setVisibility(View.VISIBLE);
+        startCatsShimmer();
         RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(),
                 REQ_GET_ALL_SLIDERS, new RequestModel<>(REQ_GET_ALL_SLIDERS, userId, apiToken
                         , null, null, null, null, null), new HandleResponses() {
@@ -250,24 +250,9 @@ public class MainFragment extends Fragment {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         initAdsRecycler();
+                        stopCatsShimmer();
                     }
                 });
-    }
-
-    private void initCatsRecycler() {
-        if (categories.size() > 0)
-        {
-            rvCats.setHasFixedSize(true);
-
-            if (rvCats.getAdapter() == null)
-                rvCats.setAdapter(new CategoryAdapter(categories, context, new ClickInterface.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Category cat = categories.get(position);
-                        openFilterByCat(cat.getCategoryId(), cat.getCategoryName());
-                    }
-                }));
-        }
     }
 
     private void initAdsRecycler() {
@@ -323,11 +308,41 @@ public class MainFragment extends Fragment {
         }, 0, 2500);
     }
 
+    private void initCatsRecycler() {
+        stopCatsShimmer();
+        if (!categories.isEmpty())
+        {
+            rvCats.setVisibility(View.VISIBLE);
+            rvCats.setHasFixedSize(true);
+            rvCats.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
+            rvCats.setAdapter(new CategoryAdapter(categories, new ClickInterface.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    Category cat = categories.get(position);
+                    openFilterByCat(cat.getCategoryId(), cat.getCategoryName());
+                }
+            }));
+        }
+    }
+
     private void openFilterByCat(int catId, String categoryName) {
         Intent i = new Intent(context, AllSalonsActivity.class);
         i.putExtra(Constants.CATEGORY_KEY, catId);
         i.putExtra(Constants.CATEGORY_NAME, categoryName);
         startActivity(i);
+    }
+
+    private void startCatsShimmer() {
+        if (catsShimmerLayout.getVisibility() == View.VISIBLE)
+            catsShimmerLayout.startShimmerAnimation();
+    }
+
+    private void stopCatsShimmer() {
+        if (catsShimmerLayout.getVisibility() == View.VISIBLE)
+        {
+            catsShimmerLayout.stopShimmerAnimation();
+            catsShimmerLayout.setVisibility(View.GONE);
+        }
     }
 
     private void getSalonsFirstPageFromServer() {
@@ -403,8 +418,6 @@ public class MainFragment extends Fragment {
         recentSalonsRecycler.setHasFixedSize(true);
         recentSalonsPagedAdapter = new SalonsAdapter(getContext(), salonList);
         recentSalonsRecycler.setAdapter(recentSalonsPagedAdapter);
-
-//        Common.Instance().hideProgress(recentSalonsRecycler, recentSalonsProgress);
 
         if (page < last_page)
         {

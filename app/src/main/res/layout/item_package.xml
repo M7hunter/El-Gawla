@@ -16,35 +16,20 @@
         android:layout_margin="@dimen/margin_medium"
         android:layoutDirection="rtl">
 
-        <!-- name -->
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_small"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tv_price"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="kjaklsjdadsfsad" />
-
         <!-- cost label -->
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_small"
-            android:text="@string/Monthly"
+            android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/tv_body"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- description -->
         <TextView
@@ -52,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_tiny"
+            android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_small"
             android:textStyle="bold"

@@ -29,6 +29,8 @@ import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.signing.SignInActivity;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
 
+import static it_geeks.info.elgawla.util.Constants.CARDS_OFFER;
+
 public class NotificationBuilder {
 
     private static final String REMOTE_NOTIFICATION_CHANNEL_ID = "GAWLA_CHANNEL_ID";
@@ -250,7 +252,6 @@ public class NotificationBuilder {
 
         bundle.putString("title", title);
         bundle.putString("body", body);
-        bundle.putString("type", type);
         bundle.putInt("id", Integer.valueOf(id));
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
@@ -267,7 +268,8 @@ public class NotificationBuilder {
             else if (type.equals("cards"))
             {
                 intent = new Intent(context, MainActivity.class); // redirect to store fragment
-                stackBuilder.addNextIntentWithParentStack(intent);
+                stackBuilder.addNextIntentWithParentStack(intent
+                        .putExtra(CARDS_OFFER, true));
             }
             else if (context instanceof NotificationActivity)
             {

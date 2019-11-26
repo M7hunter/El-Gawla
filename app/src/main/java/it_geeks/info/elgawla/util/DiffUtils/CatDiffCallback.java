@@ -40,8 +40,8 @@ public class CatDiffCallback extends DiffUtil.Callback {
     @Override
     public Object getChangePayload(int oldItemPosition, int newItemPosition) {
         //you can return particular field for changed item.
-//        return newCatsList.get(newItemPosition);
+        return newCatsList.get(newItemPosition);
 
-        return super.getChangePayload(oldItemPosition, newItemPosition);
+//        return super.getChangePayload(oldItemPosition, newItemPosition);
     }
 }

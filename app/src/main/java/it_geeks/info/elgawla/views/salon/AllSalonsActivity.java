@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
@@ -21,13 +22,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import it_geeks.info.elgawla.Adapters.CategoryAdapter;
+import it_geeks.info.elgawla.Adapters.CategoryFilterAdapter;
+import it_geeks.info.elgawla.Adapters.SalonsMiniAdapter;
 import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.util.Constants;
-import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
@@ -35,7 +37,6 @@ import it_geeks.info.elgawla.repository.Storage.CardDao;
 import it_geeks.info.elgawla.repository.Storage.ProductImageDao;
 import it_geeks.info.elgawla.repository.Storage.RoundDao;
 import it_geeks.info.elgawla.util.Common;
-import it_geeks.info.elgawla.util.Interfaces.ConnectionInterface;
 import it_geeks.info.elgawla.util.notification.NotificationBuilder;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.R;
@@ -47,7 +48,6 @@ import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.Adapters.DateAdapter;
-import it_geeks.info.elgawla.Adapters.SalonsAdapter;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
@@ -66,6 +66,8 @@ public class AllSalonsActivity extends BaseActivity {
     private BottomSheetDialog mBottomSheetDialogFilterBy;
     private FloatingActionButton fbtnFilter;
 
+    private ShimmerFrameLayout salonsShimmerLayout;
+
     private List<Salon> roundsList = new ArrayList<>();
     private List<Category> categoryList = new ArrayList<>();
     private List<SalonDate> dateList = new ArrayList<>();
@@ -73,7 +75,6 @@ public class AllSalonsActivity extends BaseActivity {
     private int userId, catKey;
     private boolean isDateFilter = true, isFinishedSalons = false;
     private String apiToken;
-    private DialogBuilder dialogBuilder;
     private SnackBuilder snackBuilder;
 
     @Override
@@ -88,33 +89,23 @@ public class AllSalonsActivity extends BaseActivity {
 
         initBottomSheetFilterBy();
 
-        Common.Instance().ApplyOnConnection(AllSalonsActivity.this, new ConnectionInterface() {
-            @Override
-            public void onConnected() {
-                getExtraData();
+        getExtraData();
 
-                if (catKey == Constants.NULL_INT_VALUE)
-                {
-                    getDatesAndRoundsFromServer();
-                }
-                else
-                {
-                    getSalonsByCatFromServer();
-                }
-            }
-
-            @Override
-            public void onFailed() {
-                dialogBuilder.hideLoadingDialog();
-            }
-        });
+        if (catKey == Constants.NULL_INT_VALUE)
+        {
+            getDatesAndRoundsFromServer();
+        }
+        else
+        {
+            getSalonsByCatFromServer();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        SalonsAdapter.clickable = true;
+        SalonsMiniAdapter.clickable = true;
     }
 
     private void getExtraData() {
@@ -137,6 +128,7 @@ public class AllSalonsActivity extends BaseActivity {
         salonsRecycler = findViewById(R.id.all_salons_recycler);
         emptyViewLayout = findViewById(R.id.all_salons_empty_view);
         tvAllSalonsTitle = findViewById(R.id.tv_all_salon_title);
+        salonsShimmerLayout = findViewById(R.id.sh_all_salons);
 
         filterRecycler = findViewById(R.id.filter_recycler);
         rvCats = findViewById(R.id.rv_cats);
@@ -145,9 +137,6 @@ public class AllSalonsActivity extends BaseActivity {
 
         filterRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         rvCats.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-
-        dialogBuilder = new DialogBuilder();
-        dialogBuilder.createLoadingDialog(this);
 
         snackBuilder = new SnackBuilder(findViewById(R.id.all_salons_main_layout));
 
@@ -192,7 +181,7 @@ public class AllSalonsActivity extends BaseActivity {
     }
 
     private void getSalonsByCatFromServer() {
-        dialogBuilder.displayLoadingDialog();
+        startSalonsShimmer();
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
                 REQ_GET_SALONS_BY_CAT_ID, new RequestModel<>(REQ_GET_SALONS_BY_CAT_ID, userId, apiToken, catKey,
                         null, null, null, null), new HandleResponses() {
@@ -204,20 +193,18 @@ public class AllSalonsActivity extends BaseActivity {
                     @Override
                     public void handleAfterResponse() {
                         initSalonsRecycler();
-                        dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         initSalonsRecycler();
-                        dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }
 
     private void getDatesAndRoundsFromServer() {
-        dialogBuilder.displayLoadingDialog();
+        startSalonsShimmer();
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
                 isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, new RequestModel<>(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, userId, apiToken, false,
                         null, null, null, null), new HandleResponses() {
@@ -243,13 +230,11 @@ public class AllSalonsActivity extends BaseActivity {
                     @Override
                     public void handleAfterResponse() {
                         initSalonsRecycler();
-                        dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         initSalonsRecycler();
-                        dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
@@ -327,7 +312,7 @@ public class AllSalonsActivity extends BaseActivity {
     }
 
     private void getCategoriesAndRoundsFromServer() {
-        dialogBuilder.displayLoadingDialog();
+        startSalonsShimmer();
         RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
                 REQ_GET_ALL_CATEGORIES, new RequestModel<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
                         null, null, null, null, null), new HandleResponses() {
@@ -350,13 +335,11 @@ public class AllSalonsActivity extends BaseActivity {
                     public void handleAfterResponse() {
                         initCategoriesAdapter();
                         initSalonsRecycler();
-                        dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         initSalonsRecycler();
-                        dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
@@ -365,7 +348,7 @@ public class AllSalonsActivity extends BaseActivity {
     private void initCategoriesAdapter() {
         filterRecycler.setVisibility(View.GONE);
         rvCats.setVisibility(View.VISIBLE);
-        rvCats.setAdapter(new CategoryAdapter(categoryList, this, new ClickInterface.OnItemClickListener() {
+        rvCats.setAdapter(new CategoryFilterAdapter(categoryList, new ClickInterface.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Category category = categoryList.get(position);
@@ -379,17 +362,49 @@ public class AllSalonsActivity extends BaseActivity {
 
     private void initSalonsRecycler() {
         EventsManager.sendSearchResultsEvent(this, "");
-        if (roundsList.size() > 0)
+        stopSalonsShimmer();
+        if (!roundsList.isEmpty())
         { // !empty ?
             emptyViewLayout.setVisibility(View.GONE);
             salonsRecycler.setVisibility(View.VISIBLE);
+            updateSpanCount(roundsList);
             salonsRecycler.setHasFixedSize(true);
-            salonsRecycler.setAdapter(new SalonsAdapter(AllSalonsActivity.this, roundsList));
+            salonsRecycler.setAdapter(new SalonsMiniAdapter(AllSalonsActivity.this, roundsList));
         }
         else
         {  // empty ?
             emptyViewLayout.setVisibility(View.VISIBLE);
             salonsRecycler.setVisibility(View.GONE);
+        }
+    }
+
+    private void updateSpanCount(List<Salon> list) {
+        if (salonsRecycler.getLayoutManager() != null)
+        {
+            if (list.size() == 1)
+            {
+                ((GridLayoutManager) salonsRecycler.getLayoutManager()).setSpanCount(1);
+            }
+            else
+            {
+                ((GridLayoutManager) salonsRecycler.getLayoutManager()).setSpanCount(2);
+            }
+        }
+    }
+
+    private void startSalonsShimmer() {
+        if (salonsShimmerLayout.getVisibility() != View.VISIBLE)
+            salonsShimmerLayout.setVisibility(View.VISIBLE);
+
+        salonsRecycler.setVisibility(View.GONE);
+        salonsShimmerLayout.startShimmerAnimation();
+    }
+
+    private void stopSalonsShimmer() {
+        if (salonsShimmerLayout.getVisibility() == View.VISIBLE)
+        {
+            salonsShimmerLayout.stopShimmerAnimation();
+            salonsShimmerLayout.setVisibility(View.GONE);
         }
     }
 
