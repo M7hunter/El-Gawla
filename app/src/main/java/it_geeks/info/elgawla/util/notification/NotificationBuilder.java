@@ -19,6 +19,7 @@ import androidx.core.app.TaskStackBuilder;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import it_geeks.info.elgawla.R;
+import it_geeks.info.elgawla.repository.Models.Activity;
 import it_geeks.info.elgawla.repository.Models.Notification;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
@@ -54,12 +55,12 @@ public class NotificationBuilder {
         this.context = context;
     }
 
-    public static void listenToNotificationStatus(final Context context, final View indicator) {
+    public static void listenToNotificationStatus(Context context, final View indicator) {
         if (SharedPrefManager.getInstance(context).isNotificationEnabled())
-            GawlaDataBse.getInstance(context).notificationDao().getStatusNotification(true).observe((LifecycleOwner) context, new Observer<List<Notification>>() {
+            SharedPrefManager.newNotificationLive.observe(((LifecycleOwner) context), new Observer<Boolean>() {
                 @Override
-                public void onChanged(List<Notification> notifications) {
-                    if (notifications.size() > 0)
+                public void onChanged(Boolean aBoolean) {
+                    if (aBoolean)
                     {
                         indicator.setVisibility(View.VISIBLE);
                     }
@@ -69,6 +70,7 @@ public class NotificationBuilder {
                     }
                 }
             });
+
     }
 
     public static void createRemoteChannel(Context context) {

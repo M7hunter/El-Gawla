@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import it_geeks.info.elgawla.util.DialogBuilder;
-import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.util.receivers.ConnectionChangeReceiver;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
@@ -26,7 +25,6 @@ import it_geeks.info.elgawla.views.salon.MySalonsFragment;
 import it_geeks.info.elgawla.R;
 
 import static it_geeks.info.elgawla.util.Constants.CARDS_OFFER;
-import static it_geeks.info.elgawla.util.Constants.MEMBERSHIP_MSG;
 
 public class MainActivity extends BaseActivity {
 
@@ -72,8 +70,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init() {
-        // Notification Update Status When App Open
-        updateNotificationStatus();
+        SharedPrefManager.getInstance(this).haveNewNotification();
         // Firebase Receive messaging notification
         FirebaseMessagingInitialize();
 
@@ -82,17 +79,6 @@ public class MainActivity extends BaseActivity {
         dialogBuilder.createLoadingDialog(this);
 
         snackBuilder = new SnackBuilder(getSnackBarContainer());
-    }
-
-    private void updateNotificationStatus() {
-        if (SharedPrefManager.getInstance(this).getNewNotification())
-        {
-            GawlaDataBse.getInstance(this).notificationDao().updateStatusNotification(true);
-        }
-        else
-        {
-            GawlaDataBse.getInstance(this).notificationDao().updateStatusNotification(false);
-        }
     }
 
     // Firebase initialize

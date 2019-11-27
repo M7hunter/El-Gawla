@@ -11,19 +11,15 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import it_geeks.info.elgawla.repository.Models.Card;
 import it_geeks.info.elgawla.repository.Models.Category;
 import it_geeks.info.elgawla.repository.Models.Country;
-import it_geeks.info.elgawla.repository.Models.Notification;
 import it_geeks.info.elgawla.repository.Models.ProductSubImage;
 import it_geeks.info.elgawla.repository.Models.Salon;
-import it_geeks.info.elgawla.repository.Models.Trans;
 
 @Database(entities = {
         Salon.class,
         Card.class,
-        Trans.class,
         Country.class,
         Category.class,
-        Notification.class,
-        ProductSubImage.class,}, version = 4, exportSchema = false)
+        ProductSubImage.class,}, version = 5, exportSchema = false)
 public abstract class GawlaDataBse extends RoomDatabase {
 
     private static GawlaDataBse INSTANCE;
@@ -43,7 +39,15 @@ public abstract class GawlaDataBse extends RoomDatabase {
             database.execSQL("ALTER TABLE salon ADD COLUMN isWinner INTEGER DEFAULT 0");
         }
     };
-//
+
+    private static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE Notification");
+            database.execSQL("DROP TABLE Trans");
+        }
+    };
+
 //    private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
 //        @Override
 //        public void migrate(SupportSQLiteDatabase database) {
@@ -82,8 +86,8 @@ public abstract class GawlaDataBse extends RoomDatabase {
         {
             INSTANCE = Room.databaseBuilder(context, GawlaDataBse.class, DB_NAME)
                     .allowMainThreadQueries()
-                    .fallbackToDestructiveMigration() // resolve this before release -> use migration <-
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                    .fallbackToDestructiveMigration()
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                     .build();
         }
         return INSTANCE;
@@ -94,14 +98,10 @@ public abstract class GawlaDataBse extends RoomDatabase {
 
     public abstract RoundDao roundDao();
 
-    public abstract TransDao transDao();
-
     public abstract CountryDao countryDao();
 
     public abstract CategoryDao categoryDao();
 
     public abstract ProductImageDao productImageDao();
-
-    public abstract NotificationDao notificationDao();
 }
 

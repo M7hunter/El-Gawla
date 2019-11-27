@@ -541,46 +541,9 @@
                                 android:visibility="visible"
                                 tools:text="@string/no_content" />
 
-                            <!-- winner name -->
-                            <TextView
-                                android:id="@+id/tv_salon_winner_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/margin_xxxx_large"
-                                android:text="@string/winner"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/text_size_large"
-                                android:visibility="gone" />
-
-                            <!-- winner label -->
-                            <TextView
-                                android:id="@+id/tv_salon_winner_label"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_small"
-                                android:text="@string/winner"
-                                android:textColor="@color/colorSecondary"
-                                android:visibility="gone" />
-
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
-
-                <!-- winner image -->
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_salon_winner_image"
-                    android:layout_width="@dimen/salon_winner_image"
-                    android:layout_height="@dimen/salon_winner_image"
-                    android:src="@drawable/g_blue"
-                    android:visibility="gone"
-                    app:civ_border_color="@color/colorPrimary"
-                    app:civ_border_overlay="true"
-                    app:civ_border_width="1dp"
-                    app:civ_circle_background_color="@android:color/white"
-                    app:layout_constraintBottom_toTopOf="@id/time_container"
-                    app:layout_constraintEnd_toEndOf="@id/time_container"
-                    app:layout_constraintStart_toStartOf="@id/time_container"
-                    app:layout_constraintTop_toTopOf="@id/time_container" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

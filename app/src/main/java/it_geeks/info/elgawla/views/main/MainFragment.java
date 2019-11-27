@@ -62,12 +62,11 @@ public class MainFragment extends Fragment {
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recentSalonsRecycler, finishedSalonsRecycler, rvCats;
     private ViewPager2 adsPager;
-    private ProgressBar pbAds;
     private LinearLayout emptyViewLayout, finishedEmptyViewLayout, adsEmptyView;
     private TextView btnSeeMoreSalons, btnSeeMoreFinishedSalons, noConnectionLayout;
     private ImageView imgNotification, ivUserImage;
 
-    private ShimmerFrameLayout salonsShimmerLayout, finishedSalonsShimmerLayout, catsShimmerLayout;
+    private ShimmerFrameLayout salonsShimmerLayout, finishedSalonsShimmerLayout, catsShimmerLayout, sliderShimmerLayout;
 
     private SalonsAdapter recentSalonsPagedAdapter, finishedSalonsPagedAdapter;
     private LinearLayoutManager layoutManager, finishedLayoutManager;
@@ -130,7 +129,6 @@ public class MainFragment extends Fragment {
         recentSalonsRecycler = fragmentView.findViewById(R.id.recent_salons_recycler);
         finishedSalonsRecycler = fragmentView.findViewById(R.id.finished_salons_recycler);
         adsPager = fragmentView.findViewById(R.id.ads_viewpager);
-        pbAds = fragmentView.findViewById(R.id.pb_ads);
         emptyViewLayout = fragmentView.findViewById(R.id.recent_salons_empty_view);
         finishedEmptyViewLayout = fragmentView.findViewById(R.id.finished_salons_empty_view);
         adsEmptyView = fragmentView.findViewById(R.id.ads_empty_view);
@@ -140,6 +138,7 @@ public class MainFragment extends Fragment {
         salonsShimmerLayout = fragmentView.findViewById(R.id.sh_salons);
         finishedSalonsShimmerLayout = fragmentView.findViewById(R.id.sh_finished_salons);
         catsShimmerLayout = fragmentView.findViewById(R.id.sh_home_category);
+        sliderShimmerLayout = fragmentView.findViewById(R.id.sh_slider);
 
         //Notification icon
         imgNotification = fragmentView.findViewById(R.id.iv_notification_bell);
@@ -226,7 +225,7 @@ public class MainFragment extends Fragment {
     }
 
     private void getAdsAndCatsFromServer() {
-        pbAds.setVisibility(View.VISIBLE);
+        startSliderShimmer();
         startCatsShimmer();
         RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(),
                 REQ_GET_ALL_SLIDERS, new RequestModel<>(REQ_GET_ALL_SLIDERS, userId, apiToken
@@ -250,13 +249,13 @@ public class MainFragment extends Fragment {
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
                         initAdsRecycler();
-                        stopCatsShimmer();
+                        initCatsRecycler();
                     }
                 });
     }
 
     private void initAdsRecycler() {
-        pbAds.setVisibility(View.GONE);
+        stopSliderShimmer();
         if (adsList.size() > 0)
         {
             adsEmptyView.setVisibility(View.GONE);
@@ -306,6 +305,19 @@ public class MainFragment extends Fragment {
                 handler.post(updateCurrentAd);
             }
         }, 0, 2500);
+    }
+
+    private void startSliderShimmer() {
+        if (sliderShimmerLayout.getVisibility() == View.VISIBLE)
+            sliderShimmerLayout.startShimmerAnimation();
+    }
+
+    private void stopSliderShimmer() {
+        if (sliderShimmerLayout.getVisibility() == View.VISIBLE)
+        {
+            sliderShimmerLayout.stopShimmerAnimation();
+            sliderShimmerLayout.setVisibility(View.GONE);
+        }
     }
 
     private void initCatsRecycler() {
@@ -542,7 +554,7 @@ public class MainFragment extends Fragment {
         finishedSalonsPagedAdapter = new SalonsAdapter(context, finishedSalonList);
         finishedSalonsRecycler.setAdapter(finishedSalonsPagedAdapter);
 
-//        Common.Instance().hideProgress(finishedSalonsRecycler, finishedSalonsProgress);
+//        Common.Instance().hideLoading(finishedSalonsRecycler, finishedSalonsProgress);
 
         if (page_finished < last_page_finished)
         {

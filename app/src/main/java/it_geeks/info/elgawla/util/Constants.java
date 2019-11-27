@@ -51,7 +51,6 @@ public class Constants {
     public static final String REQ_UPDATE_USER_DATA = "updateUserData";
     public static final String REQ_CHANGE_PASSWORD = "changeUserPasswordByID";
     public static final String REQ_RESET_PASSWORD = "resetPassword";
-    public static final String REQ_DEACTIVATE_USER_ACCOUNT = "deactivateUserAccountByID";
     public static final String REQ_SET_MEMBERSHIP = "setUserMembership";
     public static final String REQ_CHECK_SUBSCRIPTION = "checkSubscribe";
     public static final String REQ_USER_ACTIVATION = "userActivation";
@@ -65,24 +64,15 @@ public class Constants {
     public static final String REQ_FORGOT_PASSWORD = "forgotPassword";
     // endregion
 
-    // region cats
-    public static final String CAT_ENGINES = "Engines";
-    public static final String CAT_JEWELLERY = "Jewelery";
-    public static final String CAT_REAL_STATE = "Real Estates";
-    public static final String CAT_MATERIALS = "Consumption materials";
-
     public static final String CAT_ID = "category selected from store";
-    // endregion
-
-
     public static final int NULL_INT_VALUE = -111;
     public static final int REQ_CODE_BUY_CARD = 159;
     public static final String EMPTY_TOKEN = "empty";
     public static final String CATEGORY_KEY = "cat_key";
     public static final String FINISHED = "is_finished_salons";
+    public static final String SALON_FINISHED = "isSalonFinished";
     public static final String CATEGORY_NAME = "cat_name";
     public static final String PREVIOUS_PAGE_KEY = "previous_page";
-    public static final String MEMBERSHIP_MSG = "membership_msg";
     public static final String CARDS_OFFER = "cards_offer";
     public static final String PAYMENT_URL = "payment_url";
     public static final String SERVER_MSG = "message";

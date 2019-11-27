@@ -58,6 +58,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
+            android:name=".views.salon.ClosedSalonActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".views.main.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name=".views.salon.WinnerActivity"
             android:launchMode="singleTop" />
         <activity
@@ -83,7 +89,8 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".views.signing.SignUpActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:parentActivityName=".views.signing.SignInActivity" />
         <activity
             android:name=".views.signing.SignInActivity"
             android:launchMode="singleTop" />

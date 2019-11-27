@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 
 import it_geeks.info.elgawla.util.Common;
-import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 
 public class NotificationFirebaseMessagingService extends FirebaseMessagingService {
@@ -67,8 +66,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
         }
 
         // have a new notification
-        SharedPrefManager.getInstance(getApplicationContext()).setNewNotification(true);
-        GawlaDataBse.getInstance(this).notificationDao().updateStatusNotification(true);
+        SharedPrefManager.getInstance(getApplicationContext()).setHaveNewNotification(true);
     }
 
     @Override

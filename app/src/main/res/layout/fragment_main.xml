@@ -55,6 +55,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
+                        <include android:id="@+id/sh_slider"
+                            layout="@layout/layout_shimmer_slider"/>
+
                         <!-- ads -->
                         <androidx.viewpager2.widget.ViewPager2
                             android:id="@+id/ads_viewpager"
@@ -113,16 +116,6 @@
                             </LinearLayout>
 
                         </LinearLayout>
-
-                        <ProgressBar
-                            android:id="@+id/pb_ads"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -189,7 +182,6 @@
                 android:layout_marginBottom="@dimen/margin_medium">
 
                 <!-- load animation -->
-
                 <include
                     android:id="@+id/sh_salons"
                     layout="@layout/layout_shimmer_salons" />

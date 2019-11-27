@@ -58,13 +58,16 @@ public class Salon implements Serializable {
     private boolean isWinner;
 
     @ColumnInfo
+    private boolean isClosed;
+
+    @ColumnInfo
     private String message;
 
     // constructors
     public Salon() {
     }
 
-    public Salon(int product_id, int salon_id, int round_id, String product_name, String category_name, String category_color, String country_name, String product_commercial_price, String product_product_description, String product_image, List<ProductSubImage> subImages, List<Card> salonCards, String salon_date, boolean status, String message) {
+    public Salon(int product_id, int salon_id, int round_id, String product_name, String category_name, String category_color, String country_name, String product_commercial_price, String product_product_description, String product_image, List<ProductSubImage> subImages, List<Card> salonCards, String salon_date, boolean isClosed, boolean status, String message) {
         this.product_id = product_id;
         this.salon_id = salon_id;
         this.round_id = round_id;
@@ -78,6 +81,7 @@ public class Salon implements Serializable {
         this.product_images = subImages;
         this.salon_cards = salonCards;
         this.salon_date = salon_date;
+        this.isClosed = isClosed;
         this.status = status;
         this.message = message;
     }
@@ -206,6 +210,14 @@ public class Salon implements Serializable {
 
     public boolean isStatus() {
         return status;
+    }
+
+    public boolean isClosed() {
+        return isClosed;
+    }
+
+    public void setClosed(boolean closed) {
+        isClosed = closed;
     }
 
     public void setStatus(boolean status) {

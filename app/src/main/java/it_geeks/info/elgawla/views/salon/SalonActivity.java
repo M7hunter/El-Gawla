@@ -119,7 +119,7 @@ public class SalonActivity extends BaseActivity {
     private ProgressBar joinProgress, joinConfirmationProgress, pbTopTen;
     public VideoView vpProductMainVideo;
     public ImageView ivProductMainViewer;
-    private ImageView btnPlayPause, imgNotification, joinIcon, ivProductImage, ivWinnerImage;
+    private ImageView btnPlayPause, imgNotification, joinIcon, ivProductImage;
     public Button btnJoinRound, btnAddOffer;
     private Button btnJoinConfirmation, btnUseGoldenCard;
     private FloatingActionButton fbtnShare;
@@ -261,18 +261,8 @@ public class SalonActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         AudioPlayer.getInstance().play(SalonActivity.this, R.raw.exit);
-
-        if (getIntent().getBooleanExtra("salon_from_link", false))
-        {
-            startActivity(new Intent(SalonActivity.this, MainActivity.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-            finish();
-        }
-        else
-        {
-            setResult(RESULT_OK, new Intent());
-            super.onBackPressed();
-        }
+        setResult(RESULT_OK, new Intent());
+        super.onBackPressed();
     }
 
     @Override
@@ -299,7 +289,6 @@ public class SalonActivity extends BaseActivity {
 
         tvWinnerName = findViewById(R.id.tv_salon_winner_name);
         tvWinnerLabel = findViewById(R.id.tv_salon_winner_label);
-        ivWinnerImage = findViewById(R.id.iv_salon_winner_image);
 
         activityRecycler.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
         topTenRecycler.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
@@ -758,7 +747,7 @@ public class SalonActivity extends BaseActivity {
             topTenRecycler.setHasFixedSize(true);
             topTenRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
             topTenRecycler.setAdapter(new TopTenAdapter(topTens));
-            Common.Instance().hideProgress(topTenRecycler, pbTopTen);
+            Common.Instance().hideLoading(topTenRecycler, pbTopTen);
         }
         else
         {
@@ -1005,47 +994,9 @@ public class SalonActivity extends BaseActivity {
 
     private void onSalonClosedState() {
         selectTopTenTab();
-        displayWinner();
+        getWinner();
         getSocketUtils().disconnectSocket();
         getChatUtils().disableChat();
-    }
-
-    private void displayWinner() {
-        getWinner();
-        tvWinnerName.setVisibility(View.VISIBLE);
-        ivWinnerImage.setVisibility(View.VISIBLE);
-
-        findViewById(R.id.ll_salon_countdown).setVisibility(View.GONE);
-        tvSalonMessage.setVisibility(View.GONE);
-        tvChatTab.setVisibility(View.GONE);
-        tvSalonActivityTab.setVisibility(View.GONE);
-        cardsBag.setVisibility(View.GONE);
-
-        ((ConstraintLayout.LayoutParams) timeContainer.getLayoutParams()).setMargins(0, 135, 0, 0);
-        lastActivity.setOnClickListener(null);
-
-        winner.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                tvWinnerName.setText(s);
-            }
-        });
-
-        winnerImageUrl.observe(SalonActivity.this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                if (s.equals("no_winner"))
-                {
-                    ImageLoader.getInstance().loadDrawable(R.drawable.g_blue, ivWinnerImage);
-                    tvWinnerLabel.setVisibility(View.INVISIBLE);
-                }
-                else
-                {
-                    ImageLoader.getInstance().loadFitImage(s, ivWinnerImage);
-                    tvWinnerLabel.setVisibility(View.VISIBLE);
-                }
-            }
-        });
     }
 
     private void displayUserOffer() {
@@ -1377,7 +1328,7 @@ public class SalonActivity extends BaseActivity {
 
                 List<ProductSubImage> subImages = salon.getProduct_images();
                 subImages.add(0, new ProductSubImage(salon.getProduct_id(), salon.getProduct_image()));
-                imagesRecycler.setAdapter(new ProductSubImagesAdapter(this, subImages));
+                imagesRecycler.setAdapter(new ProductSubImagesAdapter(this, subImages, salon.isClosed()));
             }
     }
 
