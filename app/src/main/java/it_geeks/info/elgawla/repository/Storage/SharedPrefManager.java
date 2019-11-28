@@ -8,6 +8,8 @@ import android.webkit.WebView;
 
 import java.util.Locale;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Country;
 import it_geeks.info.elgawla.repository.Models.User;
@@ -21,6 +23,7 @@ public class SharedPrefManager {
     private static SharedPrefManager sharedPrefManager;
     private Context context;
     private SharedPreferences sharedPreferences;
+    public static MutableLiveData<Boolean> newNotificationLive = new MutableLiveData<>();
 
     private static final String SHARED_PREF_LANG = "lang_shared_pref";
     private static final String SHARED_PREF_USER = "user_shared_pref";
@@ -82,18 +85,19 @@ public class SharedPrefManager {
     }
 
     // New Notification status
-    public void setNewNotification(Boolean newNotification) {
+    public void setHaveNewNotification(Boolean newNotification) {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
 
+        newNotificationLive.postValue(newNotification);
         editor.putBoolean("new_notification", newNotification);
         editor.apply();
     }
 
-    public boolean getNewNotification() {
+    public void haveNewNotification() {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean("new_notification", true);
+        newNotificationLive.postValue(sharedPreferences.getBoolean("new_notification", false));
     }
 
     public void clearNewNotification() {

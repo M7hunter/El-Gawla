@@ -56,6 +56,7 @@ public class ParseResponses {
                             parseSubImages(roundObj, product_id),
                             parseSalonCards(roundObj, salon_id),
                             roundObj.get("round_date").getAsString(),
+                            roundObj.get("is_closed").getAsBoolean(),
                             salon_statusObj.get("status").getAsBoolean(),
                             salon_statusObj.get("message").getAsString()));
         }
@@ -83,6 +84,7 @@ public class ParseResponses {
                 parseSubImages(roundObj, product_id),
                 parseSalonCards(roundObj, salon_id),
                 roundObj.get("round_date").getAsString(),
+                roundObj.get("is_closed").getAsBoolean(),
                 salon_statusObj.get("status").getAsBoolean(),
                 salon_statusObj.get("message").getAsString());
     }

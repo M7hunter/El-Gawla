@@ -290,7 +290,7 @@ public class MySalonsFragment extends Fragment {
             mySalonsRecycler.setVisibility(View.VISIBLE);
             updateSpanCount(recentSalonsList);
             mySalonsRecycler.setHasFixedSize(true);
-            mySalonsRecycler.setAdapter(new SalonsMiniAdapter(context, recentSalonsList));
+            mySalonsRecycler.setAdapter(new SalonsMiniAdapter(context, recentSalonsList, "my_recent"));
         }
         else
         {
@@ -307,7 +307,7 @@ public class MySalonsFragment extends Fragment {
             mySalonsRecycler.setVisibility(View.VISIBLE);
             updateSpanCount(finishedSalonsList);
             mySalonsRecycler.setHasFixedSize(true);
-            mySalonsRecycler.setAdapter(new SalonsMiniAdapter(context, finishedSalonsList));
+            mySalonsRecycler.setAdapter(new SalonsMiniAdapter(context, finishedSalonsList, "my_archive"));
         }
         else
         {

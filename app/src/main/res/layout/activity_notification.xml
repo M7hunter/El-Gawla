@@ -7,11 +7,12 @@
     android:layout_height="wrap_content"
     android:background="@color/paleGrey"
     tools:context=".views.main.NotificationActivity">
-
+    <!-- main content -->
     <LinearLayout
         android:id="@+id/notification_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:orientation="vertical"
         tools:context=".views.main.NotificationActivity">
 
@@ -53,18 +54,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- loading -->
-        <TextView
-            android:id="@+id/notification_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/notification_header"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/margin_small"
-            android:text="@string/loading"
-            tools:visibility="visible" />
-
         <include
             android:id="@+id/sh_notification"
             layout="@layout/layout_shimmer_notification" />
@@ -80,6 +69,32 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="3"
             tools:listitem="@layout/item_notification" />
+
+        <!-- empty view -->
+        <LinearLayout
+            android:id="@+id/notification_empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/empty_view" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="@string/no_notifications"
+                android:textColor="@color/blueGrey"
+                android:textSize="@dimen/text_size_medium" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

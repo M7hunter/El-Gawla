@@ -26,6 +26,7 @@ import it_geeks.info.elgawla.util.DiffUtils.RoundDiffCallback;
 import it_geeks.info.elgawla.repository.Models.Card;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
+import it_geeks.info.elgawla.views.salon.ClosedSalonActivity;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 import it_geeks.info.elgawla.R;
 
@@ -76,7 +77,16 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         try
                         {
                             clickable = false;
-                            Intent i = new Intent(context, SalonActivity.class);
+                            Intent i;
+                            Log.d("Ok","is_closed:: " + salon.isClosed());
+                            if (salon.isClosed())
+                            {
+                                i = new Intent(context, ClosedSalonActivity.class);
+                            }
+                            else
+                            {
+                                i = new Intent(context, SalonActivity.class);
+                            }
                             // pass salon's data to salon page
                             i.putExtra(SALON, salon);
 

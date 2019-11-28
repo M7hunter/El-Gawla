@@ -15,6 +15,7 @@ import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.EventsManager;
+import it_geeks.info.elgawla.views.salon.ClosedSalonActivity;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 
 import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseRoundByID;
@@ -55,7 +56,15 @@ public class GetSalonDataService extends Service {
                         EventsManager.sendNotificationInteractionEvent(GetSalonDataService.this, salon.getCategory_name(), String.valueOf(salon.getSalon_id()), salon.getProduct_name());
                         TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
 
-                        Intent i = new Intent(GetSalonDataService.this, SalonActivity.class);
+                        Intent i;
+                        if (salon.isClosed())
+                        {
+                            i = new Intent(GetSalonDataService.this, ClosedSalonActivity.class);
+                        }
+                        else
+                        {
+                            i = new Intent(GetSalonDataService.this, SalonActivity.class);
+                        }
                         i.putExtra(SALON, salon);
 
                         stackBuilder.addNextIntentWithParentStack(i);

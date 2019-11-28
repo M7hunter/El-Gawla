@@ -2,7 +2,6 @@ package it_geeks.info.elgawla.views.main;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.JsonObject;
@@ -16,15 +15,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.Adapters.NotificationAdapter;
+import it_geeks.info.elgawla.repository.Models.Notification;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.DialogBuilder;
-import it_geeks.info.elgawla.repository.Models.Notification;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
-import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
-import it_geeks.info.elgawla.repository.Storage.NotificationDao;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.BaseActivity;
@@ -34,12 +31,11 @@ import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_NOTIFICATION;
 public class NotificationActivity extends BaseActivity {
 
     private SwipeRefreshLayout refreshLayout;
+    private ShimmerFrameLayout shimmerLayout;
+    private View emptyView;
+    private RecyclerView notificationRecycler;
+
     private List<Notification> notificationList = new ArrayList<>();
-
-    private TextView notificationLoading;
-    private ShimmerFrameLayout salonsShimmerLayout;
-
-    private NotificationDao notificationDao;
 
     public DialogBuilder dialogBuilder;
 
@@ -48,8 +44,6 @@ public class NotificationActivity extends BaseActivity {
         Common.setLang(this, SharedPrefManager.getInstance(this).getSavedLang());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-
-        notificationDao = GawlaDataBse.getInstance(this).notificationDao();
 
         initViews();
 
@@ -62,18 +56,11 @@ public class NotificationActivity extends BaseActivity {
 
     private void initViews() {
         refreshLayout = findViewById(R.id.notification_swipe_refresh);
-        notificationLoading = findViewById(R.id.notification_loading);
-        salonsShimmerLayout = findViewById(R.id.sh_notification);
+        shimmerLayout = findViewById(R.id.sh_notification);
+        notificationRecycler = findViewById(R.id.notification_recycler);
+        emptyView = findViewById(R.id.notification_empty_view);
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
-
-        // back
-        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
     }
 
     private void handleEvent() {
@@ -84,53 +71,54 @@ public class NotificationActivity extends BaseActivity {
                 getNotificationListFromServer();
             }
         });
+
+        // back
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void getNotificationListFromServer() {
-        refreshLayout.setRefreshing(false);
-        notificationLoading.setText(getString(R.string.loading));
-        notificationLoading.setVisibility(View.VISIBLE);
-
         RetrofitClient.getInstance(NotificationActivity.this).executeConnectionToServer(
                 NotificationActivity.this,
-                REQ_GET_ALL_NOTIFICATION,
-                new RequestModel<>(REQ_GET_ALL_NOTIFICATION, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()
+                REQ_GET_ALL_NOTIFICATION, new RequestModel<>(REQ_GET_ALL_NOTIFICATION, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        notificationDao.removeNotifications(notificationDao.getAllNotification());
-                        notificationDao.insertNotification(ParseResponses.parseNotifications(mainObject));
-
-                        notificationList = notificationDao.getAllNotification();
-                        notificationDao.updateStatusNotification(false);
+                        notificationList = ParseResponses.parseNotifications(mainObject);
                     }
 
                     @Override
                     public void handleAfterResponse() {
                         initNotifyRecycler();
+                        SharedPrefManager.getInstance(NotificationActivity.this).setHaveNewNotification(false);
+                        refreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        notificationLoading.setText(errorMessage);
-                        stopShimmer();
+                        initNotifyRecycler();
+                        refreshLayout.setRefreshing(false);
                         new SnackBuilder(findViewById(R.id.notification_swipe_refresh)).setSnackText(errorMessage).showSnack();
                     }
                 });
     }
 
     private void startShimmer() {
-        if (salonsShimmerLayout.getVisibility() != View.VISIBLE)
-            salonsShimmerLayout.setVisibility(View.VISIBLE);
+        if (shimmerLayout.getVisibility() != View.VISIBLE)
+            shimmerLayout.setVisibility(View.VISIBLE);
 
-        salonsShimmerLayout.startShimmerAnimation();
+        shimmerLayout.startShimmerAnimation();
     }
 
     private void stopShimmer() {
-        if (salonsShimmerLayout.getVisibility() == View.VISIBLE)
+        if (shimmerLayout.getVisibility() == View.VISIBLE)
         {
-            salonsShimmerLayout.stopShimmerAnimation();
-            salonsShimmerLayout.setVisibility(View.GONE);
+            shimmerLayout.stopShimmerAnimation();
+            shimmerLayout.setVisibility(View.GONE);
         }
     }
 
@@ -138,18 +126,15 @@ public class NotificationActivity extends BaseActivity {
         stopShimmer();
         if (!notificationList.isEmpty())
         {
-            notificationLoading.setVisibility(View.GONE);
-            SharedPrefManager.getInstance(this).setNewNotification(false);
-
-            RecyclerView notificationRecycler = findViewById(R.id.notification_recycler);
+            emptyView.setVisibility(View.GONE);
             notificationRecycler.setVisibility(View.VISIBLE);
             notificationRecycler.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
             notificationRecycler.setAdapter(new NotificationAdapter(NotificationActivity.this, notificationList, findViewById(R.id.notification_main_layout)));
         }
         else
         {
-            notificationLoading.setVisibility(View.VISIBLE);
-            notificationLoading.setText(getString(R.string.no_notifications));
+            emptyView.setVisibility(View.VISIBLE);
+            notificationRecycler.setVisibility(View.GONE);
         }
     }
 }

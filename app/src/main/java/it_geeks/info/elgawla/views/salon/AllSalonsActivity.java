@@ -369,7 +369,7 @@ public class AllSalonsActivity extends BaseActivity {
             salonsRecycler.setVisibility(View.VISIBLE);
             updateSpanCount(roundsList);
             salonsRecycler.setHasFixedSize(true);
-            salonsRecycler.setAdapter(new SalonsMiniAdapter(AllSalonsActivity.this, roundsList));
+            salonsRecycler.setAdapter(new SalonsMiniAdapter(AllSalonsActivity.this, roundsList, "all_salons"));
         }
         else
         {  // empty ?

@@ -32,10 +32,12 @@ public class SalonsMiniAdapter extends RecyclerView.Adapter<SalonsMiniAdapter.Vi
     private Context context;
     private List<Salon> salons;
     public static boolean clickable = true;
+    private String from = "";
 
-    public SalonsMiniAdapter(Context context, List<Salon> salons) {
+    public SalonsMiniAdapter(Context context, List<Salon> salons, String from) {
         this.context = context;
         this.salons = salons;
+        this.from = from;
     }
 
     @NonNull
@@ -52,7 +54,7 @@ public class SalonsMiniAdapter extends RecyclerView.Adapter<SalonsMiniAdapter.Vi
         ImageLoader.getInstance().loadImage(salon.getProduct_image(), viewHolder.imgProductImage);
         viewHolder.tvProductName.setText(Common.Instance().removeEmptyLines(salon.getProduct_name()));
         viewHolder.tvSalonId.setText(Common.Instance().removeEmptyLines(String.valueOf(salon.getSalon_id())));
-        viewHolder.tvStartTime.setText(Common.Instance().removeEmptyLines(salon.getMessage()));
+        viewHolder.tvStartTime.setText(from.equals("my_archive") ? salon.getSalon_date() : Common.Instance().removeEmptyLines(salon.getMessage()));
 
         if (salon.getSalon_cards() == null)
         {
@@ -69,10 +71,17 @@ public class SalonsMiniAdapter extends RecyclerView.Adapter<SalonsMiniAdapter.Vi
                     try
                     {
                         clickable = false;
-                        Intent i = new Intent(context, SalonActivity.class);
+                        Intent i;
+                        if (salon.isClosed())
+                        {
+                            i = new Intent(context, SalonActivity.class);
+                        }
+                        else
+                        {
+                            i = new Intent(context, SalonActivity.class);
+                        }
                         // pass salon's data to salon page
                         i.putExtra(SALON, salon);
-
                         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) context), new Pair<View, String>(viewHolder.imgProductImage, "transProductImage"));
                         context.startActivity(i, options.toBundle());
                     }

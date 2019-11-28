@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/closed_salon_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/paleGrey"
+    tools:context=".views.salon.ClosedSalonActivity">
+
+    <!-- blue background -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_xxx_large"
+        android:src="@drawable/bg_bottom_round_c_primary"
+        app:layout_constraintBottom_toBottomOf="@id/winner_container"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- logo -->
+    <ImageView
+        android:id="@+id/salon_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:src="@drawable/g_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- bell -->
+    <ImageView
+        android:id="@+id/iv_notification_bell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:padding="@dimen/margin_small"
+        android:src="@drawable/bell"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/bell_indicator"
+        android:layout_width="@dimen/margin_small"
+        android:layout_height="@dimen/margin_small"
+        android:background="@drawable/bg_circle_red"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/iv_notification_bell"
+        app:layout_constraintTop_toTopOf="@id/iv_notification_bell" />
+
+    <!-- salon number container -->
+    <LinearLayout
+        android:id="@+id/salon_number_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/margin_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/salon_logo">
+
+        <!-- salon number label -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/salon_number"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+        <!-- salon number -->
+        <TextView
+            android:id="@+id/salon_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xTiny"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            tools:text="100" />
+
+    </LinearLayout>
+
+    <!-- winner container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/winner_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        app:layout_constraintTop_toBottomOf="@id/salon_number_container">
+
+        <!-- winner name container -->
+        <FrameLayout
+            android:id="@+id/time_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_xTiny"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_xTiny"
+                android:background="@drawable/bg_rounded_corners_white"
+                app:cardCornerRadius="@dimen/margin_small">
+                <!-- card main layout -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_large">
+
+                    <!-- winner name -->
+                    <TextView
+                        android:id="@+id/tv_salon_winner_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_xxxx_large"
+                        android:padding="@dimen/margin_medium"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_size_large" />
+
+                    <!-- winner label -->
+                    <TextView
+                        android:id="@+id/tv_salon_winner_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_small"
+                        android:text="@string/winner"
+                        android:textColor="@color/colorSecondary" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </FrameLayout>
+
+        <!-- winner image -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_fs_winner_image"
+            android:layout_width="@dimen/salon_winner_image"
+            android:layout_height="@dimen/salon_winner_image"
+            android:src="@drawable/g_blue"
+            app:civ_border_color="@color/colorPrimary"
+            app:civ_border_overlay="true"
+            app:civ_border_width="1dp"
+            app:civ_circle_background_color="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@id/time_container"
+            app:layout_constraintEnd_toEndOf="@id/time_container"
+            app:layout_constraintStart_toStartOf="@id/time_container"
+            app:layout_constraintTop_toTopOf="@id/time_container" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- tabs & on tabs container -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/tabs_and_on_tabs_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_small"
+        app:cardCornerRadius="@dimen/margin_small"
+        app:cardElevation="@dimen/margin_tiny"
+        app:layout_constraintTop_toBottomOf="@id/winner_container">
+        <!-- card main layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- taps layout -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:gravity="center_horizontal">
+
+                <!-- top ten tab -->
+                <TextView
+                    android:id="@+id/tv_top_ten"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:autoMirrored="true"
+                    android:background="@color/colorPrimary"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:text="@string/top_ten"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <!-- salon details tab -->
+                <TextView
+                    android:id="@+id/tv_product_details"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:autoMirrored="true"
+                    android:background="@drawable/bg_rectangle_white_border_grey"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:text="@string/product_details"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- on tab layout -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_tiny">
+
+                <!-- 1st tap : details container -->
+                <LinearLayout
+                    android:id="@+id/cv_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rounded_corners_white"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <!-- product image -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:cardCornerRadius="@dimen/margin_small">
+
+                        <ImageView
+                            android:id="@+id/salon_round_product_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/product_details"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/flodillus"
+                            android:transitionName="transProductImage" />
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.4"
+                        android:orientation="vertical">
+
+                        <!-- details container -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_small"
+                            android:orientation="vertical">
+
+                            <!-- product name -->
+                            <TextView
+                                android:id="@+id/salon_round_product_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_tiny"
+                                android:ellipsize="end"
+                                android:gravity="start"
+                                android:maxLines="2"
+                                android:textColor="@color/duskBlue"
+                                android:textDirection="locale"
+                                android:textSize="@dimen/text_size_medium"
+                                android:textStyle="bold"
+                                tools:text="@string/no_content" />
+
+                            <!-- cost container -->
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_tiny">
+
+                                <!-- cost label -->
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/initial_value"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/text_size_small" />
+
+                                <!-- cost -->
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/margin_tiny"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:text="@string/one_pound"
+                                    android:textColor="@color/colorSecondary"
+                                    android:textSize="@dimen/text_size_small"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_tiny">
+
+                                <!-- cost label -->
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/commercial_price"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/text_size_small" />
+
+                                <!-- cost -->
+                                <TextView
+                                    android:id="@+id/salon_round_product_price"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/margin_tiny"
+                                    android:layout_weight="1"
+                                    android:gravity="start"
+                                    android:textColor="@color/colorSecondary"
+                                    android:textSize="@dimen/text_size_small"
+                                    android:textStyle="bold"
+                                    tools:text="910" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- read more as btn -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="@dimen/margin_small"
+                            android:layout_marginEnd="@dimen/margin_small"
+                            android:layout_marginBottom="@dimen/margin_small"
+                            android:text="@string/more"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- 2th tap : top ten container -->
+                <LinearLayout
+                    android:id="@+id/top_ten_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/top_ten_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <!-- top ten empty hint -->
+                    <TextView
+                        android:id="@+id/tv_top_ten_empty_hint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="@dimen/margin_medium"
+                        android:text="@string/top_ten_empty"
+                        android:visibility="gone" />
+
+                    <ProgressBar
+                        android:id="@+id/pb_top_ten"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/margin_tiny" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- share -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbtn_share_salon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_share"
+        app:backgroundTint="@android:color/white"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/colorPrimary" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

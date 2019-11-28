@@ -125,7 +125,7 @@ public class StoreFragment extends Fragment {
 
         categoriesRecycler.setAdapter(storeAdapter);
         if (pbRecycler.getVisibility() == View.VISIBLE)
-            Common.Instance().hideProgress(categoriesRecycler, pbRecycler);
+            Common.Instance().hideLoading(categoriesRecycler, pbRecycler);
 
         categoryDao.getCategories().observe(this, new Observer<List<Category>>() {
             @Override

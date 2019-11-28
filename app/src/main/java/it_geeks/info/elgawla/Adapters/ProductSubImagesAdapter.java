@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.repository.Models.ProductSubImage;
+import it_geeks.info.elgawla.views.salon.ClosedSalonActivity;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 
 public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImagesAdapter.Holder> {
@@ -23,10 +24,12 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
     private Context context;
     private List<ProductSubImage> imagesList;
     private int selectedPosition = 0;
+    private boolean isClosed = false;
 
-    public ProductSubImagesAdapter(Context context, List<ProductSubImage> imagesList) {
+    public ProductSubImagesAdapter(Context context, List<ProductSubImage> imagesList, boolean isClosed) {
         this.context = context;
         this.imagesList = imagesList;
+        this.isClosed = isClosed;
     }
 
     @NonNull
@@ -61,7 +64,14 @@ public class ProductSubImagesAdapter extends RecyclerView.Adapter<ProductSubImag
             @Override
             public void onClick(View v) {
                 // swap links & images
-                ((SalonActivity) context).switchImageVideo(subImage.getImageUrl(), holder.productSubImage.getDrawable());
+                if (isClosed)
+                {
+                    ((ClosedSalonActivity) context).switchImageVideo(subImage.getImageUrl(), holder.productSubImage.getDrawable());
+                }
+                else
+                {
+                    ((SalonActivity) context).switchImageVideo(subImage.getImageUrl(), holder.productSubImage.getDrawable());
+                }
                 selectedPosition = holder.getAdapterPosition();
                 notifyDataSetChanged();
             }

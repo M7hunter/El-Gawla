@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
+import it_geeks.info.elgawla.views.salon.ClosedSalonActivity;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 
 import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseRoundByID;
@@ -37,8 +39,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public NotificationAdapter(Context context, List<Notification> notificationList, View parentView) {
         this.context = context;
-        this.notificationList = notificationList;
         snackBuilder = new SnackBuilder(parentView);
+        this.notificationList = notificationList;
     }
 
     @NonNull
@@ -72,6 +74,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         return notificationList.size();
     }
 
+    public void updateList(List<Notification> newList) {
+        notificationList.clear();
+        notificationList.addAll(newList);
+        notifyDataSetChanged();
+    }
+
     private void getSalonDataFromServer(Notification notification) {
         RetrofitClient.getInstance(context).executeConnectionToServer(context,
                 REQ_GET_SALON_BY_ID, new RequestModel<>(REQ_GET_SALON_BY_ID
@@ -82,10 +90,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         Salon salon = parseRoundByID(mainObject);
-                        Intent i = new Intent(context, SalonActivity.class);
+
+                        Intent i;
+                        if (salon.isClosed())
+                        {
+                            i = new Intent(context, ClosedSalonActivity.class);
+                        }
+                        else
+                        {
+                            i = new Intent(context, SalonActivity.class);
+                        }
 
                         i.putExtra(SALON, salon);
-
                         context.startActivity(i);
                     }
 

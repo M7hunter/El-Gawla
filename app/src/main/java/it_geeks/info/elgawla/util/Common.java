@@ -119,7 +119,7 @@ public class Common {
     }
 
     // hide progress after recycler finish loading
-    public void hideProgress(final RecyclerView recyclerView, final ProgressBar progressBar) {
+    public void hideLoading(final RecyclerView recyclerView, final View progressBar) {
         recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
