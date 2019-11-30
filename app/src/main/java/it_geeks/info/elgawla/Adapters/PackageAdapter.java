@@ -40,7 +40,7 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Package mPackage = packageList.get(position);
 
-        holder.tvPrice.setText(mPackage.getPackage_cost());
+        holder.tvPrice.setText(mPackage.getPackage_name());
         holder.tvBody.setText(mPackage.getPackage_description());
         ((CardView) holder.itemView).setCardBackgroundColor(Color.parseColor(mPackage.getPackage_color()));
 

@@ -74,12 +74,12 @@ public class RetrofitClient {
         return mInstance;
     }
 
-    public void executeConnectionToServer(Context context, String action, RequestModel req, HandleResponses HandleResponses) {
+    public void fetchDataFromServer(Context context, String action, RequestModel req, HandleResponses HandleResponses) {
         call = getInstance(context).getAPI().request(new RequestMainBody(new Data(action), req));
         call.enqueue(createWebserviceCallback(HandleResponses, context));
     }
 
-    public void getSalonsPerPageFromServer(Context context, Data data, RequestModel req, HandleResponses HandleResponses) {
+    public void fetchDataPerPageFromServer(Context context, Data data, RequestModel req, HandleResponses HandleResponses) {
         call = getInstance(context).getAPI().request(new RequestMainBody(data, req));
         call.enqueue(createWebserviceCallback(HandleResponses, context));
     }

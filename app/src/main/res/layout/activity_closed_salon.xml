@@ -164,8 +164,7 @@
         android:id="@+id/tabs_and_on_tabs_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_margin="@dimen/margin_medium"
         app:cardCornerRadius="@dimen/margin_small"
         app:cardElevation="@dimen/margin_tiny"
         app:layout_constraintTop_toBottomOf="@id/winner_container">
@@ -398,6 +397,7 @@
         android:id="@+id/fbtn_share_salon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
         android:src="@drawable/ic_share"
         app:backgroundTint="@android:color/white"
         app:fabSize="mini"

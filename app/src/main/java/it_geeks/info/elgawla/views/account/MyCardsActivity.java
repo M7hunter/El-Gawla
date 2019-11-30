@@ -59,7 +59,7 @@ public class MyCardsActivity extends BaseActivity {
 
     private void getMyCardsFromServer() {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(this).executeConnectionToServer(
+        RetrofitClient.getInstance(this).fetchDataFromServer(
                 this,
                 REQ_GET_MY_CARDS, new RequestModel<>(REQ_GET_MY_CARDS, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token(),
                         null, null, null, null, null),

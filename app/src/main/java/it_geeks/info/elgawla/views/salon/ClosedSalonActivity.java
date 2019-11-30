@@ -21,7 +21,6 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -30,7 +29,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.elgawla.Adapters.ProductSubImagesAdapter;
 import it_geeks.info.elgawla.Adapters.TopTenAdapter;
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.repository.Models.Activity;
 import it_geeks.info.elgawla.repository.Models.ProductSubImage;
 import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.repository.Models.TopTen;
@@ -46,7 +44,9 @@ import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.SnackBuilder;
+import it_geeks.info.elgawla.util.notification.NotificationBuilder;
 import it_geeks.info.elgawla.views.BaseActivity;
+import it_geeks.info.elgawla.views.main.NotificationActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_TOP_TEN;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_WINNER;
@@ -56,7 +56,7 @@ public class ClosedSalonActivity extends BaseActivity {
 
     private View detailsSheetView, topTenContainer, more;
     public VideoView vpProductMainVideo;
-    private ImageView btnPlayPause, ivWinnerImage;
+    private ImageView btnPlayPause, ivWinnerImage, ivNotify;
     public ImageView ivProductMainViewer;
     private TextView tvWinnerName, tvWinnerLabel, tvTopTenEmptyHint, tvTopTenTab, tvProductDetailsTab;
     private ProgressBar pbTopTen;
@@ -66,8 +66,8 @@ public class ClosedSalonActivity extends BaseActivity {
     private DialogBuilder dialogBuilder;
     private SnackBuilder snackBuilder;
 
-    private Salon salon;
     private User user;
+    private Salon salon;
     private int stopPosition = 0;
     private MutableLiveData<String> winner = new MutableLiveData<>(), winnerImageUrl = new MutableLiveData<>();
 
@@ -115,9 +115,19 @@ public class ClosedSalonActivity extends BaseActivity {
         dialogBuilder.createLoadingDialog(this);
 
         snackBuilder = new SnackBuilder(findViewById(R.id.closed_salon_main_layout));
+
+        ivNotify = findViewById(R.id.iv_notification_bell);
     }
 
     private void handleEvents() {
+        NotificationBuilder.listenToNotificationStatus(this, findViewById(R.id.bell_indicator));
+        ivNotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ClosedSalonActivity.this, NotificationActivity.class));
+            }
+        });
+
         tvTopTenTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -380,7 +390,7 @@ public class ClosedSalonActivity extends BaseActivity {
 
     private void getWinner() {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(this).executeConnectionToServer(this,
+        RetrofitClient.getInstance(this).fetchDataFromServer(this,
                 REQ_GET_WINNER, new RequestModel<>(REQ_GET_WINNER, user.getUser_id(), user.getApi_token(), salon.getSalon_id(), salon.getRound_id()
                         , null, null, null), new HandleResponses() {
                     @Override
@@ -420,7 +430,7 @@ public class ClosedSalonActivity extends BaseActivity {
     }
 
     private void getTopTen() {
-        RetrofitClient.getInstance(this).executeConnectionToServer(this,
+        RetrofitClient.getInstance(this).fetchDataFromServer(this,
                 REQ_GET_TOP_TEN, new RequestModel<>(REQ_GET_TOP_TEN, user.getUser_id(), user.getApi_token(), salon.getSalon_id(), salon.getRound_id()
                         , null, null, null), new HandleResponses() {
                     @Override

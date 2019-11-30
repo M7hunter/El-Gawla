@@ -262,7 +262,7 @@ public class ProfileActivity extends BaseActivity {
             setUIOnUpdating();
             final Country country = GawlaDataBse.getInstance(ProfileActivity.this).countryDao().getCountryByName(sp_country.getText().toString());
             RetrofitClient.getInstance(ProfileActivity.this)
-                    .executeConnectionToServer(ProfileActivity.this,
+                    .fetchDataFromServer(ProfileActivity.this,
                             REQ_UPDATE_USER_DATA, new RequestModel<>(REQ_UPDATE_USER_DATA,
                                     user_id,
                                     api_token,

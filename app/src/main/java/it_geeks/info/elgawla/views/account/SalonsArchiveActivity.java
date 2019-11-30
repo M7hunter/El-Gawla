@@ -58,7 +58,7 @@ public class SalonsArchiveActivity extends BaseActivity {
 
     private void getSalonsArchiveFromServer() {
 //        dialogBuilder.displayLoadingDialog();
-//        RetrofitClient.getInstance(this).executeConnectionToServer(
+//        RetrofitClient.getInstance(this).fetchDataFromServer(
 //                this,
 //                REQ_GET_SALONS_ARCHIVE, new RequestModel<>(REQ_GET_SALONS_ARCHIVE, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token(),
 //                        null, null, null, null, null),

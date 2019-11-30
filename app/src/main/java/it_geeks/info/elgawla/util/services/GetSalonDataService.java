@@ -44,7 +44,7 @@ public class GetSalonDataService extends Service {
     }
 
     private void getSalonDataFromServer(int id) {
-        RetrofitClient.getInstance(this).executeConnectionToServer(this,
+        RetrofitClient.getInstance(this).fetchDataFromServer(this,
                 REQ_GET_SALON_BY_ID, new RequestModel<>(REQ_GET_SALON_BY_ID
                         , SharedPrefManager.getInstance(this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(this).getUser().getApi_token()

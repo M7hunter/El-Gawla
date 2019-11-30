@@ -68,11 +68,11 @@ public class AllSalonsActivity extends BaseActivity {
 
     private ShimmerFrameLayout salonsShimmerLayout;
 
-    private List<Salon> roundsList = new ArrayList<>();
+    private List<Salon> salonsList = new ArrayList<>();
     private List<Category> categoryList = new ArrayList<>();
     private List<SalonDate> dateList = new ArrayList<>();
 
-    private int userId, catKey;
+    private int userId, catKey, page = 1, last_page = 1;
     private boolean isDateFilter = true, isFinishedSalons = false;
     private String apiToken;
     private SnackBuilder snackBuilder;
@@ -182,12 +182,12 @@ public class AllSalonsActivity extends BaseActivity {
 
     private void getSalonsByCatFromServer() {
         startSalonsShimmer();
-        RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataFromServer(AllSalonsActivity.this,
                 REQ_GET_SALONS_BY_CAT_ID, new RequestModel<>(REQ_GET_SALONS_BY_CAT_ID, userId, apiToken, catKey,
                         null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        roundsList = ParseResponses.parseRounds(mainObject);
+                        salonsList = ParseResponses.parseRounds(mainObject);
                     }
 
                     @Override
@@ -205,26 +205,26 @@ public class AllSalonsActivity extends BaseActivity {
 
     private void getDatesAndRoundsFromServer() {
         startSalonsShimmer();
-        RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataFromServer(AllSalonsActivity.this,
                 isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, new RequestModel<>(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, userId, apiToken, false,
                         null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         updateDatabaseList(ParseResponses.parseRounds(mainObject));
-
                         transAndSortDates();
 
                         initDatesAdapter();
-
                         try
                         {
-                            roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(dateList.get(0).getsDate()));
+                            salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(dateList.get(0).getsDate()));
                         }
                         catch (IndexOutOfBoundsException e)
                         {
                             e.printStackTrace();
                             Crashlytics.logException(e);
                         }
+
+//                        last_page = mainObject.get("last_page").getAsInt();
                     }
 
                     @Override
@@ -239,6 +239,37 @@ public class AllSalonsActivity extends BaseActivity {
                     }
                 });
     }
+
+//    private void getSalonsNextPageFromServer() {
+//        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
+//                new Data(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, ++page)
+//                , new RequestModel<>(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, userId, apiToken, true
+//                        , null, null, null, null), new HandleResponses() {
+//                    @Override
+//                    public void handleTrueResponse(JsonObject mainObject) {
+//                        int nextFirstPosition = salonsList.size();
+//                        salonsList.addAll(ParseResponses.parseRounds(mainObject));
+//                        for (int i = nextFirstPosition; i < salonsList.size(); i++)
+//                        {
+//                            recentSalonsPagedAdapter.notifyItemInserted(i);
+//                        }
+//
+//                        salonsRecycler.smoothScrollToPosition(nextFirstPosition);
+//
+//                        if (page < last_page)
+//                            addScrollListener();
+//                    }
+//
+//                    @Override
+//                    public void handleAfterResponse() {
+//                    }
+//
+//                    @Override
+//                    public void handleConnectionErrors(String errorMessage) {
+//                        snackBuilder.setSnackText(errorMessage).showSnack();
+//                    }
+//                });
+//    }
 
     private void updateDatabaseList(List<Salon> salons) {
         RoundDao roundDao = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao();
@@ -303,7 +334,7 @@ public class AllSalonsActivity extends BaseActivity {
             @Override
             public void onItemClick(View view, int position) {
                 SalonDate salonDate = dateList.get(position);
-                roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(salonDate.getsDate()));
+                salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(salonDate.getsDate()));
 
                 initSalonsRecycler();
                 EventsManager.sendSearchEvent(AllSalonsActivity.this, String.valueOf(salonDate.getsDate()));
@@ -313,7 +344,7 @@ public class AllSalonsActivity extends BaseActivity {
 
     private void getCategoriesAndRoundsFromServer() {
         startSalonsShimmer();
-        RetrofitClient.getInstance(AllSalonsActivity.this).executeConnectionToServer(AllSalonsActivity.this,
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataFromServer(AllSalonsActivity.this,
                 REQ_GET_ALL_CATEGORIES, new RequestModel<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
                         null, null, null, null, null), new HandleResponses() {
                     @Override
@@ -322,7 +353,7 @@ public class AllSalonsActivity extends BaseActivity {
 
                         try
                         {
-                            roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
+                            salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
                         }
                         catch (IndexOutOfBoundsException e)
                         {
@@ -352,7 +383,7 @@ public class AllSalonsActivity extends BaseActivity {
             @Override
             public void onItemClick(View view, int position) {
                 Category category = categoryList.get(position);
-                roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(category.getCategoryName());
+                salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(category.getCategoryName());
 
                 initSalonsRecycler();
                 EventsManager.sendSearchEvent(AllSalonsActivity.this, String.valueOf(category.getCategoryName()));
@@ -363,13 +394,13 @@ public class AllSalonsActivity extends BaseActivity {
     private void initSalonsRecycler() {
         EventsManager.sendSearchResultsEvent(this, "");
         stopSalonsShimmer();
-        if (!roundsList.isEmpty())
+        if (!salonsList.isEmpty())
         { // !empty ?
             emptyViewLayout.setVisibility(View.GONE);
             salonsRecycler.setVisibility(View.VISIBLE);
-            updateSpanCount(roundsList);
+            updateSpanCount(salonsList);
             salonsRecycler.setHasFixedSize(true);
-            salonsRecycler.setAdapter(new SalonsMiniAdapter(AllSalonsActivity.this, roundsList, "all_salons"));
+            salonsRecycler.setAdapter(new SalonsMiniAdapter(AllSalonsActivity.this, salonsList, "all_salons"));
         }
         else
         {  // empty ?
@@ -425,7 +456,7 @@ public class AllSalonsActivity extends BaseActivity {
                     else
                     {// get locally
                         initDatesAdapter();
-                        roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(dateList.get(0).getsDate()));
+                        salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(dateList.get(0).getsDate()));
                         initSalonsRecycler();
                     }
                     isDateFilter = true;
@@ -446,7 +477,7 @@ public class AllSalonsActivity extends BaseActivity {
                     else
                     {// get locally
                         initCategoriesAdapter();
-                        roundsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
+                        salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
                         initSalonsRecycler();
                     }
                     isDateFilter = false;

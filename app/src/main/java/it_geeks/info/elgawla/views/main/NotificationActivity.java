@@ -56,6 +56,7 @@ public class NotificationActivity extends BaseActivity {
 
     private void initViews() {
         refreshLayout = findViewById(R.id.notification_swipe_refresh);
+        refreshLayout.setColorSchemeResources(R.color.paleRed, R.color.colorYellow, R.color.niceBlue, R.color.azure);
         shimmerLayout = findViewById(R.id.sh_notification);
         notificationRecycler = findViewById(R.id.notification_recycler);
         emptyView = findViewById(R.id.notification_empty_view);
@@ -82,7 +83,7 @@ public class NotificationActivity extends BaseActivity {
     }
 
     private void getNotificationListFromServer() {
-        RetrofitClient.getInstance(NotificationActivity.this).executeConnectionToServer(
+        RetrofitClient.getInstance(NotificationActivity.this).fetchDataFromServer(
                 NotificationActivity.this,
                 REQ_GET_ALL_NOTIFICATION, new RequestModel<>(REQ_GET_ALL_NOTIFICATION, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()
                         , null, null, null, null, null), new HandleResponses() {

@@ -52,12 +52,10 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -69,7 +67,6 @@ import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.util.Floating.FloatingView;
-import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.util.AudioPlayer;
 import it_geeks.info.elgawla.repository.Models.Activity;
@@ -91,7 +88,6 @@ import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.Adapters.SalonCardsAdapter;
 import it_geeks.info.elgawla.Adapters.ProductSubImagesAdapter;
 import it_geeks.info.elgawla.views.BaseActivity;
-import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
 import it_geeks.info.elgawla.util.salonUtils.CountDown.CountDownController;
 import it_geeks.info.elgawla.util.salonUtils.ChatUtils;
@@ -605,7 +601,7 @@ public class SalonActivity extends BaseActivity {
                 }
             }
 
-            RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
+            RetrofitClient.getInstance(SalonActivity.this).fetchDataFromServer(SalonActivity.this,
                     REQ_SET_USER_OFFER, new RequestModel<>(REQ_SET_USER_OFFER, SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
                             , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
                             , salon.getSalon_id()
@@ -857,7 +853,7 @@ public class SalonActivity extends BaseActivity {
     // region salon time
     public void getRemainingTimeFromServer() {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
+        RetrofitClient.getInstance(SalonActivity.this).fetchDataFromServer(SalonActivity.this,
                 REQ_GET_SALON_WITH_REALTIME, new RequestModel<>(REQ_GET_SALON_WITH_REALTIME, userId, apiToken, salon.getSalon_id()
                         , null, null, null, null), new HandleResponses() {
                     @Override
@@ -1009,7 +1005,7 @@ public class SalonActivity extends BaseActivity {
 
     private void getTopTen() {
         Log.d(TAG, "getTopTen: doing");
-        RetrofitClient.getInstance(this).executeConnectionToServer(this,
+        RetrofitClient.getInstance(this).fetchDataFromServer(this,
                 REQ_GET_TOP_TEN, new RequestModel<>(REQ_GET_TOP_TEN, userId, apiToken, salon.getSalon_id(), salon.getRound_id()
                         , null, null, null), new HandleResponses() {
                     @Override
@@ -1041,7 +1037,7 @@ public class SalonActivity extends BaseActivity {
 
     private void getWinner() {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(this).executeConnectionToServer(this,
+        RetrofitClient.getInstance(this).fetchDataFromServer(this,
                 REQ_GET_WINNER, new RequestModel<>(REQ_GET_WINNER, userId, apiToken, salon.getSalon_id(), salon.getRound_id()
                         , null, null, null), new HandleResponses() {
                     @Override
@@ -1202,7 +1198,7 @@ public class SalonActivity extends BaseActivity {
     private void subscribeUserToSalonOnServer() {
         btnJoinConfirmation.setEnabled(false);
         joinConfirmationProgress.setVisibility(View.VISIBLE);
-        RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
+        RetrofitClient.getInstance(SalonActivity.this).fetchDataFromServer(SalonActivity.this,
                 REQ_SET_USER_SALON, new RequestModel<>(REQ_SET_USER_SALON
                         , SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
@@ -1234,7 +1230,7 @@ public class SalonActivity extends BaseActivity {
 
     private void unSubscribeUserFromSalonOnServer() {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
+        RetrofitClient.getInstance(SalonActivity.this).fetchDataFromServer(SalonActivity.this,
                 REQ_SET_ROUND_LEAVE, new RequestModel<>(REQ_SET_ROUND_LEAVE, userId, apiToken, salon.getSalon_id()
                         , null, null, null, null), new HandleResponses() {
                     @Override
@@ -1536,7 +1532,7 @@ public class SalonActivity extends BaseActivity {
         {
             dialogBuilder.displayLoadingDialog();
             hideGoldenLayout();
-            RetrofitClient.getInstance(this).executeConnectionToServer(this,
+            RetrofitClient.getInstance(this).fetchDataFromServer(this,
                     REQ_USE_GOLDEN_CARD, new RequestModel<>(REQ_USE_GOLDEN_CARD, userId, apiToken, salon.getSalon_id(), goldenCard.getCard_id(), salon.getRound_id()
                             , null, null), new HandleResponses() {
                         @Override
@@ -1627,7 +1623,7 @@ public class SalonActivity extends BaseActivity {
         int userId = SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id();
         String apiToken = SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token();
 
-        RetrofitClient.getInstance(SalonActivity.this).executeConnectionToServer(SalonActivity.this,
+        RetrofitClient.getInstance(SalonActivity.this).fetchDataFromServer(SalonActivity.this,
                 REQ_GET_USER_CARDS_BY_SALON, new RequestModel<>(REQ_GET_USER_CARDS_BY_SALON, userId, apiToken, salon.getSalon_id()
                         , null, null, null, null), new HandleResponses() {
                     @Override

@@ -157,7 +157,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void checkSubscriptionOnServer() {
-        RetrofitClient.getInstance(context).executeConnectionToServer(context, REQ_CHECK_SUBSCRIPTION
+        RetrofitClient.getInstance(context).fetchDataFromServer(context, REQ_CHECK_SUBSCRIPTION
                 , new RequestModel<>(REQ_CHECK_SUBSCRIPTION, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(),
                         null, null, null, null, null),
                 new HandleResponses() {

@@ -272,9 +272,10 @@ public class ParseResponses {
             String product_name = cardObj.get("product_name").getAsString();
             String salon_date = cardObj.get("salon_date").getAsString();
             boolean isWinner = cardObj.get("isWinner").getAsBoolean();
+            boolean is_closed = cardObj.get("is_closed").getAsBoolean();
             int salon_id = cardObj.get("salon_id").getAsInt();
 
-            salonsList.add(new Salon(product_image, product_name, salon_date, isWinner, salon_id));
+            salonsList.add(new Salon(product_image, product_name, salon_date, isWinner, is_closed, salon_id));
         }
 
         return salonsList;

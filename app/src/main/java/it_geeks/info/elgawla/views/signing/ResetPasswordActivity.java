@@ -143,7 +143,7 @@ public class ResetPasswordActivity extends BaseActivity {
 
     private void sendPassToServer() {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(ResetPasswordActivity.this).executeConnectionToServer(
+        RetrofitClient.getInstance(ResetPasswordActivity.this).fetchDataFromServer(
                 ResetPasswordActivity.this,
                 REQ_RESET_PASSWORD, new RequestModel<>(REQ_RESET_PASSWORD, SharedPrefManager.getInstance(ResetPasswordActivity.this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(ResetPasswordActivity.this).getUser().getUser_id(), pass, rePass

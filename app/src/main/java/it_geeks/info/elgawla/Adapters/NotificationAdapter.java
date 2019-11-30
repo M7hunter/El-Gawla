@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -81,7 +80,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     private void getSalonDataFromServer(Notification notification) {
-        RetrofitClient.getInstance(context).executeConnectionToServer(context,
+        RetrofitClient.getInstance(context).fetchDataFromServer(context,
                 REQ_GET_SALON_BY_ID, new RequestModel<>(REQ_GET_SALON_BY_ID
                         , SharedPrefManager.getInstance(context).getUser().getUser_id()
                         , SharedPrefManager.getInstance(context).getUser().getApi_token()

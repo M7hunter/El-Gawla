@@ -156,7 +156,7 @@ public class StoreFragment extends Fragment {
         int userId = SharedPrefManager.getInstance(getContext()).getUser().getUser_id();
         String apiToken = Common.Instance().removeQuotes(SharedPrefManager.getInstance(getContext()).getUser().getApi_token());
 
-        RetrofitClient.getInstance(getActivity()).executeConnectionToServer(context,
+        RetrofitClient.getInstance(getActivity()).fetchDataFromServer(context,
                 REQ_GET_ALL_CATEGORIES, new RequestModel<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
                         null, null, null, null, null), new HandleResponses() {
                     @Override

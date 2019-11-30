@@ -136,7 +136,7 @@ public class ForgetPasswordActivity extends BaseActivity {
     }
 
     private void sendEmail() {
-        RetrofitClient.getInstance(ForgetPasswordActivity.this).executeConnectionToServer(ForgetPasswordActivity.this,
+        RetrofitClient.getInstance(ForgetPasswordActivity.this).fetchDataFromServer(ForgetPasswordActivity.this,
                 REQ_FORGOT_PASSWORD, new RequestModel<>(REQ_FORGOT_PASSWORD, receiver
                         , null, null, null, null, null, null), new HandleResponses() {
                     @Override

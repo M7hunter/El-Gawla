@@ -234,7 +234,7 @@ public class SignInActivity extends BaseActivity implements GoogleApiClient.OnCo
 
     public void login(String email, String pass) {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(SignInActivity.this).executeConnectionToServer(SignInActivity.this,
+        RetrofitClient.getInstance(SignInActivity.this).fetchDataFromServer(SignInActivity.this,
                 REQ_SIGN_IN, new RequestModel<>(REQ_SIGN_IN, email, pass,
                         null, null, null, null, null), new HandleResponses() {
                     @Override
@@ -398,7 +398,7 @@ public class SignInActivity extends BaseActivity implements GoogleApiClient.OnCo
     public void socialLogin(String id, final String name, final String email, final String image, final String provider) {
         dialogBuilder.displayLoadingDialog();
         int countryId = SharedPrefManager.getInstance(SignInActivity.this).getCountry().getCountry_id();
-        RetrofitClient.getInstance(SignInActivity.this).executeConnectionToServer(SignInActivity.this,
+        RetrofitClient.getInstance(SignInActivity.this).fetchDataFromServer(SignInActivity.this,
                 REQ_SOCIAL_SIGN, new RequestModel<>(REQ_SOCIAL_SIGN, provider, id, name, email, image, countryId,
                         null), new HandleResponses() {
                     @Override
@@ -445,7 +445,7 @@ public class SignInActivity extends BaseActivity implements GoogleApiClient.OnCo
 
     private void getSalonDataFromServer(String salonId) {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(SignInActivity.this).executeConnectionToServer(SignInActivity.this,
+        RetrofitClient.getInstance(SignInActivity.this).fetchDataFromServer(SignInActivity.this,
                 REQ_GET_SALON_BY_ID, new RequestModel<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(SignInActivity.this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(SignInActivity.this).getUser().getApi_token(), salonId
                         , null, null, null, null), new HandleResponses() {

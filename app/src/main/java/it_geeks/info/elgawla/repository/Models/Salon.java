@@ -87,11 +87,12 @@ public class Salon implements Serializable {
     }
 
     @Ignore
-    public Salon(String product_image, String product_name, String salon_date, boolean isWinner, int salon_id) {
+    public Salon(String product_image, String product_name, String salon_date, boolean isWinner, boolean isClosed, int salon_id) {
         this.product_image = product_image;
         this.product_name = product_name;
         this.salon_date = salon_date;
         this.isWinner = isWinner;
+        this.isClosed = isClosed;
         this.salon_id = salon_id;
     }
 

@@ -122,7 +122,7 @@ public class CallUsActivity extends BaseActivity {
         tlEmail.setError(null);
 
         EventsManager.sendSendMessageToCallUsEvent(CallUsActivity.this, message, 0);
-        RetrofitClient.getInstance(CallUsActivity.this).executeConnectionToServer(CallUsActivity.this,
+        RetrofitClient.getInstance(CallUsActivity.this).fetchDataFromServer(CallUsActivity.this,
                 REQ_SET_USER_MESSAGE, new RequestModel<>(REQ_SET_USER_MESSAGE, userID, apiToken, username, email, message,
                         null, null), new HandleResponses() {
                     @Override

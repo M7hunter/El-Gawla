@@ -51,7 +51,7 @@ public class UploadImageService extends Service {
                 notificationBuilder.displayUploadingImage();
             }
 
-            RetrofitClient.getInstance(this).executeConnectionToServer(this,
+            RetrofitClient.getInstance(this).fetchDataFromServer(this,
                     REQ_UPDATE_USER_DATA, new RequestModel<>("updateUserImage", SharedPrefManager.getInstance(this).getUser().getUser_id(),
                             SharedPrefManager.getInstance(this).getUser().getApi_token(),
                             SharedPrefManager.getInstance(this).getCountry().getCountry_id(),

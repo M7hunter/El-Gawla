@@ -74,7 +74,7 @@ public class MyCardsAdapter extends RecyclerView.Adapter<MyCardsAdapter.ViewHold
 
     private void getSalonByID(int salonId) {
         ((MyCardsActivity) context).dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(context).executeConnectionToServer(
+        RetrofitClient.getInstance(context).fetchDataFromServer(
                 context,
                 REQ_GET_SALON_BY_ID, new RequestModel<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(), salonId,
                         null, null, null, null),
