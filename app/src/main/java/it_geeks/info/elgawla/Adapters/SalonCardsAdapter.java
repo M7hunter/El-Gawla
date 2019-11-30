@@ -161,7 +161,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
         final int userId = SharedPrefManager.getInstance(context).getUser().getUser_id();
         final String username = SharedPrefManager.getInstance(context).getUser().getName();
         String apiToken = SharedPrefManager.getInstance(context).getUser().getApi_token();
-        RetrofitClient.getInstance(context).executeConnectionToServer(context,
+        RetrofitClient.getInstance(context).fetchDataFromServer(context,
                 REQ_USE_CARD, new RequestModel<>(REQ_USE_CARD, userId, apiToken, salonId, card.getCard_id(), round_id
                         , null, null), new HandleResponses() {
                     @Override

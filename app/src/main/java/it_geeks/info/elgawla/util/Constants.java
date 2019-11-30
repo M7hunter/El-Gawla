@@ -29,11 +29,11 @@ public class Constants {
     public static final String REQ_GET_ALL_PACKAGES = "getAllPackages";
     public static final String REQ_GET_PAYMENT_PAGE = "getPaymentPage";
     public static final String REQ_GET_SALON_BY_ID = "getSalonByID";
-    public static final String REQ_GET_SALONS_ARCHIVE = "getSalonsArchive";
     public static final String REQ_GET_MY_CARDS = "getMyCards";
     public static final String REQ_GET_MY_INVOICES = "getMyInvoices";
 
     // salon
+    public static final String REQ_GET_SALONS_ARCHIVE = "getSalonsArchive";
     public static final String REQ_GET_SALONS_BY_USER_ID = "getSalonsByUserID";
     public static final String REQ_GET_SALON_WITH_REALTIME = "getSalonWithRealTime";
     public static final String REQ_GET_USER_CARDS_BY_SALON = "getUserCardsBySalonId";

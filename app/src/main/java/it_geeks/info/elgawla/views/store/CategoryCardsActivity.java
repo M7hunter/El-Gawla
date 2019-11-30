@@ -140,7 +140,7 @@ public class CategoryCardsActivity extends BaseActivity {
     }
 
     private void getCategoryCardsFromServer(int catId) {
-        RetrofitClient.getInstance(CategoryCardsActivity.this).executeConnectionToServer(CategoryCardsActivity.this,
+        RetrofitClient.getInstance(CategoryCardsActivity.this).fetchDataFromServer(CategoryCardsActivity.this,
                 REQ_GET_CARDS_BY_CATEGORY, new RequestModel<>(REQ_GET_CARDS_BY_CATEGORY, SharedPrefManager.getInstance(CategoryCardsActivity.this).getUser().getUser_id(), SharedPrefManager.getInstance(CategoryCardsActivity.this).getUser().getApi_token(),
                         catId, null, null, null, null),
                 new HandleResponses() {

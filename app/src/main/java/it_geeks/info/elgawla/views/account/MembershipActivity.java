@@ -62,7 +62,7 @@ public class MembershipActivity extends BaseActivity {
 
     private void getPackagesFromServer() {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(MembershipActivity.this).executeConnectionToServer(MembershipActivity.this,
+        RetrofitClient.getInstance(MembershipActivity.this).fetchDataFromServer(MembershipActivity.this,
                 REQ_GET_ALL_PACKAGES, new RequestModel<>(REQ_GET_ALL_PACKAGES, SharedPrefManager.getInstance(MembershipActivity.this).getUser().getUser_id(), SharedPrefManager.getInstance(MembershipActivity.this).getUser().getApi_token()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override

@@ -188,7 +188,7 @@ public class ChangePasswordActivity extends BaseActivity {
 
     private void sendPassToServer() {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(ChangePasswordActivity.this).executeConnectionToServer(
+        RetrofitClient.getInstance(ChangePasswordActivity.this).fetchDataFromServer(
                 ChangePasswordActivity.this,
                 REQ_CHANGE_PASSWORD, new RequestModel<>(REQ_CHANGE_PASSWORD, SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getUser_id(),
                         SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getApi_token(), oldPass, newPass

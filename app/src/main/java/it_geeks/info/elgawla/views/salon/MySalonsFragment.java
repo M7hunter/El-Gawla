@@ -202,7 +202,7 @@ public class MySalonsFragment extends Fragment {
     }
 
     private void getRecentSalonsFromServer() {
-        RetrofitClient.getInstance(getActivity()).executeConnectionToServer(context,
+        RetrofitClient.getInstance(getActivity()).fetchDataFromServer(context,
                 REQ_GET_SALONS_BY_USER_ID, new RequestModel<>(REQ_GET_SALONS_BY_USER_ID, userId, apiToken
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
@@ -231,7 +231,7 @@ public class MySalonsFragment extends Fragment {
     }
 
     private void getFinishedSalonsFromServer() {
-        RetrofitClient.getInstance(context).executeConnectionToServer(
+        RetrofitClient.getInstance(context).fetchDataFromServer(
                 context,
                 REQ_GET_SALONS_ARCHIVE, new RequestModel<>(REQ_GET_SALONS_ARCHIVE, SharedPrefManager.getInstance(context).getUser().getUser_id(), SharedPrefManager.getInstance(context).getUser().getApi_token(),
                         null, null, null, null, null),

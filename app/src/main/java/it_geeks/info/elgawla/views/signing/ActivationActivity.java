@@ -279,7 +279,7 @@ public class ActivationActivity extends BaseActivity {
 
     private void requestCodeByPhoneFromServer() {
         btnConfirm.setEnabled(false);
-        RetrofitClient.getInstance(this).executeConnectionToServer(this
+        RetrofitClient.getInstance(this).fetchDataFromServer(this
                 , REQ_SEND_SMS, new RequestModel<>(REQ_SEND_SMS, receiver, SharedPrefManager.getInstance(ActivationActivity.this).getCountry().getCountry_id()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
@@ -304,7 +304,7 @@ public class ActivationActivity extends BaseActivity {
 
     private void sendCodeToServer(String code) {
         btnConfirm.setEnabled(false);
-        RetrofitClient.getInstance(this).executeConnectionToServer(this
+        RetrofitClient.getInstance(this).fetchDataFromServer(this
                 , REQ_CONFIRM_CODE, new RequestModel<>(REQ_CONFIRM_CODE, code, receiver,
                         null, null, null, null, null), new HandleResponses() {
                     @Override

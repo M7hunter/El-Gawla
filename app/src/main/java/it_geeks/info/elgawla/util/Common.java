@@ -8,24 +8,17 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -50,7 +43,6 @@ import it_geeks.info.elgawla.repository.Models.SalonDate;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
-import it_geeks.info.elgawla.views.intro.SplashScreenActivity;
 import it_geeks.info.elgawla.views.signing.SignInActivity;
 
 import static it_geeks.info.elgawla.util.Constants.REQ_SET_FIREBASE_TOKEN;
@@ -260,7 +252,7 @@ public class Common {
     }
 
     private void updateTokenOnServer(Context context, int user_id, String apiToken, String token) {
-        RetrofitClient.getInstance(context).executeConnectionToServer(context,
+        RetrofitClient.getInstance(context).fetchDataFromServer(context,
                 REQ_SET_FIREBASE_TOKEN, new RequestModel<>(REQ_SET_FIREBASE_TOKEN, user_id, apiToken, token,
                         null, null, null, null), new HandleResponses() {
                     @Override

@@ -113,7 +113,7 @@ public class EnterPhoneActivity extends BaseActivity {
 
     private void requestCodeByPhoneFromServer(final String phone) {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(this).executeConnectionToServer(this
+        RetrofitClient.getInstance(this).fetchDataFromServer(this
                 , REQ_SEND_SMS, new RequestModel<>(REQ_SEND_SMS, phone, SharedPrefManager.getInstance(EnterPhoneActivity.this).getCountry().getCountry_id()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override

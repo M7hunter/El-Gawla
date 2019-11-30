@@ -225,7 +225,7 @@ public class PaymentMethodsActivity extends BaseActivity {
 
     private void buy(String request, int id) {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(this).executeConnectionToServer(this,
+        RetrofitClient.getInstance(this).fetchDataFromServer(this,
                 request, new RequestModel<>(request
                         , SharedPrefManager.getInstance(this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(this).getUser().getApi_token()

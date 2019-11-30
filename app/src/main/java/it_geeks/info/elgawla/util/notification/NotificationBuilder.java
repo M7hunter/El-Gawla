@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
-import java.util.List;
 import java.util.Random;
 
 import androidx.core.app.NotificationCompat;
@@ -19,9 +18,6 @@ import androidx.core.app.TaskStackBuilder;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.repository.Models.Activity;
-import it_geeks.info.elgawla.repository.Models.Notification;
-import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.receivers.NotificationInteractionsReceiver;
 import it_geeks.info.elgawla.util.services.GetSalonDataService;

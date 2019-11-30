@@ -23,6 +23,7 @@ import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.ImageLoader;
+import it_geeks.info.elgawla.views.salon.ClosedSalonActivity;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 
 import static it_geeks.info.elgawla.util.Constants.SALON;
@@ -74,7 +75,7 @@ public class SalonsMiniAdapter extends RecyclerView.Adapter<SalonsMiniAdapter.Vi
                         Intent i;
                         if (salon.isClosed())
                         {
-                            i = new Intent(context, SalonActivity.class);
+                            i = new Intent(context, ClosedSalonActivity.class);
                         }
                         else
                         {

@@ -354,7 +354,7 @@ public class SignUpActivity extends BaseActivity implements GoogleApiClient.OnCo
 
     private void connectToServer(final User user, final int countryId) {
         dialogBuilder.displayLoadingDialog();
-        RetrofitClient.getInstance(SignUpActivity.this).executeConnectionToServer(SignUpActivity.this,
+        RetrofitClient.getInstance(SignUpActivity.this).fetchDataFromServer(SignUpActivity.this,
                 REQ_SIGN_UP, new RequestModel<>(REQ_SIGN_UP, user.getName(), user.getEmail(), countryId, user.getPhone(), user.getPassword(),
                         null, null), new HandleResponses() {
                     @Override
@@ -507,7 +507,7 @@ public class SignUpActivity extends BaseActivity implements GoogleApiClient.OnCo
 
     public void socialLogin(String id, final String name, final String email, final String image, final String provider) {
         int countryId = SharedPrefManager.getInstance(SignUpActivity.this).getCountry().getCountry_id();
-        RetrofitClient.getInstance(SignUpActivity.this).executeConnectionToServer(SignUpActivity.this,
+        RetrofitClient.getInstance(SignUpActivity.this).fetchDataFromServer(SignUpActivity.this,
                 REQ_SOCIAL_SIGN, new RequestModel<>(REQ_SOCIAL_SIGN, provider, id, name, email, image, countryId,
                         null), new HandleResponses() {
                     @Override

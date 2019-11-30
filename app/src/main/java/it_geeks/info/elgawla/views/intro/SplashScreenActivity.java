@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -167,7 +166,7 @@ public class SplashScreenActivity extends BaseActivity {
 
     private void getSalonDataFromServer(String salonId) {
         pbSplash.setVisibility(View.VISIBLE);
-        RetrofitClient.getInstance(SplashScreenActivity.this).executeConnectionToServer(SplashScreenActivity.this,
+        RetrofitClient.getInstance(SplashScreenActivity.this).fetchDataFromServer(SplashScreenActivity.this,
                 REQ_GET_SALON_BY_ID, new RequestModel<>(REQ_GET_SALON_BY_ID, SharedPrefManager.getInstance(SplashScreenActivity.this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(SplashScreenActivity.this).getUser().getApi_token(), salonId
                         , null, null, null, null), new HandleResponses() {
@@ -193,7 +192,7 @@ public class SplashScreenActivity extends BaseActivity {
 
     private void getCountriesFromSever() {
         final String countriesToken = "8QEqV21eAUneQcZYUmtw7yXhlzXsUuOvr6iH2qg9IBxwzYSOfiGDcd0W8vme";
-        RetrofitClient.getInstance(SplashScreenActivity.this).executeConnectionToServer(SplashScreenActivity.this,
+        RetrofitClient.getInstance(SplashScreenActivity.this).fetchDataFromServer(SplashScreenActivity.this,
                 REQ_GET_ALL_COUNTRIES, new RequestModel<>(REQ_GET_ALL_COUNTRIES, countriesToken
                         , null, null, null, null, null, null), new HandleResponses() {
                     @Override
@@ -219,7 +218,7 @@ public class SplashScreenActivity extends BaseActivity {
         int user_id = SharedPrefManager.getInstance(SplashScreenActivity.this).getUser().getUser_id();
         final String pagesToken = "T9hQoKYK7bGop5y6tuZq5S4RBH0dTNu0Lh6XuRzhyju8OVZ3Bz6TRDUJD4YH";
 
-        RetrofitClient.getInstance(SplashScreenActivity.this).executeConnectionToServer(SplashScreenActivity.this,
+        RetrofitClient.getInstance(SplashScreenActivity.this).fetchDataFromServer(SplashScreenActivity.this,
                 REQ_GET_ALL_PAGES, new RequestModel<>(REQ_GET_ALL_PAGES, user_id, pagesToken
                         , null, null, null, null, null), new HandleResponses() {
                     @Override

@@ -1,7 +1,6 @@
 package it_geeks.info.elgawla.Adapters;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,12 @@ import it_geeks.info.elgawla.repository.Models.Category;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CatHolder> {
+public class CategoryHomeAdapter extends RecyclerView.Adapter<CategoryHomeAdapter.CatHolder> {
 
     private List<Category> categoryList;
     private ClickInterface.OnItemClickListener clickListener;
 
-    public CategoryAdapter(List<Category> categoryList, ClickInterface.OnItemClickListener clickListener) {
+    public CategoryHomeAdapter(List<Category> categoryList, ClickInterface.OnItemClickListener clickListener) {
         this.categoryList = categoryList;
         this.clickListener = clickListener;
     }

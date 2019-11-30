@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 import it_geeks.info.elgawla.Adapters.AdsAdapter;
-import it_geeks.info.elgawla.Adapters.CategoryAdapter;
+import it_geeks.info.elgawla.Adapters.CategoryHomeAdapter;
 import it_geeks.info.elgawla.Adapters.SalonsAdapter;
 import it_geeks.info.elgawla.repository.Models.Ad;
 import it_geeks.info.elgawla.repository.Models.Category;
@@ -227,7 +226,7 @@ public class MainFragment extends Fragment {
     private void getAdsAndCatsFromServer() {
         startSliderShimmer();
         startCatsShimmer();
-        RetrofitClient.getInstance(getContext()).executeConnectionToServer(getContext(),
+        RetrofitClient.getInstance(getContext()).fetchDataFromServer(getContext(),
                 REQ_GET_ALL_SLIDERS, new RequestModel<>(REQ_GET_ALL_SLIDERS, userId, apiToken
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
@@ -327,7 +326,7 @@ public class MainFragment extends Fragment {
             rvCats.setVisibility(View.VISIBLE);
             rvCats.setHasFixedSize(true);
             rvCats.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
-            rvCats.setAdapter(new CategoryAdapter(categories, new ClickInterface.OnItemClickListener() {
+            rvCats.setAdapter(new CategoryHomeAdapter(categories, new ClickInterface.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
                     Category cat = categories.get(position);
@@ -359,7 +358,7 @@ public class MainFragment extends Fragment {
 
     private void getSalonsFirstPageFromServer() {
         startSalonsShimmer();
-        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
+        RetrofitClient.getInstance(getContext()).fetchDataPerPageFromServer(getContext(),
                 new Data(REQ_GET_ALL_SALONS, 1), new RequestModel<>(REQ_GET_ALL_SALONS, userId, apiToken, true
                         , null, null, null, null), new HandleResponses() {
                     @Override
@@ -387,7 +386,7 @@ public class MainFragment extends Fragment {
     }
 
     private void getSalonsNextPageFromServer() {
-        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
+        RetrofitClient.getInstance(getContext()).fetchDataPerPageFromServer(getContext(),
                 new Data(REQ_GET_ALL_SALONS, ++page), new RequestModel<>(REQ_GET_ALL_SALONS, userId, apiToken, true
                         , null, null, null, null), new HandleResponses() {
                     @Override
@@ -485,7 +484,7 @@ public class MainFragment extends Fragment {
 
     private void getFinishedSalonsFirstPageFromServer() {
         startFinishedSalonsShimmer();
-        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
+        RetrofitClient.getInstance(getContext()).fetchDataPerPageFromServer(getContext(),
                 new Data(REQ_GET_ALL_FINISHED_SALONS, 1), new RequestModel<>(REQ_GET_ALL_FINISHED_SALONS, userId, apiToken, true
                         , null, null, null, null), new HandleResponses() {
                     @Override
@@ -513,7 +512,7 @@ public class MainFragment extends Fragment {
     }
 
     private void getFinishedSalonsNextPageFromServer() {
-        RetrofitClient.getInstance(getContext()).getSalonsPerPageFromServer(getContext(),
+        RetrofitClient.getInstance(getContext()).fetchDataPerPageFromServer(getContext(),
                 new Data(REQ_GET_ALL_FINISHED_SALONS, ++page_finished), new RequestModel<>(REQ_GET_ALL_FINISHED_SALONS, userId, apiToken, true
                         , null, null, null, null), new HandleResponses() {
                     @Override
@@ -526,6 +525,7 @@ public class MainFragment extends Fragment {
                         }
 
                         finishedSalonsRecycler.smoothScrollToPosition(nextFirstPosition);
+                        addFinishedScrollListener();
                     }
 
                     @Override
@@ -563,21 +563,22 @@ public class MainFragment extends Fragment {
     }
 
     private void addFinishedScrollListener() {
-        finishedSalonsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
+        if (page_finished < last_page_finished)
+        {
+            finishedSalonsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
 
-                if (finishedLayoutManager.findLastCompletelyVisibleItemPosition() == finishedSalonsPagedAdapter.getItemCount() - 1)
-                {
-                    if (page_finished < last_page_finished)
+                    if (finishedLayoutManager.findLastCompletelyVisibleItemPosition() == finishedSalonsPagedAdapter.getItemCount() - 1)
                     {
                         getFinishedSalonsNextPageFromServer();
                         Toast.makeText(getContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();
+                        finishedSalonsRecycler.removeOnScrollListener(this);
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void initFinishedSalonsEmptyView(List<Salon> salonList) {
