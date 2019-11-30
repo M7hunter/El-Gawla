@@ -187,7 +187,7 @@ public class AllSalonsActivity extends BaseActivity {
                         null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        salonsList = ParseResponses.parseRounds(mainObject);
+                        salonsList = ParseResponses.parseSalons(mainObject);
                     }
 
                     @Override
@@ -210,7 +210,7 @@ public class AllSalonsActivity extends BaseActivity {
                         null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        updateDatabaseList(ParseResponses.parseRounds(mainObject));
+                        updateDatabaseList(ParseResponses.parseSalons(mainObject));
                         transAndSortDates();
 
                         initDatesAdapter();
@@ -248,7 +248,7 @@ public class AllSalonsActivity extends BaseActivity {
 //                    @Override
 //                    public void handleTrueResponse(JsonObject mainObject) {
 //                        int nextFirstPosition = salonsList.size();
-//                        salonsList.addAll(ParseResponses.parseRounds(mainObject));
+//                        salonsList.addAll(ParseResponses.parseSalons(mainObject));
 //                        for (int i = nextFirstPosition; i < salonsList.size(); i++)
 //                        {
 //                            recentSalonsPagedAdapter.notifyItemInserted(i);

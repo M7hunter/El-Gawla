@@ -364,7 +364,7 @@ public class MainFragment extends Fragment {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         salonList.clear();
-                        salonList.addAll(ParseResponses.parseRounds(mainObject));
+                        salonList.addAll(ParseResponses.parseSalons(mainObject));
 
                         last_page = mainObject.get("last_page").getAsInt();
                     }
@@ -392,7 +392,7 @@ public class MainFragment extends Fragment {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         int nextFirstPosition = salonList.size();
-                        salonList.addAll(ParseResponses.parseRounds(mainObject));
+                        salonList.addAll(ParseResponses.parseSalons(mainObject));
                         for (int i = nextFirstPosition; i < salonList.size(); i++)
                         {
                             recentSalonsPagedAdapter.notifyItemInserted(i);
@@ -490,7 +490,7 @@ public class MainFragment extends Fragment {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         finishedSalonList.clear();
-                        finishedSalonList.addAll(ParseResponses.parseRounds(mainObject));
+                        finishedSalonList.addAll(ParseResponses.parseSalons(mainObject));
 
                         last_page_finished = mainObject.get("last_page").getAsInt();
                     }
@@ -518,7 +518,7 @@ public class MainFragment extends Fragment {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         int nextFirstPosition = finishedSalonList.size();
-                        finishedSalonList.addAll(ParseResponses.parseRounds(mainObject));
+                        finishedSalonList.addAll(ParseResponses.parseSalons(mainObject));
                         for (int i = nextFirstPosition; i < finishedSalonList.size(); i++)
                         {
                             finishedSalonsPagedAdapter.notifyItemInserted(i);
@@ -554,12 +554,7 @@ public class MainFragment extends Fragment {
         finishedSalonsPagedAdapter = new SalonsAdapter(context, finishedSalonList);
         finishedSalonsRecycler.setAdapter(finishedSalonsPagedAdapter);
 
-//        Common.Instance().hideLoading(finishedSalonsRecycler, finishedSalonsProgress);
-
-        if (page_finished < last_page_finished)
-        {
-            addFinishedScrollListener();
-        }
+        addFinishedScrollListener();
     }
 
     private void addFinishedScrollListener() {

@@ -31,7 +31,7 @@ import it_geeks.info.elgawla.util.Constants;
 
 public class ParseResponses {
 
-    public static List<Salon> parseRounds(JsonObject object) {
+    public static List<Salon> parseSalons(JsonObject object) {
         List<Salon> salons = new ArrayList<>();
         JsonArray roundsArray = object.get("salons").getAsJsonArray();
 
@@ -533,7 +533,6 @@ public class ParseResponses {
         for (int i = 0; i < notificationsArr.size(); i++)
         {
             JsonObject notificationObj = notificationsArr.get(i).getAsJsonObject();
-
             notificationList.add(
                     new Notification(
                             notificationObj.get("id").getAsInt(),
