@@ -27,7 +27,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import it_geeks.info.elgawla.Adapters.SalonsMiniAdapter;
 import it_geeks.info.elgawla.repository.Models.Data;
-import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.ImageLoader;
@@ -206,13 +205,13 @@ public class MySalonsFragment extends Fragment {
 
                     @Override
                     public void handleAfterResponse() {
-                        initRecentSalonsRecycler(isRecent ? "my_recent" : "my_archive");
+                        initSalonsRecycler(isRecent ? "my_recent" : "my_archive");
                         refreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        initRecentSalonsRecycler("");
+                        initSalonsRecycler("");
                         snackBuilder.setSnackText(errorMessage).showSnack();
                         refreshLayout.setRefreshing(false);
                     }
@@ -268,9 +267,9 @@ public class MySalonsFragment extends Fragment {
         }
     }
 
-    private void initRecentSalonsRecycler(String from) {
+    private void initSalonsRecycler(String from) {
         stopSalonsShimmer();
-        if (recentSalonsList.size() > 0)
+        if (!recentSalonsList.isEmpty())
         {
             emptyViewLayout.setVisibility(View.GONE);
             mySalonsRecycler.setVisibility(View.VISIBLE);

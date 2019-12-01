@@ -121,9 +121,11 @@ public class RetrofitClient {
                             try
                             {
                                 JsonObject mainObj = response.body().getAsJsonObject();
-
-                                // dynamic with each call
-                                handleResponses.handleTrueResponse(mainObj);
+                                if (mainObj.get("status").getAsBoolean())
+                                {
+                                    // dynamic with each call
+                                    handleResponses.handleTrueResponse(mainObj);
+                                }
                             }
                             catch (NullPointerException | UnsupportedOperationException e)
                             { // errors of response body 'maybe response body has been changed'

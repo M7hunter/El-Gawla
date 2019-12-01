@@ -39,7 +39,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.util.Interfaces.ConnectionInterface;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
-import it_geeks.info.elgawla.repository.Models.SalonDate;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
@@ -179,15 +178,6 @@ public class Common {
 
             connectionInterface.onFailed();
         }
-    }
-
-    public void sortList(List<SalonDate> list) {
-        Collections.sort(list, new Comparator<SalonDate>() {
-            @Override
-            public int compare(SalonDate o1, SalonDate o2) {
-                return o1.getDate().compareTo(o2.getDate());
-            }
-        });
     }
 
     // animate recycler items

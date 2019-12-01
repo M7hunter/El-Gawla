@@ -47,9 +47,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
+    <!-- content -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/my_cards_title_bar"
         android:layout_marginStart="@dimen/margin_small"
         android:layout_marginTop="@dimen/margin_large"
@@ -109,7 +110,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_cards_recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:paddingTop="@dimen/margin_large"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

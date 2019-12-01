@@ -6,47 +6,39 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
 
-import java.text.DateFormatSymbols;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import it_geeks.info.elgawla.Adapters.CategoryFilterAdapter;
 import it_geeks.info.elgawla.Adapters.SalonsMiniAdapter;
+import it_geeks.info.elgawla.repository.Models.Data;
+import it_geeks.info.elgawla.repository.Models.Date;
 import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.util.Constants;
 import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
-import it_geeks.info.elgawla.repository.Storage.CardDao;
-import it_geeks.info.elgawla.repository.Storage.ProductImageDao;
-import it_geeks.info.elgawla.repository.Storage.RoundDao;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.notification.NotificationBuilder;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Category;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
-import it_geeks.info.elgawla.repository.Models.SalonDate;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
-import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.Adapters.DateAdapter;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.BaseActivity;
@@ -56,11 +48,12 @@ import it_geeks.info.elgawla.views.account.ProfileActivity;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_CATEGORIES;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_FINISHED_SALONS;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_SALONS;
+import static it_geeks.info.elgawla.util.Constants.REQ_GET_FILTER_DATES;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALONS_BY_CAT_ID;
 
 public class AllSalonsActivity extends BaseActivity {
+    private RecyclerView rvDates, rvCats, salonsRecycler;
 
-    private RecyclerView filterRecycler, rvCats, salonsRecycler;
     private TextView tvAllSalonsTitle;
     private LinearLayout emptyViewLayout;
     private BottomSheetDialog mBottomSheetDialogFilterBy;
@@ -70,11 +63,11 @@ public class AllSalonsActivity extends BaseActivity {
 
     private List<Salon> salonsList = new ArrayList<>();
     private List<Category> categoryList = new ArrayList<>();
-    private List<SalonDate> dateList = new ArrayList<>();
+    private List<Date> dateList = new ArrayList<>();
 
-    private int userId, catKey, page = 1, last_page = 1;
-    private boolean isDateFilter = true, isFinishedSalons = false;
-    private String apiToken;
+    private int userId, catKey, page = 1, page_date = 1, last_page = 1, last_page_date = 1, cat;
+    private boolean isDateFilter = false, isCatFilter = false, isFinishedSalons = false;
+    private String apiToken, date;
     private SnackBuilder snackBuilder;
 
     @Override
@@ -87,13 +80,12 @@ public class AllSalonsActivity extends BaseActivity {
 
         initViews();
 
-        initBottomSheetFilterBy();
-
         getExtraData();
 
         if (catKey == Constants.NULL_INT_VALUE)
         {
-            getDatesAndRoundsFromServer();
+            initBottomSheetFilterBy();
+            getAllSalonsFromServer();
         }
         else
         {
@@ -120,6 +112,10 @@ public class AllSalonsActivity extends BaseActivity {
                 tvAllSalonsTitle.setText(extra.getString(Constants.CATEGORY_NAME));
                 fbtnFilter.setVisibility(View.GONE);
             }
+            if (isFinishedSalons)
+            {
+                tvAllSalonsTitle.setText(getString(R.string.previous_salons));
+            }
         }
     }
 
@@ -130,12 +126,12 @@ public class AllSalonsActivity extends BaseActivity {
         tvAllSalonsTitle = findViewById(R.id.tv_all_salon_title);
         salonsShimmerLayout = findViewById(R.id.sh_all_salons);
 
-        filterRecycler = findViewById(R.id.filter_recycler);
+        rvDates = findViewById(R.id.date_recycler);
         rvCats = findViewById(R.id.rv_cats);
-        filterRecycler.setHasFixedSize(true);
+        rvDates.setHasFixedSize(true);
         rvCats.setHasFixedSize(true);
 
-        filterRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        rvDates.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         rvCats.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
 
         snackBuilder = new SnackBuilder(findViewById(R.id.all_salons_main_layout));
@@ -203,28 +199,17 @@ public class AllSalonsActivity extends BaseActivity {
                 });
     }
 
-    private void getDatesAndRoundsFromServer() {
+    private void getAllSalonsFromServer() {
         startSalonsShimmer();
-        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataFromServer(AllSalonsActivity.this,
-                isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, new RequestModel<>(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, userId, apiToken, false,
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
+                new Data(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, 1)
+                , new RequestModel<>(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, userId, apiToken, false,
                         null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        updateDatabaseList(ParseResponses.parseSalons(mainObject));
-                        transAndSortDates();
+                        salonsList = ParseResponses.parseSalons(mainObject);
 
-                        initDatesAdapter();
-                        try
-                        {
-                            salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(dateList.get(0).getsDate()));
-                        }
-                        catch (IndexOutOfBoundsException e)
-                        {
-                            e.printStackTrace();
-                            Crashlytics.logException(e);
-                        }
-
-//                        last_page = mainObject.get("last_page").getAsInt();
+                        last_page = mainObject.get("last_page").getAsInt();
                     }
 
                     @Override
@@ -240,203 +225,33 @@ public class AllSalonsActivity extends BaseActivity {
                 });
     }
 
-//    private void getSalonsNextPageFromServer() {
-//        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
-//                new Data(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, ++page)
-//                , new RequestModel<>(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, userId, apiToken, true
-//                        , null, null, null, null), new HandleResponses() {
-//                    @Override
-//                    public void handleTrueResponse(JsonObject mainObject) {
-//                        int nextFirstPosition = salonsList.size();
-//                        salonsList.addAll(ParseResponses.parseSalons(mainObject));
-//                        for (int i = nextFirstPosition; i < salonsList.size(); i++)
-//                        {
-//                            recentSalonsPagedAdapter.notifyItemInserted(i);
-//                        }
-//
-//                        salonsRecycler.smoothScrollToPosition(nextFirstPosition);
-//
-//                        if (page < last_page)
-//                            addScrollListener();
-//                    }
-//
-//                    @Override
-//                    public void handleAfterResponse() {
-//                    }
-//
-//                    @Override
-//                    public void handleConnectionErrors(String errorMessage) {
-//                        snackBuilder.setSnackText(errorMessage).showSnack();
-//                    }
-//                });
-//    }
-
-    private void updateDatabaseList(List<Salon> salons) {
-        RoundDao roundDao = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao();
-        roundDao.removeRounds(roundDao.getRounds());
-        roundDao.insertRoundList(salons);
-
-        ProductImageDao productImageDao = GawlaDataBse.getInstance(AllSalonsActivity.this).productImageDao();
-        productImageDao.removeSubImages(productImageDao.getSubImages());
-        CardDao cardDao = GawlaDataBse.getInstance(AllSalonsActivity.this).cardDao();
-        cardDao.removeCards(cardDao.getCards());
-
-        for (int i = 0; i < salons.size(); i++)
-        {
-            productImageDao.insertSubImages(salons.get(i).getProduct_images());
-            cardDao.insertCards(salons.get(i).getSalon_cards());
-        }
-    }
-
-    private void transAndSortDates() {
-        List<String> dates = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsDates();
-
-        dateList.clear();
-
-        for (String date : dates)
-        {
-            dateList.add(transformDateToNames(date));
-        }
-
-        Common.Instance().sortList(dateList);
-    }
-
-    public SalonDate transformDateToNames(String sDate) {
-        String[] dateParts = sDate.split("-"); // separate date
-        String day = dateParts[2];
-        String month = dateParts[1];
-        String year = dateParts[0];
-
-        String monthName = new DateFormatSymbols(new Locale(SharedPrefManager.getInstance(AllSalonsActivity.this).getSavedLang())).getMonths()[Integer.parseInt(month) - 1]; // month from num to nam
-
-        Calendar cal = Calendar.getInstance();
-        cal.set(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(day));
-        int dayWeek = cal.get(Calendar.DAY_OF_WEEK); // day in month to day in week
-        String dayOfWeek = new DateFormatSymbols(new Locale(SharedPrefManager.getInstance(AllSalonsActivity.this).getSavedLang())).getWeekdays()[dayWeek]; // day in week from num to nam
-
-        Date date = null;
-        try
-        {
-            date = new SimpleDateFormat("dd-MM-yyyy").parse(sDate);
-        }
-        catch (ParseException e)
-        {
-            e.printStackTrace();
-        }
-
-        return new SalonDate(date, sDate, day, monthName, dayOfWeek, GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getDatesCount(sDate) + getResources().getString(R.string.salons));
-    }
-
-    private void initDatesAdapter() {
-        rvCats.setVisibility(View.GONE);
-        filterRecycler.setVisibility(View.VISIBLE);
-        filterRecycler.setAdapter(new DateAdapter(AllSalonsActivity.this, dateList, new ClickInterface.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                SalonDate salonDate = dateList.get(position);
-                salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(salonDate.getsDate()));
-
-                initSalonsRecycler();
-                EventsManager.sendSearchEvent(AllSalonsActivity.this, String.valueOf(salonDate.getsDate()));
-            }
-        }));
-    }
-
-    private void getCategoriesAndRoundsFromServer() {
-        startSalonsShimmer();
-        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataFromServer(AllSalonsActivity.this,
-                REQ_GET_ALL_CATEGORIES, new RequestModel<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
-                        null, null, null, null, null), new HandleResponses() {
+    private void getNextAllSalonsFromServer() {
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
+                new Data(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, ++page)
+                , new RequestModel<>(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, userId, apiToken, false
+                        , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        categoryList = ParseResponses.parseCategories(mainObject);
+                        int nextFirstPosition = salonsList.size();
+                        salonsList.addAll(ParseResponses.parseSalons(mainObject));
+                        for (int i = nextFirstPosition; i < salonsList.size(); i++)
+                        {
+                            salonsRecycler.getAdapter().notifyItemInserted(i);
+                        }
 
-                        try
-                        {
-                            salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
-                        }
-                        catch (IndexOutOfBoundsException e)
-                        {
-                            e.printStackTrace();
-                            Crashlytics.logException(e);
-                        }
+                        salonsRecycler.smoothScrollToPosition(nextFirstPosition);
+                        addScrollListener();
                     }
 
                     @Override
                     public void handleAfterResponse() {
-                        initCategoriesAdapter();
-                        initSalonsRecycler();
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        initSalonsRecycler();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
-    }
-
-    private void initCategoriesAdapter() {
-        filterRecycler.setVisibility(View.GONE);
-        rvCats.setVisibility(View.VISIBLE);
-        rvCats.setAdapter(new CategoryFilterAdapter(categoryList, new ClickInterface.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Category category = categoryList.get(position);
-                salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(category.getCategoryName());
-
-                initSalonsRecycler();
-                EventsManager.sendSearchEvent(AllSalonsActivity.this, String.valueOf(category.getCategoryName()));
-            }
-        }));
-    }
-
-    private void initSalonsRecycler() {
-        EventsManager.sendSearchResultsEvent(this, "");
-        stopSalonsShimmer();
-        if (!salonsList.isEmpty())
-        { // !empty ?
-            emptyViewLayout.setVisibility(View.GONE);
-            salonsRecycler.setVisibility(View.VISIBLE);
-            updateSpanCount(salonsList);
-            salonsRecycler.setHasFixedSize(true);
-            salonsRecycler.setAdapter(new SalonsMiniAdapter(AllSalonsActivity.this, salonsList, "all_salons"));
-        }
-        else
-        {  // empty ?
-            emptyViewLayout.setVisibility(View.VISIBLE);
-            salonsRecycler.setVisibility(View.GONE);
-        }
-    }
-
-    private void updateSpanCount(List<Salon> list) {
-        if (salonsRecycler.getLayoutManager() != null)
-        {
-            if (list.size() == 1)
-            {
-                ((GridLayoutManager) salonsRecycler.getLayoutManager()).setSpanCount(1);
-            }
-            else
-            {
-                ((GridLayoutManager) salonsRecycler.getLayoutManager()).setSpanCount(2);
-            }
-        }
-    }
-
-    private void startSalonsShimmer() {
-        if (salonsShimmerLayout.getVisibility() != View.VISIBLE)
-            salonsShimmerLayout.setVisibility(View.VISIBLE);
-
-        salonsRecycler.setVisibility(View.GONE);
-        salonsShimmerLayout.startShimmerAnimation();
-    }
-
-    private void stopSalonsShimmer() {
-        if (salonsShimmerLayout.getVisibility() == View.VISIBLE)
-        {
-            salonsShimmerLayout.stopShimmerAnimation();
-            salonsShimmerLayout.setVisibility(View.GONE);
-        }
     }
 
     private void initBottomSheetFilterBy() {
@@ -451,15 +266,15 @@ public class AllSalonsActivity extends BaseActivity {
                 {
                     if (dateList.isEmpty())
                     {// query from server
-                        getDatesAndRoundsFromServer();
+                        getFirstDatesFromServer();
                     }
                     else
                     {// get locally
                         initDatesAdapter();
-                        salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(dateList.get(0).getsDate()));
-                        initSalonsRecycler();
+                        getFirstFilteredSalonsFromServer(date, null);
                     }
                     isDateFilter = true;
+                    isCatFilter = false;
                 }
                 mBottomSheetDialogFilterBy.dismiss();
             }
@@ -468,19 +283,19 @@ public class AllSalonsActivity extends BaseActivity {
         sheetView.findViewById(R.id.btn_filter_by_category).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isDateFilter)
+                if (!isCatFilter)
                 {
                     if (categoryList.isEmpty())
                     {// query from server
-                        getCategoriesAndRoundsFromServer();
+                        getCatsFromServer();
                     }
                     else
                     {// get locally
-                        initCategoriesAdapter();
-                        salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
-                        initSalonsRecycler();
+                        initCatsAdapter();
+                        getFirstFilteredSalonsFromServer(null, cat);
                     }
                     isDateFilter = false;
+                    isCatFilter = true;
                 }
                 mBottomSheetDialogFilterBy.dismiss();
             }
@@ -506,5 +321,281 @@ public class AllSalonsActivity extends BaseActivity {
         Common.Instance().setBottomSheetHeight(sheetView);
         mBottomSheetDialogFilterBy.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
+    }
+
+    private void getFirstDatesFromServer() {
+        startSalonsShimmer();
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
+                new Data(REQ_GET_FILTER_DATES, 1), new RequestModel<>(REQ_GET_FILTER_DATES, userId, apiToken, !isFinishedSalons
+                        , null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        last_page_date = mainObject.get("last_page").getAsInt();
+
+                        dateList = ParseResponses.parseDates(mainObject);
+                        initDatesAdapter();
+                        date = dateList.get(0).getDate();
+                        getFirstFilteredSalonsFromServer(date, null);
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        initSalonsRecycler();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    }
+                });
+    }
+
+    private void getNextDatesFromServer() {
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
+                new Data(REQ_GET_FILTER_DATES, ++page_date), new RequestModel<>(REQ_GET_FILTER_DATES, userId, apiToken, !isFinishedSalons
+                        , null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        int nextFirstPosition = dateList.size();
+                        dateList.addAll(ParseResponses.parseDates(mainObject));
+                        for (int i = nextFirstPosition; i < dateList.size(); i++)
+                        {
+                            rvDates.getAdapter().notifyItemInserted(i);
+                        }
+
+                        rvDates.smoothScrollToPosition(nextFirstPosition);
+                        addDatesScrollListener();
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        initSalonsRecycler();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    }
+                });
+    }
+
+    private void getCatsFromServer() {
+        startSalonsShimmer();
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataFromServer(AllSalonsActivity.this,
+                REQ_GET_ALL_CATEGORIES, new RequestModel<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
+                        null, null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        categoryList = ParseResponses.parseCategories(mainObject);
+                        initCatsAdapter();
+                        cat = categoryList.get(0).getCategoryId();
+                        getFirstFilteredSalonsFromServer(null, cat);
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        initSalonsRecycler();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    }
+                });
+    }
+
+    private void initDatesAdapter() {
+        rvCats.setVisibility(View.GONE);
+        rvDates.setVisibility(View.VISIBLE);
+        rvDates.setAdapter(new DateAdapter(AllSalonsActivity.this, dateList, new ClickInterface.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                date = dateList.get(position).getDate();
+                getFirstFilteredSalonsFromServer(date, null);
+                EventsManager.sendSearchEvent(AllSalonsActivity.this, String.valueOf(dateList.get(position).getDay_no()));
+            }
+        }));
+
+        addDatesScrollListener();
+    }
+
+    private void initCatsAdapter() {
+        rvDates.setVisibility(View.GONE);
+        rvCats.setVisibility(View.VISIBLE);
+        rvCats.setAdapter(new CategoryFilterAdapter(categoryList, new ClickInterface.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                cat = categoryList.get(position).getCategoryId();
+                getFirstFilteredSalonsFromServer(null, cat);
+                EventsManager.sendSearchEvent(AllSalonsActivity.this, String.valueOf(cat));
+            }
+        }));
+    }
+
+    private void getFirstFilteredSalonsFromServer(String date, Integer cat) {
+        startSalonsShimmer();
+        page = 1;
+        last_page = 1;
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
+                new Data(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, 1)
+                , new RequestModel<>("filter", userId, apiToken, false, true, date, cat,
+                        null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        salonsList.clear();
+                        salonsList.addAll(ParseResponses.parseSalons(mainObject));
+
+                        last_page = mainObject.get("last_page").getAsInt();
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                        initSalonsRecycler();
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        initSalonsRecycler();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    }
+                });
+    }
+
+    private void getNextFilteredSalonsFromServer(String date, Integer cat) {
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
+                new Data(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, ++page)
+                , new RequestModel<>("filter", userId, apiToken, false, true, date, cat,
+                        null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        int nextFirstPosition = salonsList.size();
+                        salonsList.addAll(ParseResponses.parseSalons(mainObject));
+                        for (int i = nextFirstPosition; i < salonsList.size(); i++)
+                        {
+                            salonsRecycler.getAdapter().notifyItemInserted(i);
+                        }
+
+                        salonsRecycler.smoothScrollToPosition(nextFirstPosition);
+                        addScrollListener();
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    }
+                });
+    }
+
+    private void initSalonsRecycler() {
+        stopSalonsShimmer();
+        if (!salonsList.isEmpty())
+        { // !empty
+            emptyViewLayout.setVisibility(View.GONE);
+            salonsRecycler.setVisibility(View.VISIBLE);
+            updateSpanCount(salonsList);
+            salonsRecycler.setHasFixedSize(true);
+            salonsRecycler.setAdapter(new SalonsMiniAdapter(AllSalonsActivity.this, salonsList, "all_salons"));
+
+            addScrollListener();
+        }
+        else
+        {  // empty
+            emptyViewLayout.setVisibility(View.VISIBLE);
+            salonsRecycler.setVisibility(View.GONE);
+        }
+        EventsManager.sendSearchResultsEvent(this, "");
+    }
+
+    private void updateSpanCount(List<Salon> list) {
+        if (salonsRecycler.getLayoutManager() != null)
+        {
+            if (list.size() == 1)
+            {
+                ((GridLayoutManager) salonsRecycler.getLayoutManager()).setSpanCount(1);
+            }
+            else
+            {
+                ((GridLayoutManager) salonsRecycler.getLayoutManager()).setSpanCount(2);
+            }
+        }
+    }
+
+    private void addScrollListener() {
+        if (page < last_page)
+        {
+            salonsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+
+                    if (page >= last_page)
+                    {
+                        salonsRecycler.removeOnScrollListener(this);
+                        return;
+                    }
+
+                    if (((LinearLayoutManager) salonsRecycler.getLayoutManager()).findLastCompletelyVisibleItemPosition() == salonsRecycler.getAdapter().getItemCount() - 1)
+                    {
+                        if (isDateFilter || isCatFilter)
+                        {
+                            getNextFilteredSalonsFromServer(isDateFilter ? date : null, isCatFilter ? cat : null);
+                        }
+                        else
+                        {
+                            getNextAllSalonsFromServer();
+                        }
+
+                        Toast.makeText(AllSalonsActivity.this, getString(R.string.loading), Toast.LENGTH_SHORT).show();
+                        salonsRecycler.removeOnScrollListener(this);
+                    }
+                }
+            });
+        }
+    }
+
+    private void addDatesScrollListener() {
+        if (page_date < last_page_date)
+        {
+            rvDates.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    if (isDateFilter)
+                    {
+                        if (((LinearLayoutManager) rvDates.getLayoutManager()).findLastCompletelyVisibleItemPosition() == rvDates.getAdapter().getItemCount() - 1)
+                        {
+                            getNextDatesFromServer();
+
+                            Toast.makeText(AllSalonsActivity.this, getString(R.string.loading), Toast.LENGTH_SHORT).show();
+                            rvDates.removeOnScrollListener(this);
+                        }
+                    }
+                    else
+                    {
+                        rvDates.removeOnScrollListener(this);
+                    }
+                }
+            });
+        }
+    }
+
+    private void startSalonsShimmer() {
+        if (salonsShimmerLayout.getVisibility() != View.VISIBLE)
+            salonsShimmerLayout.setVisibility(View.VISIBLE);
+
+        salonsRecycler.setVisibility(View.GONE);
+        salonsShimmerLayout.startShimmerAnimation();
+    }
+
+    private void stopSalonsShimmer() {
+        if (salonsShimmerLayout.getVisibility() == View.VISIBLE)
+        {
+            salonsShimmerLayout.stopShimmerAnimation();
+            salonsShimmerLayout.setVisibility(View.GONE);
+        }
     }
 }

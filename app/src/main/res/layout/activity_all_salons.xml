@@ -8,122 +8,115 @@
     android:background="@color/paleGrey"
     tools:context=".views.salon.AllSalonsActivity">
 
-    <androidx.core.widget.NestedScrollView
+    <!-- scroll main layout -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
-        <!-- scroll main layout -->
+        android:orientation="vertical">
+
+        <!-- header -->
+        <include layout="@layout/layout_header" />
+
+        <!-- package_name -->
+        <TextView
+            android:id="@+id/tv_all_salon_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_large"
+            android:gravity="center"
+            android:text="@string/all_salons"
+            android:textAllCaps="true"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+        <!-- recyclers container -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <!-- header -->
-            <include layout="@layout/layout_header" />
-
-            <!-- package_name -->
-            <TextView
-                android:id="@+id/tv_all_salon_title"
+            <!-- dates -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/date_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_large"
-                android:gravity="center"
-                android:text="@string/all_salons"
-                android:textAllCaps="true"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+                android:layout_marginTop="@dimen/margin_tiny"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_salon_date" />
 
-            <!-- recyclers container -->
-            <LinearLayout
+            <!-- cats -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_cats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_tiny"
+                android:visibility="visible"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_category_filter"
+                tools:orientation="horizontal" />
+
+            <!-- salons & empty view container & 'to center the store' -->
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small">
 
-                <!-- dates -->
+                <!-- load anim -->
+                <include
+                    android:id="@+id/sh_all_salons"
+                    layout="@layout/layout_shimmer_mini_salons" />
+
+                <!-- salons recycler -->
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/filter_recycler"
+                    android:id="@+id/all_salons_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_tiny"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/item_salon_date"
-                    tools:orientation="horizontal" />
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="2"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/item_salon_mini" />
 
-                <!-- cats -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_cats"
-                    android:layout_width="match_parent"
+                <!-- empty view -->
+                <LinearLayout
+                    android:id="@+id/all_salons_empty_view"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_tiny"
-                    android:visibility="visible"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/item_category_filter"
-                    tools:orientation="horizontal" />
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                <!-- salons & empty view container & 'to center the store' -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginBottom="@dimen/margin_small">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/empty_view" />
 
-                    <!-- load anim -->
-                    <include
-                        android:id="@+id/sh_all_salons"
-                        layout="@layout/layout_shimmer_mini_salons" />
-
-                    <!-- salons recycler -->
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/all_salons_recycler"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="2"
-                        tools:itemCount="4"
-                        tools:listitem="@layout/item_salon_mini" />
-
-                    <!-- empty view -->
-                    <LinearLayout
-                        android:id="@+id/all_salons_empty_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/margin_medium"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="gone">
+                        android:text="@string/no_salons"
+                        android:textColor="@color/blueGrey"
+                        android:textSize="@dimen/text_size_medium" />
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:src="@drawable/empty_view" />
+                </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_medium"
-                            android:gravity="center"
-                            android:text="@string/no_salons"
-                            android:textColor="@color/blueGrey"
-                            android:textSize="@dimen/text_size_medium" />
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/all_salon_filter_icon"

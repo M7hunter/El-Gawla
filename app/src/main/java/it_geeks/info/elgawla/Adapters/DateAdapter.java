@@ -14,20 +14,20 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import it_geeks.info.elgawla.repository.Models.Date;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.repository.Models.SalonDate;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 
 public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
 
     private Context context;
-    private List<SalonDate> dateList;
+    private List<Date> dateList;
     private ClickInterface.OnItemClickListener clickListener;
     private int selectedPosition = 0;
     private String currentMonth;
 
-    public DateAdapter(Context context, List<SalonDate> dateList, ClickInterface.OnItemClickListener onItemClickListener) {
+    public DateAdapter(Context context, List<Date> dateList, ClickInterface.OnItemClickListener onItemClickListener) {
         this.context = context;
         this.dateList = dateList;
         this.clickListener = onItemClickListener;
@@ -42,7 +42,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
-        final SalonDate salonDate = dateList.get(i);
+        final Date salonDate = dateList.get(i);
 
         // check if selected
         if (selectedPosition == i)
@@ -54,10 +54,10 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
             NotSelectedDay(viewHolder, salonDate);
         }
 
-        viewHolder.dayOfMonth.setText(salonDate.getDayOfMonth());
+        viewHolder.dayOfMonth.setText(salonDate.getDay_no());
         viewHolder.month.setText(salonDate.getMonth());
-        viewHolder.dayOfWeek.setText(salonDate.getDayOfWeek());
-        viewHolder.salonsCount.setText(String.valueOf(salonDate.getSalonsCount()));
+        viewHolder.dayOfWeek.setText(salonDate.getDay());
+        viewHolder.salonsCount.setText(String.valueOf(salonDate.getSalon_count()));
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +80,7 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
         viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_c_primary));
     }
 
-    private void NotSelectedDay(ViewHolder viewHolder, SalonDate salonDate) {
+    private void NotSelectedDay(ViewHolder viewHolder, Date salonDate) {
         viewHolder.month.setTextColor(context.getResources().getColor(R.color.colorPrimary));
         viewHolder.dayOfWeek.setTextColor(context.getResources().getColor(R.color.colorPrimary));
         viewHolder.dayOfWeek.setTextColor(context.getResources().getColor(R.color.colorPrimary));
@@ -88,8 +88,8 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
         viewHolder.separator.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
         viewHolder.salonsCount.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_corners_c_primary));
 
-        if (salonDate.getMonth().equals(currentMonth) && Integer.parseInt(salonDate.getDayOfMonth()) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
-        { // if today
+        if (salonDate.is_today())
+        {
             viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.bg_rounded_c_white_bordered_c_primary));
         }
         else

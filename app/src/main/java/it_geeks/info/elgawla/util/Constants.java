@@ -22,6 +22,7 @@ public class Constants {
     public static final String REQ_GET_ALL_FINISHED_SALONS = "getAllSalonsFinished";
     public static final String REQ_GET_ALL_BLOGS = "getAllBlogs";
     public static final String REQ_GET_ALL_CATEGORIES = "getAllCategories";
+    public static final String REQ_GET_FILTER_DATES = "getFilterDates";
     public static final String REQ_GET_ALL_COUNTRIES = "getAllCountries";
     public static final String REQ_GET_ALL_CARDS = "getAllCards";
     public static final String REQ_GET_SALONS_BY_CAT_ID = "getSalonsByCategoryID";

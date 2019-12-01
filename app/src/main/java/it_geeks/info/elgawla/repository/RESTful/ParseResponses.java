@@ -4,12 +4,11 @@ import com.crashlytics.android.Crashlytics;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.JarEntry;
 
 import it_geeks.info.elgawla.repository.Models.Ad;
+import it_geeks.info.elgawla.repository.Models.Date;
 import it_geeks.info.elgawla.repository.Models.Invoice;
 import it_geeks.info.elgawla.repository.Models.Card;
 import it_geeks.info.elgawla.repository.Models.Category;
@@ -17,7 +16,6 @@ import it_geeks.info.elgawla.repository.Models.Country;
 import it_geeks.info.elgawla.repository.Models.MyCardModel;
 import it_geeks.info.elgawla.repository.Models.Notification;
 import it_geeks.info.elgawla.repository.Models.Package;
-import it_geeks.info.elgawla.repository.Models.SalonArchiveModel;
 import it_geeks.info.elgawla.repository.Models.TopTen;
 import it_geeks.info.elgawla.repository.Models.ProductSubImage;
 import it_geeks.info.elgawla.repository.Models.Salon;
@@ -208,6 +206,26 @@ public class ParseResponses {
         return categories;
     }
 
+    public static List<Date> parseDates(JsonObject object) {
+        List<Date> dateList = new ArrayList<>();
+        JsonArray dateArray = object.get("salonDate").getAsJsonArray();
+
+        for (int i = 0; i < dateArray.size(); i++)
+        {
+            JsonObject categoryObj = dateArray.get(i).getAsJsonObject();
+            String day_no = categoryObj.get("day_no").getAsString();
+            String month = categoryObj.get("month").getAsString();
+            String day = categoryObj.get("day").getAsString();
+            String date = categoryObj.get("date").getAsString();
+            int salon_count = categoryObj.get("salon_count").getAsInt();
+            boolean is_today = categoryObj.get("is_today").getAsBoolean();
+
+            dateList.add(
+                    new Date(day_no, month, day, date, salon_count, is_today));
+        }
+        return dateList;
+    }
+
     public static List<Card> parseCards(JsonObject object) {
         JsonArray dataArray = object.get("cards").getAsJsonArray();
 
@@ -274,8 +292,9 @@ public class ParseResponses {
             boolean isWinner = cardObj.get("isWinner").getAsBoolean();
             boolean is_closed = cardObj.get("is_closed").getAsBoolean();
             int salon_id = cardObj.get("salon_id").getAsInt();
+            int round_id = cardObj.get("round_id").getAsInt();
 
-            salonsList.add(new Salon(product_image, product_name, salon_date, isWinner, is_closed, salon_id));
+            salonsList.add(new Salon(product_image, product_name, salon_date, isWinner, is_closed, salon_id, round_id));
         }
 
         return salonsList;

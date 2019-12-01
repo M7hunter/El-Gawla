@@ -55,8 +55,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <include android:id="@+id/sh_slider"
-                            layout="@layout/layout_shimmer_slider"/>
+                        <include
+                            android:id="@+id/sh_slider"
+                            layout="@layout/layout_shimmer_slider" />
 
                         <!-- ads -->
                         <androidx.viewpager2.widget.ViewPager2
