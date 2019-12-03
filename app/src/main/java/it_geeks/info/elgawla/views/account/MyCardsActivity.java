@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import it_geeks.info.elgawla.Adapters.MyCardsAdapter;
@@ -32,8 +32,9 @@ import static it_geeks.info.elgawla.util.Constants.REQ_GET_MY_CARDS;
 
 public class MyCardsActivity extends BaseActivity {
 
-    private RecyclerView myCardsRecycler;
+    private RecyclerView rvMyCards;
     private TextView myCardsEmptyView;
+    private ProgressBar pbpMyCards;
 
     private List<MyCardModel> myCardsList = new ArrayList<>();
 
@@ -48,7 +49,7 @@ public class MyCardsActivity extends BaseActivity {
 
         initViews();
 
-        getMyCardsFromServer();
+        getFirstMyCardsFromServer();
 
         handleEvents();
     }
@@ -56,8 +57,10 @@ public class MyCardsActivity extends BaseActivity {
     private void initViews() {
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
-        myCardsRecycler = findViewById(R.id.my_cards_recycler);
+        rvMyCards = findViewById(R.id.my_cards_recycler);
         myCardsEmptyView = findViewById(R.id.my_cards_empty_view);
+        pbpMyCards = findViewById(R.id.pbp_my_cards);
+
         snackBuilder = new SnackBuilder(findViewById(R.id.my_cards_main_layout));
     }
 
@@ -70,7 +73,7 @@ public class MyCardsActivity extends BaseActivity {
         });
     }
 
-    private void getMyCardsFromServer() {
+    private void getFirstMyCardsFromServer() {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(this).fetchDataPerPageFromServer(
                 this,
@@ -80,7 +83,6 @@ public class MyCardsActivity extends BaseActivity {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         myCardsList = ParseResponses.parseMyCards(mainObject);
-//                        Collections.reverse(myCardsList);
 
                         last_page = mainObject.get("last_page").getAsInt();
                     }
@@ -101,6 +103,7 @@ public class MyCardsActivity extends BaseActivity {
     }
 
     private void getNextMyCardsFromServer() {
+        onLoadMoreMyCards();
         RetrofitClient.getInstance(this).fetchDataPerPageFromServer(
                 this,
                 new Data(REQ_GET_MY_CARDS, ++page), new RequestModel<>(REQ_GET_MY_CARDS, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token(),
@@ -112,56 +115,62 @@ public class MyCardsActivity extends BaseActivity {
                         myCardsList.addAll(ParseResponses.parseMyCards(mainObject));
                         for (int i = nextFirstPosition; i < myCardsList.size(); i++)
                         {
-                            myCardsRecycler.getAdapter().notifyItemInserted(i);
+                            rvMyCards.getAdapter().notifyItemInserted(i);
                         }
 
-                        myCardsRecycler.smoothScrollToPosition(nextFirstPosition);
+                        rvMyCards.smoothScrollToPosition(nextFirstPosition);
                         addScrollListener();
                     }
 
                     @Override
                     public void handleAfterResponse() {
+                        pbpMyCards.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
+                        pbpMyCards.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
+    }
+
+    private void onLoadMoreMyCards() {
+        pbpMyCards.setVisibility(View.VISIBLE);
+        rvMyCards.scrollToPosition(myCardsList.size() - 1);
     }
 
     private void initRecycler() {
         if (!myCardsList.isEmpty())
         {
             myCardsEmptyView.setVisibility(View.GONE);
-            myCardsRecycler.setVisibility(View.VISIBLE);
+            rvMyCards.setVisibility(View.VISIBLE);
 
-            myCardsRecycler.setHasFixedSize(true);
-            myCardsRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-            myCardsRecycler.setAdapter(new MyCardsAdapter(this, myCardsList, snackBuilder));
+            rvMyCards.setHasFixedSize(true);
+            rvMyCards.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+            rvMyCards.setAdapter(new MyCardsAdapter(this, myCardsList, snackBuilder));
 
             addScrollListener();
         }
         else
         {
             myCardsEmptyView.setVisibility(View.VISIBLE);
-            myCardsRecycler.setVisibility(View.GONE);
+            rvMyCards.setVisibility(View.GONE);
         }
     }
 
     private void addScrollListener() {
         if (page < last_page)
         {
-            myCardsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            rvMyCards.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
 
-                    if (((LinearLayoutManager) myCardsRecycler.getLayoutManager()).findLastCompletelyVisibleItemPosition() == myCardsRecycler.getAdapter().getItemCount() - 1)
+                    if (((LinearLayoutManager) rvMyCards.getLayoutManager()).findLastCompletelyVisibleItemPosition() == rvMyCards.getAdapter().getItemCount() - 1)
                     {
                         getNextMyCardsFromServer();
-                        Toast.makeText(MyCardsActivity.this, getString(R.string.loading), Toast.LENGTH_SHORT).show();
-                        myCardsRecycler.removeOnScrollListener(this);
+                        rvMyCards.removeOnScrollListener(this);
                     }
                 }
             });

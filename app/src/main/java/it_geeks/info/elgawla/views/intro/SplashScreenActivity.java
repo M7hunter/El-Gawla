@@ -153,7 +153,7 @@ public class SplashScreenActivity extends BaseActivity {
     }
 
     private void checkConnection() {
-        if (Common.Instance().isConnected(this))
+        if (RetrofitClient.getInstance(this).isConnected(this))
         {
             pbSplash.setVisibility(View.VISIBLE);
             getCountriesFromSever();

@@ -16,8 +16,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private static Context getLanguageAwareContext(Context context) {
+        Locale newLocale = new Locale(SharedPrefManager.getInstance(context).getSavedLang());
+        Locale.setDefault(newLocale);
         Configuration configuration = context.getResources().getConfiguration();
-        configuration.setLocale(new Locale(SharedPrefManager.getInstance(context).getSavedLang()));
+        configuration.setLocale(newLocale);
         return context.createConfigurationContext(configuration);
     }
 }

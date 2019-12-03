@@ -247,6 +247,7 @@
     <string name="tt_user_image_description">user image is a fast way to take you to your profile page</string>
     <string name="previous_salons">previous salons</string>
     <string name="not_completed">NOT COMPLETED</string>
-    <string name="standard_packages">standard packages</string>
-    <string name="special_packages">special packages</string>
+    <string name="from">from</string>
+    <string name="to">to</string>
+    <string name="search_by_title">search by title</string>
 </resources>

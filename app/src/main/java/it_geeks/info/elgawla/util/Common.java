@@ -1,20 +1,12 @@
 package it_geeks.info.elgawla.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.webkit.WebView;
-import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -27,17 +19,10 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.util.Interfaces.ConnectionInterface;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
@@ -57,35 +42,6 @@ public class Common {
             common = new Common();
         }
         return common;
-    }
-
-    public static void setLang(Context context, String lang) {
-        try
-        {
-            new WebView(context).destroy();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        Locale locale;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-//        {
-//            locale = new Locale(lang, "kw");
-//        }
-//        else
-//        {
-        locale = new Locale(lang);
-//        }
-        Locale.setDefault(locale);
-        Configuration configuration = context.getResources().getConfiguration();
-        configuration.setLocale(locale);
-        configuration.locale = locale;
-        context.createConfigurationContext(configuration);
-        context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
-
-        SharedPrefManager.getInstance(context).setLang(lang);
     }
 
     // remove unneeded quotes
@@ -120,14 +76,6 @@ public class Common {
         });
     }
 
-    // get milliseconds time
-    public long getCurrentTimeInMillis() {
-        long time = System.currentTimeMillis(); // milliseconds
-        Log.d("M7", "Time: " + time);
-
-        return time;
-    }
-
     // set bottom sheet height 'wrap content'
     public void setBottomSheetHeight(final View view) {
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) view.getParent()).getLayoutParams();
@@ -140,7 +88,7 @@ public class Common {
             view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     int height = view.getMeasuredHeight();
                     bottomSheetBehavior.setPeekHeight(height);
                 }
@@ -153,39 +101,6 @@ public class Common {
         GradientDrawable background = (GradientDrawable) v.getBackground();
         background.setColor(Color.parseColor(color));
     }
-
-    // connected ?
-    public boolean isConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-    }
-
-    public void ApplyOnConnection(Context context, ConnectionInterface connectionInterface) {
-        TextView noConnectionLayout = ((Activity) context).findViewById(R.id.no_connection);
-
-        if (isConnected(context))
-        { // connected
-            noConnectionLayout.setVisibility(View.GONE);
-
-            connectionInterface.onConnected();
-
-        }
-        else
-        { // no connection
-            noConnectionLayout.setVisibility(View.VISIBLE);
-
-            connectionInterface.onFailed();
-        }
-    }
-
-    // animate recycler items
-    public void setAnimation(Context context, View viewToAnimate) {
-        Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
-        viewToAnimate.startAnimation(animation);
-    }
-
 
     public void signOut(Context context) {
         // local

@@ -379,15 +379,8 @@ public class ProfileActivity extends BaseActivity {
             btn_upload_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Common.Instance().isConnected(ProfileActivity.this))
-                    {
-                        startUploadImageService();
-                        setUIOnUpdating();
-                    }
-                    else
-                    {
-                        snackBuilder.setSnackText(getString(R.string.no_connection)).showSnack();
-                    }
+                    startUploadImageService();
+                    setUIOnUpdating();
                 }
             });
 

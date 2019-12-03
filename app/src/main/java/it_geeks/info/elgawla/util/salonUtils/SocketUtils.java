@@ -201,7 +201,6 @@ public class SocketUtils {
                         try
                         {
                             JSONArray main = (JSONArray) args[0];
-//                            Log.d(TAG,"activity :" + main.toString());
                             for (int i = 0; i < main.length(); i++)
                             {
                                 JSONObject jsonObject = main.getJSONObject(i);

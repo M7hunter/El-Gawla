@@ -2,6 +2,7 @@ package it_geeks.info.elgawla.views.main;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -19,7 +20,6 @@ import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.Adapters.NotificationAdapter;
 import it_geeks.info.elgawla.repository.Models.Data;
 import it_geeks.info.elgawla.repository.Models.Notification;
-import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
@@ -36,9 +36,8 @@ public class NotificationActivity extends BaseActivity {
     private SwipeRefreshLayout refreshLayout;
     private ShimmerFrameLayout shimmerLayout;
     private View emptyView;
-    private RecyclerView notificationRecycler;
-    private NotificationAdapter notificationAdapter;
-    private LinearLayoutManager layoutManager;
+    private RecyclerView rvNotification;
+    private ProgressBar pbpNotify;
 
     private List<Notification> notificationList = new ArrayList<>();
 
@@ -49,7 +48,6 @@ public class NotificationActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Common.setLang(this, SharedPrefManager.getInstance(this).getSavedLang());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 
@@ -59,15 +57,16 @@ public class NotificationActivity extends BaseActivity {
 
         startShimmer();
 
-        getNotificationListFromServer();
+        getFirstNotificationsFromServer();
     }
 
     private void initViews() {
         refreshLayout = findViewById(R.id.notification_swipe_refresh);
         refreshLayout.setColorSchemeResources(R.color.paleRed, R.color.colorYellow, R.color.niceBlue, R.color.azure);
         shimmerLayout = findViewById(R.id.sh_notification);
-        notificationRecycler = findViewById(R.id.notification_recycler);
+        rvNotification = findViewById(R.id.notification_recycler);
         emptyView = findViewById(R.id.notification_empty_view);
+        pbpNotify = findViewById(R.id.pbp_notify);
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
 
@@ -79,7 +78,7 @@ public class NotificationActivity extends BaseActivity {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getNotificationListFromServer();
+                getFirstNotificationsFromServer();
             }
         });
 
@@ -92,7 +91,7 @@ public class NotificationActivity extends BaseActivity {
         });
     }
 
-    private void getNotificationListFromServer() {
+    private void getFirstNotificationsFromServer() {
         RetrofitClient.getInstance(NotificationActivity.this).fetchDataPerPageFromServer(
                 NotificationActivity.this,
                 new Data(REQ_GET_ALL_NOTIFICATION, 1), new RequestModel<>(REQ_GET_ALL_NOTIFICATION, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()
@@ -120,7 +119,8 @@ public class NotificationActivity extends BaseActivity {
                 });
     }
 
-    private void getNextNotificationListFromServer() {
+    private void getNextNotificationsFromServer() {
+        onLoadMoreNotification();
         RetrofitClient.getInstance(NotificationActivity.this).fetchDataPerPageFromServer(
                 NotificationActivity.this,
                 new Data(REQ_GET_ALL_NOTIFICATION, ++page), new RequestModel<>(REQ_GET_ALL_NOTIFICATION, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()
@@ -131,22 +131,29 @@ public class NotificationActivity extends BaseActivity {
                         notificationList.addAll(ParseResponses.parseNotifications(mainObject));
                         for (int i = nextFirstPosition; i < notificationList.size(); i++)
                         {
-                            notificationAdapter.notifyItemInserted(i);
+                            rvNotification.getAdapter().notifyItemInserted(i);
                         }
 
-                        notificationRecycler.smoothScrollToPosition(nextFirstPosition);
+                        rvNotification.smoothScrollToPosition(nextFirstPosition);
                         addFinishedScrollListener();
                     }
 
                     @Override
                     public void handleAfterResponse() {
+                        pbpNotify.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
+                        pbpNotify.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
+    }
+
+    private void onLoadMoreNotification() {
+        pbpNotify.setVisibility(View.VISIBLE);
+        rvNotification.scrollToPosition(notificationList.size() - 1);
     }
 
     private void startShimmer() {
@@ -169,34 +176,31 @@ public class NotificationActivity extends BaseActivity {
         if (!notificationList.isEmpty())
         {
             emptyView.setVisibility(View.GONE);
-            notificationRecycler.setVisibility(View.VISIBLE);
-            layoutManager = new LinearLayoutManager(NotificationActivity.this);
-            notificationRecycler.setLayoutManager(layoutManager);
-            notificationAdapter = new NotificationAdapter(NotificationActivity.this, notificationList, findViewById(R.id.notification_main_layout));
-            notificationRecycler.setAdapter(notificationAdapter);
+            rvNotification.setVisibility(View.VISIBLE);
+            rvNotification.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
+            rvNotification.setAdapter(new NotificationAdapter(NotificationActivity.this, notificationList, findViewById(R.id.notification_main_layout)));
 
             addFinishedScrollListener();
         }
         else
         {
             emptyView.setVisibility(View.VISIBLE);
-            notificationRecycler.setVisibility(View.GONE);
+            rvNotification.setVisibility(View.GONE);
         }
     }
 
     private void addFinishedScrollListener() {
         if (page < last_page)
         {
-            notificationRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            rvNotification.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
 
-                    if (layoutManager.findLastCompletelyVisibleItemPosition() == notificationAdapter.getItemCount() - 1)
+                    if (((LinearLayoutManager) rvNotification.getLayoutManager()).findLastCompletelyVisibleItemPosition() == rvNotification.getAdapter().getItemCount() - 1)
                     {
-                        getNextNotificationListFromServer();
-                        Toast.makeText(NotificationActivity.this, getString(R.string.loading), Toast.LENGTH_SHORT).show();
-                        notificationRecycler.removeOnScrollListener(this);
+                        getNextNotificationsFromServer();
+                        rvNotification.removeOnScrollListener(this);
                     }
                 }
             });

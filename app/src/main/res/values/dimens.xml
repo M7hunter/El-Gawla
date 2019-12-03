@@ -5,6 +5,7 @@
     <dimen name="margin_tiny">3dp</dimen>
     <dimen name="margin_small">7dp</dimen>
     <dimen name="margin_medium">12dp</dimen>
+    <dimen name="margin_x_medium">15dp</dimen>
     <dimen name="margin_large">17dp</dimen>
     <dimen name="margin_xlarge">22dp</dimen>
     <dimen name="margin_xx_large">32dp</dimen>

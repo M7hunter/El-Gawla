@@ -2,6 +2,10 @@ package it_geeks.info.elgawla.repository.RESTful;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,6 +20,8 @@ import com.google.gson.JsonSyntaxException;
 
 import java.util.concurrent.TimeUnit;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import it_geeks.info.elgawla.BuildConfig;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
@@ -38,6 +44,7 @@ import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseServe
 public class RetrofitClient {
 
     private static final String TAG = "retrofit_connection";
+    private boolean connected = true;
 
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
@@ -169,7 +176,7 @@ public class RetrofitClient {
                 if (t.getMessage() != null && !t.getMessage().isEmpty())
                     Log.d(TAG, "onFailure: " + t.getCause());
 
-                if (!Common.Instance().isConnected(context))
+                if (!isConnected(context))
                 {
                     handleResponses.handleConnectionErrors(context.getString(R.string.check_connection));
                     return;
@@ -201,6 +208,38 @@ public class RetrofitClient {
             Toast.makeText(context, context.getString(R.string.error_occurred), Toast.LENGTH_SHORT).show();
             Log.e(TAG, "JsonSyntaxException: " + e.getMessage());
         }
+    }
+
+    // connected ?
+    public boolean isConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (cm != null)
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
+            {
+                cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
+                    @Override
+                    public void onAvailable(@NonNull Network network) {
+                        super.onAvailable(network);
+                        connected = true;
+                    }
+
+                    @Override
+                    public void onLost(@NonNull Network network) {
+                        super.onLost(network);
+                        connected = false;
+                    }
+                });
+            }
+            else
+            {
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                connected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+            }
+        }
+
+        return connected;
     }
 
     private void initRenewMembershipAlert(final Context context) {

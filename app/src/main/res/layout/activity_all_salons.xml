@@ -17,7 +17,7 @@
         <!-- header -->
         <include layout="@layout/layout_header" />
 
-        <!-- package_name -->
+        <!-- title -->
         <TextView
             android:id="@+id/tv_all_salon_title"
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
             <!-- cats -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_cats"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_tiny"
                 android:visibility="visible"
@@ -59,46 +59,56 @@
                 tools:listitem="@layout/item_category_filter"
                 tools:orientation="horizontal" />
 
-            <!-- salons & empty view container & 'to center the store' -->
-            <RelativeLayout
+            <!-- salons & empty view container -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginBottom="@dimen/margin_small">
+                android:layout_weight="1"
+                android:animateLayoutChanges="true"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <!-- load anim -->
                 <include
                     android:id="@+id/sh_all_salons"
-                    layout="@layout/layout_shimmer_mini_salons" />
+                    layout="@layout/layout_shimmer_mini_salons"
+                    android:visibility="gone" />
 
                 <!-- salons recycler -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/all_salons_recycler"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="2"
-                    tools:itemCount="4"
+                    tools:itemCount="3"
                     tools:listitem="@layout/item_salon_mini" />
+
+                <!-- load more -->
+                <ProgressBar
+                    android:id="@+id/pbp_salons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:visibility="gone" />
 
                 <!-- empty view -->
                 <LinearLayout
                     android:id="@+id/all_salons_empty_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/empty_view" />
 
                     <TextView
@@ -112,12 +122,13 @@
 
                 </LinearLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <!-- filer -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/all_salon_filter_icon"
         android:layout_width="wrap_content"
@@ -127,8 +138,10 @@
         android:src="@drawable/ic_filter"
         app:backgroundTint="@color/colorPrimary" />
 
-    <include layout="@layout/layout_no_connection" />
-
     <include layout="@layout/bottom_sheet_filter_by" />
+
+    <include layout="@layout/bottom_sheet_calender" />
+
+    <include layout="@layout/bottom_sheet_category" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

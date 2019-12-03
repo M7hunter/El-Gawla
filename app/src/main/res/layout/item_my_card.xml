@@ -23,7 +23,7 @@
             <View
                 android:id="@+id/v_my_card_color"
                 android:layout_width="@dimen/margin_xlarge"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/margin_xlarge"
                 android:layout_gravity="center"
                 android:background="@drawable/bg_rounded_corners_c_primary"
                 android:textSize="@dimen/text_size_medium" />

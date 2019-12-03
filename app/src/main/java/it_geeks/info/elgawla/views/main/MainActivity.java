@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentManager;
 
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
-import it_geeks.info.elgawla.util.receivers.ConnectionChangeReceiver;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.account.AccountFragment;
@@ -31,8 +30,6 @@ public class MainActivity extends BaseActivity {
     private BottomNavigationView navigation;
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private Fragment mainFragment, mySalonsFragment, storeFragment, accountFragment, menuFragment;
-
-    private ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
 
     private View snackContainer;
 
@@ -74,7 +71,6 @@ public class MainActivity extends BaseActivity {
         // Firebase Receive messaging notification
         FirebaseMessagingInitialize();
 
-        registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
 
@@ -206,22 +202,6 @@ public class MainActivity extends BaseActivity {
         else
         {
             super.onBackPressed();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        try
-        {
-            unregisterReceiver(connectionChangeReceiver);
-        }
-        catch (IllegalArgumentException e)
-        {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        } finally
-        {
-            super.onDestroy();
         }
     }
 }

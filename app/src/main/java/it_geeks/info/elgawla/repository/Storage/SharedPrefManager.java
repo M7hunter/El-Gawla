@@ -2,15 +2,10 @@ package it_geeks.info.elgawla.repository.Storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.os.Build;
-import android.webkit.WebView;
 
 import java.util.Locale;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Country;
 import it_geeks.info.elgawla.repository.Models.User;
 import it_geeks.info.elgawla.util.Constants;

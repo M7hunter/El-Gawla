@@ -55,7 +55,9 @@
         android:layout_marginStart="@dimen/margin_small"
         android:layout_marginTop="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_small"
+        android:animateLayoutChanges="true"
         android:background="@drawable/bg_bordered_pale_gray"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <!-- headers -->
@@ -135,12 +137,21 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/buying_processes_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_large"
+            android:layout_weight="1"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="3"
+            tools:itemCount="15"
             tools:listitem="@layout/item_invoice" />
+
+        <!-- load more -->
+        <ProgressBar
+            android:id="@+id/pbp_invoices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_tiny"
+            android:visibility="gone" />
 
     </LinearLayout>
 

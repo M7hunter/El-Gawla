@@ -2,13 +2,13 @@ package it_geeks.info.elgawla.views.account;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -27,14 +27,14 @@ import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.BaseActivity;
 
-import static it_geeks.info.elgawla.util.Constants.REQ_GET_MY_CARDS;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_MY_INVOICES;
 
 public class InvoicesActivity extends BaseActivity {
 
-    private RecyclerView invoicesRecycler;
+    private RecyclerView rvInvoices;
     private List<Invoice> invoiceList = new ArrayList<>();
     private TextView tvEmptyView;
+    private ProgressBar pbpInvoices;
 
     public DialogBuilder dialogBuilder;
     private SnackBuilder snackBuilder;
@@ -48,14 +48,15 @@ public class InvoicesActivity extends BaseActivity {
 
         initViews();
 
-        getInvoicesFromServer();
+        getFirstInvoicesFromServer();
 
         handleEvents();
     }
 
     private void initViews() {
-        invoicesRecycler = findViewById(R.id.buying_processes_recycler);
+        rvInvoices = findViewById(R.id.buying_processes_recycler);
         tvEmptyView = findViewById(R.id.buying_processes_empty_view);
+        pbpInvoices = findViewById(R.id.pbp_invoices);
 
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
@@ -63,7 +64,7 @@ public class InvoicesActivity extends BaseActivity {
         snackBuilder = new SnackBuilder(findViewById(R.id.buying_processes_main_layout));
     }
 
-    private void getInvoicesFromServer() {
+    private void getFirstInvoicesFromServer() {
         dialogBuilder.displayLoadingDialog();
         RetrofitClient.getInstance(this).fetchDataPerPageFromServer(
                 this,
@@ -93,6 +94,7 @@ public class InvoicesActivity extends BaseActivity {
     }
 
     private void getNextInvoicesFromServer() {
+        onLoadMoreInvoices();
         RetrofitClient.getInstance(this).fetchDataPerPageFromServer(this,
                 new Data(REQ_GET_MY_INVOICES, ++page),
                 new RequestModel<>(REQ_GET_MY_INVOICES, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token(),
@@ -104,22 +106,29 @@ public class InvoicesActivity extends BaseActivity {
                         invoiceList.addAll(ParseResponses.parseInvoices(mainObject));
                         for (int i = nextFirstPosition; i < invoiceList.size(); i++)
                         {
-                            invoicesRecycler.getAdapter().notifyItemInserted(i);
+                            rvInvoices.getAdapter().notifyItemInserted(i);
                         }
 
-                        invoicesRecycler.smoothScrollToPosition(nextFirstPosition);
+                        rvInvoices.smoothScrollToPosition(nextFirstPosition);
                         addScrollListener();
                     }
 
                     @Override
                     public void handleAfterResponse() {
+                        pbpInvoices.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
+                        pbpInvoices.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
+    }
+
+    private void onLoadMoreInvoices() {
+        pbpInvoices.setVisibility(View.VISIBLE);
+        rvInvoices.scrollToPosition(invoiceList.size() - 1);
     }
 
     private void handleEvents() {
@@ -135,9 +144,9 @@ public class InvoicesActivity extends BaseActivity {
     private void initRecycler() {
         if (!invoiceList.isEmpty())
         {
-            invoicesRecycler.setHasFixedSize(true);
-            invoicesRecycler.setLayoutManager(new LinearLayoutManager(InvoicesActivity.this, RecyclerView.VERTICAL, false));
-            invoicesRecycler.setAdapter(new InvoicesAdapter(this, invoiceList));
+            rvInvoices.setHasFixedSize(true);
+            rvInvoices.setLayoutManager(new LinearLayoutManager(InvoicesActivity.this, RecyclerView.VERTICAL, false));
+            rvInvoices.setAdapter(new InvoicesAdapter(this, invoiceList));
 
             tvEmptyView.setVisibility(View.GONE);
 
@@ -152,16 +161,15 @@ public class InvoicesActivity extends BaseActivity {
     private void addScrollListener() {
         if (page < last_page)
         {
-            invoicesRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            rvInvoices.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
 
-                    if (((LinearLayoutManager) invoicesRecycler.getLayoutManager()).findLastCompletelyVisibleItemPosition() == invoicesRecycler.getAdapter().getItemCount() - 1)
+                    if (((LinearLayoutManager) rvInvoices.getLayoutManager()).findLastCompletelyVisibleItemPosition() == rvInvoices.getAdapter().getItemCount() - 1)
                     {
                         getNextInvoicesFromServer();
-                        Toast.makeText(InvoicesActivity.this, getString(R.string.loading), Toast.LENGTH_SHORT).show();
-                        invoicesRecycler.removeOnScrollListener(this);
+                        rvInvoices.removeOnScrollListener(this);
                     }
                 }
             });
