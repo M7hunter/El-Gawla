@@ -165,14 +165,6 @@
 
         <receiver android:name=".util.receivers.NotificationInteractionsReceiver" />
 
-        <receiver
-            android:name=".util.receivers.ConnectionChangeReceiver"
-            android:label="NetworkConnection">
-            <intent-filter>
-                <action android:name="android.net.com.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-
         <service
             android:name=".util.services.UploadImageService"
             android:exported="false" />

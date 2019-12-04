@@ -2,79 +2,88 @@ package it_geeks.info.elgawla.views.salon;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
 
-import java.text.DateFormatSymbols;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import it_geeks.info.elgawla.Adapters.CategoryFilterAdapter;
 import it_geeks.info.elgawla.Adapters.SalonsMiniAdapter;
+import it_geeks.info.elgawla.Adapters.StoreCategoryAdapter;
+import it_geeks.info.elgawla.repository.Models.Data;
+import it_geeks.info.elgawla.repository.Models.Date;
 import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.util.Constants;
+import it_geeks.info.elgawla.util.DateUtil;
 import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
-import it_geeks.info.elgawla.repository.Storage.CardDao;
-import it_geeks.info.elgawla.repository.Storage.ProductImageDao;
-import it_geeks.info.elgawla.repository.Storage.RoundDao;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.notification.NotificationBuilder;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Category;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
-import it_geeks.info.elgawla.repository.Models.SalonDate;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
-import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.Adapters.DateAdapter;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
 import it_geeks.info.elgawla.views.account.ProfileActivity;
 
+import static it_geeks.info.elgawla.util.Constants.FILTER;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_CATEGORIES;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_FINISHED_SALONS;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_SALONS;
+import static it_geeks.info.elgawla.util.Constants.REQ_GET_FILTER_DATES;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALONS_BY_CAT_ID;
 
 public class AllSalonsActivity extends BaseActivity {
 
-    private RecyclerView filterRecycler, rvCats, salonsRecycler;
-    private TextView tvAllSalonsTitle;
+    private RecyclerView rvDates, rvCats, rvSalons, rvFilterCats;
+    private TextView tvAllSalonsTitle, tvCalenderTitle, etFilterDateFrom, etFilterDateTo;
     private LinearLayout emptyViewLayout;
-    private BottomSheetDialog mBottomSheetDialogFilterBy;
+    private BottomSheetDialog mBottomSheetDialogFilterBy, mBottomSheetCalender, mBottomSheetCategory;
     private FloatingActionButton fbtnFilter;
+    private ProgressBar pbpSalons, pbFilterCats;
+    private CalendarView cv;
+    private Button btnContinue, btnClearTitle, btnClearDate, btnClearCat;
+    private EditText etFilterTitle, etFilterCat;
+    private View catSheetView;
 
     private ShimmerFrameLayout salonsShimmerLayout;
 
     private List<Salon> salonsList = new ArrayList<>();
     private List<Category> categoryList = new ArrayList<>();
-    private List<SalonDate> dateList = new ArrayList<>();
+    private List<Date> dateList = new ArrayList<>();
 
-    private int userId, catKey, page = 1, last_page = 1;
-    private boolean isDateFilter = true, isFinishedSalons = false;
-    private String apiToken;
+    private int userId, catKey, page = 1, page_date = 1, last_page = 1, last_page_date = 1;
+    private Integer catId;
+    private boolean isDateFilter = false, isFilter = false, isFinishedSalons = false, isDateFrom = true;
+    private String apiToken, title, dateFrom = null, dateTo = null, selectedDateFrom, selectedDateTo;
     private SnackBuilder snackBuilder;
 
     @Override
@@ -87,13 +96,14 @@ public class AllSalonsActivity extends BaseActivity {
 
         initViews();
 
-        initBottomSheetFilterBy();
-
         getExtraData();
 
         if (catKey == Constants.NULL_INT_VALUE)
         {
-            getDatesAndRoundsFromServer();
+            initBottomSheetFilterBy();
+            initBottomSheetCalender();
+            initBottomSheetCategory();
+            getFirstAllSalonsFromServer();
         }
         else
         {
@@ -120,22 +130,27 @@ public class AllSalonsActivity extends BaseActivity {
                 tvAllSalonsTitle.setText(extra.getString(Constants.CATEGORY_NAME));
                 fbtnFilter.setVisibility(View.GONE);
             }
+            if (isFinishedSalons)
+            {
+                tvAllSalonsTitle.setText(getString(R.string.previous_salons));
+            }
         }
     }
 
     private void initViews() {
         fbtnFilter = findViewById(R.id.all_salon_filter_icon);
-        salonsRecycler = findViewById(R.id.all_salons_recycler);
+        rvSalons = findViewById(R.id.all_salons_recycler);
         emptyViewLayout = findViewById(R.id.all_salons_empty_view);
         tvAllSalonsTitle = findViewById(R.id.tv_all_salon_title);
         salonsShimmerLayout = findViewById(R.id.sh_all_salons);
+        pbpSalons = findViewById(R.id.pbp_salons);
 
-        filterRecycler = findViewById(R.id.filter_recycler);
+        rvDates = findViewById(R.id.date_recycler);
         rvCats = findViewById(R.id.rv_cats);
-        filterRecycler.setHasFixedSize(true);
+        rvDates.setHasFixedSize(true);
         rvCats.setHasFixedSize(true);
 
-        filterRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        rvDates.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         rvCats.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
 
         snackBuilder = new SnackBuilder(findViewById(R.id.all_salons_main_layout));
@@ -161,13 +176,14 @@ public class AllSalonsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 // open sheet
-                if (mBottomSheetDialogFilterBy.isShowing())
+                if (!mBottomSheetDialogFilterBy.isShowing())
                 {
-                    mBottomSheetDialogFilterBy.dismiss();
+                    mBottomSheetDialogFilterBy.show();
+                    etFilterTitle.requestFocus();
                 }
                 else
-                { // close sheet
-                    mBottomSheetDialogFilterBy.show();
+                {
+                    mBottomSheetDialogFilterBy.dismiss();
                 }
             }
         });
@@ -187,7 +203,7 @@ public class AllSalonsActivity extends BaseActivity {
                         null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        salonsList = ParseResponses.parseRounds(mainObject);
+                        salonsList = ParseResponses.parseSalons(mainObject);
                     }
 
                     @Override
@@ -203,28 +219,17 @@ public class AllSalonsActivity extends BaseActivity {
                 });
     }
 
-    private void getDatesAndRoundsFromServer() {
+    private void getFirstAllSalonsFromServer() {
         startSalonsShimmer();
-        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataFromServer(AllSalonsActivity.this,
-                isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, new RequestModel<>(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, userId, apiToken, false,
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
+                new Data(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, 1)
+                , new RequestModel<>(FILTER, userId, apiToken, false,
                         null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        updateDatabaseList(ParseResponses.parseRounds(mainObject));
-                        transAndSortDates();
+                        salonsList = ParseResponses.parseSalons(mainObject);
 
-                        initDatesAdapter();
-                        try
-                        {
-                            salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(dateList.get(0).getsDate()));
-                        }
-                        catch (IndexOutOfBoundsException e)
-                        {
-                            e.printStackTrace();
-                            Crashlytics.logException(e);
-                        }
-
-//                        last_page = mainObject.get("last_page").getAsInt();
+                        last_page = mainObject.get("last_page").getAsInt();
                     }
 
                     @Override
@@ -240,251 +245,62 @@ public class AllSalonsActivity extends BaseActivity {
                 });
     }
 
-//    private void getSalonsNextPageFromServer() {
-//        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
-//                new Data(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, ++page)
-//                , new RequestModel<>(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, userId, apiToken, true
-//                        , null, null, null, null), new HandleResponses() {
-//                    @Override
-//                    public void handleTrueResponse(JsonObject mainObject) {
-//                        int nextFirstPosition = salonsList.size();
-//                        salonsList.addAll(ParseResponses.parseRounds(mainObject));
-//                        for (int i = nextFirstPosition; i < salonsList.size(); i++)
-//                        {
-//                            recentSalonsPagedAdapter.notifyItemInserted(i);
-//                        }
-//
-//                        salonsRecycler.smoothScrollToPosition(nextFirstPosition);
-//
-//                        if (page < last_page)
-//                            addScrollListener();
-//                    }
-//
-//                    @Override
-//                    public void handleAfterResponse() {
-//                    }
-//
-//                    @Override
-//                    public void handleConnectionErrors(String errorMessage) {
-//                        snackBuilder.setSnackText(errorMessage).showSnack();
-//                    }
-//                });
-//    }
-
-    private void updateDatabaseList(List<Salon> salons) {
-        RoundDao roundDao = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao();
-        roundDao.removeRounds(roundDao.getRounds());
-        roundDao.insertRoundList(salons);
-
-        ProductImageDao productImageDao = GawlaDataBse.getInstance(AllSalonsActivity.this).productImageDao();
-        productImageDao.removeSubImages(productImageDao.getSubImages());
-        CardDao cardDao = GawlaDataBse.getInstance(AllSalonsActivity.this).cardDao();
-        cardDao.removeCards(cardDao.getCards());
-
-        for (int i = 0; i < salons.size(); i++)
-        {
-            productImageDao.insertSubImages(salons.get(i).getProduct_images());
-            cardDao.insertCards(salons.get(i).getSalon_cards());
-        }
-    }
-
-    private void transAndSortDates() {
-        List<String> dates = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsDates();
-
-        dateList.clear();
-
-        for (String date : dates)
-        {
-            dateList.add(transformDateToNames(date));
-        }
-
-        Common.Instance().sortList(dateList);
-    }
-
-    public SalonDate transformDateToNames(String sDate) {
-        String[] dateParts = sDate.split("-"); // separate date
-        String day = dateParts[2];
-        String month = dateParts[1];
-        String year = dateParts[0];
-
-        String monthName = new DateFormatSymbols(new Locale(SharedPrefManager.getInstance(AllSalonsActivity.this).getSavedLang())).getMonths()[Integer.parseInt(month) - 1]; // month from num to nam
-
-        Calendar cal = Calendar.getInstance();
-        cal.set(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(day));
-        int dayWeek = cal.get(Calendar.DAY_OF_WEEK); // day in month to day in week
-        String dayOfWeek = new DateFormatSymbols(new Locale(SharedPrefManager.getInstance(AllSalonsActivity.this).getSavedLang())).getWeekdays()[dayWeek]; // day in week from num to nam
-
-        Date date = null;
-        try
-        {
-            date = new SimpleDateFormat("dd-MM-yyyy").parse(sDate);
-        }
-        catch (ParseException e)
-        {
-            e.printStackTrace();
-        }
-
-        return new SalonDate(date, sDate, day, monthName, dayOfWeek, GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getDatesCount(sDate) + getResources().getString(R.string.salons));
-    }
-
-    private void initDatesAdapter() {
-        rvCats.setVisibility(View.GONE);
-        filterRecycler.setVisibility(View.VISIBLE);
-        filterRecycler.setAdapter(new DateAdapter(AllSalonsActivity.this, dateList, new ClickInterface.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                SalonDate salonDate = dateList.get(position);
-                salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(salonDate.getsDate()));
-
-                initSalonsRecycler();
-                EventsManager.sendSearchEvent(AllSalonsActivity.this, String.valueOf(salonDate.getsDate()));
-            }
-        }));
-    }
-
-    private void getCategoriesAndRoundsFromServer() {
-        startSalonsShimmer();
-        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataFromServer(AllSalonsActivity.this,
-                REQ_GET_ALL_CATEGORIES, new RequestModel<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
-                        null, null, null, null, null), new HandleResponses() {
+    private void getNextAllSalonsFromServer() {
+        onLoadMoreSalons();
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
+                new Data(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, ++page)
+                , new RequestModel<>(FILTER, userId, apiToken, false
+                        , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        categoryList = ParseResponses.parseCategories(mainObject);
+                        int nextFirstPosition = salonsList.size();
+                        salonsList.addAll(ParseResponses.parseSalons(mainObject));
+                        for (int i = nextFirstPosition; i < salonsList.size(); i++)
+                        {
+                            rvSalons.getAdapter().notifyItemInserted(i);
+                        }
 
-                        try
-                        {
-                            salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
-                        }
-                        catch (IndexOutOfBoundsException e)
-                        {
-                            e.printStackTrace();
-                            Crashlytics.logException(e);
-                        }
+                        rvSalons.smoothScrollToPosition(nextFirstPosition);
+                        addSalonsScrollListener();
                     }
 
                     @Override
                     public void handleAfterResponse() {
-                        initCategoriesAdapter();
-                        initSalonsRecycler();
+                        pbpSalons.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        initSalonsRecycler();
+                        pbpSalons.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }
 
-    private void initCategoriesAdapter() {
-        filterRecycler.setVisibility(View.GONE);
-        rvCats.setVisibility(View.VISIBLE);
-        rvCats.setAdapter(new CategoryFilterAdapter(categoryList, new ClickInterface.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Category category = categoryList.get(position);
-                salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(category.getCategoryName());
-
-                initSalonsRecycler();
-                EventsManager.sendSearchEvent(AllSalonsActivity.this, String.valueOf(category.getCategoryName()));
-            }
-        }));
-    }
-
-    private void initSalonsRecycler() {
-        EventsManager.sendSearchResultsEvent(this, "");
-        stopSalonsShimmer();
-        if (!salonsList.isEmpty())
-        { // !empty ?
-            emptyViewLayout.setVisibility(View.GONE);
-            salonsRecycler.setVisibility(View.VISIBLE);
-            updateSpanCount(salonsList);
-            salonsRecycler.setHasFixedSize(true);
-            salonsRecycler.setAdapter(new SalonsMiniAdapter(AllSalonsActivity.this, salonsList, "all_salons"));
-        }
-        else
-        {  // empty ?
-            emptyViewLayout.setVisibility(View.VISIBLE);
-            salonsRecycler.setVisibility(View.GONE);
-        }
-    }
-
-    private void updateSpanCount(List<Salon> list) {
-        if (salonsRecycler.getLayoutManager() != null)
-        {
-            if (list.size() == 1)
-            {
-                ((GridLayoutManager) salonsRecycler.getLayoutManager()).setSpanCount(1);
-            }
-            else
-            {
-                ((GridLayoutManager) salonsRecycler.getLayoutManager()).setSpanCount(2);
-            }
-        }
-    }
-
-    private void startSalonsShimmer() {
-        if (salonsShimmerLayout.getVisibility() != View.VISIBLE)
-            salonsShimmerLayout.setVisibility(View.VISIBLE);
-
-        salonsRecycler.setVisibility(View.GONE);
-        salonsShimmerLayout.startShimmerAnimation();
-    }
-
-    private void stopSalonsShimmer() {
-        if (salonsShimmerLayout.getVisibility() == View.VISIBLE)
-        {
-            salonsShimmerLayout.stopShimmerAnimation();
-            salonsShimmerLayout.setVisibility(View.GONE);
-        }
+    private void onLoadMoreSalons() {
+        pbpSalons.setVisibility(View.VISIBLE);
+        rvSalons.scrollToPosition(salonsList.size() - 1);
     }
 
     private void initBottomSheetFilterBy() {
         mBottomSheetDialogFilterBy = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
         View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_filter_by, null);
 
-        //init bottom sheet views
-        sheetView.findViewById(R.id.btn_filter_by_date).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!isDateFilter)
-                {
-                    if (dateList.isEmpty())
-                    {// query from server
-                        getDatesAndRoundsFromServer();
-                    }
-                    else
-                    {// get locally
-                        initDatesAdapter();
-                        salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByDate(String.valueOf(dateList.get(0).getsDate()));
-                        initSalonsRecycler();
-                    }
-                    isDateFilter = true;
-                }
-                mBottomSheetDialogFilterBy.dismiss();
-            }
-        });
+        btnContinue = sheetView.findViewById(R.id.btn_filter_continue);
+        btnClearTitle = sheetView.findViewById(R.id.btn_clear_filter_title);
+        btnClearDate = sheetView.findViewById(R.id.btn_clear_filter_date);
+        btnClearCat = sheetView.findViewById(R.id.btn_clear_filter_cat);
+        etFilterTitle = sheetView.findViewById(R.id.et_filter_by_title);
+        etFilterDateFrom = sheetView.findViewById(R.id.et_filter_by_date_from);
+        etFilterDateTo = sheetView.findViewById(R.id.et_filter_by_date_to);
+        etFilterCat = sheetView.findViewById(R.id.et_filter_by_category);
 
-        sheetView.findViewById(R.id.btn_filter_by_category).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isDateFilter)
-                {
-                    if (categoryList.isEmpty())
-                    {// query from server
-                        getCategoriesAndRoundsFromServer();
-                    }
-                    else
-                    {// get locally
-                        initCategoriesAdapter();
-                        salonsList = GawlaDataBse.getInstance(AllSalonsActivity.this).roundDao().getRoundsByCategory(categoryList.get(0).getCategoryName());
-                        initSalonsRecycler();
-                    }
-                    isDateFilter = false;
-                }
-                mBottomSheetDialogFilterBy.dismiss();
-            }
-        });
+        //
+        etFilterDateFrom.setInputType(InputType.TYPE_NULL);
+        etFilterDateTo.setInputType(InputType.TYPE_NULL);
+        etFilterCat.setInputType(InputType.TYPE_NULL);
+
+        handleFilterEvents();
 
         //close bottom sheet
         sheetView.findViewById(R.id.close_bottom_sheet_filter_by).setOnClickListener(new View.OnClickListener() {
@@ -501,10 +317,658 @@ public class AllSalonsActivity extends BaseActivity {
             }
         });
 
-        //
         mBottomSheetDialogFilterBy.setContentView(sheetView);
         Common.Instance().setBottomSheetHeight(sheetView);
         mBottomSheetDialogFilterBy.getWindow().findViewById(R.id.design_bottom_sheet)
                 .setBackgroundResource(android.R.color.transparent);
+    }
+
+    private void handleFilterEvents() {
+        etFilterDateFrom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                {
+                    selectDateFrom();
+                }
+            }
+        });
+
+        etFilterDateTo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                {
+                    selectDateTo();
+                }
+            }
+        });
+
+        etFilterCat.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                {
+                    selectCat();
+                }
+            }
+        });
+
+        etFilterDateFrom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if (!isDateFilter)
+//                {
+//                    if (dateList.isEmpty())
+//                    {// query from server
+//                        getFirstDatesFromServer();
+//                    }
+//                    else
+//                    {// get locally
+//                        initDatesAdapter();
+//                        getFirstFilteredSalonsFromServer(dateFrom, null, null, null);
+//                    }
+//                    isDateFilter = true;
+//                    isCatFilter = false;
+//                }
+//                mBottomSheetDialogFilterBy.dismiss();
+
+                selectDateFrom();
+            }
+        });
+
+        etFilterDateTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectDateTo();
+            }
+        });
+
+        etFilterCat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if (!isCatFilter)
+//                {
+//                    if (categoryList.isEmpty())
+//                    {// query from server
+//                startSalonsShimmer();
+//                        getCatsFromServer();
+//                    }
+//                    else
+//                    {// get locally
+//                        initCatsAdapter();
+//                        getFirstFilteredSalonsFromServer(null, null, null, catId);
+//                    }
+//                    isDateFilter = false;
+//                    isCatFilter = true;
+//                }
+//                mBottomSheetDialogFilterBy.dismiss();
+
+                selectCat();
+            }
+        });
+
+        // clears
+        btnClearTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etFilterTitle.setText(null);
+                title = null;
+
+                etFilterTitle.clearFocus();
+            }
+        });
+
+        btnClearDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etFilterDateFrom.setText(null);
+                etFilterDateTo.setText(null);
+                selectedDateFrom = DateUtil.getCurrentTimeAsString();
+                selectedDateTo = selectedDateFrom;
+
+                dateFrom = null;
+                dateTo = null;
+
+                etFilterDateFrom.clearFocus();
+                etFilterDateTo.clearFocus();
+            }
+        });
+
+        btnClearCat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etFilterCat.setText(null);
+                catId = null;
+
+                etFilterCat.clearFocus();
+            }
+        });
+
+        etFilterTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().isEmpty())
+                {
+                    if (btnClearTitle.getVisibility() != View.GONE)
+                        btnClearTitle.setVisibility(View.GONE);
+                }
+                else if (btnClearTitle.getVisibility() != View.VISIBLE)
+                {
+                    btnClearTitle.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        etFilterDateFrom.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().isEmpty())
+                {
+                    if (btnClearDate.getVisibility() != View.GONE)
+                        btnClearDate.setVisibility(View.GONE);
+                }
+                else if (btnClearDate.getVisibility() != View.VISIBLE)
+                {
+                    btnClearDate.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        etFilterDateTo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().isEmpty())
+                {
+                    if (btnClearDate.getVisibility() != View.GONE)
+                        btnClearDate.setVisibility(View.GONE);
+                }
+                else if (btnClearDate.getVisibility() != View.VISIBLE)
+                {
+                    btnClearDate.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        etFilterCat.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().isEmpty())
+                {
+                    if (btnClearCat.getVisibility() != View.GONE)
+                        btnClearCat.setVisibility(View.GONE);
+                }
+                else if (btnClearCat.getVisibility() != View.VISIBLE)
+                {
+                    btnClearCat.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        // continue
+        btnContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isFilter = true;
+                title = etFilterTitle.getText().toString();
+                getFirstFilteredSalonsFromServer(dateFrom, dateTo, title, catId);
+                mBottomSheetDialogFilterBy.dismiss();
+            }
+        });
+    }
+
+    private void selectDateFrom() {
+        isDateFrom = true;
+        cv.setDate(DateUtil.getDateAsMillisFromString(selectedDateFrom));
+        tvCalenderTitle.setText(getString(R.string.from));
+        mBottomSheetCalender.show();
+    }
+
+    private void selectDateTo() {
+        isDateFrom = false;
+        cv.setDate(DateUtil.getDateAsMillisFromString(selectedDateTo));
+        tvCalenderTitle.setText(getString(R.string.to));
+        mBottomSheetCalender.show();
+    }
+
+    private void selectCat() {
+        if (categoryList.isEmpty())
+        {
+            pbFilterCats.setVisibility(View.VISIBLE);
+            getCatsFromServer();
+        }
+        mBottomSheetCategory.show();
+    }
+
+    private void initBottomSheetCalender() {
+        mBottomSheetCalender = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
+        View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_calender, null);
+        tvCalenderTitle = sheetView.findViewById(R.id.tv_calender_title);
+        cv = sheetView.findViewById(R.id.cv);
+
+        selectedDateFrom = DateUtil.getCurrentTimeAsString();
+        selectedDateTo = selectedDateFrom;
+
+        cv.setMinDate(isFinishedSalons ? DateUtil.getDateAsMillisFromString("2019-11-01") : DateUtil.getCurrentTimeAsMillis());
+        cv.setMaxDate(isFinishedSalons ? DateUtil.getCurrentTimeAsMillis() : DateUtil.getDateAsMillisFromString("2020-01-01"));
+        cv.setDate(DateUtil.getCurrentTimeAsMillis());
+
+        cv.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                String sDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+                if (isDateFrom)
+                {
+                    dateFrom = sDate;
+                    selectedDateFrom = sDate;
+                    etFilterDateFrom.setText(sDate);
+                    etFilterDateFrom.clearFocus();
+                }
+                else
+                {
+                    dateTo = sDate;
+                    selectedDateTo = sDate;
+                    etFilterDateTo.setText(sDate);
+                    etFilterDateTo.clearFocus();
+                }
+                mBottomSheetCalender.dismiss();
+            }
+        });
+
+        //close bottom sheet
+        sheetView.findViewById(R.id.close_bottom_sheet_calender).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mBottomSheetCalender.isShowing())
+                {
+                    etFilterDateFrom.clearFocus();
+                    etFilterDateTo.clearFocus();
+                    mBottomSheetCalender.dismiss();
+                }
+                else
+                {
+                    mBottomSheetCalender.show();
+                }
+            }
+        });
+
+        mBottomSheetCalender.setContentView(sheetView);
+        Common.Instance().setBottomSheetHeight(sheetView);
+        mBottomSheetCalender.getWindow().findViewById(R.id.design_bottom_sheet)
+                .setBackgroundResource(android.R.color.transparent);
+    }
+
+    private void initBottomSheetCategory() {
+        mBottomSheetCategory = new BottomSheetDialog(this, R.style.BottomSheetDialogTheme);
+        catSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_category, null);
+        pbFilterCats = catSheetView.findViewById(R.id.pb_filter_cats);
+        rvFilterCats = catSheetView.findViewById(R.id.rv_filter_cats);
+        rvFilterCats.setHasFixedSize(true);
+        rvFilterCats.setLayoutManager(new LinearLayoutManager(this));
+
+        //close bottom sheet
+        catSheetView.findViewById(R.id.close_bottom_sheet_category).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mBottomSheetCategory.isShowing())
+                {
+                    etFilterCat.clearFocus();
+                    mBottomSheetCategory.dismiss();
+                }
+                else
+                {
+                    mBottomSheetCategory.show();
+                }
+            }
+        });
+
+        mBottomSheetCategory.setContentView(catSheetView);
+        Common.Instance().setBottomSheetHeight(catSheetView);
+        mBottomSheetCategory.getWindow().findViewById(R.id.design_bottom_sheet)
+                .setBackgroundResource(android.R.color.transparent);
+    }
+
+    private void getCatsFromServer() {
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataFromServer(AllSalonsActivity.this,
+                REQ_GET_ALL_CATEGORIES, new RequestModel<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
+                        null, null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        categoryList = ParseResponses.parseCategories(mainObject);
+                        if (mBottomSheetCategory.isShowing())
+                        {
+                            initFilterCatsRecycler();
+                        }
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                        if (mBottomSheetCategory.isShowing()) pbFilterCats.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        if (mBottomSheetCategory.isShowing()) pbFilterCats.setVisibility(View.GONE);
+
+                        initSalonsRecycler();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    }
+                });
+    }
+
+    private void initFilterCatsRecycler() {
+        StoreCategoryAdapter filterCatsAdapter = new StoreCategoryAdapter(categoryList, new ClickInterface.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Category category = categoryList.get(position);
+                catId = category.getCategoryId();
+                etFilterCat.setText(category.getCategoryName());
+                etFilterCat.clearFocus();
+                mBottomSheetCategory.dismiss();
+            }
+        });
+        rvFilterCats.setAdapter(filterCatsAdapter);
+        // update height
+        Common.Instance().setBottomSheetHeight(catSheetView);
+    }
+
+    private void getFirstDatesFromServer() {
+        startSalonsShimmer();
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
+                new Data(REQ_GET_FILTER_DATES, 1), new RequestModel<>(REQ_GET_FILTER_DATES, userId, apiToken, !isFinishedSalons
+                        , null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        last_page_date = mainObject.get("last_page").getAsInt();
+
+                        dateList = ParseResponses.parseDates(mainObject);
+                        initDatesAdapter();
+//                        dateFrom = dateList.get(0).getDate();
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                        getFirstFilteredSalonsFromServer(dateFrom, null, null, null);
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        initSalonsRecycler();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    }
+                });
+    }
+
+    private void getNextDatesFromServer() {
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
+                new Data(REQ_GET_FILTER_DATES, ++page_date), new RequestModel<>(REQ_GET_FILTER_DATES, userId, apiToken, !isFinishedSalons
+                        , null, null, null, null), new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        int nextFirstPosition = dateList.size();
+                        dateList.addAll(ParseResponses.parseDates(mainObject));
+                        for (int i = nextFirstPosition; i < dateList.size(); i++)
+                        {
+                            rvDates.getAdapter().notifyItemInserted(i);
+                        }
+
+                        rvDates.smoothScrollToPosition(nextFirstPosition);
+                        addDatesScrollListener();
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        initSalonsRecycler();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    }
+                });
+    }
+
+    private void initDatesAdapter() {
+        rvCats.setVisibility(View.GONE);
+        rvDates.setVisibility(View.VISIBLE);
+        rvDates.setAdapter(new DateAdapter(AllSalonsActivity.this, dateList, new ClickInterface.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+//                dateFrom = dateList.get(position).getDate();
+                getFirstFilteredSalonsFromServer(dateFrom, null, null, null);
+                EventsManager.sendSearchEvent(AllSalonsActivity.this, String.valueOf(dateList.get(position).getDay_no()));
+            }
+        }));
+
+        addDatesScrollListener();
+    }
+
+    private void initCatsAdapter() {
+        rvDates.setVisibility(View.GONE);
+        rvCats.setVisibility(View.VISIBLE);
+        rvCats.setAdapter(new CategoryFilterAdapter(categoryList, new ClickInterface.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                catId = categoryList.get(position).getCategoryId();
+                getFirstFilteredSalonsFromServer(null, null, null, catId);
+                EventsManager.sendSearchEvent(AllSalonsActivity.this, String.valueOf(catId));
+            }
+        }));
+    }
+
+    private void getFirstFilteredSalonsFromServer(String dateFrom, String dateTo, String title, Integer catId) {
+        startSalonsShimmer();
+        page = 1;
+        last_page = 1;
+        salonsList.clear();
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
+                new Data(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, 1)
+                , new RequestModel<>(FILTER, userId, apiToken, true, dateFrom, dateTo, title, catId)
+                , new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        salonsList.addAll(ParseResponses.parseSalons(mainObject));
+
+                        last_page = mainObject.get("last_page").getAsInt();
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                        initSalonsRecycler();
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        initSalonsRecycler();
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    }
+                });
+    }
+
+    private void getNextFilteredSalonsFromServer(String dateFrom, String dateTo, String title, Integer catId) {
+        onLoadMoreSalons();
+        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
+                new Data(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, ++page)
+                , new RequestModel<>(FILTER, userId, apiToken, true, dateFrom, dateTo, title, catId)
+                , new HandleResponses() {
+                    @Override
+                    public void handleTrueResponse(JsonObject mainObject) {
+                        try
+                        {
+                            int nextFirstPosition = salonsList.size();
+                            salonsList.addAll(ParseResponses.parseSalons(mainObject));
+                            for (int i = nextFirstPosition; i < salonsList.size(); i++)
+                            {
+                                rvSalons.getAdapter().notifyItemInserted(i);
+                            }
+
+                            rvSalons.smoothScrollToPosition(nextFirstPosition);
+                            addSalonsScrollListener();
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void handleAfterResponse() {
+                        pbpSalons.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void handleConnectionErrors(String errorMessage) {
+                        pbpSalons.setVisibility(View.GONE);
+                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    }
+                });
+    }
+
+    private void initSalonsRecycler() {
+        stopSalonsShimmer();
+        if (!salonsList.isEmpty())
+        { // !empty
+            emptyViewLayout.setVisibility(View.GONE);
+            rvSalons.setVisibility(View.VISIBLE);
+            updateSpanCount(salonsList);
+            rvSalons.setHasFixedSize(true);
+            rvSalons.setAdapter(new SalonsMiniAdapter(AllSalonsActivity.this, salonsList, "all_salons"));
+
+            addSalonsScrollListener();
+        }
+        else
+        {  // empty
+            emptyViewLayout.setVisibility(View.VISIBLE);
+            rvSalons.setVisibility(View.GONE);
+        }
+        EventsManager.sendSearchResultsEvent(this, "");
+    }
+
+    private void updateSpanCount(List<Salon> list) {
+        if (rvSalons.getLayoutManager() != null)
+        {
+            if (list.size() == 1)
+            {
+                ((GridLayoutManager) rvSalons.getLayoutManager()).setSpanCount(1);
+            }
+            else
+            {
+                ((GridLayoutManager) rvSalons.getLayoutManager()).setSpanCount(2);
+            }
+        }
+    }
+
+    private void addSalonsScrollListener() {
+        if (page < last_page)
+        {
+            rvSalons.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+
+                    if (page >= last_page)
+                    {
+                        rvSalons.removeOnScrollListener(this);
+                        return;
+                    }
+
+                    if (((GridLayoutManager) rvSalons.getLayoutManager()).findLastCompletelyVisibleItemPosition() == rvSalons.getAdapter().getItemCount() - 1)
+                    {
+                        if (isFilter)
+                        {
+                            getNextFilteredSalonsFromServer(dateFrom, dateTo, title, catId);
+                        }
+                        else
+                        {
+                            getNextAllSalonsFromServer();
+                        }
+                        rvSalons.removeOnScrollListener(this);
+                    }
+                }
+            });
+        }
+    }
+
+    private void addDatesScrollListener() {
+        if (page_date < last_page_date)
+        {
+            rvDates.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    if (isDateFilter)
+                    {
+                        if (((LinearLayoutManager) rvDates.getLayoutManager()).findLastVisibleItemPosition() == rvDates.getAdapter().getItemCount() - 1)
+                        {
+                            getNextDatesFromServer();
+
+                            Toast.makeText(AllSalonsActivity.this, getString(R.string.loading), Toast.LENGTH_SHORT).show();
+                            rvDates.removeOnScrollListener(this);
+                        }
+                    }
+                    else
+                    {
+                        rvDates.removeOnScrollListener(this);
+                    }
+                }
+            });
+        }
+    }
+
+    private void startSalonsShimmer() {
+        if (salonsShimmerLayout.getVisibility() != View.VISIBLE)
+            salonsShimmerLayout.setVisibility(View.VISIBLE);
+
+        rvSalons.setVisibility(View.GONE);
+        emptyViewLayout.setVisibility(View.GONE);
+        salonsShimmerLayout.startShimmerAnimation();
+    }
+
+    private void stopSalonsShimmer() {
+        if (salonsShimmerLayout.getVisibility() == View.VISIBLE)
+        {
+            salonsShimmerLayout.stopShimmerAnimation();
+            salonsShimmerLayout.setVisibility(View.GONE);
+        }
     }
 }

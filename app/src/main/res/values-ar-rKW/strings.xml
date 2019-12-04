@@ -244,4 +244,7 @@
     <string name="tt_salon_level_description">تعبر عن المرحلة الحالية للصالة</string>
     <string name="tt_salon_countdown_description">عبارة عن عد تنازلي للمرحلة الحالية</string>
     <string name="tt_notitfication_description">كن يقظا لاخر التحديثات والصالات</string>
+    <string name="from">من</string>
+    <string name="to">إلى</string>
+    <string name="search_by_title">بحث بالعنوان</string>
 </resources>

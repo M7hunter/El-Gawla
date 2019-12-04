@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         tools:context=".views.main.NotificationActivity">
 
@@ -62,13 +63,22 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notification_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_weight="1"
             android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="3"
             tools:listitem="@layout/item_notification" />
+
+        <!-- load more -->
+        <ProgressBar
+            android:id="@+id/pbp_notify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_tiny"
+            android:visibility="gone" />
 
         <!-- empty view -->
         <LinearLayout

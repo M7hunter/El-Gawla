@@ -11,6 +11,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
         android:scrollbars="none">
         <!-- scroll main layout -->
         <LinearLayout
@@ -55,8 +56,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <include android:id="@+id/sh_slider"
-                            layout="@layout/layout_shimmer_slider"/>
+                        <include
+                            android:id="@+id/sh_slider"
+                            layout="@layout/layout_shimmer_slider" />
 
                         <!-- ads -->
                         <androidx.viewpager2.widget.ViewPager2
@@ -136,7 +138,7 @@
                 android:layout_marginEnd="@dimen/margin_tiny"
                 android:layout_marginBottom="@dimen/margin_medium"
                 tools:itemCount="1"
-                tools:listitem="@layout/item_home_category" />
+                tools:listitem="@layout/item_category_home" />
 
             <!-- recent salons header -->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -176,10 +178,12 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- recent salons container -->
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_medium">
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <!-- load animation -->
                 <include
@@ -189,27 +193,33 @@
                 <!-- recent salons recycler -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recent_salons_recycler"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:layout_marginStart="@dimen/margin_tiny"
                     android:layout_marginEnd="@dimen/margin_tiny"
-                    android:visibility="gone"
-                    tools:orientation="horizontal" />
+                    android:layout_weight="1"
+                    android:visibility="gone" />
+
+                <!-- load more -->
+                <ProgressBar
+                    android:id="@+id/pbp_recent_salons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:visibility="gone" />
 
                 <!-- empty view -->
                 <LinearLayout
                     android:id="@+id/recent_salons_empty_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:visibility="gone">
 
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/empty_view" />
 
                     <TextView
@@ -226,7 +236,7 @@
                 <!-- no connection view -->
                 <include layout="@layout/layout_no_connection" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <!-- finished salons header -->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -266,10 +276,12 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- finished salons container -->
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_medium">
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <!-- load animation -->
                 <include
@@ -279,27 +291,34 @@
                 <!-- recycler -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/finished_salons_recycler"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:layout_marginStart="@dimen/margin_tiny"
                     android:layout_marginEnd="@dimen/margin_tiny"
+                    android:layout_weight="1"
                     android:visibility="gone"
                     tools:orientation="horizontal" />
+
+                <!-- load more -->
+                <ProgressBar
+                    android:id="@+id/pbp_previous_salons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:visibility="gone" />
 
                 <!-- empty view -->
                 <LinearLayout
                     android:id="@+id/finished_salons_empty_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:visibility="gone">
 
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:src="@drawable/empty_view" />
 
                     <TextView
@@ -316,7 +335,7 @@
                 <!-- no connection view -->
                 <include layout="@layout/layout_no_connection" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

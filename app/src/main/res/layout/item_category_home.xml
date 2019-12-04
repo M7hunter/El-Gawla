@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/margin_small"
+        app:cardElevation="@dimen/margin_tiny">
+        <!-- card main layout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cat_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:background="@color/colorYellow">
+
+            <!-- icon -->
+            <ImageView
+                android:id="@+id/iv_cat_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/cat_icon_dim"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_xTiny"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toTopOf="@id/tv_cat_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/vehicles" />
+
+            <!-- label -->
+            <TextView
+                android:id="@+id/tv_cat_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_xTiny"
+                android:layout_marginEnd="@dimen/margin_xTiny"
+                android:layout_marginBottom="@dimen/margin_xTiny"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_x_small"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_cat_icon"
+                tools:text="dfdfdfd fsdsds dsd sdghgghg hsddffdfdf" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

@@ -11,13 +11,14 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fillViewport="true"
         android:scrollbars="none">
         <!-- main layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <!-- logo, bell, user image & user name container -->
@@ -309,17 +310,18 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- membership -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_tiny"
+                android:layout_marginTop="@dimen/margin_tiny"
                 android:animateLayoutChanges="true"
                 android:gravity="center">
 
                 <ProgressBar
                     android:id="@+id/pb_exp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/margin_medium" />
 
                 <!-- membership exp -->
@@ -366,6 +368,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_tiny"
                     android:layout_weight="1"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     app:cardBackgroundColor="@color/colorSecondary"

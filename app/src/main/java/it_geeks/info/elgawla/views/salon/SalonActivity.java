@@ -64,6 +64,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import it_geeks.info.elgawla.Adapters.ActivityAdapter;
 import it_geeks.info.elgawla.Adapters.TopTenAdapter;
 import it_geeks.info.elgawla.repository.Models.Salon;
+import it_geeks.info.elgawla.util.DateUtil;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.util.Floating.FloatingView;
@@ -76,7 +77,6 @@ import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.TourManager;
 import it_geeks.info.elgawla.util.notification.NotificationBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
-import it_geeks.info.elgawla.util.receivers.ConnectionChangeReceiver;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.repository.Models.ProductSubImage;
 import it_geeks.info.elgawla.repository.RESTful.RequestModel;
@@ -137,7 +137,6 @@ public class SalonActivity extends BaseActivity {
     private Card goldenCard;
     public BottomSheetDialog mBottomSheetDialogCardsBag;
     private BottomSheetDialog mBottomSheetDialogProductDetails;
-    private ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
 
     public int userId;
     private int goldenCardCount = 0, stopPosition = 0, joinState; // 0 = watcher, 1 = want to join, 2 = joined
@@ -168,7 +167,6 @@ public class SalonActivity extends BaseActivity {
         try
         {
             userName = SharedPrefManager.getInstance(SalonActivity.this).getUser().getName();
-            registerReceiver(connectionChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
             countDownController = new CountDownController(SalonActivity.this, findViewById(R.id.time_container));
 
             // entering sound
@@ -266,7 +264,6 @@ public class SalonActivity extends BaseActivity {
         try
         {
             disconnectSalonSocket();
-            unregisterReceiver(connectionChangeReceiver);
             countDownController.stopCountDown();
         }
         catch (Exception e)
@@ -1203,7 +1200,7 @@ public class SalonActivity extends BaseActivity {
                         , SharedPrefManager.getInstance(SalonActivity.this).getUser().getUser_id()
                         , SharedPrefManager.getInstance(SalonActivity.this).getUser().getApi_token()
                         , salon.getSalon_id()
-                        , String.valueOf(Common.Instance().getCurrentTimeInMillis())
+                        , String.valueOf(DateUtil.getCurrentTimeAsMillis())
                         , ""
                         , null, null), new HandleResponses() {
                     @Override

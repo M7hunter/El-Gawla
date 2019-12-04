@@ -2,15 +2,13 @@ package it_geeks.info.elgawla.repository.RESTful;
 
 import it_geeks.info.elgawla.util.Constants;
 
-import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALONS_BY_CAT_ID;
-
 public class RequestModel<T> {
 
     private T phone, gender, join_time, left_time, offer, package_id, code,
             provider, provider_id, provider_name, provider_email, provider_image, firebase_token, payment_method,
             name, api_token, image, old_password, password, password_confirmation, email, message, receiver,
             category_id, salon_id, round_id, card_id, user_id, country_id,
-            isHome;
+            isHome, isRecent, is_filter, filter_date_from, filter_date_to, filter_title, filter_cat_id;
 
     public RequestModel(String action, T t1, T t2, T t3, T t4, T t5, T t6, T t7) {
 
@@ -54,7 +52,7 @@ public class RequestModel<T> {
         {
             this.api_token = t1;
         }
-        else // requests that that depends on user id & api token
+        else // requests that depends on user id & api token
         {
             this.user_id = t1;
             this.api_token = t2;
@@ -64,18 +62,30 @@ public class RequestModel<T> {
                 this.card_id = t3;
                 this.payment_method = t4;
             }
+            else if (action.equals(Constants.REQ_GET_FILTER_DATES))
+            {
+                this.isRecent = t3;
+            }
             else if (action.equals(Constants.REQ_SET_USER_SALON))
             {
                 this.salon_id = t3;
                 this.join_time = t4;
                 this.left_time = t5;
             }
+            else if (action.equals(Constants.FILTER))
+            {
+                this.is_filter = t3;
+                this.filter_date_from = t4;
+                this.filter_date_to = t5;
+                this.filter_title = t6;
+                this.filter_cat_id = t7;
+            }
             else if (action.equals(Constants.REQ_RESET_PASSWORD))
             {
                 this.password = t3;
                 this.password_confirmation = t4;
             }
-            else if (action.equals(REQ_GET_SALONS_BY_CAT_ID) || action.equals(Constants.REQ_GET_CARDS_BY_CATEGORY))
+            else if (action.equals(Constants.REQ_GET_SALONS_BY_CAT_ID) || action.equals(Constants.REQ_GET_CARDS_BY_CATEGORY))
             {
                 this.category_id = t3;
             }

@@ -30,7 +30,7 @@ public class CategoryHomeAdapter extends RecyclerView.Adapter<CategoryHomeAdapte
     @NonNull
     @Override
     public CatHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View child = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_home_category, viewGroup, false);
+        View child = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_category_home, viewGroup, false);
         child.getLayoutParams().width = viewGroup.getWidth() / getItemCount(); // :weight = 1
         return new CatHolder(child);
     }

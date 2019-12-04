@@ -44,7 +44,7 @@
     <string name="hour">Hour</string>
     <string name="initial_value">Initial value : </string>
     <string name="one_pound">One pound</string>
-    <string name="commercial_price">Commercial package_cost : </string>
+    <string name="commercial_price">Commercial price : </string>
     <string name="more">more</string>
     <string name="next">Next</string>
     <string name="finish">Finish</string>
@@ -182,7 +182,7 @@
     <string name="my_cards">my cards</string>
     <string name="salons_archive">salons archive</string>
     <string name="status">status</string>
-    <string name="card_color">card package_color</string>
+    <string name="card_color">card color</string>
     <string name="cards_store">cards store</string>
     <string name="image">image</string>
     <string name="name">name</string>
@@ -247,6 +247,7 @@
     <string name="tt_user_image_description">user image is a fast way to take you to your profile page</string>
     <string name="previous_salons">previous salons</string>
     <string name="not_completed">NOT COMPLETED</string>
-    <string name="standard_packages">standard packages</string>
-    <string name="special_packages">special packages</string>
+    <string name="from">from</string>
+    <string name="to">to</string>
+    <string name="search_by_title">search by title</string>
 </resources>
