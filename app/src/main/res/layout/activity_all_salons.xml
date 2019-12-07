@@ -31,96 +31,65 @@
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
-        <!-- recyclers container -->
+        <!-- salons & empty view container -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_weight="1"
+            android:animateLayoutChanges="true"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <!-- dates -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/date_recycler"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                tools:itemCount="1"
-                tools:listitem="@layout/item_salon_date" />
+            <!-- load anim -->
+            <include
+                android:id="@+id/sh_all_salons"
+                layout="@layout/layout_shimmer_mini_salons" />
 
-            <!-- cats -->
+            <!-- salons recycler -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_cats"
+                android:id="@+id/all_salons_recycler"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:visibility="visible"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_category_filter"
-                tools:orientation="horizontal" />
-
-            <!-- salons & empty view container -->
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/margin_small"
                 android:layout_weight="1"
-                android:animateLayoutChanges="true"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_salon_mini" />
 
-                <!-- load anim -->
-                <include
-                    android:id="@+id/sh_all_salons"
-                    layout="@layout/layout_shimmer_mini_salons"
-                    android:visibility="gone" />
+            <!-- load more -->
+            <ProgressBar
+                android:id="@+id/pbp_salons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_tiny"
+                android:visibility="gone" />
 
-                <!-- salons recycler -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/all_salons_recycler"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="2"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/item_salon_mini" />
+            <!-- empty view -->
+            <LinearLayout
+                android:id="@+id/all_salons_empty_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <!-- load more -->
-                <ProgressBar
-                    android:id="@+id/pbp_salons"
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:visibility="gone" />
+                    android:src="@drawable/empty_view" />
 
-                <!-- empty view -->
-                <LinearLayout
-                    android:id="@+id/all_salons_empty_view"
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="visible">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/empty_view" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:gravity="center"
-                        android:text="@string/no_salons"
-                        android:textColor="@color/blueGrey"
-                        android:textSize="@dimen/text_size_medium" />
-
-                </LinearLayout>
+                    android:text="@string/no_salons"
+                    android:textColor="@color/blueGrey"
+                    android:textSize="@dimen/text_size_medium" />
 
             </LinearLayout>
 
