@@ -17,7 +17,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:gravity="center"
-      android:minHeight="@dimen/margin_xxxxx_large"
+      android:minHeight="@dimen/margin_8xlarge"
       android:padding="@dimen/margin_xlarge"
       tools:background="@color/colorPrimary">
 

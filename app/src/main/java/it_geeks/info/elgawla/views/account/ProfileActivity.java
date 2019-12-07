@@ -27,7 +27,6 @@ import java.util.List;
 import androidx.appcompat.view.ContextThemeWrapper;
 
 import it_geeks.info.elgawla.repository.Models.Country;
-import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.util.SnackBuilder;
@@ -166,7 +165,7 @@ public class ProfileActivity extends BaseActivity {
     }
 
     private void initCountryPopupMenu() {
-        sp_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_up), null);
+        sp_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_down), null);
 
         Context wrapper = new ContextThemeWrapper(this, R.style.PopupMenuTheme);
         countryPopup = new PopupMenu(wrapper, sp_country);
@@ -194,7 +193,7 @@ public class ProfileActivity extends BaseActivity {
     }
 
     private void initGenderPopupMenu() {
-        sp_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_up), null);
+        sp_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_down), null);
 
         Context wrapper = new ContextThemeWrapper(this, R.style.PopupMenuTheme);
         genderPopup = new PopupMenu(wrapper, sp_gender);
@@ -219,8 +218,8 @@ public class ProfileActivity extends BaseActivity {
     private void displayCountryPopup() {
         try
         {
-//            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             countryPopup.show();
+            sp_country.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_up), null);
         }
         catch (RuntimeException e)
         {
@@ -232,8 +231,8 @@ public class ProfileActivity extends BaseActivity {
     private void displayGenderPopup() {
         try
         {
-//            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             genderPopup.show();
+            sp_gender.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.ic_arrow_drop_up), null);
         }
         catch (RuntimeException e)
         {

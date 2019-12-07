@@ -229,9 +229,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_large"
-                android:padding="@dimen/margin_small"
+                android:paddingTop="@dimen/btn_v_padding"
+                android:paddingBottom="@dimen/btn_v_padding"
                 android:text="@string/continue_"
-                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
 
         </LinearLayout>

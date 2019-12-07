@@ -26,7 +26,7 @@ import it_geeks.info.elgawla.views.main.NotificationActivity;
 import it_geeks.info.elgawla.views.salon.ClosedSalonActivity;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 
-import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseRoundByID;
+import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseSalon;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_BY_ID;
 import static it_geeks.info.elgawla.util.Constants.SALON;
 
@@ -88,7 +88,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Salon salon = parseRoundByID(mainObject);
+                        Salon salon = parseSalon(mainObject);
 
                         Intent i;
                         if (salon.isClosed())

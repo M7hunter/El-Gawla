@@ -13,7 +13,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/margin_xxx_large"
+        android:layout_marginBottom="@dimen/margin_5xlarge"
         android:src="@drawable/bg_bottom_round_c_primary"
         app:layout_constraintBottom_toBottomOf="@id/winner_container"
         app:layout_constraintTop_toTopOf="parent" />
@@ -124,7 +124,7 @@
                         android:id="@+id/tv_salon_winner_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_xxxx_large"
+                        android:layout_marginTop="@dimen/margin_7xlarge"
                         android:padding="@dimen/margin_medium"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_large" />

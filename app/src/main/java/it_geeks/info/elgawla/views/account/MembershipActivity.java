@@ -52,7 +52,7 @@ public class MembershipActivity extends BaseActivity {
         dialogBuilder = new DialogBuilder();
         dialogBuilder.createLoadingDialog(this);
 
-        findViewById(R.id.btn_pay_later).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_subscribe_later).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

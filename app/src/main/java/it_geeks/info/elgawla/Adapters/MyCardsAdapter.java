@@ -24,9 +24,8 @@ import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.account.MyCardsActivity;
 import it_geeks.info.elgawla.views.salon.ClosedSalonActivity;
-import it_geeks.info.elgawla.views.salon.SalonActivity;
 
-import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseRoundByID;
+import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseSalon;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_BY_ID;
 import static it_geeks.info.elgawla.util.Constants.SALON;
 
@@ -82,7 +81,7 @@ public class MyCardsAdapter extends RecyclerView.Adapter<MyCardsAdapter.ViewHold
                 new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        context.startActivity(new Intent(context, ClosedSalonActivity.class).putExtra(SALON, parseRoundByID(mainObject)));
+                        context.startActivity(new Intent(context, ClosedSalonActivity.class).putExtra(SALON, parseSalon(mainObject)));
                     }
 
                     @Override

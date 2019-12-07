@@ -14,7 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_xx_large"
+            android:layout_marginTop="@dimen/margin_3xlarge"
             android:background="@drawable/bg_rounded_top_corners_white"
             android:orientation="vertical">
 
@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginTop="@dimen/margin_xxx_large"
+                android:layout_marginTop="@dimen/margin_5xlarge"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:background="@drawable/bg_circle_grey">
@@ -34,10 +34,10 @@
                     android:layout_width="@dimen/single_card_width"
                     android:layout_height="@dimen/single_card_height"
                     android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/margin_xxxx_large"
-                    android:layout_marginTop="@dimen/margin_xx_large"
-                    android:layout_marginEnd="@dimen/margin_xxxx_large"
-                    android:layout_marginBottom="@dimen/margin_xx_large"
+                    android:layout_marginStart="@dimen/margin_7xlarge"
+                    android:layout_marginTop="@dimen/margin_3xlarge"
+                    android:layout_marginEnd="@dimen/margin_7xlarge"
+                    android:layout_marginBottom="@dimen/margin_3xlarge"
                     android:background="@drawable/dynamic_card"
                     android:padding="@dimen/margin_large" />
             </FrameLayout>
@@ -69,9 +69,9 @@
                 android:id="@+id/btn_confirm_buying_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_xx_large"
+                android:layout_marginLeft="@dimen/margin_3xlarge"
                 android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginRight="@dimen/margin_xx_large"
+                android:layout_marginRight="@dimen/margin_3xlarge"
                 android:layout_marginBottom="@dimen/margin_large"
                 android:visibility="visible"
                 app:cardCornerRadius="@dimen/margin_large"
@@ -141,7 +141,7 @@
         android:layout_width="@dimen/image_cards_round_updates"
         android:layout_height="@dimen/image_cards_round_updates"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/margin_xxx_large"
+        android:layout_marginEnd="@dimen/margin_5xlarge"
         android:background="@drawable/bg_circle_blue_270"
         android:elevation="@dimen/margin_small"
         android:padding="@dimen/margin_large"

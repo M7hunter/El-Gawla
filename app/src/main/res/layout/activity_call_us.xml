@@ -44,7 +44,7 @@
                         android:padding="@dimen/margin_medium"
                         android:text="@string/call_us"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_medium"
+                        android:textSize="@dimen/text_size_x_medium"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

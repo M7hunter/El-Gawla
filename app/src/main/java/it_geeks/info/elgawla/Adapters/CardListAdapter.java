@@ -30,7 +30,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card_list, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cat_card_list, parent, false));
     }
 
     @Override

@@ -37,7 +37,7 @@
                 android:padding="@dimen/margin_medium"
                 android:text="@string/Payment_method"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_x_medium"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +64,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_medium"
                 android:text="@string/choose_payment_method"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_medium"
@@ -74,6 +73,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:background="@drawable/bg_rounded_corners_bordered_pale_grey"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
@@ -83,7 +83,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_xlarge"
+                    android:layout_marginTop="@dimen/margin_large"
                     android:gravity="top">
 
                     <RadioButton
@@ -121,35 +121,32 @@
 
             </LinearLayout>
 
-            <!-- package_cost container -->
-            <LinearLayout
+            <!-- cost label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_tiny"
+                android:layout_marginTop="@dimen/margin_xlarge"
+                android:text="@string/total_price"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+            <!-- package_cost -->
+            <TextView
+                android:id="@+id/tv_payment_method_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xlarge">
-
-                <!-- package_cost label -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/total_price"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textStyle="bold" />
-
-                <!-- package_cost -->
-                <TextView
-                    android:id="@+id/tv_payment_method_price"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:padding="@dimen/margin_tiny"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textStyle="bold"
-                    tools:text="150" />
-
-            </LinearLayout>
+                android:layout_marginTop="@dimen/margin_medium"
+                android:background="@drawable/bg_rounded_corners_bordered_pale_grey"
+                android:paddingStart="@dimen/margin_xlarge"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_xlarge"
+                android:paddingBottom="@dimen/margin_medium"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_x_medium"
+                android:textStyle="bold"
+                tools:text="150" />
 
             <!-- continue -->
             <Button
@@ -157,11 +154,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/margin_xxx_large"
-                android:paddingStart="@dimen/margin_xxx_large"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_xxx_large"
-                android:paddingBottom="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_5xlarge"
+                android:paddingStart="@dimen/margin_5xlarge"
+                android:paddingTop="@dimen/btn_v_padding"
+                android:paddingEnd="@dimen/margin_5xlarge"
+                android:paddingBottom="@dimen/btn_v_padding"
                 android:text="@string/continue_" />
 
         </LinearLayout>

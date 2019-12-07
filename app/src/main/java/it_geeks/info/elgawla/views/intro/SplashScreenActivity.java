@@ -32,7 +32,6 @@ import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
-import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.BaseActivity;
@@ -41,7 +40,7 @@ import it_geeks.info.elgawla.views.salon.SalonActivity;
 import it_geeks.info.elgawla.views.signing.ResetPasswordActivity;
 import it_geeks.info.elgawla.views.signing.SignInActivity;
 
-import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseRoundByID;
+import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseSalon;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_COUNTRIES;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_PAGES;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_BY_ID;
@@ -173,7 +172,7 @@ public class SplashScreenActivity extends BaseActivity {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         startActivity(new Intent(SplashScreenActivity.this, SalonActivity.class)
-                                .putExtra("round", parseRoundByID(mainObject))
+                                .putExtra("round", parseSalon(mainObject))
                                 .putExtra("salon_from_link", true));
                         finish();
                     }

@@ -97,8 +97,8 @@
                             <!-- card icon -->
                             <View
                                 android:id="@+id/v_card_icon"
-                                android:layout_width="@dimen/single_card_width"
-                                android:layout_height="@dimen/single_card_height"
+                                android:layout_width="@dimen/cat_main_card_width"
+                                android:layout_height="@dimen/cat_main_card_height"
                                 android:layout_gravity="center"
                                 android:layout_marginStart="@dimen/margin_7xlarge"
                                 android:layout_marginTop="@dimen/margin_3xlarge"
@@ -130,9 +130,9 @@
                             android:layout_marginTop="@dimen/margin_xlarge"
                             android:layout_marginBottom="@dimen/margin_small"
                             android:paddingStart="@dimen/margin_7xlarge"
-                            android:paddingTop="@dimen/margin_small"
+                            android:paddingTop="@dimen/btn_v_padding"
                             android:paddingEnd="@dimen/margin_7xlarge"
-                            android:paddingBottom="@dimen/margin_small"
+                            android:paddingBottom="@dimen/btn_v_padding"
                             android:text="@string/buy_card"
                             android:textSize="@dimen/text_size_medium"
                             android:textStyle="bold" />
@@ -180,11 +180,11 @@
                         android:id="@+id/cards_list_recycler"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="@dimen/margin_tiny"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:itemCount="3"
                         tools:listitem="@layout/item_cat_card_list"
-                        tools:orientation="horizontal"
-                        tools:samples="" />
+                        tools:orientation="horizontal" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

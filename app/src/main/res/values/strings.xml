@@ -23,7 +23,7 @@
     <string name="privacy_policy">Privacy policy</string>
     <string name="more_about_gawla">More about Gawla</string>
     <string name="terms_conditions">Terms and conditions</string>
-    <string name="call_us">Call us</string>
+    <string name="call_us">call us</string>
     <string name="how_gawla_works">How Gawla works</string>
     <string name="joined_salons">Joined salons</string>
     <string name="create_account">create account</string>
@@ -167,7 +167,7 @@
     <string name="default_remote_notification_channel_id" translatable="false">remote notification</string>
     <string name="amount">Amount</string>
     <string name="Payment_method">Payment method</string>
-    <string name="total_price">Total Price</string>
+    <string name="total_price">Total price</string>
     <string name="package_cost">Price</string>
     <string name="click_for_more_options">click for more options</string>
     <string name="no_connection">no connection</string>
@@ -198,7 +198,7 @@
     <string name="confirm">confirm</string>
     <string name="offer_less_than_price">the offer should be less than commercial package_cost</string>
     <string name="offered">offered</string>
-    <string name="choose_payment_method">choose payment method</string>
+    <string name="choose_payment_method">Choose payment method</string>
     <string name="invoice_no">invoice no</string>
     <string name="not_capturred">NOT CAPTURED</string>
     <string name="captured">CAPTURED</string>

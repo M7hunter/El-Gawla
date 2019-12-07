@@ -8,17 +8,21 @@
     <dimen name="margin_x_medium">15dp</dimen>
     <dimen name="margin_large">17dp</dimen>
     <dimen name="margin_xlarge">22dp</dimen>
-    <dimen name="margin_xx_large">32dp</dimen>
-    <dimen name="margin_xxx_large">45dp</dimen>
-    <dimen name="margin_xxxx_large">52dp</dimen>
-    <dimen name="margin_xxxxx_large">70dp</dimen>
+    <dimen name="margin_2xlarge">27dp</dimen>
+    <dimen name="margin_3xlarge">32dp</dimen>
+    <dimen name="margin_4xlarge">38dp</dimen>
+    <dimen name="margin_5xlarge">45dp</dimen>
+    <dimen name="margin_6xlarge">49dp</dimen>
+    <dimen name="margin_7xlarge">52dp</dimen>
+    <dimen name="margin_8xlarge">70dp</dimen>
 
     <!-- text sizes -->
     <dimen name="text_size_tiny">8sp</dimen>
     <dimen name="text_size_small">11sp</dimen>
     <dimen name="text_size_x_small">12.5sp</dimen>
     <dimen name="text_size_medium">14sp</dimen>
-    <dimen name="text_size_large">17sp</dimen>
+    <dimen name="text_size_x_medium">16sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
     <dimen name="text_size_xlarge">20sp</dimen>
     <dimen name="text_size_xx_large">23sp</dimen>
 
@@ -45,5 +49,17 @@
     <dimen name="cat_icon_dim">50dp</dimen>
     <dimen name="user_image">60dp</dimen>
     <dimen name="salon_winner_image">100dp</dimen>
+
+
+    <!-- new dims -->
+    <dimen name="btn_v_padding">12dp</dimen>
+    <dimen name="et_v_padding">15dp</dimen>
+
+    <dimen name="cat_main_card_height">130dp</dimen>
+    <dimen name="cat_main_card_width">90dp</dimen>
+    <dimen name="cat_item_card_width">40dp</dimen>
+    <dimen name="cat_item_card_height">65dp</dimen>
+
+    <dimen name="profile_image">120dp</dimen>
 
 </resources>

@@ -30,7 +30,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="@dimen/margin_xxxxx_large"
+                    android:layout_marginBottom="@dimen/margin_8xlarge"
                     android:src="@drawable/bg_bottom_round_c_primary"
                     app:layout_constraintBottom_toBottomOf="@id/cv_main_Ads"
                     app:layout_constraintTop_toTopOf="parent" />

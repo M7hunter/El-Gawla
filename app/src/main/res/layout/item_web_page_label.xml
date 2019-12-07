@@ -10,8 +10,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="@dimen/margin_xx_large"
-        android:layout_marginEnd="@dimen/margin_xx_large"
+        android:layout_marginStart="@dimen/margin_3xlarge"
+        android:layout_marginEnd="@dimen/margin_3xlarge"
         android:background="@color/paleGrey2" />
 
     <RelativeLayout

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,11 +50,12 @@ public class MySalonsFragment extends Fragment {
 
     private Context context;
     private SwipeRefreshLayout refreshLayout;
-    private List<Salon> recentSalonsList = new ArrayList<>();
-    private RecyclerView mySalonsRecycler;
+    private List<Salon> salonsList = new ArrayList<>();
+    private RecyclerView rvMySalons;
     private SalonsMiniAdapter salonsAdapter;
     private GridLayoutManager layoutManager;
     private LinearLayout emptyViewLayout;
+    private ProgressBar pbpSalons;
     private TextView tvMyRecentSalons, tvMyFinishedSalons;
 
     private ShimmerFrameLayout salonsShimmerLayout;
@@ -109,11 +111,12 @@ public class MySalonsFragment extends Fragment {
     private void initViews(View fragmentView) {
         refreshLayout = fragmentView.findViewById(R.id.my_rounds_refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.paleRed, R.color.colorYellow, R.color.niceBlue, R.color.azure);
-        mySalonsRecycler = fragmentView.findViewById(R.id.my_rounds_recycler);
+        rvMySalons = fragmentView.findViewById(R.id.my_rounds_recycler);
         emptyViewLayout = fragmentView.findViewById(R.id.my_rounds_empty_view);
         tvMyRecentSalons = fragmentView.findViewById(R.id.tv_my_recent_salons);
         tvMyFinishedSalons = fragmentView.findViewById(R.id.tv_my_finished_salons);
         salonsShimmerLayout = fragmentView.findViewById(R.id.sh_my_salons);
+        pbpSalons = fragmentView.findViewById(R.id.pbp_my_salons);
 
         snackBuilder = new SnackBuilder(fragmentView.findViewById(R.id.my_salons_main_layout));
 
@@ -192,13 +195,13 @@ public class MySalonsFragment extends Fragment {
     }
 
     private void getSalonsFromServer() {
-        recentSalonsList.clear();
+        salonsList.clear();
         RetrofitClient.getInstance(getActivity()).fetchDataPerPageFromServer(context,
                 new Data(isRecent ? REQ_GET_SALONS_BY_USER_ID : REQ_GET_SALONS_ARCHIVE, 1), new RequestModel<>(isRecent ? REQ_GET_SALONS_BY_USER_ID : REQ_GET_SALONS_ARCHIVE, userId, apiToken
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        recentSalonsList.addAll(isRecent ? parseSalons(mainObject) : parseSalonsArchive(mainObject));
+                        salonsList.addAll(isRecent ? parseSalons(mainObject) : parseSalonsArchive(mainObject));
 
                         last_page = mainObject.get("last_page").getAsInt();
                     }
@@ -219,35 +222,43 @@ public class MySalonsFragment extends Fragment {
     }
 
     private void getNextSalonsFromServer() {
+        onLoadMoreSalons();
         RetrofitClient.getInstance(getActivity()).fetchDataPerPageFromServer(context,
                 new Data(isRecent ? REQ_GET_SALONS_BY_USER_ID : REQ_GET_SALONS_ARCHIVE, ++page), new RequestModel<>(isRecent ? REQ_GET_SALONS_BY_USER_ID : REQ_GET_SALONS_ARCHIVE, userId, apiToken
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        int nextFirstPosition = recentSalonsList.size();
-                        recentSalonsList.addAll(isRecent ? parseSalons(mainObject) : parseSalonsArchive(mainObject));
-                        for (int i = nextFirstPosition; i < recentSalonsList.size(); i++)
+                        int nextFirstPosition = salonsList.size();
+                        salonsList.addAll(isRecent ? parseSalons(mainObject) : parseSalonsArchive(mainObject));
+                        for (int i = nextFirstPosition; i < salonsList.size(); i++)
                         {
                             salonsAdapter.notifyItemInserted(i);
                         }
 
-                        mySalonsRecycler.smoothScrollToPosition(nextFirstPosition);
+                        rvMySalons.smoothScrollToPosition(nextFirstPosition);
                         addScrollListener();
                     }
 
                     @Override
                     public void handleAfterResponse() {
+                        pbpSalons.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
+                        pbpSalons.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }
 
+    private void onLoadMoreSalons() {
+        pbpSalons.setVisibility(View.VISIBLE);
+        rvMySalons.scrollToPosition(salonsList.size() - 1);
+    }
+
     private void loadSalonsUI() {
-        mySalonsRecycler.setVisibility(View.GONE);
+        rvMySalons.setVisibility(View.GONE);
         emptyViewLayout.setVisibility(View.GONE);
         startSalonsShimmer();
     }
@@ -269,23 +280,23 @@ public class MySalonsFragment extends Fragment {
 
     private void initSalonsRecycler(String from) {
         stopSalonsShimmer();
-        if (!recentSalonsList.isEmpty())
+        if (!salonsList.isEmpty())
         {
             emptyViewLayout.setVisibility(View.GONE);
-            mySalonsRecycler.setVisibility(View.VISIBLE);
-            mySalonsRecycler.setHasFixedSize(true);
+            rvMySalons.setVisibility(View.VISIBLE);
+            rvMySalons.setHasFixedSize(true);
             layoutManager = new GridLayoutManager(context, 2, RecyclerView.VERTICAL, false);
-            mySalonsRecycler.setLayoutManager(layoutManager);
-            updateSpanCount(recentSalonsList);
-            salonsAdapter = new SalonsMiniAdapter(context, recentSalonsList, from);
-            mySalonsRecycler.setAdapter(salonsAdapter);
+            rvMySalons.setLayoutManager(layoutManager);
+            updateSpanCount(salonsList);
+            salonsAdapter = new SalonsMiniAdapter(context, salonsList, from);
+            rvMySalons.setAdapter(salonsAdapter);
 
             addScrollListener();
         }
         else
         {
             emptyViewLayout.setVisibility(View.VISIBLE);
-            mySalonsRecycler.setVisibility(View.GONE);
+            rvMySalons.setVisibility(View.GONE);
         }
     }
 
@@ -306,7 +317,7 @@ public class MySalonsFragment extends Fragment {
     private void addScrollListener() {
         if (page < last_page)
         {
-            mySalonsRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            rvMySalons.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
@@ -315,7 +326,7 @@ public class MySalonsFragment extends Fragment {
                     {
                         getNextSalonsFromServer();
                         Toast.makeText(getContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();
-                        mySalonsRecycler.removeOnScrollListener(this);
+                        rvMySalons.removeOnScrollListener(this);
                     }
                 }
             });

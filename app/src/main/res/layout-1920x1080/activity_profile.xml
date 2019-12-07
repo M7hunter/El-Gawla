@@ -104,8 +104,8 @@
             <!-- image -->
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_account_Image"
-                android:layout_width="@dimen/image_account"
-                android:layout_height="@dimen/image_account"
+                android:layout_width="@dimen/profile_image"
+                android:layout_height="@dimen/profile_image"
                 android:layout_centerInParent="true"
                 android:layout_margin="@dimen/margin_tiny"
                 app:civ_border_color="@color/colorPrimary"
@@ -166,9 +166,9 @@
                 android:hint="@string/name"
                 android:inputType="textPersonName"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/et_v_padding"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_medium"
+                android:paddingBottom="@dimen/et_v_padding"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -190,9 +190,9 @@
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/et_v_padding"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_medium"
+                android:paddingBottom="@dimen/et_v_padding"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -216,9 +216,9 @@
                 android:inputType="phone"
                 android:maxLength="15"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/et_v_padding"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_medium"
+                android:paddingBottom="@dimen/et_v_padding"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -242,9 +242,9 @@
                 android:hint="@string/country"
                 android:inputType="none"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/et_v_padding"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_medium"
+                android:paddingBottom="@dimen/et_v_padding"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -268,9 +268,9 @@
                 android:hint="@string/gender"
                 android:inputType="none"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_medium"
+                android:paddingTop="@dimen/et_v_padding"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_medium"
+                android:paddingBottom="@dimen/et_v_padding"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>

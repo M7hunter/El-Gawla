@@ -29,7 +29,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="@dimen/margin_xxx_large"
+                    android:layout_marginBottom="@dimen/margin_5xlarge"
                     android:src="@drawable/bg_bottom_round_c_primary"
                     app:layout_constraintBottom_toBottomOf="@id/time_container"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -531,9 +531,9 @@
                                 android:layout_marginTop="@dimen/margin_medium"
                                 android:background="@drawable/bg_circled_corners_c_secondary"
                                 android:gravity="center"
-                                android:paddingStart="@dimen/margin_xx_large"
+                                android:paddingStart="@dimen/margin_3xlarge"
                                 android:paddingTop="@dimen/margin_tiny"
-                                android:paddingEnd="@dimen/margin_xx_large"
+                                android:paddingEnd="@dimen/margin_3xlarge"
                                 android:paddingBottom="@dimen/margin_tiny"
                                 android:textColor="@android:color/white"
                                 android:textSize="@dimen/text_size_medium"

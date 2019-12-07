@@ -18,7 +18,7 @@ import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.views.salon.ClosedSalonActivity;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 
-import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseRoundByID;
+import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseSalon;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_BY_ID;
 import static it_geeks.info.elgawla.util.Constants.SALON;
 
@@ -52,7 +52,7 @@ public class GetSalonDataService extends Service {
                         , null, null, null, null), new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
-                        Salon salon = parseRoundByID(mainObject);
+                        Salon salon = parseSalon(mainObject);
                         EventsManager.sendNotificationInteractionEvent(GetSalonDataService.this, salon.getCategory_name(), String.valueOf(salon.getSalon_id()), salon.getProduct_name());
                         TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
 

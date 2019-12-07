@@ -20,7 +20,7 @@
         android:text="@string/sign_in"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_medium"
+        android:textSize="@dimen/text_size_x_medium"
         android:textStyle="bold" />
 
     <!-- content -->
@@ -61,8 +61,8 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_xx_large"
-                    android:layout_marginEnd="@dimen/margin_xx_large"
+                    android:layout_marginStart="@dimen/margin_3xlarge"
+                    android:layout_marginEnd="@dimen/margin_3xlarge"
                     android:layout_marginBottom="@dimen/margin_small"
                     android:focusable="true"
                     android:hint="@string/email"
@@ -88,8 +88,8 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_xx_large"
-                    android:layout_marginEnd="@dimen/margin_xx_large"
+                    android:layout_marginStart="@dimen/margin_3xlarge"
+                    android:layout_marginEnd="@dimen/margin_3xlarge"
                     android:hint="@string/password"
                     android:textColorHint="@color/paleGrey2"
                     app:errorEnabled="true"
