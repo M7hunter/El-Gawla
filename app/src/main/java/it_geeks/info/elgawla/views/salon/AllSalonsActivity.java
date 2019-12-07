@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -28,11 +27,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import it_geeks.info.elgawla.Adapters.CategoryFilterAdapter;
 import it_geeks.info.elgawla.Adapters.SalonsMiniAdapter;
 import it_geeks.info.elgawla.Adapters.StoreCategoryAdapter;
 import it_geeks.info.elgawla.repository.Models.Data;
-import it_geeks.info.elgawla.repository.Models.Date;
 import it_geeks.info.elgawla.repository.Models.Salon;
 import it_geeks.info.elgawla.util.Constants;
 import it_geeks.info.elgawla.util.DateUtil;
@@ -48,7 +45,6 @@ import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.HandleResponses;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
-import it_geeks.info.elgawla.Adapters.DateAdapter;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
@@ -58,12 +54,11 @@ import static it_geeks.info.elgawla.util.Constants.FILTER;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_CATEGORIES;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_FINISHED_SALONS;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_SALONS;
-import static it_geeks.info.elgawla.util.Constants.REQ_GET_FILTER_DATES;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALONS_BY_CAT_ID;
 
 public class AllSalonsActivity extends BaseActivity {
 
-    private RecyclerView rvDates, rvCats, rvSalons, rvFilterCats;
+    private RecyclerView rvSalons, rvFilterCats;
     private TextView tvAllSalonsTitle, tvCalenderTitle, etFilterDateFrom, etFilterDateTo;
     private LinearLayout emptyViewLayout;
     private BottomSheetDialog mBottomSheetDialogFilterBy, mBottomSheetCalender, mBottomSheetCategory;
@@ -78,11 +73,10 @@ public class AllSalonsActivity extends BaseActivity {
 
     private List<Salon> salonsList = new ArrayList<>();
     private List<Category> categoryList = new ArrayList<>();
-    private List<Date> dateList = new ArrayList<>();
 
-    private int userId, catKey, page = 1, page_date = 1, last_page = 1, last_page_date = 1;
+    private int userId, catKey, page = 1, last_page = 1;
     private Integer catId;
-    private boolean isDateFilter = false, isFilter = false, isFinishedSalons = false, isDateFrom = true;
+    private boolean isFilter = false, isFinishedSalons = false, isDateFrom = true;
     private String apiToken, title, dateFrom = null, dateTo = null, selectedDateFrom, selectedDateTo;
     private SnackBuilder snackBuilder;
 
@@ -144,14 +138,6 @@ public class AllSalonsActivity extends BaseActivity {
         tvAllSalonsTitle = findViewById(R.id.tv_all_salon_title);
         salonsShimmerLayout = findViewById(R.id.sh_all_salons);
         pbpSalons = findViewById(R.id.pbp_salons);
-
-        rvDates = findViewById(R.id.date_recycler);
-        rvCats = findViewById(R.id.rv_cats);
-        rvDates.setHasFixedSize(true);
-        rvCats.setHasFixedSize(true);
-
-        rvDates.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-        rvCats.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
 
         snackBuilder = new SnackBuilder(findViewById(R.id.all_salons_main_layout));
 
@@ -589,8 +575,8 @@ public class AllSalonsActivity extends BaseActivity {
         selectedDateFrom = DateUtil.getCurrentTimeAsString();
         selectedDateTo = selectedDateFrom;
 
-        cv.setMinDate(isFinishedSalons ? DateUtil.getDateAsMillisFromString("2019-11-01") : DateUtil.getCurrentTimeAsMillis());
-        cv.setMaxDate(isFinishedSalons ? DateUtil.getCurrentTimeAsMillis() : DateUtil.getDateAsMillisFromString("2020-01-01"));
+        cv.setMinDate(isFinishedSalons ? DateUtil.getDateAsMillisFromString("2019-10-01") : DateUtil.getCurrentTimeAsMillis());
+        cv.setMaxDate(isFinishedSalons ? DateUtil.getCurrentTimeAsMillis() : DateUtil.getDateAsMillisFromString("2021-01-01"));
         cv.setDate(DateUtil.getCurrentTimeAsMillis());
 
         cv.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -712,90 +698,6 @@ public class AllSalonsActivity extends BaseActivity {
         Common.Instance().setBottomSheetHeight(catSheetView);
     }
 
-    private void getFirstDatesFromServer() {
-        startSalonsShimmer();
-        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
-                new Data(REQ_GET_FILTER_DATES, 1), new RequestModel<>(REQ_GET_FILTER_DATES, userId, apiToken, !isFinishedSalons
-                        , null, null, null, null), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        last_page_date = mainObject.get("last_page").getAsInt();
-
-                        dateList = ParseResponses.parseDates(mainObject);
-                        initDatesAdapter();
-//                        dateFrom = dateList.get(0).getDate();
-                    }
-
-                    @Override
-                    public void handleAfterResponse() {
-                        getFirstFilteredSalonsFromServer(dateFrom, null, null, null);
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        initSalonsRecycler();
-                        snackBuilder.setSnackText(errorMessage).showSnack();
-                    }
-                });
-    }
-
-    private void getNextDatesFromServer() {
-        RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
-                new Data(REQ_GET_FILTER_DATES, ++page_date), new RequestModel<>(REQ_GET_FILTER_DATES, userId, apiToken, !isFinishedSalons
-                        , null, null, null, null), new HandleResponses() {
-                    @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
-                        int nextFirstPosition = dateList.size();
-                        dateList.addAll(ParseResponses.parseDates(mainObject));
-                        for (int i = nextFirstPosition; i < dateList.size(); i++)
-                        {
-                            rvDates.getAdapter().notifyItemInserted(i);
-                        }
-
-                        rvDates.smoothScrollToPosition(nextFirstPosition);
-                        addDatesScrollListener();
-                    }
-
-                    @Override
-                    public void handleAfterResponse() {
-                    }
-
-                    @Override
-                    public void handleConnectionErrors(String errorMessage) {
-                        initSalonsRecycler();
-                        snackBuilder.setSnackText(errorMessage).showSnack();
-                    }
-                });
-    }
-
-    private void initDatesAdapter() {
-        rvCats.setVisibility(View.GONE);
-        rvDates.setVisibility(View.VISIBLE);
-        rvDates.setAdapter(new DateAdapter(AllSalonsActivity.this, dateList, new ClickInterface.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-//                dateFrom = dateList.get(position).getDate();
-                getFirstFilteredSalonsFromServer(dateFrom, null, null, null);
-                EventsManager.sendSearchEvent(AllSalonsActivity.this, String.valueOf(dateList.get(position).getDay_no()));
-            }
-        }));
-
-        addDatesScrollListener();
-    }
-
-    private void initCatsAdapter() {
-        rvDates.setVisibility(View.GONE);
-        rvCats.setVisibility(View.VISIBLE);
-        rvCats.setAdapter(new CategoryFilterAdapter(categoryList, new ClickInterface.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                catId = categoryList.get(position).getCategoryId();
-                getFirstFilteredSalonsFromServer(null, null, null, catId);
-                EventsManager.sendSearchEvent(AllSalonsActivity.this, String.valueOf(catId));
-            }
-        }));
-    }
-
     private void getFirstFilteredSalonsFromServer(String dateFrom, String dateTo, String title, Integer catId) {
         startSalonsShimmer();
         page = 1;
@@ -803,7 +705,7 @@ public class AllSalonsActivity extends BaseActivity {
         salonsList.clear();
         RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
                 new Data(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, 1)
-                , new RequestModel<>(FILTER, userId, apiToken, true, dateFrom, dateTo, title, catId)
+                , new RequestModel<>(FILTER, userId, apiToken,  dateFrom, dateTo, title, catId, null)
                 , new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -829,7 +731,7 @@ public class AllSalonsActivity extends BaseActivity {
         onLoadMoreSalons();
         RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
                 new Data(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, ++page)
-                , new RequestModel<>(FILTER, userId, apiToken, true, dateFrom, dateTo, title, catId)
+                , new RequestModel<>(FILTER, userId, apiToken, dateFrom, dateTo, title, catId, null)
                 , new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
@@ -923,32 +825,6 @@ public class AllSalonsActivity extends BaseActivity {
                             getNextAllSalonsFromServer();
                         }
                         rvSalons.removeOnScrollListener(this);
-                    }
-                }
-            });
-        }
-    }
-
-    private void addDatesScrollListener() {
-        if (page_date < last_page_date)
-        {
-            rvDates.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                    super.onScrollStateChanged(recyclerView, newState);
-                    if (isDateFilter)
-                    {
-                        if (((LinearLayoutManager) rvDates.getLayoutManager()).findLastVisibleItemPosition() == rvDates.getAdapter().getItemCount() - 1)
-                        {
-                            getNextDatesFromServer();
-
-                            Toast.makeText(AllSalonsActivity.this, getString(R.string.loading), Toast.LENGTH_SHORT).show();
-                            rvDates.removeOnScrollListener(this);
-                        }
-                    }
-                    else
-                    {
-                        rvDates.removeOnScrollListener(this);
                     }
                 }
             });

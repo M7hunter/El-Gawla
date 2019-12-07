@@ -74,11 +74,10 @@ public class RequestModel<T> {
             }
             else if (action.equals(Constants.FILTER))
             {
-                this.is_filter = t3;
-                this.filter_date_from = t4;
-                this.filter_date_to = t5;
-                this.filter_title = t6;
-                this.filter_cat_id = t7;
+                this.filter_date_from = t3;
+                this.filter_date_to = t4;
+                this.filter_title = t5;
+                this.filter_cat_id = t6;
             }
             else if (action.equals(Constants.REQ_RESET_PASSWORD))
             {
