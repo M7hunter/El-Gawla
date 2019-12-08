@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- margin & padding -->
-    <dimen name="margin_xTiny">2dp</dimen>
-    <dimen name="margin_tiny">3dp</dimen>
+    <dimen name="margin_tiny">2dp</dimen>
+    <dimen name="margin_xtiny">3dp</dimen>
+    <dimen name="margin_2xtiny">5dp</dimen>
     <dimen name="margin_small">7dp</dimen>
     <dimen name="margin_medium">12dp</dimen>
     <dimen name="margin_x_medium">15dp</dimen>
@@ -53,6 +54,7 @@
 
     <!-- new dims -->
     <dimen name="btn_v_padding">12dp</dimen>
+    <dimen name="btn_v_large_padding">17dp</dimen>
     <dimen name="et_v_padding">15dp</dimen>
 
     <dimen name="cat_main_card_height">130dp</dimen>

@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_3xlarge"
-                android:layout_marginTop="@dimen/margin_xlarge"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_3xlarge"
                 android:layout_marginBottom="@dimen/margin_medium"
                 app:cardBackgroundColor="@android:color/white"
@@ -75,6 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:animateLayoutChanges="true"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
@@ -87,7 +88,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/my_rounds_recycler"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:visibility="gone"
                     app:spanCount="1"
@@ -98,9 +100,9 @@
                 <ProgressBar
                     android:id="@+id/pbp_my_salons"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_margin="@dimen/margin_xtiny"
                     android:visibility="gone" />
 
                 <!-- empty view -->
@@ -134,8 +136,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-        <include layout="@layout/layout_no_connection" />
 
     </RelativeLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

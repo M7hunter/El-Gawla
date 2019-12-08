@@ -71,7 +71,7 @@
                 android:layout_margin="@dimen/margin_medium"
                 android:layout_weight="1"
                 app:cardCornerRadius="@dimen/margin_small"
-                app:cardElevation="@dimen/margin_tiny">
+                app:cardElevation="@dimen/margin_xtiny">
                 <!-- card main layout -->
                 <RelativeLayout
                     android:layout_width="match_parent"

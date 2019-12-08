@@ -29,19 +29,19 @@
             android:textAllCaps="true"
             android:textColor="@color/colorSecondary"
             android:textDirection="locale"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_x_medium"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_filter_cats"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <ProgressBar
             android:id="@+id/pb_filter_cats"
-            android:layout_margin="@dimen/margin_8xlarge"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_8xlarge" />
 
     </LinearLayout>
 

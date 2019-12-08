@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/margin_tiny"
+    android:layout_marginTop="@dimen/margin_xtiny"
     android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical">
 
@@ -16,8 +16,8 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_marginStart="@dimen/margin_xtiny"
+            android:layout_marginEnd="@dimen/margin_xtiny"
             android:layout_weight="1">
 
             <View
@@ -34,8 +34,8 @@
             android:id="@+id/tv_my_card_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_marginStart="@dimen/margin_xtiny"
+            android:layout_marginEnd="@dimen/margin_xtiny"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="@dimen/text_size_small"
@@ -46,8 +46,8 @@
             android:id="@+id/tv_my_card_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_marginStart="@dimen/margin_xtiny"
+            android:layout_marginEnd="@dimen/margin_xtiny"
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="@color/colorPrimary"

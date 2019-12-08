@@ -82,7 +82,7 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_tiny"
+                        android:layout_margin="@dimen/margin_xtiny"
                         android:layoutDirection="rtl">
 
                         <!-- just a placeholder for icon -->
@@ -173,7 +173,7 @@
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:background="@drawable/bg_rounded_corners_white"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:padding="@dimen/margin_xTiny">
+                android:padding="@dimen/margin_tiny">
 
                 <!-- icon -->
                 <ImageView
@@ -222,7 +222,7 @@
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:background="@drawable/bg_rounded_corners_white"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:padding="@dimen/margin_xTiny">
+                android:padding="@dimen/margin_tiny">
 
                 <!-- icon -->
                 <ImageView
@@ -271,7 +271,7 @@
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:background="@drawable/bg_rounded_corners_white"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:padding="@dimen/margin_xTiny">
+                android:padding="@dimen/margin_tiny">
 
                 <!-- icon -->
                 <ImageView
@@ -314,7 +314,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
+                android:layout_marginTop="@dimen/margin_xtiny"
                 android:animateLayoutChanges="true"
                 android:gravity="center">
 
@@ -336,7 +336,7 @@
                     android:orientation="horizontal"
                     android:paddingStart="@dimen/margin_small"
                     android:paddingTop="@dimen/margin_small"
-                    android:paddingEnd="@dimen/margin_xTiny"
+                    android:paddingEnd="@dimen/margin_tiny"
                     android:paddingBottom="@dimen/margin_small"
                     android:visibility="gone">
 
@@ -368,7 +368,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_tiny"
+                    android:layout_marginBottom="@dimen/margin_xtiny"
                     android:layout_weight="1"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     app:cardBackgroundColor="@color/colorSecondary"

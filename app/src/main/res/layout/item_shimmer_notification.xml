@@ -6,7 +6,7 @@
     android:layout_margin="@dimen/margin_small"
     app:cardBackgroundColor="@color/blueyGrey"
     app:cardCornerRadius="@dimen/margin_small"
-    app:cardElevation="@dimen/margin_tiny">
+    app:cardElevation="@dimen/margin_xtiny">
     <!-- card main layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_medium"
+    android:background="@drawable/bg_rounded_corners_white"
+    app:cardCornerRadius="@dimen/margin_small">
+    <!-- card main layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_xlarge">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <!-- icon -->
+            <ImageView
+                android:id="@+id/join_alert_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/margin_8xlarge"
+                android:layout_gravity="center"
+                android:contentDescription="@string/Attention"
+                android:src="@drawable/q_mark_in_circle"
+                android:tint="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/join_alert_progress"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/join_alert_icon"
+                app:layout_constraintEnd_toEndOf="@id/join_alert_icon"
+                app:layout_constraintStart_toStartOf="@id/join_alert_icon"
+                app:layout_constraintTop_toTopOf="@id/join_alert_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- name -->
+        <TextView
+            android:id="@+id/join_alert_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_large"
+            android:gravity="center"
+            android:text="@string/Attention"
+            android:textAllCaps="true"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold" />
+
+        <!-- text -->
+        <TextView
+            android:id="@+id/join_alert_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_3xlarge"
+            android:layout_marginRight="@dimen/margin_3xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:gravity="center"
+            android:text="@string/Attention_Details"
+            android:textColor="@color/blueGrey"
+            android:textSize="@dimen/text_size_medium" />
+
+        <!-- join btn -->
+        <Button
+            android:id="@+id/btn_join_alert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_xtiny"
+            android:paddingTop="@dimen/btn_v_padding"
+            android:paddingBottom="@dimen/btn_v_padding"
+            android:text="@string/join_round"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

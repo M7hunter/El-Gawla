@@ -33,6 +33,7 @@
             android:background="@color/colorPrimary"
             app:itemIconTint="@drawable/selector_nav"
             app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
+            app:itemTextAppearanceInactive="@style/BottomNavigationView.Inactive"
             app:itemTextColor="@drawable/selector_nav"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/navigation" />

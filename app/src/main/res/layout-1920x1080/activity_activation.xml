@@ -73,7 +73,7 @@
                     style="@style/pin_view_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_margin="@dimen/margin_xtiny"
                     android:focusable="true"
                     android:gravity="center" />
 
@@ -83,7 +83,7 @@
                     style="@style/pin_view_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_margin="@dimen/margin_xtiny"
                     android:gravity="center" />
 
                 <!-- third digit -->
@@ -92,7 +92,7 @@
                     style="@style/pin_view_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_margin="@dimen/margin_xtiny"
                     android:gravity="center" />
 
                 <!-- fourth digit -->
@@ -101,7 +101,7 @@
                     style="@style/pin_view_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_margin="@dimen/margin_xtiny"
                     android:gravity="center" />
 
             </LinearLayout>
@@ -145,8 +145,8 @@
                     android:id="@+id/tv_resend_activation_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:layout_marginEnd="@dimen/margin_tiny"
+                    android:layout_marginStart="@dimen/margin_xtiny"
+                    android:layout_marginEnd="@dimen/margin_xtiny"
                     android:text="01:00"
                     android:textColor="@android:color/holo_red_dark"
                     android:textSize="@dimen/text_size_medium" />

@@ -107,7 +107,7 @@
                 android:layout_width="@dimen/image_account"
                 android:layout_height="@dimen/image_account"
                 android:layout_centerInParent="true"
-                android:layout_margin="@dimen/margin_tiny"
+                android:layout_margin="@dimen/margin_xtiny"
                 app:civ_border_color="@color/colorPrimary"
                 app:civ_border_width="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"

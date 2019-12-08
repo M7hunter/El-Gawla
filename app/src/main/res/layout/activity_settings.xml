@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+    android:fillViewport="true"
     android:orientation="vertical"
     tools:context=".views.menu.SettingsActivity">
     <!-- scroll main layout -->
@@ -40,7 +41,7 @@
                     android:padding="@dimen/margin_medium"
                     android:text="@string/app_settings"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_medium"
+                    android:textSize="@dimen/text_size_x_medium"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -55,14 +56,12 @@
             android:id="@+id/rl_app_notification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
             android:background="@android:color/white"
             android:foreground="?android:attr/selectableItemBackground"
-            android:paddingStart="@dimen/margin_small"
-            android:paddingTop="@dimen/margin_tiny"
-            android:paddingEnd="@dimen/margin_small"
-            android:paddingBottom="@dimen/margin_tiny">
+            android:paddingStart="@dimen/margin_large"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_large"
+            android:paddingBottom="@dimen/margin_medium">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -73,10 +72,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
                     android:text="@string/app_notification"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_medium"
+                    android:textSize="@dimen/text_size_x_medium"
                     android:textStyle="bold" />
 
                 <!-- options -->
@@ -84,7 +82,7 @@
                     android:id="@+id/tv_notification_options"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/margin_tiny"
+                    android:padding="@dimen/margin_xtiny"
                     android:text="@string/click_for_more_options"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/text_size_small"
@@ -108,13 +106,10 @@
             android:id="@+id/rl_app_sound"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_medium"
             android:background="@android:color/white"
-            android:paddingStart="@dimen/margin_small"
-            android:paddingTop="@dimen/margin_tiny"
-            android:paddingEnd="@dimen/margin_small"
+            android:paddingStart="@dimen/margin_large"
+            android:paddingTop="@dimen/margin_xtiny"
+            android:paddingEnd="@dimen/margin_large"
             android:paddingBottom="@dimen/margin_small">
 
             <!-- label -->
@@ -124,7 +119,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/app_sound"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_x_medium"
                 android:textStyle="bold" />
 
             <!-- switch -->
@@ -151,11 +146,12 @@
             android:id="@+id/settings_lang_option"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
             android:background="@android:color/white"
             android:foreground="?android:attr/selectableItemBackground"
-            android:padding="@dimen/margin_medium">
+            android:paddingStart="@dimen/margin_large"
+            android:paddingTop="@dimen/margin_large"
+            android:paddingEnd="@dimen/margin_large"
+            android:paddingBottom="@dimen/margin_large">
 
             <!-- label -->
             <TextView
@@ -165,7 +161,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/language"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_x_medium"
                 android:textStyle="bold" />
 
             <TextView
@@ -176,7 +172,7 @@
                 android:layout_marginEnd="@dimen/margin_small"
                 android:layout_toStartOf="@id/st1_option_icon"
                 android:textColor="@color/darkSkyBlue"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_x_medium"
                 tools:text="@string/language" />
 
             <!-- icon -->

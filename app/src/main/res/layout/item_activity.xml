@@ -25,7 +25,7 @@
             android:id="@+id/tv_activity_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_xTiny"
+            android:layout_margin="@dimen/margin_tiny"
             android:textColor="@color/battleshipGrey"
             android:textSize="@dimen/text_size_small"
             tools:text="@tools:sample/lorem" />

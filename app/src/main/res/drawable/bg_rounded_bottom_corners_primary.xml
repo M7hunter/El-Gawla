@@ -4,6 +4,7 @@
   <solid android:color="@color/colorPrimary" />
   <corners
       android:bottomLeftRadius="@dimen/margin_small"
-      android:bottomRightRadius="@dimen/margin_small" />
+      android:bottomRightRadius="@dimen/margin_small"
+      android:topRightRadius="@dimen/margin_small"/>
 
 </shape>

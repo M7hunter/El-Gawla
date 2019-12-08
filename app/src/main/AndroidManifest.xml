@@ -130,9 +130,6 @@
             android:launchMode="singleTop"
             android:parentActivityName=".views.main.MainActivity" />
         <activity
-            android:name=".views.account.SalonsArchiveActivity"
-            android:launchMode="singleTop" />
-        <activity
             android:name=".views.account.MyCardsActivity"
             android:launchMode="singleTop" />
         <activity

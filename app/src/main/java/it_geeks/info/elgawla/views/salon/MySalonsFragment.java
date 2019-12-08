@@ -322,11 +322,13 @@ public class MySalonsFragment extends Fragment {
                 public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
 
-                    if (layoutManager.findLastCompletelyVisibleItemPosition() == salonsAdapter.getItemCount() - 1)
+                    if (page < last_page)
                     {
-                        getNextSalonsFromServer();
-                        Toast.makeText(getContext(), getString(R.string.loading), Toast.LENGTH_SHORT).show();
-                        rvMySalons.removeOnScrollListener(this);
+                        if (((GridLayoutManager) rvMySalons.getLayoutManager()).findLastCompletelyVisibleItemPosition() == rvMySalons.getAdapter().getItemCount() - 1)
+                        {
+                            getNextSalonsFromServer();
+                            rvMySalons.removeOnScrollListener(this);
+                        }
                     }
                 }
             });

@@ -14,12 +14,18 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.MutableLiveData;
@@ -167,6 +173,45 @@ public class ClosedSalonActivity extends BaseActivity {
                 }
             }
         });
+
+        findViewById(R.id.fbtn_share_closed_salon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createDynamicLinkAndShareSalon();
+            }
+        });
+    }
+
+    private void createDynamicLinkAndShareSalon() {
+        FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(buildUri())
+                .setDomainUriPrefix("https://elgawlaapp.page.link/")
+                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
+                .buildShortDynamicLink()
+                .addOnCompleteListener(new OnCompleteListener<ShortDynamicLink>() {
+                    @Override
+                    public void onComplete(@NonNull Task<ShortDynamicLink> task) {
+                        if (task.isSuccessful())
+                        {
+                            // share
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, task.getResult().getShortLink().toString());
+                            Intent intent = Intent.createChooser(shareIntent, getString(R.string.share_salon));
+                            startActivity(intent);
+                            EventsManager.sendShareEvent(ClosedSalonActivity.this, "salon", String.valueOf(salon.getSalon_id()));
+                        }
+                    }
+                });
+    }
+
+    private Uri buildUri() {
+        return new Uri.Builder()
+                .scheme("https")
+                .authority("elgawlaapp.page.link")
+                .appendPath("salons")
+                .appendQueryParameter("salon_id", String.valueOf(salon.getSalon_id()))
+                .build();
     }
 
     private boolean getSalonData(Bundle savedInstanceState) {

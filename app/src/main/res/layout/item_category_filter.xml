@@ -12,7 +12,7 @@
         android:layout_margin="@dimen/margin_small"
         android:foreground="?attr/selectableItemBackground"
         app:cardCornerRadius="@dimen/margin_small"
-        app:cardElevation="@dimen/margin_tiny">
+        app:cardElevation="@dimen/margin_xtiny">
         <!-- card main layout -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cat_layout"
@@ -40,9 +40,9 @@
                 android:id="@+id/tv_cat_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xTiny"
-                android:layout_marginEnd="@dimen/margin_xTiny"
-                android:layout_marginBottom="@dimen/margin_xTiny"
+                android:layout_marginStart="@dimen/margin_tiny"
+                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginBottom="@dimen/margin_tiny"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
@@ -63,9 +63,9 @@
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:layout_marginStart="@dimen/margin_small"
-        android:layout_marginTop="@dimen/margin_xTiny"
+        android:layout_marginTop="@dimen/margin_tiny"
         android:layout_marginEnd="@dimen/margin_small"
-        android:layout_marginBottom="@dimen/margin_xTiny"
+        android:layout_marginBottom="@dimen/margin_tiny"
         android:background="@color/colorYellow" />
 
 </LinearLayout>

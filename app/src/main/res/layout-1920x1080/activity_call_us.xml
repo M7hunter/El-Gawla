@@ -60,7 +60,7 @@
             android:layout_marginStart="@dimen/margin_xlarge"
             android:layout_marginTop="@dimen/margin_xlarge"
             android:layout_marginEnd="@dimen/margin_xlarge"
-            android:layout_marginBottom="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_xtiny"
             android:textColorHint="@color/paleGrey2"
             app:errorEnabled="true">
 
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_xlarge"
             android:layout_marginEnd="@dimen/margin_xlarge"
-            android:layout_marginBottom="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_xtiny"
             android:textColorHint="@color/paleGrey2"
             app:errorEnabled="true">
 

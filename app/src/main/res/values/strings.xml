@@ -23,7 +23,7 @@
     <string name="privacy_policy">Privacy policy</string>
     <string name="more_about_gawla">More about Gawla</string>
     <string name="terms_conditions">Terms and conditions</string>
-    <string name="call_us">call us</string>
+    <string name="call_us">Call us</string>
     <string name="how_gawla_works">How Gawla works</string>
     <string name="joined_salons">Joined salons</string>
     <string name="create_account">create account</string>
@@ -189,7 +189,7 @@
     <string name="salons_archive_empty_hint">here is your salons history</string>
     <string name="won">won</string>
     <string name="lose">lose</string>
-    <string name="app_sound">app sound</string>
+    <string name="app_sound">App sound</string>
     <string name="vote">vote</string>
     <string name="votes">(%1$s vote)</string>
     <string name="category_cards">category cards</string>
@@ -245,7 +245,7 @@
     <string name="tt_user_image_title">user image</string>
     <string name="tt_see_more_description">explore more salons filtered as you want</string>
     <string name="tt_user_image_description">user image is a fast way to take you to your profile page</string>
-    <string name="previous_salons">previous salons</string>
+    <string name="previous_salons">Previous salons</string>
     <string name="not_completed">NOT COMPLETED</string>
     <string name="from">from</string>
     <string name="to">to</string>

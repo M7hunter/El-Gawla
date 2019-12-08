@@ -8,7 +8,7 @@
     android:background="@drawable/bg_rounded_corners_white"
     android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/margin_small"
-    app:cardElevation="@dimen/margin_tiny">
+    app:cardElevation="@dimen/margin_xtiny">
     <!-- main layout -->
     <LinearLayout
         android:layout_width="wrap_content"
@@ -49,14 +49,14 @@
                 android:id="@+id/tv_salon_time_state"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginBottom="@dimen/margin_tiny"
+                android:layout_marginTop="@dimen/margin_xtiny"
+                android:layout_marginBottom="@dimen/margin_xtiny"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:lines="2"
                 android:maxLines="2"
-                android:paddingStart="@dimen/margin_tiny"
-                android:paddingEnd="@dimen/margin_tiny"
+                android:paddingStart="@dimen/margin_xtiny"
+                android:paddingEnd="@dimen/margin_xtiny"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_x_small"
                 android:textStyle="bold"
@@ -69,7 +69,7 @@
             android:id="@+id/round_product_image"
             android:layout_width="@dimen/image_width_round"
             android:layout_height="@dimen/image_height_round"
-            android:layout_marginTop="@dimen/margin_xTiny"
+            android:layout_marginTop="@dimen/margin_tiny"
             android:scaleType="centerInside"
             android:transitionName="transProductImage"
             tools:src="@drawable/flodillus" />
@@ -80,9 +80,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/margin_tiny"
+            android:layout_marginStart="@dimen/margin_xtiny"
             android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_xtiny"
             android:layout_marginBottom="@dimen/margin_medium"
             android:ellipsize="end"
             android:gravity="center"

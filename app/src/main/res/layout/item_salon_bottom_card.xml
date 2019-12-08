@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/margin_tiny"
+    android:layout_marginBottom="@dimen/margin_xtiny"
     android:background="@drawable/bg_rounded_corners_pale_grey"
     android:gravity="center"
     tools:showIn="@layout/bottom_sheet_cards_bag">
@@ -22,7 +22,7 @@
             android:id="@+id/bottom_card_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_tiny"
+            android:layout_margin="@dimen/margin_xtiny"
             android:ellipsize="end"
             android:maxLines="3"
             android:textColor="@color/battleshipGrey"
@@ -31,7 +31,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_xTiny">
+            android:layout_marginTop="@dimen/margin_tiny">
 
             <Button
                 android:id="@+id/bottom_card_btn"
@@ -39,9 +39,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_rounded_corners_red_270"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_tiny"
+                android:paddingTop="@dimen/margin_xtiny"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_tiny"
+                android:paddingBottom="@dimen/margin_xtiny"
                 android:text="@string/buy_card"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"

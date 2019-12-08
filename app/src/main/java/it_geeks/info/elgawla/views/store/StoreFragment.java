@@ -47,7 +47,7 @@ import static it_geeks.info.elgawla.util.Constants.REQ_GET_ALL_CATEGORIES;
 public class StoreFragment extends Fragment {
 
     private Context context;
-    private RecyclerView categoriesRecycler;
+    private RecyclerView rvCategories;
     private StoreCategoryAdapter storeAdapter;
     private ProgressBar pbRecycler;
     private ImageView imgNotification;
@@ -93,10 +93,10 @@ public class StoreFragment extends Fragment {
     }
 
     private void initViews(View fragmentView) {
-        pbRecycler = fragmentView.findViewById(R.id.cards_progress);
-        categoriesRecycler = fragmentView.findViewById(R.id.cards_recycler);
-        categoriesRecycler.setHasFixedSize(true);
-        emptyViewLayout = fragmentView.findViewById(R.id.cards_empty_view);
+        pbRecycler = fragmentView.findViewById(R.id.cats_progress);
+        rvCategories = fragmentView.findViewById(R.id.cats_recycler);
+        rvCategories.setHasFixedSize(true);
+        emptyViewLayout = fragmentView.findViewById(R.id.cats_empty_view);
         //Notification icon
         imgNotification = fragmentView.findViewById(R.id.iv_notification_bell);
         View bellIndicator = fragmentView.findViewById(R.id.bell_indicator);
@@ -123,9 +123,9 @@ public class StoreFragment extends Fragment {
             }
         });
 
-        categoriesRecycler.setAdapter(storeAdapter);
+        rvCategories.setAdapter(storeAdapter);
         if (pbRecycler.getVisibility() == View.VISIBLE)
-            Common.Instance().hideLoading(categoriesRecycler, pbRecycler);
+            Common.Instance().hideLoading(rvCategories, pbRecycler);
 
         categoryDao.getCategories().observe(this, new Observer<List<Category>>() {
             @Override

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:fillViewport="true"
+    tools:context=".views.intro.SplashActivity">
+    <!-- scroll main layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- logo -->
+        <ImageView
+            android:layout_width="@dimen/logo_width"
+            android:layout_height="@dimen/logo_height"
+            android:layout_margin="@dimen/margin_large"
+            android:src="@drawable/gawla_logo_white" />
+
+        <!-- hint -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_3xlarge"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_3xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:gravity="center"
+            android:padding="@dimen/margin_xtiny"
+            android:text="@string/tit1e"
+            android:textColor="@color/babyBlue"
+            android:textSize="@dimen/text_size_medium" />
+
+        <!-- content -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            android:background="@drawable/bg_rounded_c_primary_dark_bordered_c_primary"
+            android:padding="@dimen/margin_small">
+
+            <!-- lang header -->
+            <TextView
+                android:id="@+id/lang_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:text="@string/choose_language"
+                android:textAllCaps="true"
+                android:textColor="@color/colorSecondary"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/ar_container"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- ar container -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ar_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_xtiny"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:paddingStart="@dimen/margin_small"
+                android:paddingTop="@dimen/margin_xtiny"
+                android:paddingEnd="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_xtiny"
+                app:layout_constraintBottom_toTopOf="@id/countries_header"
+                app:layout_constraintEnd_toStartOf="@id/en_container"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lang_header">
+
+                <!-- ar -->
+                <TextView
+                    android:id="@+id/tv_splash_arabic"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="@string/arabic"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_ar_check"
+                    app:layout_constraintEnd_toStartOf="@id/iv_ar_check"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/iv_ar_check" />
+
+                <!-- ar check -->
+                <ImageView
+                    android:id="@+id/iv_ar_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_check_blue"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_splash_arabic"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- en container -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/en_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_xtiny"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:paddingStart="@dimen/margin_small"
+                android:paddingTop="@dimen/margin_xtiny"
+                android:paddingEnd="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_xtiny"
+                app:layout_constraintBottom_toBottomOf="@id/ar_container"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ar_container"
+                app:layout_constraintTop_toTopOf="@id/ar_container">
+
+                <!-- en -->
+                <TextView
+                    android:id="@+id/tv_splash_english"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="@string/english"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_en_check"
+                    app:layout_constraintEnd_toStartOf="@id/iv_en_check"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/iv_en_check" />
+
+                <!-- en check -->
+                <ImageView
+                    android:id="@+id/iv_en_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_check_blue"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_splash_english"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- countries header -->
+            <TextView
+                android:id="@+id/countries_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:text="@string/choose_country"
+                android:textAllCaps="true"
+                android:textColor="@color/colorSecondary"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/countries_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ar_container" />
+
+            <!-- countries container -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/countries_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_xlarge"
+                app:cardBackgroundColor="@color/colorPrimary"
+                app:cardCornerRadius="@dimen/margin_small"
+                app:cardElevation="@dimen/margin_xtiny"
+                app:layout_constraintBottom_toTopOf="@id/btn_splash_continue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/countries_header">
+                <!-- card mai layout -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- countries -->
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/s_splash_country"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorLightPrimary"
+                        android:padding="@dimen/margin_xtiny"
+                        tools:listitem="@layout/item_country_spinner" />
+
+                    <!-- arrow-->
+                    <ImageView
+                        android:id="@+id/iv_country_spinner_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/selector_ripple_white"
+                        android:padding="@dimen/btn_v_padding"
+                        android:src="@drawable/ic_arrow_down" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- continue -->
+            <Button
+                android:id="@+id/btn_splash_continue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
+                android:backgroundTint="@color/colorSecondary"
+                android:paddingTop="@dimen/et_v_padding"
+                android:paddingBottom="@dimen/et_v_padding"
+                android:text="@string/continue_"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/countries_card" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</ScrollView>

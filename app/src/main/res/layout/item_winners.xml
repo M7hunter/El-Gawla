@@ -20,8 +20,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_tiny"
-            app:cardCornerRadius="@dimen/margin_tiny"
+            android:layout_margin="@dimen/margin_xtiny"
+            app:cardCornerRadius="@dimen/margin_xtiny"
             app:cardElevation="0dp">
 
             <ImageView
@@ -46,7 +46,7 @@
                 android:id="@+id/news_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_tiny"
+                android:layout_margin="@dimen/margin_xtiny"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/duskBlue"
@@ -58,7 +58,7 @@
                 android:id="@+id/news_body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_tiny"
+                android:layout_margin="@dimen/margin_xtiny"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:textColor="@color/blueyGrey"

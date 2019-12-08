@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical"
-    android:paddingTop="@dimen/margin_tiny">
+    android:paddingTop="@dimen/margin_xtiny">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,8 +17,8 @@
             android:id="@+id/iv_salonA_product_image"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_marginStart="@dimen/margin_xtiny"
+            android:layout_marginEnd="@dimen/margin_xtiny"
             android:layout_weight="1"
             android:transitionName="transProductImage"
             tools:src="@drawable/flodillus" />
@@ -28,8 +28,8 @@
             android:id="@+id/tv_salonA_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_marginStart="@dimen/margin_xtiny"
+            android:layout_marginEnd="@dimen/margin_xtiny"
             android:layout_weight="2"
             android:ellipsize="end"
             android:gravity="center"
@@ -43,8 +43,8 @@
             android:id="@+id/tv_salonA_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_marginStart="@dimen/margin_xtiny"
+            android:layout_marginEnd="@dimen/margin_xtiny"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="@dimen/text_size_small"
@@ -55,8 +55,8 @@
             android:id="@+id/tv_salonA_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_marginStart="@dimen/margin_xtiny"
+            android:layout_marginEnd="@dimen/margin_xtiny"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="@dimen/text_size_small"

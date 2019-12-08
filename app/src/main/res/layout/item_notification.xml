@@ -14,7 +14,7 @@
         android:foreground="?attr/selectableItemBackground"
         app:cardBackgroundColor="@color/paleGrey"
         app:cardCornerRadius="@dimen/margin_small"
-        app:cardElevation="@dimen/margin_tiny">
+        app:cardElevation="@dimen/margin_xtiny">
         <!-- card main layout -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/margin_xTiny"
+                android:layout_marginStart="@dimen/margin_tiny"
                 android:textSize="@dimen/text_size_small"
                 app:layout_constraintBottom_toBottomOf="@id/tv_title"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +68,7 @@
                 android:id="@+id/tv_body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xTiny"
+                android:layout_marginTop="@dimen/margin_tiny"
                 android:ellipsize="end"
                 android:maxLength="300"
                 android:textColor="@android:color/black"

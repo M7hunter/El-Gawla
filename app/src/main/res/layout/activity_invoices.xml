@@ -72,7 +72,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginEnd="@dimen/margin_xtiny"
                 android:layout_weight="1"
                 android:text="@string/invoice_no"
                 android:textColor="@android:color/white"
@@ -83,8 +83,8 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_xtiny"
+                android:layout_marginEnd="@dimen/margin_xtiny"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/process"
@@ -96,8 +96,8 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_xtiny"
+                android:layout_marginEnd="@dimen/margin_xtiny"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/status"
@@ -109,8 +109,8 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_xtiny"
+                android:layout_marginEnd="@dimen/margin_xtiny"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/date"
@@ -122,8 +122,8 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_xtiny"
+                android:layout_marginEnd="@dimen/margin_xtiny"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/package_cost"
@@ -150,7 +150,7 @@
             android:id="@+id/pbp_invoices"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_tiny"
+            android:layout_margin="@dimen/margin_xtiny"
             android:visibility="gone" />
 
     </LinearLayout>

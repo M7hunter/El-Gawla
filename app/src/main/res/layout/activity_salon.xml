@@ -95,7 +95,7 @@
                         android:id="@+id/salon_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_xTiny"
+                        android:layout_marginStart="@dimen/margin_tiny"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_size_medium"
                         android:textStyle="bold"
@@ -115,9 +115,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_medium"
-                        android:layout_marginTop="@dimen/margin_xTiny"
+                        android:layout_marginTop="@dimen/margin_tiny"
                         android:layout_marginEnd="@dimen/margin_medium"
-                        android:layout_marginBottom="@dimen/margin_xTiny"
+                        android:layout_marginBottom="@dimen/margin_tiny"
                         android:background="@drawable/bg_rounded_corners_white"
                         app:cardCornerRadius="@dimen/margin_small">
                         <!-- card main layout -->
@@ -159,7 +159,7 @@
                                     <RelativeLayout
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:padding="@dimen/margin_tiny">
+                                        android:padding="@dimen/margin_xtiny">
 
                                         <ImageView
                                             android:id="@+id/div_up9"
@@ -286,7 +286,7 @@
                                     <RelativeLayout
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:padding="@dimen/margin_tiny">
+                                        android:padding="@dimen/margin_xtiny">
 
                                         <ImageView
                                             android:id="@+id/div_up5"
@@ -415,7 +415,7 @@
                                     <RelativeLayout
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:padding="@dimen/margin_tiny">
+                                        android:padding="@dimen/margin_xtiny">
 
                                         <ImageView
                                             android:id="@+id/div_up1"
@@ -532,9 +532,9 @@
                                 android:background="@drawable/bg_circled_corners_c_secondary"
                                 android:gravity="center"
                                 android:paddingStart="@dimen/margin_3xlarge"
-                                android:paddingTop="@dimen/margin_tiny"
+                                android:paddingTop="@dimen/margin_xtiny"
                                 android:paddingEnd="@dimen/margin_3xlarge"
-                                android:paddingBottom="@dimen/margin_tiny"
+                                android:paddingBottom="@dimen/margin_xtiny"
                                 android:textColor="@android:color/white"
                                 android:textSize="@dimen/text_size_medium"
                                 android:textStyle="bold"
@@ -551,8 +551,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginStart="@dimen/margin_xTiny"
-                android:layout_marginEnd="@dimen/margin_xTiny"
+                android:layout_marginStart="@dimen/margin_tiny"
+                android:layout_marginEnd="@dimen/margin_tiny"
                 android:layout_weight="1">
 
                 <FrameLayout
@@ -567,7 +567,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/margin_small"
                         app:cardCornerRadius="@dimen/margin_small"
-                        app:cardElevation="@dimen/margin_tiny">
+                        app:cardElevation="@dimen/margin_xtiny">
                         <!-- card main layout -->
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -610,7 +610,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_marginBottom="@dimen/margin_tiny"
+                    android:layout_marginBottom="@dimen/margin_xtiny"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:visibility="visible"
                     app:cardBackgroundColor="@android:color/white"
@@ -663,7 +663,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_xTiny"
+                    android:layout_marginBottom="@dimen/margin_tiny"
                     android:layout_weight="1"
                     android:focusable="true"
                     android:textColorHint="@color/paleGrey2">
@@ -718,7 +718,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_xTiny"
+                android:layout_marginTop="@dimen/margin_tiny"
                 android:visibility="gone" />
 
             <!-- btn use/buy golden card -->
@@ -746,8 +746,8 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layoutDirection="ltr"
-                android:paddingTop="@dimen/margin_tiny"
-                android:paddingBottom="@dimen/margin_tiny"
+                android:paddingTop="@dimen/margin_xtiny"
+                android:paddingBottom="@dimen/margin_xtiny"
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <!-- leave -->
@@ -757,12 +757,12 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@android:color/white"
                     android:paddingStart="@dimen/margin_small"
-                    android:paddingTop="@dimen/margin_tiny"
-                    android:paddingBottom="@dimen/margin_tiny"
+                    android:paddingTop="@dimen/margin_xtiny"
+                    android:paddingBottom="@dimen/margin_xtiny"
                     android:text="@string/leave"
                     android:textColor="@android:color/black"
                     android:visibility="gone"
-                    app:cornerRadius="@dimen/margin_tiny"
+                    app:cornerRadius="@dimen/margin_xtiny"
                     app:icon="@drawable/ic_exit"
                     app:iconTint="@android:color/holo_red_light"
                     app:layout_constraintBottom_toBottomOf="parent"

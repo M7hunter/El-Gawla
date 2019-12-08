@@ -134,9 +134,10 @@
                 android:id="@+id/rv_home_cats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_xtiny"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_xtiny"
+                android:layout_marginBottom="@dimen/margin_small"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_category_home" />
 
@@ -195,8 +196,8 @@
                     android:id="@+id/recent_salons_recycler"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:layout_marginEnd="@dimen/margin_tiny"
+                    android:layout_marginStart="@dimen/margin_xtiny"
+                    android:layout_marginEnd="@dimen/margin_xtiny"
                     android:layout_weight="1"
                     android:visibility="gone" />
 
@@ -205,7 +206,7 @@
                     android:id="@+id/pbp_recent_salons"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_margin="@dimen/margin_xtiny"
                     android:visibility="gone" />
 
                 <!-- empty view -->
@@ -293,8 +294,8 @@
                     android:id="@+id/finished_salons_recycler"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:layout_marginEnd="@dimen/margin_tiny"
+                    android:layout_marginStart="@dimen/margin_xtiny"
+                    android:layout_marginEnd="@dimen/margin_xtiny"
                     android:layout_weight="1"
                     android:visibility="gone"
                     tools:orientation="horizontal" />
@@ -304,7 +305,7 @@
                     android:id="@+id/pbp_previous_salons"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_margin="@dimen/margin_xtiny"
                     android:visibility="gone" />
 
                 <!-- empty view -->
