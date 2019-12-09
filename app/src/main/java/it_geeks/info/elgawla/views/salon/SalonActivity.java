@@ -2,7 +2,6 @@ package it_geeks.info.elgawla.views.salon;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -1093,7 +1092,7 @@ public class SalonActivity extends BaseActivity {
     // region subscription layout
     private AlertDialog initJoinConfirmationDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.CustomAlertDialogStyle);
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.layout_salon_join_round_confirmation, null);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.layout_dialog_salon_join_round_confirmation, null);
 
         joinIcon = dialogView.findViewById(R.id.join_alert_icon);
         joinHeader = dialogView.findViewById(R.id.join_alert_header);

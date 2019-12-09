@@ -228,7 +228,7 @@
     <string name="reset_password_hint">سيتم ارسال كود التفعيل الاعادة تعين كلمة المرور</string>
     <string name="empty_digit">حقل فارغ</string>
     <string name="connected">متصل</string>
-    <string name="time_up">انتهى الوقت, اعد ارسال الكو</string>
+    <string name="time_up">انتهى الوقت, اعد ارسال الكود</string>
     <string name="choose_language">اختر اللغة</string>
     <string name="package_cost">السعر</string>
     <string name="time">الوقت</string>

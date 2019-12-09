@@ -168,7 +168,8 @@ public class SignInActivity extends BaseActivity implements GoogleApiClient.OnCo
         btnForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignInActivity.this, ForgetPasswordActivity.class));
+                startActivity(new Intent(SignInActivity.this, ForgetPasswordActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
             }
         });
 

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,13 +62,11 @@ public class SplashScreenActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Fabric.with(this, new Crashlytics());
-        SharedPrefManager.getInstance(this).setLang(SharedPrefManager.getInstance(this).getSavedLang());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-//        Log.d("screen_size", "width : " + Resources.getSystem().getDisplayMetrics().widthPixels);
-//        Log.d("screen_size", "height : " + Resources.getSystem().getDisplayMetrics().heightPixels);
+        Log.d("screen_size", "width : " + Resources.getSystem().getDisplayMetrics().widthPixels);
+        Log.d("screen_size", "height : " + Resources.getSystem().getDisplayMetrics().heightPixels);
 
         init();
 

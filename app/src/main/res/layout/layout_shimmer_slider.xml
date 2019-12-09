@@ -2,7 +2,7 @@
 <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/image_width_main_fragment"
+    android:layout_height="@dimen/slider_image_height"
     app:duration="650">
     <!-- shimmer main layout -->
     <androidx.constraintlayout.widget.ConstraintLayout

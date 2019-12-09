@@ -22,7 +22,7 @@ public class DialogBuilder {
     public void createAlertDialog(Context context, final ClickInterface.AlertButtonsClickListener clickListener) {
         activity = ((Activity) context);
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity, R.style.CustomAlertDialogStyle);
-        View dialogView = LayoutInflater.from(activity).inflate(R.layout.layout_alert_dialog, null);
+        View dialogView = LayoutInflater.from(activity).inflate(R.layout.layout_dialog_alert, null);
 
         tvAlertText = dialogView.findViewById(R.id.tv_alert_body);
         Button btnPositive = dialogView.findViewById(R.id.btn_alert_positive);
@@ -64,7 +64,7 @@ public class DialogBuilder {
 
     public void createLoadingDialog(Context context) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context, R.style.CustomLoadingDialogStyle);
-        View dialogView = LayoutInflater.from(context).inflate(R.layout.layout_loading_dialog, null);
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.layout_dialog_loading, null);
         dialogBuilder.setView(dialogView);
         loadingDialog = dialogBuilder.create();
         activity = ((Activity) context);

@@ -39,9 +39,9 @@
             <!-- logo -->
             <ImageView
                 android:id="@+id/activation_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_5xlarge"
+                android:layout_width="@dimen/logo_width"
+                android:layout_height="@dimen/logo_height"
+                android:layout_marginTop="@dimen/margin_3xlarge"
                 android:src="@drawable/gawla_logo_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +64,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_3xlarge"
                 android:layoutDirection="ltr">
 
                 <!-- first digit -->
@@ -111,6 +111,7 @@
                 android:id="@+id/tv_digits_err"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
                 android:textColor="@android:color/holo_red_light"
                 android:visibility="invisible" />
 
@@ -119,12 +120,12 @@
                 android:id="@+id/btn_activation_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_5xlarge"
+                android:layout_marginStart="@dimen/margin_3xlarge"
                 android:layout_marginTop="@dimen/margin_xlarge"
-                android:layout_marginEnd="@dimen/margin_5xlarge"
-                android:layout_marginBottom="@dimen/margin_5xlarge"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_3xlarge"
+                android:layout_marginBottom="@dimen/margin_3xlarge"
+                android:paddingTop="@dimen/btn_v_padding"
+                android:paddingBottom="@dimen/btn_v_padding"
                 android:text="@string/confirm" />
 
             <!-- expiry -->
@@ -158,7 +159,7 @@
                 android:id="@+id/fbtn_resend_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
+                android:layout_margin="@dimen/margin_large"
                 android:src="@drawable/ic_refresh"
                 app:backgroundTint="@android:color/white"
                 app:elevation="@dimen/margin_small"

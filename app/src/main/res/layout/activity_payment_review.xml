@@ -62,8 +62,8 @@
 
             <!-- logo -->
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/logo_width"
+                android:layout_height="@dimen/logo_height"
                 android:layout_margin="@dimen/margin_large"
                 android:src="@drawable/gawla_logo_blue" />
 
@@ -97,7 +97,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small">
+                        android:layout_margin="@dimen/margin_small"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingBottom="@dimen/margin_small">
 
                         <!-- label -->
                         <TextView
@@ -132,7 +134,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small">
+                        android:layout_margin="@dimen/margin_small"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingBottom="@dimen/margin_small">
 
                         <!-- label -->
                         <TextView
@@ -167,7 +171,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small">
+                        android:layout_margin="@dimen/margin_small"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingBottom="@dimen/margin_small">
 
                         <!-- label -->
                         <TextView
@@ -202,7 +208,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small">
+                        android:layout_margin="@dimen/margin_small"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingBottom="@dimen/margin_small">
 
                         <!-- label -->
                         <TextView
@@ -237,7 +245,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small">
+                        android:layout_margin="@dimen/margin_small"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingBottom="@dimen/margin_small">
 
                         <!-- label -->
                         <TextView
@@ -272,7 +282,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small">
+                        android:layout_margin="@dimen/margin_small"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingBottom="@dimen/margin_small">
 
                         <!-- label -->
                         <TextView

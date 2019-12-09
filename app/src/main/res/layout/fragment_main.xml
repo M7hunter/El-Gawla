@@ -64,7 +64,7 @@
                         <androidx.viewpager2.widget.ViewPager2
                             android:id="@+id/ads_viewpager"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/image_width_main_fragment"
+                            android:layout_height="@dimen/slider_image_height"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -84,8 +84,8 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
-                                android:layout_width="@dimen/image_width_main_fragment"
-                                android:layout_height="@dimen/image_width_main_fragment"
+                                android:layout_width="@dimen/slider_image_height"
+                                android:layout_height="@dimen/slider_image_height"
                                 android:scaleType="fitXY"
                                 android:src="@drawable/flodillus" />
 
@@ -156,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/recent_salons"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_medium"
+                    android:textSize="@dimen/text_size_x_medium"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -165,7 +165,7 @@
                 <!-- btn see more -->
                 <Button
                     android:id="@+id/btn_recent_salons_see_more"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/see_more"
@@ -254,7 +254,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/previous_salons"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_medium"
+                    android:textSize="@dimen/text_size_x_medium"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -263,7 +263,7 @@
                 <!-- btn see more -->
                 <Button
                     android:id="@+id/btn_finished_salons_see_more"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/see_more"

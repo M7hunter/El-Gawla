@@ -48,13 +48,13 @@
     <!-- close btn -->
     <Button
         android:id="@+id/close_bottom_sheet_category"
-        android:layout_width="@dimen/image_cards_round_updates"
-        android:layout_height="@dimen/image_cards_round_updates"
+        android:layout_width="@dimen/icon_close"
+        android:layout_height="@dimen/icon_close"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/margin_5xlarge"
         android:background="@drawable/bg_circle_blue_270"
         android:elevation="@dimen/margin_small"
-        android:padding="@dimen/margin_large"
+        android:padding="@dimen/btn_v_padding"
         app:cornerRadius="200dp"
         app:icon="@drawable/ic_close"
         app:iconGravity="textStart"

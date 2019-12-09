@@ -229,9 +229,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_large"
-                android:padding="@dimen/margin_small"
+                android:paddingTop="@dimen/btn_v_padding"
+                android:paddingBottom="@dimen/btn_v_padding"
                 android:text="@string/continue_"
-                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -239,11 +239,11 @@
         <!-- close btn -->
         <Button
             android:id="@+id/close_bottom_sheet_filter_by"
-            android:layout_width="@dimen/image_cards_round_updates"
-            android:layout_height="@dimen/image_cards_round_updates"
+            android:layout_width="@dimen/icon_close"
+            android:layout_height="@dimen/icon_close"
             android:layout_marginEnd="@dimen/margin_5xlarge"
             android:background="@color/colorPrimary"
-            android:padding="@dimen/margin_large"
+            android:padding="@dimen/btn_v_padding"
             app:cornerRadius="200dp"
             app:icon="@drawable/ic_close"
             app:iconGravity="textStart"

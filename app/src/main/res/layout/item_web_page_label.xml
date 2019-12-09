@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_rounded_corners_white"
         android:foreground="?android:attr/selectableItemBackground"
-        android:padding="@dimen/margin_medium">
+        android:padding="@dimen/btn_v_padding">
 
         <!-- label -->
         <TextView
@@ -30,7 +30,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/margin_medium"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_x_medium"
             tools:text="@tools:sample/lorem" />
 
         <!-- icon -->

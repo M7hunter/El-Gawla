@@ -105,8 +105,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/margin_medium"
-        android:src="@drawable/ic_filter"
-        app:backgroundTint="@color/colorPrimary" />
+        app:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_filter" />
 
     <include layout="@layout/bottom_sheet_filter_by" />
 

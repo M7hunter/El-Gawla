@@ -21,7 +21,7 @@
         <View
             android:id="@+id/notify_icon"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/sh_cat_icon_dim"
             android:layout_margin="@dimen/margin_2xtiny"
             android:background="@color/battleshipGrey"
             app:layout_constraintEnd_toEndOf="parent"

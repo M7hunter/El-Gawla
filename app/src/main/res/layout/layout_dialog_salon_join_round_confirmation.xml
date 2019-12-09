@@ -78,10 +78,9 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_xtiny"
-            android:paddingTop="@dimen/margin_small"
-            android:paddingBottom="@dimen/margin_small"
+            android:paddingTop="@dimen/btn_v_padding"
+            android:paddingBottom="@dimen/btn_v_padding"
             android:text="@string/join_round"
-            android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
             android:visibility="visible" />
 

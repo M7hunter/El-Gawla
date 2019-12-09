@@ -16,6 +16,7 @@
         <!-- header -->
         <include layout="@layout/layout_header" />
 
+        <!-- content -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,7 +33,7 @@
                 android:layout_marginEnd="@dimen/margin_3xlarge"
                 android:layout_marginBottom="@dimen/margin_medium"
                 app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="25dp"
+                app:cardCornerRadius="@dimen/rounded_small_components_radius"
                 app:cardElevation="@dimen/margin_small">
                 <!-- card main layout -->
                 <LinearLayout
@@ -43,28 +44,30 @@
                     <TextView
                         android:id="@+id/tv_my_recent_salons"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/colorPrimary"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:padding="@dimen/margin_small"
+                        android:padding="@dimen/btn_v_padding"
                         android:text="@string/recent_salons"
+                        android:textAllCaps="true"
                         android:textColor="@android:color/white" />
 
                     <!-- my finished salons -->
                     <TextView
                         android:id="@+id/tv_my_finished_salons"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@android:color/white"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:padding="@dimen/margin_small"
+                        android:padding="@dimen/btn_v_padding"
                         android:text="@string/salons_archive"
+                        android:textAllCaps="true"
                         android:textColor="@color/colorPrimary" />
 
                 </LinearLayout>

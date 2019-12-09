@@ -108,6 +108,8 @@
                     android:id="@+id/time_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_tiny"
+                    android:layout_marginEnd="@dimen/margin_tiny"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/salon_number_container">
 
@@ -532,9 +534,9 @@
                                 android:background="@drawable/bg_circled_corners_c_secondary"
                                 android:gravity="center"
                                 android:paddingStart="@dimen/margin_3xlarge"
-                                android:paddingTop="@dimen/margin_xtiny"
+                                android:paddingTop="@dimen/margin_2xtiny"
                                 android:paddingEnd="@dimen/margin_3xlarge"
-                                android:paddingBottom="@dimen/margin_xtiny"
+                                android:paddingBottom="@dimen/margin_2xtiny"
                                 android:textColor="@android:color/white"
                                 android:textSize="@dimen/text_size_medium"
                                 android:textStyle="bold"
@@ -559,7 +561,10 @@
                     android:id="@+id/tabs_and_on_tabs_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_small"
                     app:layout_constraintTop_toTopOf="parent">
                     <!-- tabs & on tabs container -->
                     <androidx.cardview.widget.CardView
@@ -589,6 +594,8 @@
                     android:id="@+id/tv_new_chat_message_counter"
                     android:layout_width="@dimen/margin_large"
                     android:layout_height="@dimen/margin_large"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
                     android:background="@drawable/bg_circle_red"
                     android:fontFamily="monospace"
                     android:gravity="center"
@@ -608,8 +615,8 @@
                     android:id="@+id/cv_round_activity_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_xtiny"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:visibility="visible"
@@ -621,7 +628,9 @@
                         android:id="@+id/round_latest_activity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:paddingTop="@dimen/margin_small"
+                        android:paddingBottom="@dimen/margin_small">
 
                         <!-- activity icon -->
                         <de.hdodenhof.circleimageview.CircleImageView
@@ -674,9 +683,9 @@
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal"
                         android:paddingStart="@dimen/margin_xlarge"
-                        android:paddingTop="@dimen/margin_medium"
+                        android:paddingTop="@dimen/et_v_padding"
                         android:paddingEnd="@dimen/margin_xlarge"
-                        android:paddingBottom="@dimen/margin_medium"
+                        android:paddingBottom="@dimen/et_v_padding"
                         android:textSize="@dimen/text_size_medium"
                         android:textStyle="bold" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -703,11 +712,10 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:background="@drawable/joined_play_shape"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small"
+                android:paddingTop="@dimen/btn_v_padding"
+                android:paddingBottom="@dimen/btn_v_padding"
                 android:text="@string/join_round"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/leave_and_help_container" />
@@ -729,11 +737,10 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:background="@drawable/bg_rounded_corners_red_270"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small"
+                android:paddingTop="@dimen/btn_v_padding"
+                android:paddingBottom="@dimen/btn_v_padding"
                 android:text="@string/use_card_to_join"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/leave_and_help_container" />
@@ -757,13 +764,13 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@android:color/white"
                     android:paddingStart="@dimen/margin_small"
-                    android:paddingTop="@dimen/margin_xtiny"
-                    android:paddingBottom="@dimen/margin_xtiny"
+                    android:paddingEnd="@dimen/margin_small"
                     android:text="@string/leave"
                     android:textColor="@android:color/black"
                     android:visibility="gone"
                     app:cornerRadius="@dimen/margin_xtiny"
                     app:icon="@drawable/ic_exit"
+                    app:iconGravity="textStart"
                     app:iconTint="@android:color/holo_red_light"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -775,12 +782,12 @@
                     android:id="@+id/fbtn_share_salon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_share"
                     app:backgroundTint="@android:color/white"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_share"
                     app:tint="@color/colorPrimary" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -789,7 +796,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!-- store bag btn container -->
-    <include layout="@layout/layout_cards_free_button" />
+    <include layout="@layout/layout_cards_floating_button" />
 
     <!-- store bag btn container -->
     <include layout="@layout/bottom_sheet_single_card" />

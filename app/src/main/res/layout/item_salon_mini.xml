@@ -69,8 +69,8 @@
         <!-- image -->
         <ImageView
             android:id="@+id/round_product_image"
-            android:layout_width="@dimen/image_width_round_mini"
-            android:layout_height="@dimen/image_height_round_mini"
+            android:layout_width="@dimen/item_salon_mini_product_image_width"
+            android:layout_height="@dimen/item_salon_mini_product_image_height"
             android:layout_marginTop="@dimen/margin_tiny"
             android:scaleType="centerInside"
             android:transitionName="transProductImage"
