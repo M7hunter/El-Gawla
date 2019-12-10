@@ -143,7 +143,7 @@
     <RelativeLayout
         android:id="@+id/activity_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/bg_rounded_corners_white"
         android:nestedScrollingEnabled="false"
         android:visibility="gone">
@@ -152,8 +152,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/salon_activity_recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:scrollbars="vertical"
+            android:nestedScrollingEnabled="true"
             tools:itemCount="8"
             tools:listitem="@layout/item_activity" />
 

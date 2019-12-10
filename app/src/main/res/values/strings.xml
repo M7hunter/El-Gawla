@@ -83,7 +83,7 @@
     <string name="connect_with">Connected With </string>
     <string name="delete_account">Delete Your Account</string>
     <string name="facebook_app_id" translatable="false">2818974111446935</string>
-    <string name="card_price_salon">Card package_cost for this salon</string>
+    <string name="card_price_salon">Card price for this salon</string>
     <string name="what_is_Gawla">What is Gawla ?</string>
     <string name="text">Text</string>
     <string name="process">Process</string>

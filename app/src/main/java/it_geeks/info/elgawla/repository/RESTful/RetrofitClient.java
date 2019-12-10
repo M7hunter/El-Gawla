@@ -20,8 +20,6 @@ import com.google.gson.JsonSyntaxException;
 
 import java.util.concurrent.TimeUnit;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import it_geeks.info.elgawla.BuildConfig;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
@@ -49,13 +47,16 @@ public class RetrofitClient {
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
 
-    private DialogBuilder dialogBuilder;
+    private static DialogBuilder dialogBuilder;
 
     private Call<JsonObject> call;
 
     private RetrofitClient(Context context) {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .addInterceptor(loggingInterceptor)
                 .connectTimeout(18, TimeUnit.SECONDS)
                 .writeTimeout(18, TimeUnit.SECONDS)
                 .readTimeout(18, TimeUnit.SECONDS)
@@ -147,10 +148,7 @@ public class RetrofitClient {
 
                             break;
                         case 412:
-                            if (dialogBuilder == null)
-                            {
-                                initRenewMembershipAlert(context);
-                            }
+                            initRenewMembershipAlert(context);
                             dialogBuilder.displayAlertDialog();
 
                             break;
@@ -243,21 +241,24 @@ public class RetrofitClient {
     }
 
     private void initRenewMembershipAlert(final Context context) {
-        dialogBuilder = new DialogBuilder();
-        dialogBuilder.createAlertDialog(context,
-                new ClickInterface.AlertButtonsClickListener() {
-                    @Override
-                    public void onPositiveClick() {
-                        context.startActivity(new Intent(context, MembershipActivity.class));
-                    }
+        if (dialogBuilder == null)
+        {
+            dialogBuilder = new DialogBuilder();
+            dialogBuilder.createAlertDialog(context,
+                    new ClickInterface.AlertButtonsClickListener() {
+                        @Override
+                        public void onPositiveClick() {
+                            context.startActivity(new Intent(context, MembershipActivity.class));
+                        }
 
-                    @Override
-                    public void onNegativeCLick() {
+                        @Override
+                        public void onNegativeCLick() {
 
-                    }
-                });
+                        }
+                    });
 
-        dialogBuilder.setAlertText(context.getString(R.string.must_renew_membership));
+            dialogBuilder.setAlertText(context.getString(R.string.must_renew_membership));
+        }
     }
 
     public void cancelCall() {

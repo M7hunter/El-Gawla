@@ -60,8 +60,8 @@
             <!-- logo -->
             <ImageView
                 android:id="@+id/phone_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/logo_width"
+                android:layout_height="@dimen/logo_height"
                 android:layout_marginTop="@dimen/margin_3xlarge"
                 android:src="@drawable/gawla_logo_blue"
                 app:layout_constraintBottom_toTopOf="@id/phone_hint"

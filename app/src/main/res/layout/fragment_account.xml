@@ -339,16 +339,16 @@
                 <LinearLayout
                     android:id="@+id/ll_exp"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    android:layout_marginBottom="@dimen/margin_xtiny"
                     android:layout_weight="1"
                     android:background="@drawable/bg_rounded_corners_white"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingStart="@dimen/margin_small"
-                    android:paddingTop="@dimen/btn_v_large_padding"
                     android:paddingEnd="@dimen/margin_tiny"
-                    android:paddingBottom="@dimen/btn_v_large_padding"
                     android:visibility="gone">
 
                     <!-- label -->

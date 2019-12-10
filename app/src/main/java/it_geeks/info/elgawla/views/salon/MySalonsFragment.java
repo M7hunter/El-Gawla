@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.JsonObject;
@@ -52,7 +51,6 @@ public class MySalonsFragment extends Fragment {
     private SwipeRefreshLayout refreshLayout;
     private List<Salon> salonsList = new ArrayList<>();
     private RecyclerView rvMySalons;
-    private SalonsMiniAdapter salonsAdapter;
     private GridLayoutManager layoutManager;
     private LinearLayout emptyViewLayout;
     private ProgressBar pbpSalons;
@@ -135,6 +133,7 @@ public class MySalonsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 page = 1;
+                last_page = 1;
                 getSalonsFromServer();
             }
         });
@@ -160,6 +159,7 @@ public class MySalonsFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         page = 1;
+                        last_page = 1;
                         switch (v.getId())
                         {
                             case R.id.tv_my_recent_salons:
@@ -232,7 +232,7 @@ public class MySalonsFragment extends Fragment {
                         salonsList.addAll(isRecent ? parseSalons(mainObject) : parseSalonsArchive(mainObject));
                         for (int i = nextFirstPosition; i < salonsList.size(); i++)
                         {
-                            salonsAdapter.notifyItemInserted(i);
+                            rvMySalons.getAdapter().notifyItemInserted(i);
                         }
 
                         rvMySalons.smoothScrollToPosition(nextFirstPosition);
@@ -288,8 +288,7 @@ public class MySalonsFragment extends Fragment {
             layoutManager = new GridLayoutManager(context, 2, RecyclerView.VERTICAL, false);
             rvMySalons.setLayoutManager(layoutManager);
             updateSpanCount(salonsList);
-            salonsAdapter = new SalonsMiniAdapter(context, salonsList, from);
-            rvMySalons.setAdapter(salonsAdapter);
+            rvMySalons.setAdapter(new SalonsMiniAdapter(context, salonsList, from));
 
             addScrollListener();
         }

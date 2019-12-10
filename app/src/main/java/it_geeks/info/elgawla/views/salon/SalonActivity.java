@@ -120,7 +120,7 @@ public class SalonActivity extends BaseActivity {
     private FloatingActionButton fbtnShare;
     private TextSwitcher tsRoundLatestActivity;
     public TextView tvChatEmptyHint, joinHeader, joinText, tvSalonMessage, tvProductDetailsTab, tvSalonActivityTab, tvChatTab, tvTopTenTab;
-    private TextView tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound, tvWinnerName, tvWinnerLabel;
+    private TextView tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound;
     private EditText etAddOffer;
     private TextInputLayout tilAddOffer;
     private View salonMainContainer, detailsSheetView, salonMainLayout;
@@ -278,9 +278,6 @@ public class SalonActivity extends BaseActivity {
         timeContainer = findViewById(R.id.time_container);
         activityRecycler = findViewById(R.id.salon_activity_recycler);
         topTenRecycler = findViewById(R.id.top_ten_recycler);
-
-        tvWinnerName = findViewById(R.id.tv_salon_winner_name);
-        tvWinnerLabel = findViewById(R.id.tv_salon_winner_label);
 
         activityRecycler.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
         topTenRecycler.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));

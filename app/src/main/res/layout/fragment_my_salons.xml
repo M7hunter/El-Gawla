@@ -53,13 +53,14 @@
                         android:padding="@dimen/btn_v_padding"
                         android:text="@string/recent_salons"
                         android:textAllCaps="true"
-                        android:textColor="@android:color/white" />
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_x_medium" />
 
                     <!-- my finished salons -->
                     <TextView
                         android:id="@+id/tv_my_finished_salons"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@android:color/white"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
@@ -68,7 +69,8 @@
                         android:padding="@dimen/btn_v_padding"
                         android:text="@string/salons_archive"
                         android:textAllCaps="true"
-                        android:textColor="@color/colorPrimary" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_size_x_medium" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

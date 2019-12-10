@@ -2,6 +2,8 @@ package it_geeks.info.elgawla.views;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Build;
+import android.os.LocaleList;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -24,6 +26,14 @@ public class BaseActivity extends AppCompatActivity {
         Locale.setDefault(newLocale);
         Configuration configuration = context.getResources().getConfiguration();
         configuration.setLocale(newLocale);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+        {
+            LocaleList localeList = new LocaleList(newLocale);
+            LocaleList.setDefault(localeList);
+            configuration.setLocales(localeList);
+        }
+
         return context.createConfigurationContext(configuration);
     }
 }
