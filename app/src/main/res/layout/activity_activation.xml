@@ -20,7 +20,7 @@
         android:text="@string/activation"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_medium"
+        android:textSize="@dimen/text_size_x_medium"
         android:textStyle="bold" />
 
     <!-- content -->
@@ -39,9 +39,9 @@
             <!-- logo -->
             <ImageView
                 android:id="@+id/activation_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xxx_large"
+                android:layout_width="@dimen/logo_width"
+                android:layout_height="@dimen/logo_height"
+                android:layout_marginTop="@dimen/margin_3xlarge"
                 android:src="@drawable/gawla_logo_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +52,7 @@
                 android:id="@+id/activation_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xx_large"
+                android:layout_marginTop="@dimen/margin_3xlarge"
                 android:gravity="center"
                 android:text="@string/enter_activation_code"
                 android:textColor="@android:color/black"
@@ -64,7 +64,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_3xlarge"
                 android:layoutDirection="ltr">
 
                 <!-- first digit -->
@@ -73,7 +73,7 @@
                     style="@style/pin_view_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_margin="@dimen/margin_xtiny"
                     android:focusable="true"
                     android:gravity="center" />
 
@@ -83,7 +83,7 @@
                     style="@style/pin_view_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_margin="@dimen/margin_xtiny"
                     android:gravity="center" />
 
                 <!-- third digit -->
@@ -92,7 +92,7 @@
                     style="@style/pin_view_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_margin="@dimen/margin_xtiny"
                     android:gravity="center" />
 
                 <!-- fourth digit -->
@@ -101,7 +101,7 @@
                     style="@style/pin_view_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_margin="@dimen/margin_xtiny"
                     android:gravity="center" />
 
             </LinearLayout>
@@ -111,6 +111,7 @@
                 android:id="@+id/tv_digits_err"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
                 android:textColor="@android:color/holo_red_light"
                 android:visibility="invisible" />
 
@@ -119,12 +120,12 @@
                 android:id="@+id/btn_activation_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xxx_large"
+                android:layout_marginStart="@dimen/margin_3xlarge"
                 android:layout_marginTop="@dimen/margin_xlarge"
-                android:layout_marginEnd="@dimen/margin_xxx_large"
-                android:layout_marginBottom="@dimen/margin_xxx_large"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_3xlarge"
+                android:layout_marginBottom="@dimen/margin_3xlarge"
+                android:paddingTop="@dimen/btn_v_padding"
+                android:paddingBottom="@dimen/btn_v_padding"
                 android:text="@string/confirm" />
 
             <!-- expiry -->
@@ -145,8 +146,8 @@
                     android:id="@+id/tv_resend_activation_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:layout_marginEnd="@dimen/margin_tiny"
+                    android:layout_marginStart="@dimen/margin_xtiny"
+                    android:layout_marginEnd="@dimen/margin_xtiny"
                     android:text="01:00"
                     android:textColor="@android:color/holo_red_dark"
                     android:textSize="@dimen/text_size_medium" />
@@ -158,7 +159,7 @@
                 android:id="@+id/fbtn_resend_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
+                android:layout_margin="@dimen/margin_large"
                 android:src="@drawable/ic_refresh"
                 app:backgroundTint="@android:color/white"
                 app:elevation="@dimen/margin_small"

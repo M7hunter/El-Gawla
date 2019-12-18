@@ -13,7 +13,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/margin_xxx_large"
+        android:layout_marginBottom="@dimen/margin_5xlarge"
         android:src="@drawable/bg_bottom_round_c_primary"
         app:layout_constraintBottom_toBottomOf="@id/winner_container"
         app:layout_constraintTop_toTopOf="parent" />
@@ -78,7 +78,7 @@
             android:id="@+id/salon_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_xTiny"
+            android:layout_marginStart="@dimen/margin_tiny"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
@@ -105,9 +105,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_xTiny"
+                android:layout_marginTop="@dimen/margin_tiny"
                 android:layout_marginEnd="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_xTiny"
+                android:layout_marginBottom="@dimen/margin_tiny"
                 android:background="@drawable/bg_rounded_corners_white"
                 app:cardCornerRadius="@dimen/margin_small">
                 <!-- card main layout -->
@@ -124,8 +124,8 @@
                         android:id="@+id/tv_salon_winner_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_xxxx_large"
-                        android:padding="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_7xlarge"
+                        android:padding="@dimen/margin_small"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_large" />
 
@@ -166,7 +166,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_medium"
         app:cardCornerRadius="@dimen/margin_small"
-        app:cardElevation="@dimen/margin_tiny"
+        app:cardElevation="@dimen/margin_xtiny"
         app:layout_constraintTop_toBottomOf="@id/winner_container">
         <!-- card main layout -->
         <LinearLayout
@@ -191,8 +191,8 @@
                     android:background="@color/colorPrimary"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:gravity="center"
-                    android:paddingTop="@dimen/margin_small"
-                    android:paddingBottom="@dimen/margin_small"
+                    android:paddingTop="@dimen/btn_v_padding"
+                    android:paddingBottom="@dimen/btn_v_padding"
                     android:text="@string/top_ten"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_size_small"
@@ -209,8 +209,8 @@
                     android:background="@drawable/bg_rectangle_white_border_grey"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:gravity="center"
-                    android:paddingTop="@dimen/margin_small"
-                    android:paddingBottom="@dimen/margin_small"
+                    android:paddingTop="@dimen/btn_v_padding"
+                    android:paddingBottom="@dimen/btn_v_padding"
                     android:text="@string/product_details"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_size_small"
@@ -221,7 +221,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/margin_tiny">
+                android:layout_marginTop="@dimen/margin_xtiny">
 
                 <!-- 1st tap : details container -->
                 <LinearLayout
@@ -269,7 +269,7 @@
                                 android:id="@+id/salon_round_product_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_tiny"
+                                android:layout_margin="@dimen/margin_xtiny"
                                 android:ellipsize="end"
                                 android:gravity="start"
                                 android:maxLines="2"
@@ -284,7 +284,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_tiny">
+                                android:layout_margin="@dimen/margin_xtiny">
 
                                 <!-- cost label -->
                                 <TextView
@@ -292,15 +292,16 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/initial_value"
                                     android:textColor="@android:color/black"
-                                    android:textSize="@dimen/text_size_small" />
+                                    android:textSize="@dimen/text_size_small"
+                                    android:textStyle="bold" />
 
                                 <!-- cost -->
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/margin_tiny"
+                                    android:layout_marginStart="@dimen/margin_xtiny"
                                     android:layout_weight="1"
-                                    android:gravity="start"
+                                    android:gravity="end"
                                     android:text="@string/one_pound"
                                     android:textColor="@color/colorSecondary"
                                     android:textSize="@dimen/text_size_small"
@@ -311,7 +312,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="@dimen/margin_tiny">
+                                android:layout_margin="@dimen/margin_xtiny">
 
                                 <!-- cost label -->
                                 <TextView
@@ -319,16 +320,17 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/commercial_price"
                                     android:textColor="@android:color/black"
-                                    android:textSize="@dimen/text_size_small" />
+                                    android:textSize="@dimen/text_size_small"
+                                    android:textStyle="bold" />
 
                                 <!-- cost -->
                                 <TextView
                                     android:id="@+id/salon_round_product_price"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/margin_tiny"
+                                    android:layout_marginStart="@dimen/margin_xtiny"
                                     android:layout_weight="1"
-                                    android:gravity="start"
+                                    android:gravity="end"
                                     android:textColor="@color/colorSecondary"
                                     android:textSize="@dimen/text_size_small"
                                     android:textStyle="bold"
@@ -383,7 +385,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/margin_tiny" />
+                        android:layout_margin="@dimen/margin_xtiny" />
 
                 </LinearLayout>
 
@@ -394,7 +396,7 @@
 
     <!-- share -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fbtn_share_salon"
+        android:id="@+id/fbtn_share_closed_salon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_small"

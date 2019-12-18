@@ -83,7 +83,7 @@
     <string name="connect_with">Connected With </string>
     <string name="delete_account">Delete Your Account</string>
     <string name="facebook_app_id" translatable="false">2818974111446935</string>
-    <string name="card_price_salon">Card package_cost for this salon</string>
+    <string name="card_price_salon">Card price for this salon</string>
     <string name="what_is_Gawla">What is Gawla ?</string>
     <string name="text">Text</string>
     <string name="process">Process</string>
@@ -164,10 +164,10 @@
     <string name="Help">Help?</string>
     <string name="is_typing">%1$s is typing </string>
     <string name="is_typing_others">"%1$s and others are typing "</string>
-    <string name="default_remote_notification_channel_id" translatable="false">remote notification</string>
+    <string name="default_remote_notification_channel_id" translatable="false">REMOTE_CHANNEL_ID</string>
     <string name="amount">Amount</string>
     <string name="Payment_method">Payment method</string>
-    <string name="total_price">Total Price</string>
+    <string name="total_price">Total price</string>
     <string name="package_cost">Price</string>
     <string name="click_for_more_options">click for more options</string>
     <string name="no_connection">no connection</string>
@@ -189,7 +189,7 @@
     <string name="salons_archive_empty_hint">here is your salons history</string>
     <string name="won">won</string>
     <string name="lose">lose</string>
-    <string name="app_sound">app sound</string>
+    <string name="app_sound">App sound</string>
     <string name="vote">vote</string>
     <string name="votes">(%1$s vote)</string>
     <string name="category_cards">category cards</string>
@@ -198,7 +198,7 @@
     <string name="confirm">confirm</string>
     <string name="offer_less_than_price">the offer should be less than commercial package_cost</string>
     <string name="offered">offered</string>
-    <string name="choose_payment_method">choose payment method</string>
+    <string name="choose_payment_method">Choose payment method</string>
     <string name="invoice_no">invoice no</string>
     <string name="not_capturred">NOT CAPTURED</string>
     <string name="captured">CAPTURED</string>
@@ -245,7 +245,7 @@
     <string name="tt_user_image_title">user image</string>
     <string name="tt_see_more_description">explore more salons filtered as you want</string>
     <string name="tt_user_image_description">user image is a fast way to take you to your profile page</string>
-    <string name="previous_salons">previous salons</string>
+    <string name="previous_salons">Previous salons</string>
     <string name="not_completed">NOT COMPLETED</string>
     <string name="from">from</string>
     <string name="to">to</string>

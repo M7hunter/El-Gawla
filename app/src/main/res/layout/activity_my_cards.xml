@@ -37,7 +37,7 @@
                 android:padding="@dimen/margin_medium"
                 android:text="@string/my_cards"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_x_medium"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -65,45 +65,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_rounded_top_corners_c_primary"
-            android:padding="@dimen/margin_medium">
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_large"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_large">
 
-            <!-- package_color -->
+            <!-- color -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_xtiny"
+                android:layout_marginEnd="@dimen/margin_xtiny"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/card_color"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
             <!-- category -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_xtiny"
+                android:layout_marginEnd="@dimen/margin_xtiny"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/category"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
             <!-- status -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_xtiny"
+                android:layout_marginEnd="@dimen/margin_xtiny"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/status"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -115,7 +118,6 @@
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:paddingTop="@dimen/margin_large"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="3"
             tools:listitem="@layout/item_my_card" />
@@ -125,7 +127,7 @@
             android:id="@+id/pbp_my_cards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_tiny"
+            android:layout_margin="@dimen/margin_xtiny"
             android:visibility="gone" />
 
     </LinearLayout>

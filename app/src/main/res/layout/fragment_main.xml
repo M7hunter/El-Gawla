@@ -30,7 +30,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="@dimen/margin_xxxxx_large"
+                    android:layout_marginBottom="@dimen/margin_8xlarge"
                     android:src="@drawable/bg_bottom_round_c_primary"
                     app:layout_constraintBottom_toBottomOf="@id/cv_main_Ads"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +64,7 @@
                         <androidx.viewpager2.widget.ViewPager2
                             android:id="@+id/ads_viewpager"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/image_width_main_fragment"
+                            android:layout_height="@dimen/slider_image_height"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -84,8 +84,8 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
-                                android:layout_width="@dimen/image_width_main_fragment"
-                                android:layout_height="@dimen/image_width_main_fragment"
+                                android:layout_width="@dimen/slider_image_height"
+                                android:layout_height="@dimen/slider_image_height"
                                 android:scaleType="fitXY"
                                 android:src="@drawable/flodillus" />
 
@@ -134,9 +134,10 @@
                 android:id="@+id/rv_home_cats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_xtiny"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_xtiny"
+                android:layout_marginBottom="@dimen/margin_small"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_category_home" />
 
@@ -155,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/recent_salons"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_medium"
+                    android:textSize="@dimen/text_size_x_medium"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -164,7 +165,7 @@
                 <!-- btn see more -->
                 <Button
                     android:id="@+id/btn_recent_salons_see_more"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/see_more"
@@ -195,8 +196,8 @@
                     android:id="@+id/recent_salons_recycler"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:layout_marginEnd="@dimen/margin_tiny"
+                    android:layout_marginStart="@dimen/margin_xtiny"
+                    android:layout_marginEnd="@dimen/margin_xtiny"
                     android:layout_weight="1"
                     android:visibility="gone" />
 
@@ -205,7 +206,7 @@
                     android:id="@+id/pbp_recent_salons"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_margin="@dimen/margin_xtiny"
                     android:visibility="gone" />
 
                 <!-- empty view -->
@@ -253,7 +254,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/previous_salons"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_medium"
+                    android:textSize="@dimen/text_size_x_medium"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -262,7 +263,7 @@
                 <!-- btn see more -->
                 <Button
                     android:id="@+id/btn_finished_salons_see_more"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/see_more"
@@ -293,8 +294,8 @@
                     android:id="@+id/finished_salons_recycler"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:layout_marginEnd="@dimen/margin_tiny"
+                    android:layout_marginStart="@dimen/margin_xtiny"
+                    android:layout_marginEnd="@dimen/margin_xtiny"
                     android:layout_weight="1"
                     android:visibility="gone"
                     tools:orientation="horizontal" />
@@ -304,7 +305,7 @@
                     android:id="@+id/pbp_previous_salons"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_margin="@dimen/margin_xtiny"
                     android:visibility="gone" />
 
                 <!-- empty view -->

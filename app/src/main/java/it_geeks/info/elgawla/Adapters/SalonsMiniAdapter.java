@@ -33,7 +33,7 @@ public class SalonsMiniAdapter extends RecyclerView.Adapter<SalonsMiniAdapter.Vi
     private Context context;
     private List<Salon> salons;
     public static boolean clickable = true;
-    private String from = "";
+    private String from;
 
     public SalonsMiniAdapter(Context context, List<Salon> salons, String from) {
         this.context = context;

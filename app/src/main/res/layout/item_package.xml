@@ -8,7 +8,7 @@
     android:foreground="?attr/selectableItemBackground"
     app:cardBackgroundColor="@color/azureTwo"
     app:cardCornerRadius="@dimen/margin_small"
-    app:cardElevation="@dimen/margin_tiny">
+    app:cardElevation="@dimen/margin_xtiny">
     <!-- card main layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
             android:id="@+id/tv_body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_tiny"
+            android:layout_margin="@dimen/margin_xtiny"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_small"

@@ -6,14 +6,14 @@
     android:layout_height="wrap_content"
     android:background="@color/colorLightPrimary"
     android:gravity="center_vertical"
-    android:padding="@dimen/margin_tiny">
+    android:padding="@dimen/margin_xtiny">
 
     <!-- country flag-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_country_flag"
         android:layout_width="@dimen/icon_notification"
         android:layout_height="@dimen/icon_notification"
-        android:layout_margin="@dimen/margin_tiny"
+        android:layout_margin="@dimen/margin_xtiny"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

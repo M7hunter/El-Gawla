@@ -33,7 +33,7 @@
                 android:text="@string/store"
                 android:textAllCaps="true"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_x_medium"
                 android:textStyle="bold" />
 
             <!-- store recycler container -->
@@ -44,17 +44,17 @@
 
                 <!-- store recycler -->
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/cards_recycler"
+                    android:id="@+id/cats_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="3"
-                    tools:listitem="@layout/item_card" />
+                    tools:listitem="@layout/item_store_category" />
 
                 <!-- empty view -->
                 <LinearLayout
-                    android:id="@+id/cards_empty_view"
+                    android:id="@+id/cats_empty_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -86,7 +86,7 @@
 
     <!-- store progress -->
     <ProgressBar
-        android:id="@+id/cards_progress"
+        android:id="@+id/cats_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

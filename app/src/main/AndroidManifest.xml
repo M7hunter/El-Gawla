@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
         <activity
             android:name=".views.intro.SplashScreenActivity"
             android:launchMode="singleTop">
@@ -37,7 +38,6 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-        <!-- usesCleartextTraffic << resolve connectivity issue with api 28 -->
         <activity
             android:name=".views.main.MainActivity"
             android:clearTaskOnLaunch="true"
@@ -130,9 +130,6 @@
             android:launchMode="singleTop"
             android:parentActivityName=".views.main.MainActivity" />
         <activity
-            android:name=".views.account.SalonsArchiveActivity"
-            android:launchMode="singleTop" />
-        <activity
             android:name=".views.account.MyCardsActivity"
             android:launchMode="singleTop" />
         <activity
@@ -153,7 +150,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorPrimary" />
+            android:resource="@color/colorSecondary" />
 
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
@@ -162,8 +159,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
-        <receiver android:name=".util.receivers.NotificationInteractionsReceiver" />
 
         <service
             android:name=".util.services.UploadImageService"

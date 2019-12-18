@@ -38,7 +38,7 @@
       android:layout_height="wrap_content"
       android:layout_marginStart="@dimen/margin_medium"
       android:foreground="?attr/selectableItemBackground"
-      android:padding="@dimen/margin_tiny"
+      android:padding="@dimen/margin_xtiny"
       android:scaleType="centerInside"
       android:src="@drawable/unvoted"
       app:layout_constraintBottom_toBottomOf="parent"

@@ -72,13 +72,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_large"
             android:backgroundTint="@color/colorSecondary"
-            android:paddingStart="@dimen/margin_xxxx_large"
-            android:paddingTop="@dimen/margin_small"
-            android:paddingEnd="@dimen/margin_xxxx_large"
-            android:paddingBottom="@dimen/margin_small"
+            android:paddingStart="@dimen/margin_7xlarge"
+            android:paddingTop="@dimen/btn_v_padding"
+            android:paddingEnd="@dimen/margin_7xlarge"
+            android:paddingBottom="@dimen/btn_v_padding"
             android:text="@string/next"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
         <!-- sign bar -->
@@ -98,8 +97,9 @@
                 android:background="@drawable/bg_rounded_right_corner_c_light_primary"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:padding="@dimen/margin_medium"
+                android:padding="@dimen/btn_v_large_padding"
                 android:text="@string/sign_up"
+                android:textAllCaps="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
                 android:textColor="@color/colorSecondary"
                 android:textStyle="bold" />
@@ -113,8 +113,9 @@
                 android:background="@drawable/bg_rounded_left_corner_c_primary_dark"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:padding="@dimen/margin_medium"
+                android:padding="@dimen/btn_v_large_padding"
                 android:text="@string/sign_in"
+                android:textAllCaps="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />

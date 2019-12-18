@@ -8,4 +8,5 @@
     android:gravity="center_vertical|right"
     android:layoutDirection="rtl"
     android:padding="@dimen/margin_large"
-    android:text="@string/english" />
+    android:text="@string/english"
+    android:textSize="@dimen/text_size_large" />

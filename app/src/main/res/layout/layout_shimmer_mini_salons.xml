@@ -14,9 +14,7 @@
         android:useDefaultMargins="true">
 
         <include layout="@layout/item_shimmer_salon_mini" />
-
         <include layout="@layout/item_shimmer_salon_mini" />
-
         <include layout="@layout/item_shimmer_salon_mini" />
 
     </GridLayout>

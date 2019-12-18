@@ -5,17 +5,14 @@ import it_geeks.info.elgawla.util.EventsManager;
 import it_geeks.info.elgawla.views.BaseActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.crashlytics.android.Crashlytics;
 
 public class PaymentReviewActivity extends BaseActivity {
 
     private TextView tvPaymentId, tvResult, tvAmount, tvTransId, tvTrackId, tvCreatedAt;
-    private String paymentId, result, amount, transactionId, trackId, createdAt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +21,7 @@ public class PaymentReviewActivity extends BaseActivity {
 
         initViews();
 
-        try
-        {
-            getData();
-            bindData();
-        }
-        catch (NullPointerException e)
-        {
-            e.printStackTrace();
-        }
+        bindData();
 
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,38 +42,20 @@ public class PaymentReviewActivity extends BaseActivity {
         tvCreatedAt = findViewById(R.id.tv_review_created_at);
     }
 
-    private void getData() {
-        JSONObject paymentObj = MyJavaScriptInterface.paymentObj;
-
+    private void bindData() {
         try
         {
-            paymentId = paymentObj.getString("paymentid");
-            result = paymentObj.getString("result");
-            amount = paymentObj.getString("amt");
-            transactionId = paymentObj.getString("tranid");
-            trackId = paymentObj.getString("trackid");
-            createdAt = paymentObj.getString("postdate");
-
-            Log.d("json_obj_HERE/paymentId", paymentId);
-            Log.d("json_obj_HERE/result", result);
-            Log.d("json_obj_HERE/amount", amount);
-            Log.d("json_obj_HERE/transId", transactionId);
-            Log.d("json_obj_HERE/trackId", trackId);
-            Log.d("json_obj_HERE/createdAt", createdAt);
-
+            tvPaymentId.setText(MyJavaScriptInterface.PaymentId);
+            tvResult.setText("CAPTURED".equals(MyJavaScriptInterface.Result) ? R.string.captured : R.string.not_capturred);
+            tvAmount.setText(MyJavaScriptInterface.Amount);
+            tvTransId.setText(MyJavaScriptInterface.Transaction);
+            tvTrackId.setText(MyJavaScriptInterface.Track);
+            tvCreatedAt.setText(MyJavaScriptInterface.Date);
         }
-        catch (JSONException e)
+        catch (Exception e)
         {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
-    }
-
-    private void bindData() {
-        tvPaymentId.setText(paymentId);
-        tvResult.setText("CAPTURED".equals(result) ? R.string.captured : R.string.not_capturred);
-        tvAmount.setText(amount);
-        tvTransId.setText(transactionId);
-        tvTrackId.setText(trackId);
-        tvCreatedAt.setText(createdAt);
     }
 }

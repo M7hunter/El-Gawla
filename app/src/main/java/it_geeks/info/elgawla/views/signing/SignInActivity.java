@@ -58,7 +58,7 @@ import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 
-import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseRoundByID;
+import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseSalon;
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_BY_ID;
 import static it_geeks.info.elgawla.util.Constants.REQ_SIGN_IN;
 import static it_geeks.info.elgawla.util.Constants.REQ_SOCIAL_SIGN;
@@ -168,7 +168,8 @@ public class SignInActivity extends BaseActivity implements GoogleApiClient.OnCo
         btnForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignInActivity.this, ForgetPasswordActivity.class));
+                startActivity(new Intent(SignInActivity.this, ForgetPasswordActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
             }
         });
 
@@ -452,7 +453,7 @@ public class SignInActivity extends BaseActivity implements GoogleApiClient.OnCo
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         startActivity(new Intent(SignInActivity.this, SalonActivity.class)
-                                .putExtra("round", parseRoundByID(mainObject))
+                                .putExtra("round", parseSalon(mainObject))
                                 .putExtra("salon_from_link", getIntent().getBooleanExtra("salon_from_link", false))
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     }

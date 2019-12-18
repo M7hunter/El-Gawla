@@ -8,8 +8,8 @@ android {
         applicationId "it_geeks.info.elgawla"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 7
-        versionName "1.0.5"
+        versionCode 8
+        versionName "1.0.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
 //        resConfigs "en", "ar"
@@ -17,7 +17,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "SERVER_URL", '"http://192.168.1.10:8000/api/v2/"'
+            buildConfigField "String", "SERVER_URL", '"http://192.168.1.8:9000/api/v2/"'
 //            buildConfigField "String", "SERVER_URL", '"http://elgawla.net/dev/public/api/v2/"'
 //            buildConfigField "String", "SERVER_URL", '"http://elgawla.com/api/v2/"'
         }
@@ -82,7 +82,7 @@ dependencies {
     // firebase
     implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
-    implementation 'com.google.firebase:firebase-messaging:20.0.1' // fcm
+    implementation 'com.google.firebase:firebase-messaging:20.1.0' // fcm
     implementation 'com.google.firebase:firebase-dynamic-links:19.0.0' // d links
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
 

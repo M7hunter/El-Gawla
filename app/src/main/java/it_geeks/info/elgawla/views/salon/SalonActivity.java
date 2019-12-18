@@ -2,7 +2,6 @@ package it_geeks.info.elgawla.views.salon;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -121,7 +120,7 @@ public class SalonActivity extends BaseActivity {
     private FloatingActionButton fbtnShare;
     private TextSwitcher tsRoundLatestActivity;
     public TextView tvChatEmptyHint, joinHeader, joinText, tvSalonMessage, tvProductDetailsTab, tvSalonActivityTab, tvChatTab, tvTopTenTab;
-    private TextView tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound, tvWinnerName, tvWinnerLabel;
+    private TextView tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound;
     private EditText etAddOffer;
     private TextInputLayout tilAddOffer;
     private View salonMainContainer, detailsSheetView, salonMainLayout;
@@ -279,9 +278,6 @@ public class SalonActivity extends BaseActivity {
         timeContainer = findViewById(R.id.time_container);
         activityRecycler = findViewById(R.id.salon_activity_recycler);
         topTenRecycler = findViewById(R.id.top_ten_recycler);
-
-        tvWinnerName = findViewById(R.id.tv_salon_winner_name);
-        tvWinnerLabel = findViewById(R.id.tv_salon_winner_label);
 
         activityRecycler.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
         topTenRecycler.addItemDecoration(new DividerItemDecoration(this, RecyclerView.VERTICAL));
@@ -473,7 +469,7 @@ public class SalonActivity extends BaseActivity {
         lastActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectActivityTab();
+                tvSalonActivityTab.performClick();
             }
         });
 
@@ -688,14 +684,6 @@ public class SalonActivity extends BaseActivity {
             socketUtils = new SocketUtils(this);
         }
         return socketUtils;
-    }
-
-    public View getSnackBarContainer() {
-        if (salonMainContainer == null)
-        {
-            salonMainContainer = findViewById(R.id.salon_main_layout);
-        }
-        return salonMainContainer;
     }
 
     private AlertDialog getJoinAlert() {
@@ -1093,7 +1081,7 @@ public class SalonActivity extends BaseActivity {
     // region subscription layout
     private AlertDialog initJoinConfirmationDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.CustomAlertDialogStyle);
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.layout_salon_join_round_confirmation, null);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.layout_dialog_salon_join_round_confirmation, null);
 
         joinIcon = dialogView.findViewById(R.id.join_alert_icon);
         joinHeader = dialogView.findViewById(R.id.join_alert_header);

@@ -5,20 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/margin_medium"
-    android:layout_marginTop="@dimen/margin_tiny"
+    android:layout_marginTop="@dimen/margin_xtiny"
     android:layout_marginEnd="@dimen/margin_medium"
     android:layout_marginBottom="@dimen/margin_large"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/margin_small"
-    app:cardElevation="@dimen/margin_tiny">
+    app:cardElevation="@dimen/margin_xtiny">
   <!-- card view main layout -->
   <LinearLayout
       android:id="@+id/ll_category_store_layout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:gravity="center"
-      android:minHeight="@dimen/margin_xxxxx_large"
-      android:padding="@dimen/margin_xlarge"
+      android:minHeight="@dimen/margin_8xlarge"
+      android:padding="@dimen/margin_2xlarge"
       tools:background="@color/colorPrimary">
 
     <!-- name -->
@@ -26,10 +26,10 @@
         android:id="@+id/tv_category_store_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_tiny"
+        android:layout_margin="@dimen/margin_xtiny"
         android:layout_weight="3"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_medium"
+        android:textSize="@dimen/text_size_x_medium"
         android:textStyle="bold"
         tools:text="@tools:sample/lorem" />
 

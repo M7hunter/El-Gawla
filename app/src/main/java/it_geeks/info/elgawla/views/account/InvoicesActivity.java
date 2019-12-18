@@ -144,11 +144,12 @@ public class InvoicesActivity extends BaseActivity {
     private void initRecycler() {
         if (!invoiceList.isEmpty())
         {
+            tvEmptyView.setVisibility(View.GONE);
+
             rvInvoices.setHasFixedSize(true);
             rvInvoices.setLayoutManager(new LinearLayoutManager(InvoicesActivity.this, RecyclerView.VERTICAL, false));
             rvInvoices.setAdapter(new InvoicesAdapter(this, invoiceList));
 
-            tvEmptyView.setVisibility(View.GONE);
 
             addScrollListener();
         }

@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
+import it_geeks.info.elgawla.util.notification.NotificationBuilder;
 import it_geeks.info.elgawla.views.BaseActivity;
 import it_geeks.info.elgawla.views.account.AccountFragment;
 import it_geeks.info.elgawla.views.store.StoreFragment;
@@ -67,6 +68,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init() {
+        NotificationBuilder.Instance(this).CancelAll(this);
         SharedPrefManager.getInstance(this).haveNewNotification();
         // Firebase Receive messaging notification
         FirebaseMessagingInitialize();

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?><!-- card main layout -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_small">
+    android:layout_margin="@dimen/margin_small"
+    android:paddingTop="@dimen/margin_tiny">
 
     <!-- image -->
     <de.hdodenhof.circleimageview.CircleImageView
@@ -11,34 +13,35 @@
         android:layout_width="@dimen/icon_notification"
         android:layout_height="@dimen/icon_notification"
         android:layout_marginStart="@dimen/margin_medium"
-        android:src="@drawable/notification" />
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:src="@drawable/notification"
+        app:layout_constraintEnd_toStartOf="@id/tv_activity_body"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- texts -->
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- description -->
+    <TextView
+        android:id="@+id/tv_activity_body"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_small"
-        android:orientation="vertical">
+        android:layout_margin="@dimen/margin_tiny"
+        android:textColor="@color/battleshipGrey"
+        android:textDirection="locale"
+        android:textSize="@dimen/text_size_small"
+        app:layout_constraintBottom_toBottomOf="@id/iv_activity_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_activity_image"
+        app:layout_constraintTop_toTopOf="@id/iv_activity_image"
+        tools:text="@tools:sample/lorem" />
 
-        <!-- description -->
-        <TextView
-            android:id="@+id/tv_activity_body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_xTiny"
-            android:textColor="@color/battleshipGrey"
-            android:textSize="@dimen/text_size_small"
-            tools:text="@tools:sample/lorem" />
+    <!-- time -->
+    <TextView
+        android:id="@+id/tv_activity_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_tiny"
+        app:layout_constraintEnd_toEndOf="@id/tv_activity_body"
+        app:layout_constraintTop_toBottomOf="@id/tv_activity_body"
+        tools:text="@tools:sample/lorem" />
 
-        <!-- time -->
-        <TextView
-            android:id="@+id/tv_activity_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:textSize="@dimen/text_size_tiny"
-            tools:text="@tools:sample/lorem" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

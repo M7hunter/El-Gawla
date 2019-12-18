@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
@@ -83,6 +84,7 @@ public class AllSalonsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         setContentView(R.layout.activity_all_salons);
 
         userId = SharedPrefManager.getInstance(AllSalonsActivity.this).getUser().getUser_id();
@@ -705,7 +707,7 @@ public class AllSalonsActivity extends BaseActivity {
         salonsList.clear();
         RetrofitClient.getInstance(AllSalonsActivity.this).fetchDataPerPageFromServer(AllSalonsActivity.this,
                 new Data(isFinishedSalons ? REQ_GET_ALL_FINISHED_SALONS : REQ_GET_ALL_SALONS, 1)
-                , new RequestModel<>(FILTER, userId, apiToken,  dateFrom, dateTo, title, catId, null)
+                , new RequestModel<>(FILTER, userId, apiToken, dateFrom, dateTo, title, catId, null)
                 , new HandleResponses() {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {

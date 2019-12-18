@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/margin_tiny"
+    android:layout_marginBottom="@dimen/margin_xtiny"
     android:background="@drawable/bg_rounded_corners_pale_grey"
     android:gravity="center"
     tools:showIn="@layout/bottom_sheet_cards_bag">
@@ -22,7 +22,7 @@
             android:id="@+id/bottom_card_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_tiny"
+            android:layout_margin="@dimen/margin_xtiny"
             android:ellipsize="end"
             android:maxLines="3"
             android:textColor="@color/battleshipGrey"
@@ -31,7 +31,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_xTiny">
+            android:layout_marginTop="@dimen/margin_tiny">
 
             <Button
                 android:id="@+id/bottom_card_btn"
@@ -39,9 +39,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_rounded_corners_red_270"
                 android:paddingStart="@dimen/margin_xlarge"
-                android:paddingTop="@dimen/margin_tiny"
+                android:paddingTop="@dimen/margin_xtiny"
                 android:paddingEnd="@dimen/margin_xlarge"
-                android:paddingBottom="@dimen/margin_tiny"
+                android:paddingBottom="@dimen/margin_xtiny"
                 android:text="@string/buy_card"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
@@ -69,11 +69,10 @@
     </LinearLayout>
 
     <!-- card container -->
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="@dimen/card_background_height"
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_small"
-        android:layout_weight="1"
         android:background="@drawable/bg_circle_white">
 
         <!-- card icon -->
@@ -81,7 +80,11 @@
             android:id="@+id/bottom_card_icon"
             android:layout_width="@dimen/card_width"
             android:layout_height="@dimen/card_height"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/margin_2xlarge"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_2xlarge"
+            android:layout_marginBottom="@dimen/margin_large"
             android:background="@drawable/dynamic_card" />
 
         <!-- store count -->
@@ -89,6 +92,7 @@
             android:id="@+id/tv_cards_count_cards_bag"
             android:layout_width="@dimen/margin_xlarge"
             android:layout_height="@dimen/margin_xlarge"
+            android:layout_gravity="top|start"
             android:background="@drawable/bg_circle_red"
             android:fontFamily="monospace"
             android:gravity="center"
@@ -97,6 +101,6 @@
             android:textSize="@dimen/text_size_small"
             android:textStyle="bold" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
 </LinearLayout>

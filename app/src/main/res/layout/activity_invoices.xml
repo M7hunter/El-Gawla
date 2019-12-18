@@ -37,7 +37,7 @@
                 android:padding="@dimen/margin_medium"
                 android:text="@string/invoices"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_x_medium"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -65,70 +65,74 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_rounded_top_corners_c_primary"
-            android:padding="@dimen/margin_medium">
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_large"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_large">
 
             <!-- processes -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginEnd="@dimen/margin_xtiny"
                 android:layout_weight="1"
+                android:maxLines="1"
                 android:text="@string/invoice_no"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_x_small"
                 android:textStyle="bold" />
 
             <!-- card -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_xtiny"
+                android:layout_marginEnd="@dimen/margin_xtiny"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/process"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_x_small"
                 android:textStyle="bold" />
 
             <!-- date -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_xtiny"
+                android:layout_marginEnd="@dimen/margin_xtiny"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/status"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_x_small"
                 android:textStyle="bold" />
 
             <!-- date -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_xtiny"
+                android:layout_marginEnd="@dimen/margin_xtiny"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/date"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_x_small"
                 android:textStyle="bold" />
 
             <!-- cost -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_tiny"
-                android:layout_marginEnd="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_xtiny"
+                android:layout_marginEnd="@dimen/margin_xtiny"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="end"
                 android:text="@string/package_cost"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_x_small"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -139,10 +143,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_large"
             android:layout_weight="1"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="15"
+            tools:itemCount="10"
             tools:listitem="@layout/item_invoice" />
 
         <!-- load more -->
@@ -150,7 +153,7 @@
             android:id="@+id/pbp_invoices"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_tiny"
+            android:layout_margin="@dimen/margin_xtiny"
             android:visibility="gone" />
 
     </LinearLayout>

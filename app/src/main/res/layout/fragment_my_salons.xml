@@ -17,12 +17,6 @@
         <include layout="@layout/layout_header" />
 
         <!-- content -->
-        <!--<androidx.core.widget.NestedScrollView-->
-        <!--    android:layout_width="match_parent"-->
-        <!--    android:layout_height="match_parent"-->
-        <!--    android:layout_below="@id/header"-->
-        <!--    android:fillViewport="true">-->
-        <!-- scroll main layout -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,12 +28,12 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xx_large"
-                android:layout_marginTop="@dimen/margin_xlarge"
-                android:layout_marginEnd="@dimen/margin_xx_large"
+                android:layout_marginStart="@dimen/margin_3xlarge"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_3xlarge"
                 android:layout_marginBottom="@dimen/margin_medium"
                 app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="25dp"
+                app:cardCornerRadius="@dimen/rounded_small_components_radius"
                 app:cardElevation="@dimen/margin_small">
                 <!-- card main layout -->
                 <LinearLayout
@@ -50,15 +44,17 @@
                     <TextView
                         android:id="@+id/tv_my_recent_salons"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/colorPrimary"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:padding="@dimen/margin_small"
+                        android:padding="@dimen/btn_v_padding"
                         android:text="@string/recent_salons"
-                        android:textColor="@android:color/white" />
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_size_x_medium" />
 
                     <!-- my finished salons -->
                     <TextView
@@ -70,18 +66,23 @@
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:padding="@dimen/margin_small"
+                        android:padding="@dimen/btn_v_padding"
                         android:text="@string/salons_archive"
-                        android:textColor="@color/colorPrimary" />
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_size_x_medium" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <!-- main content -->
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:animateLayoutChanges="true"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <!-- load animation -->
                 <include
@@ -92,32 +93,38 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/my_rounds_recycler"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:visibility="gone"
-                    app:spanCount="2"
-                    tools:itemCount="4"
+                    app:spanCount="1"
+                    tools:itemCount="2"
                     tools:listitem="@layout/item_salon_mini" />
+
+                <!-- load more -->
+                <ProgressBar
+                    android:id="@+id/pbp_my_salons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_xtiny"
+                    android:visibility="gone" />
 
                 <!-- empty view -->
                 <LinearLayout
                     android:id="@+id/my_rounds_empty_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:visibility="gone">
 
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="@dimen/margin_xx_large"
-                        android:layout_marginEnd="@dimen/margin_xx_large"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_3xlarge"
+                        android:layout_marginEnd="@dimen/margin_3xlarge"
                         android:src="@drawable/empty_view" />
 
                     <TextView
@@ -131,12 +138,9 @@
 
                 </LinearLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
-        <!--</androidx.core.widget.NestedScrollView>-->
-
-        <include layout="@layout/layout_no_connection" />
 
     </RelativeLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

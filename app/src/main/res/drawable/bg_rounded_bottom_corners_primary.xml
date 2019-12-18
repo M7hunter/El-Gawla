@@ -3,7 +3,8 @@
 
   <solid android:color="@color/colorPrimary" />
   <corners
-      android:bottomLeftRadius="@dimen/margin_small"
-      android:bottomRightRadius="@dimen/margin_small" />
+      android:bottomLeftRadius="@dimen/margin_medium"
+      android:bottomRightRadius="@dimen/margin_medium"
+      android:topRightRadius="@dimen/margin_medium"/>
 
 </shape>

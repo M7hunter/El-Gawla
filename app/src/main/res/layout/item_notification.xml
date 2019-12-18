@@ -14,7 +14,7 @@
         android:foreground="?attr/selectableItemBackground"
         app:cardBackgroundColor="@color/paleGrey"
         app:cardCornerRadius="@dimen/margin_small"
-        app:cardElevation="@dimen/margin_tiny">
+        app:cardElevation="@dimen/margin_xtiny">
         <!-- card main layout -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 android:maxLines="2"
                 android:textColor="@color/colorPrimary"
                 android:textDirection="locale"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_x_medium"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@id/tv_date"
                 app:layout_constraintStart_toEndOf="@id/notify_icon"
@@ -55,8 +55,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/margin_xTiny"
-                android:textSize="@dimen/text_size_tiny"
+                android:layout_marginStart="@dimen/margin_tiny"
+                android:textSize="@dimen/text_size_small"
                 app:layout_constraintBottom_toBottomOf="@id/tv_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_title"
@@ -68,12 +68,12 @@
                 android:id="@+id/tv_body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xTiny"
+                android:layout_marginTop="@dimen/margin_tiny"
                 android:ellipsize="end"
                 android:maxLength="300"
                 android:textColor="@android:color/black"
                 android:textDirection="locale"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_x_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/tv_title"
                 app:layout_constraintTop_toBottomOf="@id/tv_title"

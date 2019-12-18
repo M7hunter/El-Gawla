@@ -6,7 +6,7 @@
     android:layout_margin="@dimen/margin_small"
     app:cardBackgroundColor="@color/blueyGrey"
     app:cardCornerRadius="@dimen/margin_small"
-    app:cardElevation="@dimen/margin_tiny">
+    app:cardElevation="@dimen/margin_xtiny">
     <!-- card main layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         <!-- name -->
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="@dimen/margin_xxxxx_large"
+            android:layout_width="@dimen/margin_8xlarge"
             android:layout_height="@dimen/margin_medium"
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/margin_large"

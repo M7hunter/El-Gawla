@@ -62,7 +62,7 @@ public class ParseResponses {
         return salons;
     }
 
-    public static Salon parseRoundByID(JsonObject object) {
+    public static Salon parseSalon(JsonObject object) {
         JsonObject roundObj = object.get("salons").getAsJsonObject();
 
         int product_id = roundObj.get("product_id").getAsInt();
@@ -288,7 +288,7 @@ public class ParseResponses {
             JsonObject cardObj = dataArray.get(i).getAsJsonObject();
             String product_image = cardObj.get("product_image").getAsString();
             String product_name = cardObj.get("product_name").getAsString();
-            String salon_date = cardObj.get("salon_date").getAsString();
+            String salon_date = cardObj.get("round_date").getAsString();
             boolean isWinner = cardObj.get("isWinner").getAsBoolean();
             boolean is_closed = cardObj.get("is_closed").getAsBoolean();
             int salon_id = cardObj.get("salon_id").getAsInt();
@@ -389,8 +389,8 @@ public class ParseResponses {
 
         for (int i = 0; i < packagesArray.size(); i++)
         {
-            List<Package> packages = new ArrayList<>();
             JsonArray packagesCatArr = packagesArray.get(i).getAsJsonArray();
+            List<Package> packages = new ArrayList<>();
             for (int j = 0; j < packagesCatArr.size(); j++)
             {
                 JsonObject packageObj = packagesCatArr.get(j).getAsJsonObject();
@@ -407,7 +407,8 @@ public class ParseResponses {
                 String package_discount_date_from = packageObj.get("package_discount_date_from").getAsString();
                 String package_discount_date_to = packageObj.get("package_discount_date_to").getAsString();
 
-                packages.add(new Package(package_id, package_name, package_category_name, package_description, package_color, package_cost, package_is_discount, package_salons_no, package_discount, package_discount_date_from, package_discount_date_to));
+                packages.add(new Package(package_id, package_name, package_category_name, package_description, package_color, package_cost, package_is_discount
+                        , package_salons_no, package_discount, package_discount_date_from, package_discount_date_to));
             }
             lists.add(packages);
         }

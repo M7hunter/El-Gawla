@@ -43,9 +43,14 @@ public class PaymentURLActivity extends AppCompatActivity {
         EventsManager.sendOpenPaymentEvent(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        paymentWebView.removeJavascriptInterface("Print");
+        super.onDestroy();
+    }
+
     private void initWebView() {
         paymentWebView = findViewById(R.id.wv_payment_url);
-
 
         mj = new MyJavaScriptInterface();
 
@@ -55,7 +60,7 @@ public class PaymentURLActivity extends AppCompatActivity {
         paymentWebView.getSettings().setUseWideViewPort(true);
         paymentWebView.getSettings().setLoadWithOverviewMode(true);
         paymentWebView.getSettings().setSupportZoom(false);
-        paymentWebView.addJavascriptInterface(mj, "HTMLOUT");
+        paymentWebView.addJavascriptInterface(mj, "Print");
 
         if (android.os.Build.VERSION.SDK_INT >= 21)
         {
@@ -90,12 +95,10 @@ public class PaymentURLActivity extends AppCompatActivity {
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1)
                     dialogBuilder.hideLoadingDialog();
 
-                paymentWebView.loadUrl("javascript:window.HTMLOUT.processHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
                 if (url.contains("success"))
                 {
                     startActivity(new Intent(PaymentURLActivity.this, PaymentReviewActivity.class));
                 }
-
             }
         });
 

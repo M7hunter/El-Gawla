@@ -9,8 +9,6 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
-
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 
@@ -25,37 +23,31 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
             super.onMessageReceived(remoteMessage);
             FirebaseMessaging.getInstance().setAutoInitEnabled(true);
 
-            Log.d(TAG, "data:: " + remoteMessage.toString());
-            Log.d(TAG, "salon_id:: " + SharedPrefManager.getInstance(getApplicationContext()).getSubscribedSalonId());
+            Log.d(TAG, "remoteMessage:: " + remoteMessage.toString());
 
             try
             {
-                if (remoteMessage.getData().isEmpty())
+                String title = "", body = "", type = "", id = "";
+                if (remoteMessage.getNotification() != null)
                 {
-                    if (remoteMessage.getNotification() != null)
-                    {
-                        String title = remoteMessage.getNotification().getTitle();
-                        String body = remoteMessage.getNotification().getBody();
+                    title = remoteMessage.getNotification().getTitle();
+                    body = remoteMessage.getNotification().getBody();
+                }
 
+                if (!remoteMessage.getData().isEmpty())
+                {
+                    type = remoteMessage.getData().get("type");
+                    id = remoteMessage.getData().get("id");
+                }
 
-                        if (!title.isEmpty() && !body.isEmpty())
-                        {
-                            NotificationBuilder.displayRemoteMessage(title, body, getApplicationContext());
-                        }
-                    }
+                Log.d(TAG, "onMessageReceived: type: " + type);
+                if (type != null && (type.equals("salons") || type.equals("cards")))
+                {
+                    NotificationBuilder.Instance(getApplicationContext()).displayRemoteMessageWithData(title, body, type, id, getApplicationContext());
                 }
                 else
                 {
-                    Map<String, String> data = remoteMessage.getData();
-
-                    Log.d(TAG, "data:: " + data.toString());
-
-                    String title = data.get("title");
-                    String body = data.get("body");
-                    String type = data.get("type");
-                    String id = data.get("id");
-
-                    NotificationBuilder.displayRemoteMessageData(title, body, type, id, getApplicationContext());
+                    NotificationBuilder.Instance(getApplicationContext()).displayRemoteMessage(title, body, getApplicationContext());
                 }
             }
             catch (Exception e)

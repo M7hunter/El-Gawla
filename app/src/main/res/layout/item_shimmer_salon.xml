@@ -6,7 +6,7 @@
     android:layout_margin="@dimen/margin_small"
     android:background="@drawable/bg_rounded_corners_white"
     app:cardCornerRadius="@dimen/margin_small"
-    app:cardElevation="@dimen/margin_tiny">
+    app:cardElevation="@dimen/margin_xtiny">
     <!-- main layout -->
     <LinearLayout
         android:layout_width="wrap_content"
@@ -43,9 +43,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_medium"
                 android:layout_gravity="center"
-                android:layout_marginStart="@dimen/margin_xx_large"
+                android:layout_marginStart="@dimen/margin_3xlarge"
                 android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_xx_large"
+                android:layout_marginEnd="@dimen/margin_3xlarge"
                 android:layout_marginBottom="@dimen/margin_large"
                 android:background="@android:color/darker_gray" />
 
@@ -53,9 +53,9 @@
 
         <!-- image -->
         <View
-            android:layout_width="@dimen/image_width_round"
-            android:layout_height="@dimen/image_height_round"
-            android:layout_marginTop="@dimen/margin_xTiny"
+            android:layout_width="@dimen/item_salon_product_image_width"
+            android:layout_height="@dimen/item_salon_product_image_height"
+            android:layout_marginTop="@dimen/margin_tiny"
             android:background="@android:color/darker_gray" />
 
         <!-- name -->
@@ -63,9 +63,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_medium"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/margin_xx_large"
+            android:layout_marginStart="@dimen/margin_3xlarge"
             android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_xx_large"
+            android:layout_marginEnd="@dimen/margin_3xlarge"
             android:layout_marginBottom="@dimen/margin_medium"
             android:background="@android:color/darker_gray" />
 

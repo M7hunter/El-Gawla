@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_xx_large"
+        android:layout_marginTop="@dimen/margin_3xlarge"
         android:background="@drawable/bg_rounded_top_corners_white"
         android:gravity="center"
         android:orientation="vertical">
@@ -29,32 +29,32 @@
             android:textAllCaps="true"
             android:textColor="@color/colorSecondary"
             android:textDirection="locale"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_x_medium"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_filter_cats"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <ProgressBar
             android:id="@+id/pb_filter_cats"
-            android:layout_margin="@dimen/margin_xxxxx_large"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_8xlarge" />
 
     </LinearLayout>
 
     <!-- close btn -->
     <Button
         android:id="@+id/close_bottom_sheet_category"
-        android:layout_width="@dimen/image_cards_round_updates"
-        android:layout_height="@dimen/image_cards_round_updates"
+        android:layout_width="@dimen/icon_close"
+        android:layout_height="@dimen/icon_close"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/margin_xxx_large"
+        android:layout_marginEnd="@dimen/margin_5xlarge"
         android:background="@drawable/bg_circle_blue_270"
         android:elevation="@dimen/margin_small"
-        android:padding="@dimen/margin_large"
+        android:padding="@dimen/btn_v_padding"
         app:cornerRadius="200dp"
         app:icon="@drawable/ic_close"
         app:iconGravity="textStart"

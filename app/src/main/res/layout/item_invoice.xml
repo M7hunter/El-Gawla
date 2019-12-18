@@ -3,15 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/margin_tiny"
+    android:layout_marginTop="@dimen/margin_xtiny"
     android:foreground="?attr/selectableItemBackground"
-    android:orientation="vertical"
-    tools:showIn="@layout/activity_invoices">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_small"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_x_medium"
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_x_medium"
         android:gravity="center_vertical">
 
         <!-- no/id -->
@@ -20,7 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_marginEnd="@dimen/margin_xtiny"
             android:layout_weight="1"
             android:textSize="@dimen/text_size_small"
             tools:text="@tools:sample/us_zipcodes" />
@@ -30,8 +32,8 @@
             android:id="@+id/item_invoice_process"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_marginStart="@dimen/margin_xtiny"
+            android:layout_marginEnd="@dimen/margin_xtiny"
             android:layout_weight="1"
             tools:src="@drawable/subscribe_icon" />
 
@@ -40,8 +42,8 @@
             android:id="@+id/item_invoice_status"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_marginStart="@dimen/margin_xtiny"
+            android:layout_marginEnd="@dimen/margin_xtiny"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="@dimen/text_size_small" />
@@ -51,8 +53,8 @@
             android:id="@+id/item_invoice_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_marginStart="@dimen/margin_xtiny"
+            android:layout_marginEnd="@dimen/margin_xtiny"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="@dimen/text_size_small"
@@ -63,10 +65,10 @@
             android:id="@+id/item_invoice_cost"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_tiny"
-            android:layout_marginEnd="@dimen/margin_tiny"
+            android:layout_marginStart="@dimen/margin_xtiny"
+            android:layout_marginEnd="@dimen/margin_xtiny"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="end"
             android:textSize="@dimen/text_size_small"
             tools:text="@tools:sample/us_zipcodes" />
 

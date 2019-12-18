@@ -28,7 +28,7 @@
                 <VideoView
                     android:id="@+id/player"
                     android:layout_width="match_parent"
-                    android:layout_height="230dp"
+                    android:layout_height="@dimen/salon_product_main_image_height"
                     android:layout_centerHorizontal="true"
                     android:visibility="invisible" />
 
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_large"
-            android:padding="@dimen/margin_tiny"
+            android:padding="@dimen/margin_xtiny"
             android:text="@string/no_content"
             android:textColor="@color/duskBlue"
             android:textSize="@dimen/text_size_large"
@@ -95,15 +95,15 @@
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_large"
             android:orientation="horizontal"
-            android:padding="@dimen/margin_tiny">
+            android:padding="@dimen/margin_xtiny">
 
             <!-- cost label -->
             <TextView
                 android:id="@+id/tv_category_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginBottom="@dimen/margin_tiny"
+                android:layout_marginTop="@dimen/margin_xtiny"
+                android:layout_marginBottom="@dimen/margin_xtiny"
                 android:text="@string/category"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
@@ -113,10 +113,10 @@
                 android:id="@+id/product_details_category"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginBottom="@dimen/margin_tiny"
+                android:layout_marginTop="@dimen/margin_xtiny"
+                android:layout_marginBottom="@dimen/margin_xtiny"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="end"
                 android:text="@string/no_content"
                 android:textColor="@color/azureTwo"
                 android:textSize="@dimen/text_size_medium"
@@ -139,14 +139,14 @@
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_large"
             android:orientation="horizontal"
-            android:padding="@dimen/margin_tiny">
+            android:padding="@dimen/margin_xtiny">
 
             <!-- initial label -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginBottom="@dimen/margin_tiny"
+                android:layout_marginTop="@dimen/margin_xtiny"
+                android:layout_marginBottom="@dimen/margin_xtiny"
                 android:text="@string/initial_value"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
@@ -155,10 +155,10 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginBottom="@dimen/margin_tiny"
+                android:layout_marginTop="@dimen/margin_xtiny"
+                android:layout_marginBottom="@dimen/margin_xtiny"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="end"
                 android:text="@string/one_pound"
                 android:textColor="@color/colorSecondary"
                 android:textSize="@dimen/text_size_medium"
@@ -181,14 +181,14 @@
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_large"
             android:orientation="horizontal"
-            android:padding="@dimen/margin_tiny">
+            android:padding="@dimen/margin_xtiny">
 
             <!-- cost label -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginBottom="@dimen/margin_tiny"
+                android:layout_marginTop="@dimen/margin_xtiny"
+                android:layout_marginBottom="@dimen/margin_xtiny"
                 android:text="@string/commercial_price"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
@@ -198,10 +198,10 @@
                 android:id="@+id/product_details_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_tiny"
-                android:layout_marginBottom="@dimen/margin_tiny"
+                android:layout_marginTop="@dimen/margin_xtiny"
+                android:layout_marginBottom="@dimen/margin_xtiny"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="end"
                 android:text="@string/no_content"
                 android:textColor="@color/colorSecondary"
                 android:textSize="@dimen/text_size_medium"
@@ -222,16 +222,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginTop="@dimen/margin_xtiny"
             android:layout_marginEnd="@dimen/margin_large"
             android:orientation="vertical"
-            android:padding="@dimen/margin_tiny">
+            android:padding="@dimen/margin_xtiny">
 
             <!-- description label -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_tiny"
+                android:padding="@dimen/margin_xtiny"
                 android:text="@string/the_description"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold" />
@@ -243,7 +243,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:gravity="start"
-                android:padding="@dimen/margin_tiny"
+                android:padding="@dimen/margin_xtiny"
                 android:textSize="@dimen/text_size_small"
                 tools:text="@tools:sample/lorem/random" />
 
