@@ -144,6 +144,7 @@
         android:id="@+id/activity_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="@drawable/bg_rounded_corners_white"
         android:nestedScrollingEnabled="false"
         android:visibility="gone">
@@ -152,9 +153,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/salon_activity_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"
+            android:layout_height="wrap_content"
             android:nestedScrollingEnabled="true"
+            android:scrollbars="vertical"
             tools:itemCount="8"
             tools:listitem="@layout/item_activity" />
 
@@ -164,8 +165,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_medium"
+            android:layout_margin="@dimen/margin_x_medium"
             android:gravity="center"
+            android:paddingBottom="@dimen/margin_medium"
             android:text="@string/activity_empty_hint"
             android:visibility="gone" />
 
@@ -217,7 +219,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_tiny"
             android:gravity="bottom"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/margin_medium">
 
             <!-- new message -->
             <com.google.android.material.textfield.TextInputLayout

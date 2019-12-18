@@ -19,36 +19,81 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
-import it_geeks.info.elgawla.util.receivers.NotificationInteractionsReceiver;
 import it_geeks.info.elgawla.util.services.GetSalonDataService;
 import it_geeks.info.elgawla.views.account.ProfileActivity;
 import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.signing.SignInActivity;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
 import static it_geeks.info.elgawla.util.Constants.CARDS_OFFER;
 
 public class NotificationBuilder {
 
-    private static final String REMOTE_NOTIFICATION_CHANNEL_ID = "GAWLA_CHANNEL_ID";
-    private static final String REMOTE_NOTIFICATION_CHANNEL_NAME = "salon updates";
-    private static final String REMOTE_NOTIFICATION_CHANNEL_DESC = "latest updates of subscribed salons & if there is a new salon in your country";
-    private static final String REMOTE_NOTIFICATION_GROUP_ID = "remote_group";
+    // region channels
+    private static final String REMOTE_NOTIFICATION_CHANNEL_ID = "REMOTE_CHANNEL_ID";
+    private static final String REMOTE_NOTIFICATION_CHANNEL_NAME = "news";
+    private static final String REMOTE_NOTIFICATION_CHANNEL_DESC = "news and updates";
 
-    private static final String LOCALE_NOTIFICATION_CHANNEL_NAME = "updating user image";
-    private static final String LOCALE_NOTIFICATION_CHANNEL_DESC = "uploading user account image";
-    private static final String LOCALE_NOTIFICATION_GROUP_ID = "locale_group";
+    private static final String REMOTE_SALONS_NOTIFICATION_CHANNEL_ID = "SALONS_CHANNEL_ID";
+    private static final String REMOTE_SALONS_NOTIFICATION_CHANNEL_NAME = "salons";
+    private static final String REMOTE_SALONS_NOTIFICATION_CHANNEL_DESC = "new salon in your country & latest updates of subscribed salons";
 
-    private static final String UPLOAD_IMAGE_CHANNEL_ID = "upload_image_channel";
-    public static final int UPLOAD_IMAGE_NOTIFICATION_ID = 1;
+    private static final String REMOTE_CARDS_NOTIFICATION_CHANNEL_ID = "CARDS_CHANNEL_ID";
+    private static final String REMOTE_CARDS_NOTIFICATION_CHANNEL_NAME = "store";
+    private static final String REMOTE_CARDS_NOTIFICATION_CHANNEL_DESC = "latest updates in the store";
+
+    private static final String LOCALE_NOTIFICATION_CHANNEL_ID = "LOCALE_CHANNEL_ID";
+    private static final String LOCALE_NOTIFICATION_CHANNEL_NAME = "global updates ";
+    private static final String LOCALE_NOTIFICATION_CHANNEL_DESC = "e.g: uploading user account image";
+    // endregion
+
+    // region groups
+    private static final String REMOTE_NOTIFICATION_GROUP_KEY = "remote_group";
+    private static final int REMOTE_NOTIFICATION_GROUP_ID = 0;
+
+    private static final String REMOTE_SALONS_NOTIFICATION_GROUP_KEY = "salons_group";
+    private static final int REMOTE_SALONS_NOTIFICATION_GROUP_ID = 1;
+
+    private static final String REMOTE_CARDS_NOTIFICATION_GROUP_KEY = "cards_group";
+    private static final int REMOTE_CARDS_NOTIFICATION_GROUP_ID = 2;
+    //endregion
+
     private static final int NOTIFICATION_ICON = R.drawable.g_round;
+    public static final int UPLOAD_IMAGE_NOTIFICATION_ID = 1;
 
     private Context context;
+    private static NotificationBuilder NB;
     private static NotificationManager notificationManager;
     private NotificationCompat.Builder notificationBuilder;
+    private static NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
-    public NotificationBuilder(Context context) {
+    private NotificationBuilder(Context context) {
         this.context = context;
+    }
+
+    public static NotificationBuilder Instance(Context context) {
+        if (NB == null)
+        {
+            NB = new NotificationBuilder(context);
+        }
+        return NB;
+    }
+
+    private NotificationManager getNotificationManager(Context context) {
+        if (notificationManager == null)
+        {
+            notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        }
+        return notificationManager;
+    }
+
+    public void cancelNotification(Context context, int notificationId) {
+        getNotificationManager(context).cancel(notificationId);
+    }
+
+    public void CancelAll(Context context) {
+        getNotificationManager(context).cancelAll();
     }
 
     public static void listenToNotificationStatus(Context context, final View indicator) {
@@ -69,7 +114,25 @@ public class NotificationBuilder {
 
     }
 
-    public static void createRemoteChannel(Context context) {
+    private void createLocaleChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            for (NotificationChannel channel : getNotificationManager(context).getNotificationChannels())
+            {
+                if (channel.getId().equals(LOCALE_NOTIFICATION_CHANNEL_ID))
+                {
+                    return;
+                }
+            }
+
+            NotificationChannel notificationChannel = new NotificationChannel(LOCALE_NOTIFICATION_CHANNEL_ID, LOCALE_NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.setDescription(LOCALE_NOTIFICATION_CHANNEL_DESC);
+
+            getNotificationManager(context).createNotificationChannel(notificationChannel);
+        }
+    }
+
+    private void createRemoteChannel(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
             for (NotificationChannel channel : getNotificationManager(context).getNotificationChannels())
@@ -80,7 +143,7 @@ public class NotificationBuilder {
                 }
             }
 
-            NotificationChannel notificationChannel = new NotificationChannel(REMOTE_NOTIFICATION_CHANNEL_ID, REMOTE_NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel notificationChannel = new NotificationChannel(REMOTE_NOTIFICATION_CHANNEL_ID, REMOTE_NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.setDescription(REMOTE_NOTIFICATION_CHANNEL_DESC);
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.BLUE);
@@ -89,19 +152,26 @@ public class NotificationBuilder {
         }
     }
 
-    public void createUploadImageChannel() {
+    private void createRemoteChannel(Context context, String type) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
+            boolean isSalons = type.equals("salons");
+            String cid = isSalons ? REMOTE_SALONS_NOTIFICATION_CHANNEL_ID : REMOTE_CARDS_NOTIFICATION_CHANNEL_ID;
+
             for (NotificationChannel channel : getNotificationManager(context).getNotificationChannels())
             {
-                if (channel.getId().equals(UPLOAD_IMAGE_CHANNEL_ID))
+                if (channel.getId().equals(cid))
                 {
                     return;
                 }
             }
 
-            NotificationChannel notificationChannel = new NotificationChannel(UPLOAD_IMAGE_CHANNEL_ID, LOCALE_NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
-            notificationChannel.setDescription(LOCALE_NOTIFICATION_CHANNEL_DESC);
+            NotificationChannel notificationChannel = new NotificationChannel(isSalons ? REMOTE_SALONS_NOTIFICATION_CHANNEL_ID : REMOTE_CARDS_NOTIFICATION_CHANNEL_ID
+                    , isSalons ? REMOTE_SALONS_NOTIFICATION_CHANNEL_NAME : REMOTE_CARDS_NOTIFICATION_CHANNEL_NAME
+                    , NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.setDescription(isSalons ? REMOTE_SALONS_NOTIFICATION_CHANNEL_DESC : REMOTE_CARDS_NOTIFICATION_CHANNEL_DESC);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.BLUE);
 
             getNotificationManager(context).createNotificationChannel(notificationChannel);
         }
@@ -115,94 +185,100 @@ public class NotificationBuilder {
     }
 
     public void displayUploadingImage() {
-        PendingIntent cancelIntent = initCancelUploadingImageIntent();
+        PendingIntent cancelIntent = initUploadingImageIntent();
 
-        notificationBuilder = new NotificationCompat.Builder(context, UPLOAD_IMAGE_CHANNEL_ID);
-        notificationBuilder.setContentTitle(context.getString(R.string.updating_image))
-                .setSmallIcon(NOTIFICATION_ICON)
+        notificationBuilder = new NotificationCompat.Builder(context, LOCALE_NOTIFICATION_CHANNEL_ID);
+        notificationBuilder.setSmallIcon(NOTIFICATION_ICON)
+                .setAutoCancel(true)
+                .setContentTitle(context.getString(R.string.updating_image))
+                .setContentIntent(initUploadingImageIntent())
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setOngoing(true)
-                .setAutoCancel(true)
-                .setContentIntent(initUploadingImageIntent())
-                .addAction(new NotificationCompat.Action(0, context.getString(R.string.cancel), cancelIntent))
                 .setProgress(0, 0, true)
-                .setGroup(LOCALE_NOTIFICATION_GROUP_ID);
+                .addAction(new NotificationCompat.Action(0, context.getString(R.string.cancel), cancelIntent));
 
-        createUploadImageChannel();
-        notificationBuilder.setChannelId(UPLOAD_IMAGE_CHANNEL_ID);
+        createLocaleChannel();
+        notificationBuilder.setChannelId(LOCALE_NOTIFICATION_CHANNEL_ID);
         getNotificationManager(context).notify(UPLOAD_IMAGE_NOTIFICATION_ID, notificationBuilder.build());
     }
 
     public void displayMessage(String message) {
-        notificationBuilder = new NotificationCompat.Builder(context, UPLOAD_IMAGE_CHANNEL_ID);
+        notificationBuilder = new NotificationCompat.Builder(context, LOCALE_NOTIFICATION_CHANNEL_ID);
         notificationBuilder.setContentText(message)
                 .setSmallIcon(NOTIFICATION_ICON)
-                .setContentIntent(initCancelUploadingImageIntent())
+                .setContentIntent(initUploadingImageIntent())
                 .setAutoCancel(true);
 
         getNotificationManager(context).notify(UPLOAD_IMAGE_NOTIFICATION_ID, notificationBuilder.build());
     }
 
-    static void displayRemoteMessage(String title, String body, Context context) {
+    void displayRemoteMessage(String title, String body, Context context) {
         PendingIntent pendingIntent = initRemoteMessageIntent(title, body, context);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, REMOTE_NOTIFICATION_CHANNEL_ID);
-        builder.setAutoCancel(true)
-                .setSmallIcon(NOTIFICATION_ICON)
-                .setContentTitle(title)
-                .setColor(context.getResources().getColor(R.color.greenBlue))
-                .setContentIntent(pendingIntent)
-                .setContentText(body)
+        builder.setSmallIcon(NOTIFICATION_ICON)
+                .setGroup(REMOTE_NOTIFICATION_GROUP_KEY)
+                .setShowWhen(true)
                 .setAutoCancel(true)
+                .setColor(context.getResources().getColor(R.color.colorPrimary))
+                .setContentIntent(pendingIntent)
+                .setContentTitle(title)
+                .setContentText(body)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(body)
-                        .setBigContentTitle(title))
-                .setContentInfo("Info")
-                .setGroup(REMOTE_NOTIFICATION_GROUP_ID);
+                        .setBigContentTitle(title));
+
+        NotificationCompat.Builder summaryBuilder = new NotificationCompat.Builder(context, REMOTE_NOTIFICATION_CHANNEL_ID);
+        summaryBuilder.setSmallIcon(NOTIFICATION_ICON)
+                .setGroup(REMOTE_NOTIFICATION_GROUP_KEY)
+                .setGroupSummary(true)
+                .setShowWhen(true)
+                .setSubText("not salon")
+                .setAutoCancel(true)
+                .setColor(context.getResources().getColor(R.color.colorPrimary))
+                .setContentIntent(pendingIntent);
 
         createRemoteChannel(context);
         builder.setChannelId(REMOTE_NOTIFICATION_CHANNEL_ID);
-        getNotificationManager(context).notify(new Random().nextInt(), builder.build());
+        summaryBuilder.setChannelId(REMOTE_NOTIFICATION_CHANNEL_ID);
+
+        getNotificationManager(context).notify(summaryBuilder.build().getGroup(), REMOTE_NOTIFICATION_GROUP_ID, summaryBuilder.build());
+        getNotificationManager(context).notify(builder.build().getGroup(), new Random().nextInt(), builder.build());
     }
 
-    static void displayRemoteMessageData(String title, String body, String type, String id, Context context) {
+    void displayRemoteMessageWithData(String title, String body, String type, String id, Context context) {
         PendingIntent pendingIntent = initRemoteMessageDataIntent(title, body, type, id, context);
 
+        inboxStyle.setBigContentTitle(context.getString(R.string.salons));
+        inboxStyle.addLine(context.getString(R.string.salon_number) + id);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, REMOTE_NOTIFICATION_CHANNEL_ID);
-        builder.setAutoCancel(true)
-                .setSmallIcon(NOTIFICATION_ICON)
-                .setContentTitle(title)
-                .setColor(context.getResources().getColor(R.color.greenBlue))
-                .setContentIntent(pendingIntent)
-                .setContentText(body)
+        builder.setSmallIcon(NOTIFICATION_ICON)
+                .setGroup(type.equals("salons") ? REMOTE_SALONS_NOTIFICATION_GROUP_KEY : REMOTE_CARDS_NOTIFICATION_GROUP_KEY)
+                .setShowWhen(true)
                 .setAutoCancel(true)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(body)
-                        .setBigContentTitle(title))
-                .setContentInfo("Info")
-                .setGroup(REMOTE_NOTIFICATION_GROUP_ID);
+                .setColor(context.getResources().getColor(R.color.colorPrimary))
+                .setSubText(type)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setContentIntent(pendingIntent);
 
-        createRemoteChannel(context);
-        builder.setChannelId(REMOTE_NOTIFICATION_CHANNEL_ID);
-        getNotificationManager(context).notify(new Random().nextInt(), builder.build());
-    }
+        NotificationCompat.Builder summaryBuilder = new NotificationCompat.Builder(context, REMOTE_NOTIFICATION_CHANNEL_ID);
+        summaryBuilder.setSmallIcon(NOTIFICATION_ICON)
+                .setGroup(type.equals("salons") ? REMOTE_SALONS_NOTIFICATION_GROUP_KEY : REMOTE_CARDS_NOTIFICATION_GROUP_KEY)
+                .setGroupSummary(true)
+                .setShowWhen(true)
+                .setAutoCancel(true)
+                .setColor(context.getResources().getColor(R.color.colorPrimary))
+                .setSubText(type)
+                .setStyle(inboxStyle);
 
-    private static NotificationManager getNotificationManager(Context context) {
-        if (notificationManager == null)
-        {
-            notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        }
-        return notificationManager;
-    }
+        createRemoteChannel(context, type);
+        builder.setChannelId(type.equals("salons") ? REMOTE_SALONS_NOTIFICATION_CHANNEL_ID : REMOTE_CARDS_NOTIFICATION_CHANNEL_ID);
+        summaryBuilder.setChannelId(type.equals("salons") ? REMOTE_SALONS_NOTIFICATION_CHANNEL_ID : REMOTE_CARDS_NOTIFICATION_CHANNEL_ID);
 
-    public void cancelNotification(int notificationId) {
-        notificationManager.cancel(notificationId);
-    }
-
-    private PendingIntent initCancelUploadingImageIntent() {
-        Intent i = new Intent(context, NotificationInteractionsReceiver.class);
-        i.putExtra("notify_id", UPLOAD_IMAGE_NOTIFICATION_ID);
-        return PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
+        getNotificationManager(context).notify(summaryBuilder.build().getGroup(), type.equals("salons") ? REMOTE_SALONS_NOTIFICATION_GROUP_ID : REMOTE_CARDS_NOTIFICATION_GROUP_ID, summaryBuilder.build());
+        getNotificationManager(context).notify(builder.build().getGroup(), new Random().nextInt(), builder.build());
     }
 
     private PendingIntent initUploadingImageIntent() {

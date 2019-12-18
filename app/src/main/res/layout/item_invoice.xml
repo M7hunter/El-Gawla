@@ -5,13 +5,15 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin_xtiny"
     android:foreground="?attr/selectableItemBackground"
-    android:orientation="vertical"
-    tools:showIn="@layout/activity_invoices">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_small"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_x_medium"
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_x_medium"
         android:gravity="center_vertical">
 
         <!-- no/id -->

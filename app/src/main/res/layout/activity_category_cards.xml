@@ -78,22 +78,22 @@
                     android:layout_height="match_parent">
 
                     <!-- selected card layout -->
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/selected_card_layout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
                         android:visibility="gone">
 
                         <!-- icon container -->
                         <FrameLayout
+                            android:id="@+id/cat_card_main_frame"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/margin_small"
-                            android:layout_marginBottom="@dimen/margin_medium"
-                            android:background="@drawable/bg_circle_grey">
+                            android:background="@drawable/bg_circle_grey"
+                            app:layout_constraintBottom_toTopOf="@id/ts_card_name"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
                             <!-- card icon -->
                             <View
                                 android:id="@+id/v_card_icon"
@@ -113,14 +113,22 @@
                             android:id="@+id/ts_card_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_medium" />
+                            android:layout_margin="@dimen/margin_small"
+                            app:layout_constraintBottom_toTopOf="@id/ts_card_description"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/cat_card_main_frame" />
 
                         <!-- card description -->
                         <TextSwitcher
                             android:id="@+id/ts_card_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/margin_medium" />
+                            android:layout_margin="@dimen/margin_small"
+                            app:layout_constraintBottom_toTopOf="@id/btn_buy_card"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/ts_card_name" />
 
                         <!-- btn buy -->
                         <Button
@@ -128,16 +136,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_xlarge"
-                            android:layout_marginBottom="@dimen/margin_small"
+                            android:layout_marginBottom="@dimen/margin_large"
                             android:paddingStart="@dimen/margin_7xlarge"
                             android:paddingTop="@dimen/btn_v_padding"
                             android:paddingEnd="@dimen/margin_7xlarge"
                             android:paddingBottom="@dimen/btn_v_padding"
                             android:text="@string/buy_card"
-                            android:textSize="@dimen/text_size_medium"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
 
-                    </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <ProgressBar
                         android:id="@+id/pb_category_cards"

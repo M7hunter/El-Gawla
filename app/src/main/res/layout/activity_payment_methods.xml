@@ -159,7 +159,8 @@
                 android:paddingTop="@dimen/btn_v_padding"
                 android:paddingEnd="@dimen/margin_5xlarge"
                 android:paddingBottom="@dimen/btn_v_padding"
-                android:text="@string/continue_" />
+                android:text="@string/continue_"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

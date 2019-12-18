@@ -40,7 +40,6 @@ public class UploadImageService extends Service {
 
     public void uploadImage() {
         final ProfileActivity activity = ProfileActivity.accountDetailsInstance;
-        final NotificationBuilder notificationBuilder = new NotificationBuilder(this);
 
         if (activity != null && activity.encodedImage != null)
         {
@@ -48,7 +47,7 @@ public class UploadImageService extends Service {
 
             if (SharedPrefManager.getInstance(this).isNotificationEnabled())
             {
-                notificationBuilder.displayUploadingImage();
+                NotificationBuilder.Instance(UploadImageService.this).displayUploadingImage();
             }
 
             RetrofitClient.getInstance(this).fetchDataFromServer(this,
@@ -65,14 +64,14 @@ public class UploadImageService extends Service {
 
                             if (SharedPrefManager.getInstance(UploadImageService.this).isNotificationEnabled())
                             {
-                                notificationBuilder.displayMessage(getString(R.string.image_updated));
+                                NotificationBuilder.Instance(UploadImageService.this).displayMessage(getString(R.string.image_updated));
                             }
                         }
 
                         @Override
                         public void handleAfterResponse() {
                             if (!uploaded) {
-                                notificationBuilder.cancelNotification(UPLOAD_IMAGE_NOTIFICATION_ID);
+                                NotificationBuilder.Instance(UploadImageService.this).cancelNotification(UploadImageService.this,UPLOAD_IMAGE_NOTIFICATION_ID);
                             }
 
                             if (activity != null)
@@ -87,7 +86,7 @@ public class UploadImageService extends Service {
                         public void handleConnectionErrors(String errorMessage) {
                             if (SharedPrefManager.getInstance(UploadImageService.this).isNotificationEnabled())
                             {
-                                notificationBuilder.displayMessage(errorMessage);
+                                NotificationBuilder.Instance(UploadImageService.this).displayMessage(errorMessage);
                             }
                             else
                             {

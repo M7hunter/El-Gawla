@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -32,6 +31,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import it_geeks.info.elgawla.Adapters.ProductSubImagesAdapter;
 import it_geeks.info.elgawla.Adapters.TopTenAdapter;
 import it_geeks.info.elgawla.R;
@@ -482,11 +482,12 @@ public class ClosedSalonActivity extends BaseActivity {
                     public void handleTrueResponse(JsonObject mainObject) {
                         try
                         {
+//                            if (mainObject.get("is_winner").getAsBoolean())
                             initTopTenRecycler(ParseResponses.parseTopTen(mainObject));
                         }
                         catch (Exception e)
                         {
-                            Log.e("getTopTen: ", e.getMessage());
+                            e.printStackTrace();
                             Crashlytics.logException(e);
                         }
                     }
@@ -505,7 +506,7 @@ public class ClosedSalonActivity extends BaseActivity {
     }
 
     private void initTopTenRecycler(List<TopTen> topTens) {
-        if (topTens.size() > 0)
+        if (!topTens.isEmpty())
         {
             tvTopTenEmptyHint.setVisibility(View.GONE);
             topTenRecycler.setVisibility(View.VISIBLE);

@@ -62,12 +62,8 @@ public class SettingsActivity extends BaseActivity {
             soundSwitch.setChecked(false);
         }
 
-        if (Build.VERSION.SDK_INT > 26)
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O)
         {
-            NotificationBuilder notificationBuilder = new NotificationBuilder(this);
-            notificationBuilder.createUploadImageChannel();
-            NotificationBuilder.createRemoteChannel(this);
-
             rlAppNotification.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

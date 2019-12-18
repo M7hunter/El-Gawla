@@ -47,7 +47,7 @@ public class RetrofitClient {
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
 
-    private static DialogBuilder dialogBuilder;
+    private DialogBuilder dialogBuilder;
 
     private Call<JsonObject> call;
 
@@ -134,6 +134,14 @@ public class RetrofitClient {
                                     // dynamic with each call
                                     handleResponses.handleTrueResponse(mainObj);
                                 }
+                                else
+                                {
+                                    String serverError = parseServerErrors(mainObj);
+                                    if (!serverError.isEmpty())
+                                    {
+                                        Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
                             }
                             catch (NullPointerException | UnsupportedOperationException e)
                             { // errors of response body 'maybe response body has been changed'
@@ -143,7 +151,14 @@ public class RetrofitClient {
 
                             break;
                         case 203:
-                            displayServerError(null != response.errorBody() ? response.errorBody().string() : context.getString(R.string.error_occurred), context);
+                            JsonObject mainObj = response.body().getAsJsonObject();
+                            String serverError = parseServerErrors(mainObj);
+
+                            if (!serverError.isEmpty())
+                            {
+                                Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
+                            }
+
                             Common.Instance().signOut(context);
 
                             break;
@@ -241,24 +256,24 @@ public class RetrofitClient {
     }
 
     private void initRenewMembershipAlert(final Context context) {
-        if (dialogBuilder == null)
-        {
-            dialogBuilder = new DialogBuilder();
-            dialogBuilder.createAlertDialog(context,
-                    new ClickInterface.AlertButtonsClickListener() {
-                        @Override
-                        public void onPositiveClick() {
-                            context.startActivity(new Intent(context, MembershipActivity.class));
-                        }
+//        if (dialogBuilder == null)
+//        {
+        dialogBuilder = new DialogBuilder();
+        dialogBuilder.createAlertDialog(context,
+                new ClickInterface.AlertButtonsClickListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        context.startActivity(new Intent(context, MembershipActivity.class));
+                    }
 
-                        @Override
-                        public void onNegativeCLick() {
+                    @Override
+                    public void onNegativeCLick() {
 
-                        }
-                    });
+                    }
+                });
 
-            dialogBuilder.setAlertText(context.getString(R.string.must_renew_membership));
-        }
+        dialogBuilder.setAlertText(context.getString(R.string.must_renew_membership));
+//        }
     }
 
     public void cancelCall() {

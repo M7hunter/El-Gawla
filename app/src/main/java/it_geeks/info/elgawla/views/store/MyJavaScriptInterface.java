@@ -1,79 +1,57 @@
 package it_geeks.info.elgawla.views.store;
 
-import android.os.AsyncTask;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
 class MyJavaScriptInterface {
 
-    static JSONObject paymentObj;
+    static String PaymentId, Result, Amount, Transaction, Track, Date;
 
     @JavascriptInterface
     @SuppressWarnings("unused")
-    public void processHTML(String html) {
-        new extractJsonAsyncTask().execute(html);
+    public void postMessage(String value) {
+        Log.d("MyJavaScriptInterface", "postMessage: " + value);
     }
 
-    static class extractJsonAsyncTask extends AsyncTask<String, String, JSONObject> {
+    @JavascriptInterface
+    @SuppressWarnings("unused")
+    public void postPaymentId(String value) {
+        Log.d("MyJavaScriptInterface", "postPaymentId: " + value);
+        PaymentId = value;
+    }
 
-        private List<Character> stack;
-        private List<String> jsonList;
-        private String temp = "";
+    @JavascriptInterface
+    @SuppressWarnings("unused")
+    public void postResult(String value) {
+        Log.d("MyJavaScriptInterface", "postResult: " + value);
+        Result = value;
+    }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+    @JavascriptInterface
+    @SuppressWarnings("unused")
+    public void postAmount(String value) {
+        Log.d("MyJavaScriptInterface", "postAmount: " + value);
+        Amount = value;
+    }
 
-            stack = new ArrayList<>();
-            jsonList = new ArrayList<>();
-        }
+    @JavascriptInterface
+    @SuppressWarnings("unused")
+    public void postTransaction(String value) {
+        Log.d("MyJavaScriptInterface", "postTransaction: " + value);
+        Transaction = value;
+    }
 
-        @Override
-        protected JSONObject doInBackground(String... strings) {
-            for (char eachChar : strings[0].toCharArray()) {
-                if (stack.isEmpty() && eachChar == '{') {
-                    stack.add(eachChar);
-                    temp += eachChar;
-                } else if (!stack.isEmpty()) {
-                    temp += eachChar;
-                    if (stack.get(stack.size() - 1).equals('{') && eachChar == '}') {
-                        stack.remove(stack.size() - 1);
-                        if (stack.isEmpty()) {
-                            jsonList.add(temp);
-                            temp = "";
-                        }
-                    } else if (eachChar == '{' || eachChar == '}')
-                        stack.add(eachChar);
-                } else if (temp.length() > 0 && stack.isEmpty()) {
-                    jsonList.add(temp);
-                    temp = "";
-                }
-            }
+    @JavascriptInterface
+    @SuppressWarnings("unused")
+    public void postTrack(String value) {
+        Log.d("MyJavaScriptInterface", "postTrack: " + value);
+        Track = value;
+    }
 
-            for (String jo : jsonList)
-                Log.d("json_obj", jo);
-
-            try {
-                JSONObject jo = new JSONObject(jsonList.get(0));
-                return jo.getJSONObject("payment");
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject jsonObject) {
-            super.onPostExecute(jsonObject);
-
-            paymentObj = jsonObject;
-        }
+    @JavascriptInterface
+    @SuppressWarnings("unused")
+    public void postDate(String value) {
+        Log.d("MyJavaScriptInterface", "postDate: " + value);
+        Date = value;
     }
 }

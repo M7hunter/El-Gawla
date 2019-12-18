@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_small">
+        android:layout_margin="@dimen/margin_medium">
 
         <!-- color -->
         <FrameLayout
@@ -38,7 +38,7 @@
             android:layout_marginEnd="@dimen/margin_xtiny"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_medium"
             tools:text="@string/electronics" />
 
         <!-- status -->
@@ -51,7 +51,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_medium"
             tools:text="@string/used" />
 
     </LinearLayout>

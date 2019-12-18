@@ -469,7 +469,7 @@ public class SalonActivity extends BaseActivity {
         lastActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectActivityTab();
+                tvSalonActivityTab.performClick();
             }
         });
 
@@ -684,14 +684,6 @@ public class SalonActivity extends BaseActivity {
             socketUtils = new SocketUtils(this);
         }
         return socketUtils;
-    }
-
-    public View getSnackBarContainer() {
-        if (salonMainContainer == null)
-        {
-            salonMainContainer = findViewById(R.id.salon_main_layout);
-        }
-        return salonMainContainer;
     }
 
     private AlertDialog getJoinAlert() {
