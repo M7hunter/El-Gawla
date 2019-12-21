@@ -1,11 +1,9 @@
 package it_geeks.info.elgawla.views.main;
 
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -24,7 +22,8 @@ import it_geeks.info.elgawla.views.menu.MenuFragment;
 import it_geeks.info.elgawla.views.salon.MySalonsFragment;
 import it_geeks.info.elgawla.R;
 
-import static it_geeks.info.elgawla.util.Constants.CARDS_OFFER;
+import static it_geeks.info.elgawla.util.Constants.PATH;
+import static it_geeks.info.elgawla.util.Constants.TO_STORE;
 
 public class MainActivity extends BaseActivity {
 
@@ -59,7 +58,7 @@ public class MainActivity extends BaseActivity {
 
         if (extras != null)
         {
-            if (extras.getBoolean(CARDS_OFFER))
+            if (TO_STORE.equals(extras.getString(PATH)))
             {
                 displayFragment(selectStoreFragment());
                 navigation.setSelectedItemId(R.id.navigation_store);

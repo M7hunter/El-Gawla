@@ -42,7 +42,7 @@ import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseServe
 public class RetrofitClient {
 
     private static final String TAG = "retrofit_connection";
-    private boolean connected = true;
+    private boolean connected = false;
 
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
@@ -225,6 +225,7 @@ public class RetrofitClient {
 
     // connected ?
     public boolean isConnected(Context context) {
+        // todo: add broadcast to connectivity
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (cm != null)
@@ -251,7 +252,7 @@ public class RetrofitClient {
                 connected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
             }
         }
-
+        Log.d(TAG, "checkConnection: " + connected);
         return connected;
     }
 

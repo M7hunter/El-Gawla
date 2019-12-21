@@ -19,14 +19,15 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
-import it_geeks.info.elgawla.util.services.GetSalonDataService;
+import it_geeks.info.elgawla.util.services.FetchSalonDataService;
 import it_geeks.info.elgawla.views.account.ProfileActivity;
 import it_geeks.info.elgawla.views.main.MainActivity;
 import it_geeks.info.elgawla.views.signing.SignInActivity;
 import it_geeks.info.elgawla.views.main.NotificationActivity;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
-import static it_geeks.info.elgawla.util.Constants.CARDS_OFFER;
+import static it_geeks.info.elgawla.util.Constants.PATH;
+import static it_geeks.info.elgawla.util.Constants.TO_STORE;
 
 public class NotificationBuilder {
 
@@ -335,7 +336,7 @@ public class NotificationBuilder {
         {
             if (type.equals("salons"))
             {
-                intent = new Intent(context, GetSalonDataService.class);
+                intent = new Intent(context, FetchSalonDataService.class);
                 intent.putExtras(bundle);
                 return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             }
@@ -343,7 +344,7 @@ public class NotificationBuilder {
             {
                 intent = new Intent(context, MainActivity.class); // redirect to store fragment
                 stackBuilder.addNextIntentWithParentStack(intent
-                        .putExtra(CARDS_OFFER, true));
+                        .putExtra(PATH, TO_STORE));
             }
             else if (context instanceof NotificationActivity)
             {

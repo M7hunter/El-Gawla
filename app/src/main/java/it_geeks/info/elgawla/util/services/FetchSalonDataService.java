@@ -22,7 +22,7 @@ import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseSalon
 import static it_geeks.info.elgawla.util.Constants.REQ_GET_SALON_BY_ID;
 import static it_geeks.info.elgawla.util.Constants.SALON;
 
-public class GetSalonDataService extends Service {
+public class FetchSalonDataService extends Service {
 
     @Nullable
     @Override
@@ -53,17 +53,17 @@ public class GetSalonDataService extends Service {
                     @Override
                     public void handleTrueResponse(JsonObject mainObject) {
                         Salon salon = parseSalon(mainObject);
-                        EventsManager.sendNotificationInteractionEvent(GetSalonDataService.this, salon.getCategory_name(), String.valueOf(salon.getSalon_id()), salon.getProduct_name());
+                        EventsManager.sendNotificationInteractionEvent(FetchSalonDataService.this, salon.getCategory_name(), String.valueOf(salon.getSalon_id()), salon.getProduct_name());
                         TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
 
                         Intent i;
                         if (salon.isClosed())
                         {
-                            i = new Intent(GetSalonDataService.this, ClosedSalonActivity.class);
+                            i = new Intent(FetchSalonDataService.this, ClosedSalonActivity.class);
                         }
                         else
                         {
-                            i = new Intent(GetSalonDataService.this, SalonActivity.class);
+                            i = new Intent(FetchSalonDataService.this, SalonActivity.class);
                         }
                         i.putExtra(SALON, salon);
 
@@ -78,7 +78,7 @@ public class GetSalonDataService extends Service {
 
                     @Override
                     public void handleConnectionErrors(String errorMessage) {
-                        Toast.makeText(GetSalonDataService.this, errorMessage, Toast.LENGTH_LONG).show();
+                        Toast.makeText(FetchSalonDataService.this, errorMessage, Toast.LENGTH_LONG).show();
                         stopSelf();
                     }
                 });

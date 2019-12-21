@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 
-public class NotificationFirebaseMessagingService extends FirebaseMessagingService {
+public class FCM extends FirebaseMessagingService {
 
     private static final String TAG = "Notification";
 

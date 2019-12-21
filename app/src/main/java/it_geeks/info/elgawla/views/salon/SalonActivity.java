@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -1340,11 +1341,12 @@ public class SalonActivity extends BaseActivity {
             tvProductName.setText(salon.getProduct_name());
             tvProductCategory.setText(salon.getCategory_name());
             tvProductPrice.setText(salon.getProduct_commercial_price());
-            tvProductDescription.setText(HtmlCompat.fromHtml(salon.getProduct_product_description(), HtmlCompat.FROM_HTML_MODE_COMPACT));
+            tvProductDescription.setText(Html.fromHtml(salon.getProduct_product_description()));
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
     }
 

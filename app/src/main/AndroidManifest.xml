@@ -165,15 +165,16 @@
             android:exported="false" />
 
         <service
-            android:name=".util.notification.NotificationFirebaseMessagingService"
-            android:exported="false">
+            android:name=".util.notification.FCM"
+            android:enabled="true"
+            android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <service
-            android:name=".util.services.GetSalonDataService"
+            android:name=".util.services.FetchSalonDataService"
             android:exported="false"
             android:parentActivityName=".views.main.MainActivity" />
 
