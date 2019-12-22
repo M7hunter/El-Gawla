@@ -3,9 +3,7 @@ package it_geeks.info.elgawla.repository.RESTful;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -42,7 +40,7 @@ import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseServe
 public class RetrofitClient {
 
     private static final String TAG = "retrofit_connection";
-    private boolean connected = false;
+    private static boolean connected = false;
 
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
@@ -131,8 +129,7 @@ public class RetrofitClient {
                                 JsonObject mainObj = response.body().getAsJsonObject();
                                 if (mainObj.get("status").getAsBoolean())
                                 {
-                                    // dynamic with each call
-                                    handleResponses.handleTrueResponse(mainObj);
+                                    handleResponses.onTrueResponse(mainObj);
                                 }
                                 else
                                 {
@@ -141,6 +138,8 @@ public class RetrofitClient {
                                     {
                                         Toast.makeText(context, serverError, Toast.LENGTH_SHORT).show();
                                     }
+
+                                    handleResponses.onFalseResponse();
                                 }
                             }
                             catch (NullPointerException | UnsupportedOperationException e)
@@ -170,6 +169,8 @@ public class RetrofitClient {
                         default: // code != (200 || 203 || 412)
                             displayServerError(null != response.errorBody() ? response.errorBody().string() : context.getString(R.string.error_occurred), context);
 
+                            handleResponses.onServerError();
+
                             break;
                     }
 
@@ -180,8 +181,7 @@ public class RetrofitClient {
                     Crashlytics.logException(e);
                 }
 
-                // dynamic with each call
-                handleResponses.handleAfterResponse();
+                handleResponses.afterResponse();
             }
 
             @Override
@@ -191,11 +191,11 @@ public class RetrofitClient {
 
                 if (!isConnected(context))
                 {
-                    handleResponses.handleConnectionErrors(context.getString(R.string.check_connection));
+                    handleResponses.onConnectionErrors(context.getString(R.string.check_connection));
                     return;
                 }
 
-                handleResponses.handleConnectionErrors(t.getLocalizedMessage());
+                handleResponses.onConnectionErrors(t.getLocalizedMessage());
             }
         };
     }
@@ -224,35 +224,33 @@ public class RetrofitClient {
     }
 
     // connected ?
-    public boolean isConnected(Context context) {
-        // todo: add broadcast to connectivity
+    public static boolean isConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
         if (cm != null)
         {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
-            {
-                cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
-                    @Override
-                    public void onAvailable(@NonNull Network network) {
-                        super.onAvailable(network);
-                        connected = true;
-                    }
-
-                    @Override
-                    public void onLost(@NonNull Network network) {
-                        super.onLost(network);
-                        connected = false;
-                    }
-                });
-            }
-            else
-            {
-                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-                connected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-            }
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
+//            {
+//                cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
+//                    @Override
+//                    public void onAvailable(@NonNull Network network) {
+//                        super.onAvailable(network);
+//                        connected = true;
+//                    }
+//
+//                    @Override
+//                    public void onLost(@NonNull Network network) {
+//                        super.onLost(network);
+//                        connected = false;
+//                    }
+//                });
+//            }
+//            else
+//            {
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            connected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+//            }
         }
-        Log.d(TAG, "checkConnection: " + connected);
+        Log.d(TAG, "isConnected: " + connected);
         return connected;
     }
 

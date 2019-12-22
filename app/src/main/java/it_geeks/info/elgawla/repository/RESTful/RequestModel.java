@@ -8,7 +8,7 @@ public class RequestModel<T> {
             provider, provider_id, provider_name, provider_email, provider_image, firebase_token, payment_method,
             name, api_token, image, old_password, password, password_confirmation, email, message, receiver,
             category_id, salon_id, round_id, card_id, user_id, country_id,
-            isHome, isRecent, is_filter, filter_date_from, filter_date_to, filter_title, filter_cat_id;
+            isHome, isRecent, filter_date_from, filter_date_to, filter_title, filter_cat_id;
 
     public RequestModel(String action, T t1, T t2, T t3, T t4, T t5, T t6, T t7) {
 

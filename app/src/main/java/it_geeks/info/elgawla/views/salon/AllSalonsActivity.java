@@ -190,17 +190,17 @@ public class AllSalonsActivity extends BaseActivity {
                 REQ_GET_SALONS_BY_CAT_ID, new RequestModel<>(REQ_GET_SALONS_BY_CAT_ID, userId, apiToken, catKey,
                         null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         salonsList = ParseResponses.parseSalons(mainObject);
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         initSalonsRecycler();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         initSalonsRecycler();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
@@ -214,19 +214,19 @@ public class AllSalonsActivity extends BaseActivity {
                 , new RequestModel<>(FILTER, userId, apiToken, false,
                         null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         salonsList = ParseResponses.parseSalons(mainObject);
 
                         last_page = mainObject.get("last_page").getAsInt();
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         initSalonsRecycler();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         initSalonsRecycler();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
@@ -240,7 +240,7 @@ public class AllSalonsActivity extends BaseActivity {
                 , new RequestModel<>(FILTER, userId, apiToken, false
                         , null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         int nextFirstPosition = salonsList.size();
                         salonsList.addAll(ParseResponses.parseSalons(mainObject));
                         for (int i = nextFirstPosition; i < salonsList.size(); i++)
@@ -253,12 +253,12 @@ public class AllSalonsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         pbpSalons.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         pbpSalons.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
@@ -661,7 +661,7 @@ public class AllSalonsActivity extends BaseActivity {
                 REQ_GET_ALL_CATEGORIES, new RequestModel<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
                         null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         categoryList = ParseResponses.parseCategories(mainObject);
                         if (mBottomSheetCategory.isShowing())
                         {
@@ -670,12 +670,12 @@ public class AllSalonsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         if (mBottomSheetCategory.isShowing()) pbFilterCats.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         if (mBottomSheetCategory.isShowing()) pbFilterCats.setVisibility(View.GONE);
 
                         initSalonsRecycler();
@@ -710,19 +710,19 @@ public class AllSalonsActivity extends BaseActivity {
                 , new RequestModel<>(FILTER, userId, apiToken, dateFrom, dateTo, title, catId, null)
                 , new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         salonsList.addAll(ParseResponses.parseSalons(mainObject));
 
                         last_page = mainObject.get("last_page").getAsInt();
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         initSalonsRecycler();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         initSalonsRecycler();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
@@ -736,7 +736,7 @@ public class AllSalonsActivity extends BaseActivity {
                 , new RequestModel<>(FILTER, userId, apiToken, dateFrom, dateTo, title, catId, null)
                 , new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         try
                         {
                             int nextFirstPosition = salonsList.size();
@@ -756,12 +756,12 @@ public class AllSalonsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         pbpSalons.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         pbpSalons.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

@@ -1,8 +1,6 @@
 package it_geeks.info.elgawla.views.main;
 
 import it_geeks.info.elgawla.R;
-import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
-import it_geeks.info.elgawla.util.Common;
 import it_geeks.info.elgawla.util.ImageLoader;
 import it_geeks.info.elgawla.views.BaseActivity;
 

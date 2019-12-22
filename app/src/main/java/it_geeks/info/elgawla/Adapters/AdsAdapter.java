@@ -93,7 +93,7 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
                         null, null, null, null),
                 new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         Salon salon = parseSalon(mainObject);
 
                         Intent i = new Intent(context, SalonActivity.class);
@@ -102,12 +102,12 @@ public class AdsAdapter extends RecyclerView.Adapter<AdsAdapter.ViewHolder> {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         ((MainActivity) context).dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         ((MainActivity) context).dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

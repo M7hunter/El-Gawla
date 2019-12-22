@@ -271,7 +271,7 @@ public class ProfileActivity extends BaseActivity {
                                     sp_gender.getText().toString(),
                                     country.getCountry_id()), new HandleResponses() {
                                 @Override
-                                public void handleTrueResponse(JsonObject mainObject) {
+                                public void onTrueResponse(JsonObject mainObject) {
                                     // unsubscribe remote notification from previous country
                                     FirebaseMessaging.getInstance().unsubscribeFromTopic("country_" + SharedPrefManager.getInstance(ProfileActivity.this).getCountry().getCountry_id());
 
@@ -287,12 +287,12 @@ public class ProfileActivity extends BaseActivity {
                                 }
 
                                 @Override
-                                public void handleAfterResponse() {
+                                public void afterResponse() {
                                     setUIAfterUpdating();
                                 }
 
                                 @Override
-                                public void handleConnectionErrors(String errorMessage) {
+                                public void onConnectionErrors(String errorMessage) {
                                     setUIAfterUpdating();
                                     snackBuilder.setSnackText(errorMessage).showSnack();
                                 }

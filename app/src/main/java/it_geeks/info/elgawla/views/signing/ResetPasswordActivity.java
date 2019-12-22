@@ -149,7 +149,7 @@ public class ResetPasswordActivity extends BaseActivity {
                         , SharedPrefManager.getInstance(ResetPasswordActivity.this).getUser().getUser_id(), pass, rePass
                         , null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         snackBuilder.setSnackText(mainObject.get(SERVER_MSG).getAsString()).showSnack();
 
                         startActivity(new Intent(ResetPasswordActivity.this, SignInActivity.class)
@@ -157,12 +157,12 @@ public class ResetPasswordActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

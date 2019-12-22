@@ -3,10 +3,13 @@ package it_geeks.info.elgawla.util.services;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.Process;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.TaskStackBuilder;
 import it_geeks.info.elgawla.repository.Models.Salon;
@@ -15,6 +18,7 @@ import it_geeks.info.elgawla.repository.RESTful.RequestModel;
 import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.EventsManager;
+import it_geeks.info.elgawla.views.intro.SplashScreenActivity;
 import it_geeks.info.elgawla.views.salon.ClosedSalonActivity;
 import it_geeks.info.elgawla.views.salon.SalonActivity;
 
@@ -50,8 +54,15 @@ public class FetchSalonDataService extends Service {
                         , SharedPrefManager.getInstance(this).getUser().getApi_token()
                         , id
                         , null, null, null, null), new HandleResponses() {
+
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onServerError() {
+                            if (!SplashScreenActivity.splashInstance.isDestroyed())
+                                SplashScreenActivity.splashInstance.finish();
+                    }
+
+                    @Override
+                    public void onTrueResponse(JsonObject mainObject) {
                         Salon salon = parseSalon(mainObject);
                         EventsManager.sendNotificationInteractionEvent(FetchSalonDataService.this, salon.getCategory_name(), String.valueOf(salon.getSalon_id()), salon.getProduct_name());
                         TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
@@ -72,12 +83,11 @@ public class FetchSalonDataService extends Service {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
-                        stopSelf();
+                    public void afterResponse() {
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         Toast.makeText(FetchSalonDataService.this, errorMessage, Toast.LENGTH_LONG).show();
                         stopSelf();
                     }

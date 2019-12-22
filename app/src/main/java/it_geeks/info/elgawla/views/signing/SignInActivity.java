@@ -240,7 +240,7 @@ public class SignInActivity extends BaseActivity implements GoogleApiClient.OnCo
                 REQ_SIGN_IN, new RequestModel<>(REQ_SIGN_IN, email, pass,
                         null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         cacheUserData(mainObject, SignInActivity.providerNormalLogin); // with normal provider
                         Common.Instance().updateFirebaseToken(SignInActivity.this);
 
@@ -259,13 +259,13 @@ public class SignInActivity extends BaseActivity implements GoogleApiClient.OnCo
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                         FirebaseAuth.getInstance().signOut();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         FirebaseAuth.getInstance().signOut();
                         snackBuilder.setSnackText(errorMessage).showSnack();
@@ -406,7 +406,7 @@ public class SignInActivity extends BaseActivity implements GoogleApiClient.OnCo
                 REQ_SOCIAL_SIGN, new RequestModel<>(REQ_SOCIAL_SIGN, provider, id, name, email, image, countryId,
                         null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         cacheUserData(mainObject, provider);
                         Common.Instance().updateFirebaseToken(SignInActivity.this);
 
@@ -425,13 +425,13 @@ public class SignInActivity extends BaseActivity implements GoogleApiClient.OnCo
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                         FirebaseAuth.getInstance().signOut();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         FirebaseAuth.getInstance().signOut();
                         snackBuilder.setSnackText(errorMessage).showSnack();

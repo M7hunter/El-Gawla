@@ -233,7 +233,7 @@ public class PaymentMethodsActivity extends BaseActivity {
                         , method
                         , null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         String url = (mainObject.get("url").getAsString());
 
                         if (url != null && !url.isEmpty())
@@ -245,12 +245,12 @@ public class PaymentMethodsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

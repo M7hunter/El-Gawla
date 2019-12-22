@@ -283,19 +283,19 @@ public class ActivationActivity extends BaseActivity {
                 , REQ_SEND_SMS, new RequestModel<>(REQ_SEND_SMS, receiver, SharedPrefManager.getInstance(ActivationActivity.this).getCountry().getCountry_id()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         removeError();
                         countDownTimer.start();
                         fbtnResend.setEnabled(false);
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         btnConfirm.setEnabled(true);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         btnConfirm.setEnabled(true);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
@@ -308,7 +308,7 @@ public class ActivationActivity extends BaseActivity {
                 , REQ_CONFIRM_CODE, new RequestModel<>(REQ_CONFIRM_CODE, code, receiver,
                         null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
 
                         SharedPrefManager.getInstance(ActivationActivity.this).saveUser(ParseResponses.parseUser(mainObject));
@@ -316,12 +316,12 @@ public class ActivationActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         btnConfirm.setEnabled(true);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         btnConfirm.setEnabled(true);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

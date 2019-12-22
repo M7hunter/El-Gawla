@@ -439,7 +439,7 @@ public class ClosedSalonActivity extends BaseActivity {
                 REQ_GET_WINNER, new RequestModel<>(REQ_GET_WINNER, user.getUser_id(), user.getApi_token(), salon.getSalon_id(), salon.getRound_id()
                         , null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         try
                         {
                             String message = mainObject.get("message").getAsString();
@@ -463,12 +463,12 @@ public class ClosedSalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                     }
                 });
@@ -479,7 +479,7 @@ public class ClosedSalonActivity extends BaseActivity {
                 REQ_GET_TOP_TEN, new RequestModel<>(REQ_GET_TOP_TEN, user.getUser_id(), user.getApi_token(), salon.getSalon_id(), salon.getRound_id()
                         , null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         try
                         {
 //                            if (mainObject.get("is_winner").getAsBoolean())
@@ -493,12 +493,12 @@ public class ClosedSalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         pbTopTen.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         snackBuilder.setSnackText(errorMessage).showSnack();
                         pbTopTen.setVisibility(View.GONE);
                     }

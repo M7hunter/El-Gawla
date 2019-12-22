@@ -195,18 +195,18 @@ public class ChangePasswordActivity extends BaseActivity {
                         , null, null, null),
                 new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         snackBuilder.setSnackText(mainObject.get(SERVER_MSG).getAsString()).showSnack();
                         Common.Instance().signOut(ChangePasswordActivity.this);
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

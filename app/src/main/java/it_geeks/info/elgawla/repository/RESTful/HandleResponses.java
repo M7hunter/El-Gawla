@@ -2,11 +2,17 @@ package it_geeks.info.elgawla.repository.RESTful;
 
 import com.google.gson.JsonObject;
 
-public interface HandleResponses {
+public abstract class HandleResponses {
 
-    void handleTrueResponse(JsonObject mainObject);
+    public void onTrueResponse(JsonObject mainObject){}
 
-    void handleAfterResponse();
+    public void onFalseResponse() {}
 
-    void handleConnectionErrors(String errorMessage);
+    public void afterResponse(){}
+
+    public void onServerError() {}
+
+    public void onConnectionErrors(String errorMessage){}
 }
+
+

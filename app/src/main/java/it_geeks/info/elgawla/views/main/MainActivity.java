@@ -1,17 +1,23 @@
 package it_geeks.info.elgawla.views.main;
 
+import android.animation.Animator;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import it_geeks.info.elgawla.util.ConnectivityReceiver;
 import it_geeks.info.elgawla.util.DialogBuilder;
+import it_geeks.info.elgawla.util.Interfaces.ConnectionInteface;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.util.notification.NotificationBuilder;
@@ -32,25 +38,56 @@ public class MainActivity extends BaseActivity {
     private Fragment mainFragment, mySalonsFragment, storeFragment, accountFragment, menuFragment;
 
     private View snackContainer;
+    private CardView cvConnectivity;
+    private TextView tvConnectivity;
 
     public DialogBuilder dialogBuilder;
     public SnackBuilder snackBuilder;
+    private ConnectivityReceiver connectivityReceiver;
+    private Animator.AnimatorListener connectivityAnimatorListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        init();
+
+        connectivityReceiver = new ConnectivityReceiver(this, new ConnectionInteface() {
+            @Override
+            public void onConnected() {
+                hideConnectivityCard();
+            }
+
+            @Override
+            public void onDisconnected() {
+                displayConnectivityCard();
+            }
+        });
+
         if (savedInstanceState == null)
         {
             displayFragment(selectMainFragment());
         }
 
-        init();
-
         initNavigation();
 
         getExtras();
+    }
+
+    private void hideConnectivityCard() {
+        tvConnectivity.setText(getString(R.string.connected));
+        cvConnectivity.setCardBackgroundColor(Color.GREEN);
+
+        cvConnectivity.animate().translationX(-cvConnectivity.getWidth()).setDuration(500).setStartDelay(500);
+    }
+
+    private void displayConnectivityCard() {
+        tvConnectivity.setText(getString(R.string.no_connection));
+        cvConnectivity.setCardBackgroundColor(Color.RED);
+
+        cvConnectivity.setVisibility(View.VISIBLE);
+        cvConnectivity.animate().translationX(0).setDuration(500);
     }
 
     public void getExtras() {
@@ -67,6 +104,33 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init() {
+        cvConnectivity = findViewById(R.id.cv_connectivity);
+        tvConnectivity = findViewById(R.id.tv_connectivity);
+
+        connectivityAnimatorListener = new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (tvConnectivity.getText().toString().equals(getString(R.string.connected)))
+                    cvConnectivity.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        };
+        cvConnectivity.animate().setListener(connectivityAnimatorListener);
+
         NotificationBuilder.Instance(this).CancelAll(this);
         SharedPrefManager.getInstance(this).haveNewNotification();
         // Firebase Receive messaging notification
@@ -204,5 +268,12 @@ public class MainActivity extends BaseActivity {
         {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        unregisterReceiver(connectivityReceiver);
     }
 }

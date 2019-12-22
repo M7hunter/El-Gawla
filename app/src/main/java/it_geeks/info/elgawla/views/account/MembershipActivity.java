@@ -66,17 +66,17 @@ public class MembershipActivity extends BaseActivity {
                 REQ_GET_ALL_PACKAGES, new RequestModel<>(REQ_GET_ALL_PACKAGES, SharedPrefManager.getInstance(MembershipActivity.this).getUser().getUser_id(), SharedPrefManager.getInstance(MembershipActivity.this).getUser().getApi_token()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         initRecyclers(ParseResponses.parsePackages(mainObject));
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         new SnackBuilder(findViewById(R.id.membership_main_layout)).setSnackText(errorMessage).showSnack();
                     }

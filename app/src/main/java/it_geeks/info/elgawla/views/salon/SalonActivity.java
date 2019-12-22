@@ -602,7 +602,7 @@ public class SalonActivity extends BaseActivity {
                             , userOffer
                             , null, null, null), new HandleResponses() {
                         @Override
-                        public void handleTrueResponse(JsonObject mainObject) {
+                        public void onTrueResponse(JsonObject mainObject) {
                             //Save user Offer
                             SharedPrefManager.getInstance(SalonActivity.this).saveUserOffer(salon.getSalon_id() + "" + userId, userOffer);
                             updateLatestActivity(mainObject.get("message").getAsString());
@@ -625,12 +625,12 @@ public class SalonActivity extends BaseActivity {
                         }
 
                         @Override
-                        public void handleAfterResponse() {
+                        public void afterResponse() {
                             enableOfferLayout();
                         }
 
                         @Override
-                        public void handleConnectionErrors(String errorMessage) {
+                        public void onConnectionErrors(String errorMessage) {
                             enableOfferLayout();
                             snackBuilder.setSnackText(errorMessage).showSnack();
                         }
@@ -843,7 +843,7 @@ public class SalonActivity extends BaseActivity {
                 REQ_GET_SALON_WITH_REALTIME, new RequestModel<>(REQ_GET_SALON_WITH_REALTIME, userId, apiToken, salon.getSalon_id()
                         , null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         if (!mainObject.get("is_closed").getAsBoolean())
                         {
                             if (mainObject.get("isToday").getAsBoolean())
@@ -864,14 +864,14 @@ public class SalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                         refreshLayout.setRefreshing(false);
                         TourManager.salonPageSequence(SalonActivity.this, findViewById(R.id.salon_message), findViewById(R.id.ll_salon_countdown));
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         refreshLayout.setRefreshing(false);
                         Snackbar.make(findViewById(R.id.salon_main_layout), errorMessage, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
@@ -995,7 +995,7 @@ public class SalonActivity extends BaseActivity {
                 REQ_GET_TOP_TEN, new RequestModel<>(REQ_GET_TOP_TEN, userId, apiToken, salon.getSalon_id(), salon.getRound_id()
                         , null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         try
                         {
                             initTopTenRecycler(ParseResponses.parseTopTen(mainObject));
@@ -1008,13 +1008,13 @@ public class SalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         Log.d(TAG, "getTopTen: done");
                         pbTopTen.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         snackBuilder.setSnackText(errorMessage).showSnack();
                         pbTopTen.setVisibility(View.GONE);
                     }
@@ -1027,7 +1027,7 @@ public class SalonActivity extends BaseActivity {
                 REQ_GET_WINNER, new RequestModel<>(REQ_GET_WINNER, userId, apiToken, salon.getSalon_id(), salon.getRound_id()
                         , null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         try
                         {
                             String message = mainObject.get("message").getAsString();
@@ -1065,12 +1065,12 @@ public class SalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                     }
                 });
@@ -1193,20 +1193,20 @@ public class SalonActivity extends BaseActivity {
                         , ""
                         , null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         congratsSubscribing();
                         getChatUtils().enableChat();
                         EventsManager.sendSubscribeToSalonEvent(SalonActivity.this, String.valueOf(salon.getSalon_id()));
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         joinConfirmationProgress.setVisibility(View.GONE);
                         btnJoinConfirmation.setEnabled(true);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         joinConfirmationProgress.setVisibility(View.GONE);
                         btnJoinConfirmation.setEnabled(true);
                         snackBuilder.setSnackText(errorMessage).showSnack();
@@ -1220,7 +1220,7 @@ public class SalonActivity extends BaseActivity {
                 REQ_SET_ROUND_LEAVE, new RequestModel<>(REQ_SET_ROUND_LEAVE, userId, apiToken, salon.getSalon_id()
                         , null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         AudioPlayer.getInstance().play(SalonActivity.this, R.raw.exit);
                         countDownController.stopCountDown();
                         btnLeaveRound.setVisibility(View.GONE);
@@ -1230,12 +1230,12 @@ public class SalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         Snackbar.make(findViewById(R.id.salon_main_layout), R.string.no_connection, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
                             @Override
@@ -1523,7 +1523,7 @@ public class SalonActivity extends BaseActivity {
                     REQ_USE_GOLDEN_CARD, new RequestModel<>(REQ_USE_GOLDEN_CARD, userId, apiToken, salon.getSalon_id(), goldenCard.getCard_id(), salon.getRound_id()
                             , null, null), new HandleResponses() {
                         @Override
-                        public void handleTrueResponse(JsonObject mainObject) {
+                        public void onTrueResponse(JsonObject mainObject) {
                             snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
 
                             roundRemainingTime.setUserJoin(true);
@@ -1536,12 +1536,12 @@ public class SalonActivity extends BaseActivity {
                         }
 
                         @Override
-                        public void handleAfterResponse() {
+                        public void afterResponse() {
                             dialogBuilder.hideLoadingDialog();
                         }
 
                         @Override
-                        public void handleConnectionErrors(String errorMessage) {
+                        public void onConnectionErrors(String errorMessage) {
                             displayGoldenLayout();
                             dialogBuilder.hideLoadingDialog();
                             snackBuilder.setSnackText(errorMessage).showSnack();
@@ -1614,7 +1614,7 @@ public class SalonActivity extends BaseActivity {
                 REQ_GET_USER_CARDS_BY_SALON, new RequestModel<>(REQ_GET_USER_CARDS_BY_SALON, userId, apiToken, salon.getSalon_id()
                         , null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         userCards.clear();
                         userCards.addAll(ParseResponses.parseUserCardsBySalon(mainObject));
 
@@ -1661,13 +1661,13 @@ public class SalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                         Log.d(TAG, "getUserCardsForSalonFromServer: done");
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         Log.d(TAG, "getUserCardsForSalonFromServer: failed");
                     }

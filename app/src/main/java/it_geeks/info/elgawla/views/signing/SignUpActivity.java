@@ -358,7 +358,7 @@ public class SignUpActivity extends BaseActivity implements GoogleApiClient.OnCo
                 REQ_SIGN_UP, new RequestModel<>(REQ_SIGN_UP, user.getName(), user.getEmail(), countryId, user.getPhone(), user.getPassword(),
                         null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         // notify user
                         snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
                         // save user data locally
@@ -372,12 +372,12 @@ public class SignUpActivity extends BaseActivity implements GoogleApiClient.OnCo
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
@@ -511,7 +511,7 @@ public class SignUpActivity extends BaseActivity implements GoogleApiClient.OnCo
                 REQ_SOCIAL_SIGN, new RequestModel<>(REQ_SOCIAL_SIGN, provider, id, name, email, image, countryId,
                         null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         cacheUserData(mainObject, provider);
                         Common.Instance().updateFirebaseToken(SignUpActivity.this);
                         EventsManager.sendSignUpEvent(SignUpActivity.this, "sign up");
@@ -519,13 +519,13 @@ public class SignUpActivity extends BaseActivity implements GoogleApiClient.OnCo
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                         FirebaseAuth.getInstance().signOut();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         FirebaseAuth.getInstance().signOut();
                     }

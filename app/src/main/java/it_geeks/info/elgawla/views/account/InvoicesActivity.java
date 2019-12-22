@@ -72,20 +72,20 @@ public class InvoicesActivity extends BaseActivity {
                         null, null, null, null, null),
                 new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         invoiceList = ParseResponses.parseInvoices(mainObject);
 
                         last_page = mainObject.get("last_page").getAsInt();
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                         initRecycler();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         initRecycler();
                         snackBuilder.setSnackText(errorMessage).showSnack();
@@ -101,7 +101,7 @@ public class InvoicesActivity extends BaseActivity {
                         null, null, null, null, null),
                 new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         int nextFirstPosition = invoiceList.size();
                         invoiceList.addAll(ParseResponses.parseInvoices(mainObject));
                         for (int i = nextFirstPosition; i < invoiceList.size(); i++)
@@ -114,12 +114,12 @@ public class InvoicesActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         pbpInvoices.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         pbpInvoices.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

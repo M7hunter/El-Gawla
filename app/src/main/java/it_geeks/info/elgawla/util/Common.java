@@ -161,17 +161,17 @@ public class Common {
                 REQ_SET_FIREBASE_TOKEN, new RequestModel<>(REQ_SET_FIREBASE_TOKEN, user_id, apiToken, token,
                         null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         Log.d(TAG, "firebaseTokenSent");
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
 
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                     }
                 });
     }

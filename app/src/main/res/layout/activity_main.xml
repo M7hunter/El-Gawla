@@ -12,17 +12,48 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/main_frame"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/snackbar_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:animateLayoutChanges="true"
+            android:background="@android:color/transparent">
+
+            <!-- fragments content -->
+            <FrameLayout
+                android:id="@+id/main_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <!-- connectivity -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_connectivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/margin_xlarge"
+                android:layout_marginEnd="-10dp"
+                android:animateLayoutChanges="true"
+                android:visibility="invisible"
+                app:cardBackgroundColor="@color/greenBlue"
+                app:cardCornerRadius="@dimen/margin_small"
+                app:cardElevation="@dimen/margin_medium">
+
+                <TextView
+                    android:id="@+id/tv_connectivity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_large"
+                    android:padding="@dimen/margin_medium"
+                    android:text="@string/connected"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_x_medium"
+                    android:textStyle="bold" />
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigation"

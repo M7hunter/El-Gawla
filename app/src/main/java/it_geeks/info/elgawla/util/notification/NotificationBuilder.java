@@ -234,7 +234,6 @@ public class NotificationBuilder {
                 .setGroup(REMOTE_NOTIFICATION_GROUP_KEY)
                 .setGroupSummary(true)
                 .setShowWhen(true)
-                .setSubText("not salon")
                 .setAutoCancel(true)
                 .setColor(context.getResources().getColor(R.color.colorPrimary))
                 .setContentIntent(pendingIntent);
@@ -255,7 +254,7 @@ public class NotificationBuilder {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, REMOTE_NOTIFICATION_CHANNEL_ID);
         builder.setSmallIcon(NOTIFICATION_ICON)
-                .setGroup(type.equals("salons") ? REMOTE_SALONS_NOTIFICATION_GROUP_KEY : REMOTE_CARDS_NOTIFICATION_GROUP_KEY)
+                .setGroup("salons".equals(type) ? REMOTE_SALONS_NOTIFICATION_GROUP_KEY : REMOTE_CARDS_NOTIFICATION_GROUP_KEY)
                 .setShowWhen(true)
                 .setAutoCancel(true)
                 .setColor(context.getResources().getColor(R.color.colorPrimary))
@@ -266,7 +265,7 @@ public class NotificationBuilder {
 
         NotificationCompat.Builder summaryBuilder = new NotificationCompat.Builder(context, REMOTE_NOTIFICATION_CHANNEL_ID);
         summaryBuilder.setSmallIcon(NOTIFICATION_ICON)
-                .setGroup(type.equals("salons") ? REMOTE_SALONS_NOTIFICATION_GROUP_KEY : REMOTE_CARDS_NOTIFICATION_GROUP_KEY)
+                .setGroup("salons".equals(type) ? REMOTE_SALONS_NOTIFICATION_GROUP_KEY : REMOTE_CARDS_NOTIFICATION_GROUP_KEY)
                 .setGroupSummary(true)
                 .setShowWhen(true)
                 .setAutoCancel(true)
@@ -275,10 +274,10 @@ public class NotificationBuilder {
                 .setStyle(inboxStyle);
 
         createRemoteChannel(context, type);
-        builder.setChannelId(type.equals("salons") ? REMOTE_SALONS_NOTIFICATION_CHANNEL_ID : REMOTE_CARDS_NOTIFICATION_CHANNEL_ID);
-        summaryBuilder.setChannelId(type.equals("salons") ? REMOTE_SALONS_NOTIFICATION_CHANNEL_ID : REMOTE_CARDS_NOTIFICATION_CHANNEL_ID);
+        builder.setChannelId("salons".equals(type) ? REMOTE_SALONS_NOTIFICATION_CHANNEL_ID : REMOTE_CARDS_NOTIFICATION_CHANNEL_ID);
+        summaryBuilder.setChannelId("salons".equals(type) ? REMOTE_SALONS_NOTIFICATION_CHANNEL_ID : REMOTE_CARDS_NOTIFICATION_CHANNEL_ID);
 
-        getNotificationManager(context).notify(summaryBuilder.build().getGroup(), type.equals("salons") ? REMOTE_SALONS_NOTIFICATION_GROUP_ID : REMOTE_CARDS_NOTIFICATION_GROUP_ID, summaryBuilder.build());
+        getNotificationManager(context).notify(summaryBuilder.build().getGroup(), "salons".equals(type) ? REMOTE_SALONS_NOTIFICATION_GROUP_ID : REMOTE_CARDS_NOTIFICATION_GROUP_ID, summaryBuilder.build());
         getNotificationManager(context).notify(builder.build().getGroup(), new Random().nextInt(), builder.build());
     }
 

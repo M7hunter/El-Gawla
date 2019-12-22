@@ -160,17 +160,17 @@ public class StoreFragment extends Fragment {
                 REQ_GET_ALL_CATEGORIES, new RequestModel<>(REQ_GET_ALL_CATEGORIES, userId, apiToken,
                         null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         categoryDao.deleteCats(categoryDao.getCategoriesList());
                         categoryDao.insertCategories(ParseResponses.parseCategories(mainObject));
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });

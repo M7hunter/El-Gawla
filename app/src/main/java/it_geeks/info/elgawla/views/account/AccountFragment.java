@@ -162,7 +162,7 @@ public class AccountFragment extends Fragment {
                         null, null, null, null, null),
                 new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         String subscription = mainObject.get("subscribe_end").getAsString();
                         if (subscription != null)
                             if (subscription.equals("Need Subscribe") || subscription.equals("0"))
@@ -177,13 +177,13 @@ public class AccountFragment extends Fragment {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         pbExp.setVisibility(View.GONE);
                         refreshLayout.setRefreshing(false);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         pbExp.setVisibility(View.GONE);
                         refreshLayout.setRefreshing(false);
                     }

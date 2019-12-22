@@ -140,7 +140,7 @@ public class ForgetPasswordActivity extends BaseActivity {
                 REQ_FORGOT_PASSWORD, new RequestModel<>(REQ_FORGOT_PASSWORD, receiver
                         , null, null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
                         startActivity(new Intent(ForgetPasswordActivity.this, ActivationActivity.class)
                                 .putExtra("receiver", receiver)
@@ -148,12 +148,12 @@ public class ForgetPasswordActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         displaySendBtn();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         displaySendBtn();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

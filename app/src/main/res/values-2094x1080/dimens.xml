@@ -5,6 +5,7 @@
     <dimen name="margin_xtiny">3dp</dimen>
     <dimen name="margin_2xtiny">5dp</dimen>
     <dimen name="margin_small">7dp</dimen>
+    <dimen name="margin_minus_small">-7dp</dimen>
     <dimen name="margin_medium">12dp</dimen>
     <dimen name="margin_x_medium">15dp</dimen>
     <dimen name="margin_large">17dp</dimen>

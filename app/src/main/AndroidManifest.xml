@@ -165,7 +165,7 @@
             android:exported="false" />
 
         <service
-            android:name=".util.notification.FCM"
+            android:name=".util.notification.FCMService"
             android:enabled="true"
             android:stopWithTask="false">
             <intent-filter>

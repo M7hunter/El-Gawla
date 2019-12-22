@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.JsonObject;
@@ -194,33 +193,13 @@ public class MainFragment extends Fragment {
     }
 
     private void getDataFromServer() {
-        if (RetrofitClient.getInstance(context).isConnected(context))
-        {
-            noConnectionLayout.setVisibility(View.GONE);
+        noConnectionLayout.setVisibility(View.GONE);
 
-            getAdsAndCatsFromServer();
+        getAdsAndCatsFromServer();
 
-            getFirstRecentSalonsFromServer();
+        getFirstRecentSalonsFromServer();
 
-            getFirstFinishedSalonsFromServer();
-        }
-        else
-        {
-            onNoConnection();
-        }
-    }
-
-    private void onNoConnection() {
-        noConnectionLayout.setVisibility(View.VISIBLE);
-        rvRecentSalons.setVisibility(View.GONE);
-        rvFinishedSalons.setVisibility(View.GONE);
-        adsPager.setVisibility(View.GONE);
-        adsEmptyView.setVisibility(View.VISIBLE);
-        refreshLayout.setRefreshing(false);
-        stopSliderShimmer();
-        stopCatsShimmer();
-        stopSalonsShimmer();
-        stopFinishedSalonsShimmer();
+        getFirstFinishedSalonsFromServer();
     }
 
     private void getAdsAndCatsFromServer() {
@@ -230,7 +209,7 @@ public class MainFragment extends Fragment {
                 REQ_GET_ALL_SLIDERS, new RequestModel<>(REQ_GET_ALL_SLIDERS, userId, apiToken
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         adsList.clear();
                         adsList.addAll(ParseResponses.parseAds(mainObject));
 
@@ -240,13 +219,13 @@ public class MainFragment extends Fragment {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         initAdsRecycler();
                         initCatsRecycler();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         initAdsRecycler();
                         initCatsRecycler();
                     }
@@ -372,7 +351,7 @@ public class MainFragment extends Fragment {
                 new Data(REQ_GET_ALL_SALONS, 1), new RequestModel<>(REQ_GET_ALL_SALONS, userId, apiToken, true
                         , null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         recentSalonList.clear();
                         recentSalonList.addAll(ParseResponses.parseSalons(mainObject));
 
@@ -380,13 +359,13 @@ public class MainFragment extends Fragment {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         initRecentSalonsRecycler();
                         refreshLayout.setRefreshing(false);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         initRecentSalonsRecycler();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                         refreshLayout.setRefreshing(false);
@@ -400,7 +379,7 @@ public class MainFragment extends Fragment {
                 new Data(REQ_GET_ALL_SALONS, ++page), new RequestModel<>(REQ_GET_ALL_SALONS, userId, apiToken, true
                         , null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         int nextFirstPosition = recentSalonList.size();
                         recentSalonList.addAll(ParseResponses.parseSalons(mainObject));
                         for (int i = nextFirstPosition; i < recentSalonList.size(); i++)
@@ -413,12 +392,12 @@ public class MainFragment extends Fragment {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         pbpRecentSalons.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         pbpRecentSalons.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
@@ -482,7 +461,7 @@ public class MainFragment extends Fragment {
                 new Data(REQ_GET_ALL_FINISHED_SALONS, 1), new RequestModel<>(REQ_GET_ALL_FINISHED_SALONS, userId, apiToken, true
                         , null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         finishedSalonList.clear();
                         finishedSalonList.addAll(ParseResponses.parseSalons(mainObject));
 
@@ -490,13 +469,13 @@ public class MainFragment extends Fragment {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         initFinishedSalonsRecycler();
                         refreshLayout.setRefreshing(false);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         initFinishedSalonsRecycler();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                         refreshLayout.setRefreshing(false);
@@ -510,7 +489,7 @@ public class MainFragment extends Fragment {
                 new Data(REQ_GET_ALL_FINISHED_SALONS, ++page_finished), new RequestModel<>(REQ_GET_ALL_FINISHED_SALONS, userId, apiToken, true
                         , null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         int nextFirstPosition = finishedSalonList.size();
                         finishedSalonList.addAll(ParseResponses.parseSalons(mainObject));
                         for (int i = nextFirstPosition; i < finishedSalonList.size(); i++)
@@ -523,12 +502,12 @@ public class MainFragment extends Fragment {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         pbpPreviousSalons.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         pbpPreviousSalons.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

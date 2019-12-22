@@ -87,7 +87,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                         , notification.getId()
                         , null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         Salon salon = parseSalon(mainObject);
 
                         Intent i;
@@ -105,12 +105,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         ((NotificationActivity) context).dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         ((NotificationActivity) context).dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

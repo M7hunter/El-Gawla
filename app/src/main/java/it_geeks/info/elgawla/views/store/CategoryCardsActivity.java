@@ -145,17 +145,17 @@ public class CategoryCardsActivity extends BaseActivity {
                         catId, null, null, null, null),
                 new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         cardList = ParseResponses.parseCards(mainObject);
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         initCards();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         initCards();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

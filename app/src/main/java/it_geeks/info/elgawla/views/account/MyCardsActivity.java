@@ -81,20 +81,20 @@ public class MyCardsActivity extends BaseActivity {
                         null, null, null, null, null),
                 new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         myCardsList = ParseResponses.parseMyCards(mainObject);
 
                         last_page = mainObject.get("last_page").getAsInt();
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                         initRecycler();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                         initRecycler();
@@ -110,7 +110,7 @@ public class MyCardsActivity extends BaseActivity {
                         null, null, null, null, null),
                 new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         int nextFirstPosition = myCardsList.size();
                         myCardsList.addAll(ParseResponses.parseMyCards(mainObject));
                         for (int i = nextFirstPosition; i < myCardsList.size(); i++)
@@ -123,12 +123,12 @@ public class MyCardsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         pbpMyCards.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         pbpMyCards.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

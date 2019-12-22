@@ -97,21 +97,21 @@ public class NotificationActivity extends BaseActivity {
                 new Data(REQ_GET_ALL_NOTIFICATION, 1), new RequestModel<>(REQ_GET_ALL_NOTIFICATION, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         notificationList = ParseResponses.parseNotifications(mainObject);
 
                         last_page = mainObject.get("last_page").getAsInt();
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         initNotifyRecycler();
                         SharedPrefManager.getInstance(NotificationActivity.this).setHaveNewNotification(false);
                         refreshLayout.setRefreshing(false);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         initNotifyRecycler();
                         refreshLayout.setRefreshing(false);
                         snackBuilder.setSnackText(errorMessage).showSnack();
@@ -126,7 +126,7 @@ public class NotificationActivity extends BaseActivity {
                 new Data(REQ_GET_ALL_NOTIFICATION, ++page), new RequestModel<>(REQ_GET_ALL_NOTIFICATION, SharedPrefManager.getInstance(this).getUser().getUser_id(), SharedPrefManager.getInstance(this).getUser().getApi_token()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         int nextFirstPosition = notificationList.size();
                         notificationList.addAll(ParseResponses.parseNotifications(mainObject));
                         for (int i = nextFirstPosition; i < notificationList.size(); i++)
@@ -139,12 +139,12 @@ public class NotificationActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         pbpNotify.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         pbpNotify.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

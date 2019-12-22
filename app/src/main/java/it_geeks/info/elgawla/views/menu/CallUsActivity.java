@@ -126,18 +126,18 @@ public class CallUsActivity extends BaseActivity {
                 REQ_SET_USER_MESSAGE, new RequestModel<>(REQ_SET_USER_MESSAGE, userID, apiToken, username, email, message,
                         null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
                         messageCallUS.setText("");
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

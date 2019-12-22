@@ -34,7 +34,9 @@ import it_geeks.info.elgawla.repository.RESTful.RetrofitClient;
 import it_geeks.info.elgawla.repository.Storage.CountryDao;
 import it_geeks.info.elgawla.repository.Storage.GawlaDataBse;
 import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
+import it_geeks.info.elgawla.util.ConnectivityReceiver;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
+import it_geeks.info.elgawla.util.Interfaces.ConnectionInteface;
 import it_geeks.info.elgawla.util.SnackBuilder;
 import it_geeks.info.elgawla.util.services.FetchSalonDataService;
 import it_geeks.info.elgawla.views.BaseActivity;
@@ -63,6 +65,7 @@ public class SplashScreenActivity extends BaseActivity {
     private Class targetClass;
     private Bundle targetBundle;
 
+    private ConnectivityReceiver connectivityReceiver;
     private int readyCount;
 
     @Override
@@ -75,7 +78,18 @@ public class SplashScreenActivity extends BaseActivity {
 
         init();
 
-        checkConnection();
+        connectivityReceiver = new ConnectivityReceiver(this, new ConnectionInteface() {
+            @Override
+            public void onConnected() {
+                snackBuilder.hideSnack();
+                getData();
+            }
+
+            @Override
+            public void onDisconnected() {
+                retry(getString(R.string.check_connection));
+            }
+        });
     }
 
     private void init() {
@@ -89,47 +103,32 @@ public class SplashScreenActivity extends BaseActivity {
         snackAction = new ClickInterface.SnackAction() {
             @Override
             public void onClick() {
-                checkConnection();
+                recreate();
             }
         };
     }
 
-    private void checkConnection() {
-        try
-        {
-            if (RetrofitClient.getInstance(this).isConnected(this))
-            {
-                readyCount = 0;
-                ready.postValue(readyCount);
+    private void getData() {
+        readyCount = 0;
+        ready.postValue(readyCount);
 
-                getCountriesFromSever();
-                getWebPagesFromServer();
-                checkDynamicLinking();
-                checkNotificationData();
+        getCountriesFromSever();
+        getWebPagesFromServer();
+        checkDynamicLinking();
+        checkNotificationData();
 
-                ready.observe(this, new Observer<Integer>() {
-                    @Override
-                    public void onChanged(Integer integer) {
-                        if (integer == 4)
-                        {
-                            checkLoginState();
-                        }
+        ready.observe(SplashScreenActivity.this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (integer == 4)
+                {
+                    checkLoginState();
+                }
 
-                        Log.d("ready", "ready: " + ready.getValue());
-                        Log.d("ready", "readyCount: " + readyCount);
-                    }
-                });
+                Log.d("ready", "ready: " + ready.getValue());
+                Log.d("ready", "readyCount: " + readyCount);
             }
-            else
-            {
-                retry(getString(R.string.check_connection));
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            retry(getString(R.string.error_occurred));
-        }
+        });
     }
 
     private void getCountriesFromSever() {
@@ -139,7 +138,7 @@ public class SplashScreenActivity extends BaseActivity {
                 REQ_GET_ALL_COUNTRIES, new RequestModel<>(REQ_GET_ALL_COUNTRIES, countriesToken
                         , null, null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         CountryDao countryDao = GawlaDataBse.getInstance(SplashScreenActivity.this).countryDao();
 
                         countryDao.removeCountries(countryDao.getCountries());
@@ -147,13 +146,13 @@ public class SplashScreenActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         readyCount++;
                         ready.postValue(readyCount);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                     }
                 });
     }
@@ -167,12 +166,12 @@ public class SplashScreenActivity extends BaseActivity {
                 REQ_GET_ALL_PAGES, new RequestModel<>(REQ_GET_ALL_PAGES, user_id, pagesToken
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         webPageList = ParseResponses.parseWebPages(mainObject);
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         readyCount++;
                         ready.postValue(readyCount);
                         Log.d("ready", "ready: " + ready.getValue());
@@ -181,7 +180,7 @@ public class SplashScreenActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
 //                        retry(getString(R.string.check_connection));
                     }
                 });
@@ -317,5 +316,12 @@ public class SplashScreenActivity extends BaseActivity {
                 .setSnackDuration(Snackbar.LENGTH_INDEFINITE)
                 .setSnackAction(getString(R.string.retry), snackAction)
                 .showSnack();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        unregisterReceiver(connectivityReceiver);
     }
 }

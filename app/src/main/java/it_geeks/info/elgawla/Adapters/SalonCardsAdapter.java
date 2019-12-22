@@ -165,7 +165,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                 REQ_USE_CARD, new RequestModel<>(REQ_USE_CARD, userId, apiToken, salonId, card.getCard_id(), round_id
                         , null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         snackBuilder.setSnackText(mainObject.get("message").getAsString()).showSnack();
 
                         ((SalonActivity) context).mBottomSheetDialogCardsBag.dismiss();
@@ -189,12 +189,12 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

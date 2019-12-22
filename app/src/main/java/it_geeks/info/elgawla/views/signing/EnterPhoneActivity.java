@@ -117,7 +117,7 @@ public class EnterPhoneActivity extends BaseActivity {
                 , REQ_SEND_SMS, new RequestModel<>(REQ_SEND_SMS, phone, SharedPrefManager.getInstance(EnterPhoneActivity.this).getCountry().getCountry_id()
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         startActivity(new Intent(EnterPhoneActivity.this, ActivationActivity.class)
                                 .putExtra("activation_code", mainObject.get("code").getAsString())
                                 .putExtra("newUser", true)
@@ -126,13 +126,13 @@ public class EnterPhoneActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         btnSend.setEnabled(true);
                         dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         btnSend.setEnabled(true);
                         dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();

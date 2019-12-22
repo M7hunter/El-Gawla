@@ -57,7 +57,7 @@ public class UploadImageService extends Service {
                             activity.encodedImage
                             , null, null, null), new HandleResponses() {
                         @Override
-                        public void handleTrueResponse(JsonObject mainObject) {
+                        public void onTrueResponse(JsonObject mainObject) {
                             uploaded = true;
                             // save updated user data
                             SharedPrefManager.getInstance(UploadImageService.this).saveUser(ParseResponses.parseUser(mainObject));
@@ -69,7 +69,7 @@ public class UploadImageService extends Service {
                         }
 
                         @Override
-                        public void handleAfterResponse() {
+                        public void afterResponse() {
                             if (!uploaded) {
                                 NotificationBuilder.Instance(UploadImageService.this).cancelNotification(UploadImageService.this,UPLOAD_IMAGE_NOTIFICATION_ID);
                             }
@@ -83,7 +83,7 @@ public class UploadImageService extends Service {
                         }
 
                         @Override
-                        public void handleConnectionErrors(String errorMessage) {
+                        public void onConnectionErrors(String errorMessage) {
                             if (SharedPrefManager.getInstance(UploadImageService.this).isNotificationEnabled())
                             {
                                 NotificationBuilder.Instance(UploadImageService.this).displayMessage(errorMessage);

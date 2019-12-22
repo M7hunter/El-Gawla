@@ -201,7 +201,7 @@ public class MySalonsFragment extends Fragment {
                 new Data(isRecent ? REQ_GET_SALONS_BY_USER_ID : REQ_GET_SALONS_ARCHIVE, 1), new RequestModel<>(isRecent ? REQ_GET_SALONS_BY_USER_ID : REQ_GET_SALONS_ARCHIVE, userId, apiToken
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         if (isRecentResponse != isRecent)
                         {
                             return;
@@ -212,7 +212,7 @@ public class MySalonsFragment extends Fragment {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         if (isRecentResponse != isRecent)
                         {
                             return;
@@ -222,7 +222,7 @@ public class MySalonsFragment extends Fragment {
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         initSalonsRecycler("");
                         snackBuilder.setSnackText(errorMessage).showSnack();
                         refreshLayout.setRefreshing(false);
@@ -236,7 +236,7 @@ public class MySalonsFragment extends Fragment {
                 new Data(isRecent ? REQ_GET_SALONS_BY_USER_ID : REQ_GET_SALONS_ARCHIVE, ++page), new RequestModel<>(isRecent ? REQ_GET_SALONS_BY_USER_ID : REQ_GET_SALONS_ARCHIVE, userId, apiToken
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         int nextFirstPosition = salonsList.size();
                         salonsList.addAll(isRecent ? parseSalons(mainObject) : parseSalonsArchive(mainObject));
                         for (int i = nextFirstPosition; i < salonsList.size(); i++)
@@ -249,12 +249,12 @@ public class MySalonsFragment extends Fragment {
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         pbpSalons.setVisibility(View.GONE);
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         pbpSalons.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

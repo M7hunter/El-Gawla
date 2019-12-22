@@ -80,17 +80,17 @@ public class MyCardsAdapter extends RecyclerView.Adapter<MyCardsAdapter.ViewHold
                         null, null, null, null),
                 new HandleResponses() {
                     @Override
-                    public void handleTrueResponse(JsonObject mainObject) {
+                    public void onTrueResponse(JsonObject mainObject) {
                         context.startActivity(new Intent(context, ClosedSalonActivity.class).putExtra(SALON, parseSalon(mainObject)));
                     }
 
                     @Override
-                    public void handleAfterResponse() {
+                    public void afterResponse() {
                         ((MyCardsActivity) context).dialogBuilder.hideLoadingDialog();
                     }
 
                     @Override
-                    public void handleConnectionErrors(String errorMessage) {
+                    public void onConnectionErrors(String errorMessage) {
                         ((MyCardsActivity) context).dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
