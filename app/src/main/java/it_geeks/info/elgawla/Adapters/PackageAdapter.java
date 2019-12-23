@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import it_geeks.info.elgawla.R;
 import it_geeks.info.elgawla.repository.Models.Package;
 import it_geeks.info.elgawla.views.store.PaymentMethodsActivity;
@@ -39,6 +40,15 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Package mPackage = packageList.get(position);
+
+        // update span dynamically
+        if (position == (packageList.size() - 1))
+        {// last row
+            if ((packageList.size() % 2) != 0)
+            {// one item
+                ((StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams()).setFullSpan(true);
+            }
+        }
 
         holder.tvPrice.setText(mPackage.getPackage_name());
         holder.tvBody.setText(mPackage.getPackage_description());

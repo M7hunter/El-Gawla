@@ -26,26 +26,29 @@
         <!-- logo -->
         <ImageView
             android:id="@+id/iv_splash_logo"
-            android:layout_width="@dimen/logo_width"
-            android:layout_height="@dimen/logo_height"
+            android:layout_width="@dimen/logo_width_large"
+            android:layout_height="@dimen/logo_height_large"
             android:src="@drawable/gawla_logo_white"
             app:layout_constraintBottom_toTopOf="@id/pb_splash"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <ProgressBar
             android:id="@+id/pb_splash"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_7xlarge"
-            android:layout_marginEnd="@dimen/margin_7xlarge"
+            android:layout_marginStart="@dimen/margin_xlarge"
+            android:layout_marginTop="@dimen/margin_2xlarge"
+            android:layout_marginEnd="@dimen/margin_xlarge"
             android:indeterminate="true"
             android:indeterminateTint="@color/colorSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/iv_splash_logo" />
+            app:layout_constraintEnd_toEndOf="@id/iv_splash_logo"
+            app:layout_constraintStart_toStartOf="@id/iv_splash_logo"
+            app:layout_constraintTop_toBottomOf="@id/iv_splash_logo" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

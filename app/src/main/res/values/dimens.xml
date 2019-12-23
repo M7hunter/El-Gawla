@@ -31,6 +31,8 @@
     <!-- icons & images -->
     <dimen name="logo_width">140dp</dimen>
     <dimen name="logo_height">70dp</dimen>
+    <dimen name="logo_width_large">180dp</dimen>
+    <dimen name="logo_height_large">90dp</dimen>
     <dimen name="icon_notification">35dp</dimen>
     <dimen name="icon_back">35dp</dimen>
     <dimen name="slider_image_height">160dp</dimen>

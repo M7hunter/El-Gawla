@@ -77,9 +77,9 @@ public class MainActivity extends BaseActivity {
 
     private void hideConnectivityCard() {
         tvConnectivity.setText(getString(R.string.connected));
-        cvConnectivity.setCardBackgroundColor(Color.GREEN);
+        cvConnectivity.setCardBackgroundColor(getResources().getColor(R.color.darkGreen));
 
-        cvConnectivity.animate().translationX(-cvConnectivity.getWidth()).setDuration(500).setStartDelay(500);
+        cvConnectivity.animate().translationY(cvConnectivity.getHeight() + getResources().getDimension(R.dimen.margin_2xtiny)).setDuration(500).setStartDelay(500);
     }
 
     private void displayConnectivityCard() {
@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity {
         cvConnectivity.setCardBackgroundColor(Color.RED);
 
         cvConnectivity.setVisibility(View.VISIBLE);
-        cvConnectivity.animate().translationX(0).setDuration(500);
+        cvConnectivity.animate().translationY(0).setDuration(500);
     }
 
     public void getExtras() {

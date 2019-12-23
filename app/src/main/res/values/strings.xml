@@ -229,7 +229,7 @@
     <string name="share_salon">Share Salon</string>
     <string name="resend_after">resend after :</string>
     <string name="offer_more_than_one">the offer shouldn\'t be less than the initial value</string>
-    <string name="connected">CONNECTED</string>
+    <string name="connected">connected</string>
     <string name="reset_password_hint">activation code will be sent to reset your password</string>
     <string name="empty_digit">empty digit</string>
     <string name="time_up">time is up, resend code again</string>

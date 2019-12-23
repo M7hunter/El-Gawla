@@ -29,26 +29,27 @@
             <!-- connectivity -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_connectivity"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="@dimen/margin_xlarge"
-                android:layout_marginEnd="-10dp"
+                android:layout_gravity="bottom"
+                android:layout_margin="@dimen/margin_2xtiny"
                 android:animateLayoutChanges="true"
                 android:visibility="invisible"
-                app:cardBackgroundColor="@color/greenBlue"
+                app:cardBackgroundColor="@color/darkGreen"
                 app:cardCornerRadius="@dimen/margin_small"
                 app:cardElevation="@dimen/margin_medium">
 
                 <TextView
                     android:id="@+id/tv_connectivity"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_large"
                     android:layout_marginEnd="@dimen/margin_large"
-                    android:padding="@dimen/margin_medium"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_tiny"
                     android:text="@string/connected"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_x_medium"
+                    android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
 
             </androidx.cardview.widget.CardView>

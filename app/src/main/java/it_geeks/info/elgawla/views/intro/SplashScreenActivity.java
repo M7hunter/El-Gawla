@@ -153,6 +153,7 @@ public class SplashScreenActivity extends BaseActivity {
 
                     @Override
                     public void onConnectionErrors(String errorMessage) {
+                        retry(errorMessage);
                     }
                 });
     }
@@ -181,7 +182,7 @@ public class SplashScreenActivity extends BaseActivity {
 
                     @Override
                     public void onConnectionErrors(String errorMessage) {
-//                        retry(getString(R.string.check_connection));
+                        retry(errorMessage);
                     }
                 });
     }

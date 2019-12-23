@@ -44,7 +44,7 @@ public class CategoryCardsActivity extends BaseActivity {
     private Button btnBuy;
     private RecyclerView cardsListRecycler;
 
-    private Card card, newCard;
+    private Card card;
     private List<Card> cardList = new ArrayList<>();
 
     private SnackBuilder snackBuilder;
@@ -168,10 +168,9 @@ public class CategoryCardsActivity extends BaseActivity {
             tvEmptyView.setVisibility(View.GONE);
             selectedCardLayout.setVisibility(View.VISIBLE);
 
-            card = cardList.get(0); // get first card's data as main card
-            bindData(card);
+            // get first card's data as main card
+            bindData(cardList.get(0));
 
-//            cardList.remove(0); // remove the main card from the list to display only the others at the bottom
             if (cardList.size() > 0)
             { // still have cards after removing the main one
                 cardListLayout.setVisibility(View.VISIBLE);
@@ -206,6 +205,7 @@ public class CategoryCardsActivity extends BaseActivity {
      * this fun is to display main/selected {@param card}'s data to the user
      */
     public void bindData(Card card) {
+        this.card = card;
         Common.Instance().changeDrawableViewColor(vCardIcon, card.getCard_color());
         tsCardName.setText(card.getCard_name());
         tsCardDesc.setText(card.getCard_details());

@@ -206,6 +206,7 @@ public class MySalonsFragment extends Fragment {
                         {
                             return;
                         }
+                        salonsList.clear();
                         salonsList.addAll(isRecent ? parseSalons(mainObject) : parseSalonsArchive(mainObject));
 
                         last_page = mainObject.get("last_page").getAsInt();
@@ -232,11 +233,16 @@ public class MySalonsFragment extends Fragment {
 
     private void getNextSalonsFromServer() {
         onLoadMoreSalons();
+        final boolean isRecentResponse = isRecent;
         RetrofitClient.getInstance(getActivity()).fetchDataPerPageFromServer(context,
                 new Data(isRecent ? REQ_GET_SALONS_BY_USER_ID : REQ_GET_SALONS_ARCHIVE, ++page), new RequestModel<>(isRecent ? REQ_GET_SALONS_BY_USER_ID : REQ_GET_SALONS_ARCHIVE, userId, apiToken
                         , null, null, null, null, null), new HandleResponses() {
                     @Override
                     public void onTrueResponse(JsonObject mainObject) {
+                        if (isRecentResponse != isRecent)
+                        {
+                            return;
+                        }
                         int nextFirstPosition = salonsList.size();
                         salonsList.addAll(isRecent ? parseSalons(mainObject) : parseSalonsArchive(mainObject));
                         for (int i = nextFirstPosition; i < salonsList.size(); i++)

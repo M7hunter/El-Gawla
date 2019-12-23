@@ -367,7 +367,7 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onConnectionErrors(String errorMessage) {
                         initRecentSalonsRecycler();
-                        snackBuilder.setSnackText(errorMessage).showSnack();
+//                        snackBuilder.setSnackText(errorMessage).showSnack();
                         refreshLayout.setRefreshing(false);
                     }
                 });
@@ -387,7 +387,7 @@ public class MainFragment extends Fragment {
                             rvRecentSalons.getAdapter().notifyItemInserted(i);
                         }
 
-                        rvRecentSalons.smoothScrollToPosition(nextFirstPosition);
+//                        rvRecentSalons.smoothScrollToPosition(nextFirstPosition);
                         addRecentScrollListener();
                     }
 
@@ -399,7 +399,7 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onConnectionErrors(String errorMessage) {
                         pbpRecentSalons.setVisibility(View.GONE);
-                        snackBuilder.setSnackText(errorMessage).showSnack();
+//                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }
@@ -477,7 +477,7 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onConnectionErrors(String errorMessage) {
                         initFinishedSalonsRecycler();
-                        snackBuilder.setSnackText(errorMessage).showSnack();
+//                        snackBuilder.setSnackText(errorMessage).showSnack();
                         refreshLayout.setRefreshing(false);
                     }
                 });
@@ -497,7 +497,7 @@ public class MainFragment extends Fragment {
                             rvFinishedSalons.getAdapter().notifyItemInserted(i);
                         }
 
-                        rvFinishedSalons.smoothScrollToPosition(nextFirstPosition);
+//                        rvFinishedSalons.smoothScrollToPosition(nextFirstPosition);
                         addFinishedScrollListener();
                     }
 
@@ -509,7 +509,7 @@ public class MainFragment extends Fragment {
                     @Override
                     public void onConnectionErrors(String errorMessage) {
                         pbpPreviousSalons.setVisibility(View.GONE);
-                        snackBuilder.setSnackText(errorMessage).showSnack();
+//                        snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
     }

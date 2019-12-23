@@ -23,6 +23,7 @@ import it_geeks.info.elgawla.views.salon.SalonActivity;
 public class SocketUtils {
 
     private static final String GAWLA_SERVER_URL = "http://134.209.0.250:8888";
+    //    private static final String GAWLA_SERVER_URL = "http://192.168.1.8:8888";
     private static final String TAG = "socket_connection";
     private Socket socket;
     private Context mContext;
@@ -112,7 +113,30 @@ public class SocketUtils {
             Crashlytics.logException(e);
         }
 
-        socket.on("new_member", new Emitter.Listener() {
+        socket.on("activity", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                ((SalonActivity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try
+                        {
+                            JSONArray main = (JSONArray) args[0];
+                            for (int i = 0; i < main.length(); i++)
+                            {
+                                JSONObject jsonObject = main.getJSONObject(i);
+                                ((SalonActivity) mContext).updateActivityList(new Activity(jsonObject.get("activity").toString(), jsonObject.get("created_at").toString()));
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Log.e("socket activity: ", e.getMessage());
+                            Crashlytics.logException(e);
+                        }
+                    }
+                });
+            }
+        }).on("new_member", new Emitter.Listener() {
             @Override
             public void call(final Object... args) {
                 ((SalonActivity) mContext).runOnUiThread(new Runnable() {
@@ -187,29 +211,6 @@ public class SocketUtils {
                         catch (Exception e)
                         {
                             Log.e("socket winner: ", e.getMessage());
-                            Crashlytics.logException(e);
-                        }
-                    }
-                });
-            }
-        }).on("activity", new Emitter.Listener() {
-            @Override
-            public void call(final Object... args) {
-                ((SalonActivity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try
-                        {
-                            JSONArray main = (JSONArray) args[0];
-                            for (int i = 0; i < main.length(); i++)
-                            {
-                                JSONObject jsonObject = main.getJSONObject(i);
-                                ((SalonActivity) mContext).updateActivityList(new Activity(jsonObject.get("activity").toString(), jsonObject.get("created_at").toString()));
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Log.e("socket activity: ", e.getMessage());
                             Crashlytics.logException(e);
                         }
                     }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import it_geeks.info.elgawla.Adapters.PackageAdapter;
 import it_geeks.info.elgawla.repository.Models.Package;
 import it_geeks.info.elgawla.repository.RESTful.ParseResponses;
@@ -98,20 +99,7 @@ public class MembershipActivity extends BaseActivity {
 
                 // recycler
                 packagesRecycler.setHasFixedSize(true);
-                final GridLayoutManager layoutManager = new GridLayoutManager(this, 2, RecyclerView.VERTICAL, false);
-                layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                    @Override
-                    public int getSpanSize(int position) {
-                        if (position == (packages.size() - 1))
-                        {
-                            if ((packages.size() % 2) != 0)
-                            {
-                                return layoutManager.getSpanCount();
-                            }
-                        }
-                        return 1;
-                    }
-                });
+                final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL);
 
                 packagesRecycler.setLayoutManager(layoutManager);
                 packagesRecycler.setAdapter(new PackageAdapter(this, packages));

@@ -54,7 +54,7 @@
                         android:text="@string/recent_salons"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_size_x_medium" />
+                        android:textSize="@dimen/text_size_medium" />
 
                     <!-- my finished salons -->
                     <TextView
@@ -70,7 +70,7 @@
                         android:text="@string/salons_archive"
                         android:textAllCaps="true"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/text_size_x_medium" />
+                        android:textSize="@dimen/text_size_medium" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

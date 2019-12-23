@@ -73,7 +73,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_2xtiny"
             android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_2xtiny"
             android:padding="@dimen/margin_xtiny"
             android:text="@string/no_content"
             android:textColor="@color/duskBlue"
@@ -93,7 +95,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_2xtiny"
             android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_2xtiny"
             android:orientation="horizontal"
             android:padding="@dimen/margin_xtiny">
 
@@ -137,7 +141,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_2xtiny"
             android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_2xtiny"
             android:orientation="horizontal"
             android:padding="@dimen/margin_xtiny">
 
@@ -179,7 +185,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_2xtiny"
             android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_2xtiny"
             android:orientation="horizontal"
             android:padding="@dimen/margin_xtiny">
 
@@ -222,8 +230,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/margin_large"
-            android:layout_marginTop="@dimen/margin_xtiny"
+            android:layout_marginTop="@dimen/margin_2xtiny"
             android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_2xtiny"
             android:orientation="vertical"
             android:padding="@dimen/margin_xtiny">
 
@@ -244,7 +253,7 @@
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:gravity="start"
                 android:padding="@dimen/margin_xtiny"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_medium"
                 tools:text="@tools:sample/lorem/random" />
 
         </LinearLayout>

@@ -78,7 +78,7 @@ public class SalonsAdapter extends RecyclerView.Adapter<SalonsAdapter.ViewHolder
                         {
                             clickable = false;
                             Intent i;
-                            Log.d("Ok","is_closed:: " + salon.isClosed());
+                            Log.d("Ok", "is_closed:: " + salon.isClosed());
                             if (salon.isClosed())
                             {
                                 i = new Intent(context, ClosedSalonActivity.class);
