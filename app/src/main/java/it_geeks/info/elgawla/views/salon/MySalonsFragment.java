@@ -223,9 +223,15 @@ public class MySalonsFragment extends Fragment {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onFailure(String failureMessage) {
                         initSalonsRecycler("");
-                        snackBuilder.setSnackText(errorMessage).showSnack();
+                        refreshLayout.setRefreshing(false);
+                        snackBuilder.setSnackText(failureMessage).showSnack();
+                    }
+
+                    @Override
+                    public void onConnectionError(String errorMessage) {
+                        initSalonsRecycler("");
                         refreshLayout.setRefreshing(false);
                     }
                 });
@@ -260,7 +266,7 @@ public class MySalonsFragment extends Fragment {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         pbpSalons.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

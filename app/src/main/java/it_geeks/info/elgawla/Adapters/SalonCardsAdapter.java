@@ -194,7 +194,7 @@ public class SalonCardsAdapter extends RecyclerView.Adapter<SalonCardsAdapter.Vi
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         displayConfirmationBtn(btnConfirmBuying, pbBuyCard);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

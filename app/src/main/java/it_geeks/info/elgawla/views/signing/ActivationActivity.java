@@ -295,7 +295,7 @@ public class ActivationActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         btnConfirm.setEnabled(true);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
@@ -321,7 +321,7 @@ public class ActivationActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         btnConfirm.setEnabled(true);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

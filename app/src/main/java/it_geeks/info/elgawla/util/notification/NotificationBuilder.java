@@ -99,7 +99,7 @@ public class NotificationBuilder {
 
     public static void listenToNotificationStatus(Context context, final View indicator) {
         if (SharedPrefManager.getInstance(context).isNotificationEnabled())
-            SharedPrefManager.newNotificationLive.observe(((LifecycleOwner) context), new Observer<Boolean>() {
+            SharedPrefManager.getInstance(context).haveNewNotification().observe(((LifecycleOwner) context), new Observer<Boolean>() {
                 @Override
                 public void onChanged(Boolean aBoolean) {
                     if (aBoolean)

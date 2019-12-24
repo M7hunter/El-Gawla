@@ -200,7 +200,7 @@ public class AllSalonsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         initSalonsRecycler();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
@@ -226,7 +226,7 @@ public class AllSalonsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         initSalonsRecycler();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
@@ -258,7 +258,7 @@ public class AllSalonsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         pbpSalons.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
@@ -345,22 +345,6 @@ public class AllSalonsActivity extends BaseActivity {
         etFilterDateFrom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (!isDateFilter)
-//                {
-//                    if (dateList.isEmpty())
-//                    {// query from server
-//                        getFirstDatesFromServer();
-//                    }
-//                    else
-//                    {// get locally
-//                        initDatesAdapter();
-//                        getFirstFilteredSalonsFromServer(dateFrom, null, null, null);
-//                    }
-//                    isDateFilter = true;
-//                    isCatFilter = false;
-//                }
-//                mBottomSheetDialogFilterBy.dismiss();
-
                 selectDateFrom();
             }
         });
@@ -375,23 +359,6 @@ public class AllSalonsActivity extends BaseActivity {
         etFilterCat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (!isCatFilter)
-//                {
-//                    if (categoryList.isEmpty())
-//                    {// query from server
-//                startSalonsShimmer();
-//                        getCatsFromServer();
-//                    }
-//                    else
-//                    {// get locally
-//                        initCatsAdapter();
-//                        getFirstFilteredSalonsFromServer(null, null, null, catId);
-//                    }
-//                    isDateFilter = false;
-//                    isCatFilter = true;
-//                }
-//                mBottomSheetDialogFilterBy.dismiss();
-
                 selectCat();
             }
         });
@@ -675,10 +642,16 @@ public class AllSalonsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onFailure(String failureMessage) {
                         if (mBottomSheetCategory.isShowing()) pbFilterCats.setVisibility(View.GONE);
 
-                        initSalonsRecycler();
+                        snackBuilder.setSnackText(failureMessage).showSnack();
+                    }
+
+                    @Override
+                    public void onConnectionError(String errorMessage) {
+                        if (mBottomSheetCategory.isShowing()) pbFilterCats.setVisibility(View.GONE);
+
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
                 });
@@ -711,6 +684,7 @@ public class AllSalonsActivity extends BaseActivity {
                 , new HandleResponses() {
                     @Override
                     public void onTrueResponse(JsonObject mainObject) {
+                        salonsList.clear();
                         salonsList.addAll(ParseResponses.parseSalons(mainObject));
 
                         last_page = mainObject.get("last_page").getAsInt();
@@ -722,7 +696,13 @@ public class AllSalonsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onFailure(String failureMessage) {
+                        initSalonsRecycler();
+                        snackBuilder.setSnackText(failureMessage).showSnack();
+                    }
+
+                    @Override
+                    public void onConnectionError(String errorMessage) {
                         initSalonsRecycler();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
@@ -761,7 +741,13 @@ public class AllSalonsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onFailure(String failureMessage) {
+                        pbpSalons.setVisibility(View.GONE);
+                        snackBuilder.setSnackText(failureMessage).showSnack();
+                    }
+
+                    @Override
+                    public void onConnectionError(String errorMessage) {
                         pbpSalons.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

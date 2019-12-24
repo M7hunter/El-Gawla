@@ -377,7 +377,7 @@ public class SignUpActivity extends BaseActivity implements GoogleApiClient.OnCo
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
@@ -525,7 +525,7 @@ public class SignUpActivity extends BaseActivity implements GoogleApiClient.OnCo
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         FirebaseAuth.getInstance().signOut();
                     }

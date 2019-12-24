@@ -171,7 +171,7 @@ public class Common {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                     }
                 });
     }

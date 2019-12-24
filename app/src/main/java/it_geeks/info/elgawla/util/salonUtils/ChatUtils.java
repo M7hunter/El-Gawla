@@ -225,8 +225,8 @@ public class ChatUtils {
             }
         });
 
-        tvChatTypingState.setInAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slide_bottom_up));
-        tvChatTypingState.setOutAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slide_bottom_down));
+        tvChatTypingState.setInAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slide_in_bottom));
+        tvChatTypingState.setOutAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slide_out_bottom));
     }
 
     void addMessageToChat(int user_id, String user_name, String message, String date) {

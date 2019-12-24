@@ -77,7 +77,7 @@ public class MembershipActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         new SnackBuilder(findViewById(R.id.membership_main_layout)).setSnackText(errorMessage).showSnack();
                     }

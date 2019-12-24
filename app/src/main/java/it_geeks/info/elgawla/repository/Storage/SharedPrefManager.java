@@ -18,13 +18,14 @@ public class SharedPrefManager {
     private static SharedPrefManager sharedPrefManager;
     private Context context;
     private SharedPreferences sharedPreferences;
-    public static MutableLiveData<Boolean> newNotificationLive = new MutableLiveData<>();
+    private MutableLiveData<Boolean> newNotificationLive = new MutableLiveData<>();
+    private MutableLiveData<String> userSubscriptionLive = new MutableLiveData<>();
 
     private static final String SHARED_PREF_LANG = "lang_shared_pref";
     private static final String SHARED_PREF_USER = "user_shared_pref";
     private static final String SHARED_PREF_TOUR = "tour";
     private static final String SHARED_PREF_COUNTRY = "country_shared_pref";
-    private static final String SHARED_PREF_LAST_REQUEST = "last_request_shared_pref";
+    private static final String SHARED_PREF_SUBSCRIPTION = "subscription_shared_pref";
     private static final String SHARED_PREF_USER_PROVIDER = "user_socialMedia_Provider";
     private static final String SHARED_PREF_NOTIFICATION = "notification_shared_pref";
     private static final String SHARED_PREF_SOUND = "sound_shared_pref";
@@ -90,9 +91,10 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-    public void haveNewNotification() {
+    public MutableLiveData<Boolean> haveNewNotification() {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NEW_NOTIFICATION, Context.MODE_PRIVATE);
         newNotificationLive.postValue(sharedPreferences.getBoolean("new_notification", false));
+        return newNotificationLive;
     }
 
     public void clearNewNotification() {
@@ -268,20 +270,22 @@ public class SharedPrefManager {
     }
     // endregion
 
-    // region last request
-    public void setLastRequest(long lastRequest) {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_LAST_REQUEST, MODE_PRIVATE);
+    // region subscription
+    public void setUserSubscription(String subscription) {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_SUBSCRIPTION, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.clear();
 
-        editor.putLong("lastRequest", lastRequest);
+        userSubscriptionLive.postValue(subscription);
+        editor.putString("subscription", subscription);
         editor.apply();
     }
 
-    public long getLastRequest() {
-        sharedPreferences = context.getSharedPreferences(SHARED_PREF_LAST_REQUEST, MODE_PRIVATE);
-        return sharedPreferences.getLong("lastRequest", 0);
+    public MutableLiveData<String> getUserSubscription() {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_SUBSCRIPTION, MODE_PRIVATE);
+        userSubscriptionLive.postValue(sharedPreferences.getString("subscription", "0"));
+        return userSubscriptionLive;
     }
     // endregion
 

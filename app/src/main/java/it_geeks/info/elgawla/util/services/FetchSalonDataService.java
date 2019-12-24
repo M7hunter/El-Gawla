@@ -87,7 +87,7 @@ public class FetchSalonDataService extends Service {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         Toast.makeText(FetchSalonDataService.this, errorMessage, Toast.LENGTH_LONG).show();
                         stopSelf();
                     }

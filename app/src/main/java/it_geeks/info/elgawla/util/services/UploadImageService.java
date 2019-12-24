@@ -83,7 +83,7 @@ public class UploadImageService extends Service {
                         }
 
                         @Override
-                        public void onConnectionErrors(String errorMessage) {
+                        public void onConnectionError(String errorMessage) {
                             if (SharedPrefManager.getInstance(UploadImageService.this).isNotificationEnabled())
                             {
                                 NotificationBuilder.Instance(UploadImageService.this).displayMessage(errorMessage);

@@ -110,7 +110,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         ((NotificationActivity) context).dialogBuilder.hideLoadingDialog();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

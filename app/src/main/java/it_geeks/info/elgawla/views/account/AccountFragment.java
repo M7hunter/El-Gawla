@@ -3,11 +3,16 @@ package it_geeks.info.elgawla.views.account;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.google.gson.JsonObject;
 
@@ -15,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import androidx.lifecycle.Observer;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,10 +39,11 @@ public class AccountFragment extends Fragment {
 
     private Context context;
     private SwipeRefreshLayout refreshLayout;
-    private TextView userName, tvSubscriptionExp;
+    private TextView userName;
+    private TextSwitcher tsSubscription;
     private ImageView ivNotificationBell;
     private CircleImageView userImage;
-    private View llExp, pbExp, btnRenewMemberShip;
+    private View llExp, btnRenewMemberShip;
 
     private String name, image;
 
@@ -59,6 +66,23 @@ public class AccountFragment extends Fragment {
         initViews(view);
 
         handleEvents(view);
+
+        SharedPrefManager.getInstance(context).getUserSubscription().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String subscription) {
+                Log.d("subscription", "subscription: " + subscription);
+                if (subscription.equals("Need Subscribe") || subscription.equals("0"))
+                {
+                    llExp.setVisibility(View.GONE);
+                }
+                else
+                {
+                    llExp.setVisibility(View.VISIBLE);
+                    if (!((TextView) tsSubscription.getCurrentView()).getText().toString().equals(subscription))
+                        tsSubscription.setText(subscription);
+                }
+            }
+        });
     }
 
     @Override
@@ -73,10 +97,8 @@ public class AccountFragment extends Fragment {
         refreshLayout = view.findViewById(R.id.fragment_account_main_layout);
         refreshLayout.setColorSchemeResources(R.color.paleRed, R.color.colorYellow, R.color.niceBlue, R.color.azure);
         userName = view.findViewById(R.id.user_name);
-        tvSubscriptionExp = view.findViewById(R.id.tv_subscription_exp);
         userImage = view.findViewById(R.id.user_image);
         btnRenewMemberShip = view.findViewById(R.id.btn_renew_membership);
-        pbExp = view.findViewById(R.id.pb_exp);
         llExp = view.findViewById(R.id.ll_exp);
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -86,6 +108,21 @@ public class AccountFragment extends Fragment {
             }
         });
 
+
+        // subscription TextSwitcher
+        tsSubscription = view.findViewById(R.id.ts_subscription_exp);
+        tsSubscription.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                TextView tv = new TextView(context);
+                tv.setTextSize(15);
+                tv.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+                tv.setTextColor(getResources().getColor(R.color.darkSkyBlue));
+                return tv;
+            }
+        });
+
+        tsSubscription.setInAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_bottom));
 
         //Notification icon
         ivNotificationBell = view.findViewById(R.id.iv_notification_bell);
@@ -163,28 +200,16 @@ public class AccountFragment extends Fragment {
                 new HandleResponses() {
                     @Override
                     public void onTrueResponse(JsonObject mainObject) {
-                        String subscription = mainObject.get("subscribe_end").getAsString();
-                        if (subscription != null)
-                            if (subscription.equals("Need Subscribe") || subscription.equals("0"))
-                            {
-                                llExp.setVisibility(View.GONE);
-                            }
-                            else
-                            {
-                                llExp.setVisibility(View.VISIBLE);
-                                tvSubscriptionExp.setText(subscription);
-                            }
+                        SharedPrefManager.getInstance(context).setUserSubscription(mainObject.get("subscribe_end").getAsString());
                     }
 
                     @Override
                     public void afterResponse() {
-                        pbExp.setVisibility(View.GONE);
                         refreshLayout.setRefreshing(false);
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
-                        pbExp.setVisibility(View.GONE);
+                    public void onConnectionError(String errorMessage) {
                         refreshLayout.setRefreshing(false);
                     }
                 });

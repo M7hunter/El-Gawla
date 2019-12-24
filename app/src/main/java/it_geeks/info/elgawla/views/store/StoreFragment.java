@@ -130,7 +130,7 @@ public class StoreFragment extends Fragment {
         categoryDao.getCategories().observe(this, new Observer<List<Category>>() {
             @Override
             public void onChanged(final List<Category> categories) {
-                    storeAdapter.updateCatsList(categories);
+                storeAdapter.updateCatsList(categories);
             }
         });
     }
@@ -170,8 +170,8 @@ public class StoreFragment extends Fragment {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
-                        snackBuilder.setSnackText(errorMessage).showSnack();
+                    public void onFailure(String failureMessage) {
+                        snackBuilder.setSnackText(failureMessage).showSnack();
                     }
                 });
     }

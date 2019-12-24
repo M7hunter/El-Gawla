@@ -53,7 +53,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
-import androidx.core.text.HtmlCompat;
 import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -124,7 +123,7 @@ public class SalonActivity extends BaseActivity {
     private TextView tvCardsCount, tvActivityEmptyHint, tvTopTenEmptyHint, btnLeaveRound;
     private EditText etAddOffer;
     private TextInputLayout tilAddOffer;
-    private View salonMainContainer, detailsSheetView, salonMainLayout;
+    private View detailsSheetView, salonMainLayout;
     public View lastActivity, cardsBag, timeContainer;
     public LinearLayout addOfferLayout, chatContainer, topTenContainer, more;
     public RelativeLayout activityContainer;
@@ -630,7 +629,7 @@ public class SalonActivity extends BaseActivity {
                         }
 
                         @Override
-                        public void onConnectionErrors(String errorMessage) {
+                        public void onConnectionError(String errorMessage) {
                             enableOfferLayout();
                             snackBuilder.setSnackText(errorMessage).showSnack();
                         }
@@ -871,7 +870,7 @@ public class SalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         refreshLayout.setRefreshing(false);
                         Snackbar.make(findViewById(R.id.salon_main_layout), errorMessage, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
@@ -1014,7 +1013,7 @@ public class SalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         snackBuilder.setSnackText(errorMessage).showSnack();
                         pbTopTen.setVisibility(View.GONE);
                     }
@@ -1070,7 +1069,7 @@ public class SalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                     }
                 });
@@ -1206,7 +1205,7 @@ public class SalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         joinConfirmationProgress.setVisibility(View.GONE);
                         btnJoinConfirmation.setEnabled(true);
                         snackBuilder.setSnackText(errorMessage).showSnack();
@@ -1235,7 +1234,7 @@ public class SalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         Snackbar.make(findViewById(R.id.salon_main_layout), R.string.no_connection, Snackbar.LENGTH_INDEFINITE).setAction(R.string.retry, new View.OnClickListener() {
                             @Override
@@ -1541,7 +1540,7 @@ public class SalonActivity extends BaseActivity {
                         }
 
                         @Override
-                        public void onConnectionErrors(String errorMessage) {
+                        public void onConnectionError(String errorMessage) {
                             displayGoldenLayout();
                             dialogBuilder.hideLoadingDialog();
                             snackBuilder.setSnackText(errorMessage).showSnack();
@@ -1667,7 +1666,7 @@ public class SalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         Log.d(TAG, "getUserCardsForSalonFromServer: failed");
                     }

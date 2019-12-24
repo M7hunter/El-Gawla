@@ -85,7 +85,7 @@ public class InvoicesActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                         initRecycler();
                         snackBuilder.setSnackText(errorMessage).showSnack();
@@ -119,7 +119,7 @@ public class InvoicesActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         pbpInvoices.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

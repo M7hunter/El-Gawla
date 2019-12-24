@@ -44,70 +44,44 @@ public class MainActivity extends BaseActivity {
     public DialogBuilder dialogBuilder;
     public SnackBuilder snackBuilder;
     private ConnectivityReceiver connectivityReceiver;
-    private Animator.AnimatorListener connectivityAnimatorListener;
+
+    private boolean isConnectionError = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        displayFragment(selectMainFragment());
+
         init();
+
+        initNavigation();
+
+        getExtras();
 
         connectivityReceiver = new ConnectivityReceiver(this, new ConnectionInteface() {
             @Override
             public void onConnected() {
                 hideConnectivityCard();
+                navigation.setSelectedItemId(navigation.getSelectedItemId());
+                isConnectionError = false;
             }
 
             @Override
             public void onDisconnected() {
                 displayConnectivityCard();
+                isConnectionError = true;
             }
         });
 
-        if (savedInstanceState == null)
-        {
-            displayFragment(selectMainFragment());
-        }
-
-        initNavigation();
-
-        getExtras();
-    }
-
-    private void hideConnectivityCard() {
-        tvConnectivity.setText(getString(R.string.connected));
-        cvConnectivity.setCardBackgroundColor(getResources().getColor(R.color.darkGreen));
-
-        cvConnectivity.animate().translationY(cvConnectivity.getHeight() + getResources().getDimension(R.dimen.margin_2xtiny)).setDuration(500).setStartDelay(500);
-    }
-
-    private void displayConnectivityCard() {
-        tvConnectivity.setText(getString(R.string.no_connection));
-        cvConnectivity.setCardBackgroundColor(Color.RED);
-
-        cvConnectivity.setVisibility(View.VISIBLE);
-        cvConnectivity.animate().translationY(0).setDuration(500);
-    }
-
-    public void getExtras() {
-        Bundle extras = getIntent().getExtras();
-
-        if (extras != null)
-        {
-            if (TO_STORE.equals(extras.getString(PATH)))
-            {
-                displayFragment(selectStoreFragment());
-                navigation.setSelectedItemId(R.id.navigation_store);
-            }
-        }
     }
 
     private void init() {
         cvConnectivity = findViewById(R.id.cv_connectivity);
         tvConnectivity = findViewById(R.id.tv_connectivity);
 
-        connectivityAnimatorListener = new Animator.AnimatorListener() {
+        Animator.AnimatorListener connectivityAnimatorListener = new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -140,6 +114,33 @@ public class MainActivity extends BaseActivity {
         dialogBuilder.createLoadingDialog(this);
 
         snackBuilder = new SnackBuilder(getSnackBarContainer());
+    }
+
+    private void hideConnectivityCard() {
+        tvConnectivity.setText(getString(R.string.connected));
+        cvConnectivity.setCardBackgroundColor(getResources().getColor(R.color.darkGreen));
+
+        cvConnectivity.animate().translationY(cvConnectivity.getHeight() + getResources().getDimension(R.dimen.margin_2xtiny)).setDuration(500).setStartDelay(500);
+    }
+
+    private void displayConnectivityCard() {
+        tvConnectivity.setText(getString(R.string.no_connection));
+        cvConnectivity.setCardBackgroundColor(Color.RED);
+
+        cvConnectivity.setVisibility(View.VISIBLE);
+        cvConnectivity.animate().translationY(0).setDuration(500);
+    }
+
+    public void getExtras() {
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null)
+        {
+            if (TO_STORE.equals(extras.getString(PATH)))
+            {
+                navigation.setSelectedItemId(R.id.navigation_store);
+            }
+        }
     }
 
     // Firebase initialize
@@ -202,13 +203,6 @@ public class MainActivity extends BaseActivity {
                 return false;
             }
         });
-
-        navigation.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
-            @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
-                // do nothing on reselection
-            }
-        });
     }
 
     private void displayFragment(Fragment fragment) {
@@ -218,15 +212,15 @@ public class MainActivity extends BaseActivity {
     }
 
     private Fragment selectMainFragment() {
-//        if (mainFragment == null)
-//        {
-//            mainFragment = new MainFragment();
-//        }
-        return new MainFragment();
+        if (mainFragment == null || isConnectionError)
+        {
+            mainFragment = new MainFragment();
+        }
+        return mainFragment;
     }
 
     private Fragment selectMySalonsFragment() {
-        if (mySalonsFragment == null)
+        if (mySalonsFragment == null || isConnectionError)
         {
             mySalonsFragment = new MySalonsFragment();
         }
@@ -234,7 +228,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private Fragment selectStoreFragment() {
-        if (storeFragment == null)
+        if (storeFragment == null || isConnectionError)
         {
             storeFragment = new StoreFragment();
         }
@@ -242,7 +236,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private Fragment selectAccountFragment() {
-        if (accountFragment == null)
+        if (accountFragment == null || isConnectionError)
         {
             accountFragment = new AccountFragment();
         }
@@ -261,7 +255,6 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         if (navigation.getSelectedItemId() != R.id.navigation_main)
         { // back to main page
-            displayFragment(new MainFragment());
             navigation.setSelectedItemId(R.id.navigation_main);
         }
         else

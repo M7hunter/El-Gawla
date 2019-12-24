@@ -104,8 +104,8 @@ public class CategoryCardsActivity extends BaseActivity {
                 return tv;
             }
         });
-        tsCardName.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_bottom_up));
-        tsCardDesc.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_bottom_up));
+        tsCardName.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_bottom));
+        tsCardDesc.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_bottom));
     }
 
     private void handleEvents() {
@@ -155,7 +155,7 @@ public class CategoryCardsActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         initCards();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

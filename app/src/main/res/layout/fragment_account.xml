@@ -329,12 +329,6 @@
                 android:animateLayoutChanges="true"
                 android:gravity="center">
 
-                <ProgressBar
-                    android:id="@+id/pb_exp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/margin_medium" />
-
                 <!-- membership exp -->
                 <LinearLayout
                     android:id="@+id/ll_exp"
@@ -361,14 +355,13 @@
                         android:textSize="@dimen/text_size_small" />
 
                     <!-- date -->
-                    <TextView
-                        android:id="@+id/tv_subscription_exp"
+                    <TextSwitcher
+                        android:id="@+id/ts_subscription_exp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:textColor="@color/darkSkyBlue"
-                        tools:text="@tools:sample/date/mmddyy" />
+                        android:textColor="@color/darkSkyBlue" />
 
                 </LinearLayout>
 
@@ -402,5 +395,4 @@
 
         </LinearLayout>
     </ScrollView>
-
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

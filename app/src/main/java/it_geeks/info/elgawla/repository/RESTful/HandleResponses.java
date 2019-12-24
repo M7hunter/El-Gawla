@@ -12,7 +12,9 @@ public abstract class HandleResponses {
 
     public void onServerError() {}
 
-    public void onConnectionErrors(String errorMessage){}
+    public void onFailure(String failureMessage){}
+
+    public void onConnectionError(String errorMessage){}
 }
 
 

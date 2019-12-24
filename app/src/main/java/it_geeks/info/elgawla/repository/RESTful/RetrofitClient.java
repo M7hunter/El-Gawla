@@ -2,8 +2,6 @@ package it_geeks.info.elgawla.repository.RESTful;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -24,6 +22,7 @@ import it_geeks.info.elgawla.repository.Storage.SharedPrefManager;
 import it_geeks.info.elgawla.repository.Models.Data;
 import it_geeks.info.elgawla.repository.Models.RequestMainBody;
 import it_geeks.info.elgawla.util.Common;
+import it_geeks.info.elgawla.util.ConnectivityReceiver;
 import it_geeks.info.elgawla.util.DialogBuilder;
 import it_geeks.info.elgawla.util.Interfaces.ClickInterface;
 import it_geeks.info.elgawla.views.account.MembershipActivity;
@@ -40,14 +39,12 @@ import static it_geeks.info.elgawla.repository.RESTful.ParseResponses.parseServe
 public class RetrofitClient {
 
     private static final String TAG = "retrofit_connection";
-    private static boolean connected = false;
 
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
+    private Call<JsonObject> call;
 
     private DialogBuilder dialogBuilder;
-
-    private Call<JsonObject> call;
 
     private RetrofitClient(Context context) {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -173,7 +170,6 @@ public class RetrofitClient {
 
                             break;
                     }
-
                 }
                 catch (Exception e)
                 {
@@ -189,13 +185,13 @@ public class RetrofitClient {
                 if (t.getMessage() != null && !t.getMessage().isEmpty())
                     Log.d(TAG, "onFailure: " + t.getCause());
 
-                if (!isConnected(context))
+                if (!ConnectivityReceiver.isConnected(context))
                 {
-                    handleResponses.onConnectionErrors(context.getString(R.string.check_connection));
+                    handleResponses.onConnectionError(context.getString(R.string.check_connection));
                     return;
                 }
 
-                handleResponses.onConnectionErrors(t.getLocalizedMessage());
+                handleResponses.onFailure(t.getLocalizedMessage());
             }
         };
     }
@@ -221,37 +217,6 @@ public class RetrofitClient {
             Toast.makeText(context, context.getString(R.string.error_occurred), Toast.LENGTH_SHORT).show();
             Log.e(TAG, "JsonSyntaxException: " + e.getMessage());
         }
-    }
-
-    // connected ?
-    public static boolean isConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm != null)
-        {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1)
-//            {
-//                cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
-//                    @Override
-//                    public void onAvailable(@NonNull Network network) {
-//                        super.onAvailable(network);
-//                        connected = true;
-//                    }
-//
-//                    @Override
-//                    public void onLost(@NonNull Network network) {
-//                        super.onLost(network);
-//                        connected = false;
-//                    }
-//                });
-//            }
-//            else
-//            {
-            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-            connected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-//            }
-        }
-        Log.d(TAG, "isConnected: " + connected);
-        return connected;
     }
 
     private void initRenewMembershipAlert(final Context context) {

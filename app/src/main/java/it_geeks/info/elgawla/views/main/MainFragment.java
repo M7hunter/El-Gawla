@@ -225,7 +225,13 @@ public class MainFragment extends Fragment {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onFailure(String failureMessage) {
+                        initAdsRecycler();
+                        initCatsRecycler();
+                    }
+
+                    @Override
+                    public void onConnectionError(String errorMessage) {
                         initAdsRecycler();
                         initCatsRecycler();
                     }
@@ -365,9 +371,15 @@ public class MainFragment extends Fragment {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onFailure(String failureMessage) {
                         initRecentSalonsRecycler();
-//                        snackBuilder.setSnackText(errorMessage).showSnack();
+                        snackBuilder.setSnackText(failureMessage).showSnack();
+                        refreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onConnectionError(String errorMessage) {
+                        initRecentSalonsRecycler();
                         refreshLayout.setRefreshing(false);
                     }
                 });
@@ -397,9 +409,14 @@ public class MainFragment extends Fragment {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onFailure(String failureMessage) {
                         pbpRecentSalons.setVisibility(View.GONE);
-//                        snackBuilder.setSnackText(errorMessage).showSnack();
+                        snackBuilder.setSnackText(failureMessage).showSnack();
+                    }
+
+                    @Override
+                    public void onConnectionError(String errorMessage) {
+                        pbpRecentSalons.setVisibility(View.GONE);
                     }
                 });
     }
@@ -475,9 +492,15 @@ public class MainFragment extends Fragment {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onFailure(String failureMessage) {
                         initFinishedSalonsRecycler();
-//                        snackBuilder.setSnackText(errorMessage).showSnack();
+                        snackBuilder.setSnackText(failureMessage).showSnack();
+                        refreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onConnectionError(String errorMessage) {
+                        initFinishedSalonsRecycler();
                         refreshLayout.setRefreshing(false);
                     }
                 });
@@ -507,9 +530,14 @@ public class MainFragment extends Fragment {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onFailure(String failureMessage) {
                         pbpPreviousSalons.setVisibility(View.GONE);
-//                        snackBuilder.setSnackText(errorMessage).showSnack();
+                        snackBuilder.setSnackText(failureMessage).showSnack();
+                    }
+
+                    @Override
+                    public void onConnectionError(String errorMessage) {
+                        pbpPreviousSalons.setVisibility(View.GONE);
                     }
                 });
     }

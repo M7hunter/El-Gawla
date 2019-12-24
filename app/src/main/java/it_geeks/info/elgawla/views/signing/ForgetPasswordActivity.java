@@ -153,7 +153,7 @@ public class ForgetPasswordActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         displaySendBtn();
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }

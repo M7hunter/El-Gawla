@@ -9,13 +9,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnCount="2"
-        android:orientation="vertical"
-        android:rowCount="2"
         android:useDefaultMargins="true">
 
-        <include layout="@layout/item_shimmer_salon_mini" />
-        <include layout="@layout/item_shimmer_salon_mini" />
-        <include layout="@layout/item_shimmer_salon_mini" />
+        <include
+            layout="@layout/item_shimmer_salon_mini"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill" />
+
+        <include
+            layout="@layout/item_shimmer_salon_mini"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill" />
+
+        <include
+            layout="@layout/item_shimmer_salon_mini"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill" />
 
     </GridLayout>
 </com.facebook.shimmer.ShimmerFrameLayout>

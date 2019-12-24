@@ -469,7 +469,7 @@ public class ClosedSalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         dialogBuilder.hideLoadingDialog();
                     }
                 });
@@ -499,7 +499,7 @@ public class ClosedSalonActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         snackBuilder.setSnackText(errorMessage).showSnack();
                         pbTopTen.setVisibility(View.GONE);
                     }

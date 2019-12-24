@@ -111,7 +111,7 @@ public class NotificationActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         initNotifyRecycler();
                         refreshLayout.setRefreshing(false);
                         snackBuilder.setSnackText(errorMessage).showSnack();
@@ -144,7 +144,7 @@ public class NotificationActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onConnectionErrors(String errorMessage) {
+                    public void onConnectionError(String errorMessage) {
                         pbpNotify.setVisibility(View.GONE);
                         snackBuilder.setSnackText(errorMessage).showSnack();
                     }
